@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "games.enchanted.blockplaceparticles.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+  ],
+  "client": [
+    "items.AxeItemNeoForge"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
