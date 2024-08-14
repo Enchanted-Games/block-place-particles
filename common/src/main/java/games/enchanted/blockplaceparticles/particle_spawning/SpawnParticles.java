@@ -1,5 +1,6 @@
 package games.enchanted.blockplaceparticles.particle_spawning;
 
+import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -25,12 +26,14 @@ public class SpawnParticles {
         ParticleOptions particleOption = null;
         switch (particleOverride) {
             case SNOW_POWDER -> particleOption = ParticleTypes.SNOWFLAKE;
+            case CHERRY_LEAF -> particleOption = ModParticleTypes.FALLING_CHERRY_PETAL;
             case NONE -> particleOption = new BlockParticleOption(ParticleTypes.BLOCK, placedBlockState);
         }
 
         if (!placedBlockState.isAir() && placedBlockState.shouldSpawnTerrainParticles()) {
             VoxelShape blockShape = placedBlockState.getShape(level, blockPos);
             ParticleOptions finalParticleOption = particleOption;
+            double verticalAxisOffset = level.getBlockState(blockPos.offset(0, -1, 0)).isSolid() ? 0.01 : 0; // move particles up out the block below them if it is solid
             blockShape.forAllEdges((x1, y1, z1, x2, y2, z2) -> {
                 double width = Math.abs(x1 - x2);
                 double height = Math.abs(y1 - y2);
@@ -56,7 +59,7 @@ public class SpawnParticles {
                     double particlePos = ((double)i + 0.5) / (double)amountOfParticlesAlongEdge;
                     if (particlePos > edgeLength + (double) 1/16) continue;
                     double particleXOffset = (biggestEdge == Direction.Axis.X ? particlePos : 1 * width) + x1;
-                    double particleYOffset = (biggestEdge == Direction.Axis.Y ? particlePos : 1 * height) + y1;
+                    double particleYOffset = (biggestEdge == Direction.Axis.Y ? particlePos : 1 * height) + y1 + verticalAxisOffset;
                     double particleZOffset = (biggestEdge == Direction.Axis.Z ? particlePos : 1 * depth) + z1;
                     ParticleOptions particleToSpawn;
                     if(particleOverride == BlockParticleOverride.SNOW_POWDER) {

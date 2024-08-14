@@ -1,66 +1,47 @@
 package games.enchanted.blockplaceparticles.particle;
 
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.CherryParticle;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.particle.*;
 import org.jetbrains.annotations.NotNull;
 
 public class FallingPetal extends TextureSheetParticle {
     private float rotSpeed;
-    private final float particleRandom;
     private final float spinAcceleration;
 
-    protected FallingPetal(ClientLevel level, double x, double y, double z, SpriteSet spriteSet) {
+    protected FallingPetal(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
         super(level, x, y, z);
         this.setSprite(spriteSet.get(this.random.nextInt(12), 12));
-        this.rotSpeed = (float) Math.toRadians(this.random.nextBoolean() ? -30.0 : 30.0);
-        this.particleRandom = this.random.nextFloat();
-        this.spinAcceleration = (float) Math.toRadians(this.random.nextBoolean() ? -5.0 : 5.0);
-        this.lifetime = 300;
-        this.gravity = 7.5E-4F;
-        float randomScale = this.random.nextBoolean() ? 0.05F : 0.075F;
-        this.quadSize = randomScale;
-        this.setSize(randomScale, randomScale);
+        this.gravity = 0.225F;
         this.friction = 1.0F;
+        this.xd = xSpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
+        this.yd = ySpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
+        this.zd = zSpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
+        float particleSize = this.random.nextBoolean() ? 0.05F : 0.075F;
+        this.quadSize = particleSize;
+        this.setSize(particleSize, particleSize);
+        this.lifetime = (int)(16.0 / ((double)this.random.nextFloat() * 0.8 + 0.2)) + 2;
+        this.spinAcceleration = (float)Math.toRadians(this.random.nextBoolean() ? -5.0 : 5.0);
     }
 
     @Override
     public void tick() {
-        this.xo = this.x;
-        this.yo = this.y;
-        this.zo = this.z;
-        if (this.lifetime-- <= 0) {
-            this.remove();
+        this.rotSpeed += this.spinAcceleration / 2.0f;
+        this.oRoll = this.roll;
+        if(!this.onGround) {
+            this.roll += this.rotSpeed / 5.0F;
+        } else {
+            this.roll += this.rotSpeed / 80.0F;
         }
 
-        if (!this.removed) {
-            float ticksAge = (float)(300 - this.lifetime);
-            float age = Math.min(ticksAge / 300.0F, 1.0F);
-            double $$2 = Math.cos(Math.toRadians(this.particleRandom * 60.0F)) * 2.0 * Math.pow(age, 1.25);
-            double $$3 = Math.sin(Math.toRadians(this.particleRandom * 60.0F)) * 2.0 * Math.pow(age, 1.25);
-            this.xd += $$2 * 0.0024999999441206455;
-            this.zd += $$3 * 0.0024999999441206455;
-            this.yd -= this.gravity;
-            this.rotSpeed += this.spinAcceleration / 20.0F;
-            this.oRoll = this.roll;
-            this.roll += this.rotSpeed / 20.0F;
-            this.move(this.xd, this.yd, this.zd);
-            if (this.onGround || this.lifetime < 299 && (this.xd == 0.0 || this.zd == 0.0)) {
-                this.remove();
-            }
+        this.xd *= 0.949999988079071;
+        this.yd *= 0.8999999761581421;
+        this.zd *= 0.949999988079071;
 
-            if (!this.removed) {
-                this.xd *= this.friction;
-                this.yd *= this.friction;
-                this.zd *= this.friction;
-            }
-        }
+        super.tick();
     }
 
     @Override
     public @NotNull ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_LIT;
+        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
     }
 }

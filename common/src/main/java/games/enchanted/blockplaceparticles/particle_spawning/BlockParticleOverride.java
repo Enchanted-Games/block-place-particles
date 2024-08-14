@@ -9,7 +9,8 @@ import org.jetbrains.annotations.NotNull;
 
 public enum BlockParticleOverride implements StringRepresentable {
     NONE(0, "none"),
-    SNOW_POWDER(1, "snow_powder");
+    SNOW_POWDER(1, "snow_powder"),
+    CHERRY_LEAF(1, "cherry_leaf");
 
     private final int particleOverrideType;
     private final String name;
@@ -33,6 +34,8 @@ public enum BlockParticleOverride implements StringRepresentable {
         Block block = blockState.getBlock();
         if (block.equals(Blocks.POWDER_SNOW) || blockState.is(BlockTags.SNOW)) {
             return SNOW_POWDER;
+        } else if (block.equals(Blocks.CHERRY_LEAVES) || block.equals(Blocks.CHERRY_SAPLING) || block.equals(Blocks.PINK_PETALS)) {
+            return CHERRY_LEAF;
         }
         return NONE;
     }

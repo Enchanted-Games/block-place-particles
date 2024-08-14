@@ -17,6 +17,6 @@ public class FallingPetalProvider implements ParticleProvider<SimpleParticleType
     @Nullable
     @Override
     public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        return new FallingPetal(level, x, y, z, spriteSet);
+        return new FallingPetal(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
     }
 }

@@ -17,7 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.function.Function;
 
 public class ModParticleTypes {
-    public static ParticleType<SimpleParticleType> FALLING_CHERRY_PETAL;
+    public static SimpleParticleType FALLING_CHERRY_PETAL;
 
     public static void registerParticles() {
         FALLING_CHERRY_PETAL = register(ResourceLocation.fromNamespaceAndPath(BlockPlaceParticlesConstants.MOD_ID, "falling_cherry_leaves"), false);
