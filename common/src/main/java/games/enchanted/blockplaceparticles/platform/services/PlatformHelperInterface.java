@@ -1,5 +1,6 @@
 package games.enchanted.blockplaceparticles.platform.services;
 
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.level.block.Block;
 
 public interface PlatformHelperInterface {
@@ -33,4 +34,9 @@ public interface PlatformHelperInterface {
     default String getEnvironmentName() {
         return isDevelopmentEnvironment() ? "development" : "production";
     }
+
+    /**
+     * Creates and returns a new instance of net.minecraft.core.particles.SimpleParticleType
+     */
+    SimpleParticleType createNewSimpleParticle(boolean alwaysShow);
 }

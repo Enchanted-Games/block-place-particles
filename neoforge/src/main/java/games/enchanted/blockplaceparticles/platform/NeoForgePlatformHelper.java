@@ -2,6 +2,7 @@ package games.enchanted.blockplaceparticles.platform;
 
 import com.google.common.collect.ImmutableBiMap;
 import games.enchanted.blockplaceparticles.platform.services.PlatformHelperInterface;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FireBlock;
@@ -22,5 +23,10 @@ public class NeoForgePlatformHelper implements PlatformHelperInterface {
     @Override
     public boolean isDevelopmentEnvironment() {
         return !FMLLoader.isProduction();
+    }
+
+    @Override
+    public SimpleParticleType createNewSimpleParticle(boolean alwaysShow) {
+        return new SimpleParticleType(alwaysShow);
     }
 }
