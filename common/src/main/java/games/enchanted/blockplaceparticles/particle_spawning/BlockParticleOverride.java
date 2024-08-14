@@ -31,7 +31,7 @@ public enum BlockParticleOverride implements StringRepresentable {
 
     public static BlockParticleOverride getOverrideForBlockState(BlockState blockState) {
         Block block = blockState.getBlock();
-        if (block.equals(Blocks.POWDER_SNOW) || block.equals(Blocks.SNOW) || block.equals(Blocks.SNOW_BLOCK) || blockState.is(BlockTags.SNOW)) {
+        if (block.equals(Blocks.POWDER_SNOW) || blockState.is(BlockTags.SNOW)) {
             return SNOW_POWDER;
         }
         return NONE;

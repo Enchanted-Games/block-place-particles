@@ -50,7 +50,7 @@ public class SpawnParticles {
                 }
 
                 int amountOfParticlesAlongEdge = Mth.ceil(edgeLength * maxParticlesPerEdge);
-                if(amountOfParticlesAlongEdge < 1) amountOfParticlesAlongEdge = 0;
+                if(amountOfParticlesAlongEdge < 1) amountOfParticlesAlongEdge = 1; // always try to spawn at least 1 particle per edge
 
                 for(int i = 0; i < amountOfParticlesAlongEdge; ++i) {
                     double particlePos = ((double)i + 0.5) / (double)amountOfParticlesAlongEdge;
@@ -58,8 +58,15 @@ public class SpawnParticles {
                     double particleXOffset = (biggestEdge == Direction.Axis.X ? particlePos : 1 * width) + x1;
                     double particleYOffset = (biggestEdge == Direction.Axis.Y ? particlePos : 1 * height) + y1;
                     double particleZOffset = (biggestEdge == Direction.Axis.Z ? particlePos : 1 * depth) + z1;
+                    ParticleOptions particleToSpawn;
+                    if(particleOverride == BlockParticleOverride.SNOW_POWDER) {
+                        // sometimes spawn poof particle if the biome is ultra warm
+                        particleToSpawn = level.dimensionType().ultraWarm() && level.random.nextInt(5) == 0 ? ParticleTypes.POOF : finalParticleOption;
+                    }else {
+                        particleToSpawn = finalParticleOption;
+                    }
                     level.addParticle(
-                        finalParticleOption,
+                        particleToSpawn,
                         (double)blockPos.getX() + MathHelpers.expandWhenOutOfBound(particleXOffset, 0, 1),
                         (double)blockPos.getY() + MathHelpers.expandWhenOutOfBound(particleYOffset, 0, 1),
                         (double)blockPos.getZ() + MathHelpers.expandWhenOutOfBound(particleZOffset, 0, 1),
