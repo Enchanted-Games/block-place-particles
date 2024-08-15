@@ -1,11 +1,11 @@
 package games.enchanted.blockplaceparticles.platform;
 
-import com.google.common.collect.ImmutableBiMap;
+import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
+import games.enchanted.blockplaceparticles.particle.RegParticleProvidersNeoForge;
 import games.enchanted.blockplaceparticles.platform.services.PlatformHelperInterface;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FireBlock;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
 
@@ -28,5 +28,10 @@ public class NeoForgePlatformHelper implements PlatformHelperInterface {
     @Override
     public SimpleParticleType createNewSimpleParticle(boolean alwaysShow) {
         return new SimpleParticleType(alwaysShow);
+    }
+
+    @Override
+    public <T extends ParticleOptions> void registerParticleProvider(ParticleType<T> particleType, ModParticleTypes.SpriteParticleProviderRegistration<T> particleProvider) {
+        RegParticleProvidersNeoForge.registerProviderWhenReady(particleType, particleProvider);
     }
 }

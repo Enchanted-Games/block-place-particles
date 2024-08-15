@@ -2,18 +2,17 @@ package games.enchanted.blockplaceparticles;
 
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.particle.RegParticleProvidersNeoForge;
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
-@Mod(BlockPlaceParticlesConstants.MOD_ID)
-public class NeoForgeEntrypoint {
+@Mod(value = BlockPlaceParticlesConstants.MOD_ID, dist = Dist.CLIENT)
+public class NeoForgeClientEntrypoint {
     public final IEventBus eventBus;
 
-    public NeoForgeEntrypoint(IEventBus bus) {
+    public NeoForgeClientEntrypoint(IEventBus bus) {
         this.eventBus = bus;
         CommonEntrypoint.initBeforeRegistration();
 

@@ -19,8 +19,8 @@
     "icon": "assets/enchanted-vertical-slabs/icon.png",
     "environment": "*",
     "entrypoints": {
-        "main": [
-            "games.enchanted.blockplaceparticles.FabricModEntrypoint"
+        "client": [
+          "games.enchanted.blockplaceparticles.FabricClientEntrypoint"
         ]
     },
     "mixins": [

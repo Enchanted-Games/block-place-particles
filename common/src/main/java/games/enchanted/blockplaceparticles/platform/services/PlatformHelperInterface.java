@@ -1,7 +1,9 @@
 package games.enchanted.blockplaceparticles.platform.services;
 
+import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.world.level.block.Block;
 
 public interface PlatformHelperInterface {
     /**
@@ -39,4 +41,9 @@ public interface PlatformHelperInterface {
      * Creates and returns a new instance of net.minecraft.core.particles.SimpleParticleType
      */
     SimpleParticleType createNewSimpleParticle(boolean alwaysShow);
+
+    /**
+     * Registers a particle to a particle provider
+     */
+    <T extends ParticleOptions> void registerParticleProvider(ParticleType<T> particleType, ModParticleTypes.SpriteParticleProviderRegistration<T> particleProvider);
 }
