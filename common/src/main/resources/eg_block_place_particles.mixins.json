@@ -8,6 +8,7 @@
   ],
   "client": [
     "BlockItemMixin",
+    "ParticleMixin",
     "items.BucketItem",
     "items.FireChargeItem",
     "items.FlintAndSteelItem",

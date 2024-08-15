@@ -24,10 +24,14 @@ import java.util.function.Function;
 public class ModParticleTypes {
     public static SimpleParticleType FALLING_CHERRY_PETAL;
     public static ParticleType<BlockParticleOption> FALLING_TINTED_LEAF;
+    public static SimpleParticleType FALLING_AZALEA_LEAF;
+    public static SimpleParticleType FALLING_FLOWERING_AZALEA_LEAF;
 
     public static void registerParticles() {
         FALLING_CHERRY_PETAL = register((SpriteParticleProviderRegistration) FallingPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(BlockPlaceParticlesConstants.MOD_ID, "falling_cherry_leaves"), false);
         FALLING_TINTED_LEAF = register((SpriteParticleProviderRegistration) FallingTintedPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(BlockPlaceParticlesConstants.MOD_ID, "falling_tinted_leaves"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        FALLING_AZALEA_LEAF = register((SpriteParticleProviderRegistration) FallingPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(BlockPlaceParticlesConstants.MOD_ID, "falling_azalea_leaves"), false);
+        FALLING_FLOWERING_AZALEA_LEAF = register((SpriteParticleProviderRegistration) FallingPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(BlockPlaceParticlesConstants.MOD_ID, "falling_flowering_azalea_leaves"), false);
     }
 
     private static SimpleParticleType register(SpriteParticleProviderRegistration<SimpleParticleType> provider, ResourceLocation particleID, boolean alwaysShow) {

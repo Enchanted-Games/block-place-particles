@@ -12,23 +12,42 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
 public enum BlockParticleOverride {
-    NONE("none", new BlockParticleOption(ParticleTypes.BLOCK, Blocks.AIR.defaultBlockState())),
-    SNOW_POWDER("snow_powder", ParticleTypes.SNOWFLAKE),
-    AZALEA_LEAF("azalea_leaf", ModParticleTypes.FALLING_CHERRY_PETAL),
-    FLOWERING_AZALEA_LEAF("flowering_azalea_leaf", ModParticleTypes.FALLING_CHERRY_PETAL),
-    TINTED_LEAF("tinted_leaf", ModParticleTypes.FALLING_CHERRY_PETAL),
-    CHERRY_LEAF("cherry_leaf", ModParticleTypes.FALLING_CHERRY_PETAL);
+    NONE("none", ParticleTypes.BLOCK, true),
+    SNOW_POWDER("snow_powder", ParticleTypes.SNOWFLAKE, false),
+    AZALEA_LEAF("azalea_leaf", ModParticleTypes.FALLING_AZALEA_LEAF, false),
+    FLOWERING_AZALEA_LEAF("flowering_azalea_leaf", ModParticleTypes.FALLING_FLOWERING_AZALEA_LEAF, false),
+    TINTED_LEAF("tinted_leaf", ModParticleTypes.FALLING_TINTED_LEAF, true),
+    CHERRY_LEAF("cherry_leaf", ModParticleTypes.FALLING_CHERRY_PETAL, false);
 
     private final String name;
-    private final ParticleOptions particleType;
+    private ParticleOptions particleType;
+    private ParticleType<BlockParticleOption> blockParticleType;
+    private final boolean isBlockStateParticle;
 
-    BlockParticleOverride(String overrideName, ParticleOptions particle) {
+    BlockParticleOverride(String overrideName, boolean isBlockStateParticle) {
         this.name = overrideName;
-        this.particleType = particle;
+        this.isBlockStateParticle = isBlockStateParticle;
     }
 
-    public ParticleOptions getParticleType() {
+    BlockParticleOverride(String overrideName, ParticleOptions particle, boolean isBlockStateParticle) {
+        this(overrideName, isBlockStateParticle);
+        this.particleType = particle;
+        this.blockParticleType = null;
+    }
+    BlockParticleOverride(String overrideName, ParticleType<BlockParticleOption> particle, boolean isBlockStateParticle) {
+        this(overrideName, isBlockStateParticle);
+        this.particleType = null;
+        this.blockParticleType = particle;
+    }
+
+    public ParticleOptions getParticleOption() {
         return this.particleType;
+    }
+    public BlockParticleOption getBlockParticleOption(BlockState blockState) {
+        return new BlockParticleOption(this.blockParticleType, blockState);
+    }
+    public boolean isBlockStateParticle() {
+        return this.isBlockStateParticle;
     }
 
     @Override
@@ -43,7 +62,11 @@ public enum BlockParticleOverride {
         } else if (block.equals(Blocks.CHERRY_LEAVES) || block.equals(Blocks.CHERRY_SAPLING) || block.equals(Blocks.PINK_PETALS)) {
             return CHERRY_LEAF;
         } else if (block.equals(Blocks.AZALEA_LEAVES) || block.equals(Blocks.AZALEA)) {
-            return CHERRY_LEAF;
+            return AZALEA_LEAF;
+        } else if (block.equals(Blocks.FLOWERING_AZALEA_LEAVES) || block.equals(Blocks.FLOWERING_AZALEA)) {
+            return FLOWERING_AZALEA_LEAF;
+        } else if (blockState.is(BlockTags.LEAVES)) {
+            return TINTED_LEAF;
         }
         return NONE;
     }

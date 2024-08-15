@@ -1,6 +1,5 @@
 package games.enchanted.blockplaceparticles.particle_spawning;
 
-import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -25,9 +24,11 @@ public class SpawnParticles {
         BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(placedBlockState);
         ParticleOptions particleOption;
         if (particleOverride == BlockParticleOverride.NONE) {
-            particleOption = new BlockParticleOption(ModParticleTypes.FALLING_TINTED_LEAF, placedBlockState);
-        } else {
-            particleOption = particleOverride.getParticleType();
+            particleOption = new BlockParticleOption(ParticleTypes.BLOCK, placedBlockState);
+        } else if(particleOverride.isBlockStateParticle()) {
+            particleOption = particleOverride.getBlockParticleOption(placedBlockState);
+        }else {
+            particleOption = particleOverride.getParticleOption();
         }
 
         if (!placedBlockState.isAir() && placedBlockState.shouldSpawnTerrainParticles()) {
