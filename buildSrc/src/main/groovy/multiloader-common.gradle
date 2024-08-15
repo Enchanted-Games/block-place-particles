@@ -30,6 +30,14 @@ repositories {
         name = 'BlameJared'
         url = 'https://maven.blamejared.com'
     }
+    maven {
+        name = 'Xander Maven'
+        url = 'https://maven.isxander.dev/releases'
+    }
+}
+
+dependencies {
+    compileOnly "dev.isxander:yet-another-config-lib:${yacl_version}-neoforge"
 }
 
 // Declare capabilities on the outgoing configurations.

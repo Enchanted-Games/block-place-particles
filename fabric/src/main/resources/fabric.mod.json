@@ -16,11 +16,14 @@
         "issues": "${mod_issues}"
     },
     "license": "${license}",
-    "icon": "assets/enchanted-vertical-slabs/icon.png",
+    "icon": "assets/${mod_id}/icon.png",
     "environment": "*",
     "entrypoints": {
         "client": [
-          "games.enchanted.blockplaceparticles.FabricClientEntrypoint"
+            "games.enchanted.blockplaceparticles.FabricClientEntrypoint"
+        ],
+        "modmenu": [
+            "games.enchanted.blockplaceparticles.ModMenuIntegration"
         ]
     },
     "mixins": [
