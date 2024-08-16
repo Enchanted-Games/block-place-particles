@@ -1,6 +1,6 @@
 package games.enchanted.blockplaceparticles.mixin.items;
 
-import games.enchanted.blockplaceparticles.Logging;
+import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import games.enchanted.blockplaceparticles.particle_spawning.SpawnParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
@@ -32,12 +32,12 @@ public abstract class FlintAndSteelItem {
                 // probably placed a fire
                 BlockPos firePos = clickedPos.relative(useOnContext.getClickedFace());
                 if(BaseFireBlock.canBePlacedAt(level, firePos, useOnContext.getHorizontalDirection())) {
-                    Logging.debugInfo("Fire placed by '" + this + "' at " + firePos.toShortString() + ". (interacted at " + clickedPos.toShortString() + ")");
+                    ParticleInteractionsLogging.debugInfo("Fire placed by '" + this + "' at " + firePos.toShortString() + ". (interacted at " + clickedPos.toShortString() + ")");
                     SpawnParticles.spawnFlintAndSteelSparkParticle(level, firePos);
                 }
             }else {
                 // probably lit a block
-                Logging.debugInfo("Block lit by '" + this + "' at " + clickedPos.toShortString());
+                ParticleInteractionsLogging.debugInfo("Block lit by '" + this + "' at " + clickedPos.toShortString());
                 SpawnParticles.spawnFlintAndSteelSparkParticle(level, clickedPos);
             }
         }

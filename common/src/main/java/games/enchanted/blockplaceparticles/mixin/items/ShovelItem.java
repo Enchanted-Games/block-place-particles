@@ -1,6 +1,6 @@
 package games.enchanted.blockplaceparticles.mixin.items;
 
-import games.enchanted.blockplaceparticles.Logging;
+import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import games.enchanted.blockplaceparticles.particle_spawning.SpawnParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
@@ -24,7 +24,7 @@ public abstract class ShovelItem {
             BlockPos flattenedBlockPos = useOnContext.getClickedPos();
             BlockState blockState = level.getBlockState(flattenedBlockPos);
 
-            Logging.debugInfo("Shovel used (" + this + ") at " + flattenedBlockPos.toShortString() + " to flatten " + blockState.getBlock());
+            ParticleInteractionsLogging.debugInfo("Shovel used (" + this + ") at " + flattenedBlockPos.toShortString() + " to flatten " + blockState.getBlock());
             SpawnParticles.spawnShovelFlattenParticle(level, flattenedBlockPos, useOnContext.getPlayer());
         }
     }

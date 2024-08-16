@@ -1,6 +1,6 @@
 package games.enchanted.blockplaceparticles.mixin;
 
-import games.enchanted.blockplaceparticles.Logging;
+import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import games.enchanted.blockplaceparticles.particle_spawning.SpawnParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -28,7 +28,7 @@ public abstract class BlockItemMixin {
         if(level.isClientSide() && cir.getReturnValue() == InteractionResult.SUCCESS) {
             BlockPos blockPos = blockPlaceContext.getClickedPos();
             SpawnParticles.spawnBlockPlaceParticle((ClientLevel) level, blockPos);
-            Logging.debugInfo(this.getBlock() + " placed at " + blockPos.toShortString() + " from '" + this + "'");
+            ParticleInteractionsLogging.debugInfo(this.getBlock() + " placed at " + blockPos.toShortString() + " from '" + this + "'");
         }
     }
 }

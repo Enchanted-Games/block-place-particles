@@ -1,6 +1,7 @@
 package games.enchanted.blockplaceparticles.platform;
 
-import games.enchanted.blockplaceparticles.BlockPlaceParticlesConstants;
+import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
+import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
 import games.enchanted.blockplaceparticles.platform.services.PlatformHelperInterface;
 
 import java.util.ServiceLoader;
@@ -24,7 +25,7 @@ public class Services {
         final T loadedService = ServiceLoader.load(clazz)
                 .findFirst()
                 .orElseThrow(() -> new NullPointerException("Failed to load service for " + clazz.getName()));
-        BlockPlaceParticlesConstants.LOG.debug("Loaded {} for service {}", loadedService, clazz);
+        ParticleInteractionsLogging.debugInfo("Loaded {} for service {}", loadedService, clazz);
         return loadedService;
     }
 }

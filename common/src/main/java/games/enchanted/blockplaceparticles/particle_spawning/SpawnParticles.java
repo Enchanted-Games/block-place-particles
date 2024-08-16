@@ -109,12 +109,6 @@ public class SpawnParticles {
 
     // not implemented
     public static void spawnFarmlandTrampleParticle(Level level, BlockPos particlePos) {
-        for (int i = 0; i < 6; i++) {
-            double x = particlePos.getX() + level.random.nextDouble();
-            double y = particlePos.getY() + (double) 14 /16;
-            double z = particlePos.getZ() + level.random.nextDouble();
-            level.addParticle(ParticleTypes.DUST_PLUME, x, y, z, 0.0, 0.05, 0.0);
-        }
     }
 
     public static void spawnShovelFlattenParticle(Level level, BlockPos particlePos, Player player) {

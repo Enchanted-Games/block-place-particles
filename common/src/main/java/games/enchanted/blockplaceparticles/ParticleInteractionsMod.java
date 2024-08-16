@@ -1,5 +1,6 @@
 package games.enchanted.blockplaceparticles;
 
+import games.enchanted.blockplaceparticles.platform.Services;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
@@ -8,8 +9,16 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class CommonEntrypoint {
-    public static void initBeforeRegistration() {
+public class ParticleInteractionsMod {
+    public static final String MOD_ID = "eg_block_place_particles";
+    public static final String MOD_NAME = "Block Place Particles";
+
+    public static void startOfModLoading() {
+        ParticleInteractionsLogging.message("Mod is loading on a {} environment", Services.PLATFORM.getPlatformName());
+    }
+
+    public static void endOfModLoading() {
+        ParticleInteractionsLogging.message("Loaded Successfully!");
     }
 
     @SuppressWarnings("unchecked")

@@ -6,8 +6,11 @@ import net.fabricmc.api.ClientModInitializer;
 public class FabricClientEntrypoint implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        CommonEntrypoint.initBeforeRegistration();
+        ParticleInteractionsMod.startOfModLoading();
 
+        // register particles
         ModParticleTypes.registerParticles();
+
+        ParticleInteractionsMod.endOfModLoading();
     }
 }
