@@ -6,12 +6,14 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import games.enchanted.blockplaceparticles.util.MathHelpers;
@@ -121,11 +123,15 @@ public class SpawnParticles {
     }
 
     public static void spawnFluidPlacedParticle(LevelAccessor levelAccessor, BlockPos particlePos, Fluid placedFluid) {
+        if (placedFluid.isSame(Fluids.EMPTY)) {
+            return;
+        }
+        ParticleOptions fluidParticle = placedFluid.defaultFluidState().getDripParticle();
         for (int i = 0; i < 6; i++) {
             double x = particlePos.getX() + levelAccessor.getRandom().nextDouble();
-            double y = particlePos.getY() + (double) 14 /16;
+            double y = particlePos.getY() + (double) 13/16;
             double z = particlePos.getZ() + levelAccessor.getRandom().nextDouble();
-            levelAccessor.addParticle(ParticleTypes.DUST_PLUME, x, y, z, 0.0, 0.05, 0.0);
+            levelAccessor.addParticle(fluidParticle, x, y, z, 0.0, 0.05, 0.0);
         }
     }
 
