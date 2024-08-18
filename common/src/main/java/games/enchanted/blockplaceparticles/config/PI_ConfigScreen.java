@@ -4,7 +4,7 @@ import dev.isxander.yacl3.api.*;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
-public class ParticleInteractionsConfigScreen {
+public class PI_ConfigScreen {
     public static Screen createConfigScreen(Screen parentScreen) {
         return YetAnotherConfigLib.createBuilder()
             .title(Component.literal("placeholder config title"))
@@ -13,7 +13,7 @@ public class ParticleInteractionsConfigScreen {
                 .tooltip(Component.literal("This text will appear as a tooltip when you hover or focus the button with Tab. There is no need to add \n to wrap as YACL will do it for you."))
 
                 .build())
-            .build()
+        .build()
         .generateScreen(parentScreen);
     }
 }

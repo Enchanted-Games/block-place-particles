@@ -85,6 +85,7 @@ processResources {
             "minecraft_version": minecraft_version,
             "minecraft_fabric_version_range": minecraft_fabric_version_range,
             "minecraft_neoforge_version_range": minecraft_neoforge_version_range,
+            "yacl_version": yacl_version,
             "fabric_version": fabric_version,
             "fabric_loader_version": fabric_loader_version,
             "mod_name": mod_name,

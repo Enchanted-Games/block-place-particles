@@ -1,5 +1,7 @@
 package games.enchanted.blockplaceparticles.particle_spawning;
 
+import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
+import net.minecraft.ResourceLocationException;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -7,6 +9,10 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.commands.ExecuteCommand;
+import net.minecraft.server.commands.SetBlockCommand;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -126,6 +132,14 @@ public class SpawnParticles {
         if (placedFluid.isSame(Fluids.EMPTY)) {
             return;
         }
+        ResourceLocation loc = null;
+        try {
+            loc = ResourceLocation.parse("abc:test");
+        } catch (ResourceLocationException exception) {
+            ParticleInteractionsLogging.message(exception.getMessage());
+            return;
+        }
+        ParticleInteractionsLogging.message(loc.toString());
         ParticleOptions fluidParticle = placedFluid.defaultFluidState().getDripParticle();
         for (int i = 0; i < 6; i++) {
             double x = particlePos.getX() + levelAccessor.getRandom().nextDouble();

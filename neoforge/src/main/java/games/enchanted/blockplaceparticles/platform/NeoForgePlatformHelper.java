@@ -8,6 +8,9 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.fml.loading.FMLPaths;
+
+import java.nio.file.Path;
 
 public class NeoForgePlatformHelper implements PlatformHelperInterface {
     @Override
@@ -33,5 +36,10 @@ public class NeoForgePlatformHelper implements PlatformHelperInterface {
     @Override
     public <T extends ParticleOptions> void registerParticleProvider(ParticleType<T> particleType, ModParticleTypes.SpriteParticleProviderRegistration<T> particleProvider) {
         RegParticleProvidersNeoForge.registerProviderWhenReady(particleType, particleProvider);
+    }
+
+    @Override
+    public Path getConfigPath() {
+        return FMLPaths.CONFIGDIR.get();
     }
 }

@@ -9,6 +9,8 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 
+import java.nio.file.Path;
+
 public class FabricPlatformHelper implements PlatformHelperInterface {
     @Override
     public String getPlatformName() {
@@ -33,5 +35,10 @@ public class FabricPlatformHelper implements PlatformHelperInterface {
     @Override
     public <T extends ParticleOptions> void registerParticleProvider(ParticleType<T> particleType, ModParticleTypes.SpriteParticleProviderRegistration<T> particleProvider) {
         ParticleFactoryRegistry.getInstance().register(particleType, particleProvider::create);
+    }
+
+    @Override
+    public Path getConfigPath() {
+        return FabricLoader.getInstance().getConfigDir();
     }
 }

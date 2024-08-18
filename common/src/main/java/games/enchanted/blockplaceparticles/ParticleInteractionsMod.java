@@ -1,5 +1,6 @@
 package games.enchanted.blockplaceparticles;
 
+import games.enchanted.blockplaceparticles.config.PI_Config;
 import games.enchanted.blockplaceparticles.platform.Services;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -10,7 +11,7 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 public class ParticleInteractionsMod {
-    public static final String MOD_ID = "eg_block_place_particles";
+    public static final String MOD_ID = "eg_particle_interactions";
     public static final String MOD_NAME = "Block Place Particles";
 
     public static void startOfModLoading() {
@@ -18,6 +19,7 @@ public class ParticleInteractionsMod {
     }
 
     public static void endOfModLoading() {
+        PI_Config.load();
         ParticleInteractionsLogging.message("Loaded Successfully!");
     }
 
