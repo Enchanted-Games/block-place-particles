@@ -1,6 +1,6 @@
 package games.enchanted.blockplaceparticles;
 
-import games.enchanted.blockplaceparticles.config.PI_Config;
+import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.platform.Services;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -19,7 +19,8 @@ public class ParticleInteractionsMod {
     }
 
     public static void endOfModLoading() {
-        PI_Config.load();
+        ConfigHandler.load();
+        ConfigHandler.save();
         ParticleInteractionsLogging.message("Loaded Successfully!");
     }
 

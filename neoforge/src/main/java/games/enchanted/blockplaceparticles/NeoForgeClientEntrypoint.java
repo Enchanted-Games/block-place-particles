@@ -1,6 +1,6 @@
 package games.enchanted.blockplaceparticles;
 
-import games.enchanted.blockplaceparticles.config.PI_ConfigScreen;
+import games.enchanted.blockplaceparticles.config.ConfigScreen;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.particle.RegParticleProvidersNeoForge;
 import net.minecraft.core.registries.Registries;
@@ -29,7 +29,7 @@ public class NeoForgeClientEntrypoint {
         // register particle providers
         bus.addListener(RegParticleProvidersNeoForge::registerParticleProviders);
         // register config screen
-        ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () -> (client, parent) -> PI_ConfigScreen.createConfigScreen(parent));
+        ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () -> (client, parent) -> ConfigScreen.createConfigScreen(parent));
 
         ParticleInteractionsMod.endOfModLoading();
     }
