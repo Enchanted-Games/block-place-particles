@@ -11,6 +11,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -42,58 +43,114 @@ public class ConfigScreen {
                     .build())
                 .build())
 
-                // snowflake particles
+                // config info
                 .group(OptionGroup.createBuilder()
-                    .name(Component.literal("Snowflake Particles"))
-                    .description(OptionDescription.of(Component.literal("When snoflake particles should be spawned")))
-                    .option(Option.<Boolean>createBuilder()
-                        .name(Component.literal("Spawn when Block Placed"))
-                        .description(OptionDescription.of(Component.literal("Should snowflake particles spawn when a block is placed?")))
-                        .binding(ConfigHandler.snowParticleOnBlockPlace_DEFAULT, () -> ConfigHandler.snowParticleOnBlockPlace, newVal -> ConfigHandler.snowParticleOnBlockPlace = newVal)
-                        .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
+                    .name(Component.literal("-- Information --"))
+                    .description(OptionDescription.of(Component.literal("infotext")))
+                    .collapsed(true)
+                    .option(LabelOption.createBuilder()
+
                     .build())
-                    .option( maxParticlesOnPlaceOption(ConfigHandler.maxSnowflakePlaceParticles_DEFAULT, () -> ConfigHandler.maxSnowflakePlaceParticles, newVal -> ConfigHandler.maxSnowflakePlaceParticles = newVal) )
-                    .option(Option.<Boolean>createBuilder()
-                        .name(Component.literal("Spawn when Block Broken"))
-                        .description(OptionDescription.of(Component.literal("Should snowflake particles spawn when a block is broken?")))
-                        .binding(ConfigHandler.snowParticleOnBlockBreak_DEFAULT, () -> ConfigHandler.snowParticleOnBlockBreak, newVal -> ConfigHandler.snowParticleOnBlockBreak = newVal)
-                        .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
-                    .build())
-                    .option( maxParticlesOnBreakOption(ConfigHandler.maxSnowflakeBreakParticles_DEFAULT, () -> ConfigHandler.maxSnowflakeBreakParticles, newVal -> ConfigHandler.maxSnowflakeBreakParticles = newVal) )
-                .build())
-                .group(ListOption.<BlockItem>createBuilder()
-                    .name(Component.literal("Snowflake Particle Blocks"))
-                    .description(OptionDescription.of(Component.literal("Blocks that should spawn snowflake particles when placed or broken")))
-                    .binding(ConfigHandler.snowParticleBlockItems_DEFAULT, () -> ConfigHandler.snowParticleBlockItems, newVal -> ConfigHandler.snowParticleBlockItems = newVal)
-                    .customController(BlockItemController::new)
-                    .initial((BlockItem) Items.STONE)
                 .build())
 
+                // snowflake particles
+                .group( createParticleToggleAndMaxConfigGroup(
+                    Component.literal("Snowflake"),
+                    Binding.generic(ConfigHandler.snowflake_onPlace_DEFAULT, () -> ConfigHandler.snowflake_onPlace, newVal -> ConfigHandler.snowflake_onPlace = newVal),
+                    maxParticlesOnPlaceOption(ConfigHandler.maxSnowflakes_onPlace_DEFAULT, () -> ConfigHandler.maxSnowflakes_onPlace, newVal -> ConfigHandler.maxSnowflakes_onPlace = newVal),
+                    Binding.generic(ConfigHandler.snowflake_onBreak_DEFAULT, () -> ConfigHandler.snowflake_onBreak, newVal -> ConfigHandler.snowflake_onBreak = newVal),
+                    maxParticlesOnBreakOption(ConfigHandler.maxSnowflakes_onBreak_DEFAULT, () -> ConfigHandler.maxSnowflakes_onBreak, newVal -> ConfigHandler.maxSnowflakes_onBreak = newVal)
+                ))
+                .group( createBlockItemListOption(
+                    Component.literal("Snowflake"),
+                    ConfigHandler.snowflake_BlockItems_DEFAULT, () -> ConfigHandler.snowflake_BlockItems, newVal -> ConfigHandler.snowflake_BlockItems = newVal
+                ))
+
+                // cherry petal particles
+                .group( createParticleToggleAndMaxConfigGroup(
+                    Component.literal("Cherry Petal"),
+                    Binding.generic(ConfigHandler.cherryPetal_onPlace_DEFAULT, () -> ConfigHandler.cherryPetal_onPlace, newVal -> ConfigHandler.cherryPetal_onPlace = newVal),
+                    maxParticlesOnPlaceOption(ConfigHandler.maxCherryPetals_onPlace_DEFAULT, () -> ConfigHandler.maxCherryPetals_onPlace, newVal -> ConfigHandler.maxCherryPetals_onPlace = newVal),
+                    Binding.generic(ConfigHandler.cherryPetal_onBreak_DEFAULT, () -> ConfigHandler.cherryPetal_onBreak, newVal -> ConfigHandler.cherryPetal_onBreak = newVal),
+                    maxParticlesOnBreakOption(ConfigHandler.maxCherryPetals_onBreak_DEFAULT, () -> ConfigHandler.maxCherryPetals_onBreak, newVal -> ConfigHandler.maxCherryPetals_onBreak = newVal)
+                ))
+                .group( createBlockItemListOption(
+                    Component.literal("Cherry Petal"),
+                    ConfigHandler.cherryPetal_BlockItems_DEFAULT, () -> ConfigHandler.cherryPetal_BlockItems, newVal -> ConfigHandler.cherryPetal_BlockItems = newVal
+                ))
+
+                // azalea leaf particles
+                .group( createParticleToggleAndMaxConfigGroup(
+                    Component.literal("Azalea Leaf"),
+                    Binding.generic(ConfigHandler.azaleaLeaf_onPlace_DEFAULT, () -> ConfigHandler.azaleaLeaf_onPlace, newVal -> ConfigHandler.azaleaLeaf_onPlace = newVal),
+                    maxParticlesOnPlaceOption(ConfigHandler.maxAzaleaLeaves_onPlace_DEFAULT, () -> ConfigHandler.maxAzaleaLeaves_onPlace, newVal -> ConfigHandler.maxAzaleaLeaves_onPlace = newVal),
+                    Binding.generic(ConfigHandler.azaleaLeaf_onBreak_DEFAULT, () -> ConfigHandler.azaleaLeaf_onBreak, newVal -> ConfigHandler.azaleaLeaf_onBreak = newVal),
+                    maxParticlesOnBreakOption(ConfigHandler.maxAzaleaLeaves_onBreak_DEFAULT, () -> ConfigHandler.maxAzaleaLeaves_onBreak, newVal -> ConfigHandler.maxAzaleaLeaves_onBreak = newVal)
+                ))
+                .group( createBlockItemListOption(
+                    Component.literal("Azalea Leaf"),
+                    ConfigHandler.azaleaLeaf_BlockItems_DEFAULT, () -> ConfigHandler.azaleaLeaf_BlockItems, newVal -> ConfigHandler.azaleaLeaf_BlockItems = newVal
+                ))
+
+                // flowering azalea leaf particles
+                .group( createParticleToggleAndMaxConfigGroup(
+                    Component.literal("Flowering Azalea Leaf"),
+                    Binding.generic(ConfigHandler.floweringAzaleaLeaf_onPlace_DEFAULT, () -> ConfigHandler.floweringAzaleaLeaf_onPlace, newVal -> ConfigHandler.floweringAzaleaLeaf_onPlace = newVal),
+                    maxParticlesOnPlaceOption(ConfigHandler.maxFloweringAzaleaLeaves_onPlace_DEFAULT, () -> ConfigHandler.maxFloweringAzaleaLeaves_onPlace, newVal -> ConfigHandler.maxFloweringAzaleaLeaves_onPlace = newVal),
+                    Binding.generic(ConfigHandler.floweringAzaleaLeaf_onBreak_DEFAULT, () -> ConfigHandler.floweringAzaleaLeaf_onBreak, newVal -> ConfigHandler.floweringAzaleaLeaf_onBreak = newVal),
+                    maxParticlesOnBreakOption(ConfigHandler.maxFloweringAzaleaLeaves_onBreak_DEFAULT, () -> ConfigHandler.maxFloweringAzaleaLeaves_onBreak, newVal -> ConfigHandler.maxFloweringAzaleaLeaves_onBreak = newVal)
+                ))
+                .group( createBlockItemListOption(
+                    Component.literal("Flowering Azalea Leaf"),
+                    ConfigHandler.floweringAzaleaLeaf_BlockItems_DEFAULT, () -> ConfigHandler.floweringAzaleaLeaf_BlockItems, newVal -> ConfigHandler.floweringAzaleaLeaf_BlockItems = newVal
+                ))
+
+                // tinted leaf particles
+                .group( createParticleToggleAndMaxConfigGroup(
+                    Component.literal("Biome Coloured Leaf"),
+                    Binding.generic(ConfigHandler.tintedLeaves_onPlace_DEFAULT, () -> ConfigHandler.tintedLeaves_onPlace, newVal -> ConfigHandler.tintedLeaves_onPlace = newVal),
+                    maxParticlesOnPlaceOption(ConfigHandler.maxTintedLeaves_onPlace_DEFAULT, () -> ConfigHandler.maxTintedLeaves_onPlace, newVal -> ConfigHandler.maxTintedLeaves_onPlace = newVal),
+                    Binding.generic(ConfigHandler.tintedLeaves_onBreak_DEFAULT, () -> ConfigHandler.tintedLeaves_onBreak, newVal -> ConfigHandler.tintedLeaves_onBreak = newVal),
+                    maxParticlesOnBreakOption(ConfigHandler.maxTintedLeaves_onBreak_DEFAULT, () -> ConfigHandler.maxTintedLeaves_onBreak, newVal -> ConfigHandler.maxTintedLeaves_onBreak = newVal)
+                ))
+                .group( createBlockItemListOption(
+                    Component.literal("Biome Coloured Leaf"),
+                    ConfigHandler.tintedLeaves_BlockItems_DEFAULT, () -> ConfigHandler.tintedLeaves_BlockItems, newVal -> ConfigHandler.tintedLeaves_BlockItems = newVal
+                ))
+
                 // vanilla block particles
-                .group(OptionGroup.createBuilder()
-                    .name(Component.literal("Vanilla Block Particles"))
-                    .description(OptionDescription.of(Component.literal("When vanilla block particles should be spawned")))
-                    // block place
-                    .option(Option.<Boolean>createBuilder()
-                        .name(Component.literal("Spawn when Block Placed"))
-                        .description(OptionDescription.of(Component.literal("Should vanilla block particles spawn when a block is placed?")))
-                        .binding(ConfigHandler.blockParticleOnBlockPlace_DEFAULT, () -> ConfigHandler.blockParticleOnBlockPlace, newVal -> ConfigHandler.blockParticleOnBlockPlace = newVal)
-                        .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
-                    .build())
-                    .option( maxParticlesOnPlaceOption(ConfigHandler.maxBlockPlaceParticles_DEFAULT, () -> ConfigHandler.maxBlockPlaceParticles, newVal -> ConfigHandler.maxBlockPlaceParticles = newVal) )
-                    // block break
-                    .option(Option.<Boolean>createBuilder()
-                        .name(Component.literal("Spawn when Block Broken"))
-                        .description(OptionDescription.of(Component.literal("Should vanilla block particles spawn when a block is broken?")))
-                        .binding(ConfigHandler.blockParticleOnBlockBreak_DEFAULT, () -> ConfigHandler.blockParticleOnBlockBreak, newVal -> ConfigHandler.blockParticleOnBlockBreak = newVal)
-                        .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
-                    .build())
-                    .option( maxParticlesOnBreakOption(ConfigHandler.maxBlockBreakParticles_DEFAULT, () -> ConfigHandler.maxBlockBreakParticles, newVal -> ConfigHandler.maxBlockBreakParticles = newVal) )
-                .build())
+                .group( createParticleToggleAndMaxConfigGroup(
+                    Component.literal("Vanilla Block"),
+                    Binding.generic(ConfigHandler.block_onPlace_DEFAULT, () -> ConfigHandler.block_onPlace, newVal -> ConfigHandler.block_onPlace = newVal),
+                    maxParticlesOnPlaceOption(ConfigHandler.maxBlock_onPlace_DEFAULT, () -> ConfigHandler.maxBlock_onPlace, newVal -> ConfigHandler.maxBlock_onPlace = newVal),
+                    Binding.generic(ConfigHandler.block_onBreak_DEFAULT, () -> ConfigHandler.block_onBreak, newVal -> ConfigHandler.block_onBreak = newVal),
+                    maxParticlesOnBreakOption(ConfigHandler.maxBlock_onBreak_DEFAULT, () -> ConfigHandler.maxBlock_onBreak, newVal -> ConfigHandler.maxBlock_onBreak = newVal)
+                ))
 
             .build())
         .build()
         .generateScreen(parentScreen);
+    }
+
+    private static OptionGroup createParticleToggleAndMaxConfigGroup(Component particleName, Binding<Boolean> spawnOnBlockPlaceBinding, Option<Integer> maxPlaceParticlesOption, Binding<Boolean> spawnOnBlockBreakBinding, Option<Integer> maxBreakParticlesOption) {
+        return OptionGroup.createBuilder()
+            .name(createPlaceholderTranslatedFallbackComponent("placeholder.particles", "%s Particles", particleName.getString()))
+            .description(OptionDescription.of(createPlaceholderTranslatedFallbackComponent("placeholder.1", "When %s particles should be spawned", particleName.getString())))
+            .option(Option.<Boolean>createBuilder()
+                .name(Component.literal("Spawn when Block Placed"))
+                .description(OptionDescription.of(createPlaceholderTranslatedFallbackComponent("placeholder.1", "Should %s particles spawn when a block is placed?", particleName.getString())))
+                .binding(spawnOnBlockPlaceBinding)
+                .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
+            .build())
+            .option(maxPlaceParticlesOption)
+            .option(Option.<Boolean>createBuilder()
+                .name(Component.literal("Spawn when Block Broken"))
+                .description(OptionDescription.of(createPlaceholderTranslatedFallbackComponent("placeholder.1", "Should %s particles spawn when a block is broken?", particleName.getString())))
+                .binding(spawnOnBlockBreakBinding)
+                .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
+            .build())
+            .option(maxBreakParticlesOption)
+        .build();
     }
 
     private static Option<Integer> maxParticlesOnPlaceOption(int maxParticlesDefault, Supplier<Integer> getter, Consumer<Integer> setter) {
@@ -110,5 +167,19 @@ public class ConfigScreen {
             .binding(defaultValue, getter, setter)
             .controller(opt -> IntegerSliderControllerBuilder.create(opt).range(min, max).step(step))
         .build();
+    }
+
+    private static ListOption<BlockItem> createBlockItemListOption(Component particleName, List<BlockItem> defaultValue, Supplier<List<BlockItem>> getter, Consumer<List<BlockItem>> setter) {
+        return ListOption.<BlockItem>createBuilder()
+            .name(createPlaceholderTranslatedFallbackComponent("placeholder.blocks", "%s Blocks", particleName.getString()))
+            .description(OptionDescription.of(createPlaceholderTranslatedFallbackComponent("placeholder.1", "Blocks that should spawn %s particles when broken or placed. \n\nA block must have a registered BlockItem to appear in this list", particleName.getString())))
+            .binding(defaultValue, getter, setter)
+            .customController(BlockItemController::new)
+            .initial((BlockItem) Items.STONE)
+        .build();
+    }
+
+    private static Component createPlaceholderTranslatedFallbackComponent(String translationKey, String translationFallback, Object... args) {
+        return Component.literal(Component.translatableWithFallback(translationKey, translationFallback).getString().formatted(args));
     }
 }

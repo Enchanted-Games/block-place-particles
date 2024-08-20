@@ -1,5 +1,17 @@
 {
   "textures": [
-    "eg_particle_interactions:falling_azalea_leaves/0"
+    "eg_particle_interactions:falling_azalea_leaves/0",
+    "eg_particle_interactions:falling_azalea_leaves/1",
+    "eg_particle_interactions:falling_azalea_leaves/2",
+    "eg_particle_interactions:falling_azalea_leaves/3",
+    "eg_particle_interactions:falling_azalea_leaves/4",
+    "eg_particle_interactions:falling_azalea_leaves/5",
+    "eg_particle_interactions:falling_azalea_leaves/6",
+    "eg_particle_interactions:falling_azalea_leaves/7",
+    "eg_particle_interactions:falling_azalea_leaves/8",
+    "eg_particle_interactions:falling_azalea_leaves/9",
+    "eg_particle_interactions:falling_azalea_leaves/10",
+    "eg_particle_interactions:falling_azalea_leaves/11",
+    "eg_particle_interactions:falling_azalea_leaves/12"
   ]
 }

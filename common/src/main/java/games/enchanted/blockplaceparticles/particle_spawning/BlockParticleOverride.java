@@ -16,10 +16,10 @@ public enum BlockParticleOverride {
     NONE("none"),
     BLOCK("block", ParticleTypes.BLOCK, true),
     SNOW_POWDER("snow_powder", ParticleTypes.SNOWFLAKE, false),
+    CHERRY_LEAF("cherry_leaf", ModParticleTypes.FALLING_CHERRY_PETAL, false),
     AZALEA_LEAF("azalea_leaf", ModParticleTypes.FALLING_AZALEA_LEAF, false),
     FLOWERING_AZALEA_LEAF("flowering_azalea_leaf", ModParticleTypes.FALLING_FLOWERING_AZALEA_LEAF, false),
-    TINTED_LEAF("tinted_leaf", ModParticleTypes.FALLING_TINTED_LEAF, true),
-    CHERRY_LEAF("cherry_leaf", ModParticleTypes.FALLING_CHERRY_PETAL, false);
+    TINTED_LEAF("tinted_leaf", ModParticleTypes.FALLING_TINTED_LEAF, true);
 
     private final String name;
     @Nullable private ParticleOptions particleType;
@@ -81,18 +81,18 @@ public enum BlockParticleOverride {
 
     public static BlockParticleOverride getOverrideForBlockState(BlockState blockState, boolean isBlockBeingPlaced) {
         Block block = blockState.getBlock();
-        if (ConfigHandler.snowParticleBlockItems.contains((BlockItem) block.asItem()) && shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.snowParticleOnBlockPlace, ConfigHandler.snowParticleOnBlockBreak)) {
+        if (ConfigHandler.snowflake_BlockItems.contains((BlockItem) block.asItem()) && shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.snowflake_onPlace, ConfigHandler.snowflake_onBreak)) {
             return SNOW_POWDER;
-        } else if (ConfigHandler.cherryPetalParticleBlockItems.contains((BlockItem) block.asItem())) {
+        } else if (ConfigHandler.cherryPetal_BlockItems.contains((BlockItem) block.asItem()) && shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.cherryPetal_onPlace, ConfigHandler.cherryPetal_onBreak)) {
             return CHERRY_LEAF;
-        } else if (ConfigHandler.azaleaLeafParticleBlockItems.contains((BlockItem) block.asItem())) {
+        } else if (ConfigHandler.azaleaLeaf_BlockItems.contains((BlockItem) block.asItem()) && shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.azaleaLeaf_onPlace, ConfigHandler.azaleaLeaf_onBreak)) {
             return AZALEA_LEAF;
-        } else if (ConfigHandler.floweringAzaleaLeafParticleBlockItems.contains((BlockItem) block.asItem())) {
+        } else if (ConfigHandler.floweringAzaleaLeaf_BlockItems.contains((BlockItem) block.asItem()) && shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.floweringAzaleaLeaf_onPlace, ConfigHandler.floweringAzaleaLeaf_onBreak)) {
             return FLOWERING_AZALEA_LEAF;
-        } else if (ConfigHandler.biomeTintedLeafParticleBlockItems.contains((BlockItem) block.asItem())) {
+        } else if (ConfigHandler.tintedLeaves_BlockItems.contains((BlockItem) block.asItem()) && shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.tintedLeaves_onPlace, ConfigHandler.tintedLeaves_onBreak) ) {
             return TINTED_LEAF;
         }
-        if (shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.blockParticleOnBlockPlace, ConfigHandler.blockParticleOnBlockBreak)) {
+        if (shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.block_onPlace, ConfigHandler.block_onBreak)) {
             return BLOCK;
         }
         return NONE;
@@ -107,11 +107,23 @@ public enum BlockParticleOverride {
 
     public static int getParticleMultiplierForOverride(BlockParticleOverride override, boolean isBlockBeingPlaced) {
         switch (override) {
-            case BLOCK -> {
-                return getAppropriateMultiplier(isBlockBeingPlaced, ConfigHandler.maxBlockPlaceParticles, ConfigHandler.maxBlockBreakParticles);
-            }
             case SNOW_POWDER -> {
-                return getAppropriateMultiplier(isBlockBeingPlaced, ConfigHandler.maxSnowflakePlaceParticles, ConfigHandler.maxSnowflakeBreakParticles);
+                return getAppropriateMultiplier(isBlockBeingPlaced, ConfigHandler.maxSnowflakes_onPlace, ConfigHandler.maxSnowflakes_onBreak);
+            }
+            case CHERRY_LEAF -> {
+                return getAppropriateMultiplier(isBlockBeingPlaced, ConfigHandler.maxCherryPetals_onPlace, ConfigHandler.maxCherryPetals_onBreak);
+            }
+            case AZALEA_LEAF -> {
+                return getAppropriateMultiplier(isBlockBeingPlaced, ConfigHandler.maxAzaleaLeaves_onPlace, ConfigHandler.maxAzaleaLeaves_onBreak);
+            }
+            case FLOWERING_AZALEA_LEAF -> {
+                return getAppropriateMultiplier(isBlockBeingPlaced, ConfigHandler.maxFloweringAzaleaLeaves_onPlace, ConfigHandler.maxFloweringAzaleaLeaves_onBreak);
+            }
+            case TINTED_LEAF -> {
+                return getAppropriateMultiplier(isBlockBeingPlaced, ConfigHandler.maxTintedLeaves_onPlace, ConfigHandler.maxTintedLeaves_onBreak);
+            }
+            case BLOCK -> {
+                return getAppropriateMultiplier(isBlockBeingPlaced, ConfigHandler.maxBlock_onPlace, ConfigHandler.maxBlock_onBreak);
             }
             default -> {
                 return 2;

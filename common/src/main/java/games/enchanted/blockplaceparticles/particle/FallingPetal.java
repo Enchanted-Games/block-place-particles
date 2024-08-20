@@ -3,6 +3,7 @@ package games.enchanted.blockplaceparticles.particle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,7 +14,7 @@ public class FallingPetal extends TextureSheetParticle {
     protected FallingPetal(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
         super(level, x, y, z);
         this.setSprite(spriteSet.get(this.random.nextInt(12), 12));
-        this.gravity = 0.225F;
+        this.gravity = Mth.randomBetween(this.random, 0.25F, 0.38F);;
         this.friction = 1.0F;
         this.xd = xSpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
         this.yd = ySpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;

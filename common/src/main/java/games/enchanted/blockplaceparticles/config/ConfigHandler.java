@@ -37,94 +37,126 @@ public class ConfigHandler {
 
     // Block Interaction Particles
     // snowflake particle
-    public static final int maxSnowflakePlaceParticles_DEFAULT = 2;
+    public static final int maxSnowflakes_onPlace_DEFAULT = 2;
     @SerialEntry
-    public static int maxSnowflakePlaceParticles = maxSnowflakePlaceParticles_DEFAULT;
+    public static int maxSnowflakes_onPlace = maxSnowflakes_onPlace_DEFAULT;
 
-    public static final boolean snowParticleOnBlockPlace_DEFAULT = true;
+    public static final boolean snowflake_onPlace_DEFAULT = true;
     @SerialEntry
-    public static boolean snowParticleOnBlockPlace = snowParticleOnBlockPlace_DEFAULT;
+    public static boolean snowflake_onPlace = snowflake_onPlace_DEFAULT;
 
-    public static final int maxSnowflakeBreakParticles_DEFAULT = 3;
+    public static final int maxSnowflakes_onBreak_DEFAULT = 3;
     @SerialEntry
-    public static int maxSnowflakeBreakParticles = maxSnowflakeBreakParticles_DEFAULT;
+    public static int maxSnowflakes_onBreak = maxSnowflakes_onBreak_DEFAULT;
 
-    public static final boolean snowParticleOnBlockBreak_DEFAULT = true;
+    public static final boolean snowflake_onBreak_DEFAULT = true;
     @SerialEntry
-    public static boolean snowParticleOnBlockBreak = snowParticleOnBlockBreak_DEFAULT;
+    public static boolean snowflake_onBreak = snowflake_onBreak_DEFAULT;
 
-    public static final List<BlockItem> snowParticleBlockItems_DEFAULT = List.of((BlockItem) Items.SNOW, (BlockItem) Items.SNOW_BLOCK, (BlockItem) Items.POWDER_SNOW_BUCKET);
+    public static final List<BlockItem> snowflake_BlockItems_DEFAULT = List.of((BlockItem) Items.SNOW, (BlockItem) Items.SNOW_BLOCK, (BlockItem) Items.POWDER_SNOW_BUCKET);
     @SerialEntry
-    public static List<BlockItem> snowParticleBlockItems = snowParticleBlockItems_DEFAULT;
+    public static List<BlockItem> snowflake_BlockItems = snowflake_BlockItems_DEFAULT;
 
     // cherry petal particle
-    public static final boolean cherryPetalParticleOnBlockPlace_DEFAULT = true;
+    public static final int maxCherryPetals_onPlace_DEFAULT = 2;
     @SerialEntry
-    public static boolean cherryPetalParticleOnBlockPlace = cherryPetalParticleOnBlockPlace_DEFAULT;
+    public static int maxCherryPetals_onPlace = maxCherryPetals_onPlace_DEFAULT;
 
-    public static final boolean cherryPetalParticleOnBlockBreak_DEFAULT = true;
+    public static final boolean cherryPetal_onPlace_DEFAULT = true;
     @SerialEntry
-    public static boolean cherryPetalParticleOnBlockBreak = cherryPetalParticleOnBlockBreak_DEFAULT;
+    public static boolean cherryPetal_onPlace = cherryPetal_onPlace_DEFAULT;
 
-    public static final List<BlockItem> cherryPetalParticleBlockItems_DEFAULT = List.of((BlockItem) Items.CHERRY_LEAVES, (BlockItem) Items.CHERRY_SAPLING, (BlockItem) Items.PINK_PETALS);
+    public static final int maxCherryPetals_onBreak_DEFAULT = 3;
     @SerialEntry
-    public static List<BlockItem> cherryPetalParticleBlockItems = cherryPetalParticleBlockItems_DEFAULT;
+    public static int maxCherryPetals_onBreak = maxCherryPetals_onBreak_DEFAULT;
+
+    public static final boolean cherryPetal_onBreak_DEFAULT = true;
+    @SerialEntry
+    public static boolean cherryPetal_onBreak = cherryPetal_onBreak_DEFAULT;
+
+    public static final List<BlockItem> cherryPetal_BlockItems_DEFAULT = List.of((BlockItem) Items.CHERRY_LEAVES, (BlockItem) Items.CHERRY_SAPLING, (BlockItem) Items.PINK_PETALS);
+    @SerialEntry
+    public static List<BlockItem> cherryPetal_BlockItems = cherryPetal_BlockItems_DEFAULT;
 
     // azalea leaf particle
-    public static final boolean azaleaLeafParticleOnBlockPlace_DEFAULT = true;
+    public static final int maxAzaleaLeaves_onPlace_DEFAULT = 2;
     @SerialEntry
-    public static boolean azaleaLeafParticleOnBlockPlace = azaleaLeafParticleOnBlockPlace_DEFAULT;
+    public static int maxAzaleaLeaves_onPlace = maxAzaleaLeaves_onPlace_DEFAULT;
 
-    public static final boolean azaleaLeafParticleOnBlockBreak_DEFAULT = true;
+    public static final boolean azaleaLeaf_onPlace_DEFAULT = true;
     @SerialEntry
-    public static boolean azaleaLeafParticleOnBlockBreak = azaleaLeafParticleOnBlockBreak_DEFAULT;
+    public static boolean azaleaLeaf_onPlace = azaleaLeaf_onPlace_DEFAULT;
 
-    public static final List<BlockItem> azaleaLeafParticleBlockItems_DEFAULT = List.of((BlockItem) Items.AZALEA, (BlockItem) Items.AZALEA_LEAVES);
+    public static final int maxAzaleaLeaves_onBreak_DEFAULT = 3;
     @SerialEntry
-    public static List<BlockItem> azaleaLeafParticleBlockItems = azaleaLeafParticleBlockItems_DEFAULT;
+    public static int maxAzaleaLeaves_onBreak = maxAzaleaLeaves_onBreak_DEFAULT;
+
+    public static final boolean azaleaLeaf_onBreak_DEFAULT = true;
+    @SerialEntry
+    public static boolean azaleaLeaf_onBreak = azaleaLeaf_onBreak_DEFAULT;
+
+    public static final List<BlockItem> azaleaLeaf_BlockItems_DEFAULT = List.of((BlockItem) Items.AZALEA, (BlockItem) Items.AZALEA_LEAVES);
+    @SerialEntry
+    public static List<BlockItem> azaleaLeaf_BlockItems = azaleaLeaf_BlockItems_DEFAULT;
 
     // flowering azalea leaf particle
-    public static final boolean floweringAzaleaLeafParticleOnBlockPlace_DEFAULT = true;
+    public static final int maxFloweringAzaleaLeaves_onPlace_DEFAULT = 2;
     @SerialEntry
-    public static boolean floweringAzaleaLeafParticleOnBlockPlace = floweringAzaleaLeafParticleOnBlockPlace_DEFAULT;
+    public static int maxFloweringAzaleaLeaves_onPlace = maxFloweringAzaleaLeaves_onPlace_DEFAULT;
 
-    public static final boolean floweringAzaleaLeafParticleOnBlockBreak_DEFAULT = true;
+    public static final boolean floweringAzaleaLeaf_onPlace_DEFAULT = true;
     @SerialEntry
-    public static boolean floweringAzaleaLeafParticleOnBlockBreak = floweringAzaleaLeafParticleOnBlockBreak_DEFAULT;
+    public static boolean floweringAzaleaLeaf_onPlace = floweringAzaleaLeaf_onPlace_DEFAULT;
 
-    public static final List<BlockItem> floweringAzaleaLeafParticleBlockItems_DEFAULT = List.of((BlockItem) Items.FLOWERING_AZALEA, (BlockItem) Items.FLOWERING_AZALEA_LEAVES);
+    public static final int maxFloweringAzaleaLeaves_onBreak_DEFAULT = 3;
     @SerialEntry
-    public static List<BlockItem> floweringAzaleaLeafParticleBlockItems = floweringAzaleaLeafParticleBlockItems_DEFAULT;
+    public static int maxFloweringAzaleaLeaves_onBreak = maxFloweringAzaleaLeaves_onBreak_DEFAULT;
+
+    public static final boolean floweringAzaleaLeaf_onBreak_DEFAULT = true;
+    @SerialEntry
+    public static boolean floweringAzaleaLeaf_onBreak = floweringAzaleaLeaf_onBreak_DEFAULT;
+
+    public static final List<BlockItem> floweringAzaleaLeaf_BlockItems_DEFAULT = List.of((BlockItem) Items.FLOWERING_AZALEA, (BlockItem) Items.FLOWERING_AZALEA_LEAVES);
+    @SerialEntry
+    public static List<BlockItem> floweringAzaleaLeaf_BlockItems = floweringAzaleaLeaf_BlockItems_DEFAULT;
 
     // biome tinted leaf particle
-    public static final boolean biomeTintedLeafParticleOnBlockPlace_DEFAULT = true;
+    public static final int maxTintedLeaves_onPlace_DEFAULT = 2;
     @SerialEntry
-    public static boolean biomeTintedLeafParticleOnBlockPlace = biomeTintedLeafParticleOnBlockPlace_DEFAULT;
+    public static int maxTintedLeaves_onPlace = maxTintedLeaves_onPlace_DEFAULT;
 
-    public static final boolean biomeTintedLeafParticleOnBlockBreak_DEFAULT = true;
+    public static final boolean tintedLeaves_onPlace_DEFAULT = true;
     @SerialEntry
-    public static boolean biomeTintedLeafParticleOnBlockBreak = biomeTintedLeafParticleOnBlockBreak_DEFAULT;
+    public static boolean tintedLeaves_onPlace = tintedLeaves_onPlace_DEFAULT;
 
-    public static final List<BlockItem> biomeTintedLeafParticleBlockItems_DEFAULT = List.of((BlockItem) Items.JUNGLE_LEAVES, (BlockItem) Items.OAK_LEAVES, (BlockItem) Items.SPRUCE_LEAVES, (BlockItem) Items.DARK_OAK_LEAVES, (BlockItem) Items.ACACIA_LEAVES, (BlockItem) Items.BIRCH_LEAVES, (BlockItem) Items.MANGROVE_LEAVES);
+    public static final int maxTintedLeaves_onBreak_DEFAULT = 3;
     @SerialEntry
-    public static List<BlockItem> biomeTintedLeafParticleBlockItems = biomeTintedLeafParticleBlockItems_DEFAULT;
+    public static int maxTintedLeaves_onBreak = maxTintedLeaves_onBreak_DEFAULT;
+
+    public static final boolean tintedLeaves_onBreak_DEFAULT = true;
+    @SerialEntry
+    public static boolean tintedLeaves_onBreak = tintedLeaves_onBreak_DEFAULT;
+
+    public static final List<BlockItem> tintedLeaves_BlockItems_DEFAULT = List.of((BlockItem) Items.JUNGLE_LEAVES, (BlockItem) Items.OAK_LEAVES, (BlockItem) Items.SPRUCE_LEAVES, (BlockItem) Items.DARK_OAK_LEAVES, (BlockItem) Items.ACACIA_LEAVES, (BlockItem) Items.BIRCH_LEAVES, (BlockItem) Items.MANGROVE_LEAVES);
+    @SerialEntry
+    public static List<BlockItem> tintedLeaves_BlockItems = tintedLeaves_BlockItems_DEFAULT;
 
     // default block particle
-    public static final int maxBlockPlaceParticles_DEFAULT = 2;
+    public static final int maxBlock_onPlace_DEFAULT = 2;
     @SerialEntry
-    public static int maxBlockPlaceParticles = maxBlockPlaceParticles_DEFAULT;
+    public static int maxBlock_onPlace = maxBlock_onPlace_DEFAULT;
 
-    public static final boolean blockParticleOnBlockPlace_DEFAULT = true;
+    public static final boolean block_onPlace_DEFAULT = true;
     @SerialEntry
-    public static boolean blockParticleOnBlockPlace = blockParticleOnBlockPlace_DEFAULT;
+    public static boolean block_onPlace = block_onPlace_DEFAULT;
 
-    public static final int maxBlockBreakParticles_DEFAULT = 4;
+    public static final int maxBlock_onBreak_DEFAULT = 4;
     @SerialEntry
-    public static int maxBlockBreakParticles = maxBlockBreakParticles_DEFAULT;
+    public static int maxBlock_onBreak = maxBlock_onBreak_DEFAULT;
 
-    public static final boolean blockParticleOnBlockBreak_DEFAULT = true;
+    public static final boolean block_onBreak_DEFAULT = true;
     @SerialEntry
-    public static boolean blockParticleOnBlockBreak = blockParticleOnBlockBreak_DEFAULT;
+    public static boolean block_onBreak = block_onBreak_DEFAULT;
 
 //    public static final List<BlockItem> blockParticleBlockItemsBlacklist_DEFAULT = List.of();
 //    @SerialEntry
