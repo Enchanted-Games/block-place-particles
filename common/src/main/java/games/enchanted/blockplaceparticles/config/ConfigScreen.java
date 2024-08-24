@@ -5,11 +5,15 @@ import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
 import dev.isxander.yacl3.gui.controllers.dropdown.ItemController;
 import games.enchanted.blockplaceparticles.config.controller.BlockItemController;
+import games.enchanted.blockplaceparticles.config.controller.FluidController;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -52,6 +56,11 @@ public class ConfigScreen {
 
                     .build())
                 .build())
+
+                .group( createFluidListOption(
+                    Component.literal("Fluids Test"),
+                    ConfigHandler.test_fluids_DEFAULT, () -> ConfigHandler.test_fluids, newVal -> ConfigHandler.test_fluids = newVal
+                ))
 
                 // snowflake particles
                 .group( createParticleToggleAndMaxConfigGroup(
@@ -178,6 +187,17 @@ public class ConfigScreen {
             .initial((BlockItem) Items.STONE)
         .build();
     }
+
+    private static ListOption<Fluid> createFluidListOption(Component particleName, List<Fluid> defaultValue, Supplier<List<Fluid>> getter, Consumer<List<Fluid>> setter) {
+        return ListOption.<Fluid>createBuilder()
+            .name(createPlaceholderTranslatedFallbackComponent("placeholder.blocks", "%s Blocks", particleName.getString()))
+            .description(OptionDescription.of(createPlaceholderTranslatedFallbackComponent("placeholder.1", "Blocks that should spawn %s particles when broken or placed. \n\nA block must have a registered BlockItem to appear in this list", particleName.getString())))
+            .binding(defaultValue, getter, setter)
+            .customController(FluidController::new)
+            .initial(Fluids.WATER)
+            .build();
+    }
+
 
     private static Component createPlaceholderTranslatedFallbackComponent(String translationKey, String translationFallback, Object... args) {
         return Component.literal(Component.translatableWithFallback(translationKey, translationFallback).getString().formatted(args));

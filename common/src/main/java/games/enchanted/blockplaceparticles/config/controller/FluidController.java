@@ -9,35 +9,36 @@ import dev.isxander.yacl3.gui.utils.ItemRegistryHelper;
 import games.enchanted.blockplaceparticles.config.util.RegistryHelper;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.MobBucketItem;
+import net.minecraft.world.level.material.Fluid;
 
-public class BlockItemController extends AbstractDropdownController<BlockItem> {
-    public BlockItemController(Option<BlockItem> option) {
+public class FluidController extends AbstractDropdownController<Fluid> {
+    public FluidController(Option<Fluid> option) {
         super(option);
     }
 
     @Override
     public String getString() {
-        return option().pendingValue().toString();
+        return BuiltInRegistries.FLUID.getKey(option().pendingValue()).toString();
     }
 
     @Override
     public void setFromString(String value) {
         if(isValueValid(value)) {
-            option.requestSet(RegistryHelper.getDefaultedBlockItem(value, null));
+            option.requestSet(RegistryHelper.getDefaultedFluid(value, null));
         }
     }
 
     @Override
     public boolean isValueValid(String value) {
-        BlockItem blockItemFromValue = RegistryHelper.getDefaultedBlockItem(value, null);
-        return blockItemFromValue != null;
+        Fluid fluidFromValue = RegistryHelper.getDefaultedFluid(value, null);
+        return fluidFromValue != null;
     }
 
     @Override
     protected String getValidValue(String value, int offset) {
-        return ItemRegistryHelper.getMatchingItemIdentifiers(value)
-            .filter(resourceLocation -> BuiltInRegistries.ITEM.get(resourceLocation) instanceof BlockItem)
+        return RegistryHelper.getMatchingIdentifiers(value, BuiltInRegistries.FLUID)
             .skip(offset)
             .findFirst()
             .map(ResourceLocation::toString)
@@ -46,6 +47,6 @@ public class BlockItemController extends AbstractDropdownController<BlockItem> {
 
     @Override
     public AbstractWidget provideWidget(YACLScreen screen, Dimension<Integer> widgetDimension) {
-        return new BlockItemControllerElement(this, screen, widgetDimension);
+        return new FluidControllerElement(this, screen, widgetDimension);
     }
 }

@@ -4,11 +4,14 @@ import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
+import games.enchanted.blockplaceparticles.config.adapters.FluidTypeAdapter;
 import games.enchanted.blockplaceparticles.platform.Services;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -19,6 +22,7 @@ public class ConfigHandler {
     public static final ConfigClassHandler<ConfigHandler> HANDLER = ConfigClassHandler.createBuilder(ConfigHandler.class)
         .id(ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "config"))
         .serializer(config -> GsonConfigSerializerBuilder.create(config)
+            .appendGsonBuilder(builder -> builder.registerTypeAdapter(Fluid.class, new FluidTypeAdapter()))
             .setPath(CONFIG_PATH)
             .build())
         .build();
@@ -170,4 +174,9 @@ public class ConfigHandler {
     public static BlockItem testValue = (BlockItem) Items.ACACIA_FENCE;
     @SerialEntry
     public static Item testValueItem = Items.SPONGE;
+
+    public static final List<Fluid> test_fluids_DEFAULT = List.of(Fluids.WATER);
+    @SerialEntry
+    public static List<Fluid> test_fluids = test_fluids_DEFAULT;
+
 }
