@@ -1,5 +1,6 @@
 package games.enchanted.blockplaceparticles.config.util;
 
+import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.core.DefaultedRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -55,9 +56,9 @@ public class RegistryHelper {
 
     public static Fluid getDefaultedFluid(String location, Fluid defaultItem) {
         try {
-            ResourceLocation itemLocation = ResourceLocation.parse(location.toLowerCase());
-            if (BuiltInRegistries.FLUID.containsKey(itemLocation)) {
-                return BuiltInRegistries.FLUID.get(itemLocation);
+            ResourceLocation fluidLocation = ResourceLocation.parse(location.toLowerCase());
+            if (BuiltInRegistries.FLUID.containsKey(fluidLocation)) {
+                return BuiltInRegistries.FLUID.get(fluidLocation);
             }
         } catch (ResourceLocationException ignored) {}
         return defaultItem;

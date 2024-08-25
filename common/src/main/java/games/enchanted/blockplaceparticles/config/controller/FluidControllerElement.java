@@ -5,7 +5,6 @@ import dev.isxander.yacl3.gui.YACLScreen;
 import games.enchanted.blockplaceparticles.config.controller.generic.GenericListControllerElement;
 import games.enchanted.blockplaceparticles.config.util.RegistryHelper;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;

@@ -162,6 +162,35 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean block_onBreak = block_onBreak_DEFAULT;
 
+    // Fluid Placement Particles
+    // water
+    public static final List<Fluid> waterSplash_fluids_DEFAULT = List.of(Fluids.WATER, Fluids.FLOWING_WATER);
+    @SerialEntry
+    public static List<Fluid> waterSplash_fluids = waterSplash_fluids_DEFAULT;
+
+    public static final int maxWaterSplash_onPlace_DEFAULT = 10;
+    @SerialEntry
+    public static int maxWaterSplash_onPlace = maxWaterSplash_onPlace_DEFAULT;
+
+    public static final boolean waterSplash_onPlace_DEFAULT = true;
+    @SerialEntry
+    public static boolean waterSplash_onPlace = waterSplash_onPlace_DEFAULT;
+
+    // lava
+    public static final List<Fluid> lavaSplash_fluids_DEFAULT = List.of(Fluids.LAVA, Fluids.FLOWING_LAVA);
+    @SerialEntry
+    public static List<Fluid> lavaSplash_fluids = lavaSplash_fluids_DEFAULT;
+
+    public static final int maxLavaSplash_onPlace_DEFAULT = 10;
+    @SerialEntry
+    public static int maxLavaSplash_onPlace = maxLavaSplash_onPlace_DEFAULT;
+
+    public static final boolean lavaSplash_onPlace_DEFAULT = true;
+    @SerialEntry
+    public static boolean lavaSplash_onPlace = lavaSplash_onPlace_DEFAULT;
+
+    // lava
+
 //    public static final List<BlockItem> blockParticleBlockItemsBlacklist_DEFAULT = List.of();
 //    @SerialEntry
 //    public static List<BlockItem> blockParticleBlockItemsBlacklist = blockParticleBlockItemsBlacklist_DEFAULT;
@@ -174,9 +203,4 @@ public class ConfigHandler {
     public static BlockItem testValue = (BlockItem) Items.ACACIA_FENCE;
     @SerialEntry
     public static Item testValueItem = Items.SPONGE;
-
-    public static final List<Fluid> test_fluids_DEFAULT = List.of(Fluids.WATER);
-    @SerialEntry
-    public static List<Fluid> test_fluids = test_fluids_DEFAULT;
-
 }

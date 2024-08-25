@@ -197,20 +197,27 @@ public class SpawnParticles {
         if (placedFluid.isSame(Fluids.EMPTY)) {
             return;
         }
-        ResourceLocation loc = null;
-        try {
-            loc = ResourceLocation.parse("abc:test");
-        } catch (ResourceLocationException exception) {
-            ParticleInteractionsLogging.message(exception.getMessage());
+
+        FluidPlacementParticle particleOverride = FluidPlacementParticle.getParticleForFluid(placedFluid);
+
+        ParticleOptions particleOption;
+        if (particleOverride == FluidPlacementParticle.NONE) {
             return;
+        } else if(particleOverride.isBlockStateParticle()) {
+            particleOption = particleOverride.getBlockParticleOption(placedFluid.defaultFluidState().createLegacyBlock());
+        }else {
+            particleOption = particleOverride.getParticleOption();
         }
-        ParticleInteractionsLogging.message(loc.toString());
-        ParticleOptions fluidParticle = placedFluid.defaultFluidState().getDripParticle();
-        for (int i = 0; i < 6; i++) {
+
+        if(particleOption == null) return;
+
+        int maxParticles = FluidPlacementParticle.getParticleMultiplier(particleOverride, true);
+
+        for (int i = 0; i < maxParticles; i++) {
             double x = particlePos.getX() + levelAccessor.getRandom().nextDouble();
-            double y = particlePos.getY() + (double) 13/16;
+            double y = particlePos.getY() + (levelAccessor.getRandom().nextDouble() / 1.5) + 0.6;
             double z = particlePos.getZ() + levelAccessor.getRandom().nextDouble();
-            levelAccessor.addParticle(fluidParticle, x, y, z, 0.0, 0.05, 0.0);
+            levelAccessor.addParticle(particleOption, x, y, z, 0.0, 0.2, 0.0);
         }
     }
 

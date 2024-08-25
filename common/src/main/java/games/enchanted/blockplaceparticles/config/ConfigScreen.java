@@ -9,7 +9,6 @@ import games.enchanted.blockplaceparticles.config.controller.FluidController;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
@@ -17,6 +16,7 @@ import net.minecraft.world.level.material.Fluids;
 
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class ConfigScreen {
@@ -56,11 +56,6 @@ public class ConfigScreen {
 
                     .build())
                 .build())
-
-                .group( createFluidListOption(
-                    Component.literal("Fluids Test"),
-                    ConfigHandler.test_fluids_DEFAULT, () -> ConfigHandler.test_fluids, newVal -> ConfigHandler.test_fluids = newVal
-                ))
 
                 // snowflake particles
                 .group( createParticleToggleAndMaxConfigGroup(
@@ -137,8 +132,60 @@ public class ConfigScreen {
                 ))
 
             .build())
+
+            .category(ConfigCategory.createBuilder()
+                .name(Component.literal("Fluid Particles"))
+                .tooltip(Component.literal("Configure how particles are emitted when placing fluids"))
+
+                .group(OptionGroup.createBuilder()
+                    .name(Component.literal("-- Information --"))
+                    .description(OptionDescription.of(Component.literal("infotext")))
+                    .collapsed(true)
+                    .option(LabelOption.createBuilder()
+
+                    .build())
+                .build())
+
+                // water splash
+                .group( createFluidParticleToggleAndMaxConfigGroup(
+                    Component.literal("Water Splash"),
+                    Binding.generic(ConfigHandler.waterSplash_onPlace_DEFAULT, () -> ConfigHandler.waterSplash_onPlace, newVal -> ConfigHandler.waterSplash_onPlace = newVal),
+                    maxParticlesOnPlaceOption(ConfigHandler.maxWaterSplash_onPlace_DEFAULT, () -> ConfigHandler.maxWaterSplash_onPlace, newVal -> ConfigHandler.maxWaterSplash_onPlace = newVal)
+                ))
+                .group( createFluidListOption(
+                    Component.literal("Water Splash"),
+                    ConfigHandler.waterSplash_fluids_DEFAULT, () -> ConfigHandler.waterSplash_fluids, newVal -> ConfigHandler.waterSplash_fluids = newVal
+                ))
+
+                // lava splash
+                .group( createFluidParticleToggleAndMaxConfigGroup(
+                    Component.literal("Lava Splash"),
+                    Binding.generic(ConfigHandler.lavaSplash_onPlace_DEFAULT, () -> ConfigHandler.lavaSplash_onPlace, newVal -> ConfigHandler.lavaSplash_onPlace = newVal),
+                    maxParticlesOnPlaceOption(ConfigHandler.maxLavaSplash_onPlace_DEFAULT, () -> ConfigHandler.maxLavaSplash_onPlace, newVal -> ConfigHandler.maxLavaSplash_onPlace = newVal)
+                ))
+                .group( createFluidListOption(
+                    Component.literal("Lava Splash"),
+                    ConfigHandler.lavaSplash_fluids_DEFAULT, () -> ConfigHandler.lavaSplash_fluids, newVal -> ConfigHandler.lavaSplash_fluids = newVal
+                ))
+
+            .build())
+
         .build()
         .generateScreen(parentScreen);
+    }
+
+    private static OptionGroup createFluidParticleToggleAndMaxConfigGroup(Component particleName, Binding<Boolean> spawnOnFluidPlaceBinding, Option<Integer> maxPlaceParticlesOption) {
+        return OptionGroup.createBuilder()
+            .name(createPlaceholderTranslatedFallbackComponent("placeholder.particles", "%s Particles", particleName.getString()))
+            .description(OptionDescription.of(createPlaceholderTranslatedFallbackComponent("placeholder.1", "When %s particles should be spawned", particleName.getString())))
+            .option(Option.<Boolean>createBuilder()
+                .name(Component.literal("Spawn when Fluid Placed"))
+                .description(OptionDescription.of(createPlaceholderTranslatedFallbackComponent("placeholder.1", "Should %s particles spawn when a fluid is placed?", particleName.getString())))
+                .binding(spawnOnFluidPlaceBinding)
+                .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
+                .build())
+            .option(maxPlaceParticlesOption)
+            .build();
     }
 
     private static OptionGroup createParticleToggleAndMaxConfigGroup(Component particleName, Binding<Boolean> spawnOnBlockPlaceBinding, Option<Integer> maxPlaceParticlesOption, Binding<Boolean> spawnOnBlockBreakBinding, Option<Integer> maxBreakParticlesOption) {
@@ -168,7 +215,6 @@ public class ConfigScreen {
     private static Option<Integer> maxParticlesOnBreakOption(int maxParticlesDefault, Supplier<Integer> getter, Consumer<Integer> setter) {
         return createIntegerOption(maxParticlesDefault, getter, setter, Component.literal("Amount of Particles when Broken"), Component.literal("The maximum amount of particles that can spawn in a 3D grid in the shape of the broken block\n\n This value is ignored if 'Spawn when Block Broken' is off"), 2, 8, 1);
     }
-
     private static Option<Integer> createIntegerOption(int defaultValue, Supplier<Integer> getter, Consumer<Integer> setter, Component name, Component description, int min, int max, int step) {
         return Option.<Integer>createBuilder()
             .name(name)
@@ -179,25 +225,20 @@ public class ConfigScreen {
     }
 
     private static ListOption<BlockItem> createBlockItemListOption(Component particleName, List<BlockItem> defaultValue, Supplier<List<BlockItem>> getter, Consumer<List<BlockItem>> setter) {
-        return ListOption.<BlockItem>createBuilder()
+        return createListOption((BlockItem) Items.STONE, BlockItemController::new, particleName, defaultValue, getter, setter);
+    }
+    private static ListOption<Fluid> createFluidListOption(Component particleName, List<Fluid> defaultValue, Supplier<List<Fluid>> getter, Consumer<List<Fluid>> setter) {
+        return createListOption(Fluids.EMPTY, FluidController::new, particleName, defaultValue, getter, setter);
+    }
+    private static <T> ListOption<T> createListOption(T initial, Function<ListOptionEntry<T>, Controller<T>> controller, Component particleName, List<T> defaultValue, Supplier<List<T>> getter, Consumer<List<T>> setter) {
+        return ListOption.<T>createBuilder()
             .name(createPlaceholderTranslatedFallbackComponent("placeholder.blocks", "%s Blocks", particleName.getString()))
             .description(OptionDescription.of(createPlaceholderTranslatedFallbackComponent("placeholder.1", "Blocks that should spawn %s particles when broken or placed. \n\nA block must have a registered BlockItem to appear in this list", particleName.getString())))
             .binding(defaultValue, getter, setter)
-            .customController(BlockItemController::new)
-            .initial((BlockItem) Items.STONE)
+            .customController(controller)
+            .initial(initial)
         .build();
     }
-
-    private static ListOption<Fluid> createFluidListOption(Component particleName, List<Fluid> defaultValue, Supplier<List<Fluid>> getter, Consumer<List<Fluid>> setter) {
-        return ListOption.<Fluid>createBuilder()
-            .name(createPlaceholderTranslatedFallbackComponent("placeholder.blocks", "%s Blocks", particleName.getString()))
-            .description(OptionDescription.of(createPlaceholderTranslatedFallbackComponent("placeholder.1", "Blocks that should spawn %s particles when broken or placed. \n\nA block must have a registered BlockItem to appear in this list", particleName.getString())))
-            .binding(defaultValue, getter, setter)
-            .customController(FluidController::new)
-            .initial(Fluids.WATER)
-            .build();
-    }
-
 
     private static Component createPlaceholderTranslatedFallbackComponent(String translationKey, String translationFallback, Object... args) {
         return Component.literal(Component.translatableWithFallback(translationKey, translationFallback).getString().formatted(args));
