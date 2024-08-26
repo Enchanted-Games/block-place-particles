@@ -1,11 +1,10 @@
-package games.enchanted.blockplaceparticles.mixin;
+package games.enchanted.blockplaceparticles.mixin.items;
 
 import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import games.enchanted.blockplaceparticles.particle_spawning.SpawnParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -15,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(BlockItem.class)
-public abstract class BlockItemMixin {
+@Mixin(net.minecraft.world.item.BlockItem.class)
+public abstract class BlockItem {
     @Shadow public abstract Block getBlock();
 
     @Inject(

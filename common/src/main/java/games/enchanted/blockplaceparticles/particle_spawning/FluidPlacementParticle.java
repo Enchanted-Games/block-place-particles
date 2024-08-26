@@ -5,9 +5,6 @@ import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.NotNull;
@@ -15,8 +12,9 @@ import org.jetbrains.annotations.Nullable;
 
 public enum FluidPlacementParticle {
     NONE("none"),
-    TINTED_WATER("tinted_water", ParticleTypes.SPLASH, false),
-    LAVA("lava", ModParticleTypes.LAVA_BUCKET_SPLASH, false);
+    TINTED_WATER("tinted_water", ModParticleTypes.WATER_BUCKET_TINTED_SPLASH, true),
+    LAVA("lava", ModParticleTypes.LAVA_BUCKET_SPLASH, false),
+    GENERIC("generic", ModParticleTypes.GENERIC_FLUID_BUCKET_SPLASH, true);
 
     private final String name;
     @Nullable private ParticleOptions particleType;
@@ -77,10 +75,12 @@ public enum FluidPlacementParticle {
     }
 
     public static FluidPlacementParticle getParticleForFluid(Fluid fluid, boolean isFluidBeingPlaced) {
-        if (ConfigHandler.waterSplash_fluids.contains(fluid) && shouldHaveParticle(isFluidBeingPlaced, ConfigHandler.waterSplash_onPlace)) {
+        if (ConfigHandler.tintedWaterSplash_fluids.contains(fluid) && shouldHaveParticle(isFluidBeingPlaced, ConfigHandler.tintedWaterSplash_onPlace)) {
             return TINTED_WATER;
         } else if (ConfigHandler.lavaSplash_fluids.contains(fluid) && shouldHaveParticle(isFluidBeingPlaced, ConfigHandler.lavaSplash_onPlace)) {
             return LAVA;
+        } else if (ConfigHandler.genericSplash_fluids.contains(fluid) && shouldHaveParticle(isFluidBeingPlaced, ConfigHandler.genericSplash_onPlace)) {
+            return GENERIC;
         }
         return NONE;
     }
@@ -95,10 +95,13 @@ public enum FluidPlacementParticle {
     public static int getParticleMultiplier(FluidPlacementParticle fluidPlacementParticle, boolean isBlockBeingPlaced) {
         switch (fluidPlacementParticle) {
             case TINTED_WATER -> {
-                return getAppropriateMultiplier(isBlockBeingPlaced, ConfigHandler.maxWaterSplash_onPlace, 0);
+                return getAppropriateMultiplier(isBlockBeingPlaced, ConfigHandler.maxTintedWaterSplash_onPlace, 0);
             }
             case LAVA -> {
                 return getAppropriateMultiplier(isBlockBeingPlaced, ConfigHandler.maxLavaSplash_onPlace, 0);
+            }
+            case GENERIC -> {
+                return getAppropriateMultiplier(isBlockBeingPlaced, ConfigHandler.maxGenericSplash_onPlace, 0);
             }
             default -> {
                 return 2;

@@ -7,9 +7,11 @@
   "mixins": [
   ],
   "client": [
-    "BlockItemMixin",
+    "AbstractCauldronBlockMixin",
+    "items.BlockItem",
     "ParticleEngineMixin",
     "ParticleMixin",
+    "accessor.BucketItemAccessor",
     "items.BucketItem",
     "items.FireChargeItem",
     "items.FlintAndSteelItem",

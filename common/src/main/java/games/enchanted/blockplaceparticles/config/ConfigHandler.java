@@ -164,17 +164,17 @@ public class ConfigHandler {
 
     // Fluid Placement Particles
     // water
-    public static final List<Fluid> waterSplash_fluids_DEFAULT = List.of(Fluids.WATER, Fluids.FLOWING_WATER);
+    public static final List<Fluid> tintedWaterSplash_fluids_DEFAULT = List.of(Fluids.WATER, Fluids.FLOWING_WATER);
     @SerialEntry
-    public static List<Fluid> waterSplash_fluids = waterSplash_fluids_DEFAULT;
+    public static List<Fluid> tintedWaterSplash_fluids = tintedWaterSplash_fluids_DEFAULT;
 
-    public static final int maxWaterSplash_onPlace_DEFAULT = 10;
+    public static final int maxTintedWaterSplash_onPlace_DEFAULT = 10;
     @SerialEntry
-    public static int maxWaterSplash_onPlace = maxWaterSplash_onPlace_DEFAULT;
+    public static int maxTintedWaterSplash_onPlace = maxTintedWaterSplash_onPlace_DEFAULT;
 
-    public static final boolean waterSplash_onPlace_DEFAULT = true;
+    public static final boolean tintedWaterSplash_onPlace_DEFAULT = true;
     @SerialEntry
-    public static boolean waterSplash_onPlace = waterSplash_onPlace_DEFAULT;
+    public static boolean tintedWaterSplash_onPlace = tintedWaterSplash_onPlace_DEFAULT;
 
     // lava
     public static final List<Fluid> lavaSplash_fluids_DEFAULT = List.of(Fluids.LAVA, Fluids.FLOWING_LAVA);
@@ -188,6 +188,19 @@ public class ConfigHandler {
     public static final boolean lavaSplash_onPlace_DEFAULT = true;
     @SerialEntry
     public static boolean lavaSplash_onPlace = lavaSplash_onPlace_DEFAULT;
+
+    // generic
+    public static final List<Fluid> genericSplash_fluids_DEFAULT = List.of();
+    @SerialEntry
+    public static List<Fluid> genericSplash_fluids = genericSplash_fluids_DEFAULT;
+
+    public static final int maxGenericSplash_onPlace_DEFAULT = 10;
+    @SerialEntry
+    public static int maxGenericSplash_onPlace = maxGenericSplash_onPlace_DEFAULT;
+
+    public static final boolean genericSplash_onPlace_DEFAULT = true;
+    @SerialEntry
+    public static boolean genericSplash_onPlace = genericSplash_onPlace_DEFAULT;
 
     // lava
 

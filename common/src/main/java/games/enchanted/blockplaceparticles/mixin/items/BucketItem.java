@@ -29,7 +29,7 @@ public abstract class BucketItem {
             FluidState placedFluidState = content.defaultFluidState();
 
             if(!(levelAccessor.dimensionType().ultraWarm() && placedFluidState.is(FluidTags.WATER))) {
-                ParticleInteractionsLogging.debugInfo("Bucket of " + placedFluid.builtInRegistryHolder().key() + " placed at " + fluidPos.toShortString());
+                ParticleInteractionsLogging.debugInfo("Bucket of " + placedFluid.builtInRegistryHolder().key().location() + " placed at " + fluidPos.toShortString());
                 SpawnParticles.spawnFluidPlacedParticle(levelAccessor, fluidPos, placedFluid);
             }
         }

@@ -146,15 +146,15 @@ public class ConfigScreen {
                     .build())
                 .build())
 
-                // water splash
+                // tinted water splash
                 .group( createFluidParticleToggleAndMaxConfigGroup(
-                    Component.literal("Water Splash"),
-                    Binding.generic(ConfigHandler.waterSplash_onPlace_DEFAULT, () -> ConfigHandler.waterSplash_onPlace, newVal -> ConfigHandler.waterSplash_onPlace = newVal),
-                    maxParticlesOnPlaceOption(ConfigHandler.maxWaterSplash_onPlace_DEFAULT, () -> ConfigHandler.maxWaterSplash_onPlace, newVal -> ConfigHandler.maxWaterSplash_onPlace = newVal)
+                    Component.literal("Biome Tinted Splash"),
+                    Binding.generic(ConfigHandler.tintedWaterSplash_onPlace_DEFAULT, () -> ConfigHandler.tintedWaterSplash_onPlace, newVal -> ConfigHandler.tintedWaterSplash_onPlace = newVal),
+                    maxParticlesOnPlaceOption(ConfigHandler.maxTintedWaterSplash_onPlace_DEFAULT, () -> ConfigHandler.maxTintedWaterSplash_onPlace, newVal -> ConfigHandler.maxTintedWaterSplash_onPlace = newVal)
                 ))
                 .group( createFluidListOption(
-                    Component.literal("Water Splash"),
-                    ConfigHandler.waterSplash_fluids_DEFAULT, () -> ConfigHandler.waterSplash_fluids, newVal -> ConfigHandler.waterSplash_fluids = newVal
+                    Component.literal("Biome Tinted Splash"),
+                    ConfigHandler.tintedWaterSplash_fluids_DEFAULT, () -> ConfigHandler.tintedWaterSplash_fluids, newVal -> ConfigHandler.tintedWaterSplash_fluids = newVal
                 ))
 
                 // lava splash
@@ -166,6 +166,17 @@ public class ConfigScreen {
                 .group( createFluidListOption(
                     Component.literal("Lava Splash"),
                     ConfigHandler.lavaSplash_fluids_DEFAULT, () -> ConfigHandler.lavaSplash_fluids, newVal -> ConfigHandler.lavaSplash_fluids = newVal
+                ))
+
+                // generic splash
+                .group( createFluidParticleToggleAndMaxConfigGroup(
+                    Component.literal("Generic Splash"),
+                    Binding.generic(ConfigHandler.genericSplash_onPlace_DEFAULT, () -> ConfigHandler.genericSplash_onPlace, newVal -> ConfigHandler.genericSplash_onPlace = newVal),
+                    maxParticlesOnPlaceOption(ConfigHandler.maxGenericSplash_onPlace_DEFAULT, () -> ConfigHandler.maxGenericSplash_onPlace, newVal -> ConfigHandler.maxGenericSplash_onPlace = newVal)
+                ))
+                .group( createFluidListOption(
+                    Component.literal("Generic Splash"),
+                    ConfigHandler.genericSplash_fluids_DEFAULT, () -> ConfigHandler.genericSplash_fluids, newVal -> ConfigHandler.genericSplash_fluids = newVal
                 ))
 
             .build())

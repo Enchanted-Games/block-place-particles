@@ -1,32 +1,23 @@
 package games.enchanted.blockplaceparticles.particle_spawning;
 
-import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import games.enchanted.blockplaceparticles.util.BiomeTemperatureHelpers;
-import net.minecraft.ResourceLocationException;
+import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import games.enchanted.blockplaceparticles.util.MathHelpers;
-
-import java.util.Optional;
-
 public class SpawnParticles {
-    public static void spawnBlockPlaceParticle(ClientLevel level, BlockPos blockPos) {
-        BlockState placedBlockState = level.getBlockState(blockPos);
-
+    public static void spawnBlockPlaceParticle(ClientLevel level, BlockPos blockPos, BlockState placedBlockState) {
         BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(placedBlockState);
         ParticleOptions particleOption;
         if (particleOverride == BlockParticleOverride.NONE) {
@@ -94,6 +85,10 @@ public class SpawnParticles {
                 }
             });
         }
+    }
+    public static void spawnBlockPlaceParticle(ClientLevel level, BlockPos blockPos) {
+        BlockState placedBlockState = level.getBlockState(blockPos);
+        spawnBlockPlaceParticle(level, blockPos, placedBlockState);
     }
 
     public static void spawnBlockBreakParticle(ClientLevel level, BlockState brokenBlockState, BlockPos brokenBlockPos, BlockParticleOverride particleOverride) {
@@ -217,7 +212,7 @@ public class SpawnParticles {
             double x = particlePos.getX() + levelAccessor.getRandom().nextDouble();
             double y = particlePos.getY() + (levelAccessor.getRandom().nextDouble() / 1.5) + 0.6;
             double z = particlePos.getZ() + levelAccessor.getRandom().nextDouble();
-            levelAccessor.addParticle(particleOption, x, y, z, 0.0, 0.2, 0.0);
+            levelAccessor.addParticle(particleOption, x, y, z, 0.0, 0.21, 0.0);
         }
     }
 
