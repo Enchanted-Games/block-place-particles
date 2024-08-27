@@ -19,11 +19,12 @@ public class FallingPetal extends TextureSheetParticle {
         this.xd = xSpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
         this.yd = ySpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
         this.zd = zSpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
-        float particleSize = this.random.nextBoolean() ? 0.05F : 0.075F;
-        this.quadSize = particleSize;
-        this.setSize(particleSize, particleSize);
         this.lifetime = (int)(16.0 / ((double)this.random.nextFloat() * 0.8 + 0.2)) + 2;
         this.spinAcceleration = (float)Math.toRadians(this.random.nextBoolean() ? -5.0 : 5.0);
+
+        float particleSize = this.random.nextBoolean() ? 0.07F : 0.08F;
+        this.quadSize = particleSize;
+        this.setSize(particleSize, particleSize);
     }
 
     @Override
@@ -32,8 +33,6 @@ public class FallingPetal extends TextureSheetParticle {
         this.oRoll = this.roll;
         if(!this.onGround) {
             this.roll += this.rotSpeed / 5.0F;
-        } else {
-            this.roll += this.rotSpeed / 80.0F;
         }
 
         this.xd *= 0.949999988079071;

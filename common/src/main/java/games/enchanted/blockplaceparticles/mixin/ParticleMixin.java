@@ -21,7 +21,7 @@ public abstract class ParticleMixin {
      */
     @Inject(at = @At("TAIL"), method = "tick()V")
     public void adjustParticleYWhenLanded(CallbackInfo ci) {
-        if ( this.hasPhysics && this.stoppedByCollision && !this.block_place_particle$hasLanded) {
+        if ( this.hasPhysics && this.stoppedByCollision && !this.block_place_particle$hasLanded ) {
             this.block_place_particle$hasLanded = true;
             this.y += 0.0001;
         }

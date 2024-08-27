@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class FluidControllerElement extends GenericListControllerElement<Fluid, 
         currentItem = getDefaultedFluid(inputField, null);
         for (ResourceLocation resourceLocation : resourceLocations) {
             Fluid fluidFromLocation = BuiltInRegistries.FLUID.get(resourceLocation);
+            if(fluidFromLocation == Fluids.EMPTY) continue;
             matchingItems.put(resourceLocation, fluidFromLocation);
             fluidLocations.add(resourceLocation);
         }

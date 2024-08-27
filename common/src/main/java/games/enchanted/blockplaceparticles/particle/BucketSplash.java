@@ -18,24 +18,24 @@ public class BucketSplash extends TextureSheetParticle {
         this.xd = xSpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
         this.yd = ySpeed + (Math.random() - 0.5) * ((this.random.nextFloat() * 0.5f) - 0.3F);
         this.zd = zSpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
-        this.quadSize = (float) 0.1475 - (this.random.nextBoolean() ? 0.01f : 0.02f);
         this.lifetime = (int)(16.0 / (Math.random() * 0.8 + 0.2));
+
+        float particleSize = (float) 0.1355 - (this.random.nextBoolean() ? 0.01f : 0.0f);
+        this.quadSize = particleSize;
+        this.setSize(particleSize, particleSize);
     }
 
     @Override
     public void tick() {
         super.tick();
-//        if (!this.removed) {
-//            float timeAlive = (float)this.age / (float)this.lifetime;
-//            if (this.random.nextFloat() > timeAlive) {
-//                this.level.addParticle(ParticleTypes.SMOKE, this.x, this.y, this.z, this.xd, this.yd, this.zd);
-//            }
-//        }
+        if (!this.removed && this.onGround && this.random.nextFloat() > 0.8f) {
+            this.remove();
+        }
     }
 
     @Override
     public @NotNull ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

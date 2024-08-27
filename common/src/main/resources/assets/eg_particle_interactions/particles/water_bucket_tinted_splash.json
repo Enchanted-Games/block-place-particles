@@ -1,5 +1,8 @@
 {
   "textures": [
-    ""
+    "eg_particle_interactions:water_bucket_tinted_splash/0",
+    "eg_particle_interactions:water_bucket_tinted_splash/1",
+    "eg_particle_interactions:water_bucket_tinted_splash/2",
+    "eg_particle_interactions:water_bucket_tinted_splash/3"
   ]
 }

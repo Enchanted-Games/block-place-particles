@@ -201,19 +201,4 @@ public class ConfigHandler {
     public static final boolean genericSplash_onPlace_DEFAULT = true;
     @SerialEntry
     public static boolean genericSplash_onPlace = genericSplash_onPlace_DEFAULT;
-
-    // lava
-
-//    public static final List<BlockItem> blockParticleBlockItemsBlacklist_DEFAULT = List.of();
-//    @SerialEntry
-//    public static List<BlockItem> blockParticleBlockItemsBlacklist = blockParticleBlockItemsBlacklist_DEFAULT;
-//
-//    public static final boolean blockParticleBlockItemsAsWhitelist_DEFAULT = false;
-//    @SerialEntry
-//    public static boolean blockParticleBlockItemsAsWhitelist = blockParticleBlockItemsAsWhitelist_DEFAULT;
-
-    @SerialEntry
-    public static BlockItem testValue = (BlockItem) Items.ACACIA_FENCE;
-    @SerialEntry
-    public static Item testValueItem = Items.SPONGE;
 }

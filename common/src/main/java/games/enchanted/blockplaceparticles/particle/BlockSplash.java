@@ -29,6 +29,10 @@ public class BlockSplash extends BucketSplash {
         this.rCol *= (float)(tintColour >> 16 & 0xFF) / 255.0F;
         this.gCol *= (float)(tintColour >> 8 & 0xFF) / 255.0F;
         this.bCol *= (float)(tintColour & 0xFF) / 255.0F;
+
+        float particleSize = (float) 0.1255 - (this.random.nextBoolean() ? 0.01f : 0.02f);
+        this.quadSize = particleSize;
+        this.setSize(particleSize, particleSize);
     }
 
     @Override
