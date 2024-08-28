@@ -33,8 +33,8 @@ public class FluidControllerElement extends GenericListControllerElement<Fluid, 
         return fluidLocations;
     }
 
-    Fluid getDefaultedFluid(String location, Fluid defaultItem) {
-        return RegistryHelper.getDefaultedFluid(location, defaultItem);
+    Fluid getDefaultedFluid(String location, Fluid defaultFluid) {
+        return RegistryHelper.getDefaultedFluid(location, defaultFluid);
     }
 
     @Override
@@ -44,6 +44,6 @@ public class FluidControllerElement extends GenericListControllerElement<Fluid, 
 
     @Override
     public Component getRenderedValueText() {
-        return Component.literal(BuiltInRegistries.FLUID.getKey(getController().option().pendingValue()).toString());
+        return Component.translatable(getController().option().pendingValue().defaultFluidState().createLegacyBlock().getBlock().getDescriptionId());
     }
 }
