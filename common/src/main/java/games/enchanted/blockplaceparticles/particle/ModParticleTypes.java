@@ -2,6 +2,12 @@ package games.enchanted.blockplaceparticles.particle;
 
 import com.mojang.serialization.MapCodec;
 import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
+import games.enchanted.blockplaceparticles.particle.petal.FallingPetal;
+import games.enchanted.blockplaceparticles.particle.petal.FallingTintedPetal;
+import games.enchanted.blockplaceparticles.particle.splash.BlockSplash;
+import games.enchanted.blockplaceparticles.particle.splash.BucketSplash;
+import games.enchanted.blockplaceparticles.particle.splash.BucketTintedSplash;
+import games.enchanted.blockplaceparticles.particle.splash.LavaSplash;
 import games.enchanted.blockplaceparticles.platform.Services;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
@@ -35,7 +41,7 @@ public class ModParticleTypes {
         FALLING_AZALEA_LEAF = register((SpriteParticleProviderRegistration) FallingPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_azalea_leaves"), false);
         FALLING_FLOWERING_AZALEA_LEAF = register((SpriteParticleProviderRegistration) FallingPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_flowering_azalea_leaves"), false);
         WATER_BUCKET_TINTED_SPLASH = register((SpriteParticleProviderRegistration) BucketTintedSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "water_bucket_tinted_splash"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
-        LAVA_BUCKET_SPLASH = register((SpriteParticleProviderRegistration) BucketSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "lava_bucket_splash"), false);
+        LAVA_BUCKET_SPLASH = register((SpriteParticleProviderRegistration) LavaSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "lava_bucket_splash"), false);
         GENERIC_FLUID_BUCKET_SPLASH = register((SpriteParticleProviderRegistration) BlockSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "generic_fluid_bucket_splash"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
     }
 

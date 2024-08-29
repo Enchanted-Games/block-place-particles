@@ -1,4 +1,4 @@
-package games.enchanted.blockplaceparticles.particle;
+package games.enchanted.blockplaceparticles.particle.splash;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;

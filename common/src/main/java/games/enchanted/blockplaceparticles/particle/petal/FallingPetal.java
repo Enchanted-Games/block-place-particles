@@ -1,4 +1,4 @@
-package games.enchanted.blockplaceparticles.particle;
+package games.enchanted.blockplaceparticles.particle.petal;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;

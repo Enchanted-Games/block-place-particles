@@ -12,11 +12,7 @@
     "ParticleEngineMixin",
     "ParticleMixin",
     "accessor.BucketItemAccessor",
-    "items.BucketItem",
-    "items.FireChargeItem",
-    "items.FlintAndSteelItem",
-    "items.HoeItem",
-    "items.ShovelItem"
+    "items.BucketItem"
   ],
   "server": [],
   "injectors": {

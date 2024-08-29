@@ -168,7 +168,7 @@ public class ConfigHandler {
     @SerialEntry
     public static List<Fluid> tintedWaterSplash_fluids = tintedWaterSplash_fluids_DEFAULT;
 
-    public static final int maxTintedWaterSplash_onPlace_DEFAULT = 10;
+    public static final int maxTintedWaterSplash_onPlace_DEFAULT = 12;
     @SerialEntry
     public static int maxTintedWaterSplash_onPlace = maxTintedWaterSplash_onPlace_DEFAULT;
 
@@ -181,7 +181,7 @@ public class ConfigHandler {
     @SerialEntry
     public static List<Fluid> lavaSplash_fluids = lavaSplash_fluids_DEFAULT;
 
-    public static final int maxLavaSplash_onPlace_DEFAULT = 10;
+    public static final int maxLavaSplash_onPlace_DEFAULT = 7;
     @SerialEntry
     public static int maxLavaSplash_onPlace = maxLavaSplash_onPlace_DEFAULT;
 

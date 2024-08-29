@@ -1,0 +1,55 @@
+{
+  "eg_particle_interactions.config.title": "Particle Interactions Config",
+
+
+  "eg_particle_interactions.config.blocks": "Block Particles",
+  "eg_particle_interactions.config.blocks.desc": "Configure how particles are emitted when placing or breaking blocks",
+  "eg_particle_interactions.config.blocks.info": "Block Config Information",
+  "eg_particle_interactions.config.blocks.info.desc": "All config options in this tab are applied from top to bottom. This means if a block is specified in two separate particle types, it will only emit the particle higher up in the config menu",
+
+  "eg_particle_interactions.config.blocks.generic_particle": "%s Particle Options",
+  "eg_particle_interactions.config.blocks.generic_particle.desc": "When should %s particles be emitted?",
+  "eg_particle_interactions.config.blocks.generic_particle_blocks": "%s Blocks",
+  "eg_particle_interactions.config.blocks.generic_particle_blocks.desc": "Blocks that should spawn %s particles when placed or broken",
+
+  "eg_particle_interactions.config.blocks.biome_leaf": "%s Particle Options",
+  "eg_particle_interactions.config.blocks.biome_leaf.desc": "When should %s particles be emitted?\n\nThese particles are tinted with the biome colour of the block they are spawned from",
+  "eg_particle_interactions.config.blocks.biome_leaf_blocks": "%s Blocks",
+  "eg_particle_interactions.config.blocks.biome_leaf_blocks.desc": "Blocks that should spawn %s particles when placed or broken",
+
+  "eg_particle_interactions.config.global_option.spawn_block_particle_on_place": "Spawn when block placed",
+  "eg_particle_interactions.config.global_option.spawn_block_particle_on_place.desc": "Should %s particles spawn when a block is placed?",
+  "eg_particle_interactions.config.global_option.max_particles_block_place": "Max particles when block placed",
+  "eg_particle_interactions.config.global_option.max_particles_block_place.desc": "The maximum amount of particles that can spawn along each edge of the block when it is placed",
+
+  "eg_particle_interactions.config.global_option.spawn_block_particle_on_break": "Spawn when block broken",
+  "eg_particle_interactions.config.global_option.spawn_block_particle_on_break.desc": "Should %s particles spawn when a block is broken?",
+  "eg_particle_interactions.config.global_option.max_particles_block_break": "Max particles when block broken",
+  "eg_particle_interactions.config.global_option.max_particles_block_break.desc": "The maximum amount of particles that can spawn along each axis of the block when it is broken",
+
+
+  "eg_particle_interactions.config.fluids": "Fluid Particles",
+  "eg_particle_interactions.config.fluids.desc": "Configure how particles are emitted when placing fluids",
+  "eg_particle_interactions.config.fluids.info": "Fluid Config Information",
+  "eg_particle_interactions.config.fluids.info.desc": "All config options in this tab are applied from top to bottom. This means if a fluid is specified in two separate particle types, it will only emit the particle higher up in the config menu",
+
+  "eg_particle_interactions.config.fluids.generic_particle": "%s Particle Options",
+  "eg_particle_interactions.config.fluids.generic_particle.desc": "When should %s particles be emitted?",
+  "eg_particle_interactions.config.fluids.generic_particle_fluids": "%s Fluids",
+  "eg_particle_interactions.config.fluids.generic_particle_fluids.desc": "Fluids that should spawn %s particles when placed",
+
+  "eg_particle_interactions.config.fluids.tinted_splash": "%s Particle Options",
+  "eg_particle_interactions.config.fluids.tinted_splash.desc": "When should %s particles be emitted?\n\nThese particles are tinted with the biome colour of the fluid they are spawned from",
+  "eg_particle_interactions.config.fluids.tinted_splash_fluids": "%s Fluids",
+  "eg_particle_interactions.config.fluids.tinted_splash_fluids.desc": "Fluids that should spawn %s particles when placed",
+
+  "eg_particle_interactions.config.fluids.generic_splash": "%s Particle Options",
+  "eg_particle_interactions.config.fluids.generic_splash.desc": "When should %s particles be emitted?\n\nThese particles are intended for modded fluids that don't fit the options above. It will use the texture of the fluid instead of a splash texture, similar to vanilla block breaking particles",
+  "eg_particle_interactions.config.fluids.generic_splash_fluids": "%s Fluids",
+  "eg_particle_interactions.config.fluids.generic_splash_fluids.desc": "Fluids that should spawn %s particles when placed",
+
+  "eg_particle_interactions.config.global_option.spawn_fluid_particle_on_place": "Spawn when fluid placed",
+  "eg_particle_interactions.config.global_option.spawn_fluid_particle_on_place.desc": "Should %s particles spawn when a fluid is placed?",
+  "eg_particle_interactions.config.global_option.max_particles_fluid_place": "Amount of particles when fluid placed",
+  "eg_particle_interactions.config.global_option.max_particles_fluid_place.desc": "The amount of particles that spawn inside the fluid when it is placed"
+}

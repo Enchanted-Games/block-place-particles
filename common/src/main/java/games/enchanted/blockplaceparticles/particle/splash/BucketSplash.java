@@ -1,4 +1,4 @@
-package games.enchanted.blockplaceparticles.particle;
+package games.enchanted.blockplaceparticles.particle.splash;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
@@ -28,9 +28,13 @@ public class BucketSplash extends TextureSheetParticle {
     @Override
     public void tick() {
         super.tick();
-        if (!this.removed && this.onGround && this.random.nextFloat() > 0.8f) {
-            this.remove();
+        if (!this.removed && this.onGround && this.random.nextFloat() > 0.9f) {
+            randomOnParticleLand();
         }
+    }
+
+    public void randomOnParticleLand() {
+        this.remove();
     }
 
     @Override
