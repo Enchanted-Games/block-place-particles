@@ -6,6 +6,7 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.item.AirItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -82,7 +83,7 @@ public enum BlockParticleOverride {
 
     public static BlockParticleOverride getOverrideForBlockState(BlockState blockState, boolean isBlockBeingPlaced) {
         Block block = blockState.getBlock();
-        if(block == Blocks.AIR || block == Blocks.CAVE_AIR || block == Blocks.VOID_AIR) return NONE;
+        if(blockState.isAir() || block.asItem() instanceof AirItem) return NONE;
         if (ConfigHandler.snowflake_BlockItems.contains((BlockItem) block.asItem()) && shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.snowflake_onPlace, ConfigHandler.snowflake_onBreak)) {
             return SNOW_POWDER;
         } else if (ConfigHandler.cherryPetal_BlockItems.contains((BlockItem) block.asItem()) && shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.cherryPetal_onPlace, ConfigHandler.cherryPetal_onBreak)) {
