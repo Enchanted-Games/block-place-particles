@@ -1,9 +1,6 @@
 {
     "schemaVersion": 1,
     "id": "${mod_id}",
-    "provides": [
-        "enchanted-vertical-slabs"
-    ],
     "version": "${mod_version}",
     "name": "${mod_name}",
     "description": "${description}",

@@ -8,7 +8,6 @@ import games.enchanted.blockplaceparticles.config.adapters.FluidTypeAdapter;
 import games.enchanted.blockplaceparticles.platform.Services;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
