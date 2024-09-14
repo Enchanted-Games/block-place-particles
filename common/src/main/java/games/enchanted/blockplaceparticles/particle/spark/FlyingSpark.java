@@ -1,5 +1,7 @@
 package games.enchanted.blockplaceparticles.particle.spark;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -8,6 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Quaternionf;
 
 import java.util.List;
 
@@ -18,6 +21,9 @@ public class FlyingSpark extends TextureSheetParticle {
     private int spark_floorBounces = 0;
     private final boolean spark_canBounce = true;
     private int spark_ticksAlive = 0;
+    private double prevPrevX;
+    private double prevPrevY;
+    private double prevPrevZ;
 
     protected FlyingSpark(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
         super(level, x, y, z);
@@ -27,6 +33,10 @@ public class FlyingSpark extends TextureSheetParticle {
         this.xd = spark_xVelocityBeforeBounce = (xSpeed / 2) + (Math.random() * 4.0 - 2.0) * 0.05000000074505806;
         this.yd = spark_startingYVelocity = (ySpeed / 2) + (Math.random() * 4.0 - 2.0) * 0.05000000074505806;
         this.zd = spark_zVelocityBeforeBounce = (zSpeed / 2) + (Math.random() * 4.0 - 2.0) * 0.05000000074505806;
+
+        this.prevPrevX = this.xo;
+        this.prevPrevY = this.yo;
+        this.prevPrevZ = this.zo;
 
         this.rCol = this.gCol = 1;
         this.bCol = 0.9f;
@@ -65,9 +75,9 @@ public class FlyingSpark extends TextureSheetParticle {
     @Override
     public void tick() {
         spark_ticksAlive++;
-        this.xd *= 0.949999988079071;
-        this.yd *= 0.8999999761581421;
-        this.zd *= 0.949999988079071;
+        this.prevPrevX = this.xo;
+        this.prevPrevY = this.yo;
+        this.prevPrevZ = this.zo;
 
         if(age > 0) {
             float totalVelocity = getTotalVelocity();
@@ -101,6 +111,21 @@ public class FlyingSpark extends TextureSheetParticle {
         }
 
         super.tick();
+    }
+
+    @Override
+    protected void renderRotatedQuad(@NotNull VertexConsumer consumer, @NotNull Camera camera, @NotNull Quaternionf quaternionf, float d) {
+        Vec3 cameraPosition = camera.getPosition();
+        float xPos = (float) ((Mth.lerp(d,  this.xo, this.x) - cameraPosition.x()) );
+        float yPos = (float) ((Mth.lerp(d,  this.yo, this.y) - cameraPosition.y()) );
+        float zPos = (float) ((Mth.lerp(d,  this.zo, this.z) - cameraPosition.z()) );
+        Vec3 pos = new Vec3(xPos, yPos, zPos);
+        float prevXPos = (float) ((Mth.lerp(d,  this.prevPrevX, this.xo) - cameraPosition.x()) );
+        float prevYPos = (float) ((Mth.lerp(d,  this.prevPrevY, this.yo) - cameraPosition.y()) );
+        float prevZPos = (float) ((Mth.lerp(d,  this.prevPrevZ, this.zo) - cameraPosition.z()) );
+        Vec3 prevPos = new Vec3(prevXPos, prevYPos, prevZPos);
+        Vec3 len = pos.vectorTo(pos);
+        this.renderRotatedQuad(consumer, quaternionf, xPos, yPos, zPos, d);
     }
 
     @Override
