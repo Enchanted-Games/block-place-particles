@@ -1,5 +1,7 @@
 package games.enchanted.blockplaceparticles.particle_spawning;
 
+import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
+import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.util.BiomeTemperatureHelpers;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -149,11 +151,12 @@ public class SpawnParticles {
     }
 
     public static void spawnFlintAndSteelSparkParticle(Level level, BlockPos particlePos) {
-        for (int i = 0; i < 6; i++) {
-            double x = particlePos.getX() + level.random.nextDouble();
-            double y = particlePos.getY() + 0.2;
-            double z = particlePos.getZ() + level.random.nextDouble();
-            level.addParticle(ParticleTypes.DUST_PLUME, x, y, z, 0.0, 0.05, 0.0);
+        double sparkIntensity = 4 / 8.;
+        for (int i = 0; i < 16; i++) {
+            double x = particlePos.getX() + 0.25 + (level.random.nextDouble() / 2);
+            double y = particlePos.getY() + (level.random.nextDouble() / 2);
+            double z = particlePos.getZ() + 0.25 + (level.random.nextDouble() / 2);
+            level.addParticle(ModParticleTypes.FLYING_SPARK, x, y, z, (level.random.nextDouble() - 0.5) * sparkIntensity, (level.random.nextDouble() + 0.5) * sparkIntensity, (level.random.nextDouble() - 0.5) * sparkIntensity);
         }
     }
 

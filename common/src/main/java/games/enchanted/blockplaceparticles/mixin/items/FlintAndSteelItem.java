@@ -29,14 +29,14 @@ public abstract class FlintAndSteelItem {
             BlockState clickedState = level.getBlockState(clickedPos);
 
             if(!CampfireBlock.canLight(clickedState) && !CandleBlock.canLight(clickedState) && !CandleCakeBlock.canLight(clickedState)) {
-                // probably placed a fire
+                // placed a fire
                 BlockPos firePos = clickedPos.relative(useOnContext.getClickedFace());
                 if(BaseFireBlock.canBePlacedAt(level, firePos, useOnContext.getHorizontalDirection())) {
                     ParticleInteractionsLogging.debugInfo("Fire placed by '" + this + "' at " + firePos.toShortString() + ". (interacted at " + clickedPos.toShortString() + ")");
                     SpawnParticles.spawnFlintAndSteelSparkParticle(level, firePos);
                 }
             }else {
-                // probably lit a block
+                // lit a block
                 ParticleInteractionsLogging.debugInfo("Block lit by '" + this + "' at " + clickedPos.toShortString());
                 SpawnParticles.spawnFlintAndSteelSparkParticle(level, clickedPos);
             }

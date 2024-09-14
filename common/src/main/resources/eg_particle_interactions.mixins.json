@@ -8,11 +8,12 @@
   ],
   "client": [
     "AbstractCauldronBlockMixin",
-    "items.BlockItem",
     "ParticleEngineMixin",
     "ParticleMixin",
     "accessor.BucketItemAccessor",
-    "items.BucketItem"
+    "items.BlockItem",
+    "items.BucketItem",
+    "items.FlintAndSteelItem"
   ],
   "server": [],
   "injectors": {
