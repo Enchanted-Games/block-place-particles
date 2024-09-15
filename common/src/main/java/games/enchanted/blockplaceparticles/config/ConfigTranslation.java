@@ -8,10 +8,14 @@ public class ConfigTranslation {
 
     public static final String BLOCKS_CONFIG_CATEGORY = "blocks";
     public static final String FLUIDS_CONFIG_CATEGORY = "fluids";
+    public static final String ITEMS_CONFIG_CATEGORY = "items";
 
     public static final String MAX_PARTICLES_ON_BLOCK_PLACE_OPTION = "max_particles_block_place";
     public static final String MAX_PARTICLES_ON_BLOCK_BREAK_OPTION = "max_particles_block_break";
     public static final String MAX_PARTICLES_ON_FLUID_PLACE_OPTION = "max_particles_fluid_place";
+    public static final String MAX_PARTICLES_ON_ITEM_USE_OPTION = "max_particles_item_use";
+    public static final String ITEM_USE_PARTICLE_INTENSITY = "item_use_particle_intensity";
+    public static final String SPAWN_PARTICLE_ON_ITEM_USE = "spawn_particle_on_item_use";
 
     public static Component createDesc(TranslationKey translationKey) {
         return translationKey.append(".desc").toComponent();
@@ -40,6 +44,10 @@ public class ConfigTranslation {
         return new TranslationKey(CONFIG_KEY_PREFIX + ".global_option." + option);
     }
 
+    public static TranslationKey getParticleType(String particleKey) {
+        return new TranslationKey(CONFIG_KEY_PREFIX + ".particle_type." + particleKey);
+    }
+
     public static Component createPlaceholderTranslatableComponent(String translationKey, Object... args) {
         return Component.literal(Component.translatable(translationKey).getString().formatted(args));
     }
@@ -57,6 +65,10 @@ public class ConfigTranslation {
 
         Component toComponent() {
             return Component.translatable(this.key);
+        }
+
+        public String toString() {
+            return this.key;
         }
     }
 }

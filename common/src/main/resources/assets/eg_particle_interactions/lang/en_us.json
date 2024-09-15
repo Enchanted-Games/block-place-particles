@@ -2,6 +2,36 @@
   "eg_particle_interactions.config.title": "Particle Interactions Config",
 
 
+  "eg_particle_interactions.config.particle_type.snowflake": "Snowflake",
+  "eg_particle_interactions.config.particle_type.cherry_petal": "Cherry Petal",
+  "eg_particle_interactions.config.particle_type.azalea_leaf": "Azalea Leaf",
+  "eg_particle_interactions.config.particle_type.flowering_azalea_leaf": "Flowering Azalea Leaf",
+  "eg_particle_interactions.config.particle_type.biome_leaf": "Biome Tinted Leaf",
+  "eg_particle_interactions.config.particle_type.vanilla_particle": "Vanilla Block Breaking",
+  "eg_particle_interactions.config.particle_type.tinted_splash": "Tinted Splash",
+  "eg_particle_interactions.config.particle_type.lava_splash": "Lava Splash",
+  "eg_particle_interactions.config.particle_type.generic_splash": "Generic Splash",
+  "eg_particle_interactions.config.particle_type.flint_and_steel_sparks": "Flint & Steel Spark",
+
+
+  "eg_particle_interactions.config.global_option.spawn_block_particle_on_place": "Spawn when block placed",
+  "eg_particle_interactions.config.global_option.spawn_block_particle_on_place.desc": "Should %s particles spawn when a block is placed?",
+  "eg_particle_interactions.config.global_option.max_particles_block_place": "Max particles when block placed",
+  "eg_particle_interactions.config.global_option.max_particles_block_place.desc": "The maximum amount of particles that can spawn along each edge of the block when it is placed",
+
+  "eg_particle_interactions.config.global_option.spawn_block_particle_on_break": "Spawn when block broken",
+  "eg_particle_interactions.config.global_option.spawn_block_particle_on_break.desc": "Should %s particles spawn when a block is broken?",
+  "eg_particle_interactions.config.global_option.max_particles_block_break": "Max particles when block broken",
+  "eg_particle_interactions.config.global_option.max_particles_block_break.desc": "The maximum amount of particles that can spawn along each axis of the block when it is broken",
+
+  "eg_particle_interactions.config.global_option.spawn_particle_on_item_use": "Spawn when item used",
+  "eg_particle_interactions.config.global_option.spawn_particle_on_item_use.desc": "Should %s particles spawn when the item is used?",
+  "eg_particle_interactions.config.global_option.max_particles_item_use": "Amount of particles when item used",
+  "eg_particle_interactions.config.global_option.max_particles_item_use.desc": "The amount of %s particles that spawn when the item is used",
+  "eg_particle_interactions.config.global_option.item_use_particle_intensity": "Particle Intensity",
+  "eg_particle_interactions.config.global_option.item_use_particle_intensity.desc": "The speed that the %s have when emitted",
+
+
   "eg_particle_interactions.config.blocks": "Block Particles",
   "eg_particle_interactions.config.blocks.desc": "Configure how particles are emitted when placing or breaking blocks",
   "eg_particle_interactions.config.blocks.info": "Block Config Information",
@@ -16,16 +46,6 @@
   "eg_particle_interactions.config.blocks.biome_leaf.desc": "When should %s particles be emitted?\n\nThese particles are tinted with the biome colour of the block they are spawned from",
   "eg_particle_interactions.config.blocks.biome_leaf_blocks": "%s Blocks",
   "eg_particle_interactions.config.blocks.biome_leaf_blocks.desc": "Blocks that should spawn %s particles when placed or broken",
-
-  "eg_particle_interactions.config.global_option.spawn_block_particle_on_place": "Spawn when block placed",
-  "eg_particle_interactions.config.global_option.spawn_block_particle_on_place.desc": "Should %s particles spawn when a block is placed?",
-  "eg_particle_interactions.config.global_option.max_particles_block_place": "Max particles when block placed",
-  "eg_particle_interactions.config.global_option.max_particles_block_place.desc": "The maximum amount of particles that can spawn along each edge of the block when it is placed",
-
-  "eg_particle_interactions.config.global_option.spawn_block_particle_on_break": "Spawn when block broken",
-  "eg_particle_interactions.config.global_option.spawn_block_particle_on_break.desc": "Should %s particles spawn when a block is broken?",
-  "eg_particle_interactions.config.global_option.max_particles_block_break": "Max particles when block broken",
-  "eg_particle_interactions.config.global_option.max_particles_block_break.desc": "The maximum amount of particles that can spawn along each axis of the block when it is broken",
 
 
   "eg_particle_interactions.config.fluids": "Fluid Particles",
@@ -51,5 +71,14 @@
   "eg_particle_interactions.config.global_option.spawn_fluid_particle_on_place": "Spawn when fluid placed",
   "eg_particle_interactions.config.global_option.spawn_fluid_particle_on_place.desc": "Should %s particles spawn when a fluid is placed?",
   "eg_particle_interactions.config.global_option.max_particles_fluid_place": "Amount of particles when fluid placed",
-  "eg_particle_interactions.config.global_option.max_particles_fluid_place.desc": "The amount of particles that spawn inside the fluid when it is placed"
+  "eg_particle_interactions.config.global_option.max_particles_fluid_place.desc": "The amount of particles that spawn inside the fluid when it is placed",
+
+
+  "eg_particle_interactions.config.items": "Item Interactions",
+  "eg_particle_interactions.config.items.desc": "Configure how particles are emitted when using or interacting with items",
+  "eg_particle_interactions.config.items.info": "Item Config Information",
+  "eg_particle_interactions.config.items.info.desc": "Configure how particles are emitted when using or interacting with items",
+
+  "eg_particle_interactions.config.items.flint_and_steel_sparks": "%s Particle Options",
+  "eg_particle_interactions.config.items.flint_and_steel_sparks.desc": "Configure if %s particles are emitted and how many should spawn"
 }

@@ -200,4 +200,18 @@ public class ConfigHandler {
     public static final boolean genericSplash_onPlace_DEFAULT = true;
     @SerialEntry
     public static boolean genericSplash_onPlace = genericSplash_onPlace_DEFAULT;
+
+    // Item Interaction Particles
+    // flint and steel sparks
+    public static final int flintAndSteelSpark_intensity_DEFAULT = 5;
+    @SerialEntry
+    public static int flintAndSteelSpark_intensity = flintAndSteelSpark_intensity_DEFAULT;
+
+    public static final int maxFlintAndSteelSpark_onUse_DEFAULT = 12;
+    @SerialEntry
+    public static int maxFlintAndSteelSpark_onUse = maxFlintAndSteelSpark_onUse_DEFAULT;
+
+    public static final boolean flintAndSteelSpark_onUse_DEFAULT = true;
+    @SerialEntry
+    public static boolean flintAndSteelSpark_onUse = flintAndSteelSpark_onUse_DEFAULT;
 }

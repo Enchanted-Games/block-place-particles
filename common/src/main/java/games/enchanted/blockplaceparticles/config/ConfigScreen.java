@@ -38,7 +38,7 @@ public class ConfigScreen {
 
                 // snowflake particles
                 .group( createParticleToggleAndMaxConfigGroup(
-                    Component.literal("Snowflake"),
+                    "snowflake",
                     "generic_particle",
                     ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
                     Binding.generic(ConfigHandler.snowflake_onPlace_DEFAULT, () -> ConfigHandler.snowflake_onPlace, newVal -> ConfigHandler.snowflake_onPlace = newVal),
@@ -47,7 +47,7 @@ public class ConfigScreen {
                     maxParticlesOnBreakOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK_OPTION, ConfigHandler.maxSnowflakes_onBreak_DEFAULT, () -> ConfigHandler.maxSnowflakes_onBreak, newVal -> ConfigHandler.maxSnowflakes_onBreak = newVal)
                 ))
                 .group( createBlockItemListOption(
-                    Component.literal("Snowflake"),
+                    "snowflake",
                     "generic_particle_blocks",
                     ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
                     ConfigHandler.snowflake_BlockItems_DEFAULT, () -> ConfigHandler.snowflake_BlockItems, newVal -> ConfigHandler.snowflake_BlockItems = newVal
@@ -55,7 +55,7 @@ public class ConfigScreen {
 
                 // cherry petal particles
                 .group( createParticleToggleAndMaxConfigGroup(
-                    Component.literal("Cherry Petal"),
+                    "cherry_petal",
                     "generic_particle",
                     ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
                     Binding.generic(ConfigHandler.cherryPetal_onPlace_DEFAULT, () -> ConfigHandler.cherryPetal_onPlace, newVal -> ConfigHandler.cherryPetal_onPlace = newVal),
@@ -64,7 +64,7 @@ public class ConfigScreen {
                     maxParticlesOnBreakOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK_OPTION, ConfigHandler.maxCherryPetals_onBreak_DEFAULT, () -> ConfigHandler.maxCherryPetals_onBreak, newVal -> ConfigHandler.maxCherryPetals_onBreak = newVal)
                 ))
                 .group( createBlockItemListOption(
-                    Component.literal("Cherry Petal"),
+                    "cherry_petal",
                     "generic_particle_blocks",
                     ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
                     ConfigHandler.cherryPetal_BlockItems_DEFAULT, () -> ConfigHandler.cherryPetal_BlockItems, newVal -> ConfigHandler.cherryPetal_BlockItems = newVal
@@ -72,7 +72,7 @@ public class ConfigScreen {
 
                 // azalea leaf particles
                 .group( createParticleToggleAndMaxConfigGroup(
-                    Component.literal("Azalea Leaf"),
+                    "azalea_leaf",
                     "generic_particle",
                     ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
                     Binding.generic(ConfigHandler.azaleaLeaf_onPlace_DEFAULT, () -> ConfigHandler.azaleaLeaf_onPlace, newVal -> ConfigHandler.azaleaLeaf_onPlace = newVal),
@@ -81,7 +81,7 @@ public class ConfigScreen {
                     maxParticlesOnBreakOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK_OPTION, ConfigHandler.maxAzaleaLeaves_onBreak_DEFAULT, () -> ConfigHandler.maxAzaleaLeaves_onBreak, newVal -> ConfigHandler.maxAzaleaLeaves_onBreak = newVal)
                 ))
                 .group( createBlockItemListOption(
-                    Component.literal("Azalea Leaf"),
+                    "azalea_leaf",
                     "generic_particle_blocks",
                     ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
                     ConfigHandler.azaleaLeaf_BlockItems_DEFAULT, () -> ConfigHandler.azaleaLeaf_BlockItems, newVal -> ConfigHandler.azaleaLeaf_BlockItems = newVal
@@ -89,7 +89,7 @@ public class ConfigScreen {
 
                 // flowering azalea leaf particles
                 .group( createParticleToggleAndMaxConfigGroup(
-                    Component.literal("Flowering Azalea Leaf"),
+                    "flowering_azalea_leaf",
                     "generic_particle",
                     ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
                     Binding.generic(ConfigHandler.floweringAzaleaLeaf_onPlace_DEFAULT, () -> ConfigHandler.floweringAzaleaLeaf_onPlace, newVal -> ConfigHandler.floweringAzaleaLeaf_onPlace = newVal),
@@ -98,7 +98,7 @@ public class ConfigScreen {
                     maxParticlesOnBreakOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK_OPTION, ConfigHandler.maxFloweringAzaleaLeaves_onBreak_DEFAULT, () -> ConfigHandler.maxFloweringAzaleaLeaves_onBreak, newVal -> ConfigHandler.maxFloweringAzaleaLeaves_onBreak = newVal)
                 ))
                 .group( createBlockItemListOption(
-                    Component.literal("Flowering Azalea Leaf"),
+                    "flowering_azalea_leaf",
                     "generic_particle_blocks",
                     ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
                     ConfigHandler.floweringAzaleaLeaf_BlockItems_DEFAULT, () -> ConfigHandler.floweringAzaleaLeaf_BlockItems, newVal -> ConfigHandler.floweringAzaleaLeaf_BlockItems = newVal
@@ -106,7 +106,7 @@ public class ConfigScreen {
 
                 // tinted leaf particles
                 .group( createParticleToggleAndMaxConfigGroup(
-                    Component.literal("Biome Coloured Leaf"),
+                    "biome_leaf",
                     "biome_leaf",
                     ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
                     Binding.generic(ConfigHandler.tintedLeaves_onPlace_DEFAULT, () -> ConfigHandler.tintedLeaves_onPlace, newVal -> ConfigHandler.tintedLeaves_onPlace = newVal),
@@ -115,7 +115,7 @@ public class ConfigScreen {
                     maxParticlesOnBreakOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK_OPTION, ConfigHandler.maxTintedLeaves_onBreak_DEFAULT, () -> ConfigHandler.maxTintedLeaves_onBreak, newVal -> ConfigHandler.maxTintedLeaves_onBreak = newVal)
                 ))
                 .group( createBlockItemListOption(
-                    Component.literal("Biome Coloured Leaf"),
+                    "biome_leaf",
                     "biome_leaf_blocks",
                     ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
                     ConfigHandler.tintedLeaves_BlockItems_DEFAULT, () -> ConfigHandler.tintedLeaves_BlockItems, newVal -> ConfigHandler.tintedLeaves_BlockItems = newVal
@@ -123,7 +123,7 @@ public class ConfigScreen {
 
                 // vanilla block particles
                 .group( createParticleToggleAndMaxConfigGroup(
-                    Component.literal("Vanilla Block"),
+                    "vanilla_particle",
                     "generic_particle",
                     ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
                     Binding.generic(ConfigHandler.block_onPlace_DEFAULT, () -> ConfigHandler.block_onPlace, newVal -> ConfigHandler.block_onPlace = newVal),
@@ -134,6 +134,7 @@ public class ConfigScreen {
 
             .build())
 
+            // fluid config category
             .category(ConfigCategory.createBuilder()
                 .name(ConfigTranslation.getCategoryName(ConfigTranslation.FLUIDS_CONFIG_CATEGORY).toComponent())
                 .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.FLUIDS_CONFIG_CATEGORY)))
@@ -150,14 +151,14 @@ public class ConfigScreen {
 
                 // tinted water splash
                 .group( createFluidParticleToggleAndMaxConfigGroup(
-                    Component.literal("Biome Tinted Splash"),
+                    "tinted_splash",
                     "tinted_splash",
                     ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
                     Binding.generic(ConfigHandler.tintedWaterSplash_onPlace_DEFAULT, () -> ConfigHandler.tintedWaterSplash_onPlace, newVal -> ConfigHandler.tintedWaterSplash_onPlace = newVal),
                     maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_FLUID_PLACE_OPTION, ConfigHandler.maxTintedWaterSplash_onPlace_DEFAULT, () -> ConfigHandler.maxTintedWaterSplash_onPlace, newVal -> ConfigHandler.maxTintedWaterSplash_onPlace = newVal)
                 ))
                 .group( createFluidListOption(
-                    Component.literal("Biome Tinted Splash"),
+                    "tinted_splash",
                     "tinted_splash_fluids",
                     ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
                     ConfigHandler.tintedWaterSplash_fluids_DEFAULT, () -> ConfigHandler.tintedWaterSplash_fluids, newVal -> ConfigHandler.tintedWaterSplash_fluids = newVal
@@ -165,14 +166,14 @@ public class ConfigScreen {
 
                 // lava splash
                 .group( createFluidParticleToggleAndMaxConfigGroup(
-                    Component.literal("Lava Splash"),
+                    "lava_splash",
                     "generic_particle_fluids",
                     ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
                     Binding.generic(ConfigHandler.lavaSplash_onPlace_DEFAULT, () -> ConfigHandler.lavaSplash_onPlace, newVal -> ConfigHandler.lavaSplash_onPlace = newVal),
                     maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_FLUID_PLACE_OPTION, ConfigHandler.maxLavaSplash_onPlace_DEFAULT, () -> ConfigHandler.maxLavaSplash_onPlace, newVal -> ConfigHandler.maxLavaSplash_onPlace = newVal)
                 ))
                 .group( createFluidListOption(
-                    Component.literal("Lava Splash"),
+                    "lava_splash",
                     "generic_particle",
                     ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
                     ConfigHandler.lavaSplash_fluids_DEFAULT, () -> ConfigHandler.lavaSplash_fluids, newVal -> ConfigHandler.lavaSplash_fluids = newVal
@@ -180,14 +181,14 @@ public class ConfigScreen {
 
                 // generic splash
                 .group( createFluidParticleToggleAndMaxConfigGroup(
-                    Component.literal("Generic Splash"),
+                    "generic_splash",
                     "generic_splash",
                     ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
                     Binding.generic(ConfigHandler.genericSplash_onPlace_DEFAULT, () -> ConfigHandler.genericSplash_onPlace, newVal -> ConfigHandler.genericSplash_onPlace = newVal),
                     maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_FLUID_PLACE_OPTION, ConfigHandler.maxGenericSplash_onPlace_DEFAULT, () -> ConfigHandler.maxGenericSplash_onPlace, newVal -> ConfigHandler.maxGenericSplash_onPlace = newVal)
                 ))
                 .group( createFluidListOption(
-                    Component.literal("Generic Splash"),
+                    "generic_splash",
                     "generic_splash_fluids",
                     ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
                     ConfigHandler.genericSplash_fluids_DEFAULT, () -> ConfigHandler.genericSplash_fluids, newVal -> ConfigHandler.genericSplash_fluids = newVal
@@ -195,18 +196,46 @@ public class ConfigScreen {
 
             .build())
 
-        .build()
+            // item use category
+            .category(ConfigCategory.createBuilder()
+                .name(ConfigTranslation.getCategoryName(ConfigTranslation.ITEMS_CONFIG_CATEGORY).toComponent())
+                .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.ITEMS_CONFIG_CATEGORY)))
+
+                // item config info
+                .group(OptionGroup.createBuilder()
+                    .name( ConfigTranslation.getGroupName(ConfigTranslation.ITEMS_CONFIG_CATEGORY, "info").toComponent() )
+                    .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.ITEMS_CONFIG_CATEGORY, "info")) ))
+                    .collapsed(true)
+                    .option(LabelOption.createBuilder()
+
+                    .build())
+                .build())
+
+                // flint and steel spark
+                .group( createParticleToggleAndMaxAndIntensityConfigGroup(
+                    "flint_and_steel_sparks",
+                    "flint_and_steel_sparks",
+                    ConfigTranslation.ITEMS_CONFIG_CATEGORY,
+                    Binding.generic(ConfigHandler.flintAndSteelSpark_onUse_DEFAULT, () -> ConfigHandler.flintAndSteelSpark_onUse, newVal -> ConfigHandler.flintAndSteelSpark_onUse = newVal),
+                    integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE_OPTION, "flint_and_steel_sparks", ConfigHandler.maxFlintAndSteelSpark_onUse_DEFAULT, () -> ConfigHandler.maxFlintAndSteelSpark_onUse, newVal -> ConfigHandler.maxFlintAndSteelSpark_onUse = newVal, 1, 16, 1),
+                    integerSliderOption(ConfigTranslation.ITEM_USE_PARTICLE_INTENSITY, "flint_and_steel_sparks", ConfigHandler.flintAndSteelSpark_intensity_DEFAULT, () -> ConfigHandler.flintAndSteelSpark_intensity, newVal -> ConfigHandler.flintAndSteelSpark_intensity = newVal, 1, 8, 1)
+                ))
+
+            .build())
+
+
+            .build()
         .generateScreen(parentScreen);
     }
 
-    private static OptionGroup createFluidParticleToggleAndMaxConfigGroup(Component particleName, String groupName, String category, Binding<Boolean> spawnOnFluidPlaceBinding, Option<Integer> maxPlaceParticlesOption) {
+    private static OptionGroup createFluidParticleToggleAndMaxConfigGroup(String particleTypeKey, String groupName, String category, Binding<Boolean> spawnOnFluidPlaceBinding, Option<Integer> maxPlaceParticlesOption) {
         ConfigTranslation.TranslationKey groupNameKey = ConfigTranslation.getGroupName(category, groupName);
         return OptionGroup.createBuilder()
-            .name( ConfigTranslation.createPlaceholder(groupNameKey.toComponent(), particleName.getString()) )
-            .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(groupNameKey), particleName.getString()) ))
+            .name( ConfigTranslation.createPlaceholder(groupNameKey.toComponent(), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) )
+            .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(groupNameKey), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ))
             .option(Option.<Boolean>createBuilder()
                 .name( ConfigTranslation.getGlobalOption("spawn_fluid_particle_on_place").toComponent() )
-                .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption("spawn_fluid_particle_on_place")), particleName.getString()) ))
+                .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption("spawn_fluid_particle_on_place")), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ))
                 .binding(spawnOnFluidPlaceBinding)
                 .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
                 .build())
@@ -214,21 +243,21 @@ public class ConfigScreen {
             .build();
     }
 
-    private static OptionGroup createParticleToggleAndMaxConfigGroup(Component particleName, String groupName, String category, Binding<Boolean> spawnOnBlockPlaceBinding, Option<Integer> maxPlaceParticlesOption, Binding<Boolean> spawnOnBlockBreakBinding, Option<Integer> maxBreakParticlesOption) {
+    private static OptionGroup createParticleToggleAndMaxConfigGroup(String particleTypeKey, String groupName, String category, Binding<Boolean> spawnOnBlockPlaceBinding, Option<Integer> maxPlaceParticlesOption, Binding<Boolean> spawnOnBlockBreakBinding, Option<Integer> maxBreakParticlesOption) {
         ConfigTranslation.TranslationKey groupNameKey = ConfigTranslation.getGroupName(category, groupName);
         return OptionGroup.createBuilder()
-            .name( ConfigTranslation.createPlaceholder(groupNameKey.toComponent(), particleName.getString()) )
-            .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(groupNameKey), particleName.getString()) ))
+            .name( ConfigTranslation.createPlaceholder(groupNameKey.toComponent(), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) )
+            .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(groupNameKey), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ))
             .option(Option.<Boolean>createBuilder()
                 .name( ConfigTranslation.getGlobalOption("spawn_block_particle_on_place").toComponent() )
-                .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption("spawn_block_particle_on_place")), particleName.getString()) ))
+                .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption("spawn_block_particle_on_place")), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ))
                 .binding(spawnOnBlockPlaceBinding)
                 .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
             .build())
             .option(maxPlaceParticlesOption)
             .option(Option.<Boolean>createBuilder()
                 .name( ConfigTranslation.getGlobalOption("spawn_block_particle_on_break").toComponent() )
-                .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption("spawn_block_particle_on_break")), particleName.getString()) ))
+                .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption("spawn_block_particle_on_break")), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ))
                 .binding(spawnOnBlockBreakBinding)
                 .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
             .build())
@@ -236,12 +265,35 @@ public class ConfigScreen {
         .build();
     }
 
+    private static OptionGroup createParticleToggleAndMaxAndIntensityConfigGroup(String particleTypeKey, String groupName, String category, Binding<Boolean> spawnOnUseBinding, Option<Integer> maxParticlesOnUseOption, Option<Integer> particleIntensityOption) {
+        ConfigTranslation.TranslationKey groupNameKey = ConfigTranslation.getGroupName(category, groupName);
+        return OptionGroup.createBuilder()
+            .name( ConfigTranslation.createPlaceholder(groupNameKey.toComponent(), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) )
+            .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(groupNameKey), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ))
+            .option(Option.<Boolean>createBuilder()
+                .name( ConfigTranslation.getGlobalOption("spawn_particle_on_item_use").toComponent() )
+                .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(ConfigTranslation.SPAWN_PARTICLE_ON_ITEM_USE)), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ))
+                .binding(spawnOnUseBinding)
+                .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
+            .build())
+            .option(maxParticlesOnUseOption)
+            .option(particleIntensityOption)
+        .build();
+    }
+
+    private static Option<Integer> integerSliderOption(String optionName, int maxParticlesDefault, Supplier<Integer> getter, Consumer<Integer> setter, int min, int max, int step) {
+        return createIntegerOption(maxParticlesDefault, getter, setter, ConfigTranslation.getGlobalOption(optionName).toComponent(), ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(optionName)), min, max, step);
+    }
+    private static Option<Integer> integerSliderOption(String optionName, String particleTypeKey, int maxParticlesDefault, Supplier<Integer> getter, Consumer<Integer> setter, int min, int max, int step) {
+        return createIntegerOption(maxParticlesDefault, getter, setter, ConfigTranslation.getGlobalOption(optionName).toComponent(), ConfigTranslation.createPlaceholder( ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(optionName)), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ), min, max, step);
+    }
     private static Option<Integer> maxParticlesOnPlaceOption(String optionName, int maxParticlesDefault, Supplier<Integer> getter, Consumer<Integer> setter) {
-        return createIntegerOption(maxParticlesDefault, getter, setter, ConfigTranslation.getGlobalOption(optionName).toComponent(), ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(optionName)), 1, 16, 1);
+        return integerSliderOption(optionName, maxParticlesDefault, getter, setter, 1, 16, 1);
     }
     private static Option<Integer> maxParticlesOnBreakOption(String optionName, int maxParticlesDefault, Supplier<Integer> getter, Consumer<Integer> setter) {
-        return createIntegerOption(maxParticlesDefault, getter, setter, ConfigTranslation.getGlobalOption(optionName).toComponent(), ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(optionName)), 2, 8, 1);
+        return integerSliderOption(optionName, maxParticlesDefault, getter, setter, 2, 8, 1);
     }
+
     private static Option<Integer> createIntegerOption(int defaultValue, Supplier<Integer> getter, Consumer<Integer> setter, Component name, Component description, int min, int max, int step) {
         return Option.<Integer>createBuilder()
             .name(name)
@@ -251,17 +303,17 @@ public class ConfigScreen {
         .build();
     }
 
-    private static ListOption<BlockItem> createBlockItemListOption(Component particleName, String groupName, String category, List<BlockItem> defaultValue, Supplier<List<BlockItem>> getter, Consumer<List<BlockItem>> setter) {
-        return createListOption((BlockItem) Items.STONE, BlockItemController::new, particleName, groupName, category, defaultValue, getter, setter);
+    private static ListOption<BlockItem> createBlockItemListOption(String particleTypeKey, String groupName, String category, List<BlockItem> defaultValue, Supplier<List<BlockItem>> getter, Consumer<List<BlockItem>> setter) {
+        return createListOption((BlockItem) Items.STONE, BlockItemController::new, particleTypeKey, groupName, category, defaultValue, getter, setter);
     }
-    private static ListOption<Fluid> createFluidListOption(Component particleName, String groupName, String category, List<Fluid> defaultValue, Supplier<List<Fluid>> getter, Consumer<List<Fluid>> setter) {
-        return createListOption(Fluids.WATER, FluidController::new, particleName, groupName, category, defaultValue, getter, setter);
+    private static ListOption<Fluid> createFluidListOption(String particleTypeKey, String groupName, String category, List<Fluid> defaultValue, Supplier<List<Fluid>> getter, Consumer<List<Fluid>> setter) {
+        return createListOption(Fluids.WATER, FluidController::new, particleTypeKey, groupName, category, defaultValue, getter, setter);
     }
-    private static <T> ListOption<T> createListOption(T initial, Function<ListOptionEntry<T>, Controller<T>> controller, Component particleName, String groupName, String category, List<T> defaultValue, Supplier<List<T>> getter, Consumer<List<T>> setter) {
+    private static <T> ListOption<T> createListOption(T initial, Function<ListOptionEntry<T>, Controller<T>> controller, String particleTypeKey, String groupName, String category, List<T> defaultValue, Supplier<List<T>> getter, Consumer<List<T>> setter) {
         ConfigTranslation.TranslationKey groupNameKey = ConfigTranslation.getGroupName(category, groupName);
         return ListOption.<T>createBuilder()
-            .name( ConfigTranslation.createPlaceholder(groupNameKey.toComponent(), particleName.getString()) )
-            .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(groupNameKey), particleName.getString()) ))
+            .name( ConfigTranslation.createPlaceholder(groupNameKey.toComponent(), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) )
+            .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(groupNameKey), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ))
             .binding(defaultValue, getter, setter)
             .customController(controller)
             .initial(initial)
