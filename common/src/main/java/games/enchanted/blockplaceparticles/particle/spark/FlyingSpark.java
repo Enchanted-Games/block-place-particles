@@ -16,11 +16,13 @@ import org.joml.Vector3f;
 import java.util.List;
 
 public class FlyingSpark extends TextureSheetParticle {
+    private final boolean spark_canBounce = true;
+    private final float spark_wallBounceDecay = 0.85f;
+
     private double spark_xVelocityBeforeBounce;
     private double spark_startingYVelocity;
     private double spark_zVelocityBeforeBounce;
     private int spark_floorBounces = 0;
-    private final boolean spark_canBounce = true;
     private int spark_ticksAlive = 0;
     private double prevPrevX;
     private double prevPrevY;
@@ -44,7 +46,7 @@ public class FlyingSpark extends TextureSheetParticle {
 
         this.lifetime = (int)(64. / ((double)this.random.nextFloat() * 0.8 + 0.2)) + 2;
 
-        float particleSize = (this.random.nextBoolean() ? 0.025F : 0.03F);
+        float particleSize = (this.random.nextBoolean() ? 0.025F : 0.02F);
         this.setSize(particleSize, particleSize);
         this.quadSize = particleSize;
     }
@@ -89,8 +91,8 @@ public class FlyingSpark extends TextureSheetParticle {
             if (this.hasPhysics && xVel * xVel + yVel * yVel + zVel * zVel < Mth.square(100)) {
                 Vec3 vec3 = Entity.collideBoundingBox(null, new Vec3(xVel, yVel, zVel), this.getBoundingBox(), this.level, List.of());
                 if(spark_canBounce) {
-                    spark_xVelocityBeforeBounce *= -0.8;
-                    spark_zVelocityBeforeBounce *= -0.8;
+                    spark_xVelocityBeforeBounce *= -spark_wallBounceDecay;
+                    spark_zVelocityBeforeBounce *= -spark_wallBounceDecay;
                     this.xd = vec3.x == 0.0 ? spark_xVelocityBeforeBounce : vec3.x;
                     this.zd = vec3.z == 0.0 ? spark_zVelocityBeforeBounce : vec3.z;
                 }
@@ -149,15 +151,33 @@ public class FlyingSpark extends TextureSheetParticle {
         float v1 = this.getV1();
         int lightColor = this.getLightColor(d);
 
-        float yDiff = 0f;
+        Vector3f particleDir = new Vector3f(0f, 0f, 0f);
+        pos.sub(prevPos, particleDir);
+        particleDir.x = Math.abs(0f - (Math.clamp(particleDir.x, -0.015f, 0.015f) + 0.015f)) - 0.015f;
+        particleDir.y = Math.abs(0f - (Math.clamp(particleDir.y, -0.015f, 0.015f) + 0.015f)) - 0.015f;
+        particleDir.z = Math.abs(0f - (Math.clamp(particleDir.z, -0.015f, 0.015f) + 0.015f)) - 0.015f;
 
-        for (int i = 0; i < 4; i++) {
-            Quaternionf q = new Quaternionf(quaternionf).rotateY((float) Math.toRadians(i * 90));
-            this.renderVertex(consumer, q, prevPos.x, prevPos.y + yDiff, prevPos.z, 1.0f, -1.0f, quadSize, u1, v1, lightColor);
-            this.renderVertex(consumer, q, pos.x, pos.y - yDiff, pos.z, 1.0f, 1.0f, quadSize, u1, v0, lightColor);
-            this.renderVertex(consumer, q, pos.x, pos.y + yDiff, pos.z, -1.0f, 1.0f, quadSize, u0, v0, lightColor);
-            this.renderVertex(consumer, q, prevPos.x, prevPos.y - yDiff, prevPos.z, -1.0f, -1.0f, quadSize, u0, v1, lightColor);
-        }
+        this.renderVertex(consumer, quaternionf, pos.x     - particleDir.x, pos.y     - particleDir.y, pos.z     - particleDir.z,  1.0f, -1.0f, quadSize, u1, v1, lightColor); // bottom left
+        this.renderVertex(consumer, quaternionf, prevPos.x - particleDir.x, prevPos.y - particleDir.y, prevPos.z - particleDir.z,  1.0f,  1.0f, quadSize, u1, v0, lightColor); // top right
+        this.renderVertex(consumer, quaternionf, prevPos.x + particleDir.x, prevPos.y + particleDir.y, prevPos.z + particleDir.z, -1.0f,  1.0f, quadSize, u0, v0, lightColor); // top left
+        this.renderVertex(consumer, quaternionf, pos.x     + particleDir.x, pos.y     + particleDir.y, pos.z     + particleDir.z, -1.0f, -1.0f, quadSize, u0, v1, lightColor); // bottom right
+
+        this.renderVertex(consumer, quaternionf, pos.x     + particleDir.x, pos.y     + particleDir.y, pos.z     + particleDir.z, -1.0f, -1.0f, quadSize, u0, v1, lightColor); // bottom right
+        this.renderVertex(consumer, quaternionf, prevPos.x + particleDir.x, prevPos.y + particleDir.y, prevPos.z + particleDir.z, -1.0f,  1.0f, quadSize, u0, v0, lightColor); // top left
+        this.renderVertex(consumer, quaternionf, prevPos.x - particleDir.x, prevPos.y - particleDir.y, prevPos.z - particleDir.z,  1.0f,  1.0f, quadSize, u1, v0, lightColor); // top right
+        this.renderVertex(consumer, quaternionf, pos.x     - particleDir.x, pos.y     - particleDir.y, pos.z     - particleDir.z,  1.0f, -1.0f, quadSize, u1, v1, lightColor); // bottom left
+
+        Quaternionf rotatedQuaternion = new Quaternionf(quaternionf);
+        rotatedQuaternion.rotateLocalY((float) Math.toRadians(90));
+        this.renderVertex(consumer, rotatedQuaternion, pos.x     - particleDir.x, pos.y     - particleDir.y, pos.z     - particleDir.z,  1.0f, -1.0f, quadSize, u1, v1, lightColor); // bottom left
+        this.renderVertex(consumer, rotatedQuaternion, prevPos.x - particleDir.x, prevPos.y - particleDir.y, prevPos.z - particleDir.z,  1.0f,  1.0f, quadSize, u1, v0, lightColor); // top right
+        this.renderVertex(consumer, rotatedQuaternion, prevPos.x + particleDir.x, prevPos.y + particleDir.y, prevPos.z + particleDir.z, -1.0f,  1.0f, quadSize, u0, v0, lightColor); // top left
+        this.renderVertex(consumer, rotatedQuaternion, pos.x     + particleDir.x, pos.y     + particleDir.y, pos.z     + particleDir.z, -1.0f, -1.0f, quadSize, u0, v1, lightColor); // bottom right
+
+        this.renderVertex(consumer, rotatedQuaternion, pos.x     + particleDir.x, pos.y     + particleDir.y, pos.z     + particleDir.z, -1.0f, -1.0f, quadSize, u0, v1, lightColor); // bottom right
+        this.renderVertex(consumer, rotatedQuaternion, prevPos.x + particleDir.x, prevPos.y + particleDir.y, prevPos.z + particleDir.z, -1.0f,  1.0f, quadSize, u0, v0, lightColor); // top left
+        this.renderVertex(consumer, rotatedQuaternion, prevPos.x - particleDir.x, prevPos.y - particleDir.y, prevPos.z - particleDir.z,  1.0f,  1.0f, quadSize, u1, v0, lightColor); // top right
+        this.renderVertex(consumer, rotatedQuaternion, pos.x     - particleDir.x, pos.y     - particleDir.y, pos.z     - particleDir.z,  1.0f, -1.0f, quadSize, u1, v1, lightColor); // bottom left
     }
 
     private void renderVertex(VertexConsumer consumer, Quaternionf quaternionf, float x, float y, float z, float width, float height, float sizeMultiplier, float u, float v, int lightColor) {
@@ -167,7 +187,7 @@ public class FlyingSpark extends TextureSheetParticle {
 
     @Override
     public @NotNull ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
