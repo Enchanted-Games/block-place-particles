@@ -192,7 +192,7 @@ public class SpawnParticles {
         double sparkIntensity = ConfigHandler.flintAndSteelSpark_intensity / 12.;
         for (int i = 0; i < ConfigHandler.maxFlintAndSteelSpark_onUse; i++) {
             double x = particlePos.getX() + 0.25 + (level.random.nextDouble() / 2);
-            double y = particlePos.getY() + (level.random.nextDouble() / 2);
+            double y = particlePos.getY() + 0.25 + (level.random.nextDouble() / 2);
             double z = particlePos.getZ() + 0.25 + (level.random.nextDouble() / 2);
             level.addParticle(ModParticleTypes.FLYING_SPARK, x, y, z, (level.random.nextDouble() - 0.5) * sparkIntensity, (level.random.nextDouble() + 0.5) * sparkIntensity, (level.random.nextDouble() - 0.5) * sparkIntensity);
         }

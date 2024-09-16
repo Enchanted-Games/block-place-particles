@@ -10,6 +10,7 @@
     "AbstractCauldronBlockMixin",
     "ParticleEngineMixin",
     "ParticleMixin",
+    "blocks.TntBlock",
     "accessor.BucketItemAccessor",
     "entity.AbstractMinecartMixin",
     "items.BlockItem",
