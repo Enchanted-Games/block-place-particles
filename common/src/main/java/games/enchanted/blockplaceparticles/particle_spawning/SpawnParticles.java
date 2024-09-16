@@ -1,6 +1,5 @@
 package games.enchanted.blockplaceparticles.particle_spawning;
 
-import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.util.BiomeTemperatureHelpers;
@@ -17,7 +16,9 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.joml.Vector3f;
 
 public class SpawnParticles {
     public static void spawnBlockPlaceParticle(ClientLevel level, BlockPos blockPos, BlockState placedBlockState) {
@@ -149,6 +150,41 @@ public class SpawnParticles {
                 }
             });
         }
+    }
+
+    public static void spawnSparksAtMinecartWheels(double minecartX, double minecartY, double minecartZ, double minecartHorizontalRot, double minecartVerticalRot, boolean isOnRails, boolean hasPassenger, Vec3 deltaMovement, double maxSpeed, Level level) {
+        if(!isOnRails) return;
+        if(!hasPassenger) return;
+        float sparksChancePerWheel = (float) ( Math.clamp(MathHelpers.maxVec3(deltaMovement, true), 0, maxSpeed) / maxSpeed ) - 0.75f;
+        sparksChancePerWheel *= 2f;
+
+        float rotX = (float) ((minecartHorizontalRot) * (Math.PI / 180));
+        float rotY = (float) (minecartVerticalRot / 45);
+        float sparkDeltaX = (float) Math.clamp(-deltaMovement.x / 2, -0.8, 0.8);
+        float sparkDeltaZ = (float) Math.clamp(-deltaMovement.z / 2, -0.8, 0.8);
+
+        if(level.random.nextFloat() < sparksChancePerWheel) {
+            Vector3f wheelPos1 = minecartWheelPoint(rotX, rotY, 0.45f, 0.35f,  0.45f);
+            level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos1.x + minecartX, wheelPos1.y + minecartY, wheelPos1.z + minecartZ, sparkDeltaX , 0.3, sparkDeltaZ);
+        }
+
+        if(level.random.nextFloat() < sparksChancePerWheel) {
+            Vector3f wheelPos2 = minecartWheelPoint(rotX, rotY, -0.45f, -0.35f, 0.45f);
+            level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos2.x + minecartX, wheelPos2.y + minecartY, wheelPos2.z + minecartZ, sparkDeltaX, 0.3, sparkDeltaZ);
+        }
+
+        if(level.random.nextFloat() < sparksChancePerWheel) {
+            Vector3f wheelPos3 = minecartWheelPoint(rotX, rotY, 0.45f, 0.35f, -0.45f);
+            level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos3.x + minecartX, wheelPos3.y + minecartY, wheelPos3.z + minecartZ, sparkDeltaX, 0.3, sparkDeltaZ);
+        }
+
+        if(level.random.nextFloat() < sparksChancePerWheel) {
+            Vector3f wheelPos4 = minecartWheelPoint(rotX, rotY, -0.45f, -0.35f, -0.45f);
+            level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos4.x + minecartX, wheelPos4.y + minecartY, wheelPos4.z + minecartZ, sparkDeltaX, 0.3, sparkDeltaZ);
+        }
+    }
+    private static Vector3f minecartWheelPoint(float rotationX, float rotationY, float pointX, float pointY, float pointZ) {
+        return new Vector3f((float) (pointX * Math.cos(rotationX) - pointZ * Math.sin(rotationX)), pointY * rotationY, (float) (pointZ * Math.cos(rotationX) + pointX * Math.sin(rotationX)));
     }
 
     public static void spawnFlintAndSteelSparkParticle(Level level, BlockPos particlePos) {
