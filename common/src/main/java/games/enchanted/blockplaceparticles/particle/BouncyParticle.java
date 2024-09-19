@@ -1,6 +1,5 @@
 package games.enchanted.blockplaceparticles.particle;
 
-import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.util.Mth;
