@@ -155,7 +155,7 @@ public class SpawnParticles {
     public static void spawnSparksAtMinecartWheels(double minecartX, double minecartY, double minecartZ, double minecartHorizontalRot, double minecartVerticalRot, boolean isOnRails, boolean hasPassenger, Vec3 deltaMovement, double maxSpeed, Level level) {
         if(!isOnRails) return;
         if(!hasPassenger) return;
-        float sparksChancePerWheel = (float) ( Math.clamp(MathHelpers.maxVec3(deltaMovement, true), 0, maxSpeed) / maxSpeed ) - 0.75f;
+        float sparksChancePerWheel = (float) ( Math.clamp(MathHelpers.maxVec3(deltaMovement.toVector3f(), true), 0, maxSpeed) / maxSpeed ) - 0.75f;
         sparksChancePerWheel *= 2f;
 
         float rotX = (float) ((minecartHorizontalRot) * (Math.PI / 180));

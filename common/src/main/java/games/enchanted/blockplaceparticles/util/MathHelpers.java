@@ -1,8 +1,9 @@
 package games.enchanted.blockplaceparticles.util;
 
-import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec3;
+import org.joml.Quaternionf;
+import org.joml.Vector2f;
 import org.joml.Vector3d;
+import org.joml.Vector3f;
 
 public class MathHelpers {
     public static double expandWhenOutOfBound(double value, double minBound, double maxBound) {
@@ -14,8 +15,13 @@ public class MathHelpers {
         return value;
     }
 
-    public static double maxVec3(Vec3 vector, boolean abs) {
-        if(abs) vector = new Vec3(Math.abs(vector.x), Math.abs(vector.y), Math.abs(vector.z));
+    /**
+     * Returns the largest value from a {@link Vector3f}
+     *
+     * @param abs converts all values to positive before finding the maximum value
+     */
+    public static double maxVec3(Vector3f vector, boolean abs) {
+        if(abs) vector = new Vector3f(Math.abs(vector.x), Math.abs(vector.y), Math.abs(vector.z));
         return Math.max(Math.max(vector.x, vector.y), vector.z);
     }
 
@@ -23,19 +29,58 @@ public class MathHelpers {
      * Rotates a vector in 3D space around the origin
      *
      * @param point       the point to rotate
-     * @param xRotRadians x rotation in radians
-     * @param yRotRadians y rotation in radians
-     * @param zRotRadians z rotation in radians
+     * @param roll  the roll in radians
+     * @param pitch the pitch in radians
+     * @param yaw   the yaw in radians
      * @return the rotated point
      */
-    public static Vector3d rotate3DPoint(Vector3d point, float xRotRadians, float yRotRadians, float zRotRadians) {
-        Vector3d sin = new Vector3d(Mth.sin(xRotRadians), Mth.sin(yRotRadians), Mth.sin(zRotRadians));
-        Vector3d cos = new Vector3d(Mth.cos(xRotRadians), Mth.cos(yRotRadians), Mth.cos(zRotRadians));
+    public static Vector3d rotate3DPoint(Vector3d point, float roll, float pitch, float yaw) {
+        Quaternionf quaternionf = eulerAnglesToQuaternion(roll, pitch, yaw);
+        return quaternionf.transform(new Vector3d(point));
+    }
 
-        point = new Vector3d(point.x, point.y * cos.x - point.z * sin.x, point.y * sin.x + point.z * cos.x);
-        point = new Vector3d(point.x * cos.z - point.y * sin.z, point.x * sin.z + point.y * cos.z, point.z);
-        point = new Vector3d(point.x * cos.y + point.z * sin.y, point.y, point.x * sin.y - point.z * cos.y);
+    /**
+     * Converts euler angles to a quaternion
+     *
+     * @param roll  the roll in radians
+     * @param pitch the pitch in radians
+     * @param yaw   the yaw in radians
+     */
+    public static Quaternionf eulerAnglesToQuaternion(float roll, float pitch, float yaw) {
+        float cr = (float) Math.cos(roll * 0.5);
+        float sr = (float) Math.sin(roll * 0.5);
+        float cp = (float) Math.cos(pitch * 0.5);
+        float sp = (float) Math.sin(pitch * 0.5);
+        float cy = (float) Math.cos(yaw * 0.5);
+        float sy = (float) Math.sin(yaw * 0.5);
 
-        return point;
+        Quaternionf q = new Quaternionf();
+        q.w = cr * cp * cy + sr * sp * sy;
+        q.x = sr * cp * cy - cr * sp * sy;
+        q.y = cr * sp * cy + sr * cp * sy;
+        q.z = cr * cp * sy - sr * sp * cy;
+
+        return q;
+    }
+
+    /**
+     * Returns the angle from point a to point b
+     *
+     * @return the angle in degrees
+     */
+    public static double angleBetween2DPoints(Vector2f pointA, Vector2f pointB) {
+        return Math.toDegrees(Math.atan2(pointA.x - pointB.x, pointA.y - pointB.y));
+    }
+
+    /**
+     * Returns the position in 3D space between two points
+     *
+     * @return the angle in degrees
+     */
+    public static Vector3f getPosBetween3DPoints(Vector3f pointA, Vector3f pointB) {
+        float diffX = pointA.x - pointB.x;
+        float diffY = pointA.y - pointB.y;
+        float diffZ = pointA.z - pointB.z;
+        return new Vector3f(pointA).sub(diffX / 2, diffY / 2, diffZ / 2);
     }
 }

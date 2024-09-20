@@ -3,6 +3,7 @@ package games.enchanted.blockplaceparticles.particle;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.blockplaceparticles.shapes.ShapeDefinitions;
 import games.enchanted.blockplaceparticles.shapes.VectorShape;
+import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.util.Mth;
@@ -18,8 +19,8 @@ public abstract class StretchyBouncyCubeParticle extends BouncyParticle {
     private double prevPrevZ;
 
     /**
-     * A single quad particle that stretches between its current and previous position when moving, this particle also has bounce physics
-     * Set {@link #physics_canBounce} in your particle constructor to disable bouncing
+     * A 3d cube particle that stretches between its current and previous position when moving, this particle also has bounce physics
+     * Set {@link #physics_canBounce} to false in your particle constructor to disable bouncing
      *
      * @param level  level
      * @param x      x pos
@@ -59,71 +60,33 @@ public abstract class StretchyBouncyCubeParticle extends BouncyParticle {
 
     @Override
     protected void renderRotatedQuad(@NotNull VertexConsumer consumer, @NotNull Camera camera, @NotNull Quaternionf quaternionf, float d) {
-        Vec3 cameraPosition = camera.getPosition();
-        float xPos = (float) ((Mth.lerp(d,  this.xo, this.x) - cameraPosition.x()) );
-        float yPos = (float) ((Mth.lerp(d,  this.yo, this.y) - cameraPosition.y()) );
-        float zPos = (float) ((Mth.lerp(d,  this.zo, this.z) - cameraPosition.z()) );
+        float xPos = (float) Mth.lerp(d, this.xo, this.x);
+        float yPos = (float) Mth.lerp(d, this.yo, this.y);
+        float zPos = (float) Mth.lerp(d, this.zo, this.z);
         Vector3f pos = new Vector3f(xPos, yPos, zPos);
-        float prevXPos = (float) ((Mth.lerp(d,  this.prevPrevX, this.xo) - cameraPosition.x()) );
-        float prevYPos = (float) ((Mth.lerp(d,  this.prevPrevY, this.yo) - cameraPosition.y()) );
-        float prevZPos = (float) ((Mth.lerp(d,  this.prevPrevZ, this.zo) - cameraPosition.z()) );
+        float prevXPos = (float) Mth.lerp(d, this.prevPrevX, this.xo);
+        float prevYPos = (float) Mth.lerp(d, this.prevPrevY, this.yo);
+        float prevZPos = (float) Mth.lerp(d, this.prevPrevZ, this.zo);
         Vector3f prevPos = new Vector3f(prevXPos, prevYPos, prevZPos);
-        this.renderCubeGeometry(consumer, pos, prevPos, d);
+
+        Vec3 cameraPosition = camera.getPosition();
+        Vector3f centerPos = MathHelpers.getPosBetween3DPoints(pos, prevPos).sub(cameraPosition.toVector3f());
+
+        this.renderCubeGeometry(consumer, centerPos, pos, prevPos, d);
     }
 
-    private void renderCubeGeometry(@NotNull VertexConsumer consumer, Vector3f pos, Vector3f prevPos, float d) {
-        float quadSize = this.getQuadSize(d);
+    private void renderCubeGeometry(@NotNull VertexConsumer consumer, Vector3f particleCenterPos, Vector3f rawPos, Vector3f rawPrevPos, float d) {
+        float cuboidSize = this.getQuadSize(d);
         float u0 = this.getU0();
         float u1 = this.getU1();
         float v0 = this.getV0();
         float v1 = this.getV1();
         int lightColor = this.getLightColor(d);
 
-        // TODO: rotate shape depending on pos and prevPos
+        float angleX = (float) MathHelpers.angleBetween2DPoints(new Vector2f(rawPos.z, rawPos.y), new Vector2f(rawPrevPos.z, rawPrevPos.y));
+        float angleY = (float) MathHelpers.angleBetween2DPoints(new Vector2f(rawPos.x, rawPos.z), new Vector2f(rawPrevPos.x, rawPrevPos.z));
 
-        VectorShape cuboidShape = VectorShape.copyShape(ShapeDefinitions.CUBE).scale(new Vector3f(1F, (float) (Math.abs(this.distanceBetweenPreviousAndCurrentPos()) * 16), 1));
-        cuboidShape.renderShape(consumer, new Vector2f[]{new Vector2f(u0, v0), new Vector2f(u1, v1)}, pos.x, pos.y, pos.z, quadSize, lightColor, new Vector4f(1));
-
-//        if(!this.isParticleMoving()) {
-//            // render a normal quad when the particle isnt moving
-//            this.renderVertex(consumer, quaternionf, pos.x    , pos.y    , pos.z    ,  1.0f, -1.0f, quadSize, u1, v1, lightColor); // bottom left
-//            this.renderVertex(consumer, quaternionf, prevPos.x, prevPos.y, prevPos.z,  1.0f,  1.0f, quadSize, u1, v0, lightColor); // top right
-//            this.renderVertex(consumer, quaternionf, prevPos.x, prevPos.y, prevPos.z, -1.0f,  1.0f, quadSize, u0, v0, lightColor); // top left
-//            this.renderVertex(consumer, quaternionf, pos.x    , pos.y    , pos.z    , -1.0f, -1.0f, quadSize, u0, v1, lightColor); // bottom right
-//            return;
-//        }
-//
-//        Vector3f particleDir = new Vector3f(0f, 0f, 0f);
-//        pos.sub(prevPos, particleDir);
-//        particleDir.x = Math.abs(0f - (Math.clamp(particleDir.x, -0.015f, 0.015f) + 0.015f)) - 0.015f;
-//        particleDir.y = Math.abs(0f - (Math.clamp(particleDir.y, -0.015f, 0.015f) + 0.015f)) - 0.015f;
-//        particleDir.z = Math.abs(0f - (Math.clamp(particleDir.z, -0.015f, 0.015f) + 0.015f)) - 0.015f;
-//
-//        quaternionf.rotateLocalY((float) Math.toRadians(45));
-//        this.renderVertex(consumer, quaternionf, pos.x     - particleDir.x, pos.y     - particleDir.y, pos.z     - particleDir.z,  1.0f, -1.0f, quadSize, u1, v1, lightColor); // bottom left
-//        this.renderVertex(consumer, quaternionf, prevPos.x - particleDir.x, prevPos.y - particleDir.y, prevPos.z - particleDir.z,  1.0f,  1.0f, quadSize, u1, v0, lightColor); // top right
-//        this.renderVertex(consumer, quaternionf, prevPos.x + particleDir.x, prevPos.y + particleDir.y, prevPos.z + particleDir.z, -1.0f,  1.0f, quadSize, u0, v0, lightColor); // top left
-//        this.renderVertex(consumer, quaternionf, pos.x     + particleDir.x, pos.y     + particleDir.y, pos.z     + particleDir.z, -1.0f, -1.0f, quadSize, u0, v1, lightColor); // bottom right
-//
-//        this.renderVertex(consumer, quaternionf, pos.x     + particleDir.x, pos.y     + particleDir.y, pos.z     + particleDir.z, -1.0f, -1.0f, quadSize, u0, v1, lightColor); // bottom right
-//        this.renderVertex(consumer, quaternionf, prevPos.x + particleDir.x, prevPos.y + particleDir.y, prevPos.z + particleDir.z, -1.0f,  1.0f, quadSize, u0, v0, lightColor); // top left
-//        this.renderVertex(consumer, quaternionf, prevPos.x - particleDir.x, prevPos.y - particleDir.y, prevPos.z - particleDir.z,  1.0f,  1.0f, quadSize, u1, v0, lightColor); // top right
-//        this.renderVertex(consumer, quaternionf, pos.x     - particleDir.x, pos.y     - particleDir.y, pos.z     - particleDir.z,  1.0f, -1.0f, quadSize, u1, v1, lightColor); // bottom left
-//
-//        quaternionf.rotateLocalY((float) Math.toRadians(135));
-//        this.renderVertex(consumer, quaternionf, pos.x     - particleDir.x, pos.y     - particleDir.y, pos.z     - particleDir.z,  1.0f, -1.0f, quadSize, u1, v1, lightColor); // bottom left
-//        this.renderVertex(consumer, quaternionf, prevPos.x - particleDir.x, prevPos.y - particleDir.y, prevPos.z - particleDir.z,  1.0f,  1.0f, quadSize, u1, v0, lightColor); // top right
-//        this.renderVertex(consumer, quaternionf, prevPos.x + particleDir.x, prevPos.y + particleDir.y, prevPos.z + particleDir.z, -1.0f,  1.0f, quadSize, u0, v0, lightColor); // top left
-//        this.renderVertex(consumer, quaternionf, pos.x     + particleDir.x, pos.y     + particleDir.y, pos.z     + particleDir.z, -1.0f, -1.0f, quadSize, u0, v1, lightColor); // bottom right
-//
-//        this.renderVertex(consumer, quaternionf, pos.x     + particleDir.x, pos.y     + particleDir.y, pos.z     + particleDir.z, -1.0f, -1.0f, quadSize, u0, v1, lightColor); // bottom right
-//        this.renderVertex(consumer, quaternionf, prevPos.x + particleDir.x, prevPos.y + particleDir.y, prevPos.z + particleDir.z, -1.0f,  1.0f, quadSize, u0, v0, lightColor); // top left
-//        this.renderVertex(consumer, quaternionf, prevPos.x - particleDir.x, prevPos.y - particleDir.y, prevPos.z - particleDir.z,  1.0f,  1.0f, quadSize, u1, v0, lightColor); // top right
-//        this.renderVertex(consumer, quaternionf, pos.x     - particleDir.x, pos.y     - particleDir.y, pos.z     - particleDir.z,  1.0f, -1.0f, quadSize, u1, v1, lightColor); // bottom left
-    }
-
-    private void renderVertex(VertexConsumer consumer, Quaternionf quaternionf, float x, float y, float z, float width, float height, float sizeMultiplier, float u, float v, int lightColor) {
-        Vector3f vertexPos = new Vector3f(width, height, 0.0f).rotate(quaternionf).mul(sizeMultiplier).add(x, y, z);
-        consumer.addVertex(vertexPos.x(), vertexPos.y(), vertexPos.z()).setUv(u, v).setColor(this.rCol, this.gCol, this.bCol, this.alpha).setLight(lightColor);
+        VectorShape cuboidShape = VectorShape.copyShape(ShapeDefinitions.CUBE).scale(new Vector3f(1, (float) Math.max(Math.abs(this.distanceBetweenPreviousAndCurrentPos()) * 16, 1), 1));
+        cuboidShape.renderShapeWithRotation(consumer, new Vector2f[]{new Vector2f(u0, v0), new Vector2f(u1, v1)}, particleCenterPos.x, particleCenterPos.y, particleCenterPos.z, cuboidSize, new Vector3f(angleX < 0 ? -angleX : angleX, angleY, 0), lightColor, new Vector4f(1));
     }
 }
