@@ -92,6 +92,6 @@ public abstract class StretchyBouncyCubeParticle extends BouncyParticle {
 //        this.renderVertex(consumer, quaternionf, pos.x    , pos.y     + 0.2f, pos.z    , -1.0f, -1.0f, quadSize, u0, v1, lightColor); // bottom right
 
         VectorShape cuboidShape = VectorShape.copyShape(ShapeDefinitions.CUBE_TOP_ORIGIN).scale(new Vector3f(1, Math.max(Math.abs(MathHelpers.getDistanceBetweenVectors(pos, prevPos) * 40), 1), 1));
-        cuboidShape.renderShapeWithRotation(consumer, new Vector2f[]{new Vector2f(u0, v0), new Vector2f(u1, v1)}, prevPos.x, prevPos.y, prevPos.z, cuboidSize, new Vector3f(-(pitch - 90), yaw, 0), lightColor, new Vector4f(this.rCol, this.gCol, this.bCol, this.alpha));
+        cuboidShape.renderShapeWithRotation(consumer, new Vector2f[]{new Vector2f(u0, v0), new Vector2f(u1, v1)}, prevPos.x, prevPos.y, prevPos.z, quaternionf, new Vector3f(-(pitch - 90), yaw, 0), cuboidSize, lightColor, new Vector4f(this.rCol, this.gCol, this.bCol, this.alpha));
     }
 }
