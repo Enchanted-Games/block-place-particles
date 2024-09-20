@@ -1,5 +1,6 @@
 package games.enchanted.blockplaceparticles.util;
 
+import com.mojang.math.Axis;
 import org.joml.Quaternionf;
 import org.joml.Vector2f;
 import org.joml.Vector3d;
@@ -34,8 +35,8 @@ public class MathHelpers {
      * @param yaw   the yaw in radians
      * @return the rotated point
      */
-    public static Vector3d rotate3DPoint(Vector3d point, float roll, float pitch, float yaw) {
-        Quaternionf quaternionf = eulerAnglesToQuaternion(roll, pitch, yaw);
+    public static Vector3d rotate3DPoint(Vector3d point, float pitch, float yaw, float roll) {
+        Quaternionf quaternionf = eulerAnglesToQuaternion(pitch, yaw, roll);
         return quaternionf.transform(new Vector3d(point));
     }
 
@@ -61,6 +62,37 @@ public class MathHelpers {
         q.z = cr * cp * sy - sr * sp * cy;
 
         return q;
+    }
+
+    public static Vector3f axisAngleToEuler(Vector3f axis, double angle) {
+        float heading;
+        float attitude;
+        float bank;
+        double s=Math.sin(angle);
+        double c=Math.cos(angle);
+        double t=1-c;
+        //  if axis is not already normalised then uncomment this
+        // double magnitude = Math.sqrt(x*x + y*y + z*z);
+        // if (magnitude==0) throw error;
+        // x /= magnitude;
+        // y /= magnitude;
+        // z /= magnitude;
+        if ((axis.x*axis.y*t + axis.z*s) > 0.998) { // north pole singularity detected
+            heading = (float) (2*Math.atan2(axis.x*Math.sin(angle/2),Math.cos(angle/2)));
+            attitude = (float) (Math.PI/2);
+            bank = 0;
+            return new Vector3f(heading, attitude, bank);
+        }
+        if ((axis.x*axis.y*t + axis.z*s) < -0.998) { // south pole singularity detected
+            heading = (float) (-2*Math.atan2(axis.x*Math.sin(angle/2),Math.cos(angle/2)));
+            attitude = (float) (-Math.PI/2);
+            bank = 0;
+            return new Vector3f(heading, attitude, bank);
+        }
+        heading = (float) Math.atan2(axis.y * s- axis.x * axis.z * t , 1 - (axis.y*axis.y+ axis.z*axis.z ) * t);
+        attitude = (float) Math.asin(axis.x * axis.y * t + axis.z * s);
+        bank = (float) Math.atan2(axis.x * s - axis.y * axis.z * t , 1 - (axis.x*axis.x + axis.z*axis.z) * t);
+        return new Vector3f(heading, attitude, bank);
     }
 
     /**

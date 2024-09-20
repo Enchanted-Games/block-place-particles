@@ -6,6 +6,7 @@ import games.enchanted.blockplaceparticles.shapes.VectorShape;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -60,22 +61,21 @@ public abstract class StretchyBouncyCubeParticle extends BouncyParticle {
 
     @Override
     protected void renderRotatedQuad(@NotNull VertexConsumer consumer, @NotNull Camera camera, @NotNull Quaternionf quaternionf, float d) {
+        Vector3f cameraPosition = camera.getPosition().toVector3f();
+
         float xPos = (float) Mth.lerp(d, this.xo, this.x);
         float yPos = (float) Mth.lerp(d, this.yo, this.y);
         float zPos = (float) Mth.lerp(d, this.zo, this.z);
-        Vector3f pos = new Vector3f(xPos, yPos, zPos);
+        Vector3f pos = new Vector3f(xPos, yPos, zPos).sub(cameraPosition);
         float prevXPos = (float) Mth.lerp(d, this.prevPrevX, this.xo);
         float prevYPos = (float) Mth.lerp(d, this.prevPrevY, this.yo);
         float prevZPos = (float) Mth.lerp(d, this.prevPrevZ, this.zo);
-        Vector3f prevPos = new Vector3f(prevXPos, prevYPos, prevZPos);
+        Vector3f prevPos = new Vector3f(prevXPos, prevYPos, prevZPos).sub(cameraPosition);
 
-        Vec3 cameraPosition = camera.getPosition();
-        Vector3f centerPos = MathHelpers.getPosBetween3DPoints(pos, prevPos).sub(cameraPosition.toVector3f());
-
-        this.renderCubeGeometry(consumer, centerPos, pos, prevPos, d);
+        this.renderCubeGeometry(consumer, quaternionf, pos, prevPos, d);
     }
 
-    private void renderCubeGeometry(@NotNull VertexConsumer consumer, Vector3f particleCenterPos, Vector3f rawPos, Vector3f rawPrevPos, float d) {
+    private void renderCubeGeometry(@NotNull VertexConsumer consumer, Quaternionf quaternionf, Vector3f pos, Vector3f prevPos, float d) {
         float cuboidSize = this.getQuadSize(d);
         float u0 = this.getU0();
         float u1 = this.getU1();
@@ -83,10 +83,20 @@ public abstract class StretchyBouncyCubeParticle extends BouncyParticle {
         float v1 = this.getV1();
         int lightColor = this.getLightColor(d);
 
-        float angleX = (float) MathHelpers.angleBetween2DPoints(new Vector2f(rawPos.z, rawPos.y), new Vector2f(rawPrevPos.z, rawPrevPos.y));
-        float angleY = (float) MathHelpers.angleBetween2DPoints(new Vector2f(rawPos.x, rawPos.z), new Vector2f(rawPrevPos.x, rawPrevPos.z));
+        Vector3f normalisedMovementDir = new Vector3f(pos).sub(prevPos).normalize();
+        float pitch = (float) Math.toDegrees(Math.asin(normalisedMovementDir.y));
+        float yaw = (float) Math.toDegrees(Math.atan2(normalisedMovementDir.x, normalisedMovementDir.z));
 
-        VectorShape cuboidShape = VectorShape.copyShape(ShapeDefinitions.CUBE).scale(new Vector3f(1, (float) Math.max(Math.abs(this.distanceBetweenPreviousAndCurrentPos()) * 16, 1), 1));
-        cuboidShape.renderShapeWithRotation(consumer, new Vector2f[]{new Vector2f(u0, v0), new Vector2f(u1, v1)}, particleCenterPos.x, particleCenterPos.y, particleCenterPos.z, cuboidSize, new Vector3f(angleX < 0 ? -angleX : angleX, angleY, 0), lightColor, new Vector4f(1));
+//        this.renderVertex(consumer, quaternionf, pos.x    , pos.y     + 0.2f, pos.z    ,  1.0f, -1.0f, quadSize, u1, v1, lightColor); // bottom left
+//        this.renderVertex(consumer, quaternionf, prevPos.x, prevPos.y + 0.2f, prevPos.z,  1.0f,  1.0f, quadSize, u1, v0, lightColor); // top right
+//        this.renderVertex(consumer, quaternionf, prevPos.x, prevPos.y + 0.2f, prevPos.z, -1.0f,  1.0f, quadSize, u0, v0, lightColor); // top left
+//        this.renderVertex(consumer, quaternionf, pos.x    , pos.y     + 0.2f, pos.z    , -1.0f, -1.0f, quadSize, u0, v1, lightColor); // bottom right
+
+        VectorShape cuboidShape = VectorShape.copyShape(ShapeDefinitions.CUBE_BOTTOM_ORIGIN).scale(new Vector3f(1, (float) Math.max(Math.abs(this.distanceBetweenPreviousAndCurrentPos() * 40), 1), 1));
+        cuboidShape.renderShapeWithRotation(consumer, new Vector2f[]{new Vector2f(u0, v0), new Vector2f(u1, v1)}, prevPos.x, prevPos.y, prevPos.z, cuboidSize, new Vector3f(-(pitch - 90), yaw, 0), lightColor, new Vector4f(this.rCol, this.gCol, this.bCol, this.alpha));
+    }
+    private void renderVertex(VertexConsumer consumer, Quaternionf quaternionf, float x, float y, float z, float width, float height, float sizeMultiplier, float u, float v, int lightColor) {
+        Vector3f vertexPos = new Vector3f(width, height, 0.0f).rotate(quaternionf).mul(sizeMultiplier).add(x, y, z);
+        consumer.addVertex(vertexPos.x(), vertexPos.y(), vertexPos.z()).setUv(u, v).setColor(this.rCol, this.gCol, this.bCol, this.alpha).setLight(lightColor);
     }
 }

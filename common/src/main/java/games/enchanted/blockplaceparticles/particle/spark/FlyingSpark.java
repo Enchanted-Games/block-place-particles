@@ -64,7 +64,7 @@ public class FlyingSpark extends StretchyBouncyCubeParticle {
             float totalVelocity = getTotalVelocity();
 
             if(!hasDecreasedLifespan && this.onGround && !this.isParticleMoving()) {
-                this.age = this.lifetime - Mth.randomBetweenInclusive(this.random, 6, 12);
+                this.age = this.lifetime - Mth.randomBetweenInclusive(this.random, 20, 40);
                 hasDecreasedLifespan = true;
             }
             if(!(this.age >= this.lifetime - 14)) {

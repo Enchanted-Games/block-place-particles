@@ -34,15 +34,15 @@ public class VectorShape {
      */
     public void renderShapeWithRotation(VertexConsumer vertexConsumer, Vector2f[] uvCoordinates, double xPos, double yPos, double zPos, float size, Vector3f rotation, int lightColour, Vector4f colour) {
         if(uvCoordinates.length > 2) throw new IllegalArgumentException("VertexShape#renderShape requires exactly 2 elements in uvCoordinates specifying the top left and top right uv coordinates");
-        float xRotRadians = (float) Math.toRadians(rotation.x);
-        float yRotRadians = (float) Math.toRadians(rotation.y);
-        float zRotRadians = (float) Math.toRadians(rotation.z);
+        float pitchRad = (float) Math.toRadians(rotation.x);
+        float yawRad = (float) Math.toRadians(rotation.y);
+        float rollRad = (float) Math.toRadians(rotation.z);
 
         for (int i = 0; i < this.vertices.length; i += 4) {
-            Vector3d vertex1 = MathHelpers.rotate3DPoint(this.vertices[i]    , xRotRadians, yRotRadians, zRotRadians).mul(size).add(xPos, yPos, zPos);
-            Vector3d vertex2 = MathHelpers.rotate3DPoint(this.vertices[i + 1], xRotRadians, yRotRadians, zRotRadians).mul(size).add(xPos, yPos, zPos);
-            Vector3d vertex3 = MathHelpers.rotate3DPoint(this.vertices[i + 2], xRotRadians, yRotRadians, zRotRadians).mul(size).add(xPos, yPos, zPos);
-            Vector3d vertex4 = MathHelpers.rotate3DPoint(this.vertices[i + 3], xRotRadians, yRotRadians, zRotRadians).mul(size).add(xPos, yPos, zPos);
+            Vector3d vertex1 = MathHelpers.rotate3DPoint(this.vertices[i]    , pitchRad, yawRad, rollRad).mul(size).add(xPos, yPos, zPos);
+            Vector3d vertex2 = MathHelpers.rotate3DPoint(this.vertices[i + 1], pitchRad, yawRad, rollRad).mul(size).add(xPos, yPos, zPos);
+            Vector3d vertex3 = MathHelpers.rotate3DPoint(this.vertices[i + 2], pitchRad, yawRad, rollRad).mul(size).add(xPos, yPos, zPos);
+            Vector3d vertex4 = MathHelpers.rotate3DPoint(this.vertices[i + 3], pitchRad, yawRad, rollRad).mul(size).add(xPos, yPos, zPos);
 
             this.addVertex(vertexConsumer, vertex4, uvCoordinates[0].x, uvCoordinates[1].y, lightColour, colour);
             this.addVertex(vertexConsumer, vertex3, uvCoordinates[0].x, uvCoordinates[0].y, lightColour, colour);
