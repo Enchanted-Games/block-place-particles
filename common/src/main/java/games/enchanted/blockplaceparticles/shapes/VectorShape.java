@@ -44,10 +44,10 @@ public class VectorShape {
             Vector3d vertex3 = MathHelpers.rotate3DPoint(this.vertices[i + 2], pitchRad, yawRad, rollRad).mul(size).add(xPos, yPos, zPos);
             Vector3d vertex4 = MathHelpers.rotate3DPoint(this.vertices[i + 3], pitchRad, yawRad, rollRad).mul(size).add(xPos, yPos, zPos);
 
-            this.addVertex(vertexConsumer, vertex4, uvCoordinates[0].x, uvCoordinates[1].y, lightColour, colour);
-            this.addVertex(vertexConsumer, vertex3, uvCoordinates[0].x, uvCoordinates[0].y, lightColour, colour);
-            this.addVertex(vertexConsumer, vertex2, uvCoordinates[1].x, uvCoordinates[0].y, lightColour, colour);
-            this.addVertex(vertexConsumer, vertex1, uvCoordinates[1].x, uvCoordinates[1].y, lightColour, colour);
+            this.addVertex(vertexConsumer, vertex1, uvCoordinates[0].x, uvCoordinates[1].y, lightColour, colour);
+            this.addVertex(vertexConsumer, vertex2, uvCoordinates[0].x, uvCoordinates[0].y, lightColour, colour);
+            this.addVertex(vertexConsumer, vertex3, uvCoordinates[1].x, uvCoordinates[0].y, lightColour, colour);
+            this.addVertex(vertexConsumer, vertex4, uvCoordinates[1].x, uvCoordinates[1].y, lightColour, colour);
         }
     }
     /**

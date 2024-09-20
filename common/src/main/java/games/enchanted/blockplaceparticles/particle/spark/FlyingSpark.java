@@ -31,7 +31,7 @@ public class FlyingSpark extends StretchyBouncyCubeParticle {
 
         this.lifetime = (int)(64. / ((double)this.random.nextFloat() * 0.8 + 0.2)) + 2;
 
-        float particleSize = (this.random.nextBoolean() ? 0.025F : 0.02F);
+        float particleSize = (this.random.nextBoolean() ? 0.025F : 0.03F);
         this.setSize(particleSize, particleSize);
         this.quadSize = particleSize;
     }

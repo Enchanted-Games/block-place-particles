@@ -47,11 +47,8 @@ public abstract class StretchyBouncyCubeParticle extends BouncyParticle {
         super.tick();
     }
 
-    protected double distanceBetweenPreviousAndCurrentPos() {
-        return new Vector3d(this.x, this.y, this.z).distance(this.xo, this.yo, this.zo);
-    }
     protected boolean isParticleMoving() {
-        return this.distanceBetweenPreviousAndCurrentPos() < 0.001;
+        return this.getTotalVelocity() < 0.001;
     }
 
     @Override
@@ -85,18 +82,16 @@ public abstract class StretchyBouncyCubeParticle extends BouncyParticle {
 
         Vector3f normalisedMovementDir = new Vector3f(pos).sub(prevPos).normalize();
         float pitch = (float) Math.toDegrees(Math.asin(normalisedMovementDir.y));
+        if(!Float.isFinite(pitch)) pitch = 0;
         float yaw = (float) Math.toDegrees(Math.atan2(normalisedMovementDir.x, normalisedMovementDir.z));
+        if(!Float.isFinite(yaw)) yaw = 0;
 
 //        this.renderVertex(consumer, quaternionf, pos.x    , pos.y     + 0.2f, pos.z    ,  1.0f, -1.0f, quadSize, u1, v1, lightColor); // bottom left
 //        this.renderVertex(consumer, quaternionf, prevPos.x, prevPos.y + 0.2f, prevPos.z,  1.0f,  1.0f, quadSize, u1, v0, lightColor); // top right
 //        this.renderVertex(consumer, quaternionf, prevPos.x, prevPos.y + 0.2f, prevPos.z, -1.0f,  1.0f, quadSize, u0, v0, lightColor); // top left
 //        this.renderVertex(consumer, quaternionf, pos.x    , pos.y     + 0.2f, pos.z    , -1.0f, -1.0f, quadSize, u0, v1, lightColor); // bottom right
 
-        VectorShape cuboidShape = VectorShape.copyShape(ShapeDefinitions.CUBE_BOTTOM_ORIGIN).scale(new Vector3f(1, (float) Math.max(Math.abs(this.distanceBetweenPreviousAndCurrentPos() * 40), 1), 1));
+        VectorShape cuboidShape = VectorShape.copyShape(ShapeDefinitions.CUBE_TOP_ORIGIN).scale(new Vector3f(1, Math.max(Math.abs(MathHelpers.getDistanceBetweenVectors(pos, prevPos) * 40), 1), 1));
         cuboidShape.renderShapeWithRotation(consumer, new Vector2f[]{new Vector2f(u0, v0), new Vector2f(u1, v1)}, prevPos.x, prevPos.y, prevPos.z, cuboidSize, new Vector3f(-(pitch - 90), yaw, 0), lightColor, new Vector4f(this.rCol, this.gCol, this.bCol, this.alpha));
-    }
-    private void renderVertex(VertexConsumer consumer, Quaternionf quaternionf, float x, float y, float z, float width, float height, float sizeMultiplier, float u, float v, int lightColor) {
-        Vector3f vertexPos = new Vector3f(width, height, 0.0f).rotate(quaternionf).mul(sizeMultiplier).add(x, y, z);
-        consumer.addVertex(vertexPos.x(), vertexPos.y(), vertexPos.z()).setUv(u, v).setColor(this.rCol, this.gCol, this.bCol, this.alpha).setLight(lightColor);
     }
 }
