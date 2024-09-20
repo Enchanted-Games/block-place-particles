@@ -1,6 +1,6 @@
 package games.enchanted.blockplaceparticles.particle.spark;
 
-import games.enchanted.blockplaceparticles.particle.StretchyBouncyQuadParticle;
+import games.enchanted.blockplaceparticles.particle.StretchyBouncyCubeParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -11,7 +11,7 @@ import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class FlyingSpark extends StretchyBouncyQuadParticle {
+public class FlyingSpark extends StretchyBouncyCubeParticle {
     private boolean hasDecreasedLifespan = false;
 
     protected FlyingSpark(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
