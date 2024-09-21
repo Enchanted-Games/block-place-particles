@@ -84,6 +84,7 @@ public enum BlockParticleOverride {
     public static BlockParticleOverride getOverrideForBlockState(BlockState blockState, boolean isBlockBeingPlaced) {
         Block block = blockState.getBlock();
         if(blockState.isAir() || block.asItem() instanceof AirItem) return NONE;
+        if(!(block.asItem() instanceof BlockItem)) return BLOCK;
         if (ConfigHandler.snowflake_BlockItems.contains((BlockItem) block.asItem()) && shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.snowflake_onPlace, ConfigHandler.snowflake_onBreak)) {
             return SNOW_POWDER;
         } else if (ConfigHandler.cherryPetal_BlockItems.contains((BlockItem) block.asItem()) && shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.cherryPetal_onPlace, ConfigHandler.cherryPetal_onBreak)) {
