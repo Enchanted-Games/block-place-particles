@@ -37,6 +37,7 @@ public class ModParticleTypes {
     public static ParticleType<BlockParticleOption> GENERIC_FLUID_BUCKET_SPLASH;
 
     public static SimpleParticleType FLYING_SPARK;
+    public static SimpleParticleType FLOATING_SPARK;
 
     public static void registerParticles() {
         FALLING_CHERRY_PETAL = register((SpriteParticleProviderRegistration) FallingPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_cherry_leaves"), false);
@@ -48,7 +49,8 @@ public class ModParticleTypes {
         LAVA_BUCKET_SPLASH = register((SpriteParticleProviderRegistration) LavaSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "lava_bucket_splash"), false);
         GENERIC_FLUID_BUCKET_SPLASH = register((SpriteParticleProviderRegistration) BlockSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "generic_fluid_bucket_splash"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
 
-        FLYING_SPARK = register((SpriteParticleProviderRegistration) FlyingSpark.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flying_spark"), false);
+        FLYING_SPARK = register((SpriteParticleProviderRegistration) FlyingSpark.FlyingSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flying_spark"), false);
+        FLOATING_SPARK = register((SpriteParticleProviderRegistration) FlyingSpark.FloatingSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_spark"), false);
     }
 
     private static SimpleParticleType register(SpriteParticleProviderRegistration<SimpleParticleType> provider, ResourceLocation particleID, boolean alwaysShow) {

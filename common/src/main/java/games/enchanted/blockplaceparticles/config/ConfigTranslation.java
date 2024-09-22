@@ -16,6 +16,9 @@ public class ConfigTranslation {
     public static final String MAX_PARTICLES_ON_ITEM_USE_OPTION = "max_particles_item_use";
     public static final String ITEM_USE_PARTICLE_INTENSITY = "item_use_particle_intensity";
     public static final String SPAWN_PARTICLE_ON_ITEM_USE = "spawn_particle_on_item_use";
+    public static final String SPAWN_BLOCK_PARTICLE_ON_PLACE = "spawn_block_particle_on_place";
+    public static final String SPAWN_BLOCK_PARTICLE_ON_BREAK = "spawn_block_particle_on_break";
+    public static final String SPAWN_FLUID_PARTICLE_ON_PLACE = "spawn_fluid_particle_on_place";
 
     public static Component createDesc(TranslationKey translationKey) {
         return translationKey.append(".desc").toComponent();

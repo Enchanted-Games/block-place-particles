@@ -14,10 +14,10 @@ import org.jetbrains.annotations.Nullable;
 public class FlyingSpark extends StretchyBouncyCubeParticle {
     private boolean hasDecreasedLifespan = false;
 
-    protected FlyingSpark(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
+    protected FlyingSpark(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float gravity, int lifetime, SpriteSet spriteSet) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed);
         this.setSprite(spriteSet.get(this.random.nextInt(12), 12));
-        this.gravity = Mth.randomBetween(this.random, 0.8F, 0.9F);
+        this.gravity = gravity;
         this.friction = 1.0F;
 
         this.xd = (xSpeed / 2) + (Math.random() * 3.0 - 1.5) * 0.05000000074505806 * (this.random.nextFloat() > 0.95 ? 2 : 1);
@@ -29,7 +29,7 @@ public class FlyingSpark extends StretchyBouncyCubeParticle {
         this.rCol = this.gCol = 1;
         this.bCol = 0.9f;
 
-        this.lifetime = (int)(64. / ((double)this.random.nextFloat() * 0.8 + 0.2)) + 2;
+        this.lifetime = lifetime;
 
         float particleSize = (this.random.nextBoolean() ? 0.025F : 0.03F);
         this.setSize(particleSize, particleSize);
@@ -86,17 +86,31 @@ public class FlyingSpark extends StretchyBouncyCubeParticle {
         return ParticleRenderType.PARTICLE_SHEET_LIT;
     }
 
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
+    public static class FlyingSparkProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 
-        public Provider(SpriteSet spriteSet) {
+        public FlyingSparkProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
         @Nullable
         @Override
         public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
+            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.random, 0.8F, 0.9F), (int)(64. / ((double)level.random.nextFloat() * 0.8 + 0.2)) + 2, spriteSet);
+        }
+    }
+
+    public static class FloatingSparkProvider implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public FloatingSparkProvider(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        @Nullable
+        @Override
+        public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.random, 0.2F, 0.3F), Mth.randomBetweenInclusive(level.random, 3, 12), spriteSet);
         }
     }
 }

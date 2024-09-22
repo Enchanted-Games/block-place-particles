@@ -2,13 +2,10 @@ package games.enchanted.blockplaceparticles.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.blockplaceparticles.shapes.ShapeDefinitions;
-import games.enchanted.blockplaceparticles.shapes.VectorShape;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.joml.*;
 
@@ -86,12 +83,8 @@ public abstract class StretchyBouncyCubeParticle extends BouncyParticle {
         float yaw = (float) Math.toDegrees(Math.atan2(normalisedMovementDir.x, normalisedMovementDir.z));
         if(!Float.isFinite(yaw)) yaw = 0;
 
-//        this.renderVertex(consumer, quaternionf, pos.x    , pos.y     + 0.2f, pos.z    ,  1.0f, -1.0f, quadSize, u1, v1, lightColor); // bottom left
-//        this.renderVertex(consumer, quaternionf, prevPos.x, prevPos.y + 0.2f, prevPos.z,  1.0f,  1.0f, quadSize, u1, v0, lightColor); // top right
-//        this.renderVertex(consumer, quaternionf, prevPos.x, prevPos.y + 0.2f, prevPos.z, -1.0f,  1.0f, quadSize, u0, v0, lightColor); // top left
-//        this.renderVertex(consumer, quaternionf, pos.x    , pos.y     + 0.2f, pos.z    , -1.0f, -1.0f, quadSize, u0, v1, lightColor); // bottom right
-
-        VectorShape cuboidShape = VectorShape.copyShape(ShapeDefinitions.CUBE_TOP_ORIGIN).scale(new Vector3f(1, Math.max(Math.abs(MathHelpers.getDistanceBetweenVectors(pos, prevPos) * 40), 1), 1));
-        cuboidShape.renderShapeWithRotation(consumer, new Vector2f[]{new Vector2f(u0, v0), new Vector2f(u1, v1)}, prevPos.x, prevPos.y, prevPos.z, quaternionf, new Vector3f(-(pitch - 90), yaw, 0), cuboidSize, lightColor, new Vector4f(this.rCol, this.gCol, this.bCol, this.alpha));
+        Vector3f shapeScale = new Vector3f(1, Math.max(Math.abs(MathHelpers.getDistanceBetweenVectors(pos, prevPos) * 40), 1), 1);
+        Vector3f shapeRotation = new Vector3f(-(pitch - 90), yaw, 0);
+        ShapeDefinitions.CUBE_TOP_ORIGIN.renderShapeWithRotation(consumer, new Vector2f[]{new Vector2f(u0, v0), new Vector2f(u1, v1)}, prevPos, shapeScale, quaternionf, shapeRotation, cuboidSize, lightColor, new Vector4f(this.rCol, this.gCol, this.bCol, this.alpha));
     }
 }
