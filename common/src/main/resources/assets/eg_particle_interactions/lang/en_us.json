@@ -32,7 +32,7 @@
   "eg_particle_interactions.config.global_option.item_use_particle_intensity.desc": "The speed that the %s particles have when spawned",
 
 
-  "eg_particle_interactions.config.blocks": "Block Particles",
+  "eg_particle_interactions.config.blocks": "Block Placement / Breaking",
   "eg_particle_interactions.config.blocks.desc": "Configure how particles are emitted when placing or breaking blocks",
   "eg_particle_interactions.config.blocks.info": "Block Config Information",
   "eg_particle_interactions.config.blocks.info.desc": "All config options in this tab are applied from top to bottom. This means if a block is specified in two separate particle types, it will only emit the particle higher up in the config menu",
@@ -48,7 +48,7 @@
   "eg_particle_interactions.config.blocks.biome_leaf_blocks.desc": "Blocks that should spawn %s particles when placed or broken",
 
 
-  "eg_particle_interactions.config.fluids": "Fluid Particles",
+  "eg_particle_interactions.config.fluids": "Fluid Placement",
   "eg_particle_interactions.config.fluids.desc": "Configure how particles are emitted when placing fluids",
   "eg_particle_interactions.config.fluids.info": "Fluid Config Information",
   "eg_particle_interactions.config.fluids.info.desc": "All config options in this tab are applied from top to bottom. This means if a fluid is specified in two separate particle types, it will only emit the particle higher up in the config menu",

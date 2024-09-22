@@ -7,9 +7,12 @@ public class ConfigTranslation {
     private static final String CONFIG_KEY_PREFIX = ParticleInteractionsMod.MOD_ID + ".config";
 
     public static final String BLOCKS_CONFIG_CATEGORY = "blocks";
-    public static final String FLUIDS_CONFIG_CATEGORY = "fluids";
+    public static final String BLOCK_AMBIENT_CONFIG_CATEGORY = "block_ambient";
     public static final String ITEMS_CONFIG_CATEGORY = "items";
+    public static final String FLUIDS_CONFIG_CATEGORY = "fluids";
 
+    public static final String ARE_PARTICLES_ENABLED = "is_particle_enabled";
+    public static final String PARTICLE_SPAWN_CHANCE = "particle_spawn_chance";
     public static final String MAX_PARTICLES_ON_BLOCK_PLACE_OPTION = "max_particles_block_place";
     public static final String MAX_PARTICLES_ON_BLOCK_BREAK_OPTION = "max_particles_block_break";
     public static final String MAX_PARTICLES_ON_FLUID_PLACE_OPTION = "max_particles_fluid_place";

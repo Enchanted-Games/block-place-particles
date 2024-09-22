@@ -198,6 +198,24 @@ public class SpawnParticles {
         }
     }
 
+    public static void spawnAmbientCampfireSparks(Level level, BlockPos particlePos) {
+        if(!ConfigHandler.campfireSpark_enabled) return;
+        double sparkIntensity = 5 / 12.;
+        if (level.random.nextFloat() * 101 <= ConfigHandler.campfireSpark_spawnChance) {
+            for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 3) + 1; i++) {
+                level.addParticle(
+                    ModParticleTypes.FLOATING_SPARK,
+                    (double)particlePos.getX() + 0.5,
+                    (double)particlePos.getY() + 0.5,
+                    (double)particlePos.getZ() + 0.5,
+                    (level.random.nextDouble() - 0.5) * sparkIntensity,
+                    Math.abs((level.random.nextDouble() - 0.25) * sparkIntensity * 2) + 0.1,
+                    (level.random.nextDouble() - 0.5) * sparkIntensity
+                );
+            }
+        }
+    }
+
     public static void spawnFireChargeSmokeParticle(Level level, BlockPos particlePos) {
         for (int i = 0; i < 6; i++) {
             double x = particlePos.getX() + level.random.nextDouble();

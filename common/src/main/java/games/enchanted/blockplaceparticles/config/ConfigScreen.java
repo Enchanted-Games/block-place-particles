@@ -22,6 +22,7 @@ public class ConfigScreen {
         return YetAnotherConfigLib.createBuilder()
             .save(ConfigHandler::save)
             .title(ConfigTranslation.getConfigTitle().toComponent())
+
             .category(ConfigCategory.createBuilder()
                 .name(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY).toComponent())
                 .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY)))
@@ -134,6 +135,62 @@ public class ConfigScreen {
 
             .build())
 
+            // block ambient category
+            .category(ConfigCategory.createBuilder()
+                .name(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY).toComponent())
+                .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY)))
+
+                // category info
+                .group(OptionGroup.createBuilder()
+                    .name( ConfigTranslation.getGroupName(ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY, "info").toComponent() )
+                    .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY, "info")) ))
+                    .collapsed(true)
+                    .option(LabelOption.createBuilder()
+
+                    .build())
+                .build())
+
+                // campfire spark
+                .group( createParticleToggleAndChanceConfigGroup(
+                    "campfire_sparks",
+                    "campfire_sparks",
+                    ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
+                    Binding.generic(ConfigHandler.campfireSpark_enabled_DEFAULT, () -> ConfigHandler.campfireSpark_enabled, newVal -> ConfigHandler.campfireSpark_enabled = newVal),
+                    ConfigTranslation.ARE_PARTICLES_ENABLED,
+                    integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE, "campfire_sparks", ConfigHandler.campfireSpark_spawnChance_DEFAULT, () -> ConfigHandler.campfireSpark_spawnChance, newVal -> ConfigHandler.campfireSpark_spawnChance = newVal, 1, 100, 1)
+                ))
+
+            .build())
+
+            // item use category
+            .category(ConfigCategory.createBuilder()
+                .name(ConfigTranslation.getCategoryName(ConfigTranslation.ITEMS_CONFIG_CATEGORY).toComponent())
+                .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.ITEMS_CONFIG_CATEGORY)))
+
+                // item config info
+                .group(OptionGroup.createBuilder()
+                    .name( ConfigTranslation.getGroupName(ConfigTranslation.ITEMS_CONFIG_CATEGORY, "info").toComponent() )
+                    .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.ITEMS_CONFIG_CATEGORY, "info")) ))
+                    .collapsed(true)
+                    .option(LabelOption.createBuilder()
+
+                    .build())
+                .build())
+
+                // flint and steel spark
+                .group( createParticleToggleAndMaxAndIntensityConfigGroup(
+                    "flint_and_steel_sparks",
+                    "flint_and_steel_sparks",
+                    ConfigTranslation.ITEMS_CONFIG_CATEGORY,
+                    Binding.generic(ConfigHandler.flintAndSteelSpark_onUse_DEFAULT, () -> ConfigHandler.flintAndSteelSpark_onUse, newVal -> ConfigHandler.flintAndSteelSpark_onUse = newVal),
+                    ConfigTranslation.SPAWN_PARTICLE_ON_ITEM_USE,
+                    integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE_OPTION, "flint_and_steel_sparks", ConfigHandler.maxFlintAndSteelSpark_onUse_DEFAULT, () -> ConfigHandler.maxFlintAndSteelSpark_onUse, newVal -> ConfigHandler.maxFlintAndSteelSpark_onUse = newVal, 1, 16, 1),
+                    integerSliderOption(ConfigTranslation.ITEM_USE_PARTICLE_INTENSITY, "flint_and_steel_sparks", ConfigHandler.flintAndSteelSpark_intensity_DEFAULT, () -> ConfigHandler.flintAndSteelSpark_intensity, newVal -> ConfigHandler.flintAndSteelSpark_intensity = newVal, 1, 8, 1)
+                ))
+
+            .build())
+
+
             // fluid config category
             .category(ConfigCategory.createBuilder()
                 .name(ConfigTranslation.getCategoryName(ConfigTranslation.FLUIDS_CONFIG_CATEGORY).toComponent())
@@ -196,33 +253,6 @@ public class ConfigScreen {
 
             .build())
 
-            // item use category
-            .category(ConfigCategory.createBuilder()
-                .name(ConfigTranslation.getCategoryName(ConfigTranslation.ITEMS_CONFIG_CATEGORY).toComponent())
-                .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.ITEMS_CONFIG_CATEGORY)))
-
-                // item config info
-                .group(OptionGroup.createBuilder()
-                    .name( ConfigTranslation.getGroupName(ConfigTranslation.ITEMS_CONFIG_CATEGORY, "info").toComponent() )
-                    .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.ITEMS_CONFIG_CATEGORY, "info")) ))
-                    .collapsed(true)
-                    .option(LabelOption.createBuilder()
-
-                    .build())
-                .build())
-
-                // flint and steel spark
-                .group( createParticleToggleAndMaxAndIntensityConfigGroup(
-                    "flint_and_steel_sparks",
-                    "flint_and_steel_sparks",
-                    ConfigTranslation.ITEMS_CONFIG_CATEGORY,
-                    Binding.generic(ConfigHandler.flintAndSteelSpark_onUse_DEFAULT, () -> ConfigHandler.flintAndSteelSpark_onUse, newVal -> ConfigHandler.flintAndSteelSpark_onUse = newVal),
-                    integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE_OPTION, "flint_and_steel_sparks", ConfigHandler.maxFlintAndSteelSpark_onUse_DEFAULT, () -> ConfigHandler.maxFlintAndSteelSpark_onUse, newVal -> ConfigHandler.maxFlintAndSteelSpark_onUse = newVal, 1, 16, 1),
-                    integerSliderOption(ConfigTranslation.ITEM_USE_PARTICLE_INTENSITY, "flint_and_steel_sparks", ConfigHandler.flintAndSteelSpark_intensity_DEFAULT, () -> ConfigHandler.flintAndSteelSpark_intensity, newVal -> ConfigHandler.flintAndSteelSpark_intensity = newVal, 1, 8, 1)
-                ))
-
-            .build())
-
 
             .build()
         .generateScreen(parentScreen);
@@ -265,19 +295,34 @@ public class ConfigScreen {
         .build();
     }
 
-    private static OptionGroup createParticleToggleAndMaxAndIntensityConfigGroup(String particleTypeKey, String groupName, String category, Binding<Boolean> spawnOnUseBinding, Option<Integer> maxParticlesOnUseOption, Option<Integer> particleIntensityOption) {
+    private static OptionGroup createParticleToggleAndMaxAndIntensityConfigGroup(String particleTypeKey, String groupName, String category, Binding<Boolean> particleEnabledBinding, String particleEnabledTranslationOption, Option<Integer> maxParticlesOnUseOption, Option<Integer> particleIntensityOption) {
         ConfigTranslation.TranslationKey groupNameKey = ConfigTranslation.getGroupName(category, groupName);
         return OptionGroup.createBuilder()
             .name( ConfigTranslation.createPlaceholder(groupNameKey.toComponent(), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) )
             .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(groupNameKey), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ))
             .option(Option.<Boolean>createBuilder()
-                .name( ConfigTranslation.getGlobalOption(ConfigTranslation.SPAWN_PARTICLE_ON_ITEM_USE).toComponent() )
-                .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(ConfigTranslation.SPAWN_PARTICLE_ON_ITEM_USE)), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ))
-                .binding(spawnOnUseBinding)
+                .name( ConfigTranslation.getGlobalOption(particleEnabledTranslationOption).toComponent() )
+                .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(particleEnabledTranslationOption)), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ))
+                .binding(particleEnabledBinding)
                 .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
             .build())
             .option(maxParticlesOnUseOption)
             .option(particleIntensityOption)
+        .build();
+    }
+
+    private static OptionGroup createParticleToggleAndChanceConfigGroup(String particleTypeKey, String groupName, String category, Binding<Boolean> particleEnabledBinding, String particleEnabledTranslationOption, Option<Integer> particleChanceBinding) {
+        ConfigTranslation.TranslationKey groupNameKey = ConfigTranslation.getGroupName(category, groupName);
+        return OptionGroup.createBuilder()
+            .name( ConfigTranslation.createPlaceholder(groupNameKey.toComponent(), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) )
+            .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(groupNameKey), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ))
+            .option(Option.<Boolean>createBuilder()
+                .name( ConfigTranslation.getGlobalOption(particleEnabledTranslationOption).toComponent() )
+                .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(particleEnabledTranslationOption)), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ))
+                .binding(particleEnabledBinding)
+                .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
+            .build())
+            .option(particleChanceBinding)
         .build();
     }
 

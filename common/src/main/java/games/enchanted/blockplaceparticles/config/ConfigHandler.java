@@ -161,6 +161,16 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean block_onBreak = block_onBreak_DEFAULT;
 
+    // Block Ambient Particles
+    // campfire sparks
+    public static final int campfireSpark_spawnChance_DEFAULT = 20;
+    @SerialEntry
+    public static int campfireSpark_spawnChance = campfireSpark_spawnChance_DEFAULT;
+
+    public static final boolean campfireSpark_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean campfireSpark_enabled = campfireSpark_enabled_DEFAULT;
+
     // Fluid Placement Particles
     // water
     public static final List<Fluid> tintedWaterSplash_fluids_DEFAULT = List.of(Fluids.WATER, Fluids.FLOWING_WATER);
