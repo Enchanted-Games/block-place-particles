@@ -27,6 +27,23 @@ public class ConfigScreen {
                 .name(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY).toComponent())
                 .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY)))
 
+                // underwater bubbles
+                .group( createParticleToggleAndIntSliderConfigGroup(
+                    "underwater_placement_bubbles",
+                    "underwater_placement_bubbles",
+                    ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
+                    Binding.generic(ConfigHandler.underwaterBubbles_enabled_DEFAULT, () -> ConfigHandler.underwaterBubbles_enabled, newVal -> ConfigHandler.underwaterBubbles_enabled = newVal),
+                    ConfigTranslation.ARE_PARTICLES_ENABLED,
+                    integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_PLACE_OPTION, "underwater_placement_bubbles", ConfigHandler.maxUnderwaterBubbles_onPlace_DEFAULT, () -> ConfigHandler.maxUnderwaterBubbles_onPlace, newVal -> ConfigHandler.maxUnderwaterBubbles_onPlace = newVal, 1, 100, 1)
+                ))
+
+                .group(OptionGroup.createBuilder()
+                    .name( Component.literal("--------------") )
+                    .collapsed(true)
+                    .option(LabelOption.createBuilder()
+                    .build())
+                .build())
+
                 // block config info
                 .group(OptionGroup.createBuilder()
                     .name( ConfigTranslation.getGroupName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY, "info").toComponent() )
@@ -34,6 +51,13 @@ public class ConfigScreen {
                     .collapsed(true)
                     .option(LabelOption.createBuilder()
 
+                    .build())
+                .build())
+
+                .group(OptionGroup.createBuilder()
+                    .name( Component.literal("--------------") )
+                    .collapsed(true)
+                    .option(LabelOption.createBuilder()
                     .build())
                 .build())
 
@@ -151,13 +175,23 @@ public class ConfigScreen {
                 .build())
 
                 // campfire spark
-                .group( createParticleToggleAndChanceConfigGroup(
+                .group( createParticleToggleAndIntSliderConfigGroup(
                     "campfire_sparks",
                     "campfire_sparks",
                     ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
                     Binding.generic(ConfigHandler.campfireSpark_enabled_DEFAULT, () -> ConfigHandler.campfireSpark_enabled, newVal -> ConfigHandler.campfireSpark_enabled = newVal),
                     ConfigTranslation.ARE_PARTICLES_ENABLED,
                     integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE, "campfire_sparks", ConfigHandler.campfireSpark_spawnChance_DEFAULT, () -> ConfigHandler.campfireSpark_spawnChance, newVal -> ConfigHandler.campfireSpark_spawnChance = newVal, 1, 100, 1)
+                ))
+
+                // fire spark
+                .group( createParticleToggleAndIntSliderConfigGroup(
+                    "fire_sparks",
+                    "fire_sparks",
+                    ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
+                    Binding.generic(ConfigHandler.fireSpark_enabled_DEFAULT, () -> ConfigHandler.fireSpark_enabled, newVal -> ConfigHandler.fireSpark_enabled = newVal),
+                    ConfigTranslation.ARE_PARTICLES_ENABLED,
+                    integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE, "fire_sparks", ConfigHandler.fireSpark_spawnChance_DEFAULT, () -> ConfigHandler.fireSpark_spawnChance, newVal -> ConfigHandler.fireSpark_spawnChance = newVal, 1, 100, 1)
                 ))
 
             .build())
@@ -311,7 +345,7 @@ public class ConfigScreen {
         .build();
     }
 
-    private static OptionGroup createParticleToggleAndChanceConfigGroup(String particleTypeKey, String groupName, String category, Binding<Boolean> particleEnabledBinding, String particleEnabledTranslationOption, Option<Integer> particleChanceBinding) {
+    private static OptionGroup createParticleToggleAndIntSliderConfigGroup(String particleTypeKey, String groupName, String category, Binding<Boolean> particleEnabledBinding, String particleEnabledTranslationOption, Option<Integer> intSlider) {
         ConfigTranslation.TranslationKey groupNameKey = ConfigTranslation.getGroupName(category, groupName);
         return OptionGroup.createBuilder()
             .name( ConfigTranslation.createPlaceholder(groupNameKey.toComponent(), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) )
@@ -322,7 +356,7 @@ public class ConfigScreen {
                 .binding(particleEnabledBinding)
                 .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
             .build())
-            .option(particleChanceBinding)
+            .option(intSlider)
         .build();
     }
 

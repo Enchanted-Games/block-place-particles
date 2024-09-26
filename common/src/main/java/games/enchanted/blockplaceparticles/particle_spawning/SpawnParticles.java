@@ -160,24 +160,21 @@ public class SpawnParticles {
 
         float rotX = (float) ((minecartHorizontalRot) * (Math.PI / 180));
         float rotY = (float) (minecartVerticalRot / 45);
-        float sparkDeltaX = (float) Math.clamp(-deltaMovement.x / 2, -0.8, 0.8);
-        float sparkDeltaZ = (float) Math.clamp(-deltaMovement.z / 2, -0.8, 0.8);
+        float sparkDeltaX = (float) Math.clamp(-deltaMovement.x / 3, -0.7, 0.7);
+        float sparkDeltaZ = (float) Math.clamp(-deltaMovement.z / 3, -0.7, 0.7);
 
         if(level.random.nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos1 = minecartWheelPoint(rotX, rotY, 0.45f, 0.35f,  0.45f);
             level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos1.x + minecartX, wheelPos1.y + minecartY, wheelPos1.z + minecartZ, sparkDeltaX , 0.3, sparkDeltaZ);
         }
-
         if(level.random.nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos2 = minecartWheelPoint(rotX, rotY, -0.45f, -0.35f, 0.45f);
             level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos2.x + minecartX, wheelPos2.y + minecartY, wheelPos2.z + minecartZ, sparkDeltaX, 0.3, sparkDeltaZ);
         }
-
         if(level.random.nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos3 = minecartWheelPoint(rotX, rotY, 0.45f, 0.35f, -0.45f);
             level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos3.x + minecartX, wheelPos3.y + minecartY, wheelPos3.z + minecartZ, sparkDeltaX, 0.3, sparkDeltaZ);
         }
-
         if(level.random.nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos4 = minecartWheelPoint(rotX, rotY, -0.45f, -0.35f, -0.45f);
             level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos4.x + minecartX, wheelPos4.y + minecartY, wheelPos4.z + minecartZ, sparkDeltaX, 0.3, sparkDeltaZ);
@@ -203,17 +200,46 @@ public class SpawnParticles {
         double sparkIntensity = 5 / 12.;
         if (level.random.nextFloat() * 101 <= ConfigHandler.campfireSpark_spawnChance) {
             for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 3) + 1; i++) {
-                level.addParticle(
-                    ModParticleTypes.FLOATING_SPARK,
+                spawnMostlyUpwardsMotionFloatingSpark(
+                    level,
                     (double)particlePos.getX() + 0.5,
                     (double)particlePos.getY() + 0.5,
                     (double)particlePos.getZ() + 0.5,
-                    (level.random.nextDouble() - 0.5) * sparkIntensity,
-                    Math.abs((level.random.nextDouble() - 0.25) * sparkIntensity * 2) + 0.1,
-                    (level.random.nextDouble() - 0.5) * sparkIntensity
+                    sparkIntensity
                 );
             }
         }
+    }
+
+    public static void spawnAmbientFireSparks(Level level, BlockPos particlePos, double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
+        if(!ConfigHandler.fireSpark_enabled) return;
+        double sparkIntensity = 5 / 12.;
+        double width = Math.abs(minX - maxX);
+        double height = Math.abs(minY - maxY);
+        double depth = Math.abs(minZ - maxZ);
+        if (level.random.nextFloat() * 101 <= ConfigHandler.fireSpark_spawnChance) {
+            for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 3) + 1; i++) {
+                spawnMostlyUpwardsMotionFloatingSpark(
+                    level,
+                    particlePos.getX() + minX + (level.random.nextFloat() * width),
+                    particlePos.getY() + minY + (level.random.nextFloat() * height),
+                    particlePos.getZ() + minZ + (level.random.nextFloat() * depth),
+                    sparkIntensity
+                );
+            }
+        }
+    }
+
+    private static void spawnMostlyUpwardsMotionFloatingSpark(Level level, double xPos, double yPos, double zPos, double sparkIntensity) {
+        level.addParticle(
+            ModParticleTypes.FLOATING_SPARK,
+            xPos,
+            yPos,
+            zPos,
+            (level.random.nextDouble() - 0.5) * sparkIntensity * 0.4,
+            Math.abs((level.random.nextDouble() - 0.25) * sparkIntensity) + 0.25,
+            (level.random.nextDouble() - 0.5) * sparkIntensity * 0.4
+        );
     }
 
     public static void spawnFireChargeSmokeParticle(Level level, BlockPos particlePos) {

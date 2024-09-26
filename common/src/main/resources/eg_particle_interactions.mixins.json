@@ -11,6 +11,7 @@
     "ParticleEngineMixin",
     "ParticleMixin",
     "accessor.BucketItemAccessor",
+    "blocks.BaseFireBlock",
     "blocks.CampfireBlock",
     "blocks.TntBlock",
     "entity.AbstractMinecartMixin",

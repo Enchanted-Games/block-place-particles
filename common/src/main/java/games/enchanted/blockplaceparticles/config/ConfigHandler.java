@@ -39,6 +39,15 @@ public class ConfigHandler {
     }
 
     // Block Interaction Particles
+    // underwater bubbles
+    public static final int maxUnderwaterBubbles_onPlace_DEFAULT = 22;
+    @SerialEntry
+    public static int maxUnderwaterBubbles_onPlace = maxUnderwaterBubbles_onPlace_DEFAULT;
+
+    public static final boolean underwaterBubbles_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean underwaterBubbles_enabled = underwaterBubbles_enabled_DEFAULT;
+
     // snowflake particle
     public static final int maxSnowflakes_onPlace_DEFAULT = 2;
     @SerialEntry
@@ -170,6 +179,14 @@ public class ConfigHandler {
     public static final boolean campfireSpark_enabled_DEFAULT = true;
     @SerialEntry
     public static boolean campfireSpark_enabled = campfireSpark_enabled_DEFAULT;
+
+    public static final int fireSpark_spawnChance_DEFAULT = 25;
+    @SerialEntry
+    public static int fireSpark_spawnChance = fireSpark_spawnChance_DEFAULT;
+
+    public static final boolean fireSpark_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean fireSpark_enabled = fireSpark_enabled_DEFAULT;
 
     // Fluid Placement Particles
     // water
