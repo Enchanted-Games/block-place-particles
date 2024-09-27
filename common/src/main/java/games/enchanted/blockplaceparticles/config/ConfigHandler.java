@@ -40,13 +40,22 @@ public class ConfigHandler {
 
     // Block Interaction Particles
     // underwater bubbles
-    public static final int maxUnderwaterBubbles_onPlace_DEFAULT = 22;
+    public static final int maxUnderwaterBubbles_onPlace_DEFAULT = 12;
     @SerialEntry
     public static int maxUnderwaterBubbles_onPlace = maxUnderwaterBubbles_onPlace_DEFAULT;
 
-    public static final boolean underwaterBubbles_enabled_DEFAULT = true;
+    public static final boolean underwaterBubbles_onPlace_DEFAULT = true;
     @SerialEntry
-    public static boolean underwaterBubbles_enabled = underwaterBubbles_enabled_DEFAULT;
+    public static boolean underwaterBubbles_onPlace = underwaterBubbles_onPlace_DEFAULT;
+
+    // underwater bubbles
+    public static final int maxUnderwaterBubbles_onBreak_DEFAULT = 6;
+    @SerialEntry
+    public static int maxUnderwaterBubbles_onBreak = maxUnderwaterBubbles_onBreak_DEFAULT;
+
+    public static final boolean underwaterBubbles_onBreak_DEFAULT = true;
+    @SerialEntry
+    public static boolean underwaterBubbles_onBreak = underwaterBubbles_onBreak_DEFAULT;
 
     // snowflake particle
     public static final int maxSnowflakes_onPlace_DEFAULT = 2;

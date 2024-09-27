@@ -10,11 +10,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
@@ -39,25 +41,7 @@ public class SpawnParticles {
         double particleOutwardVelocityAdjustment = particleOverride == BlockParticleOverride.BLOCK ? 1. : 0.05;
         final boolean particleInWarmBiome = BiomeTemperatureHelpers.isWarmBiomeOrDimension(level, blockPos);
 
-        if(ConfigHandler.underwaterBubbles_enabled && FluidHelpers.probablyPlacedUnderwater(level, blockPos)) {
-            for (int i = 0; i < Math.max(ConfigHandler.maxUnderwaterBubbles_onPlace + level.random.nextIntBetweenInclusive(-2, 2), 1); i++) {
-                double x = level.random.nextDouble();
-                double y = level.random.nextDouble();
-                double z = level.random.nextDouble();
-                boolean blockAboveIsWater = level.getFluidState(blockPos.above()).is(FluidTags.WATER);
-                double verticalVelocity = (y - 0.5) * (blockAboveIsWater ? 2 : 0);
-                double horizontalVelocityMul = !blockAboveIsWater ? 1.5 : 1;
-                level.addParticle(
-                    ModParticleTypes.UNDERWATER_RISING_BUBBLE,
-                    blockPos.getX() + x,
-                    blockPos.getY() + y,
-                    blockPos.getZ() + z,
-                    (x - 0.5) * 2 * horizontalVelocityMul,
-                    level.getBlockState(blockPos.below()).isSolid() ? Math.abs(verticalVelocity) + 0.1 : verticalVelocity,
-                    (z - 0.5) * 2 * horizontalVelocityMul
-                );
-            }
-        }
+        if(ConfigHandler.underwaterBubbles_onPlace) spawnUnderwaterBubbles(ConfigHandler.maxUnderwaterBubbles_onPlace, level, blockPos);
 
         if (!placedBlockState.isAir() && placedBlockState.shouldSpawnTerrainParticles()) {
             VoxelShape blockShape = placedBlockState.getShape(level, blockPos);
@@ -132,6 +116,8 @@ public class SpawnParticles {
         double particleOutwardVelocityAdjustment = particleOverride == BlockParticleOverride.BLOCK ? 1. : 0.1;
         final boolean particleInWarmBiome = BiomeTemperatureHelpers.isWarmBiomeOrDimension(level, brokenBlockPos);
 
+        if(ConfigHandler.underwaterBubbles_onBreak) spawnUnderwaterBubbles(ConfigHandler.maxUnderwaterBubbles_onBreak, level, brokenBlockPos);
+
         if (!brokenBlockState.isAir() && brokenBlockState.shouldSpawnTerrainParticles()) {
             VoxelShape blockShape = brokenBlockState.getShape(level, brokenBlockPos);
             blockShape.forAllBoxes((x1, y1, z1, x2, y2, z2) -> {
@@ -173,6 +159,26 @@ public class SpawnParticles {
             });
         }
     }
+    private static void spawnUnderwaterBubbles(int amountOfBubbles, Level level, BlockPos blockPos) {
+        if(!FluidHelpers.probablyPlacedUnderwater(level, blockPos)) return;
+        for (int i = 0; i < Math.max(amountOfBubbles + level.random.nextIntBetweenInclusive(-2, 0), 1); i++) {
+            double x = level.random.nextDouble();
+            double y = level.random.nextDouble();
+            double z = level.random.nextDouble();
+            boolean blockAboveIsWater = level.getFluidState(blockPos.above()).is(FluidTags.WATER);
+            double verticalVelocity = (y - 0.5) * (blockAboveIsWater ? 2 : 0);
+            double horizontalVelocityMul = !blockAboveIsWater ? 1.5 : 1;
+            level.addParticle(
+                ModParticleTypes.UNDERWATER_RISING_BUBBLE,
+                blockPos.getX() + x,
+                blockPos.getY() + y,
+                blockPos.getZ() + z,
+                (x - 0.5) * 2 * horizontalVelocityMul,
+                level.getBlockState(blockPos.below()).isSolid() ? Math.abs(verticalVelocity) + 0.1 : verticalVelocity,
+                (z - 0.5) * 2 * horizontalVelocityMul
+            );
+        }
+    }
 
     public static void spawnSparksAtMinecartWheels(double minecartX, double minecartY, double minecartZ, double minecartHorizontalRot, double minecartVerticalRot, boolean isOnRails, boolean hasPassenger, Vec3 deltaMovement, double maxSpeed, Level level) {
         if(!isOnRails) return;
@@ -208,22 +214,25 @@ public class SpawnParticles {
 
     public static void spawnFlintAndSteelSparkParticle(Level level, BlockPos particlePos) {
         if(!ConfigHandler.flintAndSteelSpark_onUse) return;
+        BlockState fireOrLitBlock = level.getBlockState(particlePos);
+        boolean isSoulBlock = level.getBlockState(particlePos.below()).is(BlockTags.SOUL_FIRE_BASE_BLOCKS) || fireOrLitBlock.is(Blocks.SOUL_CAMPFIRE);
         double sparkIntensity = ConfigHandler.flintAndSteelSpark_intensity / 12.;
         for (int i = 0; i < ConfigHandler.maxFlintAndSteelSpark_onUse; i++) {
             double x = particlePos.getX() + 0.25 + (level.random.nextDouble() / 2);
             double y = particlePos.getY() + 0.25 + (level.random.nextDouble() / 2);
             double z = particlePos.getZ() + 0.25 + (level.random.nextDouble() / 2);
-            level.addParticle(ModParticleTypes.FLYING_SPARK, x, y, z, (level.random.nextDouble() - 0.5) * sparkIntensity, (level.random.nextDouble() + 0.5) * sparkIntensity, (level.random.nextDouble() - 0.5) * sparkIntensity);
+            level.addParticle(isSoulBlock ? ModParticleTypes.FLYING_SOUL_SPARK : ModParticleTypes.FLYING_SPARK, x, y, z, (level.random.nextDouble() - 0.5) * sparkIntensity, (level.random.nextDouble() + 0.5) * sparkIntensity, (level.random.nextDouble() - 0.5) * sparkIntensity);
         }
     }
 
-    public static void spawnAmbientCampfireSparks(Level level, BlockPos particlePos) {
+    public static void spawnAmbientCampfireSparks(Level level, BlockPos particlePos, BlockState campfireState) {
         if(!ConfigHandler.campfireSpark_enabled) return;
         double sparkIntensity = 5 / 12.;
         if (level.random.nextFloat() * 101 <= ConfigHandler.campfireSpark_spawnChance) {
             for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 3) + 1; i++) {
-                spawnMostlyUpwardsMotionFloatingSpark(
+                spawnMostlyUpwardsMotionParticleOption(
                     level,
+                    campfireState.is(Blocks.SOUL_CAMPFIRE) ? ModParticleTypes.FLOATING_SOUL_SPARK : ModParticleTypes.FLOATING_SPARK,
                     (double)particlePos.getX() + 0.5,
                     (double)particlePos.getY() + 0.5,
                     (double)particlePos.getZ() + 0.5,
@@ -233,7 +242,7 @@ public class SpawnParticles {
         }
     }
 
-    public static void spawnAmbientFireSparks(Level level, BlockPos particlePos, double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
+    public static void spawnAmbientFireSparks(Level level, BlockState fireState, BlockPos particlePos, double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
         if(!ConfigHandler.fireSpark_enabled) return;
         double sparkIntensity = 5 / 12.;
         double width = Math.abs(minX - maxX);
@@ -241,8 +250,9 @@ public class SpawnParticles {
         double depth = Math.abs(minZ - maxZ);
         if (level.random.nextFloat() * 101 <= ConfigHandler.fireSpark_spawnChance) {
             for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 3) + 1; i++) {
-                spawnMostlyUpwardsMotionFloatingSpark(
+                spawnMostlyUpwardsMotionParticleOption(
                     level,
+                    fireState.is(Blocks.SOUL_FIRE) ? ModParticleTypes.FLOATING_SOUL_SPARK : ModParticleTypes.FLOATING_SPARK,
                     particlePos.getX() + minX + (level.random.nextFloat() * width),
                     particlePos.getY() + minY + (level.random.nextFloat() * height),
                     particlePos.getZ() + minZ + (level.random.nextFloat() * depth),
@@ -252,15 +262,15 @@ public class SpawnParticles {
         }
     }
 
-    private static void spawnMostlyUpwardsMotionFloatingSpark(Level level, double xPos, double yPos, double zPos, double sparkIntensity) {
+    private static void spawnMostlyUpwardsMotionParticleOption(Level level, ParticleOptions particleOptions, double xPos, double yPos, double zPos, double velocityIntensity) {
         level.addParticle(
-            ModParticleTypes.FLOATING_SPARK,
+            particleOptions,
             xPos,
             yPos,
             zPos,
-            (level.random.nextDouble() - 0.5) * sparkIntensity * 0.4,
-            Math.abs((level.random.nextDouble() - 0.25) * sparkIntensity) + 0.25,
-            (level.random.nextDouble() - 0.5) * sparkIntensity * 0.4
+            (level.random.nextDouble() - 0.5) * velocityIntensity * 0.4,
+            Math.abs((level.random.nextDouble() - 0.25) * velocityIntensity) + 0.25,
+            (level.random.nextDouble() - 0.5) * velocityIntensity * 0.4
         );
     }
 

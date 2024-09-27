@@ -13,8 +13,10 @@ public class ConfigTranslation {
 
     public static final String ARE_PARTICLES_ENABLED = "is_particle_enabled";
     public static final String PARTICLE_SPAWN_CHANCE = "particle_spawn_chance";
-    public static final String MAX_PARTICLES_ON_BLOCK_PLACE_OPTION = "max_particles_block_place";
-    public static final String MAX_PARTICLES_ON_BLOCK_BREAK_OPTION = "max_particles_block_break";
+    public static final String MAX_PARTICLES_ON_BLOCK_PLACE = "max_particles_block_place";
+    public static final String MAX_PARTICLES_ON_BLOCK_PLACE_ALONG_EDGES = "max_particles_block_place_along_edges";
+    public static final String MAX_PARTICLES_ON_BLOCK_BREAK = "max_particles_block_break";
+    public static final String MAX_PARTICLES_ON_BLOCK_BREAK_ALONG_AXIS = "max_particles_block_break_along_axis";
     public static final String MAX_PARTICLES_ON_FLUID_PLACE_OPTION = "max_particles_fluid_place";
     public static final String MAX_PARTICLES_ON_ITEM_USE_OPTION = "max_particles_item_use";
     public static final String ITEM_USE_PARTICLE_INTENSITY = "item_use_particle_intensity";

@@ -54,7 +54,8 @@ public class FlyingSpark extends StretchyBouncyCubeParticle {
         this(level, x, y, z, xSpeed, ySpeed, zSpeed, gravity, lifetime, spriteSet);
         this.redMin = redMin;
         this.redDecayRate = redDecayRate;
-        this.greenMin = greenDecayRate;
+        this.greenMin = greenMin;
+        this.greenDecayRate = greenDecayRate;
         this.blueMin = blueMin;
         this.blueDecayRate = blueDecayRate;
     }
@@ -137,8 +138,36 @@ public class FlyingSpark extends StretchyBouncyCubeParticle {
         }
     }
 
+    public static class LongLifeSoulSparkProvider implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        static final float redMin = 0.05f;
+        static final float redDecayRate = 0.98f;
+        static final float greenMin = 0.79f;
+        static final float greenDecayRate = 0.95f;
+        static final float blueMin = 0.82f;
+        static final float blueDecayRate = 0.935f;
+
+        public LongLifeSoulSparkProvider(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        @Nullable
+        @Override
+        public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.random, 0.8F, 0.9F), Mth.randomBetweenInclusive(level.random, 80, 120), spriteSet, redMin, redDecayRate, greenMin, greenDecayRate, blueMin, blueDecayRate);
+        }
+    }
+
     public static class ShortLifeSoulSparkProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
+
+        static final float redMin = 0.05f;
+        static final float redDecayRate = 0.98f;
+        static final float greenMin = 0.79f;
+        static final float greenDecayRate = 0.95f;
+        static final float blueMin = 0.82f;
+        static final float blueDecayRate = 0.935f;
 
         public ShortLifeSoulSparkProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
@@ -147,7 +176,7 @@ public class FlyingSpark extends StretchyBouncyCubeParticle {
         @Nullable
         @Override
         public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.random, 0.2F, 0.3F), Mth.randomBetweenInclusive(level.random, 4, 12), spriteSet);
+            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.random, 0.2F, 0.3F), Mth.randomBetweenInclusive(level.random, 4, 12), spriteSet, redMin, redDecayRate, greenMin, greenDecayRate, blueMin, blueDecayRate);
         }
     }
 }

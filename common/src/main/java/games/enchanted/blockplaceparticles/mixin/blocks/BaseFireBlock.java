@@ -19,7 +19,7 @@ public abstract class BaseFireBlock {
     protected void spawnSparkParticleRandomlyOnTick(BlockState blockState, Level level, BlockPos blockPos, RandomSource randomSource, CallbackInfo ci) {
         if(!level.isClientSide()) return;
         blockState.getShape(level, blockPos).forAllBoxes((x1, y1, z1, x2, y2, z2) -> {
-            SpawnParticles.spawnAmbientFireSparks(level, blockPos, x1, y1, z1, x2, y2, z2);
+            SpawnParticles.spawnAmbientFireSparks(level, blockState, blockPos, x1, y1, z1, x2, y2, z2);
         });
     }
 }

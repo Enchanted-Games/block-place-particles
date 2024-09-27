@@ -25,7 +25,7 @@ public abstract class CampfireBlock {
     public void animateTick(BlockState blockState, Level level, BlockPos blockPos, RandomSource random, CallbackInfo ci) {
         if(!level.isClientSide() && !this.spawnParticles) return;
         if (blockState.getValue(LIT)) {
-            SpawnParticles.spawnAmbientCampfireSparks(level, blockPos);
+            SpawnParticles.spawnAmbientCampfireSparks(level, blockPos, blockState);
         }
     }
 }

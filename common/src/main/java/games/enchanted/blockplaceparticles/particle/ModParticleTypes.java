@@ -39,6 +39,8 @@ public class ModParticleTypes {
 
     public static SimpleParticleType FLYING_SPARK;
     public static SimpleParticleType FLOATING_SPARK;
+    public static SimpleParticleType FLYING_SOUL_SPARK;
+    public static SimpleParticleType FLOATING_SOUL_SPARK;
 
     public static SimpleParticleType UNDERWATER_RISING_BUBBLE;
 
@@ -54,6 +56,8 @@ public class ModParticleTypes {
 
         FLYING_SPARK = register((SpriteParticleProviderRegistration) FlyingSpark.LongLifeSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flying_spark"), false);
         FLOATING_SPARK = register((SpriteParticleProviderRegistration) FlyingSpark.ShortLifeSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_spark"), false);
+        FLYING_SOUL_SPARK = register((SpriteParticleProviderRegistration) FlyingSpark.LongLifeSoulSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flying_soul_spark"), false);
+        FLOATING_SOUL_SPARK = register((SpriteParticleProviderRegistration) FlyingSpark.ShortLifeSoulSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_soul_spark"), false);
 
         UNDERWATER_RISING_BUBBLE = register((SpriteParticleProviderRegistration) UnderwaterRisingBubble.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "underwater_rising_bubble"), false);
     }

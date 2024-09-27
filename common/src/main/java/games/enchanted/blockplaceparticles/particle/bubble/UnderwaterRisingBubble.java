@@ -26,12 +26,14 @@ public class UnderwaterRisingBubble extends TextureSheetParticle {
     @Override
     public void tick() {
         super.tick();
-        if (this.age > 2 && !this.removed && !this.level.getFluidState(BlockPos.containing(this.x, this.y - 0.125f, this.z)).is(FluidTags.WATER)) {
+        if (this.age > 1 && !this.removed && !this.level.getFluidState(BlockPos.containing(this.x, this.y + 0.125f, this.z)).is(FluidTags.WATER)) {
             this.popAndRemove();
         }
         else if(this.age >= this.lifetime - 1) {
             this.popAndRemove();
         }
+        this.xd *= 0.9;
+        this.zd *= 0.9;
     }
 
     private void popAndRemove() {
