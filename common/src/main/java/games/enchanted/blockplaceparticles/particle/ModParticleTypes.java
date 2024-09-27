@@ -2,6 +2,7 @@ package games.enchanted.blockplaceparticles.particle;
 
 import com.mojang.serialization.MapCodec;
 import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
+import games.enchanted.blockplaceparticles.particle.bubble.UnderwaterRisingBubble;
 import games.enchanted.blockplaceparticles.particle.petal.FallingPetal;
 import games.enchanted.blockplaceparticles.particle.petal.FallingTintedPetal;
 import games.enchanted.blockplaceparticles.particle.spark.FlyingSpark;
@@ -39,6 +40,8 @@ public class ModParticleTypes {
     public static SimpleParticleType FLYING_SPARK;
     public static SimpleParticleType FLOATING_SPARK;
 
+    public static SimpleParticleType UNDERWATER_RISING_BUBBLE;
+
     public static void registerParticles() {
         FALLING_CHERRY_PETAL = register((SpriteParticleProviderRegistration) FallingPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_cherry_leaves"), false);
         FALLING_TINTED_LEAF = register((SpriteParticleProviderRegistration) FallingTintedPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_tinted_leaves"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
@@ -51,6 +54,8 @@ public class ModParticleTypes {
 
         FLYING_SPARK = register((SpriteParticleProviderRegistration) FlyingSpark.LongLifeSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flying_spark"), false);
         FLOATING_SPARK = register((SpriteParticleProviderRegistration) FlyingSpark.ShortLifeSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_spark"), false);
+
+        UNDERWATER_RISING_BUBBLE = register((SpriteParticleProviderRegistration) UnderwaterRisingBubble.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "underwater_rising_bubble"), false);
     }
 
     private static SimpleParticleType register(SpriteParticleProviderRegistration<SimpleParticleType> provider, ResourceLocation particleID, boolean alwaysShow) {

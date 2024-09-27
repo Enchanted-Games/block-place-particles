@@ -3,12 +3,14 @@ package games.enchanted.blockplaceparticles.particle_spawning;
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.util.BiomeTemperatureHelpers;
+import games.enchanted.blockplaceparticles.util.FluidHelpers;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -36,6 +38,26 @@ public class SpawnParticles {
 
         double particleOutwardVelocityAdjustment = particleOverride == BlockParticleOverride.BLOCK ? 1. : 0.05;
         final boolean particleInWarmBiome = BiomeTemperatureHelpers.isWarmBiomeOrDimension(level, blockPos);
+
+        if(ConfigHandler.underwaterBubbles_enabled && FluidHelpers.probablyPlacedUnderwater(level, blockPos)) {
+            for (int i = 0; i < Math.max(ConfigHandler.maxUnderwaterBubbles_onPlace + level.random.nextIntBetweenInclusive(-2, 2), 1); i++) {
+                double x = level.random.nextDouble();
+                double y = level.random.nextDouble();
+                double z = level.random.nextDouble();
+                boolean blockAboveIsWater = level.getFluidState(blockPos.above()).is(FluidTags.WATER);
+                double verticalVelocity = (y - 0.5) * (blockAboveIsWater ? 2 : 0);
+                double horizontalVelocityMul = !blockAboveIsWater ? 1.5 : 1;
+                level.addParticle(
+                    ModParticleTypes.UNDERWATER_RISING_BUBBLE,
+                    blockPos.getX() + x,
+                    blockPos.getY() + y,
+                    blockPos.getZ() + z,
+                    (x - 0.5) * 2 * horizontalVelocityMul,
+                    level.getBlockState(blockPos.below()).isSolid() ? Math.abs(verticalVelocity) + 0.1 : verticalVelocity,
+                    (z - 0.5) * 2 * horizontalVelocityMul
+                );
+            }
+        }
 
         if (!placedBlockState.isAir() && placedBlockState.shouldSpawnTerrainParticles()) {
             VoxelShape blockShape = placedBlockState.getShape(level, blockPos);
