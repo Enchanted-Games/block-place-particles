@@ -1,8 +1,6 @@
 package games.enchanted.blockplaceparticles.util;
 
-import com.mojang.math.Axis;
 import org.joml.Quaternionf;
-import org.joml.Vector2f;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
 
@@ -79,5 +77,18 @@ public class MathHelpers {
         float diffY = pointA.y - pointB.y;
         float diffZ = pointA.z - pointB.z;
         return new Vector3f(pointA).sub(diffX / 2, diffY / 2, diffZ / 2);
+    }
+
+    /**
+     * Tests if the value is within the min and max bounds, if it is the value will be clamped to the closest value
+     * If 10, 5, and 8 are passed, it will return 10
+     * If 10, 5, and 15 are passed, it will return 10
+     */
+    public static double clampOutside(double value, double min, double max) {
+        if (value > min && value < max) {
+            double mid = (max - min) / 2 + min;
+            return value < mid ? min : max;
+        }
+        return value;
     }
 }

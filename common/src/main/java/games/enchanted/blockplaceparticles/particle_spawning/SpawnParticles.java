@@ -8,9 +8,9 @@ import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
@@ -215,7 +215,7 @@ public class SpawnParticles {
     public static void spawnFlintAndSteelSparkParticle(Level level, BlockPos particlePos) {
         if(!ConfigHandler.flintAndSteelSpark_onUse) return;
         BlockState fireOrLitBlock = level.getBlockState(particlePos);
-        boolean isSoulBlock = level.getBlockState(particlePos.below()).is(BlockTags.SOUL_FIRE_BASE_BLOCKS) || fireOrLitBlock.is(Blocks.SOUL_CAMPFIRE);
+        boolean isSoulBlock = fireOrLitBlock.is(Blocks.SOUL_FIRE) || fireOrLitBlock.is(Blocks.SOUL_CAMPFIRE);
         double sparkIntensity = ConfigHandler.flintAndSteelSpark_intensity / 12.;
         for (int i = 0; i < ConfigHandler.maxFlintAndSteelSpark_onUse; i++) {
             double x = particlePos.getX() + 0.25 + (level.random.nextDouble() / 2);
@@ -292,10 +292,6 @@ public class SpawnParticles {
         }
     }
 
-    // not implemented
-    public static void spawnFarmlandTrampleParticle(Level level, BlockPos particlePos) {
-    }
-
     public static void spawnShovelFlattenParticle(Level level, BlockPos particlePos, Player player) {
         for (int i = 0; i < 6; i++) {
             double x = particlePos.getX() + level.random.nextDouble();
@@ -333,12 +329,21 @@ public class SpawnParticles {
         }
     }
 
-    public static void spawnAxeStripParticle(Level level, BlockPos particlePos, Player player) {
-        for (int i = 0; i < 6; i++) {
-            double x = particlePos.getX() + level.random.nextDouble();
-            double y = particlePos.getY() + level.random.nextDouble();
-            double z = particlePos.getZ() + level.random.nextDouble();
-            level.addParticle(ParticleTypes.DUST_PLUME, x, y, z, 0.0, 0.05, 0.0);
+    public static void spawnAxeStripParticle(Level level, BlockPos blockPos, BlockState unstrippedBlockState, BlockState strippedBlockState) {
+        for (int i = 0; i < 30; i++) {
+            double x = MathHelpers.clampOutside(level.random.nextDouble(), 0.2, 0.8);
+            double y = MathHelpers.clampOutside(level.random.nextDouble(), 0.2, 0.8);
+            double z = MathHelpers.clampOutside(level.random.nextDouble(), 0.2, 0.8);
+            ParticleOptions stripParticles = new BlockParticleOption(ParticleTypes.BLOCK, unstrippedBlockState);
+            level.addParticle(
+                stripParticles,
+                blockPos.getX() + x,
+                blockPos.getY() + y,
+                blockPos.getZ() + z,
+                (x - 0.5) * 2,
+                (y - 0.5) * 2,
+                (z - 0.5) * 2
+            );
         }
     }
 }

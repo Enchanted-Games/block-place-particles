@@ -21,15 +21,14 @@ public abstract class AxeItemNeoForge {
     @Shadow protected abstract Optional<BlockState> getStripped(BlockState unstrippedBlockstate);
 
     @Inject(
-        method = "evaluateNewBlockState",
-        at = @At(value = "HEAD"),
-        remap = false
+        method = "evaluateNewBlockState(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/item/context/UseOnContext;)Ljava/util/Optional;",
+        at = @At(value = "HEAD")
     )
-    private void spawnParticleOnAxeStrip(Level level, BlockPos blockPos, @Nullable Player player, BlockState unstrippedBlockstate, UseOnContext useOnContext, CallbackInfoReturnable<Optional<BlockState>> cir) {
+    private void spawnParticleOnAxeStrip(Level level, BlockPos blockPos, @Nullable Player player, BlockState unstrippedBlockstate, UseOnContext p_40529_, CallbackInfoReturnable<Optional<BlockState>> cir) {
         Optional<BlockState> strippedBlockState = this.getStripped(unstrippedBlockstate);
         if (strippedBlockState.isPresent() && level.isClientSide() && player != null) {
             ParticleInteractionsLogging.debugInfo("Axe used (" + this + ") at " + blockPos.toShortString() + " to strip " + unstrippedBlockstate.getBlock());
-            SpawnParticles.spawnAxeStripParticle(level, blockPos, player);
+            SpawnParticles.spawnAxeStripParticle(level, blockPos, unstrippedBlockstate, strippedBlockState.get());
         }
     }
 }

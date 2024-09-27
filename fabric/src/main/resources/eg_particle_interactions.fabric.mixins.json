@@ -4,8 +4,10 @@
   "package": "games.enchanted.blockplaceparticles.mixin",
   "refmap": "${mod_id}.refmap.json",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [],
+  "mixins": [
+  ],
   "client": [
+    "items.AxeItemFabric"
   ],
   "server": [],
   "injectors": {
