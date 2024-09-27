@@ -26,6 +26,15 @@ repositories {
         }
         filter { includeGroupAndSubgroups("org.spongepowered") }
     }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = 'ParchmentMC'
+                url = 'https://maven.parchmentmc.org/'
+            }
+        }
+        filter { includeGroup('org.parchmentmc.data') }
+    }
     maven {
         name = 'BlameJared'
         url = 'https://maven.blamejared.com'
