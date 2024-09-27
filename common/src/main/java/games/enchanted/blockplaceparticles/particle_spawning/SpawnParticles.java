@@ -283,12 +283,21 @@ public class SpawnParticles {
         }
     }
 
-    public static void spawnHoeTillParticle(Level level, BlockPos particlePos, Player player) {
-        for (int i = 0; i < 6; i++) {
-            double x = particlePos.getX() + level.random.nextDouble();
-            double y = particlePos.getY() + (double) 14 /16;
-            double z = particlePos.getZ() + level.random.nextDouble();
-            level.addParticle(ParticleTypes.DUST_PLUME, x, y, z, 0.0, 0.05, 0.0);
+    public static void spawnHoeTillParticle(Level level, BlockPos particlePos) {
+        for (int i = 0; i < 30; i++) {
+            double x = MathHelpers.clampOutside(level.random.nextDouble(), 0.2, 0.8);
+            double y = MathHelpers.clampOutside(level.random.nextDouble(), 0.2, 0.8);
+            double z = MathHelpers.clampOutside(level.random.nextDouble(), 0.2, 0.8);
+            ParticleOptions stripParticles = new BlockParticleOption(ParticleTypes.BLOCK, level.getBlockState(particlePos));
+            level.addParticle(
+                stripParticles,
+                particlePos.getX() + x,
+                particlePos.getY() + y,
+                particlePos.getZ() + z,
+                (x - 0.5) * 2,
+                (y - 0.5) * 2,
+                (z - 0.5) * 2
+            );
         }
     }
 

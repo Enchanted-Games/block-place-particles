@@ -17,7 +17,8 @@
     "entity.AbstractMinecartMixin",
     "items.BlockItem",
     "items.BucketItem",
-    "items.FlintAndSteelItem"
+    "items.FlintAndSteelItem",
+    "items.HoeItem"
   ],
   "server": [],
   "injectors": {
