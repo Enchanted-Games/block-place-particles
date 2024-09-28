@@ -283,18 +283,18 @@ public class SpawnParticles {
         Vec3 clickedPosition = context.getClickLocation();
         Direction clickDirection = context.getClickedFace();
         for (int i = 0; i < ConfigHandler.maxHoeTill_onUse; i++) {
-            double x = (level.random.nextDouble() - 0.5) / 2;
-            double y = (level.random.nextDouble() - 0.5) / 2;
-            double z = (level.random.nextDouble() - 0.5) / 2;
+            double x = (level.random.nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepX());
+            double y = (level.random.nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepY());
+            double z = (level.random.nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepZ());
             ParticleOptions blockParticle = new BlockParticleOption(ParticleTypes.BLOCK, level.getBlockState(blockPos));
             level.addParticle(
                 blockParticle,
                 clickedPosition.x + x,
                 clickedPosition.y + y,
                 clickedPosition.z + z,
-                x * 3 * clickDirection.getStepX(),
-                y * 3 * clickDirection.getStepY(),
-                z * 3 * clickDirection.getStepZ()
+                clickDirection.getStepX() + (level.random.nextDouble() - 0.5),
+                clickDirection.getStepY() + (level.random.nextDouble() - 0.5),
+                clickDirection.getStepZ() + (level.random.nextDouble() - 0.5)
             );
         }
     }
@@ -304,18 +304,18 @@ public class SpawnParticles {
         Vec3 clickedPosition = context.getClickLocation();
         Direction clickDirection = context.getClickedFace();
         for (int i = 0; i < ConfigHandler.maxShovelFlatten_onUse; i++) {
-            double x = (level.random.nextDouble() - 0.5) / 2;
-            double y = (level.random.nextDouble() - 0.5) / 2;
-            double z = (level.random.nextDouble() - 0.5) / 2;
+            double x = (level.random.nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepX());
+            double y = (level.random.nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepY());
+            double z = (level.random.nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepZ());
             ParticleOptions blockParticle = new BlockParticleOption(ParticleTypes.BLOCK, level.getBlockState(blockPos));
             level.addParticle(
                 blockParticle,
                 clickedPosition.x + x,
                 clickedPosition.y + y,
                 clickedPosition.z + z,
-                x * 3 * clickDirection.getStepX(),
-                y * 3 * clickDirection.getStepY(),
-                z * 3 * clickDirection.getStepZ()
+                clickDirection.getStepX() + (level.random.nextDouble() - 0.5),
+                clickDirection.getStepY() + (level.random.nextDouble() - 0.5),
+                clickDirection.getStepZ() + (level.random.nextDouble() - 0.5)
             );
         }
     }
@@ -325,18 +325,18 @@ public class SpawnParticles {
         Vec3 clickedPosition = context.getClickLocation();
         Direction clickDirection = context.getClickedFace();
         for (int i = 0; i < ConfigHandler.maxAxeStrip_onUse; i++) {
-            double x = (level.random.nextDouble() - 0.5) / 2;
-            double y = (level.random.nextDouble() - 0.5) / 2;
-            double z = (level.random.nextDouble() - 0.5) / 2;
+            double x = (level.random.nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepX());
+            double y = (level.random.nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepY());
+            double z = (level.random.nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepZ());
             ParticleOptions blockParticle = level.random.nextFloat() > 0.9 ? new BlockParticleOption(ParticleTypes.BLOCK, strippedBlockState) : new BlockParticleOption(ParticleTypes.BLOCK, unstrippedBlockState);
             level.addParticle(
                 blockParticle,
                 clickedPosition.x + x,
                 clickedPosition.y + y,
                 clickedPosition.z + z,
-                x * 3 * clickDirection.getStepX(),
-                y * 3 * clickDirection.getStepY(),
-                z * 3 * clickDirection.getStepZ()
+                clickDirection.getStepX() + (level.random.nextDouble() - 0.5),
+                clickDirection.getStepY() + (level.random.nextDouble() - 0.5),
+                clickDirection.getStepZ() + (level.random.nextDouble() - 0.5)
             );
         }
     }

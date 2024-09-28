@@ -14,6 +14,9 @@
   "eg_particle_interactions.config.particle_type.generic_splash": "Generic Splash",
 
   "eg_particle_interactions.config.particle_type.flint_and_steel_sparks": "Flint & Steel Spark",
+  "eg_particle_interactions.config.particle_type.axe_strip_particles": "Axe Strip",
+  "eg_particle_interactions.config.particle_type.hoe_till_particles": "Hoe Till",
+  "eg_particle_interactions.config.particle_type.shovel_flatten_particles": "Shovel Flatten",
 
   "eg_particle_interactions.config.particle_type.campfire_sparks": "Campfire Spark",
   "eg_particle_interactions.config.particle_type.fire_sparks": "Fire Spark",
@@ -103,6 +106,13 @@
 
   "eg_particle_interactions.config.items.flint_and_steel_sparks": "%s Particle Options",
   "eg_particle_interactions.config.items.flint_and_steel_sparks.desc": "Configure if %s particles are emitted and how many should spawn",
+
+  "eg_particle_interactions.config.items.axe_strip_particles": "%s Particle Options",
+  "eg_particle_interactions.config.items.axe_strip_particles.desc": "Configure if %s particles should be spawned when stripping a log with an axe",
+  "eg_particle_interactions.config.items.hoe_till_particles": "%s Particle Options",
+  "eg_particle_interactions.config.items.hoe_till_particles.desc": "Configure if %s particles should be spawned when tilling a block with a hoe",
+  "eg_particle_interactions.config.items.shovel_flatten_particles": "%s Particle Options",
+  "eg_particle_interactions.config.items.shovel_flatten_particles.desc": "Configure if %s particles should be spawned when flattening a block with a shovel",
 
 
   "eg_particle_interactions.config.fluids": "Fluid Placement",
