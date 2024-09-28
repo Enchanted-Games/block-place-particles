@@ -11,9 +11,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
@@ -180,16 +182,21 @@ public class SpawnParticles {
         }
     }
 
-    public static void spawnSparksAtMinecartWheels(double minecartX, double minecartY, double minecartZ, double minecartHorizontalRot, double minecartVerticalRot, boolean isOnRails, boolean hasPassenger, Vec3 deltaMovement, double maxSpeed, Level level) {
+    public static void spawnSparksAtMinecartWheels(double minecartX, double minecartY, double minecartZ, double minecartHorizontalRot, double minecartVerticalRot, boolean isOnRails, boolean hasPassenger, boolean hasBlock, Vec3 deltaMovement, double maxSpeed, Level level) {
+        if(!ConfigHandler.minecart_enabled) return;
         if(!isOnRails) return;
-        if(!hasPassenger) return;
-        float sparksChancePerWheel = (float) ( Math.clamp(MathHelpers.maxVec3(deltaMovement.toVector3f(), true), 0, maxSpeed) / maxSpeed ) - 0.75f;
-        sparksChancePerWheel *= 2f;
+        if(!(hasBlock || hasPassenger) && ConfigHandler.minecart_onlyWithPassenger) return;
+
+        double speed = MathHelpers.maxVec3(deltaMovement.toVector3f(), true);
+        if(speed < 0.05) return;
+
+        float sparksChancePerWheel = (float) ( Math.clamp(speed, 0, maxSpeed) / maxSpeed ) - 0.75f;
+        sparksChancePerWheel *= ConfigHandler.minecart_spawnChance / 50f;
 
         float rotX = (float) ((minecartHorizontalRot) * (Math.PI / 180));
         float rotY = (float) (minecartVerticalRot / 45);
-        float sparkDeltaX = (float) Math.clamp(-deltaMovement.x / 3, -0.7, 0.7);
-        float sparkDeltaZ = (float) Math.clamp(-deltaMovement.z / 3, -0.7, 0.7);
+        float sparkDeltaX = (float) Math.clamp(-deltaMovement.x / 5, -0.7, 0.7);
+        float sparkDeltaZ = (float) Math.clamp(-deltaMovement.z / 5, -0.7, 0.7);
 
         if(level.random.nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos1 = minecartWheelPoint(rotX, rotY, 0.45f, 0.35f,  0.45f);
@@ -215,7 +222,7 @@ public class SpawnParticles {
     public static void spawnFlintAndSteelSparkParticle(Level level, BlockPos particlePos) {
         if(!ConfigHandler.flintAndSteelSpark_onUse) return;
         BlockState fireOrLitBlock = level.getBlockState(particlePos);
-        boolean isSoulBlock = fireOrLitBlock.is(Blocks.SOUL_FIRE) || fireOrLitBlock.is(Blocks.SOUL_CAMPFIRE);
+        boolean isSoulBlock = level.getBlockState(particlePos.below()).is(BlockTags.SOUL_FIRE_BASE_BLOCKS) || fireOrLitBlock.is(Blocks.SOUL_CAMPFIRE);
         double sparkIntensity = ConfigHandler.flintAndSteelSpark_intensity / 12.;
         for (int i = 0; i < ConfigHandler.maxFlintAndSteelSpark_onUse; i++) {
             double x = particlePos.getX() + 0.25 + (level.random.nextDouble() / 2);
@@ -262,18 +269,6 @@ public class SpawnParticles {
         }
     }
 
-    private static void spawnMostlyUpwardsMotionParticleOption(Level level, ParticleOptions particleOptions, double xPos, double yPos, double zPos, double velocityIntensity) {
-        level.addParticle(
-            particleOptions,
-            xPos,
-            yPos,
-            zPos,
-            (level.random.nextDouble() - 0.5) * velocityIntensity * 0.4,
-            Math.abs((level.random.nextDouble() - 0.25) * velocityIntensity) + 0.25,
-            (level.random.nextDouble() - 0.5) * velocityIntensity * 0.4
-        );
-    }
-
     public static void spawnFireChargeSmokeParticle(Level level, BlockPos particlePos) {
         for (int i = 0; i < 6; i++) {
             double x = particlePos.getX() + level.random.nextDouble();
@@ -283,30 +278,66 @@ public class SpawnParticles {
         }
     }
 
-    public static void spawnHoeTillParticle(Level level, BlockPos particlePos) {
-        for (int i = 0; i < 30; i++) {
-            double x = MathHelpers.clampOutside(level.random.nextDouble(), 0.2, 0.8);
-            double y = MathHelpers.clampOutside(level.random.nextDouble(), 0.2, 0.8);
-            double z = MathHelpers.clampOutside(level.random.nextDouble(), 0.2, 0.8);
-            ParticleOptions stripParticles = new BlockParticleOption(ParticleTypes.BLOCK, level.getBlockState(particlePos));
+    public static void spawnHoeTillParticle(Level level, BlockPos blockPos, UseOnContext context) {
+        if(!ConfigHandler.hoeTill_onUse) return;
+        Vec3 clickedPosition = context.getClickLocation();
+        Direction clickDirection = context.getClickedFace();
+        for (int i = 0; i < ConfigHandler.maxHoeTill_onUse; i++) {
+            double x = (level.random.nextDouble() - 0.5) / 2;
+            double y = (level.random.nextDouble() - 0.5) / 2;
+            double z = (level.random.nextDouble() - 0.5) / 2;
+            ParticleOptions blockParticle = new BlockParticleOption(ParticleTypes.BLOCK, level.getBlockState(blockPos));
             level.addParticle(
-                stripParticles,
-                particlePos.getX() + x,
-                particlePos.getY() + y,
-                particlePos.getZ() + z,
-                (x - 0.5) * 2,
-                (y - 0.5) * 2,
-                (z - 0.5) * 2
+                blockParticle,
+                clickedPosition.x + x,
+                clickedPosition.y + y,
+                clickedPosition.z + z,
+                x * 3 * clickDirection.getStepX(),
+                y * 3 * clickDirection.getStepY(),
+                z * 3 * clickDirection.getStepZ()
             );
         }
     }
 
-    public static void spawnShovelFlattenParticle(Level level, BlockPos particlePos, Player player) {
-        for (int i = 0; i < 6; i++) {
-            double x = particlePos.getX() + level.random.nextDouble();
-            double y = particlePos.getY() + (double) 14 /16;
-            double z = particlePos.getZ() + level.random.nextDouble();
-            level.addParticle(ParticleTypes.DUST_PLUME, x, y, z, 0.0, 0.05, 0.0);
+    public static void spawnShovelFlattenParticle(Level level, BlockPos blockPos, UseOnContext context) {
+        if(!ConfigHandler.shovelFlatten_onUse) return;
+        Vec3 clickedPosition = context.getClickLocation();
+        Direction clickDirection = context.getClickedFace();
+        for (int i = 0; i < ConfigHandler.maxShovelFlatten_onUse; i++) {
+            double x = (level.random.nextDouble() - 0.5) / 2;
+            double y = (level.random.nextDouble() - 0.5) / 2;
+            double z = (level.random.nextDouble() - 0.5) / 2;
+            ParticleOptions blockParticle = new BlockParticleOption(ParticleTypes.BLOCK, level.getBlockState(blockPos));
+            level.addParticle(
+                blockParticle,
+                clickedPosition.x + x,
+                clickedPosition.y + y,
+                clickedPosition.z + z,
+                x * 3 * clickDirection.getStepX(),
+                y * 3 * clickDirection.getStepY(),
+                z * 3 * clickDirection.getStepZ()
+            );
+        }
+    }
+
+    public static void spawnAxeStripParticle(Level level, BlockPos blockPos, BlockState unstrippedBlockState, BlockState strippedBlockState, UseOnContext context) {
+        if(!ConfigHandler.axeStrip_onUse) return;
+        Vec3 clickedPosition = context.getClickLocation();
+        Direction clickDirection = context.getClickedFace();
+        for (int i = 0; i < ConfigHandler.maxAxeStrip_onUse; i++) {
+            double x = (level.random.nextDouble() - 0.5) / 2;
+            double y = (level.random.nextDouble() - 0.5) / 2;
+            double z = (level.random.nextDouble() - 0.5) / 2;
+            ParticleOptions blockParticle = level.random.nextFloat() > 0.9 ? new BlockParticleOption(ParticleTypes.BLOCK, strippedBlockState) : new BlockParticleOption(ParticleTypes.BLOCK, unstrippedBlockState);
+            level.addParticle(
+                blockParticle,
+                clickedPosition.x + x,
+                clickedPosition.y + y,
+                clickedPosition.z + z,
+                x * 3 * clickDirection.getStepX(),
+                y * 3 * clickDirection.getStepY(),
+                z * 3 * clickDirection.getStepZ()
+            );
         }
     }
 
@@ -338,21 +369,16 @@ public class SpawnParticles {
         }
     }
 
-    public static void spawnAxeStripParticle(Level level, BlockPos blockPos, BlockState unstrippedBlockState, BlockState strippedBlockState) {
-        for (int i = 0; i < 30; i++) {
-            double x = MathHelpers.clampOutside(level.random.nextDouble(), 0.2, 0.8);
-            double y = MathHelpers.clampOutside(level.random.nextDouble(), 0.2, 0.8);
-            double z = MathHelpers.clampOutside(level.random.nextDouble(), 0.2, 0.8);
-            ParticleOptions stripParticles = new BlockParticleOption(ParticleTypes.BLOCK, unstrippedBlockState);
-            level.addParticle(
-                stripParticles,
-                blockPos.getX() + x,
-                blockPos.getY() + y,
-                blockPos.getZ() + z,
-                (x - 0.5) * 2,
-                (y - 0.5) * 2,
-                (z - 0.5) * 2
-            );
-        }
+
+    private static void spawnMostlyUpwardsMotionParticleOption(Level level, ParticleOptions particleOptions, double xPos, double yPos, double zPos, double velocityIntensity) {
+        level.addParticle(
+            particleOptions,
+            xPos,
+            yPos,
+            zPos,
+            (level.random.nextDouble() - 0.5) * velocityIntensity * 0.4,
+            Math.abs((level.random.nextDouble() - 0.25) * velocityIntensity) + 0.25,
+            (level.random.nextDouble() - 0.5) * velocityIntensity * 0.4
+        );
     }
 }

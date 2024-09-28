@@ -3,6 +3,7 @@ package games.enchanted.blockplaceparticles.mixin.entity;
 import games.enchanted.blockplaceparticles.particle_spawning.SpawnParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
@@ -27,6 +28,7 @@ public abstract class AbstractMinecartMixin extends VehicleEntity {
     @Shadow @Nullable public abstract Vec3 getPosOffs(double $$0, double $$1, double $$2, double $$3);
     @Shadow public abstract @NotNull Direction getMotionDirection();
     @Shadow protected abstract double getMaxSpeed();
+    @Shadow public abstract BlockState getDisplayBlockState();
 
     public AbstractMinecartMixin(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -37,9 +39,6 @@ public abstract class AbstractMinecartMixin extends VehicleEntity {
         BlockPos blockPos = BlockPos.containing(this.getX(), this.getY(),this.getZ());
         BlockState blockState = this.level().getBlockState(blockPos);
         return !blockState.getFluidState().is(FluidTags.WATER);
-//        Vec3 movement = this.getDeltaMovement();
-//        double totalSpeed = (Math.abs(movement.x) + Math.abs(movement.y) + Math.abs(movement.z));
-//        return totalSpeed > 2 && !this.isInWater();
     }
 
     @Inject(
@@ -70,8 +69,9 @@ public abstract class AbstractMinecartMixin extends VehicleEntity {
 
             BlockPos blockPos = BlockPos.containing(this.getX(), this.getY(),this.getZ());
             BlockState blockState = this.level().getBlockState(blockPos);
+            boolean hasBlock = !this.getDisplayBlockState().is(BlockTags.AIR);
 
-            SpawnParticles.spawnSparksAtMinecartWheels(this.getX(), this.getY(),this.getZ(), horizontalRot, verticalRot, BaseRailBlock.isRail(blockState), !this.getPassengers().isEmpty(), this.getDeltaMovement(), this.getMaxSpeed(), this.level());
+            SpawnParticles.spawnSparksAtMinecartWheels(this.getX(), this.getY(),this.getZ(), horizontalRot, verticalRot, BaseRailBlock.isRail(blockState), !this.getPassengers().isEmpty(), hasBlock, this.getDeltaMovement(), this.getMaxSpeed(), this.level());
         }
     }
 }

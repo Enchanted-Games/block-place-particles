@@ -25,7 +25,7 @@ public abstract class ShovelItem {
             BlockState blockState = level.getBlockState(flattenedBlockPos);
 
             ParticleInteractionsLogging.debugInfo("Shovel used (" + this + ") at " + flattenedBlockPos.toShortString() + " to flatten " + blockState.getBlock());
-            SpawnParticles.spawnShovelFlattenParticle(level, flattenedBlockPos, useOnContext.getPlayer());
+            SpawnParticles.spawnShovelFlattenParticle(level, flattenedBlockPos, useOnContext);
         }
     }
 }

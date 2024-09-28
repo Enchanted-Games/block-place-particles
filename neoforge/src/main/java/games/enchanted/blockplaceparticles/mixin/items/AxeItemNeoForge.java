@@ -3,11 +3,10 @@ package games.enchanted.blockplaceparticles.mixin.items;
 import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import games.enchanted.blockplaceparticles.particle_spawning.SpawnParticles;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,17 +17,22 @@ import java.util.Optional;
 
 @Mixin(net.minecraft.world.item.AxeItem.class)
 public abstract class AxeItemNeoForge {
-    @Shadow protected abstract Optional<BlockState> getStripped(BlockState unstrippedBlockstate);
+    @Shadow
+    protected abstract Optional<BlockState> getStripped(BlockState unstrippedBlockstate);
 
     @Inject(
-        method = "evaluateNewBlockState(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/item/context/UseOnContext;)Ljava/util/Optional;",
-        at = @At(value = "HEAD")
+        method = "useOn",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/AxeItem;evaluateNewBlockState(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/item/context/UseOnContext;)Ljava/util/Optional;")
     )
-    private void spawnParticleOnAxeStrip(Level level, BlockPos blockPos, @Nullable Player player, BlockState unstrippedBlockstate, UseOnContext p_40529_, CallbackInfoReturnable<Optional<BlockState>> cir) {
+    private void spawnParticleOnAxeStrip(UseOnContext context, CallbackInfoReturnable<InteractionResult> cir) {
+        Level level = context.getLevel();
+        BlockPos blockPos = context.getClickedPos();
+        BlockState unstrippedBlockstate = level.getBlockState(blockPos);
         Optional<BlockState> strippedBlockState = this.getStripped(unstrippedBlockstate);
-        if (strippedBlockState.isPresent() && level.isClientSide() && player != null) {
+
+        if (strippedBlockState.isPresent() && level.isClientSide()) {
             ParticleInteractionsLogging.debugInfo("Axe used (" + this + ") at " + blockPos.toShortString() + " to strip " + unstrippedBlockstate.getBlock());
-            SpawnParticles.spawnAxeStripParticle(level, blockPos, unstrippedBlockstate, strippedBlockState.get());
+            SpawnParticles.spawnAxeStripParticle(level, blockPos, unstrippedBlockstate, strippedBlockState.get(), context);
         }
     }
 }

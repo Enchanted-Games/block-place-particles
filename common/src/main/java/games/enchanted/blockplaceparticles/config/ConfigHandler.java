@@ -197,6 +197,20 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean fireSpark_enabled = fireSpark_enabled_DEFAULT;
 
+    // Entity Particles
+    // travelling minecarts
+    public static final int minecart_spawnChance_DEFAULT = 50;
+    @SerialEntry
+    public static int minecart_spawnChance = minecart_spawnChance_DEFAULT;
+
+    public static final boolean minecart_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean minecart_enabled = minecart_enabled_DEFAULT;
+
+    public static final boolean minecart_onlyWithPassenger_DEFAULT = true;
+    @SerialEntry
+    public static boolean minecart_onlyWithPassenger = minecart_onlyWithPassenger_DEFAULT;
+
     // Fluid Placement Particles
     // water
     public static final List<Fluid> tintedWaterSplash_fluids_DEFAULT = List.of(Fluids.WATER, Fluids.FLOWING_WATER);
@@ -250,4 +264,31 @@ public class ConfigHandler {
     public static final boolean flintAndSteelSpark_onUse_DEFAULT = true;
     @SerialEntry
     public static boolean flintAndSteelSpark_onUse = flintAndSteelSpark_onUse_DEFAULT;
+
+    // axe strip
+    public static final int maxAxeStrip_onUse_DEFAULT = 14;
+    @SerialEntry
+    public static int maxAxeStrip_onUse = maxAxeStrip_onUse_DEFAULT;
+
+    public static final boolean axeStrip_onUse_DEFAULT = true;
+    @SerialEntry
+    public static boolean axeStrip_onUse = axeStrip_onUse_DEFAULT;
+
+    // hoe till
+    public static final int maxHoeTill_onUse_DEFAULT = 14;
+    @SerialEntry
+    public static int maxHoeTill_onUse = maxHoeTill_onUse_DEFAULT;
+
+    public static final boolean hoeTill_onUse_DEFAULT = true;
+    @SerialEntry
+    public static boolean hoeTill_onUse = hoeTill_onUse_DEFAULT;
+
+    // shovel flatten
+    public static final int maxShovelFlatten_onUse_DEFAULT = 14;
+    @SerialEntry
+    public static int maxShovelFlatten_onUse = maxShovelFlatten_onUse_DEFAULT;
+
+    public static final boolean shovelFlatten_onUse_DEFAULT = true;
+    @SerialEntry
+    public static boolean shovelFlatten_onUse = shovelFlatten_onUse_DEFAULT;
 }

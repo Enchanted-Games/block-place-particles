@@ -1,11 +1,10 @@
 package games.enchanted.blockplaceparticles;
 
-import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ParticleInteractionsLogging {
-    public static boolean enableDebugLogs = true;
+    public static boolean enableDebugLogs = false;
     public static final Logger LOG = LoggerFactory.getLogger(ParticleInteractionsMod.MOD_NAME);
 
     private static final String debugPrefix = "[" + ParticleInteractionsMod.MOD_NAME + " Debug Message]: ";

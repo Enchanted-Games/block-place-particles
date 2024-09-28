@@ -18,7 +18,8 @@
     "items.BlockItem",
     "items.BucketItem",
     "items.FlintAndSteelItem",
-    "items.HoeItem"
+    "items.HoeItem",
+    "items.ShovelItem"
   ],
   "server": [],
   "injectors": {

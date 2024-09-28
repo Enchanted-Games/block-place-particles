@@ -25,7 +25,7 @@ public abstract class HoeItem {
             BlockState blockState = level.getBlockState(tilledBlockPos);
 
             ParticleInteractionsLogging.debugInfo("Hoe used (" + this + ") at " + tilledBlockPos.toShortString() + " on " + blockState.getBlock());
-            SpawnParticles.spawnHoeTillParticle(level, tilledBlockPos);
+            SpawnParticles.spawnHoeTillParticle(level, tilledBlockPos, useOnContext);
         }
     }
 }
