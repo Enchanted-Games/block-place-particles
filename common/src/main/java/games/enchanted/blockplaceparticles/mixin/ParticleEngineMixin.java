@@ -27,7 +27,7 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
     )
     public void useParticleInteractionsDestroyParticleLogic(BlockPos brokenBlockPos, BlockState brokenBlockState, CallbackInfo ci) {
         BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(brokenBlockState, false);
-        if(particleOverride == BlockParticleOverride.NONE) {
+        if (particleOverride == BlockParticleOverride.NONE) {
             return;
         }
         SpawnParticles.spawnBlockBreakParticle(this.level, brokenBlockState, brokenBlockPos, particleOverride);
@@ -37,5 +37,6 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
         method = "destroy",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/shapes/VoxelShape;forAllBoxes(Lnet/minecraft/world/phys/shapes/Shapes$DoubleLineConsumer;)V")
     )
-    public void skipSpawningVanillaDestroyParticles(VoxelShape instance, Shapes.DoubleLineConsumer action) {}
+    public void skipSpawningVanillaDestroyParticles(VoxelShape instance, Shapes.DoubleLineConsumer action) {
+    }
 }
