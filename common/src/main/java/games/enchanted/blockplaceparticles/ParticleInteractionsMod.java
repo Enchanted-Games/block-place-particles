@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 public class ParticleInteractionsMod {
     public static final String MOD_ID = "eg_particle_interactions";
-    public static final String MOD_NAME = "Block Place Particles";
+    public static final String MOD_NAME = "Particle Interactions";
 
     public static void startOfModLoading() {
         ParticleInteractionsLogging.message("Mod is loading on a {} environment", Services.PLATFORM.getPlatformName());
