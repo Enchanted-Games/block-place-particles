@@ -2,12 +2,14 @@ package games.enchanted.blockplaceparticles.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import games.enchanted.blockplaceparticles.particle_spawning.BlockParticleOverride;
 import games.enchanted.blockplaceparticles.particle_spawning.SpawnParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -21,6 +23,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(ParticleEngine.class)
 public abstract class ParticleEngineMixin implements PreparableReloadListener {
@@ -82,5 +85,28 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
         );
     }
 
-    // TODO: block cracking
+    // block cracking particles
+    @Inject(
+        method = "crack(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;)V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/ParticleEngine;add(Lnet/minecraft/client/particle/Particle;)V"),
+        locals = LocalCapture.CAPTURE_FAILSOFT,
+        cancellable = true
+    )
+    public void add(BlockPos blockPos, Direction side, CallbackInfo ci, @Local(ordinal = 0) double xPos, @Local(ordinal = 1) double yPos, @Local(ordinal = 2) double zPos) {
+        BlockState blockstate = this.level.getBlockState(blockPos);
+        BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockstate);
+        if(override == BlockParticleOverride.BLOCK) return;
+        if(override != BlockParticleOverride.NONE) {
+            this.level.addParticle(
+                override.isBlockStateParticle() ? override.getBlockParticleOption(blockstate) : override.getParticleOption(),
+                xPos,
+                yPos,
+                zPos,
+                0,
+                0,
+                0
+            );
+        }
+        ci.cancel();
+    }
 }
