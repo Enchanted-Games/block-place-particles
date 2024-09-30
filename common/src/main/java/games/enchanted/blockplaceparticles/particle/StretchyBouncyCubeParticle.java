@@ -85,6 +85,6 @@ public abstract class StretchyBouncyCubeParticle extends BouncyParticle {
 
         Vector3f shapeScale = new Vector3f(1, Math.max(Math.abs(MathHelpers.getDistanceBetweenVectors(pos, prevPos) * 40), 1), 1);
         Vector3f shapeRotation = new Vector3f(-(pitch - 90), yaw, 0);
-        ShapeDefinitions.CUBE_TOP_ORIGIN.renderShapeWithRotation(consumer, new Vector2f[]{new Vector2f(u0, v0), new Vector2f(u1, v1)}, prevPos, shapeScale, quaternionf, shapeRotation, cuboidSize, lightColor, new Vector4f(this.rCol, this.gCol, this.bCol, this.alpha));
+        ShapeDefinitions.VERTICAL_PLUS.renderShapeWithRotation(consumer, new Vector2f[]{new Vector2f(u0, v0), new Vector2f(u1, v1)}, prevPos, shapeScale, quaternionf, shapeRotation, cuboidSize, lightColor, new Vector4f(this.rCol, this.gCol, this.bCol, this.alpha));
     }
 }

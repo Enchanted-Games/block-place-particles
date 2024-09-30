@@ -92,13 +92,15 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
         locals = LocalCapture.CAPTURE_FAILSOFT,
         cancellable = true
     )
-    public void add(BlockPos blockPos, Direction side, CallbackInfo ci, @Local(ordinal = 0) double xPos, @Local(ordinal = 1) double yPos, @Local(ordinal = 2) double zPos) {
+    public void replaceCrackingParticlesConditionally(BlockPos blockPos, Direction side, CallbackInfo ci, @Local(ordinal = 0) double xPos, @Local(ordinal = 1) double yPos, @Local(ordinal = 2) double zPos) {
         BlockState blockstate = this.level.getBlockState(blockPos);
         BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockstate);
         if(override == BlockParticleOverride.BLOCK) return;
         if(override != BlockParticleOverride.NONE) {
+            ParticleOptions newParticleOption = override.isBlockStateParticle() ? override.getBlockParticleOption(blockstate) : override.getParticleOption();
+            if (newParticleOption == null) return;
             this.level.addParticle(
-                override.isBlockStateParticle() ? override.getBlockParticleOption(blockstate) : override.getParticleOption(),
+                newParticleOption,
                 xPos,
                 yPos,
                 zPos,

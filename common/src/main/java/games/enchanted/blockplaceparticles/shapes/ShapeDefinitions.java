@@ -26,4 +26,14 @@ public abstract class ShapeDefinitions {
         new Vector3d(-0.5d, 1.0d, -0.5d), new Vector3d(-0.5d, 0.0d, -0.5d), new Vector3d(-0.5d, 0.0d,  0.5d), new Vector3d(-0.5d, 1.0d,  0.5d),
         new Vector3d( 0.5d, 1.0d,  0.5d), new Vector3d( 0.5d, 0.0d,  0.5d), new Vector3d( 0.5d, 0.0d, -0.5d), new Vector3d( 0.5d, 1.0d, -0.5d)
     });
+
+    /**
+     * A vertically oriented plus shape with the origin at the top middle
+     */
+    public static final QuadFaceShape VERTICAL_PLUS = new QuadFaceShape(new Vector3d[]{
+        new Vector3d( 0.0d, 1.0d, -0.5d), new Vector3d( 0.0d, 0.0d, -0.5d), new Vector3d( 0.0d, 0.0d, 0.5d), new Vector3d( 0.0d, 1.0d,  0.5d),
+        new Vector3d( 0.0d, 1.0d,  0.5d), new Vector3d( 0.0d, 0.0d,  0.5d), new Vector3d( 0.0d, 0.0d,-0.5d), new Vector3d( 0.0d, 1.0d, -0.5d),
+        new Vector3d(-0.5d, 1.0d,  0.0d), new Vector3d(-0.5d, 0.0d,  0.0d), new Vector3d( 0.5d, 0.0d, 0.0d), new Vector3d( 0.5d, 1.0d,  0.0d),
+        new Vector3d( 0.5d, 1.0d,  0.0d), new Vector3d( 0.5d, 0.0d,  0.0d), new Vector3d(-0.5d, 0.0d, 0.0d), new Vector3d(-0.5d, 1.0d,  0.0d)
+    });
 }
