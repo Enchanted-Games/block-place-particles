@@ -1,6 +1,7 @@
 package games.enchanted.blockplaceparticles.particle.spark;
 
-import games.enchanted.blockplaceparticles.particle.StretchyBouncyCubeParticle;
+import games.enchanted.blockplaceparticles.particle.StretchyBouncyShapeParticle;
+import games.enchanted.blockplaceparticles.shapes.ShapeDefinitions;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -10,8 +11,9 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 
-public class FlyingSpark extends StretchyBouncyCubeParticle {
+public class FlyingSpark extends StretchyBouncyShapeParticle {
     private boolean hasDecreasedLifespan = false;
 
     private float redMin;
@@ -48,6 +50,11 @@ public class FlyingSpark extends StretchyBouncyCubeParticle {
         this.greenDecayRate = 0.984f;
         this.blueMin = 0.35f;
         this.blueDecayRate = 0.98f;
+
+        this.setShape(ShapeDefinitions.CUBE);
+        this.particleShapeScale.x = Mth.randomBetween(level.random, 0.4f, 1.1f);
+        this.particleShapeScale.z = Mth.randomBetween(level.random, 0.4f, 1.1f);
+        this.particleShapeScale.mul(-1); // the model renders inside out without this and i have no clue why
     }
 
     protected FlyingSpark(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float gravity, int lifetime, SpriteSet spriteSet, float redMin, float redDecayRate, float greenMin, float greenDecayRate, float blueMin, float blueDecayRate) {
