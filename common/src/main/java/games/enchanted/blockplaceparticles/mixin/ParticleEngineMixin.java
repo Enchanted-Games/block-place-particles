@@ -3,6 +3,7 @@ package games.enchanted.blockplaceparticles.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle_spawning.BlockParticleOverride;
 import games.enchanted.blockplaceparticles.particle_spawning.SpawnParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -37,9 +38,6 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
     )
     public void useParticleInteractionsDestroyParticleLogic(BlockPos brokenBlockPos, BlockState brokenBlockState, CallbackInfo ci) {
         BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(brokenBlockState, false);
-        if (particleOverride == BlockParticleOverride.NONE) {
-            return;
-        }
         SpawnParticles.spawnBlockBreakParticle(this.level, brokenBlockState, brokenBlockPos, particleOverride);
     }
 
