@@ -2,10 +2,12 @@ package games.enchanted.blockplaceparticles.particle_spawning;
 
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
+import games.enchanted.blockplaceparticles.util.RegistryHelper;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.AirItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
@@ -84,16 +86,17 @@ public enum BlockParticleOverride {
     public static BlockParticleOverride getOverrideForBlockState(BlockState blockState, boolean isBlockBeingPlaced) {
         Block block = blockState.getBlock();
         if(blockState.isAir() || block.asItem() instanceof AirItem) return NONE;
-        if(!(block.asItem() instanceof BlockItem)) return BLOCK;
-        if (ConfigHandler.snowflake_BlockItems.contains((BlockItem) block.asItem()) && shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.snowflake_onPlace, ConfigHandler.snowflake_onBreak)) {
+        ResourceLocation blockLocation = RegistryHelper.getLocationFromBlock(block);
+
+        if (ConfigHandler.snowflake_Blocks.contains(blockLocation) && shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.snowflake_onPlace, ConfigHandler.snowflake_onBreak)) {
             return SNOW_POWDER;
-        } else if (ConfigHandler.cherryPetal_BlockItems.contains((BlockItem) block.asItem()) && shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.cherryPetal_onPlace, ConfigHandler.cherryPetal_onBreak)) {
+        } else if (ConfigHandler.cherryPetal_Blocks.contains(blockLocation) && shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.cherryPetal_onPlace, ConfigHandler.cherryPetal_onBreak)) {
             return CHERRY_LEAF;
-        } else if (ConfigHandler.azaleaLeaf_BlockItems.contains((BlockItem) block.asItem()) && shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.azaleaLeaf_onPlace, ConfigHandler.azaleaLeaf_onBreak)) {
+        } else if (ConfigHandler.azaleaLeaf_Blocks.contains(blockLocation) && shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.azaleaLeaf_onPlace, ConfigHandler.azaleaLeaf_onBreak)) {
             return AZALEA_LEAF;
-        } else if (ConfigHandler.floweringAzaleaLeaf_BlockItems.contains((BlockItem) block.asItem()) && shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.floweringAzaleaLeaf_onPlace, ConfigHandler.floweringAzaleaLeaf_onBreak)) {
+        } else if (ConfigHandler.floweringAzaleaLeaf_Blocks.contains(blockLocation) && shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.floweringAzaleaLeaf_onPlace, ConfigHandler.floweringAzaleaLeaf_onBreak)) {
             return FLOWERING_AZALEA_LEAF;
-        } else if (ConfigHandler.tintedLeaves_BlockItems.contains((BlockItem) block.asItem()) && shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.tintedLeaves_onPlace, ConfigHandler.tintedLeaves_onBreak) ) {
+        } else if (ConfigHandler.tintedLeaves_Blocks.contains(blockLocation) && shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.tintedLeaves_onPlace, ConfigHandler.tintedLeaves_onBreak) ) {
             return TINTED_LEAF;
         }
         if (shouldHaveParticle(isBlockBeingPlaced, ConfigHandler.block_onPlace, ConfigHandler.block_onBreak)) {

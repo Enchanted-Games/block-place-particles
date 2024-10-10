@@ -5,14 +5,12 @@ import dev.isxander.yacl3.api.utils.Dimension;
 import dev.isxander.yacl3.gui.AbstractWidget;
 import dev.isxander.yacl3.gui.YACLScreen;
 import dev.isxander.yacl3.gui.controllers.dropdown.AbstractDropdownController;
-import dev.isxander.yacl3.gui.utils.ItemRegistryHelper;
 import games.enchanted.blockplaceparticles.util.RegistryHelper;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
 
-public class BlockItemController extends AbstractDropdownController<BlockItem> {
-    public BlockItemController(Option<BlockItem> option) {
+public class BlockLocationController extends AbstractDropdownController<ResourceLocation> {
+    public BlockLocationController(Option<ResourceLocation> option) {
         super(option);
     }
 
@@ -24,20 +22,19 @@ public class BlockItemController extends AbstractDropdownController<BlockItem> {
     @Override
     public void setFromString(String value) {
         if(isValueValid(value)) {
-            option.requestSet(RegistryHelper.getDefaultedBlockItem(value, null));
+            option.requestSet(RegistryHelper.validateBlockLocationWithFallback(value, null));
         }
     }
 
     @Override
     public boolean isValueValid(String value) {
-        BlockItem blockItemFromValue = RegistryHelper.getDefaultedBlockItem(value, null);
-        return blockItemFromValue != null;
+        ResourceLocation blockLocFromValue = RegistryHelper.validateBlockLocationWithFallback(value, null);
+        return blockLocFromValue != null;
     }
 
     @Override
     protected String getValidValue(String value, int offset) {
-        return ItemRegistryHelper.getMatchingItemIdentifiers(value)
-            .filter(resourceLocation -> BuiltInRegistries.ITEM.get(resourceLocation) instanceof BlockItem)
+        return RegistryHelper.getMatchingIdentifiers(value, BuiltInRegistries.BLOCK)
             .skip(offset)
             .findFirst()
             .map(ResourceLocation::toString)
@@ -46,6 +43,6 @@ public class BlockItemController extends AbstractDropdownController<BlockItem> {
 
     @Override
     public AbstractWidget provideWidget(YACLScreen screen, Dimension<Integer> widgetDimension) {
-        return new BlockItemControllerElement(this, screen, widgetDimension);
+        return new BlockLocationControllerElement(this, screen, widgetDimension);
     }
 }

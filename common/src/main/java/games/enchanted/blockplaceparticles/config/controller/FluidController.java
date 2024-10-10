@@ -5,12 +5,9 @@ import dev.isxander.yacl3.api.utils.Dimension;
 import dev.isxander.yacl3.gui.AbstractWidget;
 import dev.isxander.yacl3.gui.YACLScreen;
 import dev.isxander.yacl3.gui.controllers.dropdown.AbstractDropdownController;
-import dev.isxander.yacl3.gui.utils.ItemRegistryHelper;
-import games.enchanted.blockplaceparticles.config.util.RegistryHelper;
+import games.enchanted.blockplaceparticles.util.RegistryHelper;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.MobBucketItem;
 import net.minecraft.world.level.material.Fluid;
 
 public class FluidController extends AbstractDropdownController<Fluid> {

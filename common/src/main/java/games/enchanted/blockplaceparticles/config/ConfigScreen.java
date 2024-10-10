@@ -3,12 +3,14 @@ package games.enchanted.blockplaceparticles.config;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
-import games.enchanted.blockplaceparticles.config.controller.BlockItemController;
+import games.enchanted.blockplaceparticles.config.controller.BlockLocationController;
 import games.enchanted.blockplaceparticles.config.controller.FluidController;
+import games.enchanted.blockplaceparticles.util.RegistryHelper;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Items;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 
@@ -72,11 +74,11 @@ public class ConfigScreen {
                     Binding.generic(ConfigHandler.snowflake_onBreak_DEFAULT, () -> ConfigHandler.snowflake_onBreak, newVal -> ConfigHandler.snowflake_onBreak = newVal),
                     maxParticlesOnBreakOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK_ALONG_AXIS, ConfigHandler.maxSnowflakes_onBreak_DEFAULT, () -> ConfigHandler.maxSnowflakes_onBreak, newVal -> ConfigHandler.maxSnowflakes_onBreak = newVal)
                 ))
-                .group( createBlockItemListOption(
+                .group( createBlockLocationListOption(
                     "snowflake",
                     "generic_particle_blocks",
                     ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
-                    ConfigHandler.snowflake_BlockItems_DEFAULT, () -> ConfigHandler.snowflake_BlockItems, newVal -> ConfigHandler.snowflake_BlockItems = newVal
+                    ConfigHandler.snowflake_Blocks_DEFAULT, () -> ConfigHandler.snowflake_Blocks, newVal -> ConfigHandler.snowflake_Blocks = newVal
                 ))
 
                 // cherry petal particles
@@ -89,11 +91,11 @@ public class ConfigScreen {
                     Binding.generic(ConfigHandler.cherryPetal_onBreak_DEFAULT, () -> ConfigHandler.cherryPetal_onBreak, newVal -> ConfigHandler.cherryPetal_onBreak = newVal),
                     maxParticlesOnBreakOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK_ALONG_AXIS, ConfigHandler.maxCherryPetals_onBreak_DEFAULT, () -> ConfigHandler.maxCherryPetals_onBreak, newVal -> ConfigHandler.maxCherryPetals_onBreak = newVal)
                 ))
-                .group( createBlockItemListOption(
+                .group( createBlockLocationListOption(
                     "cherry_petal",
                     "generic_particle_blocks",
                     ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
-                    ConfigHandler.cherryPetal_BlockItems_DEFAULT, () -> ConfigHandler.cherryPetal_BlockItems, newVal -> ConfigHandler.cherryPetal_BlockItems = newVal
+                    ConfigHandler.cherryPetal_Blocks_DEFAULT, () -> ConfigHandler.cherryPetal_Blocks, newVal -> ConfigHandler.cherryPetal_Blocks = newVal
                 ))
 
                 // azalea leaf particles
@@ -106,11 +108,11 @@ public class ConfigScreen {
                     Binding.generic(ConfigHandler.azaleaLeaf_onBreak_DEFAULT, () -> ConfigHandler.azaleaLeaf_onBreak, newVal -> ConfigHandler.azaleaLeaf_onBreak = newVal),
                     maxParticlesOnBreakOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK_ALONG_AXIS, ConfigHandler.maxAzaleaLeaves_onBreak_DEFAULT, () -> ConfigHandler.maxAzaleaLeaves_onBreak, newVal -> ConfigHandler.maxAzaleaLeaves_onBreak = newVal)
                 ))
-                .group( createBlockItemListOption(
+                .group( createBlockLocationListOption(
                     "azalea_leaf",
                     "generic_particle_blocks",
                     ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
-                    ConfigHandler.azaleaLeaf_BlockItems_DEFAULT, () -> ConfigHandler.azaleaLeaf_BlockItems, newVal -> ConfigHandler.azaleaLeaf_BlockItems = newVal
+                    ConfigHandler.azaleaLeaf_Blocks_DEFAULT, () -> ConfigHandler.azaleaLeaf_Blocks, newVal -> ConfigHandler.azaleaLeaf_Blocks = newVal
                 ))
 
                 // flowering azalea leaf particles
@@ -123,11 +125,11 @@ public class ConfigScreen {
                     Binding.generic(ConfigHandler.floweringAzaleaLeaf_onBreak_DEFAULT, () -> ConfigHandler.floweringAzaleaLeaf_onBreak, newVal -> ConfigHandler.floweringAzaleaLeaf_onBreak = newVal),
                     maxParticlesOnBreakOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK_ALONG_AXIS, ConfigHandler.maxFloweringAzaleaLeaves_onBreak_DEFAULT, () -> ConfigHandler.maxFloweringAzaleaLeaves_onBreak, newVal -> ConfigHandler.maxFloweringAzaleaLeaves_onBreak = newVal)
                 ))
-                .group( createBlockItemListOption(
+                .group( createBlockLocationListOption(
                     "flowering_azalea_leaf",
                     "generic_particle_blocks",
                     ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
-                    ConfigHandler.floweringAzaleaLeaf_BlockItems_DEFAULT, () -> ConfigHandler.floweringAzaleaLeaf_BlockItems, newVal -> ConfigHandler.floweringAzaleaLeaf_BlockItems = newVal
+                    ConfigHandler.floweringAzaleaLeaf_Blocks_DEFAULT, () -> ConfigHandler.floweringAzaleaLeaf_Blocks, newVal -> ConfigHandler.floweringAzaleaLeaf_Blocks = newVal
                 ))
 
                 // tinted leaf particles
@@ -140,11 +142,11 @@ public class ConfigScreen {
                     Binding.generic(ConfigHandler.tintedLeaves_onBreak_DEFAULT, () -> ConfigHandler.tintedLeaves_onBreak, newVal -> ConfigHandler.tintedLeaves_onBreak = newVal),
                     maxParticlesOnBreakOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK_ALONG_AXIS, ConfigHandler.maxTintedLeaves_onBreak_DEFAULT, () -> ConfigHandler.maxTintedLeaves_onBreak, newVal -> ConfigHandler.maxTintedLeaves_onBreak = newVal)
                 ))
-                .group( createBlockItemListOption(
+                .group( createBlockLocationListOption(
                     "biome_leaf",
                     "biome_leaf_blocks",
                     ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
-                    ConfigHandler.tintedLeaves_BlockItems_DEFAULT, () -> ConfigHandler.tintedLeaves_BlockItems, newVal -> ConfigHandler.tintedLeaves_BlockItems = newVal
+                    ConfigHandler.tintedLeaves_Blocks_DEFAULT, () -> ConfigHandler.tintedLeaves_Blocks, newVal -> ConfigHandler.tintedLeaves_Blocks = newVal
                 ))
 
                 // vanilla block particles
@@ -428,8 +430,8 @@ public class ConfigScreen {
         .build();
     }
 
-    private static ListOption<BlockItem> createBlockItemListOption(String particleTypeKey, String groupName, String category, List<BlockItem> defaultValue, Supplier<List<BlockItem>> getter, Consumer<List<BlockItem>> setter) {
-        return createListOption((BlockItem) Items.STONE, BlockItemController::new, particleTypeKey, groupName, category, defaultValue, getter, setter);
+    private static ListOption<ResourceLocation> createBlockLocationListOption(String particleTypeKey, String groupName, String category, List<ResourceLocation> defaultValue, Supplier<List<ResourceLocation>> getter, Consumer<List<ResourceLocation>> setter) {
+        return createListOption(RegistryHelper.getLocationFromBlock(Blocks.STONE), BlockLocationController::new, particleTypeKey, groupName, category, defaultValue, getter, setter);
     }
     private static ListOption<Fluid> createFluidListOption(String particleTypeKey, String groupName, String category, List<Fluid> defaultValue, Supplier<List<Fluid>> getter, Consumer<List<Fluid>> setter) {
         return createListOption(Fluids.WATER, FluidController::new, particleTypeKey, groupName, category, defaultValue, getter, setter);

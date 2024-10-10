@@ -1,13 +1,12 @@
-package games.enchanted.blockplaceparticles.config.util;
+package games.enchanted.blockplaceparticles.util;
 
-import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.core.DefaultedRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.NotNull;
 
@@ -62,5 +61,21 @@ public class RegistryHelper {
             }
         } catch (ResourceLocationException ignored) {}
         return defaultItem;
+    }
+
+    public static ResourceLocation validateBlockLocationWithFallback(String location, ResourceLocation fallback) {
+        try {
+            ResourceLocation blockLocation = ResourceLocation.parse(location.toLowerCase());
+            if (BuiltInRegistries.BLOCK.containsKey(blockLocation)) {
+                return blockLocation;
+            }
+        } catch (ResourceLocationException ignored) {}
+        return fallback;
+    }
+    public static ResourceLocation getLocationFromBlock(Block block) {
+        return BuiltInRegistries.BLOCK.getKey(block);
+    }
+    public static Block getBlockFromLocation(ResourceLocation location) {
+        return BuiltInRegistries.BLOCK.get(location);
     }
 }

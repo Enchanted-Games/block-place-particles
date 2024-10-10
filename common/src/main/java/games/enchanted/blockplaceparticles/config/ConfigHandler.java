@@ -6,9 +6,9 @@ import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
 import games.enchanted.blockplaceparticles.config.adapters.FluidTypeAdapter;
 import games.enchanted.blockplaceparticles.platform.Services;
+import games.enchanted.blockplaceparticles.util.RegistryHelper;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 
@@ -74,9 +74,9 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean snowflake_onBreak = snowflake_onBreak_DEFAULT;
 
-    public static final List<BlockItem> snowflake_BlockItems_DEFAULT = List.of((BlockItem) Items.SNOW, (BlockItem) Items.SNOW_BLOCK, (BlockItem) Items.POWDER_SNOW_BUCKET);
+    public static final List<ResourceLocation> snowflake_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.SNOW), RegistryHelper.getLocationFromBlock(Blocks.SNOW_BLOCK), RegistryHelper.getLocationFromBlock(Blocks.POWDER_SNOW));
     @SerialEntry
-    public static List<BlockItem> snowflake_BlockItems = snowflake_BlockItems_DEFAULT;
+    public static List<ResourceLocation> snowflake_Blocks = snowflake_Blocks_DEFAULT;
 
     // cherry petal particle
     public static final int maxCherryPetals_onPlace_DEFAULT = 2;
@@ -95,9 +95,9 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean cherryPetal_onBreak = cherryPetal_onBreak_DEFAULT;
 
-    public static final List<BlockItem> cherryPetal_BlockItems_DEFAULT = List.of((BlockItem) Items.CHERRY_LEAVES, (BlockItem) Items.CHERRY_SAPLING, (BlockItem) Items.PINK_PETALS);
+    public static final List<ResourceLocation> cherryPetal_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.CHERRY_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.CHERRY_SAPLING), RegistryHelper.getLocationFromBlock(Blocks.PINK_PETALS));
     @SerialEntry
-    public static List<BlockItem> cherryPetal_BlockItems = cherryPetal_BlockItems_DEFAULT;
+    public static List<ResourceLocation> cherryPetal_Blocks = cherryPetal_Blocks_DEFAULT;
 
     // azalea leaf particle
     public static final int maxAzaleaLeaves_onPlace_DEFAULT = 2;
@@ -116,9 +116,9 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean azaleaLeaf_onBreak = azaleaLeaf_onBreak_DEFAULT;
 
-    public static final List<BlockItem> azaleaLeaf_BlockItems_DEFAULT = List.of((BlockItem) Items.AZALEA, (BlockItem) Items.AZALEA_LEAVES);
+    public static final List<ResourceLocation> azaleaLeaf_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.AZALEA), RegistryHelper.getLocationFromBlock(Blocks.AZALEA_LEAVES));
     @SerialEntry
-    public static List<BlockItem> azaleaLeaf_BlockItems = azaleaLeaf_BlockItems_DEFAULT;
+    public static List<ResourceLocation> azaleaLeaf_Blocks = azaleaLeaf_Blocks_DEFAULT;
 
     // flowering azalea leaf particle
     public static final int maxFloweringAzaleaLeaves_onPlace_DEFAULT = 2;
@@ -137,9 +137,9 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean floweringAzaleaLeaf_onBreak = floweringAzaleaLeaf_onBreak_DEFAULT;
 
-    public static final List<BlockItem> floweringAzaleaLeaf_BlockItems_DEFAULT = List.of((BlockItem) Items.FLOWERING_AZALEA, (BlockItem) Items.FLOWERING_AZALEA_LEAVES);
+    public static final List<ResourceLocation> floweringAzaleaLeaf_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.FLOWERING_AZALEA), RegistryHelper.getLocationFromBlock(Blocks.FLOWERING_AZALEA_LEAVES));
     @SerialEntry
-    public static List<BlockItem> floweringAzaleaLeaf_BlockItems = floweringAzaleaLeaf_BlockItems_DEFAULT;
+    public static List<ResourceLocation> floweringAzaleaLeaf_Blocks = floweringAzaleaLeaf_Blocks_DEFAULT;
 
     // biome tinted leaf particle
     public static final int maxTintedLeaves_onPlace_DEFAULT = 2;
@@ -158,9 +158,9 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean tintedLeaves_onBreak = tintedLeaves_onBreak_DEFAULT;
 
-    public static final List<BlockItem> tintedLeaves_BlockItems_DEFAULT = List.of((BlockItem) Items.JUNGLE_LEAVES, (BlockItem) Items.OAK_LEAVES, (BlockItem) Items.SPRUCE_LEAVES, (BlockItem) Items.DARK_OAK_LEAVES, (BlockItem) Items.ACACIA_LEAVES, (BlockItem) Items.BIRCH_LEAVES, (BlockItem) Items.MANGROVE_LEAVES);
+    public static final List<ResourceLocation> tintedLeaves_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.JUNGLE_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.OAK_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.SPRUCE_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.DARK_OAK_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.ACACIA_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.BIRCH_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.MANGROVE_LEAVES));
     @SerialEntry
-    public static List<BlockItem> tintedLeaves_BlockItems = tintedLeaves_BlockItems_DEFAULT;
+    public static List<ResourceLocation> tintedLeaves_Blocks = tintedLeaves_Blocks_DEFAULT;
 
     // default block particle
     public static final int maxBlock_onPlace_DEFAULT = 2;
