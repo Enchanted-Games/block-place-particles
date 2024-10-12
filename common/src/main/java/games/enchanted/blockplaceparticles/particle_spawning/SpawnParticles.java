@@ -27,7 +27,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.joml.Vector3f;
 
 public class SpawnParticles {
-    public static void spawnBlockPlaceParticle(ClientLevel level, BlockPos blockPos, BlockState placedBlockState) {
+    public static void spawnBlockPlaceParticle(Level level, BlockPos blockPos, BlockState placedBlockState) {
         if(ConfigHandler.underwaterBubbles_onPlace) spawnUnderwaterBubbles(ConfigHandler.maxUnderwaterBubbles_onPlace, level, blockPos);
 
         BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(placedBlockState);
@@ -98,7 +98,7 @@ public class SpawnParticles {
             });
         }
     }
-    public static void spawnBlockPlaceParticle(ClientLevel level, BlockPos blockPos) {
+    public static void spawnBlockPlaceParticle(Level level, BlockPos blockPos) {
         BlockState placedBlockState = level.getBlockState(blockPos);
         spawnBlockPlaceParticle(level, blockPos, placedBlockState);
     }

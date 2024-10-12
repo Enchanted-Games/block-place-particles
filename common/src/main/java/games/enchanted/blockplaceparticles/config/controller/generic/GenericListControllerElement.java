@@ -5,6 +5,7 @@ import dev.isxander.yacl3.gui.YACLScreen;
 import dev.isxander.yacl3.gui.controllers.dropdown.AbstractDropdownController;
 import dev.isxander.yacl3.gui.controllers.dropdown.AbstractDropdownControllerElement;
 import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
+import games.enchanted.blockplaceparticles.mixin.accessor.yacl.DropdownWidgetAccessor;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -60,6 +61,15 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
             return;
         }
         graphics.renderFakeItem(new ItemStack(item), x, y);
+    }
+
+    @Override
+    public boolean charTyped(char chr, int modifiers) {
+        if(this.dropdownWidget != null) {
+            ((DropdownWidgetAccessor) this.dropdownWidget).setFirstVisibleIndex(0);
+            this.dropdownWidget.scrollUp();
+        }
+        return super.charTyped(chr, modifiers);
     }
 
     @Override
