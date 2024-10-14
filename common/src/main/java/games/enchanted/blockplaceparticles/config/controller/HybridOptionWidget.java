@@ -9,11 +9,8 @@ import dev.isxander.yacl3.gui.controllers.ControllerWidget;
 import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
-import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.awt.*;
 
 public class HybridOptionWidget extends ControllerWidget<HybridBlockAndColourController> {
     AbstractWidget firstWidget;
@@ -31,7 +28,7 @@ public class HybridOptionWidget extends ControllerWidget<HybridBlockAndColourCon
      * @param secondOption    the second option
      * @param displayRatio    how much space each option controller will have, e.g: 0.75 will give the first option 75% of the width
      */
-    public HybridOptionWidget(HybridBlockAndColourController control, YACLScreen screen, Dimension<Integer> widgetDimension, Option<ResourceLocation> firstOption, Option<Color> secondOption, float displayRatio) {
+    public HybridOptionWidget(HybridBlockAndColourController control, YACLScreen screen, Dimension<Integer> widgetDimension, Option<?> firstOption, Option<?> secondOption, float displayRatio) {
         super(control, screen, widgetDimension);
         this.firstWidget = firstOption.controller().provideWidget(screen, widgetDimension);
         this.secondWidget = secondOption.controller().provideWidget(screen, widgetDimension);
@@ -50,7 +47,7 @@ public class HybridOptionWidget extends ControllerWidget<HybridBlockAndColourCon
         int secondWidgetWidth = (int) Math.ceil(fullWidth * Math.abs(1 - displayRatio));
         secondWidget.setDimension(
             dim.withWidth(secondWidgetWidth)
-            .withX(leftX + secondWidgetWidth + 1)
+            .withX(leftX + (fullWidth - secondWidgetWidth) + 2)
         );
     }
 
@@ -79,27 +76,60 @@ public class HybridOptionWidget extends ControllerWidget<HybridBlockAndColourCon
 
     @Override
     public @Nullable ComponentPath nextFocusPath(FocusNavigationEvent focusNavigationEvent) {
-        if(this.firstWidget.isFocused()) {
-            return ComponentPath.leaf(this.secondWidget);
-        }
         if(this.secondWidget.isFocused()) {
-            return this.secondWidget.nextFocusPath(focusNavigationEvent);
+            return super.nextFocusPath(focusNavigationEvent);
         }
-        return super.nextFocusPath(focusNavigationEvent);
+        if(!this.firstWidget.isFocused() && !this.secondWidget.isFocused()) {
+            return this.firstWidget.nextFocusPath(focusNavigationEvent);
+        }
+        return this.secondWidget.nextFocusPath(focusNavigationEvent);
     }
 
     @Override
-    public void setFocused(boolean b) {
+    public boolean isFocused() {
+        return super.isFocused() || this.firstWidget.isFocused() || this.secondWidget.isFocused();
+    }
+
+    @Override
+    public void setFocused(boolean focused) {
         super.setFocused(false);
-        if(b) {
-            this.firstWidget.setFocused(true);
-            this.secondWidget.setFocused(false);
-            return;
-        };
+    }
+
+    public AbstractWidget getFocusedSubWidget() {
         if(this.firstWidget.isFocused()) {
-            this.firstWidget.setFocused(false);
-            this.secondWidget.setFocused(true);
-            return;
-        };
+            return firstWidget;
+        }
+        else if(this.secondWidget.isFocused()) {
+            return secondWidget;
+        }
+        return null;
+    }
+
+    // pass key presses through to the focused sub widget
+    @Override
+    public boolean keyPressed(int pKeyCode, int pScanCode, int pModifiers) {
+        AbstractWidget focusedWidget = getFocusedSubWidget();
+        if(focusedWidget != null) {
+            return focusedWidget.keyPressed(pKeyCode, pScanCode, pModifiers);
+        }
+        return super.keyPressed(pKeyCode, pScanCode, pModifiers);
+    }
+
+    @Override
+    public boolean keyReleased(int pKeyCode, int pScanCode, int pModifiers) {
+        AbstractWidget focusedWidget = getFocusedSubWidget();
+        if(focusedWidget != null) {
+            return focusedWidget.keyReleased(pKeyCode, pScanCode, pModifiers);
+        }
+        return super.keyReleased(pKeyCode, pScanCode, pModifiers);
+    }
+
+    @Override
+    public boolean charTyped(char pCodePoint, int pModifiers) {
+        AbstractWidget focusedWidget = getFocusedSubWidget();
+        if(focusedWidget != null) {
+            return focusedWidget.charTyped(pCodePoint, pModifiers);
+        }
+        return super.charTyped(pCodePoint, pModifiers);
     }
 }

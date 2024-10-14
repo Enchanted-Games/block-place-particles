@@ -6,12 +6,11 @@ import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
 import games.enchanted.blockplaceparticles.config.controller.BlockLocationController;
 import games.enchanted.blockplaceparticles.config.controller.FluidController;
 import games.enchanted.blockplaceparticles.config.controller.HybridBlockAndColourController;
-import games.enchanted.blockplaceparticles.config.type.BlockLocationAndColour;
+import games.enchanted.blockplaceparticles.config.type.ResourceLocationAndColour;
 import games.enchanted.blockplaceparticles.util.RegistryHelper;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
@@ -52,7 +51,7 @@ public class ConfigScreen {
                     .name( Component.literal("test group") )
                     .collapsed(false)
                     .option(
-                        Option.<BlockLocationAndColour>createBuilder()
+                        Option.<ResourceLocationAndColour>createBuilder()
                             .name(Component.literal("test"))
                             .customController(HybridBlockAndColourController::new)
                             .binding(ConfigHandler.testBlockAndColour_DEFAULT, () -> ConfigHandler.testBlockAndColour, newVal -> ConfigHandler.testBlockAndColour = newVal)

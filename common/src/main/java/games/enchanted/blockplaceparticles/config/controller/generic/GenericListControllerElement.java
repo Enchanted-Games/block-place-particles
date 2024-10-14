@@ -4,6 +4,7 @@ import dev.isxander.yacl3.api.utils.Dimension;
 import dev.isxander.yacl3.gui.YACLScreen;
 import dev.isxander.yacl3.gui.controllers.dropdown.AbstractDropdownController;
 import dev.isxander.yacl3.gui.controllers.dropdown.AbstractDropdownControllerElement;
+import dev.isxander.yacl3.gui.controllers.dropdown.DropdownWidget;
 import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
 import games.enchanted.blockplaceparticles.mixin.accessor.yacl.DropdownWidgetAccessor;
 import net.minecraft.client.gui.GuiGraphics;
@@ -23,6 +24,7 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
     private final R controller;
     protected T currentItem = null;
     protected Map<ResourceLocation, T> matchingItems = new HashMap<>();
+    int lastKnownSelectedDropdownIndex = 0;
 
     public GenericListControllerElement(R control, YACLScreen screen, Dimension<Integer> dim) {
         super(control, screen, dim);
@@ -90,6 +92,25 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
     @Override
     protected int getControlWidth() {
         return super.getControlWidth() + getDecorationPadding();
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        return super.mouseClicked(mouseX + this.getDecorationPadding(), mouseY, button);
+    }
+
+    public void setLastSelectedDropdownIndex(int index) {
+        this.lastKnownSelectedDropdownIndex = index;
+    }
+    public int getLastSelectedDropdownIndex() {
+        return this.lastKnownSelectedDropdownIndex;
+    }
+
+    @Override
+    public void createDropdownWidget() {
+        dropdownVisible = true;
+        dropdownWidget = new FixedDropdownWidget<>(controller, screen, getDimension(), this);
+        screen.addPopupControllerWidget(dropdownWidget);
     }
 
     @Override

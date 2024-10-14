@@ -4,5 +4,5 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.awt.*;
 
-public record BlockLocationAndColour(ResourceLocation blockLocation, Color colour) {
+public record ResourceLocationAndColour(ResourceLocation location, Color colour) {
 }

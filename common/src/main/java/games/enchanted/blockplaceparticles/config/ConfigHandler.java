@@ -5,7 +5,7 @@ import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
 import games.enchanted.blockplaceparticles.config.adapters.FluidTypeAdapter;
-import games.enchanted.blockplaceparticles.config.type.BlockLocationAndColour;
+import games.enchanted.blockplaceparticles.config.type.ResourceLocationAndColour;
 import games.enchanted.blockplaceparticles.platform.Services;
 import games.enchanted.blockplaceparticles.util.RegistryHelper;
 import net.minecraft.resources.ResourceLocation;
@@ -40,8 +40,8 @@ public class ConfigHandler {
         return HANDLER.instance();
     }
 
-    public static final BlockLocationAndColour testBlockAndColour_DEFAULT = new BlockLocationAndColour(ResourceLocation.withDefaultNamespace("stone"), Color.CYAN);
-    public static BlockLocationAndColour testBlockAndColour = testBlockAndColour_DEFAULT;
+    public static final ResourceLocationAndColour testBlockAndColour_DEFAULT = new ResourceLocationAndColour(ResourceLocation.withDefaultNamespace("ice"), Color.CYAN);
+    public static ResourceLocationAndColour testBlockAndColour = testBlockAndColour_DEFAULT;
 
     // Block Interaction Particles
     // underwater bubbles

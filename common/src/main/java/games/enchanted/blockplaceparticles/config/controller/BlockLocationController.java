@@ -2,14 +2,16 @@ package games.enchanted.blockplaceparticles.config.controller;
 
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.utils.Dimension;
-import dev.isxander.yacl3.gui.AbstractWidget;
 import dev.isxander.yacl3.gui.YACLScreen;
-import dev.isxander.yacl3.gui.controllers.dropdown.AbstractDropdownController;
+import games.enchanted.blockplaceparticles.config.controller.generic.AbstractFixedDropdownController;
+import games.enchanted.blockplaceparticles.config.controller.generic.GenericListControllerElement;
 import games.enchanted.blockplaceparticles.util.RegistryHelper;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 
-public class BlockLocationController extends AbstractDropdownController<ResourceLocation> {
+import java.util.List;
+
+public class BlockLocationController extends AbstractFixedDropdownController<ResourceLocation> {
     public BlockLocationController(Option<ResourceLocation> option) {
         super(option);
     }
@@ -20,11 +22,21 @@ public class BlockLocationController extends AbstractDropdownController<Resource
     }
 
     @Override
-    public void setFromString(String value) {
-        if(isValueValid(value)) {
-            option.requestSet(RegistryHelper.validateBlockLocationWithFallback(value, null));
+    public void setFromStringIndex(String value, int index) {
+        String valueFromDropdown = getValueFromDropdown(index);
+        if(valueFromDropdown == null) {
+            valueFromDropdown = value;
         }
-    }
+        ResourceLocation validatedValue = RegistryHelper.validateBlockLocationWithFallback(
+            valueFromDropdown,
+            null
+        );
+        if(isValueValid(valueFromDropdown) && validatedValue != null) {
+            option.requestSet(
+                validatedValue
+            );
+        }
+    };
 
     @Override
     public boolean isValueValid(String value) {
@@ -35,6 +47,7 @@ public class BlockLocationController extends AbstractDropdownController<Resource
     @Override
     protected String getValidValue(String value, int offset) {
         return RegistryHelper.getMatchingIdentifiers(value, BuiltInRegistries.BLOCK)
+            .filter((ResourceLocation location) -> !RegistryHelper.getBlockFromLocation(location).defaultBlockState().isAir())
             .skip(offset)
             .findFirst()
             .map(ResourceLocation::toString)
@@ -42,7 +55,7 @@ public class BlockLocationController extends AbstractDropdownController<Resource
     }
 
     @Override
-    public AbstractWidget provideWidget(YACLScreen screen, Dimension<Integer> widgetDimension) {
+    public GenericListControllerElement<ResourceLocation, ?> createWidget(YACLScreen screen, Dimension<Integer> widgetDimension) {
         return new BlockLocationControllerElement(this, screen, widgetDimension);
     }
 }
