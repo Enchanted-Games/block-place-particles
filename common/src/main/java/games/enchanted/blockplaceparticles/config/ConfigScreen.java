@@ -5,6 +5,8 @@ import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
 import games.enchanted.blockplaceparticles.config.controller.BlockLocationController;
 import games.enchanted.blockplaceparticles.config.controller.FluidController;
+import games.enchanted.blockplaceparticles.config.controller.HybridBlockAndColourController;
+import games.enchanted.blockplaceparticles.config.type.BlockLocationAndColour;
 import games.enchanted.blockplaceparticles.util.RegistryHelper;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -44,6 +46,18 @@ public class ConfigScreen {
                     .collapsed(true)
                     .option(LabelOption.createBuilder()
                     .build())
+                .build())
+
+                .group(OptionGroup.createBuilder()
+                    .name( Component.literal("test group") )
+                    .collapsed(false)
+                    .option(
+                        Option.<BlockLocationAndColour>createBuilder()
+                            .name(Component.literal("test"))
+                            .customController(HybridBlockAndColourController::new)
+                            .binding(ConfigHandler.testBlockAndColour_DEFAULT, () -> ConfigHandler.testBlockAndColour, newVal -> ConfigHandler.testBlockAndColour = newVal)
+                        .build()
+                    )
                 .build())
 
                 // underwater bubbles
