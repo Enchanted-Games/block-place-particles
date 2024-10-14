@@ -5,6 +5,8 @@ import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
 import games.enchanted.blockplaceparticles.config.adapters.FluidTypeAdapter;
+import games.enchanted.blockplaceparticles.config.adapters.ResourceLocationAndColourTypeAdapter;
+import games.enchanted.blockplaceparticles.config.adapters.ResourceLocationTypeAdapter;
 import games.enchanted.blockplaceparticles.config.type.ResourceLocationAndColour;
 import games.enchanted.blockplaceparticles.platform.Services;
 import games.enchanted.blockplaceparticles.util.RegistryHelper;
@@ -24,6 +26,8 @@ public class ConfigHandler {
         .id(ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "config"))
         .serializer(config -> GsonConfigSerializerBuilder.create(config)
             .appendGsonBuilder(builder -> builder.registerTypeAdapter(Fluid.class, new FluidTypeAdapter()))
+            .appendGsonBuilder(builder -> builder.registerTypeAdapter(ResourceLocation.class, new ResourceLocationTypeAdapter()))
+            .appendGsonBuilder(builder -> builder.registerTypeAdapter(ResourceLocationAndColour.class, new ResourceLocationAndColourTypeAdapter()))
             .setPath(CONFIG_PATH)
             .build())
         .build();
@@ -41,6 +45,7 @@ public class ConfigHandler {
     }
 
     public static final ResourceLocationAndColour testBlockAndColour_DEFAULT = new ResourceLocationAndColour(ResourceLocation.withDefaultNamespace("ice"), Color.CYAN);
+    @SerialEntry
     public static ResourceLocationAndColour testBlockAndColour = testBlockAndColour_DEFAULT;
 
     // Block Interaction Particles
