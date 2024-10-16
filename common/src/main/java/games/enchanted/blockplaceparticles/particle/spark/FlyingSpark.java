@@ -51,10 +51,9 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         this.blueMin = 0.35f;
         this.blueDecayRate = 0.98f;
 
-        this.setShape(ShapeDefinitions.CUBE);
+        this.setShape(ShapeDefinitions.VERTICAL_CROSS);
         this.particleShapeScale.x = Mth.randomBetween(level.random, 0.4f, 1.1f);
         this.particleShapeScale.z = Mth.randomBetween(level.random, 0.4f, 1.1f);
-        this.particleShapeScale.mul(-1); // the model renders inside out without this and i have no clue why
     }
 
     protected FlyingSpark(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float gravity, int lifetime, SpriteSet spriteSet, float redMin, float redDecayRate, float greenMin, float greenDecayRate, float blueMin, float blueDecayRate) {

@@ -36,4 +36,14 @@ public abstract class ShapeDefinitions {
         new Vector3d(-0.5d, 0.5d,  0.0d), new Vector3d(-0.5d, -0.5d,  0.0d), new Vector3d( 0.5d, -0.5d, 0.0d), new Vector3d( 0.5d, 0.5d,  0.0d),
         new Vector3d( 0.5d, 0.5d,  0.0d), new Vector3d( 0.5d, -0.5d,  0.0d), new Vector3d(-0.5d, -0.5d, 0.0d), new Vector3d(-0.5d, 0.5d,  0.0d)
     });
+
+    /**
+     * A vertically oriented cross shape with the origin at the center
+     */
+    public static final QuadFaceShape VERTICAL_CROSS = new QuadFaceShape(new Vector3d[]{
+        new Vector3d(-0.5d, 0.5d, -0.5d), new Vector3d(-0.5d, -0.5d, -0.5d), new Vector3d( 0.5d, -0.5d,  0.5d), new Vector3d( 0.5d, 0.5d,  0.5d),
+        new Vector3d( 0.5d, 0.5d,  0.5d), new Vector3d( 0.5d, -0.5d,  0.5d), new Vector3d(-0.5d, -0.5d, -0.5d), new Vector3d(-0.5d, 0.5d, -0.5d),
+        new Vector3d( 0.5d, 0.5d, -0.5d), new Vector3d( 0.5d, -0.5d, -0.5d), new Vector3d(-0.5d, -0.5d,  0.5d), new Vector3d(-0.5d, 0.5d,  0.5d),
+        new Vector3d(-0.5d, 0.5d,  0.5d), new Vector3d(-0.5d, -0.5d,  0.5d), new Vector3d( 0.5d, -0.5d, -0.5d), new Vector3d( 0.5d, 0.5d, -0.5d)
+    });
 }
