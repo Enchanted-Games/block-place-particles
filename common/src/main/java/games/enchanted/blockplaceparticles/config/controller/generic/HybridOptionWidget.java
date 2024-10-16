@@ -1,4 +1,4 @@
-package games.enchanted.blockplaceparticles.config.controller;
+package games.enchanted.blockplaceparticles.config.controller.generic;
 
 
 import dev.isxander.yacl3.api.Option;
@@ -6,6 +6,7 @@ import dev.isxander.yacl3.api.utils.Dimension;
 import dev.isxander.yacl3.gui.AbstractWidget;
 import dev.isxander.yacl3.gui.YACLScreen;
 import dev.isxander.yacl3.gui.controllers.ControllerWidget;
+import games.enchanted.blockplaceparticles.config.controller.HybridBlockAndColourController;
 import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
