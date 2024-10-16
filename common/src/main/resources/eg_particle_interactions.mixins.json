@@ -19,6 +19,7 @@
     "items.BlockItem",
     "items.BucketItem",
     "items.FlintAndSteelItem",
+    "items.FireChargeItem",
     "items.HoeItem",
     "items.ShovelItem"
   ],

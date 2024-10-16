@@ -45,7 +45,6 @@ public class ConfigHandler {
     }
 
     public static final ResourceLocationAndColour testBlockAndColour_DEFAULT = new ResourceLocationAndColour(ResourceLocation.withDefaultNamespace("ice"), Color.CYAN);
-    @SerialEntry
     public static ResourceLocationAndColour testBlockAndColour = testBlockAndColour_DEFAULT;
 
     // Block Interaction Particles
@@ -274,6 +273,19 @@ public class ConfigHandler {
     public static final boolean flintAndSteelSpark_onUse_DEFAULT = true;
     @SerialEntry
     public static boolean flintAndSteelSpark_onUse = flintAndSteelSpark_onUse_DEFAULT;
+
+    // fire charge particles
+    public static final int fireCharge_intensity_DEFAULT = 5;
+    @SerialEntry
+    public static int fireCharge_intensity = fireCharge_intensity_DEFAULT;
+
+    public static final int maxFireCharge_onUse_DEFAULT = 12;
+    @SerialEntry
+    public static int maxFireCharge_onUse = maxFireCharge_onUse_DEFAULT;
+
+    public static final boolean fireCharge_onUse_DEFAULT = true;
+    @SerialEntry
+    public static boolean fireCharge_onUse = fireCharge_onUse_DEFAULT;
 
     // axe strip
     public static final int maxAxeStrip_onUse_DEFAULT = 12;

@@ -234,8 +234,19 @@ public class ConfigScreen {
                     ConfigTranslation.ITEMS_CONFIG_CATEGORY,
                     Binding.generic(ConfigHandler.flintAndSteelSpark_onUse_DEFAULT, () -> ConfigHandler.flintAndSteelSpark_onUse, newVal -> ConfigHandler.flintAndSteelSpark_onUse = newVal),
                     ConfigTranslation.SPAWN_PARTICLE_ON_ITEM_USE,
-                    integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE, "flint_and_steel_sparks", ConfigHandler.maxFlintAndSteelSpark_onUse_DEFAULT, () -> ConfigHandler.maxFlintAndSteelSpark_onUse, newVal -> ConfigHandler.maxFlintAndSteelSpark_onUse = newVal, 1, 16, 1),
+                    integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE, "flint_and_steel_sparks", ConfigHandler.maxFlintAndSteelSpark_onUse_DEFAULT, () -> ConfigHandler.maxFlintAndSteelSpark_onUse, newVal -> ConfigHandler.maxFlintAndSteelSpark_onUse = newVal, 1, 32, 1),
                     integerSliderOption(ConfigTranslation.ITEM_USE_PARTICLE_INTENSITY, "flint_and_steel_sparks", ConfigHandler.flintAndSteelSpark_intensity_DEFAULT, () -> ConfigHandler.flintAndSteelSpark_intensity, newVal -> ConfigHandler.flintAndSteelSpark_intensity = newVal, 1, 8, 1)
+                ))
+
+                // fire charge smoke
+                .group( createParticleToggleAndMaxAndIntensityConfigGroup(
+                    "fire_charge_smoke",
+                    "fire_charge_smoke",
+                    ConfigTranslation.ITEMS_CONFIG_CATEGORY,
+                    Binding.generic(ConfigHandler.fireCharge_onUse_DEFAULT, () -> ConfigHandler.fireCharge_onUse, newVal -> ConfigHandler.fireCharge_onUse = newVal),
+                    ConfigTranslation.SPAWN_PARTICLE_ON_ITEM_USE,
+                    integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE, "fire_charge_smoke", ConfigHandler.maxFireCharge_onUse_DEFAULT, () -> ConfigHandler.maxFireCharge_onUse, newVal -> ConfigHandler.maxFireCharge_onUse = newVal, 1, 32, 1),
+                    integerSliderOption(ConfigTranslation.ITEM_USE_PARTICLE_INTENSITY, "fire_charge_smoke", ConfigHandler.fireCharge_intensity_DEFAULT, () -> ConfigHandler.fireCharge_intensity, newVal -> ConfigHandler.fireCharge_intensity = newVal, 1, 8, 1)
                 ))
 
                 // axe strip
