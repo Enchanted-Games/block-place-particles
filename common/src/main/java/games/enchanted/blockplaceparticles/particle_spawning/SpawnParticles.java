@@ -10,7 +10,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
@@ -31,16 +30,13 @@ public class SpawnParticles {
         if(ConfigHandler.underwaterBubbles_onPlace) spawnUnderwaterBubbles(ConfigHandler.maxUnderwaterBubbles_onPlace, level, blockPos);
 
         BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(placedBlockState);
-        ParticleOptions particleOption;
+        ParticleOptions particleOption = particleOverride.getParticleOptionForState(placedBlockState);
         if (particleOverride == BlockParticleOverride.NONE) {
             return;
-        } else if(particleOverride.isBlockStateParticle()) {
-            particleOption = particleOverride.getBlockParticleOption(placedBlockState);
-        }else {
-            particleOption = particleOverride.getParticleOption();
         }
 
         int maxParticlesPerEdge = BlockParticleOverride.getParticleMultiplierForOverride(particleOverride, true);
+        if(maxParticlesPerEdge <= 0) return;
 
         double particleOutwardVelocityAdjustment = particleOverride == BlockParticleOverride.BLOCK ? 1. : 0.05;
         final boolean particleInWarmBiome = BiomeTemperatureHelpers.isWarmBiomeOrDimension(level, blockPos);
@@ -107,17 +103,14 @@ public class SpawnParticles {
         if(ConfigHandler.underwaterBubbles_onBreak) spawnUnderwaterBubbles(ConfigHandler.maxUnderwaterBubbles_onBreak, level, brokenBlockPos);
 
         int maxParticlesPerLength = BlockParticleOverride.getParticleMultiplierForOverride(particleOverride, false);
+        if(maxParticlesPerLength <= 0) return;
 
-        ParticleOptions particleOption;
+        ParticleOptions particleOption = particleOverride.getParticleOptionForState(brokenBlockState);
         if (particleOverride == BlockParticleOverride.NONE) {
             return;
-        } else if(particleOverride.isBlockStateParticle()) {
-            particleOption = particleOverride.getBlockParticleOption(brokenBlockState);
-        }else {
-            particleOption = particleOverride.getParticleOption();
         }
 
-        double particleOutwardVelocityAdjustment = particleOverride == BlockParticleOverride.BLOCK ? 1. : 0.1;
+        double particleOutwardVelocityAdjustment = particleOverride == BlockParticleOverride.BLOCK ? 1. : 0.2;
         final boolean particleInWarmBiome = BiomeTemperatureHelpers.isWarmBiomeOrDimension(level, brokenBlockPos);
 
         if (!brokenBlockState.isAir() && brokenBlockState.shouldSpawnTerrainParticles()) {

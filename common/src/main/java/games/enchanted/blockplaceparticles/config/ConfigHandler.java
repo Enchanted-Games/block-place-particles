@@ -71,17 +71,13 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxSnowflakes_onPlace = maxSnowflakes_onPlace_DEFAULT;
 
-    public static final boolean snowflake_onPlace_DEFAULT = true;
+    public static final boolean snowflake_enabled_DEFAULT = true;
     @SerialEntry
-    public static boolean snowflake_onPlace = snowflake_onPlace_DEFAULT;
+    public static boolean snowflake_enabled = snowflake_enabled_DEFAULT;
 
     public static final int maxSnowflakes_onBreak_DEFAULT = 3;
     @SerialEntry
     public static int maxSnowflakes_onBreak = maxSnowflakes_onBreak_DEFAULT;
-
-    public static final boolean snowflake_onBreak_DEFAULT = true;
-    @SerialEntry
-    public static boolean snowflake_onBreak = snowflake_onBreak_DEFAULT;
 
     public static final List<ResourceLocation> snowflake_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.SNOW), RegistryHelper.getLocationFromBlock(Blocks.SNOW_BLOCK), RegistryHelper.getLocationFromBlock(Blocks.POWDER_SNOW));
     @SerialEntry
@@ -92,17 +88,13 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxCherryPetals_onPlace = maxCherryPetals_onPlace_DEFAULT;
 
-    public static final boolean cherryPetal_onPlace_DEFAULT = true;
+    public static final boolean cherryPetal_enabled_DEFAULT = true;
     @SerialEntry
-    public static boolean cherryPetal_onPlace = cherryPetal_onPlace_DEFAULT;
+    public static boolean cherryPetal_enabled = cherryPetal_enabled_DEFAULT;
 
     public static final int maxCherryPetals_onBreak_DEFAULT = 3;
     @SerialEntry
     public static int maxCherryPetals_onBreak = maxCherryPetals_onBreak_DEFAULT;
-
-    public static final boolean cherryPetal_onBreak_DEFAULT = true;
-    @SerialEntry
-    public static boolean cherryPetal_onBreak = cherryPetal_onBreak_DEFAULT;
 
     public static final List<ResourceLocation> cherryPetal_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.CHERRY_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.CHERRY_SAPLING), RegistryHelper.getLocationFromBlock(Blocks.PINK_PETALS));
     @SerialEntry
@@ -113,17 +105,13 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxAzaleaLeaves_onPlace = maxAzaleaLeaves_onPlace_DEFAULT;
 
-    public static final boolean azaleaLeaf_onPlace_DEFAULT = true;
+    public static final boolean azaleaLeaf_enabled_DEFAULT = true;
     @SerialEntry
-    public static boolean azaleaLeaf_onPlace = azaleaLeaf_onPlace_DEFAULT;
+    public static boolean azaleaLeaf_enabled = azaleaLeaf_enabled_DEFAULT;
 
     public static final int maxAzaleaLeaves_onBreak_DEFAULT = 3;
     @SerialEntry
     public static int maxAzaleaLeaves_onBreak = maxAzaleaLeaves_onBreak_DEFAULT;
-
-    public static final boolean azaleaLeaf_onBreak_DEFAULT = true;
-    @SerialEntry
-    public static boolean azaleaLeaf_onBreak = azaleaLeaf_onBreak_DEFAULT;
 
     public static final List<ResourceLocation> azaleaLeaf_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.AZALEA), RegistryHelper.getLocationFromBlock(Blocks.AZALEA_LEAVES));
     @SerialEntry
@@ -134,17 +122,13 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxFloweringAzaleaLeaves_onPlace = maxFloweringAzaleaLeaves_onPlace_DEFAULT;
 
-    public static final boolean floweringAzaleaLeaf_onPlace_DEFAULT = true;
+    public static final boolean floweringAzaleaLeaf_enabled_DEFAULT = true;
     @SerialEntry
-    public static boolean floweringAzaleaLeaf_onPlace = floweringAzaleaLeaf_onPlace_DEFAULT;
+    public static boolean floweringAzaleaLeaf_enabled = floweringAzaleaLeaf_enabled_DEFAULT;
 
     public static final int maxFloweringAzaleaLeaves_onBreak_DEFAULT = 3;
     @SerialEntry
     public static int maxFloweringAzaleaLeaves_onBreak = maxFloweringAzaleaLeaves_onBreak_DEFAULT;
-
-    public static final boolean floweringAzaleaLeaf_onBreak_DEFAULT = true;
-    @SerialEntry
-    public static boolean floweringAzaleaLeaf_onBreak = floweringAzaleaLeaf_onBreak_DEFAULT;
 
     public static final List<ResourceLocation> floweringAzaleaLeaf_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.FLOWERING_AZALEA), RegistryHelper.getLocationFromBlock(Blocks.FLOWERING_AZALEA_LEAVES));
     @SerialEntry
@@ -155,17 +139,13 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxTintedLeaves_onPlace = maxTintedLeaves_onPlace_DEFAULT;
 
-    public static final boolean tintedLeaves_onPlace_DEFAULT = true;
+    public static final boolean tintedLeaves_enabled_DEFAULT = true;
     @SerialEntry
-    public static boolean tintedLeaves_onPlace = tintedLeaves_onPlace_DEFAULT;
+    public static boolean tintedLeaves_enabled = tintedLeaves_enabled_DEFAULT;
 
     public static final int maxTintedLeaves_onBreak_DEFAULT = 3;
     @SerialEntry
     public static int maxTintedLeaves_onBreak = maxTintedLeaves_onBreak_DEFAULT;
-
-    public static final boolean tintedLeaves_onBreak_DEFAULT = true;
-    @SerialEntry
-    public static boolean tintedLeaves_onBreak = tintedLeaves_onBreak_DEFAULT;
 
     public static final List<ResourceLocation> tintedLeaves_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.JUNGLE_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.OAK_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.SPRUCE_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.DARK_OAK_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.ACACIA_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.BIRCH_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.MANGROVE_LEAVES));
     @SerialEntry
@@ -176,17 +156,13 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxBlock_onPlace = maxBlock_onPlace_DEFAULT;
 
-    public static final boolean block_onPlace_DEFAULT = true;
+    public static final boolean block_enabled_DEFAULT = true;
     @SerialEntry
-    public static boolean block_onPlace = block_onPlace_DEFAULT;
+    public static boolean block_enabled = block_enabled_DEFAULT;
 
     public static final int maxBlock_onBreak_DEFAULT = 4;
     @SerialEntry
     public static int maxBlock_onBreak = maxBlock_onBreak_DEFAULT;
-
-    public static final boolean block_onBreak_DEFAULT = true;
-    @SerialEntry
-    public static boolean block_onBreak = block_onBreak_DEFAULT;
 
     // Block Ambient Particles
     // campfire sparks

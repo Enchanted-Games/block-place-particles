@@ -26,152 +26,22 @@ public class ConfigScreen {
             .save(ConfigHandler::save)
             .title(ConfigTranslation.getConfigTitle().toComponent())
 
-            .category(ConfigCategory.createBuilder()
-                .name(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY).toComponent())
-                .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY)))
+            .category(
+                ConfigScreenHelper.createBlockParticleOverrideConfigWidgets(
+                    ConfigCategory.createBuilder()
+                        .name(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY).toComponent())
+                        .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY)))
 
-                // block config info
-                .group(OptionGroup.createBuilder()
-                    .name( ConfigTranslation.getGroupName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY, "info").toComponent() )
-                    .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY, "info")) ))
-                    .collapsed(true)
-                    .option(LabelOption.createBuilder()
+                        // block config info
+                        .group(OptionGroup.createBuilder()
+                            .name( ConfigTranslation.getGroupName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY, "info").toComponent() )
+                            .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY, "info")) ))
+                            .collapsed(true)
+                            .option(LabelOption.createBuilder()
 
-                    .build())
-                .build())
-
-                .group(OptionGroup.createBuilder()
-                    .name( Component.literal("--------------") )
-                    .collapsed(true)
-                    .option(LabelOption.createBuilder()
-                    .build())
-                .build())
-
-                .group(OptionGroup.createBuilder()
-                    .name( Component.literal("test group") )
-                    .collapsed(false)
-                    .option(
-                        Option.<ResourceLocationAndColour>createBuilder()
-                            .name(Component.literal("test"))
-                            .customController(HybridBlockAndColourController::new)
-                            .binding(ConfigHandler.testBlockAndColour_DEFAULT, () -> ConfigHandler.testBlockAndColour, newVal -> ConfigHandler.testBlockAndColour = newVal)
-                        .build()
-                    )
-                .build())
-
-                // underwater bubbles
-                .group( createMultipleOptionsConfigGroup(
-                    "underwater_block_bubbles",
-                    "underwater_block_bubbles",
-                    ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
-                    booleanOption(ConfigTranslation.SPAWN_BLOCK_PARTICLE_ON_PLACE, "underwater_block_bubbles", Binding.generic(ConfigHandler.underwaterBubbles_onPlace_DEFAULT, () -> ConfigHandler.underwaterBubbles_onPlace, newVal -> ConfigHandler.underwaterBubbles_onPlace = newVal)),
-                    integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_PLACE, "underwater_block_bubbles", ConfigHandler.maxUnderwaterBubbles_onPlace_DEFAULT, () -> ConfigHandler.maxUnderwaterBubbles_onPlace, newVal -> ConfigHandler.maxUnderwaterBubbles_onPlace = newVal, 1, 50, 1),
-                    booleanOption(ConfigTranslation.SPAWN_BLOCK_PARTICLE_ON_BREAK, "underwater_block_bubbles", Binding.generic(ConfigHandler.underwaterBubbles_onBreak_DEFAULT, () -> ConfigHandler.underwaterBubbles_onBreak, newVal -> ConfigHandler.underwaterBubbles_onBreak = newVal)),
-                    integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK, "underwater_block_bubbles", ConfigHandler.maxUnderwaterBubbles_onBreak_DEFAULT, () -> ConfigHandler.maxUnderwaterBubbles_onBreak, newVal -> ConfigHandler.maxUnderwaterBubbles_onBreak = newVal, 1, 50, 1)
-                ))
-
-                .group(OptionGroup.createBuilder()
-                    .name( Component.literal("--------------") )
-                    .collapsed(true)
-                    .option(LabelOption.createBuilder()
-                    .build())
-                .build())
-
-                // snowflake particles
-                .group( createBlockPlaceAndBreakConfigGroup(
-                    "snowflake",
-                    "generic_particle",
-                    ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
-                    Binding.generic(ConfigHandler.snowflake_onPlace_DEFAULT, () -> ConfigHandler.snowflake_onPlace, newVal -> ConfigHandler.snowflake_onPlace = newVal),
-                    maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_PLACE_ALONG_EDGES, ConfigHandler.maxSnowflakes_onPlace_DEFAULT, () -> ConfigHandler.maxSnowflakes_onPlace, newVal -> ConfigHandler.maxSnowflakes_onPlace = newVal),
-                    Binding.generic(ConfigHandler.snowflake_onBreak_DEFAULT, () -> ConfigHandler.snowflake_onBreak, newVal -> ConfigHandler.snowflake_onBreak = newVal),
-                    maxParticlesOnBreakOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK_ALONG_AXIS, ConfigHandler.maxSnowflakes_onBreak_DEFAULT, () -> ConfigHandler.maxSnowflakes_onBreak, newVal -> ConfigHandler.maxSnowflakes_onBreak = newVal)
-                ))
-                .group( createBlockLocationListOption(
-                    "snowflake",
-                    "generic_particle_blocks",
-                    ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
-                    ConfigHandler.snowflake_Blocks_DEFAULT, () -> ConfigHandler.snowflake_Blocks, newVal -> ConfigHandler.snowflake_Blocks = newVal
-                ))
-
-                // cherry petal particles
-                .group( createBlockPlaceAndBreakConfigGroup(
-                    "cherry_petal",
-                    "generic_particle",
-                    ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
-                    Binding.generic(ConfigHandler.cherryPetal_onPlace_DEFAULT, () -> ConfigHandler.cherryPetal_onPlace, newVal -> ConfigHandler.cherryPetal_onPlace = newVal),
-                    maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_PLACE_ALONG_EDGES, ConfigHandler.maxCherryPetals_onPlace_DEFAULT, () -> ConfigHandler.maxCherryPetals_onPlace, newVal -> ConfigHandler.maxCherryPetals_onPlace = newVal),
-                    Binding.generic(ConfigHandler.cherryPetal_onBreak_DEFAULT, () -> ConfigHandler.cherryPetal_onBreak, newVal -> ConfigHandler.cherryPetal_onBreak = newVal),
-                    maxParticlesOnBreakOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK_ALONG_AXIS, ConfigHandler.maxCherryPetals_onBreak_DEFAULT, () -> ConfigHandler.maxCherryPetals_onBreak, newVal -> ConfigHandler.maxCherryPetals_onBreak = newVal)
-                ))
-                .group( createBlockLocationListOption(
-                    "cherry_petal",
-                    "generic_particle_blocks",
-                    ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
-                    ConfigHandler.cherryPetal_Blocks_DEFAULT, () -> ConfigHandler.cherryPetal_Blocks, newVal -> ConfigHandler.cherryPetal_Blocks = newVal
-                ))
-
-                // azalea leaf particles
-                .group( createBlockPlaceAndBreakConfigGroup(
-                    "azalea_leaf",
-                    "generic_particle",
-                    ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
-                    Binding.generic(ConfigHandler.azaleaLeaf_onPlace_DEFAULT, () -> ConfigHandler.azaleaLeaf_onPlace, newVal -> ConfigHandler.azaleaLeaf_onPlace = newVal),
-                    maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_PLACE_ALONG_EDGES, ConfigHandler.maxAzaleaLeaves_onPlace_DEFAULT, () -> ConfigHandler.maxAzaleaLeaves_onPlace, newVal -> ConfigHandler.maxAzaleaLeaves_onPlace = newVal),
-                    Binding.generic(ConfigHandler.azaleaLeaf_onBreak_DEFAULT, () -> ConfigHandler.azaleaLeaf_onBreak, newVal -> ConfigHandler.azaleaLeaf_onBreak = newVal),
-                    maxParticlesOnBreakOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK_ALONG_AXIS, ConfigHandler.maxAzaleaLeaves_onBreak_DEFAULT, () -> ConfigHandler.maxAzaleaLeaves_onBreak, newVal -> ConfigHandler.maxAzaleaLeaves_onBreak = newVal)
-                ))
-                .group( createBlockLocationListOption(
-                    "azalea_leaf",
-                    "generic_particle_blocks",
-                    ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
-                    ConfigHandler.azaleaLeaf_Blocks_DEFAULT, () -> ConfigHandler.azaleaLeaf_Blocks, newVal -> ConfigHandler.azaleaLeaf_Blocks = newVal
-                ))
-
-                // flowering azalea leaf particles
-                .group( createBlockPlaceAndBreakConfigGroup(
-                    "flowering_azalea_leaf",
-                    "generic_particle",
-                    ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
-                    Binding.generic(ConfigHandler.floweringAzaleaLeaf_onPlace_DEFAULT, () -> ConfigHandler.floweringAzaleaLeaf_onPlace, newVal -> ConfigHandler.floweringAzaleaLeaf_onPlace = newVal),
-                    maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_PLACE_ALONG_EDGES, ConfigHandler.maxFloweringAzaleaLeaves_onPlace_DEFAULT, () -> ConfigHandler.maxFloweringAzaleaLeaves_onPlace, newVal -> ConfigHandler.maxFloweringAzaleaLeaves_onPlace = newVal),
-                    Binding.generic(ConfigHandler.floweringAzaleaLeaf_onBreak_DEFAULT, () -> ConfigHandler.floweringAzaleaLeaf_onBreak, newVal -> ConfigHandler.floweringAzaleaLeaf_onBreak = newVal),
-                    maxParticlesOnBreakOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK_ALONG_AXIS, ConfigHandler.maxFloweringAzaleaLeaves_onBreak_DEFAULT, () -> ConfigHandler.maxFloweringAzaleaLeaves_onBreak, newVal -> ConfigHandler.maxFloweringAzaleaLeaves_onBreak = newVal)
-                ))
-                .group( createBlockLocationListOption(
-                    "flowering_azalea_leaf",
-                    "generic_particle_blocks",
-                    ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
-                    ConfigHandler.floweringAzaleaLeaf_Blocks_DEFAULT, () -> ConfigHandler.floweringAzaleaLeaf_Blocks, newVal -> ConfigHandler.floweringAzaleaLeaf_Blocks = newVal
-                ))
-
-                // tinted leaf particles
-                .group( createBlockPlaceAndBreakConfigGroup(
-                    "biome_leaf",
-                    "biome_leaf",
-                    ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
-                    Binding.generic(ConfigHandler.tintedLeaves_onPlace_DEFAULT, () -> ConfigHandler.tintedLeaves_onPlace, newVal -> ConfigHandler.tintedLeaves_onPlace = newVal),
-                    maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_PLACE_ALONG_EDGES, ConfigHandler.maxTintedLeaves_onPlace_DEFAULT, () -> ConfigHandler.maxTintedLeaves_onPlace, newVal -> ConfigHandler.maxTintedLeaves_onPlace = newVal),
-                    Binding.generic(ConfigHandler.tintedLeaves_onBreak_DEFAULT, () -> ConfigHandler.tintedLeaves_onBreak, newVal -> ConfigHandler.tintedLeaves_onBreak = newVal),
-                    maxParticlesOnBreakOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK_ALONG_AXIS, ConfigHandler.maxTintedLeaves_onBreak_DEFAULT, () -> ConfigHandler.maxTintedLeaves_onBreak, newVal -> ConfigHandler.maxTintedLeaves_onBreak = newVal)
-                ))
-                .group( createBlockLocationListOption(
-                    "biome_leaf",
-                    "biome_leaf_blocks",
-                    ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
-                    ConfigHandler.tintedLeaves_Blocks_DEFAULT, () -> ConfigHandler.tintedLeaves_Blocks, newVal -> ConfigHandler.tintedLeaves_Blocks = newVal
-                ))
-
-                // vanilla block particles
-                .group( createBlockPlaceAndBreakConfigGroup(
-                    "vanilla_particle",
-                    "generic_particle",
-                    ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
-                    Binding.generic(ConfigHandler.block_onPlace_DEFAULT, () -> ConfigHandler.block_onPlace, newVal -> ConfigHandler.block_onPlace = newVal),
-                    maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_PLACE_ALONG_EDGES, ConfigHandler.maxBlock_onPlace_DEFAULT, () -> ConfigHandler.maxBlock_onPlace, newVal -> ConfigHandler.maxBlock_onPlace = newVal),
-                    Binding.generic(ConfigHandler.block_onBreak_DEFAULT, () -> ConfigHandler.block_onBreak, newVal -> ConfigHandler.block_onBreak = newVal),
-                    maxParticlesOnBreakOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK_ALONG_AXIS, ConfigHandler.maxBlock_onBreak_DEFAULT, () -> ConfigHandler.maxBlock_onBreak, newVal -> ConfigHandler.maxBlock_onBreak = newVal)
-                ))
+                            .build())
+                        .build())
+                )
 
             .build())
 
@@ -189,6 +59,17 @@ public class ConfigScreen {
 
                     .build())
                 .build())
+
+                // underwater bubbles
+                .group( createMultipleOptionsConfigGroup(
+                    "underwater_block_bubbles",
+                    "underwater_block_bubbles",
+                    ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
+                    booleanOption(ConfigTranslation.SPAWN_BLOCK_PARTICLE_ON_PLACE, "underwater_block_bubbles", Binding.generic(ConfigHandler.underwaterBubbles_onPlace_DEFAULT, () -> ConfigHandler.underwaterBubbles_onPlace, newVal -> ConfigHandler.underwaterBubbles_onPlace = newVal)),
+                    integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_PLACE, "underwater_block_bubbles", ConfigHandler.maxUnderwaterBubbles_onPlace_DEFAULT, () -> ConfigHandler.maxUnderwaterBubbles_onPlace, newVal -> ConfigHandler.maxUnderwaterBubbles_onPlace = newVal, 1, 50, 1),
+                    booleanOption(ConfigTranslation.SPAWN_BLOCK_PARTICLE_ON_BREAK, "underwater_block_bubbles", Binding.generic(ConfigHandler.underwaterBubbles_onBreak_DEFAULT, () -> ConfigHandler.underwaterBubbles_onBreak, newVal -> ConfigHandler.underwaterBubbles_onBreak = newVal)),
+                    integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK, "underwater_block_bubbles", ConfigHandler.maxUnderwaterBubbles_onBreak_DEFAULT, () -> ConfigHandler.maxUnderwaterBubbles_onBreak, newVal -> ConfigHandler.maxUnderwaterBubbles_onBreak = newVal, 1, 50, 1)
+                ))
 
                 // campfire spark
                 .group( createParticleToggleAndIntSliderConfigGroup(
@@ -383,7 +264,7 @@ public class ConfigScreen {
         return createMultipleOptionsConfigGroup(particleTypeKey, groupName, category, onFluidPlaceOption, maxPlaceParticlesOption);
     }
 
-    private static OptionGroup createBlockPlaceAndBreakConfigGroup(String particleTypeKey, String groupName, String category, Binding<Boolean> spawnOnBlockPlaceBinding, Option<Integer> maxPlaceParticlesOption, Binding<Boolean> spawnOnBlockBreakBinding, Option<Integer> maxBreakParticlesOption) {
+    public static OptionGroup createBlockPlaceAndBreakConfigGroup(String particleTypeKey, String groupName, String category, Binding<Boolean> spawnOnBlockPlaceBinding, Option<Integer> maxPlaceParticlesOption, Binding<Boolean> spawnOnBlockBreakBinding, Option<Integer> maxBreakParticlesOption) {
         Option<Boolean> spawnOnBlockPlaceOption = Option.<Boolean>createBuilder()
             .name( ConfigTranslation.getGlobalOption(ConfigTranslation.SPAWN_BLOCK_PARTICLE_ON_PLACE).toComponent() )
             .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(ConfigTranslation.SPAWN_BLOCK_PARTICLE_ON_PLACE)), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ))
@@ -398,7 +279,6 @@ public class ConfigScreen {
         .build();
 
         return createMultipleOptionsConfigGroup(particleTypeKey, groupName, category, spawnOnBlockPlaceOption, maxPlaceParticlesOption, spawnOnBlockBreakOption, maxBreakParticlesOption);
-
     }
 
     private static OptionGroup createParticleToggleAndMaxAndIntensityConfigGroup(String particleTypeKey, String groupName, String category, Binding<Boolean> particleEnabledBinding, String particleEnabledTranslationOption, Option<Integer> maxParticlesOnUseOption, Option<Integer> particleIntensityOption) {
@@ -411,7 +291,7 @@ public class ConfigScreen {
         return createMultipleOptionsConfigGroup(particleTypeKey, groupName, category, particleToggleOption, intSlider);
     }
 
-    private static OptionGroup createMultipleOptionsConfigGroup(String particleTypeKey, String groupName, String category, Option<?> ...options) {
+    public static OptionGroup createMultipleOptionsConfigGroup(String particleTypeKey, String groupName, String category, Option<?> ...options) {
         ConfigTranslation.TranslationKey groupNameKey = ConfigTranslation.getGroupName(category, groupName);
         OptionGroup.Builder optionGroupBuilder = OptionGroup.createBuilder()
             .name( ConfigTranslation.createPlaceholder(groupNameKey.toComponent(), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) )
@@ -431,11 +311,11 @@ public class ConfigScreen {
         .build();
     }
 
-    private static Option<Integer> maxParticlesOnPlaceOption(String optionName, int maxParticlesDefault, Supplier<Integer> getter, Consumer<Integer> setter) {
-        return integerSliderOption(optionName, maxParticlesDefault, getter, setter, 1, 16, 1);
+    public static Option<Integer> maxParticlesOnPlaceOption(String optionName, int maxParticlesDefault, Supplier<Integer> getter, Consumer<Integer> setter) {
+        return integerSliderOption(optionName, maxParticlesDefault, getter, setter, 0, 16, 1);
     }
-    private static Option<Integer> maxParticlesOnBreakOption(String optionName, int maxParticlesDefault, Supplier<Integer> getter, Consumer<Integer> setter) {
-        return integerSliderOption(optionName, maxParticlesDefault, getter, setter, 2, 8, 1);
+    public static Option<Integer> maxParticlesOnBreakOption(String optionName, int maxParticlesDefault, Supplier<Integer> getter, Consumer<Integer> setter) {
+        return integerSliderOption(optionName, maxParticlesDefault, getter, setter, 0, 8, 1);
     }
 
     private static Option<Integer> integerSliderOption(String optionName, int maxParticlesDefault, Supplier<Integer> getter, Consumer<Integer> setter, int min, int max, int step) {
@@ -454,7 +334,7 @@ public class ConfigScreen {
         .build();
     }
 
-    private static ListOption<ResourceLocation> createBlockLocationListOption(String particleTypeKey, String groupName, String category, List<ResourceLocation> defaultValue, Supplier<List<ResourceLocation>> getter, Consumer<List<ResourceLocation>> setter) {
+    public static ListOption<ResourceLocation> createBlockLocationListOption(String particleTypeKey, String groupName, String category, List<ResourceLocation> defaultValue, Supplier<List<ResourceLocation>> getter, Consumer<List<ResourceLocation>> setter) {
         return createListOption(RegistryHelper.getLocationFromBlock(Blocks.STONE), BlockLocationController::new, particleTypeKey, groupName, category, defaultValue, getter, setter);
     }
     private static ListOption<Fluid> createFluidListOption(String particleTypeKey, String groupName, String category, List<Fluid> defaultValue, Supplier<List<Fluid>> getter, Consumer<List<Fluid>> setter) {

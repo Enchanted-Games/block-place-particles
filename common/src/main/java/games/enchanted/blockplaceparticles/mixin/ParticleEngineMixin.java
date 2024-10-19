@@ -3,7 +3,6 @@ package games.enchanted.blockplaceparticles.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle_spawning.BlockParticleOverride;
 import games.enchanted.blockplaceparticles.particle_spawning.SpawnParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -68,7 +67,7 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
             return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);
         }
 
-        ParticleOptions newParticleOption = particleOverride.isBlockStateParticle() ? particleOverride.getBlockParticleOption(originalParticleBlockState) : particleOverride.getParticleOption();
+        ParticleOptions newParticleOption = particleOverride.getParticleOptionForState(originalParticleBlockState);
         boolean isDustPillarParticle = originalParticleOption.getType() == ParticleTypes.DUST_PILLAR;
         double newYSpeed = (ySpeed * 0.08) + (ySpeed < 0.02 ? 0.08 : 0.);
         return (original).call(
@@ -95,7 +94,7 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
         BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockstate);
         if(override == BlockParticleOverride.BLOCK) return;
         if(override != BlockParticleOverride.NONE) {
-            ParticleOptions newParticleOption = override.isBlockStateParticle() ? override.getBlockParticleOption(blockstate) : override.getParticleOption();
+            ParticleOptions newParticleOption = override.getParticleOptionForState(blockstate);
             if (newParticleOption == null) return;
             this.level.addParticle(
                 newParticleOption,

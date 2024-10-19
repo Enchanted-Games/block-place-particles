@@ -14,6 +14,7 @@
   "eg_particle_interactions.config.particle_type.generic_splash": "Generic Splash",
 
   "eg_particle_interactions.config.particle_type.flint_and_steel_sparks": "Flint & Steel Spark",
+  "eg_particle_interactions.config.particle_type.fire_charge_smoke": "Fire Charge Smoke",
   "eg_particle_interactions.config.particle_type.axe_strip_particles": "Axe Strip",
   "eg_particle_interactions.config.particle_type.hoe_till_particles": "Hoe Till",
   "eg_particle_interactions.config.particle_type.shovel_flatten_particles": "Shovel Flatten",
@@ -45,6 +46,9 @@
   "eg_particle_interactions.config.global_option.item_use_particle_intensity": "Particle Intensity",
   "eg_particle_interactions.config.global_option.item_use_particle_intensity.desc": "The speed that the %s particles have when spawned",
 
+  "eg_particle_interactions.config.global_option.is_override_enabled": "Override Enabled",
+  "eg_particle_interactions.config.global_option.is_override_enabled.desc": "Should the %s Particle Override be enabled",
+
   "eg_particle_interactions.config.global_option.is_particle_enabled": "Enable this particle?",
   "eg_particle_interactions.config.global_option.is_particle_enabled.desc": "Should %s particles be spawned",
 
@@ -59,18 +63,15 @@
   "eg_particle_interactions.config.global_option.minecart_only_with_passenger.desc": "Should %s particles only be spawned if there is a passenger riding the minecart? A passenger counts as any entity riding the minecart or a block inside the minecart, e.g: a chest for chest minecarts",
 
 
-  "eg_particle_interactions.config.blocks": "Block Placement / Breaking",
-  "eg_particle_interactions.config.blocks.desc": "Configure how particles are emitted when placing or breaking blocks",
-  "eg_particle_interactions.config.blocks.info": "Block Config Information",
-  "eg_particle_interactions.config.blocks.info.desc": "All config options in this tab are applied from top to bottom. This means if a block is specified in two separate particle types, it will only emit the particle higher up in the config menu",
+  "eg_particle_interactions.config.blocks": "Block Particle Overrides",
+  "eg_particle_interactions.config.blocks.desc": "Configure particle overrides for blocks. These overrides replace the vanilla block particles",
+  "eg_particle_interactions.config.blocks.info": "Block Particle Override Information",
+  "eg_particle_interactions.config.blocks.info.desc": "All config options in this tab are applied from top to bottom. This means if a block is specified in two separate particle overrides, it will only emit first override that is not disabled",
 
-  "eg_particle_interactions.config.blocks.underwater_block_bubbles": "%s Particle Options",
-  "eg_particle_interactions.config.blocks.underwater_block_bubbles.desc": "Control how many %s particles should be spawned and when. These particles apply to every block regardless of the options set below",
-
-  "eg_particle_interactions.config.blocks.generic_particle": "%s Particle Options",
-  "eg_particle_interactions.config.blocks.generic_particle.desc": "When should %s particles be emitted?",
-  "eg_particle_interactions.config.blocks.generic_particle_blocks": "%s Blocks",
-  "eg_particle_interactions.config.blocks.generic_particle_blocks.desc": "Blocks that should spawn %s particles when placed or broken",
+  "eg_particle_interactions.config.blocks.generic_block_override": "%s Particle Options",
+  "eg_particle_interactions.config.blocks.generic_block_override.desc": "When should %s particles be emitted?",
+  "eg_particle_interactions.config.blocks.generic_block_override_blocks": "%s Blocks",
+  "eg_particle_interactions.config.blocks.generic_block_override_blocks.desc": "Blocks that should spawn %s particles when placed or broken",
 
   "eg_particle_interactions.config.blocks.biome_leaf": "%s Particle Options",
   "eg_particle_interactions.config.blocks.biome_leaf.desc": "When should %s particles be emitted?\n\nThese particles are tinted with the biome colour of the block they are spawned from",
@@ -82,6 +83,9 @@
   "eg_particle_interactions.config.block_ambient.desc": "Configure how particles are emitted from blocks in the world",
   "eg_particle_interactions.config.block_ambient.info": "Ambient Block Config Information",
   "eg_particle_interactions.config.block_ambient.info.desc": "Configure how particles are emitted from blocks in the world",
+
+  "eg_particle_interactions.config.block_ambient.underwater_block_bubbles": "%s Particle Options",
+  "eg_particle_interactions.config.block_ambient.underwater_block_bubbles.desc": "Control how many %s particles should be spawned and when",
 
   "eg_particle_interactions.config.block_ambient.campfire_sparks": "%s Particles",
   "eg_particle_interactions.config.block_ambient.campfire_sparks.desc": "Configure if %s particles should be spawned and the chance for them to spawn each tick",
@@ -105,7 +109,9 @@
   "eg_particle_interactions.config.items.info.desc": "Configure how particles are emitted when using or interacting with items",
 
   "eg_particle_interactions.config.items.flint_and_steel_sparks": "%s Particle Options",
-  "eg_particle_interactions.config.items.flint_and_steel_sparks.desc": "Configure if %s particles are emitted and how many should spawn",
+  "eg_particle_interactions.config.items.flint_and_steel_sparks.desc": "Configure if %s particles are emitted and how many should spawn when you light a block on fire using a flint & steel",
+  "eg_particle_interactions.config.items.fire_charge_smoke": "%s Particle Options",
+  "eg_particle_interactions.config.items.fire_charge_smoke.desc": "Configure if %s particles are emitted and how many should spawn when you light a block on fire using a fire charge",
 
   "eg_particle_interactions.config.items.axe_strip_particles": "%s Particle Options",
   "eg_particle_interactions.config.items.axe_strip_particles.desc": "Configure if %s particles should be spawned when stripping a log with an axe",
