@@ -9,6 +9,7 @@ import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -18,6 +19,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.AnvilBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
@@ -358,6 +360,17 @@ public class SpawnParticles {
         }
     }
 
+    public static void spawnAnvilUseSparkParticles(ClientLevel level, BlockPos blockPos) {
+        BlockState anvilState = level.getBlockState(blockPos);
+        Direction facing = anvilState.getValue(AnvilBlock.FACING);
+        Vec3i dir = facing.getNormal();
+        for (int i = 0; i < 20; i++) {
+            double x = blockPos.getX() + level.random.nextDouble();
+            double y = blockPos.getY() + 1. + (level.random.nextDouble() / 16f);
+            double z = blockPos.getZ() + level.random.nextDouble();
+            level.addParticle(level.random.nextFloat() > 0.2 ? ModParticleTypes.FLYING_SPARK : ModParticleTypes.FLOATING_SPARK, x, y, z, -0.5 * dir.getX(), 0.1 + (level.random.nextDouble() / 16f), -0.5 * dir.getZ());
+        }
+    }
 
     private static void spawnMostlyUpwardsMotionParticleOption(Level level, ParticleOptions particleOptions, double xPos, double yPos, double zPos, double velocityIntensity) {
         level.addParticle(

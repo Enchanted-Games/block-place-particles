@@ -8,6 +8,7 @@
   ],
   "client": [
     "AbstractCauldronBlockMixin",
+    "LevelRendererMixin",
     "ParticleEngineMixin",
     "ParticleMixin",
     "accessor.BucketItemAccessor",
@@ -18,8 +19,8 @@
     "entity.AbstractMinecartMixin",
     "items.BlockItem",
     "items.BucketItem",
-    "items.FlintAndSteelItem",
     "items.FireChargeItem",
+    "items.FlintAndSteelItem",
     "items.HoeItem",
     "items.ShovelItem"
   ],
