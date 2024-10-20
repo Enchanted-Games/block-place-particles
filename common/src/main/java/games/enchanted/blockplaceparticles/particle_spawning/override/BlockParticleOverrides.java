@@ -30,7 +30,8 @@ public abstract class BlockParticleOverrides {
         ConfigHandler.maxSnowflakes_onPlace_DEFAULT,
         () -> ConfigHandler.maxSnowflakes_onBreak,
         (val) -> ConfigHandler.maxSnowflakes_onBreak = val,
-        ConfigHandler.maxSnowflakes_onBreak_DEFAULT
+        ConfigHandler.maxSnowflakes_onBreak_DEFAULT,
+        0.1f
     );
     public static final BlockParticleOverride CHERRY_LEAF = new BlockParticleOverride(
         "cherry_petal",
@@ -47,7 +48,8 @@ public abstract class BlockParticleOverrides {
         ConfigHandler.maxCherryPetals_onPlace_DEFAULT,
         () -> ConfigHandler.maxCherryPetals_onBreak,
         (val) -> ConfigHandler.maxCherryPetals_onBreak = val,
-        ConfigHandler.maxCherryPetals_onBreak_DEFAULT
+        ConfigHandler.maxCherryPetals_onBreak_DEFAULT,
+        0.15f
     );
     public static final BlockParticleOverride AZALEA_LEAF = new BlockParticleOverride(
         "azalea_leaf",
@@ -64,7 +66,8 @@ public abstract class BlockParticleOverrides {
         ConfigHandler.maxAzaleaLeaves_onPlace_DEFAULT,
         () -> ConfigHandler.maxAzaleaLeaves_onBreak,
         (val) -> ConfigHandler.maxAzaleaLeaves_onBreak = val,
-        ConfigHandler.maxAzaleaLeaves_onBreak_DEFAULT
+        ConfigHandler.maxAzaleaLeaves_onBreak_DEFAULT,
+        0.15f
     );
     public static final BlockParticleOverride FLOWERING_AZALEA_LEAF = new BlockParticleOverride(
         "flowering_azalea_leaf",
@@ -81,7 +84,8 @@ public abstract class BlockParticleOverrides {
         ConfigHandler.maxFloweringAzaleaLeaves_onPlace_DEFAULT,
         () -> ConfigHandler.maxFloweringAzaleaLeaves_onBreak,
         (val) -> ConfigHandler.maxFloweringAzaleaLeaves_onBreak = val,
-        ConfigHandler.maxFloweringAzaleaLeaves_onBreak_DEFAULT
+        ConfigHandler.maxFloweringAzaleaLeaves_onBreak_DEFAULT,
+        0.15f
     );
     public static final BlockParticleOverride TINTED_LEAF = new BlockParticleOverride(
         "biome_leaf",
@@ -98,7 +102,8 @@ public abstract class BlockParticleOverrides {
         ConfigHandler.maxTintedLeaves_onPlace_DEFAULT,
         () -> ConfigHandler.maxTintedLeaves_onBreak,
         (val) -> ConfigHandler.maxTintedLeaves_onBreak = val,
-        ConfigHandler.maxTintedLeaves_onBreak_DEFAULT
+        ConfigHandler.maxTintedLeaves_onBreak_DEFAULT,
+        0.15f
     );
 
     public static void registerOverrides() {

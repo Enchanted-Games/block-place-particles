@@ -25,8 +25,8 @@ public class BlockParticleOverride {
         "vanilla_particle",
         "generic_block_override",
         (BlockState blockState, ClientLevel level, BlockPos blockPos) -> new BlockParticleOption(ParticleTypes.BLOCK, blockState),
-        null,
-        null,
+        () -> null,
+        (val) -> {},
         List.of(),
         () -> ConfigHandler.block_enabled,
         (val) -> ConfigHandler.block_enabled = val,
@@ -36,7 +36,8 @@ public class BlockParticleOverride {
         ConfigHandler.maxBlock_onPlace_DEFAULT,
         () -> ConfigHandler.maxBlock_onBreak,
         (val) -> ConfigHandler.maxBlock_onBreak = val,
-        ConfigHandler.maxBlock_onBreak_DEFAULT
+        ConfigHandler.maxBlock_onBreak_DEFAULT,
+        1
     );
     private static final ArrayList<BlockParticleOverride> blockParticleOverrides = new ArrayList<>();
 
@@ -44,17 +45,19 @@ public class BlockParticleOverride {
     private final String groupName;
     @NotNull final GetParticleOptionConsumer getParticleOption;
     @Nullable final Supplier<List<ResourceLocation>> supportedBlockResourceLocations_getter;
-    final Supplier<Boolean> overrideEnabled_getter;
-    final Supplier<Integer> maxParticlesOnPlace_getter;
-    final Supplier<Integer> maxParticlesOnBreak_getter;
     @Nullable final Consumer<List<ResourceLocation>> supportedBlockResourceLocations_setter;
-    final Consumer<Boolean> overrideEnabled_setter;
-    final Consumer<Integer> maxParticlesOnPlace_setter;
-    final Consumer<Integer> maxParticlesOnBreak_setter;
     @Nullable final List<ResourceLocation> supportedBlockResourceLocations_default;
-    final Boolean overrideEnabled_default;
-    final Integer maxParticlesOnPlace_default;
-    final Integer maxParticlesOnBreak_default;
+    final Supplier<Boolean> overrideEnabled_getter;
+    final Consumer<Boolean> overrideEnabled_setter;
+    final boolean overrideEnabled_default;
+    final Supplier<Integer> maxParticlesOnPlace_getter;
+    final Consumer<Integer> maxParticlesOnPlace_setter;
+    final int maxParticlesOnPlace_default;
+    final Supplier<Integer> maxParticlesOnBreak_getter;
+    final Consumer<Integer> maxParticlesOnBreak_setter;
+    final int maxParticlesOnBreak_default;
+
+    final float particleVelocityMultiplier;
 
     BlockParticleOverride(
         String overrideName,
@@ -65,13 +68,14 @@ public class BlockParticleOverride {
         @NotNull List<ResourceLocation> supportedBlockResourceLocations_default,
         Supplier<Boolean> overrideEnabled_getter,
         Consumer<Boolean> overrideEnabled_setter,
-        Boolean overrideEnabled_default,
+        boolean overrideEnabled_default,
         Supplier<Integer> maxParticlesOnPlace_getter,
         Consumer<Integer> maxParticlesOnPlace_setter,
-        Integer maxParticlesOnPlace_default,
+        int maxParticlesOnPlace_default,
         Supplier<Integer> maxParticlesOnBreak_getter,
         Consumer<Integer> maxParticlesOnBreak_setter,
-        Integer maxParticlesOnBreak_default
+        int maxParticlesOnBreak_default,
+        float particleVelocityMultiplier
     ) {
         this.name = overrideName;
         this.groupName = groupName;
@@ -88,7 +92,13 @@ public class BlockParticleOverride {
         this.overrideEnabled_default = overrideEnabled_default;
         this.maxParticlesOnPlace_default = maxParticlesOnPlace_default;
         this.maxParticlesOnBreak_default = maxParticlesOnBreak_default;
+        this.particleVelocityMultiplier = particleVelocityMultiplier;
     }
+
+    public interface GetParticleOptionConsumer {
+        ParticleOptions consume(BlockState blockState, ClientLevel level, BlockPos blockPos);
+    }
+
     private BlockParticleOverride(String overrideName) {
         this.name = overrideName;
         this.groupName = overrideName;
@@ -102,9 +112,10 @@ public class BlockParticleOverride {
         this.maxParticlesOnPlace_setter = null;
         this.maxParticlesOnBreak_setter = null;
         this.supportedBlockResourceLocations_default = null;
-        this.overrideEnabled_default = null;
-        this.maxParticlesOnPlace_default = null;
-        this.maxParticlesOnBreak_default = null;
+        this.overrideEnabled_default = true;
+        this.maxParticlesOnPlace_default = 0;
+        this.maxParticlesOnBreak_default = 0;
+        this.particleVelocityMultiplier = 1;
     }
 
     /**
@@ -151,10 +162,6 @@ public class BlockParticleOverride {
         return blockBreakMultiplier;
     }
 
-    public interface GetParticleOptionConsumer {
-        ParticleOptions consume(BlockState blockState, ClientLevel level, BlockPos blockPos);
-    }
-
     /**
      * @return a list of all the current {@link BlockParticleOverride}s that have been added to the mod
      */
@@ -168,6 +175,7 @@ public class BlockParticleOverride {
      * @param override the override to add
      */
     public static void addBlockParticleOverride(BlockParticleOverride override) {
+        if(override == NONE || override == BLOCK) throw new IllegalArgumentException("Cannot call BlockParticleOverride#addBlockParticleOverride with BlockParticleOverride.NONE or BlockParticleOverride.BLOCK");
         blockParticleOverrides.add(override);
     }
 
@@ -183,47 +191,51 @@ public class BlockParticleOverride {
         return supportedBlockResourceLocations_getter;
     }
 
-    public Supplier<Boolean> getOverrideEnabled_getter() {
-        return overrideEnabled_getter;
+    public @Nullable Consumer<List<ResourceLocation>> getSupportedBlockResourceLocations_setter() {
+        return supportedBlockResourceLocations_setter;
+    }
+
+    public @Nullable List<ResourceLocation> getSupportedBlockResourceLocations_default() {
+        return supportedBlockResourceLocations_default;
     }
 
     public Supplier<Integer> getMaxParticlesOnPlace_getter() {
         return maxParticlesOnPlace_getter;
     }
 
-    public Supplier<Integer> getMaxParticlesOnBreak_getter() {
-        return maxParticlesOnBreak_getter;
-    }
-
-    public @Nullable Consumer<List<ResourceLocation>> getSupportedBlockResourceLocations_setter() {
-        return supportedBlockResourceLocations_setter;
-    }
-
-    public Consumer<Boolean> getOverrideEnabled_setter() {
-        return overrideEnabled_setter;
-    }
-
     public Consumer<Integer> getMaxParticlesOnPlace_setter() {
         return maxParticlesOnPlace_setter;
+    }
+
+    public int getMaxParticlesOnPlace_default() {
+        return maxParticlesOnPlace_default;
+    }
+
+    public Supplier<Integer> getMaxParticlesOnBreak_getter() {
+        return maxParticlesOnBreak_getter;
     }
 
     public Consumer<Integer> getMaxParticlesOnBreak_setter() {
         return maxParticlesOnBreak_setter;
     }
 
-    public Integer getMaxParticlesOnBreak_default() {
+    public int getMaxParticlesOnBreak_default() {
         return maxParticlesOnBreak_default;
     }
 
-    public Integer getMaxParticlesOnPlace_default() {
-        return maxParticlesOnPlace_default;
+    public Supplier<Boolean> getOverrideEnabled_getter() {
+        return overrideEnabled_getter;
     }
 
-    public Boolean getOverrideEnabled_default() {
+    public Consumer<Boolean> getOverrideEnabled_setter() {
+        return overrideEnabled_setter;
+    }
+
+    public boolean getOverrideEnabled_default() {
         return overrideEnabled_default;
     }
 
-    public @Nullable List<ResourceLocation> getSupportedBlockResourceLocations_default() {
-        return supportedBlockResourceLocations_default;
+    public float getParticleVelocityMultiplier() {
+        return particleVelocityMultiplier;
     }
 }

@@ -38,7 +38,7 @@ public class SpawnParticles {
         int maxParticlesPerEdge = BlockParticleOverride.getParticleMultiplierForOverride(particleOverride, true);
         if(maxParticlesPerEdge <= 0) return;
 
-        double particleOutwardVelocityAdjustment = particleOverride == BlockParticleOverride.BLOCK ? 1. : 0.15;
+        double particleOutwardVelocityAdjustment = particleOverride.getParticleVelocityMultiplier();
 
         if (!placedBlockState.isAir() && placedBlockState.shouldSpawnTerrainParticles()) {
             VoxelShape blockShape = placedBlockState.getShape(level, blockPos);
@@ -103,7 +103,7 @@ public class SpawnParticles {
         int maxParticlesPerLength = BlockParticleOverride.getParticleMultiplierForOverride(particleOverride, false);
         if(maxParticlesPerLength <= 0) return;
 
-        double particleOutwardVelocityAdjustment = particleOverride == BlockParticleOverride.BLOCK ? 1. : 0.15;
+        double particleOutwardVelocityAdjustment = particleOverride.getParticleVelocityMultiplier();
 
         if (!brokenBlockState.isAir() && brokenBlockState.shouldSpawnTerrainParticles()) {
             VoxelShape blockShape = brokenBlockState.getShape(level, brokenBlockPos);
