@@ -1,6 +1,7 @@
 package games.enchanted.blockplaceparticles;
 
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
+import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverrides;
 import games.enchanted.blockplaceparticles.platform.Services;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -21,6 +22,7 @@ public class ParticleInteractionsMod {
     public static void endOfModLoading() {
         ConfigHandler.load();
         ConfigHandler.save();
+        BlockParticleOverrides.registerOverrides();
         ParticleInteractionsLogging.message("Loaded Successfully!");
     }
 

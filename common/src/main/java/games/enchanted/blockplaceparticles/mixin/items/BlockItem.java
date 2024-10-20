@@ -26,7 +26,7 @@ public abstract class BlockItem {
         Level level = blockPlaceContext.getLevel();
         if(level.isClientSide() && cir.getReturnValue()) {
             BlockPos blockPos = blockPlaceContext.getClickedPos();
-            SpawnParticles.spawnBlockPlaceParticle(level, blockPos);
+            SpawnParticles.spawnBlockPlaceParticle((ClientLevel) level, blockPos);
             ParticleInteractionsLogging.debugInfo(this.getBlock() + " placed at " + blockPos.toShortString() + " from '" + this + "'");
         }
     }

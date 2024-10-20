@@ -2,14 +2,13 @@ package games.enchanted.blockplaceparticles.config;
 
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
-import games.enchanted.blockplaceparticles.particle_spawning.BlockParticleOverride;
+import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 public class ConfigScreenHelper {
     public static ConfigCategory.Builder createBlockParticleOverrideConfigWidgets(ConfigCategory.Builder configCategoryBuilder) {
-        BlockParticleOverride[] overrides = BlockParticleOverride.values();
-        for (BlockParticleOverride override : overrides) {
+        for (BlockParticleOverride override : BlockParticleOverride.getBlockParticleOverrides()) {
             if(override == BlockParticleOverride.NONE || override == BlockParticleOverride.BLOCK) continue;
             configCategoryBuilder.group(OptionGroup.createBuilder()
                 .name( Component.literal("--------------") )

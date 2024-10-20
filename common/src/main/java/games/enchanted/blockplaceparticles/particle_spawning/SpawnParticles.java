@@ -2,7 +2,8 @@ package games.enchanted.blockplaceparticles.particle_spawning;
 
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
-import games.enchanted.blockplaceparticles.util.BiomeTemperatureHelpers;
+import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
+import games.enchanted.blockplaceparticles.particle_spawning.override.FluidPlacementParticle;
 import games.enchanted.blockplaceparticles.util.FluidHelpers;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -26,11 +27,10 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.joml.Vector3f;
 
 public class SpawnParticles {
-    public static void spawnBlockPlaceParticle(Level level, BlockPos blockPos, BlockState placedBlockState) {
+    public static void spawnBlockPlaceParticle(ClientLevel level, BlockPos blockPos, BlockState placedBlockState) {
         if(ConfigHandler.underwaterBubbles_onPlace) spawnUnderwaterBubbles(ConfigHandler.maxUnderwaterBubbles_onPlace, level, blockPos);
 
         BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(placedBlockState);
-        ParticleOptions particleOption = particleOverride.getParticleOptionForState(placedBlockState);
         if (particleOverride == BlockParticleOverride.NONE) {
             return;
         }
@@ -38,8 +38,7 @@ public class SpawnParticles {
         int maxParticlesPerEdge = BlockParticleOverride.getParticleMultiplierForOverride(particleOverride, true);
         if(maxParticlesPerEdge <= 0) return;
 
-        double particleOutwardVelocityAdjustment = particleOverride == BlockParticleOverride.BLOCK ? 1. : 0.05;
-        final boolean particleInWarmBiome = BiomeTemperatureHelpers.isWarmBiomeOrDimension(level, blockPos);
+        double particleOutwardVelocityAdjustment = particleOverride == BlockParticleOverride.BLOCK ? 1. : 0.15;
 
         if (!placedBlockState.isAir() && placedBlockState.shouldSpawnTerrainParticles()) {
             VoxelShape blockShape = placedBlockState.getShape(level, blockPos);
@@ -72,15 +71,10 @@ public class SpawnParticles {
                     double particleYOffset = (biggestEdge == Direction.Axis.Y ? particlePos : height) + y1 + verticalAxisOffset;
                     double particleZOffset = (biggestEdge == Direction.Axis.Z ? particlePos : depth) + z1;
 
-                    ParticleOptions particleToSpawn;
-                    if(particleOverride == BlockParticleOverride.SNOW_POWDER) {
-                        // sometimes spawn poof particle if the biome is ultra warm
-                        particleToSpawn = particleInWarmBiome && level.random.nextInt(5) == 0 ? ParticleTypes.POOF : particleOption;
-                    }else {
-                        particleToSpawn = particleOption;
+                    ParticleOptions particleToSpawn = particleOverride.getParticleOptionForState(placedBlockState, level, blockPos);
+                    if (particleToSpawn == null) {
+                        continue;
                     }
-
-                    assert particleToSpawn != null;
                     level.addParticle(
                         particleToSpawn,
                         (double)blockPos.getX() + MathHelpers.expandWhenOutOfBound(particleXOffset, 0, 1),
@@ -94,7 +88,7 @@ public class SpawnParticles {
             });
         }
     }
-    public static void spawnBlockPlaceParticle(Level level, BlockPos blockPos) {
+    public static void spawnBlockPlaceParticle(ClientLevel level, BlockPos blockPos) {
         BlockState placedBlockState = level.getBlockState(blockPos);
         spawnBlockPlaceParticle(level, blockPos, placedBlockState);
     }
@@ -102,16 +96,14 @@ public class SpawnParticles {
     public static void spawnBlockBreakParticle(ClientLevel level, BlockState brokenBlockState, BlockPos brokenBlockPos, BlockParticleOverride particleOverride) {
         if(ConfigHandler.underwaterBubbles_onBreak) spawnUnderwaterBubbles(ConfigHandler.maxUnderwaterBubbles_onBreak, level, brokenBlockPos);
 
-        int maxParticlesPerLength = BlockParticleOverride.getParticleMultiplierForOverride(particleOverride, false);
-        if(maxParticlesPerLength <= 0) return;
-
-        ParticleOptions particleOption = particleOverride.getParticleOptionForState(brokenBlockState);
         if (particleOverride == BlockParticleOverride.NONE) {
             return;
         }
 
-        double particleOutwardVelocityAdjustment = particleOverride == BlockParticleOverride.BLOCK ? 1. : 0.2;
-        final boolean particleInWarmBiome = BiomeTemperatureHelpers.isWarmBiomeOrDimension(level, brokenBlockPos);
+        int maxParticlesPerLength = BlockParticleOverride.getParticleMultiplierForOverride(particleOverride, false);
+        if(maxParticlesPerLength <= 0) return;
+
+        double particleOutwardVelocityAdjustment = particleOverride == BlockParticleOverride.BLOCK ? 1. : 0.15;
 
         if (!brokenBlockState.isAir() && brokenBlockState.shouldSpawnTerrainParticles()) {
             VoxelShape blockShape = brokenBlockState.getShape(level, brokenBlockPos);
@@ -130,15 +122,11 @@ public class SpawnParticles {
                             double particleYOffset = (((double) i_H + 0.5) / (double) amountAlongHeight);
                             double particleZOffset = (((double) i_D + 0.5) / (double) amountAlongDepth);
 
-                            ParticleOptions particleToSpawn;
-                            if (particleOverride == BlockParticleOverride.SNOW_POWDER) {
-                                // sometimes spawn poof particle if the dimension is ultra warm
-                                particleToSpawn = particleInWarmBiome && level.random.nextInt(5) == 0 ? ParticleTypes.POOF : particleOption;
-                            } else {
-                                particleToSpawn = particleOption;
+                            ParticleOptions particleToSpawn = particleOverride.getParticleOptionForState(brokenBlockState, level, brokenBlockPos);
+                            if (particleToSpawn == null) {
+                                continue;
                             }
 
-                            assert particleToSpawn != null;
                             level.addParticle(
                                 particleToSpawn,
                                 brokenBlockPos.getX() + (particleXOffset * width + x1),
