@@ -151,7 +151,7 @@ public class BlockParticleOverride {
     }
 
     public static int getParticleMultiplierForOverride(BlockParticleOverride override, boolean isBlockBeingPlaced) {
-        if(Objects.equals(override.name, "none")) return 0;
+        if(override == NONE) return 0;
         return getAppropriateMultiplier(isBlockBeingPlaced, override.maxParticlesOnPlace_getter.get(), override.maxParticlesOnBreak_getter.get());
     }
 
