@@ -151,6 +151,23 @@ public class ConfigHandler {
     @SerialEntry
     public static List<ResourceLocation> tintedLeaves_Blocks = tintedLeaves_Blocks_DEFAULT;
 
+    // grass blade
+    public static final int maxGrassBlade_onPlace_DEFAULT = 2;
+    @SerialEntry
+    public static int maxGrassBlade_onPlace = maxGrassBlade_onPlace_DEFAULT;
+
+    public static final boolean grassBlade_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean grassBlade_enabled = grassBlade_enabled_DEFAULT;
+
+    public static final int maxGrassBlade_onBreak_DEFAULT = 3;
+    @SerialEntry
+    public static int maxGrassBlade_onBreak = maxGrassBlade_onBreak_DEFAULT;
+
+    public static final List<ResourceLocation> grassBlade_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.SHORT_GRASS), RegistryHelper.getLocationFromBlock(Blocks.TALL_GRASS), RegistryHelper.getLocationFromBlock(Blocks.SEAGRASS));
+    @SerialEntry
+    public static List<ResourceLocation> grassBlade_Blocks = grassBlade_Blocks_DEFAULT;
+
     // default block particle
     public static final int maxBlock_onPlace_DEFAULT = 2;
     @SerialEntry

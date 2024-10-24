@@ -105,6 +105,24 @@ public abstract class BlockParticleOverrides {
         ConfigHandler.maxTintedLeaves_onBreak_DEFAULT,
         0.15f
     );
+    public static final BlockParticleOverride GRASS_BLADE = new BlockParticleOverride(
+        "grass_blade",
+        "tinted_or_average",
+        (BlockState blockState, ClientLevel level, BlockPos blockPos) -> new BlockParticleOption(ModParticleTypes.GRASS_BLADE, blockState),
+        () -> ConfigHandler.grassBlade_Blocks,
+        (val) -> ConfigHandler.grassBlade_Blocks = val,
+        ConfigHandler.grassBlade_Blocks_DEFAULT,
+        () -> ConfigHandler.grassBlade_enabled,
+        (val) -> ConfigHandler.grassBlade_enabled = val,
+        ConfigHandler.grassBlade_enabled_DEFAULT,
+        () -> ConfigHandler.maxGrassBlade_onPlace,
+        (val) -> ConfigHandler.maxGrassBlade_onPlace = val,
+        ConfigHandler.maxGrassBlade_onPlace_DEFAULT,
+        () -> ConfigHandler.maxGrassBlade_onBreak,
+        (val) -> ConfigHandler.maxGrassBlade_onBreak = val,
+        ConfigHandler.maxGrassBlade_onBreak_DEFAULT,
+        0.15f
+    );
 
     public static void registerOverrides() {
         BlockParticleOverride.addBlockParticleOverride(SNOW_POWDER);
@@ -112,5 +130,6 @@ public abstract class BlockParticleOverrides {
         BlockParticleOverride.addBlockParticleOverride(AZALEA_LEAF);
         BlockParticleOverride.addBlockParticleOverride(FLOWERING_AZALEA_LEAF);
         BlockParticleOverride.addBlockParticleOverride(TINTED_LEAF);
+        BlockParticleOverride.addBlockParticleOverride(GRASS_BLADE);
     }
 }

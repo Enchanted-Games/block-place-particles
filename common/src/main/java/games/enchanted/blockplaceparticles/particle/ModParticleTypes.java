@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
 import games.enchanted.blockplaceparticles.particle.bubble.UnderwaterRisingBubble;
 import games.enchanted.blockplaceparticles.particle.petal.FallingPetal;
+import games.enchanted.blockplaceparticles.particle.petal.FallingTintedOrAveragePetal;
 import games.enchanted.blockplaceparticles.particle.petal.FallingTintedPetal;
 import games.enchanted.blockplaceparticles.particle.spark.FlyingSpark;
 import games.enchanted.blockplaceparticles.particle.splash.BlockSplash;
@@ -32,6 +33,7 @@ public class ModParticleTypes {
     public static ParticleType<BlockParticleOption> FALLING_TINTED_LEAF;
     public static SimpleParticleType FALLING_AZALEA_LEAF;
     public static SimpleParticleType FALLING_FLOWERING_AZALEA_LEAF;
+    public static ParticleType<BlockParticleOption> GRASS_BLADE;
 
     public static ParticleType<BlockParticleOption> WATER_BUCKET_TINTED_SPLASH;
     public static SimpleParticleType LAVA_BUCKET_SPLASH;
@@ -49,6 +51,7 @@ public class ModParticleTypes {
         FALLING_TINTED_LEAF = register((SpriteParticleProviderRegistration) FallingTintedPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_tinted_leaves"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         FALLING_AZALEA_LEAF = register((SpriteParticleProviderRegistration) FallingPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_azalea_leaves"), false);
         FALLING_FLOWERING_AZALEA_LEAF = register((SpriteParticleProviderRegistration) FallingPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_flowering_azalea_leaves"), false);
+        GRASS_BLADE = register((SpriteParticleProviderRegistration) FallingTintedOrAveragePetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "grass_blade"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
 
         WATER_BUCKET_TINTED_SPLASH = register((SpriteParticleProviderRegistration) BucketTintedSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "water_bucket_tinted_splash"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         LAVA_BUCKET_SPLASH = register((SpriteParticleProviderRegistration) LavaSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "lava_bucket_splash"), false);
