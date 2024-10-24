@@ -12,6 +12,7 @@
     "ParticleEngineMixin",
     "ParticleMixin",
     "accessor.BucketItemAccessor",
+    "accessor.SpriteContentsAccessor",
     "accessor.yacl.DropdownWidgetAccessor",
     "blocks.BaseFireBlock",
     "blocks.CampfireBlock",
