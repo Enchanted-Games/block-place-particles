@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -19,15 +20,24 @@ public class FallingTintedOrAveragePetal extends FallingPetal {
         if(tintColour == 0xffffff || tintColour == -1) {
             // use average texture colour
             int[] averageBlockColour = ColourUtil.getAverageBlockColour(blockState);
-            this.rCol = (float)averageBlockColour[1] / 255.0F;
-            this.gCol = (float)averageBlockColour[2] / 255.0F;
-            this.bCol = (float)averageBlockColour[3] / 255.0F;
+            this.rCol = (float)averageBlockColour[1] / 255f;
+            this.gCol = (float)averageBlockColour[2] / 255f;
+            this.bCol = (float)averageBlockColour[3] / 255f;
+            this.alpha = (float)averageBlockColour[0] / 255f;
         } else {
             // use block biome tint colour
-            this.rCol = (float)(tintColour >> 16 & 255) / 255.0F;
-            this.gCol = (float)(tintColour >> 8 & 255) / 255.0F;
-            this.bCol = (float)(tintColour & 255) / 255.0F;
-        };
+            this.rCol = (float)(tintColour >> 16 & 255) / 255f;
+            this.gCol = (float)(tintColour >> 8 & 255) / 255f;
+            this.bCol = (float)(tintColour & 255) / 255f;
+        }
+    }
+
+    @Override
+    public @NotNull ParticleRenderType getRenderType() {
+        if(this.alpha < 0.99) {
+            return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+        }
+        return super.getRenderType();
     }
 
     public static class Provider implements ParticleProvider<BlockParticleOption> {

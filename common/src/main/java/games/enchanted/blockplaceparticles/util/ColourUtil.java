@@ -33,21 +33,26 @@ public class ColourUtil {
         if (sprite == null) return -1;
         SpriteContents spriteContents = sprite.contents();
         if (spriteContents.getUniqueFrames().count() == 0) return -1;
-        float total = 0, red = 0, blue = 0, green = 0;
+        float total = 0, red = 0, blue = 0, green = 0, alpha = 0;
         for (int x = 0; x < spriteContents.width(); x++) {
             for (int y = 0; y < spriteContents.height(); y++) {
                 int color = ((SpriteContentsAccessor) spriteContents).getOriginalImage().getPixelRGBA(x, y);
                 int[] argb = ABGRint_to_RGBA(color);
-                int alpha = argb[0];
-                if (alpha <= 10) continue;
-                total += alpha;
+                int pixelAlpha = argb[0];
+                if (pixelAlpha <= 10) continue;
+                total += pixelAlpha;
+                alpha += argb[0];
                 red += argb[1];
                 green += argb[2];
                 blue += argb[3];
             }
         }
         total /= 255;
-        return ARGB_to_ARGBint(255, (int) (red / total), (int) (green / total), (int) (blue / total));
+        return ARGB_to_ARGBint((int) (alpha / total), (int) (red / total), (int) (green / total), (int) (blue / total));
+    }
+
+    public static void invalidateCaches() {
+        ColourUtil.colourCache.clear();
     }
 
     /**
