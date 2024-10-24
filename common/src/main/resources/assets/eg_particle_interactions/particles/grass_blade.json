@@ -1,5 +1,8 @@
 {
   "textures": [
-    "eg_particle_interactions:grass_blade/0"
+    "eg_particle_interactions:grass_blade/0",
+    "eg_particle_interactions:grass_blade/1",
+    "eg_particle_interactions:grass_blade/2",
+    "eg_particle_interactions:grass_blade/3"
   ]
 }

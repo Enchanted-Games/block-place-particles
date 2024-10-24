@@ -43,4 +43,22 @@ public class FallingTintedOrAveragePetal extends FallingPetal {
             return new FallingTintedOrAveragePetal(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet);
         }
     }
+
+    public static class LargerSpriteProvider implements ParticleProvider<BlockParticleOption> {
+        private final SpriteSet spriteSet;
+
+        public LargerSpriteProvider(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        @Nullable
+        @Override
+        public Particle createParticle(BlockParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            FallingTintedOrAveragePetal particle = new FallingTintedOrAveragePetal(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet);
+            float particleSize = level.random.nextBoolean() ? 0.10F : 0.12F;
+            particle.quadSize = particleSize;
+            particle.setSize(particleSize, particleSize);
+            return particle;
+        }
+    }
 }
