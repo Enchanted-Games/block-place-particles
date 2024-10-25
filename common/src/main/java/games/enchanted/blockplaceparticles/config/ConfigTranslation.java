@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 public class ConfigTranslation {
     private static final String CONFIG_KEY_PREFIX = ParticleInteractionsMod.MOD_ID + ".config";
 
+    public static final String DEBUG_CATEGORY = "debug";
     public static final String BLOCKS_CONFIG_CATEGORY = "blocks";
     public static final String BLOCK_AMBIENT_CONFIG_CATEGORY = "block_ambient";
     public static final String ITEMS_CONFIG_CATEGORY = "items";
@@ -29,6 +30,8 @@ public class ConfigTranslation {
     public static final String SPAWN_PARTICLE_WHEN_MINECART_AT_MAX_SPEED = "spawn_particle_at_minecart_max_speed";
     public static final String MINECART_WHEEL_PARTICLE_AMOUNT = "minecart_wheel_particle_amount";
     public static final String MINECART_ONLY_WITH_PASSENGER = "minecart_only_with_passenger";
+
+    public static final String TOGGLE_DEBUG_LOGS = "toggle_debug_logs";
 
     public static Component createDesc(TranslationKey translationKey) {
         return translationKey.append(".desc").toComponent();

@@ -10,24 +10,16 @@ public class ConfigScreenHelper {
     public static ConfigCategory.Builder createBlockParticleOverrideConfigWidgets(ConfigCategory.Builder configCategoryBuilder) {
         for (BlockParticleOverride override : BlockParticleOverride.getBlockParticleOverrides()) {
             if(override == BlockParticleOverride.NONE || override == BlockParticleOverride.BLOCK) continue;
-            configCategoryBuilder.group(OptionGroup.createBuilder()
-                .name( Component.literal("--------------") )
-                .collapsed(true)
-                .option(LabelOption.createBuilder()
-                    .build())
-                .build()
+            configCategoryBuilder.group(
+                ConfigScreen.createSeparator()
             );
             configCategoryBuilder.group(
                 createOptionsForBlockOverride(override)
             );
             configCategoryBuilder.group(createBlockListForBlockOverride(override));
         }
-        configCategoryBuilder.group(OptionGroup.createBuilder()
-            .name( Component.literal("--------------") )
-            .collapsed(true)
-            .option(LabelOption.createBuilder()
-                .build())
-            .build()
+        configCategoryBuilder.group(
+            ConfigScreen.createSeparator()
         );
         configCategoryBuilder.group(
             createOptionsForBlockOverride(BlockParticleOverride.BLOCK)

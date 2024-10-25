@@ -1,13 +1,15 @@
 {
   "eg_particle_interactions.config.title": "Particle Interactions Config",
-
+  "eg_particle_interactions.config.category_separator": "---------------------",
 
   "eg_particle_interactions.config.particle_type.underwater_block_bubbles": "Underwater Bubble",
   "eg_particle_interactions.config.particle_type.snowflake": "Snowflake",
   "eg_particle_interactions.config.particle_type.cherry_petal": "Cherry Petal",
   "eg_particle_interactions.config.particle_type.azalea_leaf": "Azalea Leaf",
   "eg_particle_interactions.config.particle_type.flowering_azalea_leaf": "Flowering Azalea Leaf",
-  "eg_particle_interactions.config.particle_type.biome_leaf": "Biome Tinted Leaf",
+  "eg_particle_interactions.config.particle_type.biome_leaf": "Tinted Leaf",
+  "eg_particle_interactions.config.particle_type.grass_blade": "Grass Blade",
+
   "eg_particle_interactions.config.particle_type.vanilla_particle": "Vanilla Block Breaking",
   "eg_particle_interactions.config.particle_type.tinted_splash": "Tinted Splash",
   "eg_particle_interactions.config.particle_type.lava_splash": "Lava Splash",
@@ -73,16 +75,16 @@
   "eg_particle_interactions.config.blocks.generic_block_override_blocks": "%s Blocks",
   "eg_particle_interactions.config.blocks.generic_block_override_blocks.desc": "Blocks that should spawn %s particles when placed or broken",
 
-  "eg_particle_interactions.config.blocks.biome_leaf": "%s Particle Options",
-  "eg_particle_interactions.config.blocks.biome_leaf.desc": "When should %s particles be emitted?\n\nThese particles are tinted with the biome colour of the block they are spawned from",
-  "eg_particle_interactions.config.blocks.biome_leaf_blocks": "%s Blocks",
-  "eg_particle_interactions.config.blocks.biome_leaf_blocks.desc": "Blocks that should spawn %s particles when placed or broken",
+  "eg_particle_interactions.config.blocks.tinted_or_average": "%s Particle Options",
+  "eg_particle_interactions.config.blocks.tinted_or_average.desc": "When should %s particles be emitted?\n\nThese particles are tinted with the biome colour or the average texture colour if the block doesn't have a biome tint",
+  "eg_particle_interactions.config.blocks.tinted_or_average_blocks": "%s Blocks",
+  "eg_particle_interactions.config.blocks.tinted_or_average_blocks.desc": "Blocks that should spawn %s particles when placed or broken",
 
 
-  "eg_particle_interactions.config.block_ambient": "Ambient Block Particles",
-  "eg_particle_interactions.config.block_ambient.desc": "Configure how particles are emitted from blocks in the world",
-  "eg_particle_interactions.config.block_ambient.info": "Ambient Block Config Information",
-  "eg_particle_interactions.config.block_ambient.info.desc": "Configure how particles are emitted from blocks in the world",
+  "eg_particle_interactions.config.block_ambient": "Block Interactions / Ambient",
+  "eg_particle_interactions.config.block_ambient.desc": "Configure how particles are emitted from blocks in the world or when interacting with blocks",
+  "eg_particle_interactions.config.block_ambient.info": "Block Interactions / Ambient Information",
+  "eg_particle_interactions.config.block_ambient.info.desc": "Configure how particles are emitted from blocks in the world or when interacting with blocks",
 
   "eg_particle_interactions.config.block_ambient.underwater_block_bubbles": "%s Particle Options",
   "eg_particle_interactions.config.block_ambient.underwater_block_bubbles.desc": "Control how many %s particles should be spawned and when",
@@ -144,5 +146,15 @@
   "eg_particle_interactions.config.global_option.spawn_fluid_particle_on_place": "Spawn when fluid placed",
   "eg_particle_interactions.config.global_option.spawn_fluid_particle_on_place.desc": "Should %s particles spawn when a fluid is placed?",
   "eg_particle_interactions.config.global_option.max_particles_fluid_place": "Amount of particles when fluid placed",
-  "eg_particle_interactions.config.global_option.max_particles_fluid_place.desc": "The amount of particles that spawn inside the fluid when it is placed"
+  "eg_particle_interactions.config.global_option.max_particles_fluid_place.desc": "The amount of particles that spawn inside the fluid when it is placed",
+
+
+  "eg_particle_interactions.toast.debug_logs_enabled": "Debug Logs Enabled",
+  "eg_particle_interactions.toast.debug_logs_disabled": "Debug Logs Disabled",
+
+  "eg_particle_interactions.config.debug": "Debug",
+  "eg_particle_interactions.config.debug.desc": "You found the debug menu! To access this again, hold down ALT or CTRL when opening the config screen",
+
+  "eg_particle_interactions.config.global_option.toggle_debug_logs": "Toggle Interaction Debug Logs",
+  "eg_particle_interactions.config.global_option.toggle_debug_logs.desc": "You should keep this disabled unless you have been told to enable it.\n\nThis be automatically disabled if you restart the game"
 }

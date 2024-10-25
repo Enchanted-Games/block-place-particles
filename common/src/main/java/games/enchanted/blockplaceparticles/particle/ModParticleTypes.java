@@ -48,7 +48,7 @@ public class ModParticleTypes {
 
     public static void registerParticles() {
         FALLING_CHERRY_PETAL = register((SpriteParticleProviderRegistration) FallingPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_cherry_leaves"), false);
-        FALLING_TINTED_LEAF = register((SpriteParticleProviderRegistration) FallingTintedPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_tinted_leaves"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        FALLING_TINTED_LEAF = register((SpriteParticleProviderRegistration) FallingTintedOrAveragePetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_tinted_leaves"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         FALLING_AZALEA_LEAF = register((SpriteParticleProviderRegistration) FallingPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_azalea_leaves"), false);
         FALLING_FLOWERING_AZALEA_LEAF = register((SpriteParticleProviderRegistration) FallingPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_flowering_azalea_leaves"), false);
         GRASS_BLADE = register((SpriteParticleProviderRegistration) FallingTintedOrAveragePetal.LargerSpriteProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "grass_blade"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);

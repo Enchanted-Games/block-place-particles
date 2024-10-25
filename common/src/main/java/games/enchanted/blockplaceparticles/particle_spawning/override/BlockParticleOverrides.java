@@ -49,7 +49,7 @@ public abstract class BlockParticleOverrides {
         () -> ConfigHandler.maxCherryPetals_onBreak,
         (val) -> ConfigHandler.maxCherryPetals_onBreak = val,
         ConfigHandler.maxCherryPetals_onBreak_DEFAULT,
-        0.15f
+        0.13f
     );
     public static final BlockParticleOverride AZALEA_LEAF = new BlockParticleOverride(
         "azalea_leaf",
@@ -67,7 +67,7 @@ public abstract class BlockParticleOverrides {
         () -> ConfigHandler.maxAzaleaLeaves_onBreak,
         (val) -> ConfigHandler.maxAzaleaLeaves_onBreak = val,
         ConfigHandler.maxAzaleaLeaves_onBreak_DEFAULT,
-        0.15f
+        0.13f
     );
     public static final BlockParticleOverride FLOWERING_AZALEA_LEAF = new BlockParticleOverride(
         "flowering_azalea_leaf",
@@ -85,11 +85,11 @@ public abstract class BlockParticleOverrides {
         () -> ConfigHandler.maxFloweringAzaleaLeaves_onBreak,
         (val) -> ConfigHandler.maxFloweringAzaleaLeaves_onBreak = val,
         ConfigHandler.maxFloweringAzaleaLeaves_onBreak_DEFAULT,
-        0.15f
+        0.13f
     );
     public static final BlockParticleOverride TINTED_LEAF = new BlockParticleOverride(
         "biome_leaf",
-        "biome_leaf",
+        "tinted_or_average",
         (BlockState blockState, ClientLevel level, BlockPos blockPos) -> new BlockParticleOption(ModParticleTypes.FALLING_TINTED_LEAF, blockState),
         () -> ConfigHandler.tintedLeaves_Blocks,
         (val) -> ConfigHandler.tintedLeaves_Blocks = val,
@@ -103,7 +103,7 @@ public abstract class BlockParticleOverrides {
         () -> ConfigHandler.maxTintedLeaves_onBreak,
         (val) -> ConfigHandler.maxTintedLeaves_onBreak = val,
         ConfigHandler.maxTintedLeaves_onBreak_DEFAULT,
-        0.15f
+        0.13f
     );
     public static final BlockParticleOverride GRASS_BLADE = new BlockParticleOverride(
         "grass_blade",
@@ -121,7 +121,7 @@ public abstract class BlockParticleOverrides {
         () -> ConfigHandler.maxGrassBlade_onBreak,
         (val) -> ConfigHandler.maxGrassBlade_onBreak = val,
         ConfigHandler.maxGrassBlade_onBreak_DEFAULT,
-        0.15f
+        0.13f
     );
 
     public static void registerOverrides() {
