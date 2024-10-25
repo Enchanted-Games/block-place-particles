@@ -29,8 +29,8 @@ public class ConfigScreen {
     }
 
     private static YetAnotherConfigLib createConfigCategories(YetAnotherConfigLib.Builder yaclBuilder) {
+        // create debug category if holding down alt or ctrl
         if(Screen.hasAltDown() || Screen.hasControlDown()) {
-            // create debug category if holding down alt or ctrl
             yaclBuilder.category( ConfigCategory.createBuilder()
                 .name(ConfigTranslation.getCategoryName(ConfigTranslation.DEBUG_CATEGORY).toComponent())
                 .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.DEBUG_CATEGORY)))
@@ -105,6 +105,26 @@ public class ConfigScreen {
                 Binding.generic(ConfigHandler.fireSpark_enabled_DEFAULT, () -> ConfigHandler.fireSpark_enabled, newVal -> ConfigHandler.fireSpark_enabled = newVal),
                 ConfigTranslation.ARE_PARTICLES_ENABLED,
                 integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE, "fire_sparks", ConfigHandler.fireSpark_spawnChance_DEFAULT, () -> ConfigHandler.fireSpark_spawnChance, newVal -> ConfigHandler.fireSpark_spawnChance = newVal, 1, 100, 1)
+            ))
+
+            // anvil use spark
+            .group( createParticleToggleAndIntSliderConfigGroup(
+                "anvil_craft_sparks",
+                "anvil_craft_sparks",
+                ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
+                Binding.generic(ConfigHandler.anvilUseSparks_enabled_DEFAULT, () -> ConfigHandler.anvilUseSparks_enabled, newVal -> ConfigHandler.anvilUseSparks_enabled = newVal),
+                ConfigTranslation.ARE_PARTICLES_ENABLED,
+                integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_CRAFT, "anvil_craft_sparks", ConfigHandler.maxAnvilUseSparks_onUse_DEFAULT, () -> ConfigHandler.maxAnvilUseSparks_onUse, newVal -> ConfigHandler.maxAnvilUseSparks_onUse = newVal, 1, 20, 1)
+            ))
+
+            // grindstone use spark
+            .group( createParticleToggleAndIntSliderConfigGroup(
+                "grindstone_craft_sparks",
+                "grindstone_craft_sparks",
+                ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
+                Binding.generic(ConfigHandler.grindstoneUseSparks_enabled_DEFAULT, () -> ConfigHandler.grindstoneUseSparks_enabled, newVal -> ConfigHandler.grindstoneUseSparks_enabled = newVal),
+                ConfigTranslation.ARE_PARTICLES_ENABLED,
+                integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_CRAFT, "grindstone_craft_sparks", ConfigHandler.maxGrindstoneUseSparks_onUse_DEFAULT, () -> ConfigHandler.maxGrindstoneUseSparks_onUse, newVal -> ConfigHandler.maxGrindstoneUseSparks_onUse = newVal, 1, 20, 1)
             ))
         .build());
 

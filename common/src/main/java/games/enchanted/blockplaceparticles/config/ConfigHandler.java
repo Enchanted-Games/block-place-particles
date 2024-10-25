@@ -49,15 +49,6 @@ public class ConfigHandler {
 
     // Block Interaction Particles
     // underwater bubbles
-    public static final int maxUnderwaterBubbles_onPlace_DEFAULT = 12;
-    @SerialEntry
-    public static int maxUnderwaterBubbles_onPlace = maxUnderwaterBubbles_onPlace_DEFAULT;
-
-    public static final boolean underwaterBubbles_onPlace_DEFAULT = true;
-    @SerialEntry
-    public static boolean underwaterBubbles_onPlace = underwaterBubbles_onPlace_DEFAULT;
-
-    // underwater bubbles
     public static final int maxUnderwaterBubbles_onBreak_DEFAULT = 6;
     @SerialEntry
     public static int maxUnderwaterBubbles_onBreak = maxUnderwaterBubbles_onBreak_DEFAULT;
@@ -181,7 +172,16 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxBlock_onBreak = maxBlock_onBreak_DEFAULT;
 
-    // Block Ambient Particles
+    // Block Interaction / Ambient Particles
+    // underwater bubbles
+    public static final int maxUnderwaterBubbles_onPlace_DEFAULT = 12;
+    @SerialEntry
+    public static int maxUnderwaterBubbles_onPlace = maxUnderwaterBubbles_onPlace_DEFAULT;
+
+    public static final boolean underwaterBubbles_onPlace_DEFAULT = true;
+    @SerialEntry
+    public static boolean underwaterBubbles_onPlace = underwaterBubbles_onPlace_DEFAULT;
+
     // campfire sparks
     public static final int campfireSpark_spawnChance_DEFAULT = 20;
     @SerialEntry
@@ -191,6 +191,7 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean campfireSpark_enabled = campfireSpark_enabled_DEFAULT;
 
+    // fire sparks
     public static final int fireSpark_spawnChance_DEFAULT = 25;
     @SerialEntry
     public static int fireSpark_spawnChance = fireSpark_spawnChance_DEFAULT;
@@ -198,6 +199,24 @@ public class ConfigHandler {
     public static final boolean fireSpark_enabled_DEFAULT = true;
     @SerialEntry
     public static boolean fireSpark_enabled = fireSpark_enabled_DEFAULT;
+
+    // anvil use sparks
+    public static final int maxAnvilUseSparks_onUse_DEFAULT = 12;
+    @SerialEntry
+    public static int maxAnvilUseSparks_onUse = maxAnvilUseSparks_onUse_DEFAULT;
+
+    public static final boolean anvilUseSparks_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean anvilUseSparks_enabled = anvilUseSparks_enabled_DEFAULT;
+
+    // grindstone use sparks
+    public static final int maxGrindstoneUseSparks_onUse_DEFAULT = 12;
+    @SerialEntry
+    public static int maxGrindstoneUseSparks_onUse = maxGrindstoneUseSparks_onUse_DEFAULT;
+
+    public static final boolean grindstoneUseSparks_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean grindstoneUseSparks_enabled = grindstoneUseSparks_enabled_DEFAULT;
 
     // Entity Particles
     // travelling minecarts

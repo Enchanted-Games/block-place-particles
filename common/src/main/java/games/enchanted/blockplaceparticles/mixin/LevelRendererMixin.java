@@ -25,6 +25,9 @@ public abstract class LevelRendererMixin {
             case 1030:
                 SpawnParticles.spawnAnvilUseSparkParticles(this.level, pos);
                 break;
+            case 1042:
+                SpawnParticles.spawnGrindstoneUseSparkParticles(this.level, pos);
+                break;
         }
     }
 }

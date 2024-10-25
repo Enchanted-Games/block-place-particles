@@ -361,10 +361,24 @@ public class SpawnParticles {
     }
 
     public static void spawnAnvilUseSparkParticles(ClientLevel level, BlockPos blockPos) {
+        if(!ConfigHandler.anvilUseSparks_enabled) return;
         BlockState anvilState = level.getBlockState(blockPos);
         Direction facing = anvilState.getValue(AnvilBlock.FACING);
         Vec3i dir = facing.getNormal();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < ConfigHandler.maxAnvilUseSparks_onUse; i++) {
+            double x = blockPos.getX() + level.random.nextDouble();
+            double y = blockPos.getY() + 1. + (level.random.nextDouble() / 16f);
+            double z = blockPos.getZ() + level.random.nextDouble();
+            level.addParticle(level.random.nextFloat() > 0.2 ? ModParticleTypes.FLYING_SPARK : ModParticleTypes.FLOATING_SPARK, x, y, z, -0.5 * dir.getX(), 0.1 + (level.random.nextDouble() / 16f), -0.5 * dir.getZ());
+        }
+    }
+
+    public static void spawnGrindstoneUseSparkParticles(ClientLevel level, BlockPos blockPos) {
+        if(!ConfigHandler.grindstoneUseSparks_enabled) return;
+        BlockState anvilState = level.getBlockState(blockPos);
+        Direction facing = anvilState.getValue(AnvilBlock.FACING);
+        Vec3i dir = facing.getNormal();
+        for (int i = 0; i < ConfigHandler.maxGrindstoneUseSparks_onUse; i++) {
             double x = blockPos.getX() + level.random.nextDouble();
             double y = blockPos.getY() + 1. + (level.random.nextDouble() / 16f);
             double z = blockPos.getZ() + level.random.nextDouble();

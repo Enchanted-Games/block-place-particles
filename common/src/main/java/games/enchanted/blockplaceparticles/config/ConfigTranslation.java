@@ -30,6 +30,7 @@ public class ConfigTranslation {
     public static final String SPAWN_PARTICLE_WHEN_MINECART_AT_MAX_SPEED = "spawn_particle_at_minecart_max_speed";
     public static final String MINECART_WHEEL_PARTICLE_AMOUNT = "minecart_wheel_particle_amount";
     public static final String MINECART_ONLY_WITH_PASSENGER = "minecart_only_with_passenger";
+    public static final String MAX_PARTICLES_ON_BLOCK_CRAFT = "max_particles_block_craft";
 
     public static final String TOGGLE_DEBUG_LOGS = "toggle_debug_logs";
 

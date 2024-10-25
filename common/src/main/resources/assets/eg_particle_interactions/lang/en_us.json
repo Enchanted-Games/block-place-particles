@@ -156,5 +156,5 @@
   "eg_particle_interactions.config.debug.desc": "You found the debug menu! To access this again, hold down ALT or CTRL when opening the config screen",
 
   "eg_particle_interactions.config.global_option.toggle_debug_logs": "Toggle Interaction Debug Logs",
-  "eg_particle_interactions.config.global_option.toggle_debug_logs.desc": "You should keep this disabled unless you have been told to enable it.\n\nThis be automatically disabled if you restart the game"
+  "eg_particle_interactions.config.global_option.toggle_debug_logs.desc": "You should keep this disabled unless you have been told to enable it.\n\nThis will be disabled the next time you open the game"
 }

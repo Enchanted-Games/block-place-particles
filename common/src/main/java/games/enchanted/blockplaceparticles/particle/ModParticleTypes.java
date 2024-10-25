@@ -3,10 +3,11 @@ package games.enchanted.blockplaceparticles.particle;
 import com.mojang.serialization.MapCodec;
 import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
 import games.enchanted.blockplaceparticles.particle.bubble.UnderwaterRisingBubble;
+import games.enchanted.blockplaceparticles.particle.option.ParticleEmitterOptions;
 import games.enchanted.blockplaceparticles.particle.petal.FallingPetal;
 import games.enchanted.blockplaceparticles.particle.petal.FallingTintedOrAveragePetal;
-import games.enchanted.blockplaceparticles.particle.petal.FallingTintedPetal;
 import games.enchanted.blockplaceparticles.particle.spark.FlyingSpark;
+import games.enchanted.blockplaceparticles.particle.spark.SparkEmitter;
 import games.enchanted.blockplaceparticles.particle.splash.BlockSplash;
 import games.enchanted.blockplaceparticles.particle.splash.BucketTintedSplash;
 import games.enchanted.blockplaceparticles.particle.splash.LavaSplash;
@@ -40,6 +41,7 @@ public class ModParticleTypes {
     public static ParticleType<BlockParticleOption> GENERIC_FLUID_BUCKET_SPLASH;
 
     public static SimpleParticleType FLYING_SPARK;
+    public static ParticleType<ParticleEmitterOptions> FLYING_SPARK_EMITTER;
     public static SimpleParticleType FLOATING_SPARK;
     public static SimpleParticleType FLYING_SOUL_SPARK;
     public static SimpleParticleType FLOATING_SOUL_SPARK;
@@ -58,6 +60,7 @@ public class ModParticleTypes {
         GENERIC_FLUID_BUCKET_SPLASH = register((SpriteParticleProviderRegistration) BlockSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "generic_fluid_bucket_splash"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
 
         FLYING_SPARK = register((SpriteParticleProviderRegistration) FlyingSpark.LongLifeSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flying_spark"), false);
+        FLYING_SPARK_EMITTER = register((SpriteParticleProviderRegistration) SparkEmitter.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "spark_emitter"), false, ParticleEmitterOptions::codec, ParticleEmitterOptions::streamCodec);
         FLOATING_SPARK = register((SpriteParticleProviderRegistration) FlyingSpark.ShortLifeSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_spark"), false);
         FLYING_SOUL_SPARK = register((SpriteParticleProviderRegistration) FlyingSpark.LongLifeSoulSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flying_soul_spark"), false);
         FLOATING_SOUL_SPARK = register((SpriteParticleProviderRegistration) FlyingSpark.ShortLifeSoulSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_soul_spark"), false);
