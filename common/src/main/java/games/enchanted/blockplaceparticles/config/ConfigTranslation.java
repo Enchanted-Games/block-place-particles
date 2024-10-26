@@ -33,6 +33,7 @@ public class ConfigTranslation {
     public static final String MAX_PARTICLES_ON_BLOCK_CRAFT = "max_particles_block_craft";
 
     public static final String TOGGLE_DEBUG_LOGS = "toggle_debug_logs";
+    public static final String DEBUG_SHOW_EMITTER_BOUNDS = "debug_show_emitter_bounds";
 
     public static Component createDesc(TranslationKey translationKey) {
         return translationKey.append(".desc").toComponent();

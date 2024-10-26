@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -43,6 +44,14 @@ public class ConfigScreen {
                         .action((yaclScreen, thisOption) -> ParticleInteractionsLogging.toggleDebugLogs())
                     .build()
                 )
+
+                    .option(
+                        booleanOption(
+                            ConfigTranslation.DEBUG_SHOW_EMITTER_BOUNDS,
+                            "",
+                            Binding.generic(ConfigHandler.debug_showEmitterBounds_DEFAULT, () -> ConfigHandler.debug_showEmitterBounds, newVal -> ConfigHandler.debug_showEmitterBounds = newVal)
+                        )
+                    )
             .build());
         }
 

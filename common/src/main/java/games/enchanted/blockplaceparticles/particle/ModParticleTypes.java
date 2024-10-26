@@ -6,6 +6,7 @@ import games.enchanted.blockplaceparticles.particle.bubble.UnderwaterRisingBubbl
 import games.enchanted.blockplaceparticles.particle.option.ParticleEmitterOptions;
 import games.enchanted.blockplaceparticles.particle.petal.FallingPetal;
 import games.enchanted.blockplaceparticles.particle.petal.FallingTintedOrAveragePetal;
+import games.enchanted.blockplaceparticles.particle.spark.FloatingSparkEmitter;
 import games.enchanted.blockplaceparticles.particle.spark.FlyingSpark;
 import games.enchanted.blockplaceparticles.particle.spark.SparkEmitter;
 import games.enchanted.blockplaceparticles.particle.splash.BlockSplash;
@@ -41,12 +42,15 @@ public class ModParticleTypes {
     public static ParticleType<BlockParticleOption> GENERIC_FLUID_BUCKET_SPLASH;
 
     public static SimpleParticleType FLYING_SPARK;
-    public static ParticleType<ParticleEmitterOptions> FLYING_SPARK_EMITTER;
     public static SimpleParticleType FLOATING_SPARK;
+    public static SimpleParticleType FLOATING_SPARK_SHORT;
     public static SimpleParticleType FLYING_SOUL_SPARK;
     public static SimpleParticleType FLOATING_SOUL_SPARK;
 
     public static SimpleParticleType UNDERWATER_RISING_BUBBLE;
+
+    public static ParticleType<ParticleEmitterOptions> FLYING_SPARK_EMITTER;
+    public static ParticleType<ParticleEmitterOptions> FLOATING_SPARK_SHORT_EMITTER;
 
     public static void registerParticles() {
         FALLING_CHERRY_PETAL = register((SpriteParticleProviderRegistration) FallingPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_cherry_leaves"), false);
@@ -60,12 +64,15 @@ public class ModParticleTypes {
         GENERIC_FLUID_BUCKET_SPLASH = register((SpriteParticleProviderRegistration) BlockSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "generic_fluid_bucket_splash"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
 
         FLYING_SPARK = register((SpriteParticleProviderRegistration) FlyingSpark.LongLifeSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flying_spark"), false);
-        FLYING_SPARK_EMITTER = register((SpriteParticleProviderRegistration) SparkEmitter.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "spark_emitter"), false, ParticleEmitterOptions::codec, ParticleEmitterOptions::streamCodec);
         FLOATING_SPARK = register((SpriteParticleProviderRegistration) FlyingSpark.ShortLifeSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_spark"), false);
+        FLOATING_SPARK_SHORT = register((SpriteParticleProviderRegistration) FlyingSpark.ShortestLifeSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_spark_short"), false);
         FLYING_SOUL_SPARK = register((SpriteParticleProviderRegistration) FlyingSpark.LongLifeSoulSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flying_soul_spark"), false);
         FLOATING_SOUL_SPARK = register((SpriteParticleProviderRegistration) FlyingSpark.ShortLifeSoulSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_soul_spark"), false);
 
         UNDERWATER_RISING_BUBBLE = register((SpriteParticleProviderRegistration) UnderwaterRisingBubble.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "underwater_rising_bubble"), false);
+
+        FLYING_SPARK_EMITTER = register((SpriteParticleProviderRegistration) SparkEmitter.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flying_spark_emitter"), false, ParticleEmitterOptions::codec, ParticleEmitterOptions::streamCodec);
+        FLOATING_SPARK_SHORT_EMITTER = register((SpriteParticleProviderRegistration) FloatingSparkEmitter.ShorterLifeProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_spark_short_emitter"), false, ParticleEmitterOptions::codec, ParticleEmitterOptions::streamCodec);
     }
 
     private static SimpleParticleType register(SpriteParticleProviderRegistration<SimpleParticleType> provider, ResourceLocation particleID, boolean alwaysShow) {

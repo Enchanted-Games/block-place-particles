@@ -2,6 +2,7 @@ package games.enchanted.blockplaceparticles.particle_spawning;
 
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
+import games.enchanted.blockplaceparticles.particle.option.ParticleEmitterOptions;
 import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
 import games.enchanted.blockplaceparticles.particle_spawning.override.FluidPlacementParticle;
 import games.enchanted.blockplaceparticles.util.FluidHelpers;
@@ -365,12 +366,19 @@ public class SpawnParticles {
         BlockState anvilState = level.getBlockState(blockPos);
         Direction facing = anvilState.getValue(AnvilBlock.FACING);
         Vec3i dir = facing.getNormal();
-        for (int i = 0; i < ConfigHandler.maxAnvilUseSparks_onUse; i++) {
-            double x = blockPos.getX() + level.random.nextDouble();
-            double y = blockPos.getY() + 1. + (level.random.nextDouble() / 16f);
-            double z = blockPos.getZ() + level.random.nextDouble();
-            level.addParticle(level.random.nextFloat() > 0.2 ? ModParticleTypes.FLYING_SPARK : ModParticleTypes.FLOATING_SPARK, x, y, z, -0.5 * dir.getX(), 0.1 + (level.random.nextDouble() / 16f), -0.5 * dir.getZ());
-        }
+        double x = blockPos.getX() + 0.5f;
+        double y = blockPos.getY() + 1. + (level.random.nextDouble() / 16f);
+        double z = blockPos.getZ() + 0.5f;
+        ParticleEmitterOptions emitter = new ParticleEmitterOptions(
+            ModParticleTypes.FLOATING_SPARK_SHORT_EMITTER,
+            3,
+            7,
+            ConfigHandler.maxAnvilUseSparks_onUse,
+            Math.abs(dir.getX()) > Math.abs(dir.getZ()) ? 0.95f : 0.5f,
+            0.0f,
+            Math.abs(dir.getZ()) > Math.abs(dir.getX()) ? 0.95f : 0.5f
+        );
+        level.addParticle(emitter, x, y, z, -2 * dir.getX(), 0.2, -2 * dir.getZ());
     }
 
     public static void spawnGrindstoneUseSparkParticles(ClientLevel level, BlockPos blockPos) {

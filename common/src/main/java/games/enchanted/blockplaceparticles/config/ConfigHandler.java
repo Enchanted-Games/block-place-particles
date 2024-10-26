@@ -15,7 +15,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 
-import java.awt.*;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -44,8 +43,8 @@ public class ConfigHandler {
         return HANDLER.instance();
     }
 
-    public static final ResourceLocationAndColour testBlockAndColour_DEFAULT = new ResourceLocationAndColour(ResourceLocation.withDefaultNamespace("ice"), Color.CYAN);
-    public static ResourceLocationAndColour testBlockAndColour = testBlockAndColour_DEFAULT;
+    public static final boolean debug_showEmitterBounds_DEFAULT = false;
+    public static boolean debug_showEmitterBounds = debug_showEmitterBounds_DEFAULT;
 
     // Block Interaction Particles
     // underwater bubbles

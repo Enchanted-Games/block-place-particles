@@ -1,19 +1,16 @@
 package games.enchanted.blockplaceparticles.particle.emitter;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle.option.ParticleEmitterOptions;
-import games.enchanted.blockplaceparticles.shapes.ShapeDefinitions;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Quaternionf;
-import org.joml.Vector2f;
 import org.joml.Vector3f;
-import org.joml.Vector4f;
 
 public abstract class AbstractParticleEmitter extends Particle {
     protected double emittedXSpeed;
@@ -51,7 +48,10 @@ public abstract class AbstractParticleEmitter extends Particle {
             this.remove();
             return;
         }
-        level.addParticle(ParticleTypes.BUBBLE_POP, x, y, z, 0, 0, 0);
+        if(ConfigHandler.debug_showEmitterBounds) {
+            level.addParticle(new DustParticleOptions(new Vector3f(1f, 0f, 0f), 0.5f), x, y, z, 0, 0, 0);
+            level.addParticle(new DustParticleOptions(new Vector3f(0f, 1f, 0f), 0.5f), x + this.emitterWidth, y + this.emitterHeight, z + this.emitterDepth, 0, 0, 0);
+        }
         if((this.age - (emitOnFirstTick ? 1 : 0)) % emitterInterval == 0) {
             for (int i = 0; i < particlesPerEmission; i++) {
                 double[] emitPos = getRandomPositionInsideBounds();

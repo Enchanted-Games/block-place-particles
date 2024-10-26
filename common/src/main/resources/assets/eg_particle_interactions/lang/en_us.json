@@ -23,6 +23,8 @@
 
   "eg_particle_interactions.config.particle_type.campfire_sparks": "Campfire Spark",
   "eg_particle_interactions.config.particle_type.fire_sparks": "Fire Spark",
+  "eg_particle_interactions.config.particle_type.anvil_craft_sparks": "Anvil Crafting Sparks",
+  "eg_particle_interactions.config.particle_type.grindstone_craft_sparks": "Grindstone Crafting Sparks",
 
   "eg_particle_interactions.config.particle_type.minecart_sparks": "Minecart Wheel Spark",
 
@@ -56,6 +58,9 @@
 
   "eg_particle_interactions.config.global_option.particle_spawn_chance": "Particle spawn chance",
   "eg_particle_interactions.config.global_option.particle_spawn_chance.desc": "The chance for %s particles to be spawned each tick",
+
+  "eg_particle_interactions.config.global_option.max_particles_block_craft": "Amount of particles when item crafted",
+  "eg_particle_interactions.config.global_option.max_particles_block_craft.desc": "The amount of %s particles that should be spawned when an item is crafted",
 
   "eg_particle_interactions.config.global_option.spawn_particle_at_minecart_max_speed": "Spawn particles at max speed?",
   "eg_particle_interactions.config.global_option.spawn_particle_at_minecart_max_speed.desc": "Should %s particles be spawned when a minecart is moving close to max speed?",
@@ -94,6 +99,12 @@
 
   "eg_particle_interactions.config.block_ambient.fire_sparks": "%s Particles",
   "eg_particle_interactions.config.block_ambient.fire_sparks.desc": "Configure if %s particles should be spawned and the chance for them to spawn each tick",
+
+  "eg_particle_interactions.config.block_ambient.anvil_craft_sparks": "%s",
+  "eg_particle_interactions.config.block_ambient.anvil_craft_sparks.desc": "Configure if %s particles should be spawned when crafting an item in an anvil",
+
+  "eg_particle_interactions.config.block_ambient.grindstone_craft_sparks": "%s",
+  "eg_particle_interactions.config.block_ambient.grindstone_craft_sparks.desc": "Configure if %s particles should be spawned when grinding an item in a grindstone",
 
 
   "eg_particle_interactions.config.entity": "Entity Particles",
@@ -155,6 +166,8 @@
   "eg_particle_interactions.config.debug": "Debug",
   "eg_particle_interactions.config.debug.desc": "You found the debug menu! To access this again, hold down ALT or CTRL when opening the config screen",
 
-  "eg_particle_interactions.config.global_option.toggle_debug_logs": "Toggle Interaction Debug Logs",
-  "eg_particle_interactions.config.global_option.toggle_debug_logs.desc": "You should keep this disabled unless you have been told to enable it.\n\nThis will be disabled the next time you open the game"
+  "eg_particle_interactions.config.global_option.toggle_debug_logs": "Toggle interaction debug logs",
+  "eg_particle_interactions.config.global_option.toggle_debug_logs.desc": "You should keep this disabled unless you have been told to enable it.\n\nThis will be disabled the next time you open the game",
+  "eg_particle_interactions.config.global_option.debug_show_emitter_bounds": "Show particle emitter bounds",
+  "eg_particle_interactions.config.global_option.debug_show_emitter_bounds.desc": "Visualises particle emitter bounding boxes with a particle in the bottom north-west corner and top south-east corner.\n\nThis will be disabled the next time you open the game"
 }

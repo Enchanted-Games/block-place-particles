@@ -32,6 +32,10 @@ public class ParticleEmitterOptions implements ParticleOptions {
         this.depth = depth;
     }
 
+    public ParticleEmitterOptions(ParticleType<ParticleEmitterOptions> type, int tickIterations, int tickInvertal, int particlesPerEmission, float width, float height, float depth) {
+        this(type, tickIterations, tickInvertal, particlesPerEmission, true, width, height, depth);
+    }
+
     private static Codec<ParticleEmitterOptions> createCodec(ParticleType<ParticleEmitterOptions> type) {
         return RecordCodecBuilder.create((RecordCodecBuilder.Instance<ParticleEmitterOptions> instance) ->
             instance.group(
