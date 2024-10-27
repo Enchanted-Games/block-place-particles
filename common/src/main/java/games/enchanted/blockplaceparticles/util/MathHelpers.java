@@ -5,6 +5,10 @@ import org.joml.Vector3d;
 import org.joml.Vector3f;
 
 public class MathHelpers {
+    public static int clampInt(int val, int min, int max) {
+        return Math.max(min, Math.min(max, val));
+    }
+
     public static double expandWhenOutOfBound(double value, double minBound, double maxBound) {
         if (value >= maxBound) {
             return value + 0.005;

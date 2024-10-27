@@ -1,16 +1,15 @@
-package games.enchanted.blockplaceparticles.config.util;
+package games.enchanted.blockplaceparticles.util;
 
-import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.core.DefaultedRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -43,24 +42,40 @@ public class RegistryHelper {
         return filterPredicate;
     }
 
-    public static BlockItem getDefaultedBlockItem(String location, BlockItem defaultItem) {
-        try {
-            ResourceLocation itemLocation = ResourceLocation.parse(location.toLowerCase());
-            if (BuiltInRegistries.ITEM.containsKey(itemLocation)) {
-                Item item = BuiltInRegistries.ITEM.get(itemLocation);
-                if(item instanceof BlockItem) return (BlockItem) item;
-            }
-        } catch (ResourceLocationException ignored) {}
-        return defaultItem;
-    }
-
-    public static Fluid getDefaultedFluid(String location, Fluid defaultItem) {
+    public static Fluid getDefaultedFluid(String location, Fluid fallback) {
         try {
             ResourceLocation fluidLocation = ResourceLocation.parse(location.toLowerCase());
-            if (BuiltInRegistries.FLUID.containsKey(fluidLocation)) {
-                return BuiltInRegistries.FLUID.get(fluidLocation);
+            Optional<Fluid> fluidFromLoc = BuiltInRegistries.FLUID.getOptional(fluidLocation);
+            if(fluidFromLoc.isEmpty()) {
+                return fallback;
             }
+            if(fluidFromLoc.get() == Fluids.EMPTY) {
+                return fallback;
+            }
+            return fluidFromLoc.get();
         } catch (ResourceLocationException ignored) {}
-        return defaultItem;
+        return fallback;
+    }
+
+    public static ResourceLocation validateBlockLocationWithFallback(String location, ResourceLocation fallback) {
+        try {
+            ResourceLocation blockLocation = ResourceLocation.parse(location.toLowerCase());
+            Optional<Block> blockFromLoc = BuiltInRegistries.BLOCK.getOptional(blockLocation);
+            if(blockFromLoc.isEmpty()) {
+                return fallback;
+            }
+            if(blockFromLoc.get().defaultBlockState().isAir()) {
+                return fallback;
+            }
+            return blockLocation;
+        } catch (ResourceLocationException ignored) {}
+        return fallback;
+    }
+
+    public static ResourceLocation getLocationFromBlock(Block block) {
+        return BuiltInRegistries.BLOCK.getKey(block);
+    }
+    public static Block getBlockFromLocation(ResourceLocation location) {
+        return BuiltInRegistries.BLOCK.get(location);
     }
 }

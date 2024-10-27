@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 public class ConfigTranslation {
     private static final String CONFIG_KEY_PREFIX = ParticleInteractionsMod.MOD_ID + ".config";
 
+    public static final String DEBUG_CATEGORY = "debug";
     public static final String BLOCKS_CONFIG_CATEGORY = "blocks";
     public static final String BLOCK_AMBIENT_CONFIG_CATEGORY = "block_ambient";
     public static final String ITEMS_CONFIG_CATEGORY = "items";
@@ -13,6 +14,7 @@ public class ConfigTranslation {
     public static final String FLUIDS_CONFIG_CATEGORY = "fluids";
 
     public static final String ARE_PARTICLES_ENABLED = "is_particle_enabled";
+    public static final String IS_OVERRIDE_ENABLED = "is_override_enabled";
     public static final String PARTICLE_SPAWN_CHANCE = "particle_spawn_chance";
     public static final String MAX_PARTICLES_ON_BLOCK_PLACE = "max_particles_block_place";
     public static final String MAX_PARTICLES_ON_BLOCK_PLACE_ALONG_EDGES = "max_particles_block_place_along_edges";
@@ -28,6 +30,10 @@ public class ConfigTranslation {
     public static final String SPAWN_PARTICLE_WHEN_MINECART_AT_MAX_SPEED = "spawn_particle_at_minecart_max_speed";
     public static final String MINECART_WHEEL_PARTICLE_AMOUNT = "minecart_wheel_particle_amount";
     public static final String MINECART_ONLY_WITH_PASSENGER = "minecart_only_with_passenger";
+    public static final String MAX_PARTICLES_ON_BLOCK_CRAFT = "max_particles_block_craft";
+
+    public static final String TOGGLE_DEBUG_LOGS = "toggle_debug_logs";
+    public static final String DEBUG_SHOW_EMITTER_BOUNDS = "debug_show_emitter_bounds";
 
     public static Component createDesc(TranslationKey translationKey) {
         return translationKey.append(".desc").toComponent();

@@ -1,6 +1,7 @@
 package games.enchanted.blockplaceparticles.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import games.enchanted.blockplaceparticles.shapes.QuadFaceShape;
 import games.enchanted.blockplaceparticles.shapes.ShapeDefinitions;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.Camera;
@@ -11,10 +12,17 @@ import org.joml.*;
 
 import java.lang.Math;
 
-public abstract class StretchyBouncyCubeParticle extends BouncyParticle {
+public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
     private double prevPrevX;
     private double prevPrevY;
     private double prevPrevZ;
+    private QuadFaceShape particleShape;
+    /**
+     * The scale that the particle will be rendered at
+     */
+    protected Vector3f particleShapeScale;
+    protected float prevPitch;
+    protected float prevYaw;
 
     /**
      * A 3d cube particle that stretches between its current and previous position when moving, this particle also has bounce physics
@@ -28,11 +36,14 @@ public abstract class StretchyBouncyCubeParticle extends BouncyParticle {
      * @param ySpeed y velocity
      * @param zSpeed z velocity
      */
-    protected StretchyBouncyCubeParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+    protected StretchyBouncyShapeParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed);
         this.prevPrevX = this.xo;
         this.prevPrevY = this.yo;
         this.prevPrevZ = this.zo;
+
+        this.particleShapeScale = new Vector3f(1);
+        this.setShape(ShapeDefinitions.CUBE);
     }
 
     @Override
@@ -42,6 +53,15 @@ public abstract class StretchyBouncyCubeParticle extends BouncyParticle {
         this.prevPrevZ = this.zo;
 
         super.tick();
+    }
+
+    /**
+     * Sets the shape that the particle will use to render
+     *
+     * @param newShape the new shape
+     */
+    protected void setShape(QuadFaceShape newShape) {
+        this.particleShape = newShape;
     }
 
     protected boolean isParticleMoving() {
@@ -79,12 +99,26 @@ public abstract class StretchyBouncyCubeParticle extends BouncyParticle {
 
         Vector3f normalisedMovementDir = new Vector3f(pos).sub(prevPos).normalize();
         float pitch = (float) Math.toDegrees(Math.asin(normalisedMovementDir.y));
-        if(!Float.isFinite(pitch)) pitch = 0;
-        float yaw = (float) Math.toDegrees(Math.atan2(normalisedMovementDir.x, normalisedMovementDir.z));
-        if(!Float.isFinite(yaw)) yaw = 0;
+        if(!Float.isFinite(pitch)) pitch = prevPitch;
+        prevPitch = pitch;
 
-        Vector3f shapeScale = new Vector3f(1, Math.max(Math.abs(MathHelpers.getDistanceBetweenVectors(pos, prevPos) * 40), 1), 1);
+        float yaw = (float) Math.toDegrees(Math.atan2(normalisedMovementDir.x, normalisedMovementDir.z));
+        if(!Float.isFinite(yaw)) yaw = prevYaw;
+        prevYaw = yaw;
+
+        Vector3f shapePos = MathHelpers.getPosBetween3DPoints(pos, prevPos);
+        Vector3f shapeScale = new Vector3f(1, Math.max(Math.abs(MathHelpers.getDistanceBetweenVectors(pos, prevPos) * 40), 1), 1).mul(this.particleShapeScale);
         Vector3f shapeRotation = new Vector3f(-(pitch - 90), yaw, 0);
-        ShapeDefinitions.CUBE_TOP_ORIGIN.renderShapeWithRotation(consumer, new Vector2f[]{new Vector2f(u0, v0), new Vector2f(u1, v1)}, prevPos, shapeScale, quaternionf, shapeRotation, cuboidSize, lightColor, new Vector4f(this.rCol, this.gCol, this.bCol, this.alpha));
+        this.particleShape.renderShapeWithRotation(
+            consumer,
+            new Vector2f[]{new Vector2f(u0, v0), new Vector2f(u1, v1)},
+            shapePos,
+            shapeScale,
+            quaternionf,
+            shapeRotation,
+            cuboidSize,
+            lightColor,
+            new Vector4f(this.rCol, this.gCol, this.bCol, this.alpha)
+        );
     }
 }

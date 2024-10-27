@@ -1,6 +1,7 @@
 package games.enchanted.blockplaceparticles.particle.spark;
 
-import games.enchanted.blockplaceparticles.particle.StretchyBouncyCubeParticle;
+import games.enchanted.blockplaceparticles.particle.StretchyBouncyShapeParticle;
+import games.enchanted.blockplaceparticles.shapes.ShapeDefinitions;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -10,8 +11,9 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 
-public class FlyingSpark extends StretchyBouncyCubeParticle {
+public class FlyingSpark extends StretchyBouncyShapeParticle {
     private boolean hasDecreasedLifespan = false;
 
     private float redMin;
@@ -48,6 +50,10 @@ public class FlyingSpark extends StretchyBouncyCubeParticle {
         this.greenDecayRate = 0.984f;
         this.blueMin = 0.35f;
         this.blueDecayRate = 0.98f;
+
+        this.setShape(ShapeDefinitions.VERTICAL_CROSS);
+        this.particleShapeScale.x = Mth.randomBetween(level.random, 0.4f, 1.1f);
+        this.particleShapeScale.z = Mth.randomBetween(level.random, 0.4f, 1.1f);
     }
 
     protected FlyingSpark(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float gravity, int lifetime, SpriteSet spriteSet, float redMin, float redDecayRate, float greenMin, float greenDecayRate, float blueMin, float blueDecayRate) {
@@ -135,6 +141,20 @@ public class FlyingSpark extends StretchyBouncyCubeParticle {
         @Override
         public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.random, 0.2F, 0.3F), Mth.randomBetweenInclusive(level.random, 4, 12), spriteSet);
+        }
+    }
+
+    public static class ShortestLifeSparkProvider implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public ShortestLifeSparkProvider(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        @Nullable
+        @Override
+        public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.random, 0.2F, 0.3F), Mth.randomBetweenInclusive(level.random, 1, 5), spriteSet);
         }
     }
 

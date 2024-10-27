@@ -1,6 +1,7 @@
 package games.enchanted.blockplaceparticles;
 
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
+import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverrides;
 import games.enchanted.blockplaceparticles.platform.Services;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -12,7 +13,7 @@ import java.util.function.Supplier;
 
 public class ParticleInteractionsMod {
     public static final String MOD_ID = "eg_particle_interactions";
-    public static final String MOD_NAME = "Block Place Particles";
+    public static final String MOD_NAME = "Particle Interactions";
 
     public static void startOfModLoading() {
         ParticleInteractionsLogging.message("Mod is loading on a {} environment", Services.PLATFORM.getPlatformName());
@@ -21,6 +22,7 @@ public class ParticleInteractionsMod {
     public static void endOfModLoading() {
         ConfigHandler.load();
         ConfigHandler.save();
+        BlockParticleOverrides.registerOverrides();
         ParticleInteractionsLogging.message("Loaded Successfully!");
     }
 

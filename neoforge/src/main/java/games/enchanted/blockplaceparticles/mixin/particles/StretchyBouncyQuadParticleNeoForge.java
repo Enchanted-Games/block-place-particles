@@ -1,6 +1,6 @@
 package games.enchanted.blockplaceparticles.mixin.particles;
 
-import games.enchanted.blockplaceparticles.particle.StretchyBouncyCubeParticle;
+import games.enchanted.blockplaceparticles.particle.StretchyBouncyShapeParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.world.phys.AABB;
@@ -8,7 +8,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 
-@Mixin(StretchyBouncyCubeParticle.class)
+@Mixin(StretchyBouncyShapeParticle.class)
 public abstract class StretchyBouncyQuadParticleNeoForge extends TextureSheetParticle {
     protected StretchyBouncyQuadParticleNeoForge(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);

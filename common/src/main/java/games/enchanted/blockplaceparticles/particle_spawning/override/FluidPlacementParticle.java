@@ -1,4 +1,4 @@
-package games.enchanted.blockplaceparticles.particle_spawning;
+package games.enchanted.blockplaceparticles.particle_spawning.override;
 
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;

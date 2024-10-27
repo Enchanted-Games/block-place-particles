@@ -5,10 +5,13 @@ import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
 import games.enchanted.blockplaceparticles.config.adapters.FluidTypeAdapter;
+import games.enchanted.blockplaceparticles.config.adapters.ResourceLocationAndColourTypeAdapter;
+import games.enchanted.blockplaceparticles.config.adapters.ResourceLocationTypeAdapter;
+import games.enchanted.blockplaceparticles.config.type.ResourceLocationAndColour;
 import games.enchanted.blockplaceparticles.platform.Services;
+import games.enchanted.blockplaceparticles.util.RegistryHelper;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 
@@ -22,6 +25,8 @@ public class ConfigHandler {
         .id(ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "config"))
         .serializer(config -> GsonConfigSerializerBuilder.create(config)
             .appendGsonBuilder(builder -> builder.registerTypeAdapter(Fluid.class, new FluidTypeAdapter()))
+            .appendGsonBuilder(builder -> builder.registerTypeAdapter(ResourceLocation.class, new ResourceLocationTypeAdapter()))
+            .appendGsonBuilder(builder -> builder.registerTypeAdapter(ResourceLocationAndColour.class, new ResourceLocationAndColourTypeAdapter()))
             .setPath(CONFIG_PATH)
             .build())
         .build();
@@ -38,16 +43,10 @@ public class ConfigHandler {
         return HANDLER.instance();
     }
 
+    public static final boolean debug_showEmitterBounds_DEFAULT = false;
+    public static boolean debug_showEmitterBounds = debug_showEmitterBounds_DEFAULT;
+
     // Block Interaction Particles
-    // underwater bubbles
-    public static final int maxUnderwaterBubbles_onPlace_DEFAULT = 12;
-    @SerialEntry
-    public static int maxUnderwaterBubbles_onPlace = maxUnderwaterBubbles_onPlace_DEFAULT;
-
-    public static final boolean underwaterBubbles_onPlace_DEFAULT = true;
-    @SerialEntry
-    public static boolean underwaterBubbles_onPlace = underwaterBubbles_onPlace_DEFAULT;
-
     // underwater bubbles
     public static final int maxUnderwaterBubbles_onBreak_DEFAULT = 6;
     @SerialEntry
@@ -62,124 +61,126 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxSnowflakes_onPlace = maxSnowflakes_onPlace_DEFAULT;
 
-    public static final boolean snowflake_onPlace_DEFAULT = true;
+    public static final boolean snowflake_enabled_DEFAULT = true;
     @SerialEntry
-    public static boolean snowflake_onPlace = snowflake_onPlace_DEFAULT;
+    public static boolean snowflake_enabled = snowflake_enabled_DEFAULT;
 
     public static final int maxSnowflakes_onBreak_DEFAULT = 3;
     @SerialEntry
     public static int maxSnowflakes_onBreak = maxSnowflakes_onBreak_DEFAULT;
 
-    public static final boolean snowflake_onBreak_DEFAULT = true;
+    public static final List<ResourceLocation> snowflake_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.SNOW), RegistryHelper.getLocationFromBlock(Blocks.SNOW_BLOCK), RegistryHelper.getLocationFromBlock(Blocks.POWDER_SNOW));
     @SerialEntry
-    public static boolean snowflake_onBreak = snowflake_onBreak_DEFAULT;
-
-    public static final List<BlockItem> snowflake_BlockItems_DEFAULT = List.of((BlockItem) Items.SNOW, (BlockItem) Items.SNOW_BLOCK, (BlockItem) Items.POWDER_SNOW_BUCKET);
-    @SerialEntry
-    public static List<BlockItem> snowflake_BlockItems = snowflake_BlockItems_DEFAULT;
+    public static List<ResourceLocation> snowflake_Blocks = snowflake_Blocks_DEFAULT;
 
     // cherry petal particle
     public static final int maxCherryPetals_onPlace_DEFAULT = 2;
     @SerialEntry
     public static int maxCherryPetals_onPlace = maxCherryPetals_onPlace_DEFAULT;
 
-    public static final boolean cherryPetal_onPlace_DEFAULT = true;
+    public static final boolean cherryPetal_enabled_DEFAULT = true;
     @SerialEntry
-    public static boolean cherryPetal_onPlace = cherryPetal_onPlace_DEFAULT;
+    public static boolean cherryPetal_enabled = cherryPetal_enabled_DEFAULT;
 
     public static final int maxCherryPetals_onBreak_DEFAULT = 3;
     @SerialEntry
     public static int maxCherryPetals_onBreak = maxCherryPetals_onBreak_DEFAULT;
 
-    public static final boolean cherryPetal_onBreak_DEFAULT = true;
+    public static final List<ResourceLocation> cherryPetal_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.CHERRY_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.CHERRY_SAPLING), RegistryHelper.getLocationFromBlock(Blocks.PINK_PETALS));
     @SerialEntry
-    public static boolean cherryPetal_onBreak = cherryPetal_onBreak_DEFAULT;
-
-    public static final List<BlockItem> cherryPetal_BlockItems_DEFAULT = List.of((BlockItem) Items.CHERRY_LEAVES, (BlockItem) Items.CHERRY_SAPLING, (BlockItem) Items.PINK_PETALS);
-    @SerialEntry
-    public static List<BlockItem> cherryPetal_BlockItems = cherryPetal_BlockItems_DEFAULT;
+    public static List<ResourceLocation> cherryPetal_Blocks = cherryPetal_Blocks_DEFAULT;
 
     // azalea leaf particle
     public static final int maxAzaleaLeaves_onPlace_DEFAULT = 2;
     @SerialEntry
     public static int maxAzaleaLeaves_onPlace = maxAzaleaLeaves_onPlace_DEFAULT;
 
-    public static final boolean azaleaLeaf_onPlace_DEFAULT = true;
+    public static final boolean azaleaLeaf_enabled_DEFAULT = true;
     @SerialEntry
-    public static boolean azaleaLeaf_onPlace = azaleaLeaf_onPlace_DEFAULT;
+    public static boolean azaleaLeaf_enabled = azaleaLeaf_enabled_DEFAULT;
 
     public static final int maxAzaleaLeaves_onBreak_DEFAULT = 3;
     @SerialEntry
     public static int maxAzaleaLeaves_onBreak = maxAzaleaLeaves_onBreak_DEFAULT;
 
-    public static final boolean azaleaLeaf_onBreak_DEFAULT = true;
+    public static final List<ResourceLocation> azaleaLeaf_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.AZALEA), RegistryHelper.getLocationFromBlock(Blocks.AZALEA_LEAVES));
     @SerialEntry
-    public static boolean azaleaLeaf_onBreak = azaleaLeaf_onBreak_DEFAULT;
-
-    public static final List<BlockItem> azaleaLeaf_BlockItems_DEFAULT = List.of((BlockItem) Items.AZALEA, (BlockItem) Items.AZALEA_LEAVES);
-    @SerialEntry
-    public static List<BlockItem> azaleaLeaf_BlockItems = azaleaLeaf_BlockItems_DEFAULT;
+    public static List<ResourceLocation> azaleaLeaf_Blocks = azaleaLeaf_Blocks_DEFAULT;
 
     // flowering azalea leaf particle
     public static final int maxFloweringAzaleaLeaves_onPlace_DEFAULT = 2;
     @SerialEntry
     public static int maxFloweringAzaleaLeaves_onPlace = maxFloweringAzaleaLeaves_onPlace_DEFAULT;
 
-    public static final boolean floweringAzaleaLeaf_onPlace_DEFAULT = true;
+    public static final boolean floweringAzaleaLeaf_enabled_DEFAULT = true;
     @SerialEntry
-    public static boolean floweringAzaleaLeaf_onPlace = floweringAzaleaLeaf_onPlace_DEFAULT;
+    public static boolean floweringAzaleaLeaf_enabled = floweringAzaleaLeaf_enabled_DEFAULT;
 
     public static final int maxFloweringAzaleaLeaves_onBreak_DEFAULT = 3;
     @SerialEntry
     public static int maxFloweringAzaleaLeaves_onBreak = maxFloweringAzaleaLeaves_onBreak_DEFAULT;
 
-    public static final boolean floweringAzaleaLeaf_onBreak_DEFAULT = true;
+    public static final List<ResourceLocation> floweringAzaleaLeaf_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.FLOWERING_AZALEA), RegistryHelper.getLocationFromBlock(Blocks.FLOWERING_AZALEA_LEAVES));
     @SerialEntry
-    public static boolean floweringAzaleaLeaf_onBreak = floweringAzaleaLeaf_onBreak_DEFAULT;
-
-    public static final List<BlockItem> floweringAzaleaLeaf_BlockItems_DEFAULT = List.of((BlockItem) Items.FLOWERING_AZALEA, (BlockItem) Items.FLOWERING_AZALEA_LEAVES);
-    @SerialEntry
-    public static List<BlockItem> floweringAzaleaLeaf_BlockItems = floweringAzaleaLeaf_BlockItems_DEFAULT;
+    public static List<ResourceLocation> floweringAzaleaLeaf_Blocks = floweringAzaleaLeaf_Blocks_DEFAULT;
 
     // biome tinted leaf particle
     public static final int maxTintedLeaves_onPlace_DEFAULT = 2;
     @SerialEntry
     public static int maxTintedLeaves_onPlace = maxTintedLeaves_onPlace_DEFAULT;
 
-    public static final boolean tintedLeaves_onPlace_DEFAULT = true;
+    public static final boolean tintedLeaves_enabled_DEFAULT = true;
     @SerialEntry
-    public static boolean tintedLeaves_onPlace = tintedLeaves_onPlace_DEFAULT;
+    public static boolean tintedLeaves_enabled = tintedLeaves_enabled_DEFAULT;
 
     public static final int maxTintedLeaves_onBreak_DEFAULT = 3;
     @SerialEntry
     public static int maxTintedLeaves_onBreak = maxTintedLeaves_onBreak_DEFAULT;
 
-    public static final boolean tintedLeaves_onBreak_DEFAULT = true;
+    public static final List<ResourceLocation> tintedLeaves_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.JUNGLE_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.OAK_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.SPRUCE_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.DARK_OAK_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.ACACIA_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.BIRCH_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.MANGROVE_LEAVES));
     @SerialEntry
-    public static boolean tintedLeaves_onBreak = tintedLeaves_onBreak_DEFAULT;
+    public static List<ResourceLocation> tintedLeaves_Blocks = tintedLeaves_Blocks_DEFAULT;
 
-    public static final List<BlockItem> tintedLeaves_BlockItems_DEFAULT = List.of((BlockItem) Items.JUNGLE_LEAVES, (BlockItem) Items.OAK_LEAVES, (BlockItem) Items.SPRUCE_LEAVES, (BlockItem) Items.DARK_OAK_LEAVES, (BlockItem) Items.ACACIA_LEAVES, (BlockItem) Items.BIRCH_LEAVES, (BlockItem) Items.MANGROVE_LEAVES);
+    // grass blade
+    public static final int maxGrassBlade_onPlace_DEFAULT = 2;
     @SerialEntry
-    public static List<BlockItem> tintedLeaves_BlockItems = tintedLeaves_BlockItems_DEFAULT;
+    public static int maxGrassBlade_onPlace = maxGrassBlade_onPlace_DEFAULT;
+
+    public static final boolean grassBlade_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean grassBlade_enabled = grassBlade_enabled_DEFAULT;
+
+    public static final int maxGrassBlade_onBreak_DEFAULT = 3;
+    @SerialEntry
+    public static int maxGrassBlade_onBreak = maxGrassBlade_onBreak_DEFAULT;
+
+    public static final List<ResourceLocation> grassBlade_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.SHORT_GRASS), RegistryHelper.getLocationFromBlock(Blocks.TALL_GRASS), RegistryHelper.getLocationFromBlock(Blocks.SEAGRASS), RegistryHelper.getLocationFromBlock(Blocks.HAY_BLOCK), RegistryHelper.getLocationFromBlock(Blocks.HANGING_ROOTS), RegistryHelper.getLocationFromBlock(Blocks.GRASS_BLOCK));
+    @SerialEntry
+    public static List<ResourceLocation> grassBlade_Blocks = grassBlade_Blocks_DEFAULT;
 
     // default block particle
     public static final int maxBlock_onPlace_DEFAULT = 2;
     @SerialEntry
     public static int maxBlock_onPlace = maxBlock_onPlace_DEFAULT;
 
-    public static final boolean block_onPlace_DEFAULT = true;
+    public static final boolean block_enabled_DEFAULT = true;
     @SerialEntry
-    public static boolean block_onPlace = block_onPlace_DEFAULT;
+    public static boolean block_enabled = block_enabled_DEFAULT;
 
     public static final int maxBlock_onBreak_DEFAULT = 4;
     @SerialEntry
     public static int maxBlock_onBreak = maxBlock_onBreak_DEFAULT;
 
-    public static final boolean block_onBreak_DEFAULT = true;
+    // Block Interaction / Ambient Particles
+    // underwater bubbles
+    public static final int maxUnderwaterBubbles_onPlace_DEFAULT = 12;
     @SerialEntry
-    public static boolean block_onBreak = block_onBreak_DEFAULT;
+    public static int maxUnderwaterBubbles_onPlace = maxUnderwaterBubbles_onPlace_DEFAULT;
 
-    // Block Ambient Particles
+    public static final boolean underwaterBubbles_onPlace_DEFAULT = true;
+    @SerialEntry
+    public static boolean underwaterBubbles_onPlace = underwaterBubbles_onPlace_DEFAULT;
+
     // campfire sparks
     public static final int campfireSpark_spawnChance_DEFAULT = 20;
     @SerialEntry
@@ -189,6 +190,7 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean campfireSpark_enabled = campfireSpark_enabled_DEFAULT;
 
+    // fire sparks
     public static final int fireSpark_spawnChance_DEFAULT = 25;
     @SerialEntry
     public static int fireSpark_spawnChance = fireSpark_spawnChance_DEFAULT;
@@ -196,6 +198,24 @@ public class ConfigHandler {
     public static final boolean fireSpark_enabled_DEFAULT = true;
     @SerialEntry
     public static boolean fireSpark_enabled = fireSpark_enabled_DEFAULT;
+
+    // anvil use sparks
+    public static final int maxAnvilUseSparks_onUse_DEFAULT = 12;
+    @SerialEntry
+    public static int maxAnvilUseSparks_onUse_0_3 = maxAnvilUseSparks_onUse_DEFAULT;
+
+    public static final boolean anvilUseSparks_enabled_DEFAULT = false;
+    @SerialEntry
+    public static boolean anvilUseSparks_enabled_0_3 = anvilUseSparks_enabled_DEFAULT;
+
+    // grindstone use sparks
+    public static final int maxGrindstoneUseSparks_onUse_DEFAULT = 12;
+    @SerialEntry
+    public static int maxGrindstoneUseSparks_onUse_0_3 = maxGrindstoneUseSparks_onUse_DEFAULT;
+
+    public static final boolean grindstoneUseSparks_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean grindstoneUseSparks_enabled_0_3 = grindstoneUseSparks_enabled_DEFAULT;
 
     // Entity Particles
     // travelling minecarts
@@ -264,6 +284,19 @@ public class ConfigHandler {
     public static final boolean flintAndSteelSpark_onUse_DEFAULT = true;
     @SerialEntry
     public static boolean flintAndSteelSpark_onUse = flintAndSteelSpark_onUse_DEFAULT;
+
+    // fire charge particles
+    public static final int fireCharge_intensity_DEFAULT = 5;
+    @SerialEntry
+    public static int fireCharge_intensity = fireCharge_intensity_DEFAULT;
+
+    public static final int maxFireCharge_onUse_DEFAULT = 12;
+    @SerialEntry
+    public static int maxFireCharge_onUse = maxFireCharge_onUse_DEFAULT;
+
+    public static final boolean fireCharge_onUse_DEFAULT = true;
+    @SerialEntry
+    public static boolean fireCharge_onUse = fireCharge_onUse_DEFAULT;
 
     // axe strip
     public static final int maxAxeStrip_onUse_DEFAULT = 12;

@@ -4,20 +4,27 @@ import dev.isxander.yacl3.api.utils.Dimension;
 import dev.isxander.yacl3.gui.YACLScreen;
 import dev.isxander.yacl3.gui.controllers.dropdown.AbstractDropdownController;
 import dev.isxander.yacl3.gui.controllers.dropdown.AbstractDropdownControllerElement;
+import dev.isxander.yacl3.gui.controllers.dropdown.DropdownWidget;
+import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
+import games.enchanted.blockplaceparticles.mixin.accessor.yacl.DropdownWidgetAccessor;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public abstract class GenericListControllerElement<T, R extends AbstractDropdownController<T>> extends AbstractDropdownControllerElement<T, ResourceLocation> {
+    private static final ResourceLocation MISSING_ITEM_ICON_SPRITE = ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "missing_item_icon");
+
     private final R controller;
     protected T currentItem = null;
     protected Map<ResourceLocation, T> matchingItems = new HashMap<>();
+    int lastKnownSelectedDropdownIndex = 0;
 
     public GenericListControllerElement(R control, YACLScreen screen, Dimension<Integer> dim) {
         super(control, screen, dim);
@@ -35,7 +42,7 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
         super.drawValueText(graphics, mouseX, mouseY, delta);
         setDimension(oldDimension);
         if (currentItem != null) {
-            graphics.renderFakeItem(new ItemStack(getItemToRender(currentItem)), getDimension().xLimit() - getXPadding() - getDecorationPadding() + 2, getDimension().y() + 2);
+            this.renderItemIcon(graphics, getItemToRender(currentItem), getDimension().xLimit() - getXPadding() - getDecorationPadding() + 2, getDimension().y() + 2);
         }
     }
 
@@ -47,11 +54,24 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
         T item = matchingItems.get(identifier);
         if(item == null) return;
         super.renderDropdownEntry(graphics, entryDimension, identifier);
-        graphics.renderFakeItem(
-            new ItemStack(getItemToRender(item)),
-            entryDimension.xLimit() - 2,
-            entryDimension.y() + 1
-        );
+        this.renderItemIcon(graphics, getItemToRender(item), entryDimension.xLimit() - 2, entryDimension.y() + 1);
+    }
+
+    private void renderItemIcon(GuiGraphics graphics, Item item, int x, int y) {
+        if(item == Items.AIR) {
+            graphics.blitSprite(MISSING_ITEM_ICON_SPRITE, x, y, 16, 16);
+            return;
+        }
+        graphics.renderFakeItem(new ItemStack(item), x, y);
+    }
+
+    @Override
+    public boolean charTyped(char chr, int modifiers) {
+        if(this.dropdownWidget != null) {
+            ((DropdownWidgetAccessor) this.dropdownWidget).setFirstVisibleIndex(0);
+            this.dropdownWidget.scrollUp();
+        }
+        return super.charTyped(chr, modifiers);
     }
 
     @Override
@@ -72,6 +92,25 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
     @Override
     protected int getControlWidth() {
         return super.getControlWidth() + getDecorationPadding();
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        return super.mouseClicked(mouseX + this.getDecorationPadding(), mouseY, button);
+    }
+
+    public void setLastSelectedDropdownIndex(int index) {
+        this.lastKnownSelectedDropdownIndex = index;
+    }
+    public int getLastSelectedDropdownIndex() {
+        return this.lastKnownSelectedDropdownIndex;
+    }
+
+    @Override
+    public void createDropdownWidget() {
+        dropdownVisible = true;
+        dropdownWidget = new FixedDropdownWidget<>(controller, screen, getDimension(), this);
+        screen.addPopupControllerWidget(dropdownWidget);
     }
 
     @Override

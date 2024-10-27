@@ -2,22 +2,25 @@ package games.enchanted.blockplaceparticles.particle_spawning;
 
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
-import games.enchanted.blockplaceparticles.util.BiomeTemperatureHelpers;
+import games.enchanted.blockplaceparticles.particle.option.ParticleEmitterOptions;
+import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
+import games.enchanted.blockplaceparticles.particle_spawning.override.FluidPlacementParticle;
 import games.enchanted.blockplaceparticles.util.FluidHelpers;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.AnvilBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
@@ -28,22 +31,17 @@ import org.joml.Vector3f;
 
 public class SpawnParticles {
     public static void spawnBlockPlaceParticle(ClientLevel level, BlockPos blockPos, BlockState placedBlockState) {
+        if(ConfigHandler.underwaterBubbles_onPlace) spawnUnderwaterBubbles(ConfigHandler.maxUnderwaterBubbles_onPlace, level, blockPos);
+
         BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(placedBlockState);
-        ParticleOptions particleOption;
         if (particleOverride == BlockParticleOverride.NONE) {
             return;
-        } else if(particleOverride.isBlockStateParticle()) {
-            particleOption = particleOverride.getBlockParticleOption(placedBlockState);
-        }else {
-            particleOption = particleOverride.getParticleOption();
         }
 
         int maxParticlesPerEdge = BlockParticleOverride.getParticleMultiplierForOverride(particleOverride, true);
+        if(maxParticlesPerEdge <= 0) return;
 
-        double particleOutwardVelocityAdjustment = particleOverride == BlockParticleOverride.BLOCK ? 1. : 0.05;
-        final boolean particleInWarmBiome = BiomeTemperatureHelpers.isWarmBiomeOrDimension(level, blockPos);
-
-        if(ConfigHandler.underwaterBubbles_onPlace) spawnUnderwaterBubbles(ConfigHandler.maxUnderwaterBubbles_onPlace, level, blockPos);
+        double particleOutwardVelocityAdjustment = particleOverride.getParticleVelocityMultiplier();
 
         if (!placedBlockState.isAir() && placedBlockState.shouldSpawnTerrainParticles()) {
             VoxelShape blockShape = placedBlockState.getShape(level, blockPos);
@@ -76,15 +74,10 @@ public class SpawnParticles {
                     double particleYOffset = (biggestEdge == Direction.Axis.Y ? particlePos : height) + y1 + verticalAxisOffset;
                     double particleZOffset = (biggestEdge == Direction.Axis.Z ? particlePos : depth) + z1;
 
-                    ParticleOptions particleToSpawn;
-                    if(particleOverride == BlockParticleOverride.SNOW_POWDER) {
-                        // sometimes spawn poof particle if the biome is ultra warm
-                        particleToSpawn = particleInWarmBiome && level.random.nextInt(5) == 0 ? ParticleTypes.POOF : particleOption;
-                    }else {
-                        particleToSpawn = particleOption;
+                    ParticleOptions particleToSpawn = particleOverride.getParticleOptionForState(placedBlockState, level, blockPos);
+                    if (particleToSpawn == null) {
+                        continue;
                     }
-
-                    assert particleToSpawn != null;
                     level.addParticle(
                         particleToSpawn,
                         (double)blockPos.getX() + MathHelpers.expandWhenOutOfBound(particleXOffset, 0, 1),
@@ -104,21 +97,16 @@ public class SpawnParticles {
     }
 
     public static void spawnBlockBreakParticle(ClientLevel level, BlockState brokenBlockState, BlockPos brokenBlockPos, BlockParticleOverride particleOverride) {
-        int maxParticlesPerLength = BlockParticleOverride.getParticleMultiplierForOverride(particleOverride, false);
+        if(ConfigHandler.underwaterBubbles_onBreak) spawnUnderwaterBubbles(ConfigHandler.maxUnderwaterBubbles_onBreak, level, brokenBlockPos);
 
-        ParticleOptions particleOption;
         if (particleOverride == BlockParticleOverride.NONE) {
             return;
-        } else if(particleOverride.isBlockStateParticle()) {
-            particleOption = particleOverride.getBlockParticleOption(brokenBlockState);
-        }else {
-            particleOption = particleOverride.getParticleOption();
         }
 
-        double particleOutwardVelocityAdjustment = particleOverride == BlockParticleOverride.BLOCK ? 1. : 0.1;
-        final boolean particleInWarmBiome = BiomeTemperatureHelpers.isWarmBiomeOrDimension(level, brokenBlockPos);
+        int maxParticlesPerLength = BlockParticleOverride.getParticleMultiplierForOverride(particleOverride, false);
+        if(maxParticlesPerLength <= 0) return;
 
-        if(ConfigHandler.underwaterBubbles_onBreak) spawnUnderwaterBubbles(ConfigHandler.maxUnderwaterBubbles_onBreak, level, brokenBlockPos);
+        double particleOutwardVelocityAdjustment = particleOverride.getParticleVelocityMultiplier();
 
         if (!brokenBlockState.isAir() && brokenBlockState.shouldSpawnTerrainParticles()) {
             VoxelShape blockShape = brokenBlockState.getShape(level, brokenBlockPos);
@@ -137,15 +125,11 @@ public class SpawnParticles {
                             double particleYOffset = (((double) i_H + 0.5) / (double) amountAlongHeight);
                             double particleZOffset = (((double) i_D + 0.5) / (double) amountAlongDepth);
 
-                            ParticleOptions particleToSpawn;
-                            if (particleOverride == BlockParticleOverride.SNOW_POWDER) {
-                                // sometimes spawn poof particle if the dimension is ultra warm
-                                particleToSpawn = particleInWarmBiome && level.random.nextInt(5) == 0 ? ParticleTypes.POOF : particleOption;
-                            } else {
-                                particleToSpawn = particleOption;
+                            ParticleOptions particleToSpawn = particleOverride.getParticleOptionForState(brokenBlockState, level, brokenBlockPos);
+                            if (particleToSpawn == null) {
+                                continue;
                             }
 
-                            assert particleToSpawn != null;
                             level.addParticle(
                                 particleToSpawn,
                                 brokenBlockPos.getX() + (particleXOffset * width + x1),
@@ -195,24 +179,25 @@ public class SpawnParticles {
 
         float rotX = (float) ((minecartHorizontalRot) * (Math.PI / 180));
         float rotY = (float) (minecartVerticalRot / 45);
-        float sparkDeltaX = (float) Math.clamp(-deltaMovement.x / 5, -0.7, 0.7);
-        float sparkDeltaZ = (float) Math.clamp(-deltaMovement.z / 5, -0.7, 0.7);
+        float sparkDeltaX = (float) Math.clamp(-deltaMovement.x / 3, -0.7, 0.7);
+        float sparkDeltaZ = (float) Math.clamp(-deltaMovement.z / 3, -0.7, 0.7);
 
+        minecartY += 0.0425;
         if(level.random.nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos1 = minecartWheelPoint(rotX, rotY, 0.45f, 0.35f,  0.45f);
-            level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos1.x + minecartX, wheelPos1.y + minecartY, wheelPos1.z + minecartZ, sparkDeltaX , 0.3, sparkDeltaZ);
+            level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos1.x + minecartX, wheelPos1.y + minecartY, wheelPos1.z + minecartZ, sparkDeltaX , 0.17, sparkDeltaZ);
         }
         if(level.random.nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos2 = minecartWheelPoint(rotX, rotY, -0.45f, -0.35f, 0.45f);
-            level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos2.x + minecartX, wheelPos2.y + minecartY, wheelPos2.z + minecartZ, sparkDeltaX, 0.3, sparkDeltaZ);
+            level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos2.x + minecartX, wheelPos2.y + minecartY, wheelPos2.z + minecartZ, sparkDeltaX, 0.17, sparkDeltaZ);
         }
         if(level.random.nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos3 = minecartWheelPoint(rotX, rotY, 0.45f, 0.35f, -0.45f);
-            level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos3.x + minecartX, wheelPos3.y + minecartY, wheelPos3.z + minecartZ, sparkDeltaX, 0.3, sparkDeltaZ);
+            level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos3.x + minecartX, wheelPos3.y + minecartY, wheelPos3.z + minecartZ, sparkDeltaX, 0.17, sparkDeltaZ);
         }
         if(level.random.nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos4 = minecartWheelPoint(rotX, rotY, -0.45f, -0.35f, -0.45f);
-            level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos4.x + minecartX, wheelPos4.y + minecartY, wheelPos4.z + minecartZ, sparkDeltaX, 0.3, sparkDeltaZ);
+            level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos4.x + minecartX, wheelPos4.y + minecartY, wheelPos4.z + minecartZ, sparkDeltaX, 0.17, sparkDeltaZ);
         }
     }
     private static Vector3f minecartWheelPoint(float rotationX, float rotationY, float pointX, float pointY, float pointZ) {
@@ -270,11 +255,18 @@ public class SpawnParticles {
     }
 
     public static void spawnFireChargeSmokeParticle(Level level, BlockPos particlePos) {
-        for (int i = 0; i < 6; i++) {
-            double x = particlePos.getX() + level.random.nextDouble();
-            double y = particlePos.getY() + 0.2;
-            double z = particlePos.getZ() + level.random.nextDouble();
-            level.addParticle(ParticleTypes.DUST_PLUME, x, y, z, 0.0, 0.05, 0.0);
+        if(!ConfigHandler.fireCharge_onUse) return;
+        double lavaIntensity = ConfigHandler.fireCharge_intensity / 24.;
+        double smokeIntensity = ConfigHandler.fireCharge_intensity / 58.;
+        for (int i = 0; i < ConfigHandler.maxFireCharge_onUse; i++) {
+            double x = particlePos.getX() + 0.25 + (level.random.nextDouble() / 2);
+            double y = particlePos.getY() + 0.25 + (level.random.nextDouble() / 2);
+            double z = particlePos.getZ() + 0.25 + (level.random.nextDouble() / 2);
+            if(level.random.nextFloat() > 0.2) {
+                level.addParticle(level.random.nextFloat() > 0.3 ? ParticleTypes.SMOKE : ParticleTypes.LARGE_SMOKE, x, y, z, (level.random.nextDouble() - 0.5) * smokeIntensity, (level.random.nextDouble() + 0.5) * smokeIntensity, (level.random.nextDouble() - 0.5) * smokeIntensity);
+                continue;
+            }
+            level.addParticle(ParticleTypes.LAVA, x, y, z, (level.random.nextDouble() - 0.5) * lavaIntensity, (level.random.nextDouble() + 0.5) * lavaIntensity, (level.random.nextDouble() - 0.5) * lavaIntensity);
         }
     }
 
@@ -369,6 +361,38 @@ public class SpawnParticles {
         }
     }
 
+    public static void spawnAnvilUseSparkParticles(ClientLevel level, BlockPos blockPos) {
+        if(!ConfigHandler.anvilUseSparks_enabled_0_3) return;
+        BlockState anvilState = level.getBlockState(blockPos);
+        Direction facing = anvilState.getValue(AnvilBlock.FACING);
+        Vec3i dir = facing.getNormal();
+        double x = blockPos.getX() + 0.5f;
+        double y = blockPos.getY() + 1. + (level.random.nextDouble() / 16f);
+        double z = blockPos.getZ() + 0.5f;
+        ParticleEmitterOptions emitter = new ParticleEmitterOptions(
+            ModParticleTypes.FLOATING_SPARK_SHORT_EMITTER,
+            3,
+            7,
+            ConfigHandler.maxAnvilUseSparks_onUse_0_3,
+            Math.abs(dir.getX()) > Math.abs(dir.getZ()) ? 0.95f : 0.5f,
+            0.0f,
+            Math.abs(dir.getZ()) > Math.abs(dir.getX()) ? 0.95f : 0.5f
+        );
+        level.addParticle(emitter, x, y, z, -2 * dir.getX(), 0.2, -2 * dir.getZ());
+    }
+
+    public static void spawnGrindstoneUseSparkParticles(ClientLevel level, BlockPos blockPos) {
+//        if(!ConfigHandler.grindstoneUseSparks_enabled_0_3) return;
+//        BlockState anvilState = level.getBlockState(blockPos);
+//        Direction facing = anvilState.getValue(AnvilBlock.FACING);
+//        Vec3i dir = facing.getNormal();
+//        for (int i = 0; i < ConfigHandler.maxGrindstoneUseSparks_onUse_0_3; i++) {
+//            double x = blockPos.getX() + level.random.nextDouble();
+//            double y = blockPos.getY() + 1. + (level.random.nextDouble() / 16f);
+//            double z = blockPos.getZ() + level.random.nextDouble();
+//            level.addParticle(level.random.nextFloat() > 0.2 ? ModParticleTypes.FLYING_SPARK : ModParticleTypes.FLOATING_SPARK, x, y, z, -0.5 * dir.getX(), 0.1 + (level.random.nextDouble() / 16f), -0.5 * dir.getZ());
+//        }
+    }
 
     private static void spawnMostlyUpwardsMotionParticleOption(Level level, ParticleOptions particleOptions, double xPos, double yPos, double zPos, double velocityIntensity) {
         level.addParticle(
