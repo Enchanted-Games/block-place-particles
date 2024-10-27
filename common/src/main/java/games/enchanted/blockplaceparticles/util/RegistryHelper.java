@@ -1,7 +1,9 @@
 package games.enchanted.blockplaceparticles.util;
 
+import dev.isxander.yacl3.gui.controllers.dropdown.ItemController;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.core.DefaultedRegistry;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -18,16 +20,19 @@ public class RegistryHelper {
         int sep = value.indexOf(58);
         Predicate<ResourceLocation> filterPredicate = getFilterPredicate(value, sep, registryToSearch);
 
-        return registryToSearch.holders().map((holder) -> holder.key().location()).filter(filterPredicate).sorted((id1, id2) -> {
-            String path = (sep == -1 ? value : value.substring(sep + 1)).toLowerCase();
-            boolean id1StartsWith = id1.getPath().toLowerCase().startsWith(path);
-            boolean id2StartsWith = id2.getPath().toLowerCase().startsWith(path);
-            if (id1StartsWith) {
-                return id2StartsWith ? id1.compareTo(id2) : -1;
-            } else {
-                return id2StartsWith ? 1 : id1.compareTo(id2);
+        return registryToSearch.keySet().stream()
+            .filter(filterPredicate)
+            .sorted((id1, id2) -> {
+                String path = (sep == -1 ? value : value.substring(sep + 1)).toLowerCase();
+                boolean id1StartsWith = id1.getPath().toLowerCase().startsWith(path);
+                boolean id2StartsWith = id2.getPath().toLowerCase().startsWith(path);
+                if (id1StartsWith) {
+                    return id2StartsWith ? id1.compareTo(id2) : -1;
+                } else {
+                    return id2StartsWith ? 1 : id1.compareTo(id2);
+                }
             }
-        });
+        );
     }
 
     private static @NotNull <T> Predicate<ResourceLocation> getFilterPredicate(String value, int separator, DefaultedRegistry<T> registryToSearch) {
@@ -76,6 +81,9 @@ public class RegistryHelper {
         return BuiltInRegistries.BLOCK.getKey(block);
     }
     public static Block getBlockFromLocation(ResourceLocation location) {
-        return BuiltInRegistries.BLOCK.get(location);
+        return BuiltInRegistries.BLOCK.getValue(location);
+    }
+    public static Fluid getFluidFromLocation(ResourceLocation location) {
+        return BuiltInRegistries.FLUID.getValue(location);
     }
 }

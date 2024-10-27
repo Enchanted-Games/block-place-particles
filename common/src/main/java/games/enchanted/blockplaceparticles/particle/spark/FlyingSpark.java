@@ -113,7 +113,7 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
 
     @Override
     public @NotNull ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_LIT;
+        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
     }
 
     public static class LongLifeSparkProvider implements ParticleProvider<SimpleParticleType> {

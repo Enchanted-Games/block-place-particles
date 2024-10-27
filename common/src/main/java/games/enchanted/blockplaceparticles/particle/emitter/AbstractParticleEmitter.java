@@ -49,8 +49,8 @@ public abstract class AbstractParticleEmitter extends Particle {
             return;
         }
         if(ConfigHandler.debug_showEmitterBounds) {
-            level.addParticle(new DustParticleOptions(new Vector3f(1f, 0f, 0f), 0.5f), x, y, z, 0, 0, 0);
-            level.addParticle(new DustParticleOptions(new Vector3f(0f, 1f, 0f), 0.5f), x + this.emitterWidth, y + this.emitterHeight, z + this.emitterDepth, 0, 0, 0);
+            level.addParticle(new DustParticleOptions(0xFFFF0000, 0.5f), x, y, z, 0, 0, 0);
+            level.addParticle(new DustParticleOptions(0xFF00FF00, 0.5f), x + this.emitterWidth, y + this.emitterHeight, z + this.emitterDepth, 0, 0, 0);
         }
         if((this.age - (emitOnFirstTick ? 1 : 0)) % emitterInterval == 0) {
             for (int i = 0; i < particlesPerEmission; i++) {

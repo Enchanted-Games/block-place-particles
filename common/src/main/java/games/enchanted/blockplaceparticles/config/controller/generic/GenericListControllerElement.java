@@ -8,6 +8,8 @@ import dev.isxander.yacl3.gui.controllers.dropdown.DropdownWidget;
 import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
 import games.enchanted.blockplaceparticles.mixin.accessor.yacl.DropdownWidgetAccessor;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -59,7 +61,7 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
 
     private void renderItemIcon(GuiGraphics graphics, Item item, int x, int y) {
         if(item == Items.AIR) {
-            graphics.blitSprite(MISSING_ITEM_ICON_SPRITE, x, y, 16, 16);
+            graphics.blitSprite(RenderType::guiTextured, MISSING_ITEM_ICON_SPRITE, x, y, 16, 16);
             return;
         }
         graphics.renderFakeItem(new ItemStack(item), x, y);
