@@ -13,7 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -45,13 +44,13 @@ public class ConfigScreen {
                     .build()
                 )
 
-                    .option(
-                        booleanOption(
-                            ConfigTranslation.DEBUG_SHOW_EMITTER_BOUNDS,
-                            "",
-                            Binding.generic(ConfigHandler.debug_showEmitterBounds_DEFAULT, () -> ConfigHandler.debug_showEmitterBounds, newVal -> ConfigHandler.debug_showEmitterBounds = newVal)
-                        )
+                .option(
+                    booleanOption(
+                        ConfigTranslation.DEBUG_SHOW_EMITTER_BOUNDS,
+                        "",
+                        Binding.generic(ConfigHandler.debug_showEmitterBounds_DEFAULT, () -> ConfigHandler.debug_showEmitterBounds, newVal -> ConfigHandler.debug_showEmitterBounds = newVal)
                     )
+                )
             .build());
         }
 
@@ -121,20 +120,20 @@ public class ConfigScreen {
                 "anvil_craft_sparks",
                 "anvil_craft_sparks",
                 ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
-                Binding.generic(ConfigHandler.anvilUseSparks_enabled_DEFAULT, () -> ConfigHandler.anvilUseSparks_enabled, newVal -> ConfigHandler.anvilUseSparks_enabled = newVal),
+                Binding.generic(ConfigHandler.anvilUseSparks_enabled_DEFAULT, () -> ConfigHandler.anvilUseSparks_enabled_0_3, newVal -> ConfigHandler.anvilUseSparks_enabled_0_3 = newVal),
                 ConfigTranslation.ARE_PARTICLES_ENABLED,
-                integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_CRAFT, "anvil_craft_sparks", ConfigHandler.maxAnvilUseSparks_onUse_DEFAULT, () -> ConfigHandler.maxAnvilUseSparks_onUse, newVal -> ConfigHandler.maxAnvilUseSparks_onUse = newVal, 1, 20, 1)
+                integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_CRAFT, "anvil_craft_sparks", ConfigHandler.maxAnvilUseSparks_onUse_DEFAULT, () -> ConfigHandler.maxAnvilUseSparks_onUse_0_3, newVal -> ConfigHandler.maxAnvilUseSparks_onUse_0_3 = newVal, 1, 20, 1)
             ))
 
             // grindstone use spark
-            .group( createParticleToggleAndIntSliderConfigGroup(
-                "grindstone_craft_sparks",
-                "grindstone_craft_sparks",
-                ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
-                Binding.generic(ConfigHandler.grindstoneUseSparks_enabled_DEFAULT, () -> ConfigHandler.grindstoneUseSparks_enabled, newVal -> ConfigHandler.grindstoneUseSparks_enabled = newVal),
-                ConfigTranslation.ARE_PARTICLES_ENABLED,
-                integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_CRAFT, "grindstone_craft_sparks", ConfigHandler.maxGrindstoneUseSparks_onUse_DEFAULT, () -> ConfigHandler.maxGrindstoneUseSparks_onUse, newVal -> ConfigHandler.maxGrindstoneUseSparks_onUse = newVal, 1, 20, 1)
-            ))
+//            .group( createParticleToggleAndIntSliderConfigGroup(
+//                "grindstone_craft_sparks",
+//                "grindstone_craft_sparks",
+//                ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
+//                Binding.generic(ConfigHandler.grindstoneUseSparks_enabled_DEFAULT, () -> ConfigHandler.grindstoneUseSparks_enabled_0_3, newVal -> ConfigHandler.grindstoneUseSparks_enabled_0_3 = newVal),
+//                ConfigTranslation.ARE_PARTICLES_ENABLED,
+//                integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_CRAFT, "grindstone_craft_sparks", ConfigHandler.maxGrindstoneUseSparks_onUse_DEFAULT, () -> ConfigHandler.maxGrindstoneUseSparks_onUse_0_3, newVal -> ConfigHandler.maxGrindstoneUseSparks_onUse_0_3 = newVal, 1, 20, 1)
+//            ))
         .build());
 
         // item use category

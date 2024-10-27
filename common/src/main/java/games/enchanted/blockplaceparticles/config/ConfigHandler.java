@@ -154,7 +154,7 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxGrassBlade_onBreak = maxGrassBlade_onBreak_DEFAULT;
 
-    public static final List<ResourceLocation> grassBlade_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.SHORT_GRASS), RegistryHelper.getLocationFromBlock(Blocks.TALL_GRASS), RegistryHelper.getLocationFromBlock(Blocks.SEAGRASS));
+    public static final List<ResourceLocation> grassBlade_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.SHORT_GRASS), RegistryHelper.getLocationFromBlock(Blocks.TALL_GRASS), RegistryHelper.getLocationFromBlock(Blocks.SEAGRASS), RegistryHelper.getLocationFromBlock(Blocks.HAY_BLOCK), RegistryHelper.getLocationFromBlock(Blocks.HANGING_ROOTS), RegistryHelper.getLocationFromBlock(Blocks.GRASS_BLOCK));
     @SerialEntry
     public static List<ResourceLocation> grassBlade_Blocks = grassBlade_Blocks_DEFAULT;
 
@@ -202,20 +202,20 @@ public class ConfigHandler {
     // anvil use sparks
     public static final int maxAnvilUseSparks_onUse_DEFAULT = 12;
     @SerialEntry
-    public static int maxAnvilUseSparks_onUse = maxAnvilUseSparks_onUse_DEFAULT;
+    public static int maxAnvilUseSparks_onUse_0_3 = maxAnvilUseSparks_onUse_DEFAULT;
 
-    public static final boolean anvilUseSparks_enabled_DEFAULT = true;
+    public static final boolean anvilUseSparks_enabled_DEFAULT = false;
     @SerialEntry
-    public static boolean anvilUseSparks_enabled = anvilUseSparks_enabled_DEFAULT;
+    public static boolean anvilUseSparks_enabled_0_3 = anvilUseSparks_enabled_DEFAULT;
 
     // grindstone use sparks
     public static final int maxGrindstoneUseSparks_onUse_DEFAULT = 12;
     @SerialEntry
-    public static int maxGrindstoneUseSparks_onUse = maxGrindstoneUseSparks_onUse_DEFAULT;
+    public static int maxGrindstoneUseSparks_onUse_0_3 = maxGrindstoneUseSparks_onUse_DEFAULT;
 
     public static final boolean grindstoneUseSparks_enabled_DEFAULT = true;
     @SerialEntry
-    public static boolean grindstoneUseSparks_enabled = grindstoneUseSparks_enabled_DEFAULT;
+    public static boolean grindstoneUseSparks_enabled_0_3 = grindstoneUseSparks_enabled_DEFAULT;
 
     // Entity Particles
     // travelling minecarts
