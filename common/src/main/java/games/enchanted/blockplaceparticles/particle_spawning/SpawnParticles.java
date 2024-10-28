@@ -178,7 +178,7 @@ public class SpawnParticles {
         sparksChancePerWheel *= ConfigHandler.minecart_spawnChance / 50f;
 
         float rotX = (float) ((minecartHorizontalRot) * (Math.PI / 180));
-        float rotY = (float) (minecartVerticalRot / 45);
+        float rotY = (float) ((minecartVerticalRot) * (Math.PI / 180));
         float sparkDeltaX = (float) Math.clamp(-deltaMovement.x / 3, -0.7, 0.7);
         float sparkDeltaZ = (float) Math.clamp(-deltaMovement.z / 3, -0.7, 0.7);
 

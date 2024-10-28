@@ -54,6 +54,7 @@ public class ConfigScreen {
             .build());
         }
 
+        // block override category
         yaclBuilder.category( ConfigScreenHelper.createBlockParticleOverrideConfigWidgets(
             ConfigCategory.createBuilder()
                 .name(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY).toComponent())
@@ -64,7 +65,7 @@ public class ConfigScreen {
                     .name( ConfigTranslation.getGroupName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY, "info").toComponent() )
                     .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY, "info")) ))
                     .collapsed(true)
-                    .option(LabelOption.createBuilder().build())
+                    .option(LabelOption.createBuilder().line(Component.empty()).build())
                 .build())
             )
         .build());
@@ -79,9 +80,7 @@ public class ConfigScreen {
                 .name( ConfigTranslation.getGroupName(ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY, "info").toComponent() )
                 .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY, "info")) ))
                 .collapsed(true)
-                .option(LabelOption.createBuilder()
-
-                .build())
+                .option(LabelOption.createBuilder().line(Component.empty()).build())
             .build())
 
             // underwater bubbles
@@ -146,9 +145,7 @@ public class ConfigScreen {
                 .name( ConfigTranslation.getGroupName(ConfigTranslation.ITEMS_CONFIG_CATEGORY, "info").toComponent() )
                 .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.ITEMS_CONFIG_CATEGORY, "info")) ))
                 .collapsed(true)
-                .option(LabelOption.createBuilder()
-
-                .build())
+                .option(LabelOption.createBuilder().line(Component.empty()).build())
             .build())
 
             // flint and steel spark
@@ -211,9 +208,7 @@ public class ConfigScreen {
                 .name( ConfigTranslation.getGroupName(ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY, "info").toComponent() )
                 .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY, "info")) ))
                 .collapsed(true)
-                .option(LabelOption.createBuilder()
-
-                .build())
+                .option(LabelOption.createBuilder().line(Component.empty()).build())
             .build())
 
             // minecart sparks at max speed
@@ -237,9 +232,7 @@ public class ConfigScreen {
                 .name( ConfigTranslation.getGroupName(ConfigTranslation.FLUIDS_CONFIG_CATEGORY, "info").toComponent() )
                 .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.FLUIDS_CONFIG_CATEGORY, "info")) ))
                 .collapsed(true)
-                .option(LabelOption.createBuilder()
-
-                .build())
+                .option(LabelOption.createBuilder().line(Component.empty()).build())
             .build())
 
             // tinted water splash
@@ -303,7 +296,7 @@ public class ConfigScreen {
         return OptionGroup.createBuilder()
             .name(Component.translatable("eg_particle_interactions.config.category_separator").withColor(0xff6c6c6c))
             .collapsed(true)
-            .option(LabelOption.createBuilder().build())
+            .option(LabelOption.createBuilder().line(Component.empty()).build())
         .build();
     }
 
