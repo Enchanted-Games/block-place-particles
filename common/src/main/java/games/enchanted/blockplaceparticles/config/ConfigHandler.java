@@ -233,9 +233,9 @@ public class ConfigHandler {
 
     // Fluid Placement Particles
     // water
-    public static final List<Fluid> tintedWaterSplash_fluids_DEFAULT = List.of(Fluids.WATER, Fluids.FLOWING_WATER);
+    public static final List<ResourceLocation> tintedWaterSplash_fluids_DEFAULT = List.of(RegistryHelper.getLocationFromFluid(Fluids.WATER), RegistryHelper.getLocationFromFluid(Fluids.FLOWING_WATER));
     @SerialEntry
-    public static List<Fluid> tintedWaterSplash_fluids = tintedWaterSplash_fluids_DEFAULT;
+    public static List<ResourceLocation> tintedWaterSplash_fluids = tintedWaterSplash_fluids_DEFAULT;
 
     public static final int maxTintedWaterSplash_onPlace_DEFAULT = 12;
     @SerialEntry
@@ -246,9 +246,9 @@ public class ConfigHandler {
     public static boolean tintedWaterSplash_onPlace = tintedWaterSplash_onPlace_DEFAULT;
 
     // lava
-    public static final List<Fluid> lavaSplash_fluids_DEFAULT = List.of(Fluids.LAVA, Fluids.FLOWING_LAVA);
+    public static final List<ResourceLocation> lavaSplash_fluids_DEFAULT = List.of(RegistryHelper.getLocationFromFluid(Fluids.LAVA), RegistryHelper.getLocationFromFluid(Fluids.FLOWING_LAVA));
     @SerialEntry
-    public static List<Fluid> lavaSplash_fluids = lavaSplash_fluids_DEFAULT;
+    public static List<ResourceLocation> lavaSplash_fluids = lavaSplash_fluids_DEFAULT;
 
     public static final int maxLavaSplash_onPlace_DEFAULT = 7;
     @SerialEntry
@@ -259,9 +259,9 @@ public class ConfigHandler {
     public static boolean lavaSplash_onPlace = lavaSplash_onPlace_DEFAULT;
 
     // generic
-    public static final List<Fluid> genericSplash_fluids_DEFAULT = List.of();
+    public static final List<ResourceLocation> genericSplash_fluids_DEFAULT = List.of();
     @SerialEntry
-    public static List<Fluid> genericSplash_fluids = genericSplash_fluids_DEFAULT;
+    public static List<ResourceLocation> genericSplash_fluids = genericSplash_fluids_DEFAULT;
 
     public static final int maxGenericSplash_onPlace_DEFAULT = 10;
     @SerialEntry

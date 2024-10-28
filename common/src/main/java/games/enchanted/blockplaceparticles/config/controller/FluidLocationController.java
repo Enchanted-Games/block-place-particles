@@ -8,17 +8,15 @@ import games.enchanted.blockplaceparticles.config.controller.generic.GenericList
 import games.enchanted.blockplaceparticles.util.RegistryHelper;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
 
-public class FluidController extends AbstractFixedDropdownController<Fluid> {
-    public FluidController(Option<Fluid> option) {
+public class FluidLocationController extends AbstractFixedDropdownController<ResourceLocation> {
+    public FluidLocationController(Option<ResourceLocation> option) {
         super(option);
     }
 
     @Override
     public String getString() {
-        return BuiltInRegistries.FLUID.getKey(option().pendingValue()).toString();
+        return option().pendingValue().toString();
     }
 
     @Override
@@ -27,7 +25,7 @@ public class FluidController extends AbstractFixedDropdownController<Fluid> {
         if(valueFromDropdown == null) {
             valueFromDropdown = value;
         }
-        Fluid validatedValue = RegistryHelper.getDefaultedFluid(
+        ResourceLocation validatedValue = RegistryHelper.validateFluidLocationWithFallback(
             valueFromDropdown,
             null
         );
@@ -36,18 +34,18 @@ public class FluidController extends AbstractFixedDropdownController<Fluid> {
                 validatedValue
             );
         }
-    }
+    };
 
     @Override
     public boolean isValueValid(String value) {
-        Fluid fluidFromValue = RegistryHelper.getDefaultedFluid(value, null);
-        return fluidFromValue != null;
+        ResourceLocation blockLocFromValue = RegistryHelper.validateFluidLocationWithFallback(value, null);
+        return blockLocFromValue != null;
     }
 
     @Override
     protected String getValidValue(String value, int offset) {
         return RegistryHelper.getMatchingIdentifiers(value, BuiltInRegistries.FLUID)
-            .filter((ResourceLocation location) -> location != BuiltInRegistries.FLUID.getKey(Fluids.EMPTY))
+            .filter((ResourceLocation location) -> !RegistryHelper.getFluidFromLocation(location).defaultFluidState().createLegacyBlock().isAir())
             .skip(offset)
             .findFirst()
             .map(ResourceLocation::toString)
@@ -55,7 +53,7 @@ public class FluidController extends AbstractFixedDropdownController<Fluid> {
     }
 
     @Override
-    public GenericListControllerElement<Fluid, ?> createWidget(YACLScreen screen, Dimension<Integer> widgetDimension) {
-        return new FluidControllerElement(this, screen, widgetDimension);
+    public GenericListControllerElement<ResourceLocation, ?> createWidget(YACLScreen screen, Dimension<Integer> widgetDimension) {
+        return new FluidLocationControllerElement(this, screen, widgetDimension);
     }
 }

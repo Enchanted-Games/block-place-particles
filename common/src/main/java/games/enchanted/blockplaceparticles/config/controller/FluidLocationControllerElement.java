@@ -8,14 +8,15 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FluidControllerElement extends GenericListControllerElement<Fluid, FluidController> {
-    public FluidControllerElement(FluidController control, YACLScreen screen, Dimension<Integer> dim) {
+public class FluidLocationControllerElement extends GenericListControllerElement<ResourceLocation, FluidLocationController> {
+    public FluidLocationControllerElement(FluidLocationController control, YACLScreen screen, Dimension<Integer> dim) {
         super(control, screen, dim);
     }
 
@@ -23,27 +24,23 @@ public class FluidControllerElement extends GenericListControllerElement<Fluid, 
     public List<ResourceLocation> computeMatchingValues() {
         List<ResourceLocation> resourceLocations = RegistryHelper.getMatchingIdentifiers(inputField, BuiltInRegistries.FLUID).toList();
         ArrayList<ResourceLocation> fluidLocations = new ArrayList<>();
-        currentItem = getDefaultedFluid(inputField, null);
+        currentItem = RegistryHelper.validateFluidLocationWithFallback(inputField, null);
         for (ResourceLocation resourceLocation : resourceLocations) {
-            Fluid fluidFromLocation = RegistryHelper.getFluidFromLocation(resourceLocation);
-            if(fluidFromLocation == Fluids.EMPTY) continue;
-            matchingItems.put(resourceLocation, fluidFromLocation);
+            Fluid blockFromLocation = RegistryHelper.getFluidFromLocation(resourceLocation);
+            if (blockFromLocation.defaultFluidState().createLegacyBlock().isAir()) continue;
+            matchingItems.put(resourceLocation, RegistryHelper.getLocationFromFluid(blockFromLocation));
             fluidLocations.add(resourceLocation);
         }
         return fluidLocations;
     }
 
-    Fluid getDefaultedFluid(String location, Fluid defaultFluid) {
-        return RegistryHelper.getDefaultedFluid(location, defaultFluid);
-    }
-
     @Override
-    public Item getItemToRender(Fluid value) {
-        return value.getBucket();
+    public Item getItemToRender(ResourceLocation value) {
+        return RegistryHelper.getFluidFromLocation(value).getBucket();
     }
 
     @Override
     public Component getRenderedValueText() {
-        return Component.translatable(getController().option().pendingValue().defaultFluidState().createLegacyBlock().getBlock().getDescriptionId());
+        return Component.translatable( RegistryHelper.getFluidFromLocation(getController().option().pendingValue()).defaultFluidState().createLegacyBlock().getBlock().getDescriptionId() );
     }
 }

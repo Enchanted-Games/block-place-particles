@@ -16,6 +16,6 @@ public class FluidTypeAdapter implements JsonSerializer<Fluid>, JsonDeserializer
 
     @Override
     public JsonElement serialize(Fluid fluid, Type type, JsonSerializationContext jsonSerializationContext) {
-        return new JsonPrimitive(BuiltInRegistries.FLUID.getKey(fluid).toString());
+        return new JsonPrimitive(RegistryHelper.getLocationFromFluid(fluid).toString());
     }
 }

@@ -3,8 +3,8 @@ package games.enchanted.blockplaceparticles.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
 import games.enchanted.blockplaceparticles.particle_spawning.SpawnParticles;
+import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleEngine;
@@ -53,7 +53,7 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/ParticleEngine;makeParticle(Lnet/minecraft/core/particles/ParticleOptions;DDDDDD)Lnet/minecraft/client/particle/Particle;")
     )
     private <T extends ParticleOptions> Particle overrideParticleTypeConditionally(ParticleEngine instance, T originalParticleOption, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, Operation<Particle> original) {
-        if(originalParticleOption.getType() != ParticleTypes.BLOCK && originalParticleOption.getType() != ParticleTypes.DUST_PILLAR) {
+        if(originalParticleOption.getType() != ParticleTypes.BLOCK && originalParticleOption.getType() != ParticleTypes.DUST_PILLAR && originalParticleOption.getType() != ParticleTypes.BLOCK_CRUMBLE) {
             return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);
         }
         if(!(originalParticleOption instanceof BlockParticleOption)) {

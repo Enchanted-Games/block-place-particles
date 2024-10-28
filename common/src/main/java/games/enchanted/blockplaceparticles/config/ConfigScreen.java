@@ -5,7 +5,7 @@ import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
 import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import games.enchanted.blockplaceparticles.config.controller.BlockLocationController;
-import games.enchanted.blockplaceparticles.config.controller.FluidController;
+import games.enchanted.blockplaceparticles.config.controller.FluidLocationController;
 import games.enchanted.blockplaceparticles.util.RegistryHelper;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -387,8 +387,8 @@ public class ConfigScreen {
     public static ListOption<ResourceLocation> createBlockLocationListOption(String particleTypeKey, String groupName, String category, List<ResourceLocation> defaultValue, Supplier<List<ResourceLocation>> getter, Consumer<List<ResourceLocation>> setter) {
         return createListOption(RegistryHelper.getLocationFromBlock(Blocks.STONE), BlockLocationController::new, particleTypeKey, groupName, category, true, defaultValue, getter, setter);
     }
-    private static ListOption<Fluid> createFluidListOption(String particleTypeKey, String groupName, String category, List<Fluid> defaultValue, Supplier<List<Fluid>> getter, Consumer<List<Fluid>> setter) {
-        return createListOption(Fluids.WATER, FluidController::new, particleTypeKey, groupName, category, false, defaultValue, getter, setter);
+    private static ListOption<ResourceLocation> createFluidListOption(String particleTypeKey, String groupName, String category, List<ResourceLocation> defaultValue, Supplier<List<ResourceLocation>> getter, Consumer<List<ResourceLocation>> setter) {
+        return createListOption(RegistryHelper.getLocationFromFluid(Fluids.WATER), FluidLocationController::new, particleTypeKey, groupName, category, false, defaultValue, getter, setter);
     }
     private static <T> ListOption<T> createListOption(T initial, Function<ListOptionEntry<T>, Controller<T>> controller, String particleTypeKey, String groupName, String category, boolean collapsedByDefault, List<T> defaultValue, Supplier<List<T>> getter, Consumer<List<T>> setter) {
         ConfigTranslation.TranslationKey groupNameKey = ConfigTranslation.getGroupName(category, groupName);

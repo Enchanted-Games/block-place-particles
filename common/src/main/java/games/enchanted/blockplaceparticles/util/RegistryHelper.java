@@ -77,11 +77,29 @@ public class RegistryHelper {
         return fallback;
     }
 
+    public static ResourceLocation validateFluidLocationWithFallback(String location, ResourceLocation fallback) {
+        try {
+            ResourceLocation fluidLocation = ResourceLocation.parse(location.toLowerCase());
+            Optional<Fluid> blockFromLoc = BuiltInRegistries.FLUID.getOptional(fluidLocation);
+            if(blockFromLoc.isEmpty()) {
+                return fallback;
+            }
+            if(blockFromLoc.get().defaultFluidState().createLegacyBlock().isAir()) {
+                return fallback;
+            }
+            return fluidLocation;
+        } catch (ResourceLocationException ignored) {}
+        return fallback;
+    }
+
     public static ResourceLocation getLocationFromBlock(Block block) {
         return BuiltInRegistries.BLOCK.getKey(block);
     }
     public static Block getBlockFromLocation(ResourceLocation location) {
         return BuiltInRegistries.BLOCK.getValue(location);
+    }
+    public static ResourceLocation getLocationFromFluid(Fluid fluid) {
+        return BuiltInRegistries.FLUID.getKey(fluid);
     }
     public static Fluid getFluidFromLocation(ResourceLocation location) {
         return BuiltInRegistries.FLUID.getValue(location);
