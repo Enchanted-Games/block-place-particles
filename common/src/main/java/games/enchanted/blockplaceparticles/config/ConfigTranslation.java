@@ -41,6 +41,9 @@ public class ConfigTranslation {
     public static Component createPlaceholder(Component component, Object... args) {
         return Component.literal(component.getString().formatted(args));
     }
+    public static Component createPlaceholder(Component component, String placeholder) {
+        return Component.literal(component.getString().formatted(placeholder, placeholder, placeholder, placeholder, placeholder, placeholder, placeholder, placeholder));
+    }
 
     public static TranslationKey getConfigTitle() {
         return new TranslationKey(CONFIG_KEY_PREFIX + ".title");

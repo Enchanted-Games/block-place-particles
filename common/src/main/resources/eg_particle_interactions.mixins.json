@@ -20,6 +20,7 @@
     "entity.AbstractMinecartMixin",
     "items.BlockItem",
     "items.BucketItem",
+    "items.BrushItem",
     "items.FireChargeItem",
     "items.FlintAndSteelItem",
     "items.HoeItem",

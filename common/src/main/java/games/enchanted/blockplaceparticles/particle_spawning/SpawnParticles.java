@@ -394,6 +394,23 @@ public class SpawnParticles {
 //        }
     }
 
+    public static void spawnBrushingParticles(ClientLevel level, BlockParticleOverride override, BlockState blockState, Direction brushDirection, Vec3 particlePos, int armDirection, int amountOfParticles, double baseDeltaX, double baseDeltaY, double baseDeltaZ) {
+        final double outwardVelocity = 0.05;
+        for (int i = 0; i < amountOfParticles; i++) {
+            ParticleOptions particleOption = override.getParticleOptionForState(blockState, level, BlockPos.containing(particlePos));
+            if(particleOption == null) continue;
+            level.addParticle(
+                particleOption,
+                particlePos.x + (brushDirection.getStepX() * 0.01),
+                particlePos.y ,
+                particlePos.z + (brushDirection.getStepZ() * 0.01),
+                (baseDeltaX * (double)armDirection * level.getRandom().nextDouble() * override.getParticleVelocityMultiplier()) + (brushDirection.getStepX() * outwardVelocity),
+                (baseDeltaY + 1) * (double)armDirection * level.getRandom().nextDouble() * override.getParticleVelocityMultiplier() * brushDirection.getStepY(),
+                (baseDeltaZ * (double)armDirection * level.getRandom().nextDouble() * override.getParticleVelocityMultiplier()) + (brushDirection.getStepZ() * outwardVelocity)
+            );
+        }
+    }
+
     private static void spawnMostlyUpwardsMotionParticleOption(Level level, ParticleOptions particleOptions, double xPos, double yPos, double zPos, double velocityIntensity) {
         level.addParticle(
             particleOptions,

@@ -7,6 +7,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 public abstract class BlockParticleOverrides {
@@ -108,7 +109,12 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride GRASS_BLADE = new BlockParticleOverride(
         "grass_blade",
         "tinted_or_average",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos) -> new BlockParticleOption(ModParticleTypes.GRASS_BLADE, blockState),
+        (BlockState blockState, ClientLevel level, BlockPos blockPos) -> {
+            if(blockState.getBlock() == Blocks.GRASS_BLOCK) {
+                return level.random.nextFloat() > 0.8 ? new BlockParticleOption(ParticleTypes.BLOCK, Blocks.DIRT.defaultBlockState()) : new BlockParticleOption(ModParticleTypes.GRASS_BLADE, blockState);
+            }
+            return new BlockParticleOption(ModParticleTypes.GRASS_BLADE, blockState);
+        },
         () -> ConfigHandler.grassBlade_Blocks,
         (val) -> ConfigHandler.grassBlade_Blocks = val,
         ConfigHandler.grassBlade_Blocks_DEFAULT,
@@ -123,6 +129,24 @@ public abstract class BlockParticleOverrides {
         ConfigHandler.maxGrassBlade_onBreak_DEFAULT,
         0.13f
     );
+    public static final BlockParticleOverride HEAVY_GRASS_BLADE = new BlockParticleOverride(
+        "heavy_grass_blade",
+        "tinted_or_average",
+        (BlockState blockState, ClientLevel level, BlockPos blockPos) -> new BlockParticleOption(ModParticleTypes.HEAVY_GRASS_BLADE, blockState),
+        () -> ConfigHandler.heavyGrassBlade_Blocks,
+        (val) -> ConfigHandler.heavyGrassBlade_Blocks = val,
+        ConfigHandler.heavyGrassBlade_Blocks_DEFAULT,
+        () -> ConfigHandler.heavyGrassBlade_enabled,
+        (val) -> ConfigHandler.heavyGrassBlade_enabled = val,
+        ConfigHandler.heavyGrassBlade_enabled_DEFAULT,
+        () -> ConfigHandler.maxHeavyGrassBlade_onPlace,
+        (val) -> ConfigHandler.maxHeavyGrassBlade_onPlace = val,
+        ConfigHandler.maxHeavyGrassBlade_onPlace_DEFAULT,
+        () -> ConfigHandler.maxHeavyGrassBlade_onBreak,
+        (val) -> ConfigHandler.maxHeavyGrassBlade_onBreak = val,
+        ConfigHandler.maxHeavyGrassBlade_onBreak_DEFAULT,
+        0.13f
+    );
 
     public static void registerOverrides() {
         BlockParticleOverride.addBlockParticleOverride(SNOW_POWDER);
@@ -131,5 +155,6 @@ public abstract class BlockParticleOverrides {
         BlockParticleOverride.addBlockParticleOverride(FLOWERING_AZALEA_LEAF);
         BlockParticleOverride.addBlockParticleOverride(TINTED_LEAF);
         BlockParticleOverride.addBlockParticleOverride(GRASS_BLADE);
+        BlockParticleOverride.addBlockParticleOverride(HEAVY_GRASS_BLADE);
     }
 }

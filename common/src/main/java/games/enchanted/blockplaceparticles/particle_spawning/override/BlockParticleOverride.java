@@ -23,7 +23,7 @@ public class BlockParticleOverride {
     public static final BlockParticleOverride NONE = new BlockParticleOverride("none");
     public static final BlockParticleOverride BLOCK = new BlockParticleOverride(
         "vanilla_particle",
-        "generic_block_override",
+        "vanilla_block_override",
         (BlockState blockState, ClientLevel level, BlockPos blockPos) -> new BlockParticleOption(ParticleTypes.BLOCK, blockState),
         () -> null,
         (val) -> {},

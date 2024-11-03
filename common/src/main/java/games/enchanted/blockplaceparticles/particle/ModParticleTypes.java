@@ -36,6 +36,7 @@ public class ModParticleTypes {
     public static SimpleParticleType FALLING_AZALEA_LEAF;
     public static SimpleParticleType FALLING_FLOWERING_AZALEA_LEAF;
     public static ParticleType<BlockParticleOption> GRASS_BLADE;
+    public static ParticleType<BlockParticleOption> HEAVY_GRASS_BLADE;
 
     public static ParticleType<BlockParticleOption> WATER_BUCKET_TINTED_SPLASH;
     public static SimpleParticleType LAVA_BUCKET_SPLASH;
@@ -58,6 +59,7 @@ public class ModParticleTypes {
         FALLING_AZALEA_LEAF = register((SpriteParticleProviderRegistration) FallingPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_azalea_leaves"), false);
         FALLING_FLOWERING_AZALEA_LEAF = register((SpriteParticleProviderRegistration) FallingPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_flowering_azalea_leaves"), false);
         GRASS_BLADE = register((SpriteParticleProviderRegistration) FallingTintedOrAveragePetal.LargerSpriteProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "grass_blade"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        HEAVY_GRASS_BLADE = register((SpriteParticleProviderRegistration) FallingTintedOrAveragePetal.LargerSpriteMoreGravityProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "heavy_grass_blade"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
 
         WATER_BUCKET_TINTED_SPLASH = register((SpriteParticleProviderRegistration) BucketTintedSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "water_bucket_tinted_splash"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         LAVA_BUCKET_SPLASH = register((SpriteParticleProviderRegistration) LavaSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "lava_bucket_splash"), false);

@@ -150,13 +150,30 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean grassBlade_enabled = grassBlade_enabled_DEFAULT;
 
-    public static final int maxGrassBlade_onBreak_DEFAULT = 3;
+    public static final int maxGrassBlade_onBreak_DEFAULT = 4;
     @SerialEntry
     public static int maxGrassBlade_onBreak = maxGrassBlade_onBreak_DEFAULT;
 
-    public static final List<ResourceLocation> grassBlade_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.SHORT_GRASS), RegistryHelper.getLocationFromBlock(Blocks.TALL_GRASS), RegistryHelper.getLocationFromBlock(Blocks.SEAGRASS), RegistryHelper.getLocationFromBlock(Blocks.HAY_BLOCK), RegistryHelper.getLocationFromBlock(Blocks.HANGING_ROOTS), RegistryHelper.getLocationFromBlock(Blocks.GRASS_BLOCK));
+    public static final List<ResourceLocation> grassBlade_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.SHORT_GRASS), RegistryHelper.getLocationFromBlock(Blocks.TALL_GRASS), RegistryHelper.getLocationFromBlock(Blocks.SEAGRASS), RegistryHelper.getLocationFromBlock(Blocks.TALL_SEAGRASS), RegistryHelper.getLocationFromBlock(Blocks.HAY_BLOCK), RegistryHelper.getLocationFromBlock(Blocks.GRASS_BLOCK));
     @SerialEntry
     public static List<ResourceLocation> grassBlade_Blocks = grassBlade_Blocks_DEFAULT;
+
+    // heavy grass blade
+    public static final int maxHeavyGrassBlade_onPlace_DEFAULT = 2;
+    @SerialEntry
+    public static int maxHeavyGrassBlade_onPlace = maxHeavyGrassBlade_onPlace_DEFAULT;
+
+    public static final boolean heavyGrassBlade_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean heavyGrassBlade_enabled = heavyGrassBlade_enabled_DEFAULT;
+
+    public static final int maxHeavyGrassBlade_onBreak_DEFAULT = 4;
+    @SerialEntry
+    public static int maxHeavyGrassBlade_onBreak = maxHeavyGrassBlade_onBreak_DEFAULT;
+
+    public static final List<ResourceLocation> heavyGrassBlade_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.HANGING_ROOTS), RegistryHelper.getLocationFromBlock(Blocks.PALE_HANGING_MOSS), RegistryHelper.getLocationFromBlock(Blocks.MOSS_CARPET), RegistryHelper.getLocationFromBlock(Blocks.MOSS_BLOCK), RegistryHelper.getLocationFromBlock(Blocks.PALE_MOSS_CARPET), RegistryHelper.getLocationFromBlock(Blocks.PALE_MOSS_BLOCK));
+    @SerialEntry
+    public static List<ResourceLocation> heavyGrassBlade_Blocks = heavyGrassBlade_Blocks_DEFAULT;
 
     // default block particle
     public static final int maxBlock_onPlace_DEFAULT = 2;
