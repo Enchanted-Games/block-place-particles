@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.awt.*;
 import java.util.HashMap;
 
 public class ColourUtil {
@@ -29,6 +30,12 @@ public class ColourUtil {
         return ARGBint_to_ARGB(average);
     }
 
+    /**
+     * Calculates the average colour of the passed blockstate's particle texture.
+     *
+     * @param sprite a sprite to calculate the average colour of
+     * @return the average colour as an argb int
+     */
     private static int calculateAverageSpriteColour(TextureAtlasSprite sprite) {
         if (sprite == null) return -1;
         SpriteContents spriteContents = sprite.contents();
@@ -40,17 +47,30 @@ public class ColourUtil {
                 int[] argb = ARGBint_to_ARGB(color);
                 int pixelAlpha = argb[0];
                 if (pixelAlpha <= 10) continue;
-                total += pixelAlpha;
-                alpha += argb[0];
+                total++;
+                alpha += pixelAlpha;
                 red += argb[1];
                 green += argb[2];
                 blue += argb[3];
             }
         }
-        total /= 255;
-        return ARGB_to_ARGBint((int) (alpha / total), (int) (red / total), (int) (green / total), (int) (blue / total));
+
+        float[] hsb = Color.RGBtoHSB((int) (red / total), (int) (green / total), (int) (blue / total), null);
+        hsb[2] *= 1.05f;
+        int[] rgb = RGBint_to_RGB(
+            Color.HSBtoRGB(
+                Math.clamp(hsb[0], 0, 1),
+                Math.clamp(hsb[1], 0, 1),
+                Math.clamp(hsb[2], 0, 1)
+            )
+        );
+
+        return ARGB_to_ARGBint((int) (alpha / total), rgb[0], rgb[1], rgb[2]);
     }
 
+    /**
+     * Clears all calculated average colours
+     */
     public static void invalidateCaches() {
         ColourUtil.colourCache.clear();
     }
@@ -75,5 +95,15 @@ public class ColourUtil {
         int g = (argb >> 8) & 0xFF;
         int b = argb & 0xFF;
         return new int[]{a, r, g, b};
+    }
+
+    /**
+     * Converts an int in rgb decimal format to an array of r, g, b
+     */
+    public static int[] RGBint_to_RGB(int rgb) {
+        int r = (rgb >> 16) & 0xFF;
+        int g = (rgb >> 8) & 0xFF;
+        int b = rgb & 0xFF;
+        return new int[]{r, g, b};
     }
 }
