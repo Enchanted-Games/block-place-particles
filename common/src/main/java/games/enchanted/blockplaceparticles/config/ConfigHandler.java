@@ -154,7 +154,23 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxGrassBlade_onBreak = maxGrassBlade_onBreak_DEFAULT;
 
-    public static final List<ResourceLocation> grassBlade_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.SHORT_GRASS), RegistryHelper.getLocationFromBlock(Blocks.TALL_GRASS), RegistryHelper.getLocationFromBlock(Blocks.SEAGRASS), RegistryHelper.getLocationFromBlock(Blocks.TALL_SEAGRASS), RegistryHelper.getLocationFromBlock(Blocks.HAY_BLOCK), RegistryHelper.getLocationFromBlock(Blocks.GRASS_BLOCK));
+    public static final List<ResourceLocation> grassBlade_Blocks_DEFAULT = List.of(
+        RegistryHelper.getLocationFromBlock(Blocks.ATTACHED_PUMPKIN_STEM),
+        RegistryHelper.getLocationFromBlock(Blocks.PUMPKIN_STEM),
+        RegistryHelper.getLocationFromBlock(Blocks.ATTACHED_MELON_STEM),
+        RegistryHelper.getLocationFromBlock(Blocks.MELON_STEM),
+        RegistryHelper.getLocationFromBlock(Blocks.SWEET_BERRY_BUSH),
+        RegistryHelper.getLocationFromBlock(Blocks.BEETROOTS),
+        RegistryHelper.getLocationFromBlock(Blocks.CARROTS),
+        RegistryHelper.getLocationFromBlock(Blocks.POTATOES),
+        RegistryHelper.getLocationFromBlock(Blocks.WHEAT),
+        RegistryHelper.getLocationFromBlock(Blocks.SHORT_GRASS),
+        RegistryHelper.getLocationFromBlock(Blocks.TALL_GRASS),
+        RegistryHelper.getLocationFromBlock(Blocks.SEAGRASS),
+        RegistryHelper.getLocationFromBlock(Blocks.TALL_SEAGRASS),
+        RegistryHelper.getLocationFromBlock(Blocks.HAY_BLOCK),
+        RegistryHelper.getLocationFromBlock(Blocks.GRASS_BLOCK)
+    );
     @SerialEntry
     public static List<ResourceLocation> grassBlade_Blocks = grassBlade_Blocks_DEFAULT;
 
@@ -171,7 +187,16 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxHeavyGrassBlade_onBreak = maxHeavyGrassBlade_onBreak_DEFAULT;
 
-    public static final List<ResourceLocation> heavyGrassBlade_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.HANGING_ROOTS), RegistryHelper.getLocationFromBlock(Blocks.PALE_HANGING_MOSS), RegistryHelper.getLocationFromBlock(Blocks.MOSS_CARPET), RegistryHelper.getLocationFromBlock(Blocks.MOSS_BLOCK), RegistryHelper.getLocationFromBlock(Blocks.PALE_MOSS_CARPET), RegistryHelper.getLocationFromBlock(Blocks.PALE_MOSS_BLOCK), RegistryHelper.getLocationFromBlock(Blocks.COBWEB), RegistryHelper.getLocationFromBlock(Blocks.TRIPWIRE));
+    public static final List<ResourceLocation> heavyGrassBlade_Blocks_DEFAULT = List.of(
+        RegistryHelper.getLocationFromBlock(Blocks.HANGING_ROOTS),
+        RegistryHelper.getLocationFromBlock(Blocks.PALE_HANGING_MOSS),
+        RegistryHelper.getLocationFromBlock(Blocks.MOSS_CARPET),
+        RegistryHelper.getLocationFromBlock(Blocks.MOSS_BLOCK),
+        RegistryHelper.getLocationFromBlock(Blocks.PALE_MOSS_CARPET),
+        RegistryHelper.getLocationFromBlock(Blocks.PALE_MOSS_BLOCK),
+        RegistryHelper.getLocationFromBlock(Blocks.COBWEB),
+        RegistryHelper.getLocationFromBlock(Blocks.TRIPWIRE)
+    );
     @SerialEntry
     public static List<ResourceLocation> heavyGrassBlade_Blocks = heavyGrassBlade_Blocks_DEFAULT;
 

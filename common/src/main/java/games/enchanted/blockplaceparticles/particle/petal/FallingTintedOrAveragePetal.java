@@ -26,9 +26,9 @@ public class FallingTintedOrAveragePetal extends FallingPetal {
             this.alpha = (float)averageBlockColour[0] / 255f;
         } else {
             // use block biome tint colour
-            this.rCol = (float)(tintColour >> 16 & 255) / 255f;
-            this.gCol = (float)(tintColour >> 8 & 255) / 255f;
-            this.bCol = (float)(tintColour & 255) / 255f;
+            this.rCol = ((tintColour >> 16 & 255) / 255f) * 0.75f;
+            this.gCol = ((tintColour >> 8 & 255) / 255f) * 0.75f;
+            this.bCol = ((tintColour & 255) / 255f) * 0.75f;
         }
         this.gravity *= gravityMultiplier;
     }
