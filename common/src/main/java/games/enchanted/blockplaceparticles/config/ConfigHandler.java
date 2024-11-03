@@ -171,7 +171,7 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxHeavyGrassBlade_onBreak = maxHeavyGrassBlade_onBreak_DEFAULT;
 
-    public static final List<ResourceLocation> heavyGrassBlade_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.HANGING_ROOTS), RegistryHelper.getLocationFromBlock(Blocks.PALE_HANGING_MOSS), RegistryHelper.getLocationFromBlock(Blocks.MOSS_CARPET), RegistryHelper.getLocationFromBlock(Blocks.MOSS_BLOCK), RegistryHelper.getLocationFromBlock(Blocks.PALE_MOSS_CARPET), RegistryHelper.getLocationFromBlock(Blocks.PALE_MOSS_BLOCK));
+    public static final List<ResourceLocation> heavyGrassBlade_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.HANGING_ROOTS), RegistryHelper.getLocationFromBlock(Blocks.PALE_HANGING_MOSS), RegistryHelper.getLocationFromBlock(Blocks.MOSS_CARPET), RegistryHelper.getLocationFromBlock(Blocks.MOSS_BLOCK), RegistryHelper.getLocationFromBlock(Blocks.PALE_MOSS_CARPET), RegistryHelper.getLocationFromBlock(Blocks.PALE_MOSS_BLOCK), RegistryHelper.getLocationFromBlock(Blocks.COBWEB), RegistryHelper.getLocationFromBlock(Blocks.TRIPWIRE));
     @SerialEntry
     public static List<ResourceLocation> heavyGrassBlade_Blocks = heavyGrassBlade_Blocks_DEFAULT;
 
