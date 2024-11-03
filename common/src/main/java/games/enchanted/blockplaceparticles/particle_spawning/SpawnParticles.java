@@ -74,7 +74,7 @@ public class SpawnParticles {
                     double particleYOffset = (biggestEdge == Direction.Axis.Y ? particlePos : height) + y1 + verticalAxisOffset;
                     double particleZOffset = (biggestEdge == Direction.Axis.Z ? particlePos : depth) + z1;
 
-                    ParticleOptions particleToSpawn = particleOverride.getParticleOptionForState(placedBlockState, level, blockPos);
+                    ParticleOptions particleToSpawn = particleOverride.getParticleOptionForState(placedBlockState, level, blockPos, BlockParticleOverride.ORIGIN_BLOCK_PLACED);
                     if (particleToSpawn == null) {
                         continue;
                     }
@@ -125,7 +125,7 @@ public class SpawnParticles {
                             double particleYOffset = (((double) i_H + 0.5) / (double) amountAlongHeight);
                             double particleZOffset = (((double) i_D + 0.5) / (double) amountAlongDepth);
 
-                            ParticleOptions particleToSpawn = particleOverride.getParticleOptionForState(brokenBlockState, level, brokenBlockPos);
+                            ParticleOptions particleToSpawn = particleOverride.getParticleOptionForState(brokenBlockState, level, brokenBlockPos, BlockParticleOverride.ORIGIN_BLOCK_BROKEN);
                             if (particleToSpawn == null) {
                                 continue;
                             }
@@ -397,7 +397,7 @@ public class SpawnParticles {
     public static void spawnBrushingParticles(ClientLevel level, BlockParticleOverride override, BlockState blockState, Direction brushDirection, Vec3 particlePos, int armDirection, int amountOfParticles, double baseDeltaX, double baseDeltaY, double baseDeltaZ) {
         final double outwardVelocity = 0.05;
         for (int i = 0; i < amountOfParticles; i++) {
-            ParticleOptions particleOption = override.getParticleOptionForState(blockState, level, BlockPos.containing(particlePos));
+            ParticleOptions particleOption = override.getParticleOptionForState(blockState, level, BlockPos.containing(particlePos), BlockParticleOverride.ORIGIN_BLOCK_BRUSH);
             if(particleOption == null) continue;
             level.addParticle(
                 particleOption,

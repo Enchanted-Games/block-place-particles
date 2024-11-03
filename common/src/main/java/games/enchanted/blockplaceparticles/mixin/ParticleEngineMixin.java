@@ -77,7 +77,7 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
                 return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);
             }
 
-            ParticleOptions newParticleOption = particleOverride.getParticleOptionForState(originalParticleBlockState, level, BlockPos.containing(x, y, z));
+            ParticleOptions newParticleOption = particleOverride.getParticleOptionForState(originalParticleBlockState, level, BlockPos.containing(x, y, z), BlockParticleOverride.ORIGIN_ITEM_PARTICLE_OVERRIDDEN);
             return (original).call(
                 instance,
                 newParticleOption,
@@ -110,7 +110,7 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
             return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);
         }
 
-        ParticleOptions newParticleOption = particleOverride.getParticleOptionForState(originalParticleBlockState, level, BlockPos.containing(x, y, z));
+        ParticleOptions newParticleOption = particleOverride.getParticleOptionForState(originalParticleBlockState, level, BlockPos.containing(x, y, z), BlockParticleOverride.ORIGIN_BLOCK_PARTICLE_OVERRIDDEN);
         boolean isDustPillarParticle = originalParticleOption.getType() == ParticleTypes.DUST_PILLAR;
         double newYSpeed = (ySpeed * particleOverride.getParticleVelocityMultiplier() * 0.5) + (ySpeed < 0.02 ? 0.08 : 0.);
         return (original).call(
@@ -137,7 +137,7 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
         BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockstate);
         if(override == BlockParticleOverride.BLOCK) return;
         if(override != BlockParticleOverride.NONE) {
-            ParticleOptions newParticleOption = override.getParticleOptionForState(blockstate, level, blockPos);
+            ParticleOptions newParticleOption = override.getParticleOptionForState(blockstate, level, blockPos, BlockParticleOverride.ORIGIN_BLOCK_CRACK);
             if (newParticleOption == null) return;
             this.level.addParticle(
                 newParticleOption,

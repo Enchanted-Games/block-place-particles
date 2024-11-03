@@ -20,11 +20,18 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class BlockParticleOverride {
+    public static final int ORIGIN_BLOCK_PLACED = 1;
+    public static final int ORIGIN_BLOCK_BROKEN = 2;
+    public static final int ORIGIN_BLOCK_PARTICLE_OVERRIDDEN = 3;
+    public static final int ORIGIN_ITEM_PARTICLE_OVERRIDDEN = 4;
+    public static final int ORIGIN_BLOCK_BRUSH = 5;
+    public static final int ORIGIN_BLOCK_CRACK = 6;
+
     public static final BlockParticleOverride NONE = new BlockParticleOverride("none");
     public static final BlockParticleOverride BLOCK = new BlockParticleOverride(
         "vanilla_particle",
         "vanilla_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos) -> new BlockParticleOption(ParticleTypes.BLOCK, blockState),
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ParticleTypes.BLOCK, blockState),
         () -> null,
         (val) -> {},
         List.of(),
@@ -95,14 +102,10 @@ public class BlockParticleOverride {
         this.particleVelocityMultiplier = particleVelocityMultiplier;
     }
 
-    public interface GetParticleOptionConsumer {
-        ParticleOptions consume(BlockState blockState, ClientLevel level, BlockPos blockPos);
-    }
-
     private BlockParticleOverride(String overrideName) {
         this.name = overrideName;
         this.groupName = overrideName;
-        this.getParticleOption = (BlockState state, ClientLevel level, BlockPos pos) -> null;
+        this.getParticleOption = (BlockState state, ClientLevel level, BlockPos pos, int overrideOrigin) -> null;
         this.supportedBlockResourceLocations_getter = null;
         this.overrideEnabled_getter = null;
         this.maxParticlesOnPlace_getter = null;
@@ -118,11 +121,15 @@ public class BlockParticleOverride {
         this.particleVelocityMultiplier = 1;
     }
 
+    public interface GetParticleOptionConsumer {
+        ParticleOptions consume(BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin);
+    }
+
     /**
      * @param blockState the {@link BlockState} to use when creating the particle options
      */
-    public @Nullable ParticleOptions getParticleOptionForState(BlockState blockState, ClientLevel level, BlockPos blockPos) {
-        return getParticleOption.consume(blockState, level, blockPos);
+    public @Nullable ParticleOptions getParticleOptionForState(BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) {
+        return getParticleOption.consume(blockState, level, blockPos, overrideOrigin);
     }
 
     @Override

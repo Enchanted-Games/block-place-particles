@@ -1,5 +1,6 @@
 package games.enchanted.blockplaceparticles.particle_spawning.override;
 
+import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.util.BiomeTemperatureHelpers;
@@ -14,11 +15,11 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride SNOW_POWDER = new BlockParticleOverride(
         "snowflake",
         "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos) -> {
-        if(BiomeTemperatureHelpers.isWarmBiomeOrDimension(level, blockPos)) {
-        return level.random.nextInt(5) == 0 ? ParticleTypes.POOF : ParticleTypes.SNOWFLAKE;
-        }
-        return ParticleTypes.SNOWFLAKE;
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
+            if(BiomeTemperatureHelpers.isWarmBiomeOrDimension(level, blockPos)) {
+                return level.random.nextInt(5) == 0 ? ParticleTypes.POOF : ParticleTypes.SNOWFLAKE;
+            }
+            return ParticleTypes.SNOWFLAKE;
         },
         () -> ConfigHandler.snowflake_Blocks,
         (val) -> ConfigHandler.snowflake_Blocks = val,
@@ -37,7 +38,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride CHERRY_LEAF = new BlockParticleOverride(
         "cherry_petal",
         "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos) -> ModParticleTypes.FALLING_CHERRY_PETAL,
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> ModParticleTypes.FALLING_CHERRY_PETAL,
         () -> ConfigHandler.cherryPetal_Blocks,
         (val) -> ConfigHandler.cherryPetal_Blocks = val,
         ConfigHandler.cherryPetal_Blocks_DEFAULT,
@@ -55,7 +56,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride AZALEA_LEAF = new BlockParticleOverride(
         "azalea_leaf",
         "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos) -> ModParticleTypes.FALLING_AZALEA_LEAF,
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> ModParticleTypes.FALLING_AZALEA_LEAF,
         () -> ConfigHandler.azaleaLeaf_Blocks,
         (val) -> ConfigHandler.azaleaLeaf_Blocks = val,
         ConfigHandler.azaleaLeaf_Blocks_DEFAULT,
@@ -73,7 +74,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride FLOWERING_AZALEA_LEAF = new BlockParticleOverride(
         "flowering_azalea_leaf",
         "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos) -> ModParticleTypes.FALLING_FLOWERING_AZALEA_LEAF,
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> ModParticleTypes.FALLING_FLOWERING_AZALEA_LEAF,
         () -> ConfigHandler.floweringAzaleaLeaf_Blocks,
         (val) -> ConfigHandler.floweringAzaleaLeaf_Blocks = val,
         ConfigHandler.floweringAzaleaLeaf_Blocks_DEFAULT,
@@ -91,7 +92,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride TINTED_LEAF = new BlockParticleOverride(
         "biome_leaf",
         "tinted_or_average",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos) -> new BlockParticleOption(ModParticleTypes.FALLING_TINTED_LEAF, blockState),
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ModParticleTypes.FALLING_TINTED_LEAF, blockState),
         () -> ConfigHandler.tintedLeaves_Blocks,
         (val) -> ConfigHandler.tintedLeaves_Blocks = val,
         ConfigHandler.tintedLeaves_Blocks_DEFAULT,
@@ -109,9 +110,15 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride GRASS_BLADE = new BlockParticleOverride(
         "grass_blade",
         "tinted_or_average",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos) -> {
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
             if(blockState.getBlock() == Blocks.GRASS_BLOCK) {
-                return level.random.nextFloat() > 0.8 ? new BlockParticleOption(ParticleTypes.BLOCK, Blocks.DIRT.defaultBlockState()) : new BlockParticleOption(ModParticleTypes.GRASS_BLADE, blockState);
+                if(overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_PLACED || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_BROKEN) {
+                    // occasionally spawn dirt particles if a grass block is placed or broken
+                    return level.random.nextFloat() > 0.3 ? new BlockParticleOption(ParticleTypes.BLOCK, Blocks.DIRT.defaultBlockState()) : new BlockParticleOption(ModParticleTypes.GRASS_BLADE, blockState);
+                } else if (overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_CRACK) {
+                    // occasionally spawn dirt particles if a grass block is being cracked
+                    return level.random.nextFloat() > 0.3 ? new BlockParticleOption(ParticleTypes.BLOCK_CRUMBLE, Blocks.DIRT.defaultBlockState()) : new BlockParticleOption(ModParticleTypes.GRASS_BLADE, blockState);
+                }
             }
             return new BlockParticleOption(ModParticleTypes.GRASS_BLADE, blockState);
         },
@@ -132,7 +139,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride HEAVY_GRASS_BLADE = new BlockParticleOverride(
         "heavy_grass_blade",
         "tinted_or_average",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos) -> new BlockParticleOption(ModParticleTypes.HEAVY_GRASS_BLADE, blockState),
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ModParticleTypes.HEAVY_GRASS_BLADE, blockState),
         () -> ConfigHandler.heavyGrassBlade_Blocks,
         (val) -> ConfigHandler.heavyGrassBlade_Blocks = val,
         ConfigHandler.heavyGrassBlade_Blocks_DEFAULT,
