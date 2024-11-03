@@ -2,31 +2,31 @@
   "eg_particle_interactions.config.title": "Particle Interactions Config",
   "eg_particle_interactions.config.category_separator": "---------------------",
 
-  "eg_particle_interactions.config.particle_type.underwater_block_bubbles": "Underwater Bubble",
   "eg_particle_interactions.config.particle_type.snowflake": "Snowflake",
   "eg_particle_interactions.config.particle_type.cherry_petal": "Cherry Petal",
   "eg_particle_interactions.config.particle_type.azalea_leaf": "Azalea Leaf",
   "eg_particle_interactions.config.particle_type.flowering_azalea_leaf": "Flowering Azalea Leaf",
   "eg_particle_interactions.config.particle_type.biome_leaf": "Tinted Leaf",
   "eg_particle_interactions.config.particle_type.grass_blade": "Grass Blade",
-
+  "eg_particle_interactions.config.particle_type.heavy_grass_blade": "Heavy Grass Blade",
   "eg_particle_interactions.config.particle_type.vanilla_particle": "Vanilla Block Breaking",
-  "eg_particle_interactions.config.particle_type.tinted_splash": "Tinted Splash",
-  "eg_particle_interactions.config.particle_type.lava_splash": "Lava Splash",
-  "eg_particle_interactions.config.particle_type.generic_splash": "Generic Splash",
+
+  "eg_particle_interactions.config.particle_type.underwater_block_bubbles": "Underwater Bubble",
+  "eg_particle_interactions.config.particle_type.campfire_sparks": "Campfire Spark",
+  "eg_particle_interactions.config.particle_type.fire_sparks": "Fire Spark",
+  "eg_particle_interactions.config.particle_type.anvil_craft_sparks": "Anvil Crafting Sparks",
+  "eg_particle_interactions.config.particle_type.grindstone_craft_sparks": "Grindstone Crafting Sparks",
 
   "eg_particle_interactions.config.particle_type.flint_and_steel_sparks": "Flint & Steel Spark",
   "eg_particle_interactions.config.particle_type.fire_charge_smoke": "Fire Charge Smoke",
   "eg_particle_interactions.config.particle_type.axe_strip_particles": "Axe Strip",
   "eg_particle_interactions.config.particle_type.hoe_till_particles": "Hoe Till",
   "eg_particle_interactions.config.particle_type.shovel_flatten_particles": "Shovel Flatten",
-
-  "eg_particle_interactions.config.particle_type.campfire_sparks": "Campfire Spark",
-  "eg_particle_interactions.config.particle_type.fire_sparks": "Fire Spark",
-  "eg_particle_interactions.config.particle_type.anvil_craft_sparks": "Anvil Crafting Sparks",
-  "eg_particle_interactions.config.particle_type.grindstone_craft_sparks": "Grindstone Crafting Sparks",
-
   "eg_particle_interactions.config.particle_type.minecart_sparks": "Minecart Wheel Spark",
+
+  "eg_particle_interactions.config.particle_type.tinted_splash": "Tinted Splash",
+  "eg_particle_interactions.config.particle_type.lava_splash": "Lava Splash",
+  "eg_particle_interactions.config.particle_type.generic_splash": "Generic Splash",
 
 
   "eg_particle_interactions.config.global_option.spawn_block_particle_on_place": "Spawn when block placed",
@@ -79,6 +79,9 @@
   "eg_particle_interactions.config.blocks.generic_block_override.desc": "When should %s particles be emitted?",
   "eg_particle_interactions.config.blocks.generic_block_override_blocks": "%s Blocks",
   "eg_particle_interactions.config.blocks.generic_block_override_blocks.desc": "Blocks that should spawn %s particles when placed or broken",
+
+  "eg_particle_interactions.config.blocks.vanilla_block_override": "%s Particle Options",
+  "eg_particle_interactions.config.blocks.vanilla_block_override.desc": "When should %s particles be emitted?\n\nThe %s particles will be applied to all blocks that aren't specified in any other override. If this override is disabled, the %s particles will be fully disabled",
 
   "eg_particle_interactions.config.blocks.tinted_or_average": "%s Particle Options",
   "eg_particle_interactions.config.blocks.tinted_or_average.desc": "When should %s particles be emitted?\n\nThese particles are tinted with the biome colour or the average texture colour if the block doesn't have a biome tint",
