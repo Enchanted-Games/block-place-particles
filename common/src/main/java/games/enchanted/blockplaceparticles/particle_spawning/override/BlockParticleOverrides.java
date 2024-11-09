@@ -190,6 +190,24 @@ public abstract class BlockParticleOverrides {
         ConfigHandler.maxPaleMossClump_onBreak_DEFAULT,
         0.13f
     );
+    public static final BlockParticleOverride DUST = new BlockParticleOverride(
+        "dust",
+        "tinted_or_average",
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ModParticleTypes.DUST, blockState),
+        () -> ConfigHandler.dust_Blocks,
+        (val) -> ConfigHandler.dust_Blocks = val,
+        ConfigHandler.dust_Blocks_DEFAULT,
+        () -> ConfigHandler.dust_enabled,
+        (val) -> ConfigHandler.dust_enabled = val,
+        ConfigHandler.dust_enabled_DEFAULT,
+        () -> ConfigHandler.maxDust_onPlace,
+        (val) -> ConfigHandler.maxDust_onPlace = val,
+        ConfigHandler.maxDust_onPlace_DEFAULT,
+        () -> ConfigHandler.maxDust_onBreak,
+        (val) -> ConfigHandler.maxDust_onBreak = val,
+        ConfigHandler.maxDust_onBreak_DEFAULT,
+        0.1f
+    );
 
     public static void registerOverrides() {
         BlockParticleOverride.addBlockParticleOverride(SNOW_POWDER);
@@ -201,5 +219,6 @@ public abstract class BlockParticleOverrides {
         BlockParticleOverride.addBlockParticleOverride(HEAVY_GRASS_BLADE);
         BlockParticleOverride.addBlockParticleOverride(MOSS_CLUMP);
         BlockParticleOverride.addBlockParticleOverride(PALE_MOSS_CLUMP);
+        BlockParticleOverride.addBlockParticleOverride(DUST);
     }
 }

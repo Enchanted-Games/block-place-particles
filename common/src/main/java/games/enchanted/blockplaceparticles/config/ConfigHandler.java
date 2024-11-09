@@ -236,6 +236,25 @@ public class ConfigHandler {
     @SerialEntry
     public static List<ResourceLocation> paleMossClump_Blocks = mossClump_Blocks_DEFAULT;
 
+    // dust
+    public static final int maxDust_onPlace_DEFAULT = 2;
+    @SerialEntry
+    public static int maxDust_onPlace = maxDust_onPlace_DEFAULT;
+
+    public static final boolean dust_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean dust_enabled = dust_enabled_DEFAULT;
+
+    public static final int maxDust_onBreak_DEFAULT = 3;
+    @SerialEntry
+    public static int maxDust_onBreak = maxDust_onBreak_DEFAULT;
+
+    public static final List<ResourceLocation> dust_Blocks_DEFAULT = List.of(
+        RegistryHelper.getLocationFromBlock(Blocks.SAND)
+    );
+    @SerialEntry
+    public static List<ResourceLocation> dust_Blocks = dust_Blocks_DEFAULT;
+
     // default block particle
     public static final int maxBlock_onPlace_DEFAULT = 2;
     @SerialEntry
