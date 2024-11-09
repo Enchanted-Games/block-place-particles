@@ -190,15 +190,51 @@ public class ConfigHandler {
     public static final List<ResourceLocation> heavyGrassBlade_Blocks_DEFAULT = List.of(
         RegistryHelper.getLocationFromBlock(Blocks.HANGING_ROOTS),
         RegistryHelper.getLocationFromBlock(Blocks.PALE_HANGING_MOSS),
-        RegistryHelper.getLocationFromBlock(Blocks.MOSS_CARPET),
-        RegistryHelper.getLocationFromBlock(Blocks.MOSS_BLOCK),
-        RegistryHelper.getLocationFromBlock(Blocks.PALE_MOSS_CARPET),
-        RegistryHelper.getLocationFromBlock(Blocks.PALE_MOSS_BLOCK),
         RegistryHelper.getLocationFromBlock(Blocks.COBWEB),
         RegistryHelper.getLocationFromBlock(Blocks.TRIPWIRE)
     );
     @SerialEntry
     public static List<ResourceLocation> heavyGrassBlade_Blocks = heavyGrassBlade_Blocks_DEFAULT;
+
+    // moss clump
+    public static final int maxMossClump_onPlace_DEFAULT = 2;
+    @SerialEntry
+    public static int maxMossClump_onPlace = maxMossClump_onPlace_DEFAULT;
+
+    public static final boolean mossClump_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean mossClump_enabled = mossClump_enabled_DEFAULT;
+
+    public static final int maxMossClump_onBreak_DEFAULT = 3;
+    @SerialEntry
+    public static int maxMossClump_onBreak = maxMossClump_onBreak_DEFAULT;
+
+    public static final List<ResourceLocation> mossClump_Blocks_DEFAULT = List.of(
+        RegistryHelper.getLocationFromBlock(Blocks.MOSS_CARPET),
+        RegistryHelper.getLocationFromBlock(Blocks.MOSS_BLOCK)
+    );
+    @SerialEntry
+    public static List<ResourceLocation> mossClump_Blocks = mossClump_Blocks_DEFAULT;
+
+    // pale moss clump
+    public static final int maxPaleMossClump_onPlace_DEFAULT = 2;
+    @SerialEntry
+    public static int maxPaleMossClump_onPlace = maxPaleMossClump_onPlace_DEFAULT;
+
+    public static final boolean paleMossClump_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean paleMossClump_enabled = paleMossClump_enabled_DEFAULT;
+
+    public static final int maxPaleMossClump_onBreak_DEFAULT = 3;
+    @SerialEntry
+    public static int maxPaleMossClump_onBreak = maxPaleMossClump_onBreak_DEFAULT;
+
+    public static final List<ResourceLocation> paleMossClump_Blocks_DEFAULT = List.of(
+        RegistryHelper.getLocationFromBlock(Blocks.PALE_MOSS_CARPET),
+        RegistryHelper.getLocationFromBlock(Blocks.PALE_MOSS_BLOCK)
+    );
+    @SerialEntry
+    public static List<ResourceLocation> paleMossClump_Blocks = mossClump_Blocks_DEFAULT;
 
     // default block particle
     public static final int maxBlock_onPlace_DEFAULT = 2;

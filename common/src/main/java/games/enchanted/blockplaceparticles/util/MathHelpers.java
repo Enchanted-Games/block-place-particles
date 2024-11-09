@@ -95,4 +95,11 @@ public class MathHelpers {
         }
         return value;
     }
+
+    /**
+     * Returns a random float between a bound
+     */
+    public static float randomBetween(float min, float max) {
+        return (float) (Math.random() * (max - min)) + min;
+    }
 }

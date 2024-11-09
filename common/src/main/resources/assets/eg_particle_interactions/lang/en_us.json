@@ -9,6 +9,8 @@
   "eg_particle_interactions.config.particle_type.biome_leaf": "Tinted Leaf",
   "eg_particle_interactions.config.particle_type.grass_blade": "Grass Blade",
   "eg_particle_interactions.config.particle_type.heavy_grass_blade": "Heavy Grass Blade",
+  "eg_particle_interactions.config.particle_type.moss_clump": "Moss Clump",
+  "eg_particle_interactions.config.particle_type.pale_moss_clump": "Pale Moss Clump",
   "eg_particle_interactions.config.particle_type.vanilla_particle": "Vanilla Block Breaking",
 
   "eg_particle_interactions.config.particle_type.underwater_block_bubbles": "Underwater Bubble",

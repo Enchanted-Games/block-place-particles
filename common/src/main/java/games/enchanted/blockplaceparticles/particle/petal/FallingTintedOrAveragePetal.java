@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class FallingTintedOrAveragePetal extends FallingPetal {
     protected FallingTintedOrAveragePetal(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState, SpriteSet spriteSet, float gravityMultiplier) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
+        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier);
         int tintColour = Minecraft.getInstance().getBlockColors().getColor(blockState, level, blockPos, 0);
         if(tintColour == 0xffffff || tintColour == -1) {
             // use average texture colour
@@ -30,7 +30,6 @@ public class FallingTintedOrAveragePetal extends FallingPetal {
             this.gCol = ((tintColour >> 8 & 255) / 255f) * 0.75f;
             this.bCol = ((tintColour & 255) / 255f) * 0.75f;
         }
-        this.gravity *= gravityMultiplier;
     }
 
     @Override

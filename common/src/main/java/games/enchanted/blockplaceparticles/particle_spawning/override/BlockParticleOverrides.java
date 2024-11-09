@@ -112,7 +112,7 @@ public abstract class BlockParticleOverrides {
         "tinted_or_average",
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
             if(blockState.getBlock() == Blocks.GRASS_BLOCK) {
-                if(overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_PLACED || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_BROKEN) {
+                if(overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_PLACED || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_BROKEN || overrideOrigin == BlockParticleOverride.ORIGIN_ITEM_PARTICLE_OVERRIDDEN) {
                     // occasionally spawn dirt particles if a grass block is placed or broken
                     return level.random.nextFloat() > 0.3 ? new BlockParticleOption(ParticleTypes.BLOCK, Blocks.DIRT.defaultBlockState()) : new BlockParticleOption(ModParticleTypes.GRASS_BLADE, blockState);
                 } else if (overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_CRACK) {
@@ -154,6 +154,42 @@ public abstract class BlockParticleOverrides {
         ConfigHandler.maxHeavyGrassBlade_onBreak_DEFAULT,
         0.13f
     );
+    public static final BlockParticleOverride MOSS_CLUMP = new BlockParticleOverride(
+        "moss_clump",
+        "generic_block_override",
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> ModParticleTypes.MOSS_CLUMP,
+        () -> ConfigHandler.mossClump_Blocks,
+        (val) -> ConfigHandler.mossClump_Blocks = val,
+        ConfigHandler.mossClump_Blocks_DEFAULT,
+        () -> ConfigHandler.mossClump_enabled,
+        (val) -> ConfigHandler.mossClump_enabled = val,
+        ConfigHandler.mossClump_enabled_DEFAULT,
+        () -> ConfigHandler.maxMossClump_onPlace,
+        (val) -> ConfigHandler.maxMossClump_onPlace = val,
+        ConfigHandler.maxMossClump_onPlace_DEFAULT,
+        () -> ConfigHandler.maxMossClump_onBreak,
+        (val) -> ConfigHandler.maxMossClump_onBreak = val,
+        ConfigHandler.maxMossClump_onBreak_DEFAULT,
+        0.13f
+    );
+    public static final BlockParticleOverride PALE_MOSS_CLUMP = new BlockParticleOverride(
+        "pale_moss_clump",
+        "generic_block_override",
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> ModParticleTypes.PALE_MOSS_CLUMP,
+        () -> ConfigHandler.paleMossClump_Blocks,
+        (val) -> ConfigHandler.paleMossClump_Blocks = val,
+        ConfigHandler.paleMossClump_Blocks_DEFAULT,
+        () -> ConfigHandler.paleMossClump_enabled,
+        (val) -> ConfigHandler.paleMossClump_enabled = val,
+        ConfigHandler.paleMossClump_enabled_DEFAULT,
+        () -> ConfigHandler.maxPaleMossClump_onPlace,
+        (val) -> ConfigHandler.maxPaleMossClump_onPlace = val,
+        ConfigHandler.maxPaleMossClump_onPlace_DEFAULT,
+        () -> ConfigHandler.maxPaleMossClump_onBreak,
+        (val) -> ConfigHandler.maxPaleMossClump_onBreak = val,
+        ConfigHandler.maxPaleMossClump_onBreak_DEFAULT,
+        0.13f
+    );
 
     public static void registerOverrides() {
         BlockParticleOverride.addBlockParticleOverride(SNOW_POWDER);
@@ -163,5 +199,7 @@ public abstract class BlockParticleOverrides {
         BlockParticleOverride.addBlockParticleOverride(TINTED_LEAF);
         BlockParticleOverride.addBlockParticleOverride(GRASS_BLADE);
         BlockParticleOverride.addBlockParticleOverride(HEAVY_GRASS_BLADE);
+        BlockParticleOverride.addBlockParticleOverride(MOSS_CLUMP);
+        BlockParticleOverride.addBlockParticleOverride(PALE_MOSS_CLUMP);
     }
 }
