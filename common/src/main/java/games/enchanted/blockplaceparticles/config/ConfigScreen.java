@@ -11,7 +11,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 
 import java.util.List;
@@ -119,9 +118,9 @@ public class ConfigScreen {
                 "anvil_craft_sparks",
                 "anvil_craft_sparks",
                 ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
-                Binding.generic(ConfigHandler.anvilUseSparks_enabled_DEFAULT, () -> ConfigHandler.anvilUseSparks_enabled_0_3, newVal -> ConfigHandler.anvilUseSparks_enabled_0_3 = newVal),
+                Binding.generic(ConfigHandler.anvilUseSparks_enabled_DEFAULT, () -> ConfigHandler.anvilUseSparks_enabled, newVal -> ConfigHandler.anvilUseSparks_enabled = newVal),
                 ConfigTranslation.ARE_PARTICLES_ENABLED,
-                integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_CRAFT, "anvil_craft_sparks", ConfigHandler.maxAnvilUseSparks_onUse_DEFAULT, () -> ConfigHandler.maxAnvilUseSparks_onUse_0_3, newVal -> ConfigHandler.maxAnvilUseSparks_onUse_0_3 = newVal, 1, 20, 1)
+                integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_CRAFT, "anvil_craft_sparks", ConfigHandler.maxAnvilUseSparks_onUse_DEFAULT, () -> ConfigHandler.maxAnvilUseSparks_onUse, newVal -> ConfigHandler.maxAnvilUseSparks_onUse = newVal, 1, 32, 1)
             ))
 
             // grindstone use spark

@@ -6,7 +6,6 @@ import games.enchanted.blockplaceparticles.platform.services.PlatformHelperInter
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.world.entity.vehicle.MinecartBehavior;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.fml.loading.FMLPaths;
@@ -35,7 +34,7 @@ public class NeoForgePlatformHelper implements PlatformHelperInterface {
     }
 
     @Override
-    public <T extends ParticleOptions> void registerParticleProvider(ParticleType<T> particleType, ModParticleTypes.SpriteParticleProviderRegistration<T> particleProvider) {
+    public <T extends ParticleOptions> void registerParticleProvider(ParticleType<T> particleType, ModParticleTypes.SpriteProviderReg<T> particleProvider) {
         RegParticleProvidersNeoForge.registerProviderWhenReady(particleType, particleProvider);
     }
 

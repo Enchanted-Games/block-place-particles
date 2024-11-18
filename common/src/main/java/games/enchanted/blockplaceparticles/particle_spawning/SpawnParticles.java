@@ -222,7 +222,7 @@ public class SpawnParticles {
         double sparkIntensity = 5 / 12.;
         if (level.random.nextFloat() * 101 <= ConfigHandler.campfireSpark_spawnChance) {
             for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 3) + 1; i++) {
-                spawnMostlyUpwardsMotionParticleOption(
+                SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
                     level,
                     campfireState.is(Blocks.SOUL_CAMPFIRE) ? ModParticleTypes.FLOATING_SOUL_SPARK : ModParticleTypes.FLOATING_SPARK,
                     (double)particlePos.getX() + 0.5,
@@ -242,7 +242,7 @@ public class SpawnParticles {
         double depth = Math.abs(minZ - maxZ);
         if (level.random.nextFloat() * 101 <= ConfigHandler.fireSpark_spawnChance) {
             for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 3) + 1; i++) {
-                spawnMostlyUpwardsMotionParticleOption(
+                SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
                     level,
                     fireState.is(Blocks.SOUL_FIRE) ? ModParticleTypes.FLOATING_SOUL_SPARK : ModParticleTypes.FLOATING_SPARK,
                     particlePos.getX() + minX + (level.random.nextFloat() * width),
@@ -362,23 +362,34 @@ public class SpawnParticles {
     }
 
     public static void spawnAnvilUseSparkParticles(ClientLevel level, BlockPos blockPos) {
-        if(!ConfigHandler.anvilUseSparks_enabled_0_3) return;
+        if(!ConfigHandler.anvilUseSparks_enabled) return;
         BlockState anvilState = level.getBlockState(blockPos);
+        if(!anvilState.hasProperty(AnvilBlock.FACING)) return;
         Direction facing = anvilState.getValue(AnvilBlock.FACING);
         Vec3i dir = facing.getUnitVec3i();
         double x = blockPos.getX() + 0.5f;
         double y = blockPos.getY() + 1. + (level.random.nextDouble() / 16f);
         double z = blockPos.getZ() + 0.5f;
         ParticleEmitterOptions emitter = new ParticleEmitterOptions(
-            ModParticleTypes.FLOATING_SPARK_SHORT_EMITTER,
+            ModParticleTypes.FLYING_SPARK_EMITTER,
             3,
             7,
-            ConfigHandler.maxAnvilUseSparks_onUse_0_3,
-            Math.abs(dir.getX()) > Math.abs(dir.getZ()) ? 0.95f : 0.5f,
-            0.0f,
-            Math.abs(dir.getZ()) > Math.abs(dir.getX()) ? 0.95f : 0.5f
+            1,
+            0.25f,
+            0,
+            0.25f
         );
-        level.addParticle(emitter, x, y, z, -2 * dir.getX(), 0.2, -2 * dir.getZ());
+        SpawnParticlesUtil.spawnParticleInCircle(
+            emitter,
+            level,
+            new Vec3(x,y,z),
+            ConfigHandler.maxAnvilUseSparks_onUse,
+            0.32f,
+            0.16f,
+            2f,
+            0.2f,
+            2f
+        );
     }
 
     public static void spawnGrindstoneUseSparkParticles(ClientLevel level, BlockPos blockPos) {
@@ -409,17 +420,5 @@ public class SpawnParticles {
                 (baseDeltaZ * (double)armDirection * level.getRandom().nextDouble() * override.getParticleVelocityMultiplier()) + (brushDirection.getStepZ() * outwardVelocity)
             );
         }
-    }
-
-    private static void spawnMostlyUpwardsMotionParticleOption(Level level, ParticleOptions particleOptions, double xPos, double yPos, double zPos, double velocityIntensity) {
-        level.addParticle(
-            particleOptions,
-            xPos,
-            yPos,
-            zPos,
-            (level.random.nextDouble() - 0.5) * velocityIntensity * 0.4,
-            Math.abs((level.random.nextDouble() - 0.25) * velocityIntensity) + 0.25,
-            (level.random.nextDouble() - 0.5) * velocityIntensity * 0.4
-        );
     }
 }

@@ -12,14 +12,14 @@ public class RegParticleProvidersNeoForge {
 
     private static class PendingProvider<T extends ParticleOptions>  {
         ParticleType<? extends ParticleOptions> pType;
-        ModParticleTypes.SpriteParticleProviderRegistration<?> pProvider;
-        public PendingProvider(ParticleType<T> particleType, ModParticleTypes.SpriteParticleProviderRegistration<T> particleProvider) {
+        ModParticleTypes.SpriteProviderReg<?> pProvider;
+        public PendingProvider(ParticleType<T> particleType, ModParticleTypes.SpriteProviderReg<T> particleProvider) {
             this.pType = particleType;
             this.pProvider = particleProvider;
         }
     }
 
-    public static <T extends ParticleOptions> void registerProviderWhenReady(ParticleType<T> particleType, ModParticleTypes.SpriteParticleProviderRegistration<T> particleProvider) {
+    public static <T extends ParticleOptions> void registerProviderWhenReady(ParticleType<T> particleType, ModParticleTypes.SpriteProviderReg<T> particleProvider) {
         pendingProviders.addLast(new PendingProvider<>(particleType, particleProvider));
     }
 

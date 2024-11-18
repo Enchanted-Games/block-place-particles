@@ -8,6 +8,7 @@
   ],
   "client": [
     "AbstractCauldronBlockMixin",
+    "DebugTargettedBlockMixin",
     "LevelEventHandlerMixin",
     "ParticleEngineMixin",
     "ParticleMixin",
@@ -19,8 +20,8 @@
     "blocks.TntBlock",
     "entity.AbstractMinecartMixin",
     "items.BlockItem",
-    "items.BucketItem",
     "items.BrushItem",
+    "items.BucketItem",
     "items.FireChargeItem",
     "items.FlintAndSteelItem",
     "items.HoeItem",
