@@ -11,7 +11,6 @@ import java.util.List;
 public abstract class BouncyParticle extends TextureSheetParticle {
     protected boolean physics_canBounce = true;
     protected float physics_bounceDecay = 0.85f;
-    protected int ticksAlive = 0;
 
     /**
      * A single quad particle has simple bouncing physics.
@@ -35,7 +34,6 @@ public abstract class BouncyParticle extends TextureSheetParticle {
 
     @Override
     public void tick() {
-        ticksAlive++;
 
         if(age > 0 && physics_canBounce && this.hasPhysics) {
             double xVel = this.xd;

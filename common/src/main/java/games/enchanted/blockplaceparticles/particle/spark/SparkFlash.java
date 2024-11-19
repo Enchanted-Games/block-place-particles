@@ -23,7 +23,7 @@ public class SparkFlash extends TextureSheetParticle {
         this.yd = (ySpeed / 2) + (Math.random() * 3.0 - 1.5) * 0.07 * (this.random.nextFloat() > 0.95 ? 2 : 1);
         this.zd = (zSpeed / 2) + (Math.random() * 3.0 - 1.5) * 0.07 * (this.random.nextFloat() > 0.95 ? 2 : 1);
 
-        this.lifetime = this.random.nextInt(3) + 2;
+        this.lifetime = this.random.nextInt(4) + 3;
 
         this.sprites = sprites;
         this.setSpriteFromAge(sprites);
@@ -38,6 +38,11 @@ public class SparkFlash extends TextureSheetParticle {
         prevAge = age;
         super.tick();
         this.setSpriteFromAge(this.sprites);
+    }
+
+    @Override
+    public int getLightColor(float f) {
+        return 240;
     }
 
     @Override

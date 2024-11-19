@@ -1,5 +1,8 @@
 {
   "textures": [
-    "eg_particle_interactions:spark_flash/0"
+    "eg_particle_interactions:spark_flash/0",
+    "eg_particle_interactions:spark_flash/1",
+    "eg_particle_interactions:spark_flash/2",
+    "eg_particle_interactions:spark_flash/3"
   ]
 }

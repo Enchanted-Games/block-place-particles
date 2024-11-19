@@ -98,6 +98,16 @@ public class ColourUtil {
     }
 
     /**
+     * Converts rgb to an int in rgb decimal format
+     */
+    public static int RGB_to_RGBint(int r, int g, int b) {
+        int red = MathHelpers.clampInt(r, 0, 255);
+        int green = MathHelpers.clampInt(g, 0, 255);
+        int blue = MathHelpers.clampInt(b, 0, 255);
+        return (red << 16) | (green << 8) | blue;
+    }
+
+    /**
      * Converts an int in rgb decimal format to an array of r, g, b
      */
     public static int[] RGBint_to_RGB(int rgb) {

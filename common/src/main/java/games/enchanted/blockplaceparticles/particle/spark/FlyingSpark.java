@@ -4,23 +4,20 @@ import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.particle.StretchyBouncyShapeParticle;
 import games.enchanted.blockplaceparticles.shapes.ShapeDefinitions;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.*;
-import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.LightLayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
 
 public class FlyingSpark extends StretchyBouncyShapeParticle {
-    private boolean hasDecreasedLifespan = false;
-
-    private float redMin;
-    private float redDecayRate;
-    private float greenMin;
-    private float greenDecayRate;
-    private float blueMin;
-    private float blueDecayRate;
+    private final SpriteSet sprites;
 
     protected FlyingSpark(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float gravity, int lifetime, SpriteSet spriteSet) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed);
@@ -43,77 +40,45 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         this.setSize(particleSize, particleSize);
         this.quadSize = particleSize;
 
-        this.redMin = 0.95f;
-        this.redDecayRate = 0.985f;
-        this.greenMin = 0.8f;
-        this.greenDecayRate = 0.984f;
-        this.blueMin = 0.35f;
-        this.blueDecayRate = 0.98f;
+        this.sprites = spriteSet;
+        this.setSpriteFromAge(this.sprites);
 
         this.setShape(ShapeDefinitions.VERTICAL_CROSS);
         this.particleShapeScale.x = Mth.randomBetween(level.random, 0.4f, 1.1f);
         this.particleShapeScale.z = Mth.randomBetween(level.random, 0.4f, 1.1f);
     }
 
-    protected FlyingSpark(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float gravity, int lifetime, SpriteSet spriteSet, float redMin, float redDecayRate, float greenMin, float greenDecayRate, float blueMin, float blueDecayRate) {
-        this(level, x, y, z, xSpeed, ySpeed, zSpeed, gravity, lifetime, spriteSet);
-        this.redMin = redMin;
-        this.redDecayRate = redDecayRate;
-        this.greenMin = greenMin;
-        this.greenDecayRate = greenDecayRate;
-        this.blueMin = blueMin;
-        this.blueDecayRate = blueDecayRate;
-    }
-
-    private float getColourDecayFactor(float totalVelocity) {
-        float d = Math.abs(totalVelocity) * 500;
-        float ticksToStartDarkeningAt;
-        if(d > 200) {
-            ticksToStartDarkeningAt = 5;
-        } else if(d > 150) {
-            ticksToStartDarkeningAt = 20;
-        } else if (d > 100) {
-            ticksToStartDarkeningAt = 40;
-        } else if (d > 75) {
-            ticksToStartDarkeningAt = 80;
-        } else if (d > 50) {
-            ticksToStartDarkeningAt = 100;
-        }else {
-            ticksToStartDarkeningAt = 130;
-        }
-
-        return this.ticksAlive <= ticksToStartDarkeningAt ? 1f : 0.85f;
-    }
-
     @Override
     public void tick() {
         super.tick();
-
-
-        if(age > 0 && !this.removed) {
-            float totalVelocity = getTotalVelocity();
-
-            if(!hasDecreasedLifespan && this.onGround && !this.isParticleMoving()) {
-                this.age = this.lifetime - Mth.randomBetweenInclusive(this.random, 20, 40);
-                hasDecreasedLifespan = true;
-            }
-            if(!(this.age >= this.lifetime - 14)) {
-                float colourDecayFactor = getColourDecayFactor(totalVelocity);
-                this.rCol *= this.rCol > redMin ? redDecayRate * colourDecayFactor : 1f;
-                this.gCol *= this.gCol > greenMin ? greenDecayRate * colourDecayFactor : 1f;
-                this.bCol *= this.bCol > blueMin ? blueDecayRate * colourDecayFactor : 1f;
-            }
-
-            // spawn random spark flashes
-            if(((float) this.age / this.lifetime) * 18f < this.random.nextFloat() || this.random.nextFloat() < 0.003f) {
-                this.level.addParticle(ModParticleTypes.SPARK_FLASH, this.prevPrevX, this.prevPrevY, this.prevPrevZ, 0, 0, 0);
-            }
+        if(age < 0 || this.removed) {
+            return;
         }
+
+        this.setSpriteFromAge(this.sprites);
+
+        float percentageTimeUntilDeath = (float) this.age / this.lifetime;
+
+        // spawn random spark flashes
+        if(
+            this.random.nextFloat() > percentageTimeUntilDeath + 0.85f ||
+            (this.random.nextFloat() < 0.008f && this.isParticleMoving())
+        ) {
+            this.level.addParticle(ModParticleTypes.SPARK_FLASH, this.prevPrevX, this.prevPrevY, this.prevPrevZ, 0, 0, 0);
+        }
+
     }
 
     @Override
-    public int getLightColor(float f) {
-        return 240;
+    public int getLightColor(float partialTicks) {
+        float percentageTimeAlive = Math.abs(1 - ((float) this.age / this.lifetime));
+        int sparkLight = (int) (percentageTimeAlive * 15f);
+
+        BlockPos pos = BlockPos.containing(this.x, this.y, this.z);
+        int blockLight = this.level.getBrightness(LightLayer.BLOCK, pos);
+        int skyLight = this.level.getBrightness(LightLayer.SKY, pos);
+
+        return LightTexture.pack(Math.max(blockLight, sparkLight), skyLight);
     }
 
     @Override
@@ -131,7 +96,7 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         @Nullable
         @Override
         public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.random, 0.8F, 0.9F), Mth.randomBetweenInclusive(level.random, 80, 120), spriteSet);
+            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.random, 0.8F, 0.9F), Mth.randomBetweenInclusive(level.random, 20, 60), spriteSet);
         }
     }
 
@@ -160,48 +125,6 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         @Override
         public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.random, 0.2F, 0.3F), Mth.randomBetweenInclusive(level.random, 1, 5), spriteSet);
-        }
-    }
-
-    public static class LongLifeSoulSparkProvider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet spriteSet;
-
-        static final float redMin = 0.05f;
-        static final float redDecayRate = 0.98f;
-        static final float greenMin = 0.79f;
-        static final float greenDecayRate = 0.95f;
-        static final float blueMin = 0.82f;
-        static final float blueDecayRate = 0.935f;
-
-        public LongLifeSoulSparkProvider(SpriteSet spriteSet) {
-            this.spriteSet = spriteSet;
-        }
-
-        @Nullable
-        @Override
-        public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.random, 0.8F, 0.9F), Mth.randomBetweenInclusive(level.random, 80, 120), spriteSet, redMin, redDecayRate, greenMin, greenDecayRate, blueMin, blueDecayRate);
-        }
-    }
-
-    public static class ShortLifeSoulSparkProvider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet spriteSet;
-
-        static final float redMin = 0.05f;
-        static final float redDecayRate = 0.98f;
-        static final float greenMin = 0.79f;
-        static final float greenDecayRate = 0.95f;
-        static final float blueMin = 0.82f;
-        static final float blueDecayRate = 0.935f;
-
-        public ShortLifeSoulSparkProvider(SpriteSet spriteSet) {
-            this.spriteSet = spriteSet;
-        }
-
-        @Nullable
-        @Override
-        public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.random, 0.2F, 0.3F), Mth.randomBetweenInclusive(level.random, 4, 12), spriteSet, redMin, redDecayRate, greenMin, greenDecayRate, blueMin, blueDecayRate);
         }
     }
 }
