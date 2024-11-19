@@ -9,6 +9,7 @@ import games.enchanted.blockplaceparticles.particle.petal.FallingPetal;
 import games.enchanted.blockplaceparticles.particle.petal.FallingTintedOrAveragePetal;
 import games.enchanted.blockplaceparticles.particle.spark.FlyingSpark;
 import games.enchanted.blockplaceparticles.particle.spark.SparkEmitter;
+import games.enchanted.blockplaceparticles.particle.spark.SparkFlash;
 import games.enchanted.blockplaceparticles.particle.splash.BlockSplash;
 import games.enchanted.blockplaceparticles.particle.splash.BucketTintedSplash;
 import games.enchanted.blockplaceparticles.particle.splash.LavaSplash;
@@ -51,6 +52,8 @@ public class ModParticleTypes {
     public static SimpleParticleType FLYING_SOUL_SPARK;
     public static SimpleParticleType FLOATING_SOUL_SPARK;
 
+    public static SimpleParticleType SPARK_FLASH;
+
     public static SimpleParticleType UNDERWATER_RISING_BUBBLE;
 
     public static ParticleType<ParticleEmitterOptions> FLYING_SPARK_EMITTER;
@@ -75,6 +78,8 @@ public class ModParticleTypes {
         FLOATING_SPARK_SHORT = register((SpriteProviderReg) FlyingSpark.ShortestLifeSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_spark_short"), false);
         FLYING_SOUL_SPARK = register((SpriteProviderReg) FlyingSpark.LongLifeSoulSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flying_soul_spark"), false);
         FLOATING_SOUL_SPARK = register((SpriteProviderReg) FlyingSpark.ShortLifeSoulSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_soul_spark"), false);
+
+        SPARK_FLASH = register((SpriteProviderReg) SparkFlash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "spark_flash"), false);
 
         UNDERWATER_RISING_BUBBLE = register((SpriteProviderReg) UnderwaterRisingBubble.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "underwater_rising_bubble"), false);
 

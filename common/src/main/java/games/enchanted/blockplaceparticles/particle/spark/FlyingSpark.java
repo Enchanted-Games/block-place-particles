@@ -1,12 +1,11 @@
 package games.enchanted.blockplaceparticles.particle.spark;
 
+import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.particle.StretchyBouncyShapeParticle;
 import games.enchanted.blockplaceparticles.shapes.ShapeDefinitions;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.particle.*;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
@@ -90,7 +89,8 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
     public void tick() {
         super.tick();
 
-        if(age > 0) {
+
+        if(age > 0 && !this.removed) {
             float totalVelocity = getTotalVelocity();
 
             if(!hasDecreasedLifespan && this.onGround && !this.isParticleMoving()) {
@@ -102,6 +102,11 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
                 this.rCol *= this.rCol > redMin ? redDecayRate * colourDecayFactor : 1f;
                 this.gCol *= this.gCol > greenMin ? greenDecayRate * colourDecayFactor : 1f;
                 this.bCol *= this.bCol > blueMin ? blueDecayRate * colourDecayFactor : 1f;
+            }
+
+            // spawn random spark flashes
+            if(((float) this.age / this.lifetime) * 18f < this.random.nextFloat() || this.random.nextFloat() < 0.003f) {
+                this.level.addParticle(ModParticleTypes.SPARK_FLASH, this.prevPrevX, this.prevPrevY, this.prevPrevZ, 0, 0, 0);
             }
         }
     }

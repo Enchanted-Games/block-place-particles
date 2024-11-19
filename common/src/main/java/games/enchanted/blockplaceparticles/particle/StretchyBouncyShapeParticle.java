@@ -13,9 +13,9 @@ import org.joml.*;
 import java.lang.Math;
 
 public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
-    private double prevPrevX;
-    private double prevPrevY;
-    private double prevPrevZ;
+    protected double prevPrevX;
+    protected double prevPrevY;
+    protected double prevPrevZ;
     private QuadFaceShape particleShape;
     /**
      * The scale that the particle will be rendered at
@@ -41,6 +41,7 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
         this.prevPrevX = this.xo;
         this.prevPrevY = this.yo;
         this.prevPrevZ = this.zo;
+        this.speedUpWhenYMotionIsBlocked = true;
 
         this.particleShapeScale = new Vector3f(1);
         this.setShape(ShapeDefinitions.CUBE);
