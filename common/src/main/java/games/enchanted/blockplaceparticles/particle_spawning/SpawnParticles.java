@@ -363,10 +363,6 @@ public class SpawnParticles {
 
     public static void spawnAnvilUseSparkParticles(ClientLevel level, BlockPos blockPos) {
         if(!ConfigHandler.anvilUseSparks_enabled) return;
-        BlockState anvilState = level.getBlockState(blockPos);
-        if(!anvilState.hasProperty(AnvilBlock.FACING)) return;
-        Direction facing = anvilState.getValue(AnvilBlock.FACING);
-        Vec3i dir = facing.getUnitVec3i();
         double x = blockPos.getX() + 0.5f;
         double y = blockPos.getY() + 1. + (level.random.nextDouble() / 16f);
         double z = blockPos.getZ() + 0.5f;
