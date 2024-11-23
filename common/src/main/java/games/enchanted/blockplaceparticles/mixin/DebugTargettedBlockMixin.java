@@ -43,7 +43,7 @@ public abstract class DebugTargettedBlockMixin {
         assert this.minecraft.player != null;
 
         if(this.minecraft.player.input.keyPresses.sprint() && this.level.getGameTime() != block_place_particle$previousGameTime) {
-            SpawnParticles.spawnAnvilUseSparkParticles(level, ((BlockHitResult) hitResult).getBlockPos());
+            SpawnParticles.spawnGrindstoneUseSparkParticles(level, ((BlockHitResult) hitResult).getBlockPos());
         }
 
         block_place_particle$previousGameTime = this.level.getGameTime();

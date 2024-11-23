@@ -1,5 +1,6 @@
 package games.enchanted.blockplaceparticles.particle_spawning;
 
+import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.particle.option.ParticleEmitterOptions;
@@ -20,11 +21,14 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.GrindstoneBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 public class SpawnParticles {
@@ -387,16 +391,75 @@ public class SpawnParticles {
     }
 
     public static void spawnGrindstoneUseSparkParticles(ClientLevel level, BlockPos blockPos) {
-//        if(!ConfigHandler.grindstoneUseSparks_enabled_0_3) return;
-//        BlockState anvilState = level.getBlockState(blockPos);
-//        Direction facing = anvilState.getValue(AnvilBlock.FACING);
-//        Vec3i dir = facing.getNormal();
-//        for (int i = 0; i < ConfigHandler.maxGrindstoneUseSparks_onUse_0_3; i++) {
-//            double x = blockPos.getX() + level.random.nextDouble();
-//            double y = blockPos.getY() + 1. + (level.random.nextDouble() / 16f);
-//            double z = blockPos.getZ() + level.random.nextDouble();
-//            level.addParticle(level.random.nextFloat() > 0.2 ? ModParticleTypes.FLYING_SPARK : ModParticleTypes.FLOATING_SPARK, x, y, z, -0.5 * dir.getX(), 0.1 + (level.random.nextDouble() / 16f), -0.5 * dir.getZ());
-//        }
+        if(!ConfigHandler.grindstoneUseSparks_enabled) return;
+        BlockState grindstoneState = level.getBlockState(blockPos);
+        if(!(grindstoneState.getBlock() instanceof GrindstoneBlock)) return;
+        Direction facing = grindstoneState.getValue(GrindstoneBlock.FACING);
+        AttachFace attachFace = grindstoneState.getValue(GrindstoneBlock.FACE);
+
+        double x;
+        double y;
+        double z;
+        if(attachFace == AttachFace.WALL) {
+            x = blockPos.getX() + 0.5f + (facing.getStepX() / 1.9);
+            y = blockPos.getY() + 0.5f;
+            z = blockPos.getZ() + 0.5f + (facing.getStepZ() / 1.9);
+        } else {
+            x = blockPos.getX() + 0.5f;
+            y = blockPos.getY() + (attachFace == AttachFace.CEILING ? 0 : 1.05f);
+            z = blockPos.getZ() + 0.5f;
+        }
+
+        ParticleEmitterOptions emitter = getGrindstoneSparkEmitter(attachFace, facing);
+        final float HORIZONTAL_MIN_SPEED = 0.05f;
+        final float HORIZONTAL_MAX_SPEED = 0.3f;
+        final float UPWARDS_SPEED = 0.5f;
+        final float DOWNWARDS_SPEED = 0.1f;
+        level.addParticle(
+            emitter,
+            x,
+            y,
+            z,
+            facing.getStepX() * (attachFace == AttachFace.WALL ? HORIZONTAL_MIN_SPEED : HORIZONTAL_MAX_SPEED),
+            attachFace == AttachFace.WALL ? UPWARDS_SPEED : 0,
+            facing.getStepZ() * (attachFace == AttachFace.WALL ? HORIZONTAL_MIN_SPEED : HORIZONTAL_MAX_SPEED)
+        );
+        level.addParticle(
+            emitter,
+            x,
+            y,
+            z,
+            facing.getStepX() * (attachFace == AttachFace.WALL ? -HORIZONTAL_MIN_SPEED : -HORIZONTAL_MAX_SPEED),
+            attachFace == AttachFace.WALL ? -DOWNWARDS_SPEED : 0,
+            facing.getStepZ() * (attachFace == AttachFace.WALL ? -HORIZONTAL_MIN_SPEED : -HORIZONTAL_MAX_SPEED)
+        );
+    }
+
+    private static @NotNull ParticleEmitterOptions getGrindstoneSparkEmitter(AttachFace attachFace, Direction facing) {
+        final float EMITTER_BOUND_WIDTH = 0.1f;
+        final float EMITTER_BOUND_LENGTH = 0.8f;
+
+        float width = attachFace == AttachFace.WALL ? 0 : EMITTER_BOUND_WIDTH;
+        float height = attachFace == AttachFace.WALL ? EMITTER_BOUND_LENGTH : 0;
+        float depth = attachFace == AttachFace.WALL ? 0 : EMITTER_BOUND_WIDTH;
+
+        if(facing == Direction.NORTH || facing == Direction.SOUTH) {
+            width = EMITTER_BOUND_WIDTH;
+            depth = attachFace == AttachFace.WALL ? depth : EMITTER_BOUND_LENGTH;
+        } else if (facing == Direction.EAST || facing == Direction.WEST) {
+            width = attachFace == AttachFace.WALL ? width :EMITTER_BOUND_LENGTH;
+            depth = EMITTER_BOUND_WIDTH;
+        }
+
+        return new ParticleEmitterOptions(
+            ModParticleTypes.FLYING_SPARK_EMITTER,
+            ConfigHandler.maxGrindstoneUseSparks_onUse < 6 ? ConfigHandler.maxGrindstoneUseSparks_onUse : 6,
+            1,
+            (int) Math.ceil((double) ConfigHandler.maxGrindstoneUseSparks_onUse / 6),
+            width,
+            height,
+            depth
+        );
     }
 
     public static void spawnBrushingParticles(ClientLevel level, BlockParticleOverride override, BlockState blockState, Direction brushDirection, Vec3 particlePos, int armDirection, int amountOfParticles, double baseDeltaX, double baseDeltaY, double baseDeltaZ) {

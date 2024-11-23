@@ -124,14 +124,14 @@ public class ConfigScreen {
             ))
 
             // grindstone use spark
-//            .group( createParticleToggleAndIntSliderConfigGroup(
-//                "grindstone_craft_sparks",
-//                "grindstone_craft_sparks",
-//                ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
-//                Binding.generic(ConfigHandler.grindstoneUseSparks_enabled_DEFAULT, () -> ConfigHandler.grindstoneUseSparks_enabled_0_3, newVal -> ConfigHandler.grindstoneUseSparks_enabled_0_3 = newVal),
-//                ConfigTranslation.ARE_PARTICLES_ENABLED,
-//                integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_CRAFT, "grindstone_craft_sparks", ConfigHandler.maxGrindstoneUseSparks_onUse_DEFAULT, () -> ConfigHandler.maxGrindstoneUseSparks_onUse_0_3, newVal -> ConfigHandler.maxGrindstoneUseSparks_onUse_0_3 = newVal, 1, 20, 1)
-//            ))
+            .group( createParticleToggleAndIntSliderConfigGroup(
+                "grindstone_craft_sparks",
+                "grindstone_craft_sparks",
+                ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
+                Binding.generic(ConfigHandler.grindstoneUseSparks_enabled_DEFAULT, () -> ConfigHandler.grindstoneUseSparks_enabled, newVal -> ConfigHandler.grindstoneUseSparks_enabled = newVal),
+                ConfigTranslation.ARE_PARTICLES_ENABLED,
+                integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_CRAFT, "grindstone_craft_sparks", ConfigHandler.maxGrindstoneUseSparks_onUse_DEFAULT, () -> ConfigHandler.maxGrindstoneUseSparks_onUse, newVal -> ConfigHandler.maxGrindstoneUseSparks_onUse = newVal, 1, 32, 1)
+            ))
         .build());
 
         // item use category

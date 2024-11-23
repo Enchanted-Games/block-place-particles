@@ -308,11 +308,11 @@ public class ConfigHandler {
     // grindstone use sparks
     public static final int maxGrindstoneUseSparks_onUse_DEFAULT = 12;
     @SerialEntry
-    public static int maxGrindstoneUseSparks_onUse_0_3 = maxGrindstoneUseSparks_onUse_DEFAULT;
+    public static int maxGrindstoneUseSparks_onUse = maxGrindstoneUseSparks_onUse_DEFAULT;
 
     public static final boolean grindstoneUseSparks_enabled_DEFAULT = true;
     @SerialEntry
-    public static boolean grindstoneUseSparks_enabled_0_3 = grindstoneUseSparks_enabled_DEFAULT;
+    public static boolean grindstoneUseSparks_enabled = grindstoneUseSparks_enabled_DEFAULT;
 
     // Entity Particles
     // travelling minecarts
