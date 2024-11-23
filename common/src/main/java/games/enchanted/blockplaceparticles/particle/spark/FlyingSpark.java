@@ -18,6 +18,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class FlyingSpark extends StretchyBouncyShapeParticle {
     private final SpriteSet sprites;
+    private boolean isSoul;
+    private final int SPARK_UNDERWATER_DECAY_SPEED = 3;
 
     protected FlyingSpark(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float gravity, int lifetime, SpriteSet spriteSet) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed);
@@ -29,10 +31,8 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         this.yd = (ySpeed / 2) + (Math.random() * 3.0 - 1.5) * 0.05000000074505806 * (this.random.nextFloat() > 0.95 ? 2 : 1);
         this.zd = (zSpeed / 2) + (Math.random() * 3.0 - 1.5) * 0.05000000074505806 * (this.random.nextFloat() > 0.95 ? 2 : 1);
 
-        this.physics_bounceDecay = 0.6f;
-
-        this.rCol = this.gCol = 1;
-        this.bCol = 0.9f;
+        this.physics_bounciness = 0.8f;
+        this.physics_passThroughFluidSpeed = 0.93f;
 
         this.lifetime = lifetime;
 
@@ -46,6 +46,13 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         this.setShape(ShapeDefinitions.VERTICAL_CROSS);
         this.particleShapeScale.x = Mth.randomBetween(level.random, 0.4f, 1.1f);
         this.particleShapeScale.z = Mth.randomBetween(level.random, 0.4f, 1.1f);
+
+        this.isSoul = false;
+    }
+
+    protected FlyingSpark(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float gravity, int lifetime, SpriteSet spriteSet, boolean isSoul) {
+        this(level, x, y, z, xSpeed, ySpeed, zSpeed, gravity, lifetime, spriteSet);
+        this.isSoul = isSoul;
     }
 
     @Override
@@ -61,17 +68,25 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
 
         // spawn random spark flashes
         if(
-            this.random.nextFloat() > percentageTimeUntilDeath + 0.85f ||
-            (this.random.nextFloat() < 0.008f && this.isParticleMoving())
+            this.random.nextFloat() > percentageTimeUntilDeath + 0.8f ||
+            (this.random.nextFloat() < 0.01f && this.isParticleMoving())
         ) {
-            this.level.addParticle(ModParticleTypes.SPARK_FLASH, this.prevPrevX, this.prevPrevY, this.prevPrevZ, 0, 0, 0);
+            this.level.addParticle(this.isSoul ? ModParticleTypes.SOUL_SPARK_FLASH : ModParticleTypes.SPARK_FLASH, this.prevPrevX, this.prevPrevY, this.prevPrevZ, 0, 0, 0);
         }
+    }
 
+    @Override
+    public void setSpriteFromAge(@NotNull SpriteSet sprite) {
+        if (!this.removed) {
+            int adjustedAge = Math.clamp(this.age * (this.hasEnteredWater ? SPARK_UNDERWATER_DECAY_SPEED : 1), 0, this.lifetime);
+            this.setSprite(sprite.get(adjustedAge, this.lifetime));
+        }
     }
 
     @Override
     public int getLightColor(float partialTicks) {
-        float percentageTimeAlive = Math.abs(1 - ((float) this.age / this.lifetime));
+        int adjustedAge = Math.clamp(this.age * (this.hasEnteredWater ? SPARK_UNDERWATER_DECAY_SPEED : 1), 0, this.lifetime);
+        float percentageTimeAlive = Math.abs(1 - ((float) adjustedAge / this.lifetime));
         int sparkLight = (int) (percentageTimeAlive * 15f);
 
         BlockPos pos = BlockPos.containing(this.x, this.y, this.z);
@@ -114,17 +129,31 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         }
     }
 
-    public static class ShortestLifeSparkProvider implements ParticleProvider<SimpleParticleType> {
+    public static class LongLifeSoulSparkProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 
-        public ShortestLifeSparkProvider(SpriteSet spriteSet) {
+        public LongLifeSoulSparkProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
         @Nullable
         @Override
         public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.random, 0.2F, 0.3F), Mth.randomBetweenInclusive(level.random, 1, 5), spriteSet);
+            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.random, 0.8F, 0.9F), Mth.randomBetweenInclusive(level.random, 20, 60), spriteSet, true);
+        }
+    }
+
+    public static class ShortLifeSoulSparkProvider implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public ShortLifeSoulSparkProvider(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        @Nullable
+        @Override
+        public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.random, 0.2F, 0.3F), Mth.randomBetweenInclusive(level.random, 4, 12), spriteSet, true);
         }
     }
 }

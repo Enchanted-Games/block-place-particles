@@ -48,11 +48,11 @@ public class ModParticleTypes {
 
     public static SimpleParticleType FLYING_SPARK;
     public static SimpleParticleType FLOATING_SPARK;
-    public static SimpleParticleType FLOATING_SPARK_SHORT;
     public static SimpleParticleType FLYING_SOUL_SPARK;
     public static SimpleParticleType FLOATING_SOUL_SPARK;
 
     public static SimpleParticleType SPARK_FLASH;
+    public static SimpleParticleType SOUL_SPARK_FLASH;
 
     public static SimpleParticleType UNDERWATER_RISING_BUBBLE;
 
@@ -75,11 +75,11 @@ public class ModParticleTypes {
 
         FLYING_SPARK = register((SpriteProviderReg) FlyingSpark.LongLifeSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flying_spark"), false);
         FLOATING_SPARK = register((SpriteProviderReg) FlyingSpark.ShortLifeSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_spark"), false);
-        FLOATING_SPARK_SHORT = register((SpriteProviderReg) FlyingSpark.ShortestLifeSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_spark_short"), false);
-        FLYING_SOUL_SPARK = register((SpriteProviderReg) FlyingSpark.LongLifeSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flying_soul_spark"), false);
-        FLOATING_SOUL_SPARK = register((SpriteProviderReg) FlyingSpark.ShortLifeSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_soul_spark"), false);
+        FLYING_SOUL_SPARK = register((SpriteProviderReg) FlyingSpark.LongLifeSoulSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flying_soul_spark"), false);
+        FLOATING_SOUL_SPARK = register((SpriteProviderReg) FlyingSpark.ShortLifeSoulSparkProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_soul_spark"), false);
 
         SPARK_FLASH = register((SpriteProviderReg) SparkFlash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "spark_flash"), false);
+        SOUL_SPARK_FLASH = register((SpriteProviderReg) SparkFlash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "soul_spark_flash"), false);
 
         UNDERWATER_RISING_BUBBLE = register((SpriteProviderReg) UnderwaterRisingBubble.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "underwater_rising_bubble"), false);
 
