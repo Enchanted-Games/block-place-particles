@@ -255,7 +255,7 @@ public class ConfigHandler {
     @SerialEntry
     public static List<ResourceLocation> dust_Blocks = dust_Blocks_DEFAULT;
 
-    // default block particle
+    // vanilla block particle
     public static final int maxBlock_onPlace_DEFAULT = 2;
     @SerialEntry
     public static int maxBlock_onPlace = maxBlock_onPlace_DEFAULT;
@@ -267,6 +267,10 @@ public class ConfigHandler {
     public static final int maxBlock_onBreak_DEFAULT = 4;
     @SerialEntry
     public static int maxBlock_onBreak = maxBlock_onBreak_DEFAULT;
+
+    public static final boolean general_pixelConsistentTerrainParticles_DEFAULT = true;
+    @SerialEntry
+    public static boolean general_pixelConsistentTerrainParticles = general_pixelConsistentTerrainParticles_DEFAULT;
 
     // Block Interaction / Ambient Particles
     // underwater bubbles

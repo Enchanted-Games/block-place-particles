@@ -5,6 +5,7 @@ import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.util.BiomeTemperatureHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.TerrainParticle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -111,14 +112,12 @@ public abstract class BlockParticleOverrides {
         "grass_blade",
         "tinted_or_average",
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
-            if(blockState.getBlock() == Blocks.GRASS_BLOCK) {
-                if(overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_PLACED || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_BROKEN || overrideOrigin == BlockParticleOverride.ORIGIN_ITEM_PARTICLE_OVERRIDDEN) {
-                    // occasionally spawn dirt particles if a grass block is placed or broken
-                    return level.random.nextFloat() > 0.3 ? new BlockParticleOption(ParticleTypes.BLOCK, Blocks.DIRT.defaultBlockState()) : new BlockParticleOption(ModParticleTypes.GRASS_BLADE, blockState);
-                } else if (overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_CRACK) {
-                    // occasionally spawn dirt particles if a grass block is being cracked
-                    return level.random.nextFloat() > 0.3 ? new BlockParticleOption(ParticleTypes.BLOCK_CRUMBLE, Blocks.DIRT.defaultBlockState()) : new BlockParticleOption(ModParticleTypes.GRASS_BLADE, blockState);
-                }
+            if(
+                blockState.getBlock() == Blocks.GRASS_BLOCK &&
+                (overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_CRACK || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_PLACED || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_BROKEN || overrideOrigin == BlockParticleOverride.ORIGIN_ITEM_PARTICLE_OVERRIDDEN)
+            ) {
+                // occasionally spawn dirt particles if a grass block is placed or broken
+                return level.random.nextFloat() > 0.3 ? new BlockParticleOption(ParticleTypes.BLOCK, Blocks.DIRT.defaultBlockState()) : new BlockParticleOption(ModParticleTypes.GRASS_BLADE, blockState);
             }
             return new BlockParticleOption(ModParticleTypes.GRASS_BLADE, blockState);
         },

@@ -102,4 +102,26 @@ public class MathHelpers {
     public static float randomBetween(float min, float max) {
         return (float) (Math.random() * (max - min)) + min;
     }
+
+    /**
+     * Multiply a number by resolution, floor it, and return the result divided by resolution
+     *
+     * @param number     the number to floor
+     * @param resolution the resolution
+     * @return floored result
+     */
+    public static float floorWithResolution(float number, float resolution) {
+        return (float) (Math.floor(number * resolution) / resolution);
+    }
+
+    /**
+     * Multiply a number by resolution, ceil it, and return the result divided by resolution
+     *
+     * @param number     the number to ceil
+     * @param resolution the resolution
+     * @return ceiled result
+     */
+    public static float ceilWithResolution(float number, float resolution) {
+        return (float) (Math.ceil(number * resolution) / resolution);
+    }
 }

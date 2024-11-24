@@ -37,6 +37,7 @@ public class ConfigScreenHelper {
             .binding(Binding.generic(override.getOverrideEnabled_default(), override.getOverrideEnabled_getter(), override.getOverrideEnabled_setter()))
             .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
         .build();
+
         Option<Integer> maxParticlesOnPlaceOption = ConfigScreen.maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_PLACE_ALONG_EDGES, override.getMaxParticlesOnPlace_default(), override.getMaxParticlesOnPlace_getter(), override.getMaxParticlesOnPlace_setter());
         Option<Integer> maxParticlesOnBreakOption = ConfigScreen.maxParticlesOnBreakOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK_ALONG_AXIS, override.getMaxParticlesOnBreak_default(), override.getMaxParticlesOnBreak_getter(), override.getMaxParticlesOnBreak_setter());
 

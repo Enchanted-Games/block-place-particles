@@ -1,9 +1,7 @@
 package games.enchanted.blockplaceparticles.util;
 
-import dev.isxander.yacl3.gui.controllers.dropdown.ItemController;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.core.DefaultedRegistry;
-import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
