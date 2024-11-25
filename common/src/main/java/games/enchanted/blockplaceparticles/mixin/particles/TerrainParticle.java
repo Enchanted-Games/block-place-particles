@@ -3,24 +3,48 @@ package games.enchanted.blockplaceparticles.mixin.particles;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
-import games.enchanted.blockplaceparticles.mixin.accessor.TextureAtlasAccessor;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
-import games.enchanted.blockplaceparticles.util.TextureHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.TextureSheetParticle;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(net.minecraft.client.particle.TerrainParticle.class)
 public abstract class TerrainParticle extends TextureSheetParticle {
     @Unique private static final float MIN_UV = 0.0000001f;
-    @Unique private static final float QUAD_SIZE_RESOLUTION = 8;
+    @Unique private float block_place_particle$quadSizePixels = 1;
+
+    @Mutable @Shadow @Final private float uo;
+    @Mutable @Shadow @Final private float vo;
 
     protected TerrainParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
+    }
+
+    @Unique
+    private void block_place_particle$recalculatePixelQuadSizes() {
+        this.block_place_particle$quadSizePixels = MathHelpers.ceilWithResolution(this.quadSize + 0.0625, this.sprite.contents().width());
+
+        if(this.uo + this.block_place_particle$quadSizePixels > 1) this.uo = 1 - this.block_place_particle$quadSizePixels;
+        if(this.vo + this.block_place_particle$quadSizePixels > 1) this.vo = 1 - this.block_place_particle$quadSizePixels;
+    }
+
+    @Inject(
+        at = @At("TAIL"),
+        method = "<init>(Lnet/minecraft/client/multiplayer/ClientLevel;DDDDDDLnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)V"
+    )
+    protected void terrainParticleInit(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockState state, BlockPos pos, CallbackInfo ci) {
+        if(ConfigHandler.general_pixelConsistentTerrainParticles) {
+            this.uo = MathHelpers.floorWithResolution(MathHelpers.randomBetween(0, 1), this.sprite.contents().width());
+            this.vo = MathHelpers.floorWithResolution(MathHelpers.randomBetween(0, 1), this.sprite.contents().height());
+
+            this.block_place_particle$recalculatePixelQuadSizes();
+        }
     }
 
     @WrapOperation(
@@ -31,11 +55,8 @@ public abstract class TerrainParticle extends TextureSheetParticle {
         if(!ConfigHandler.general_pixelConsistentTerrainParticles) {
             return original.call(instance, u);
         }
-        TextureAtlas atlas = TextureHelpers.getTextureAtlas(this.sprite.atlasLocation());
-        if(atlas == null) {
-            return original.call(instance, u);
-        }
-        return MathHelpers.roundWithResolution(this.sprite.getU(u * (this.quadSize * QUAD_SIZE_RESOLUTION)), ((TextureAtlasAccessor) atlas).getWidth()) + MIN_UV;
+        this.block_place_particle$recalculatePixelQuadSizes();
+        return this.sprite.getU(this.uo) + MIN_UV;
     }
 
     @WrapOperation(
@@ -46,11 +67,8 @@ public abstract class TerrainParticle extends TextureSheetParticle {
         if(!ConfigHandler.general_pixelConsistentTerrainParticles) {
             return original.call(instance, u);
         }
-        TextureAtlas atlas = TextureHelpers.getTextureAtlas(this.sprite.atlasLocation());
-        if(atlas == null) {
-            return original.call(instance, u);
-        }
-        return MathHelpers.roundWithResolution(this.sprite.getU(u * (this.quadSize * QUAD_SIZE_RESOLUTION)), ((TextureAtlasAccessor) atlas).getWidth()) + MIN_UV;
+        this.block_place_particle$recalculatePixelQuadSizes();
+        return this.sprite.getU(this.uo + this.block_place_particle$quadSizePixels) + MIN_UV;
     }
 
     @WrapOperation(
@@ -61,11 +79,8 @@ public abstract class TerrainParticle extends TextureSheetParticle {
         if(!ConfigHandler.general_pixelConsistentTerrainParticles) {
             return original.call(instance, v);
         }
-        TextureAtlas atlas = TextureHelpers.getTextureAtlas(this.sprite.atlasLocation());
-        if(atlas == null) {
-            return original.call(instance, v);
-        }
-        return MathHelpers.roundWithResolution(this.sprite.getV(v * (this.quadSize * QUAD_SIZE_RESOLUTION)), ((TextureAtlasAccessor) atlas).getHeight()) + MIN_UV;
+        this.block_place_particle$recalculatePixelQuadSizes();
+        return this.sprite.getV(this.vo) + MIN_UV;
     }
 
     @WrapOperation(
@@ -76,10 +91,7 @@ public abstract class TerrainParticle extends TextureSheetParticle {
         if(!ConfigHandler.general_pixelConsistentTerrainParticles) {
             return original.call(instance, v);
         }
-        TextureAtlas atlas = TextureHelpers.getTextureAtlas(this.sprite.atlasLocation());
-        if(atlas == null) {
-            return original.call(instance, v);
-        }
-        return MathHelpers.roundWithResolution(this.sprite.getV(v * (this.quadSize * QUAD_SIZE_RESOLUTION)), ((TextureAtlasAccessor) atlas).getHeight()) + MIN_UV;
+        this.block_place_particle$recalculatePixelQuadSizes();
+        return this.sprite.getV(this.vo + this.block_place_particle$quadSizePixels) + MIN_UV;
     }
 }
