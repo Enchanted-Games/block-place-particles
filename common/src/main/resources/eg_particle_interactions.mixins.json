@@ -8,7 +8,6 @@
   ],
   "client": [
     "AbstractCauldronBlockMixin",
-    "DebugTargettedBlockMixin",
     "LevelEventHandlerMixin",
     "ParticleEngineMixin",
     "ParticleMixin",
