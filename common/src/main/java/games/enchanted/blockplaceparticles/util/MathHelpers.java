@@ -110,7 +110,7 @@ public class MathHelpers {
      * @param resolution the resolution
      * @return floored result
      */
-    public static float floorWithResolution(float number, float resolution) {
+    public static float floorWithResolution(double number, double resolution) {
         return (float) (Math.floor(number * resolution) / resolution);
     }
 
@@ -121,7 +121,18 @@ public class MathHelpers {
      * @param resolution the resolution
      * @return ceiled result
      */
-    public static float ceilWithResolution(float number, float resolution) {
+    public static float ceilWithResolution(double number, double resolution) {
         return (float) (Math.ceil(number * resolution) / resolution);
+    }
+
+    /**
+     * Multiply a number by resolution, round it, and return the result divided by resolution
+     *
+     * @param number     the number to round
+     * @param resolution the resolution
+     * @return rounded result
+     */
+    public static float roundWithResolution(double number, double resolution) {
+        return (float) (Math.round(number * resolution) / resolution);
     }
 }
