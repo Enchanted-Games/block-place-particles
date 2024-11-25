@@ -15,7 +15,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -24,11 +23,11 @@ public class BlockParticleOverride {
     public static final int ORIGIN_BLOCK_BROKEN = 2;
     public static final int ORIGIN_BLOCK_PARTICLE_OVERRIDDEN = 3;
     public static final int ORIGIN_ITEM_PARTICLE_OVERRIDDEN = 4;
-    public static final int ORIGIN_BLOCK_BRUSH = 5;
+    public static final int ORIGIN_BLOCK_BRUSHED = 5;
     public static final int ORIGIN_BLOCK_CRACK = 6;
 
     public static final BlockParticleOverride NONE = new BlockParticleOverride("none");
-    public static final BlockParticleOverride BLOCK = new BlockParticleOverride(
+    public static final BlockParticleOverride VANILLA = new BlockParticleOverride(
         "vanilla_particle",
         "vanilla_block_override",
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ParticleTypes.BLOCK, blockState),
@@ -50,6 +49,7 @@ public class BlockParticleOverride {
 
     private final String name;
     private final String groupName;
+    @NotNull final BlockParticleOverride.ReplaceParticleFromOriginConsumer shouldReplaceParticleFromOrigin_getter;
     @NotNull final GetParticleOptionConsumer getParticleOption;
     @Nullable final Supplier<List<ResourceLocation>> supportedBlockResourceLocations_getter;
     @Nullable final Consumer<List<ResourceLocation>> supportedBlockResourceLocations_setter;
@@ -66,6 +66,26 @@ public class BlockParticleOverride {
 
     final float particleVelocityMultiplier;
 
+    /**
+     * Instantiates a new Block Particle Override
+     *
+     * @param overrideName                            The override name
+     * @param groupName                               The group name
+     * @param getParticleOption                       A {@link GetParticleOptionConsumer} that returns a {@link ParticleOptions} to spawn when this override is enabled
+     * @param supportedBlockResourceLocations_getter  A supplier for a list of block {@link ResourceLocation}s that this override should apply to
+     * @param supportedBlockResourceLocations_setter  A consumer to set a list of block {@link ResourceLocation}s that this override should apply to. This is called when the user changes this from the config menu
+     * @param supportedBlockResourceLocations_default A default list of block {@link ResourceLocation}s that this override should apply to. Used when the config is reset by the user
+     * @param overrideEnabled_getter                  A supplier that returns a boolean if this override is enabled or not
+     * @param overrideEnabled_setter                  A consumer that sets a boolean if this override is enabled or not. This is called when the user changes this from the config menu
+     * @param overrideEnabled_default                 The default value if this override is enabled. Used when the config is reset by the user
+     * @param maxParticlesOnPlace_getter              A supplier that returns the amount of particles to spawn when a block is placed
+     * @param maxParticlesOnPlace_setter              A consumer that sets the amount of particles to spawn when a block is placed. This is called when the user changes this from the config menu
+     * @param maxParticlesOnPlace_default             The default amount of particles to spawn when a block is placed. Used when the config is reset by the user
+     * @param maxParticlesOnBreak_getter              A supplier that returns the amount of particles to spawn when a block is broken
+     * @param maxParticlesOnBreak_setter              A consumer that sets the amount of particles to spawn when a block is broken. This is called when the user changes this from the config menu
+     * @param maxParticlesOnBreak_default             The default amount of particles to spawn when a block is broken. Used when the config is reset by the user
+     * @param particleVelocityMultiplier              An amount to multiply the velocity by when spawning a particle for this override
+     */
     BlockParticleOverride(
         String overrideName,
         String groupName,
@@ -86,6 +106,67 @@ public class BlockParticleOverride {
     ) {
         this.name = overrideName;
         this.groupName = groupName;
+        this.shouldReplaceParticleFromOrigin_getter = (int overrideOrigin) -> true;
+        this.getParticleOption = getParticleOption;
+        this.supportedBlockResourceLocations_getter = supportedBlockResourceLocations_getter;
+        this.overrideEnabled_getter = overrideEnabled_getter;
+        this.maxParticlesOnPlace_getter = maxParticlesOnPlace_getter;
+        this.maxParticlesOnBreak_getter = maxParticlesOnBreak_getter;
+        this.supportedBlockResourceLocations_setter = supportedBlockResourceLocations_setter;
+        this.overrideEnabled_setter = overrideEnabled_setter;
+        this.maxParticlesOnPlace_setter = maxParticlesOnPlace_setter;
+        this.maxParticlesOnBreak_setter = maxParticlesOnBreak_setter;
+        this.supportedBlockResourceLocations_default = supportedBlockResourceLocations_default;
+        this.overrideEnabled_default = overrideEnabled_default;
+        this.maxParticlesOnPlace_default = maxParticlesOnPlace_default;
+        this.maxParticlesOnBreak_default = maxParticlesOnBreak_default;
+        this.particleVelocityMultiplier = particleVelocityMultiplier;
+    }
+
+    /**
+     * Instantiates a new Block Particle Override
+     *
+     * @param overrideName                            The override name
+     * @param groupName                               The group name
+     * @param shouldReplaceParticleFromOrigin_getter  A {@link ReplaceParticleFromOriginConsumer} that returns if this override should apply in certain contexts.
+     *                                                This acts differently from disabling the override entirely. Returning false here will use the vanilla particles, instead of particles from an override "underneath" this one (if any).
+     * @param getParticleOption                       A {@link GetParticleOptionConsumer} that returns a {@link ParticleOptions} to spawn when this override is enabled
+     * @param supportedBlockResourceLocations_getter  A supplier for a list of block {@link ResourceLocation}s that this override should apply to
+     * @param supportedBlockResourceLocations_setter  A consumer to set a list of block {@link ResourceLocation}s that this override should apply to. This is called when the user changes this from the config menu
+     * @param supportedBlockResourceLocations_default A default list of block {@link ResourceLocation}s that this override should apply to. Used when the config is reset by the user
+     * @param overrideEnabled_getter                  A supplier that returns a boolean if this override is enabled or not
+     * @param overrideEnabled_setter                  A consumer that sets a boolean if this override is enabled or not. This is called when the user changes this from the config menu
+     * @param overrideEnabled_default                 The default value if this override is enabled. Used when the config is reset by the user
+     * @param maxParticlesOnPlace_getter              A supplier that returns the amount of particles to spawn when a block is placed
+     * @param maxParticlesOnPlace_setter              A consumer that sets the amount of particles to spawn when a block is placed. This is called when the user changes this from the config menu
+     * @param maxParticlesOnPlace_default             The default amount of particles to spawn when a block is placed. Used when the config is reset by the user
+     * @param maxParticlesOnBreak_getter              A supplier that returns the amount of particles to spawn when a block is broken
+     * @param maxParticlesOnBreak_setter              A consumer that sets the amount of particles to spawn when a block is broken. This is called when the user changes this from the config menu
+     * @param maxParticlesOnBreak_default             The default amount of particles to spawn when a block is broken. Used when the config is reset by the user
+     * @param particleVelocityMultiplier              An amount to multiply the velocity by when spawning a particle for this override
+     */
+    BlockParticleOverride(
+        String overrideName,
+        String groupName,
+        @NotNull BlockParticleOverride.ReplaceParticleFromOriginConsumer shouldReplaceParticleFromOrigin_getter,
+        @NotNull GetParticleOptionConsumer getParticleOption,
+        @NotNull Supplier<List<ResourceLocation>> supportedBlockResourceLocations_getter,
+        @NotNull Consumer<List<ResourceLocation>> supportedBlockResourceLocations_setter,
+        @NotNull List<ResourceLocation> supportedBlockResourceLocations_default,
+        Supplier<Boolean> overrideEnabled_getter,
+        Consumer<Boolean> overrideEnabled_setter,
+        boolean overrideEnabled_default,
+        Supplier<Integer> maxParticlesOnPlace_getter,
+        Consumer<Integer> maxParticlesOnPlace_setter,
+        int maxParticlesOnPlace_default,
+        Supplier<Integer> maxParticlesOnBreak_getter,
+        Consumer<Integer> maxParticlesOnBreak_setter,
+        int maxParticlesOnBreak_default,
+        float particleVelocityMultiplier
+    ) {
+        this.name = overrideName;
+        this.groupName = groupName;
+        this.shouldReplaceParticleFromOrigin_getter = shouldReplaceParticleFromOrigin_getter;
         this.getParticleOption = getParticleOption;
         this.supportedBlockResourceLocations_getter = supportedBlockResourceLocations_getter;
         this.overrideEnabled_getter = overrideEnabled_getter;
@@ -105,6 +186,7 @@ public class BlockParticleOverride {
     private BlockParticleOverride(String overrideName) {
         this.name = overrideName;
         this.groupName = overrideName;
+        this.shouldReplaceParticleFromOrigin_getter = (int overrideOrigin) -> true;
         this.getParticleOption = (BlockState state, ClientLevel level, BlockPos pos, int overrideOrigin) -> null;
         this.supportedBlockResourceLocations_getter = null;
         this.overrideEnabled_getter = null;
@@ -121,6 +203,9 @@ public class BlockParticleOverride {
         this.particleVelocityMultiplier = 1;
     }
 
+    public interface ReplaceParticleFromOriginConsumer {
+        boolean consume(int overrideOrigin);
+    }
     public interface GetParticleOptionConsumer {
         ParticleOptions consume(BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin);
     }
@@ -137,11 +222,12 @@ public class BlockParticleOverride {
         return this.name;
     }
 
-    public static BlockParticleOverride getOverrideForBlockState(BlockState blockState) {
+    public static BlockParticleOverride getOverrideForBlockState(BlockState blockState, int overrideOrigin) {
         Block block = blockState.getBlock();
         if(blockState.isAir()) return NONE;
         ResourceLocation blockLocation = RegistryHelper.getLocationFromBlock(block);
 
+        BlockParticleOverride returnOverride = null;
         for (BlockParticleOverride override : BlockParticleOverride.blockParticleOverrides) {
             if (override.supportedBlockResourceLocations_getter == null) continue;
             List<ResourceLocation> locations = override.supportedBlockResourceLocations_getter.get();
@@ -150,10 +236,16 @@ public class BlockParticleOverride {
             if(!overrideContainsThisBlock) continue;
 
             if(override.overrideEnabled_getter.get()) {
-                return override;
+                returnOverride = override;
+                break;
             }
         }
-        if(BLOCK.overrideEnabled_getter.get()) return BLOCK;
+
+        if(returnOverride != null && returnOverride.shouldReplaceParticleFromOrigin(overrideOrigin)) {
+            return returnOverride;
+        }
+
+        if(VANILLA.overrideEnabled_getter.get()) return VANILLA;
         return NONE;
     }
 
@@ -182,7 +274,7 @@ public class BlockParticleOverride {
      * @param override the override to add
      */
     public static void addBlockParticleOverride(BlockParticleOverride override) {
-        if(override == NONE || override == BLOCK) throw new IllegalArgumentException("Cannot call BlockParticleOverride#addBlockParticleOverride with BlockParticleOverride.NONE or BlockParticleOverride.BLOCK");
+        if(override == NONE || override == VANILLA) throw new IllegalArgumentException("Cannot call BlockParticleOverride#addBlockParticleOverride with BlockParticleOverride.NONE or BlockParticleOverride.BLOCK");
         blockParticleOverrides.add(override);
     }
 
@@ -244,5 +336,9 @@ public class BlockParticleOverride {
 
     public float getParticleVelocityMultiplier() {
         return particleVelocityMultiplier;
+    }
+
+    public boolean shouldReplaceParticleFromOrigin(int overrideOrigin) {
+        return this.shouldReplaceParticleFromOrigin_getter.consume(overrideOrigin);
     }
 }

@@ -29,8 +29,8 @@ public abstract class BrushItem {
         Vec3 particlePos = hitResult.getLocation();
         ParticleInteractionsLogging.debugInfo("Blockstate brushed {} at {}", blockState, particlePos);
 
-        BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockState);
-        if(override == BlockParticleOverride.BLOCK || override == BlockParticleOverride.NONE) {
+        BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockState, BlockParticleOverride.ORIGIN_BLOCK_BRUSHED);
+        if(override == BlockParticleOverride.VANILLA || override == BlockParticleOverride.NONE) {
             return;
         }
 

@@ -1,6 +1,5 @@
 package games.enchanted.blockplaceparticles.particle_spawning;
 
-import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.particle.option.ParticleEmitterOptions;
@@ -35,7 +34,8 @@ public class SpawnParticles {
     public static void spawnBlockPlaceParticle(ClientLevel level, BlockPos blockPos, BlockState placedBlockState) {
         if(ConfigHandler.underwaterBubbles_onPlace) spawnUnderwaterBubbles(ConfigHandler.maxUnderwaterBubbles_onPlace, level, blockPos);
 
-        BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(placedBlockState);
+        int overrideOrigin = BlockParticleOverride.ORIGIN_BLOCK_PLACED;
+        BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(placedBlockState, overrideOrigin);
         if (particleOverride == BlockParticleOverride.NONE) {
             return;
         }
@@ -76,7 +76,7 @@ public class SpawnParticles {
                     double particleYOffset = (biggestEdge == Direction.Axis.Y ? particlePos : height) + y1 + verticalAxisOffset;
                     double particleZOffset = (biggestEdge == Direction.Axis.Z ? particlePos : depth) + z1;
 
-                    ParticleOptions particleToSpawn = particleOverride.getParticleOptionForState(placedBlockState, level, blockPos, BlockParticleOverride.ORIGIN_BLOCK_PLACED);
+                    ParticleOptions particleToSpawn = particleOverride.getParticleOptionForState(placedBlockState, level, blockPos, overrideOrigin);
                     if (particleToSpawn == null) {
                         continue;
                     }
@@ -465,7 +465,7 @@ public class SpawnParticles {
     public static void spawnBrushingParticles(ClientLevel level, BlockParticleOverride override, BlockState blockState, Direction brushDirection, Vec3 particlePos, int armDirection, int amountOfParticles, double baseDeltaX, double baseDeltaY, double baseDeltaZ) {
         final double outwardVelocity = 0.05;
         for (int i = 0; i < amountOfParticles; i++) {
-            ParticleOptions particleOption = override.getParticleOptionForState(blockState, level, BlockPos.containing(particlePos), BlockParticleOverride.ORIGIN_BLOCK_BRUSH);
+            ParticleOptions particleOption = override.getParticleOptionForState(blockState, level, BlockPos.containing(particlePos), BlockParticleOverride.ORIGIN_BLOCK_BRUSHED);
             if(particleOption == null) continue;
             level.addParticle(
                 particleOption,

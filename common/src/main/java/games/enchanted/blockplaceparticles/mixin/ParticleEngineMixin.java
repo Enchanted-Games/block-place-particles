@@ -39,7 +39,7 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
         method = "destroy"
     )
     public void useParticleInteractionsDestroyParticleLogic(BlockPos brokenBlockPos, BlockState brokenBlockState, CallbackInfo ci) {
-        BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(brokenBlockState);
+        BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(brokenBlockState, BlockParticleOverride.ORIGIN_BLOCK_BROKEN);
         SpawnParticles.spawnBlockBreakParticle(this.level, brokenBlockState, brokenBlockPos, particleOverride);
     }
 
@@ -70,14 +70,16 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
                 return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);
             }
 
-            BlockState originalParticleBlockState = ((BlockItem) originalParticleItem).getBlock().defaultBlockState();
-            BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(originalParticleBlockState);
+            int overrideOrigin = BlockParticleOverride.ORIGIN_ITEM_PARTICLE_OVERRIDDEN;
 
-            if(particleOverride == BlockParticleOverride.BLOCK || particleOverride == BlockParticleOverride.NONE) {
+            BlockState originalParticleBlockState = ((BlockItem) originalParticleItem).getBlock().defaultBlockState();
+            BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(originalParticleBlockState, overrideOrigin);
+
+            if(particleOverride == BlockParticleOverride.VANILLA || particleOverride == BlockParticleOverride.NONE) {
                 return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);
             }
 
-            ParticleOptions newParticleOption = particleOverride.getParticleOptionForState(originalParticleBlockState, level, BlockPos.containing(x, y, z), BlockParticleOverride.ORIGIN_ITEM_PARTICLE_OVERRIDDEN);
+            ParticleOptions newParticleOption = particleOverride.getParticleOptionForState(originalParticleBlockState, level, BlockPos.containing(x, y, z), overrideOrigin);
             return (original).call(
                 instance,
                 newParticleOption,
@@ -103,14 +105,16 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
             return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);
         }
 
-        BlockState originalParticleBlockState = ((BlockParticleOption) originalParticleOption).getState();
-        BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(originalParticleBlockState);
+        int overrideOrigin = BlockParticleOverride.ORIGIN_BLOCK_PARTICLE_OVERRIDDEN;
 
-        if(particleOverride == BlockParticleOverride.BLOCK || particleOverride == BlockParticleOverride.NONE) {
+        BlockState originalParticleBlockState = ((BlockParticleOption) originalParticleOption).getState();
+        BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(originalParticleBlockState, overrideOrigin);
+
+        if(particleOverride == BlockParticleOverride.VANILLA || particleOverride == BlockParticleOverride.NONE) {
             return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);
         }
 
-        ParticleOptions newParticleOption = particleOverride.getParticleOptionForState(originalParticleBlockState, level, BlockPos.containing(x, y, z), BlockParticleOverride.ORIGIN_BLOCK_PARTICLE_OVERRIDDEN);
+        ParticleOptions newParticleOption = particleOverride.getParticleOptionForState(originalParticleBlockState, level, BlockPos.containing(x, y, z), overrideOrigin);
         boolean isDustPillarParticle = originalParticleOption.getType() == ParticleTypes.DUST_PILLAR;
         double newYSpeed = (ySpeed * particleOverride.getParticleVelocityMultiplier() * 0.5) + (ySpeed < 0.02 ? 0.08 : 0.);
         return (original).call(
@@ -134,10 +138,14 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
     )
     public void replaceCrackingParticlesConditionally(BlockPos blockPos, Direction side, CallbackInfo ci, @Local(ordinal = 0) double xPos, @Local(ordinal = 1) double yPos, @Local(ordinal = 2) double zPos) {
         BlockState blockstate = this.level.getBlockState(blockPos);
-        BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockstate);
-        if(override == BlockParticleOverride.BLOCK) return;
+
+        int overrideOrigin = BlockParticleOverride.ORIGIN_BLOCK_CRACK;
+        BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockstate, overrideOrigin);
+
+        if(override == BlockParticleOverride.VANILLA) return;
+
         if(override != BlockParticleOverride.NONE) {
-            ParticleOptions newParticleOption = override.getParticleOptionForState(blockstate, level, blockPos, BlockParticleOverride.ORIGIN_BLOCK_CRACK);
+            ParticleOptions newParticleOption = override.getParticleOptionForState(blockstate, level, blockPos, overrideOrigin);
             if (newParticleOption == null) return;
             this.level.addParticle(
                 newParticleOption,

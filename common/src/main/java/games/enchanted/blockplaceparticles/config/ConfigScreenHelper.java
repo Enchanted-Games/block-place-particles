@@ -9,7 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 public class ConfigScreenHelper {
     public static ConfigCategory.Builder createBlockParticleOverrideConfigWidgets(ConfigCategory.Builder configCategoryBuilder) {
         for (BlockParticleOverride override : BlockParticleOverride.getBlockParticleOverrides()) {
-            if(override == BlockParticleOverride.NONE || override == BlockParticleOverride.BLOCK) continue;
+            if(override == BlockParticleOverride.NONE || override == BlockParticleOverride.VANILLA) continue;
             configCategoryBuilder.group(
                 ConfigScreen.createSeparator()
             );
@@ -22,7 +22,7 @@ public class ConfigScreenHelper {
             ConfigScreen.createSeparator()
         );
         configCategoryBuilder.group(
-            createOptionsForBlockOverride(BlockParticleOverride.BLOCK)
+            createOptionsForBlockOverride(BlockParticleOverride.VANILLA)
         );
 
         return configCategoryBuilder;

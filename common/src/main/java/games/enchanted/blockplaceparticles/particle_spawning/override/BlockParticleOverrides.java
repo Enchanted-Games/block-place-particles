@@ -111,6 +111,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride GRASS_BLADE = new BlockParticleOverride(
         "grass_blade",
         "tinted_or_average",
+        (int overrideOrigin) -> overrideOrigin != BlockParticleOverride.ORIGIN_ITEM_PARTICLE_OVERRIDDEN,
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
             if(
                 blockState.getBlock() == Blocks.GRASS_BLOCK &&
@@ -138,6 +139,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride HEAVY_GRASS_BLADE = new BlockParticleOverride(
         "heavy_grass_blade",
         "tinted_or_average",
+        (int overrideOrigin) -> overrideOrigin != BlockParticleOverride.ORIGIN_ITEM_PARTICLE_OVERRIDDEN,
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ModParticleTypes.HEAVY_GRASS_BLADE, blockState),
         () -> ConfigHandler.heavyGrassBlade_Blocks,
         (val) -> ConfigHandler.heavyGrassBlade_Blocks = val,
