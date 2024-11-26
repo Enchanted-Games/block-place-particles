@@ -72,6 +72,24 @@
   "eg_particle_interactions.config.global_option.minecart_only_with_passenger.desc": "Should %s particles only be spawned if there is a passenger riding the minecart? A passenger counts as any entity riding the minecart or a block inside the minecart, e.g: a chest for chest minecarts",
 
 
+  "eg_particle_interactions.config.general": "General / Compatability",
+  "eg_particle_interactions.config.general.desc": "General config options for the mod",
+  "eg_particle_interactions.config.general.info": "General / Compatability Options",
+  "eg_particle_interactions.config.general.info.desc": "General config options for the mod",
+
+
+  "eg_particle_interactions.config.general.debug": "Debug",
+  "eg_particle_interactions.config.general.debug.desc": "CAUTION: Don't change these options unless you have been told to or know what you are doing.",
+
+  "eg_particle_interactions.config.global_option.toggle_debug_logs": "Toggle interaction debug logs",
+  "eg_particle_interactions.config.global_option.toggle_debug_logs.desc": "Logs information to the log when you interact with certain things.\n\nThis will be disabled the next time you open the game",
+  "eg_particle_interactions.toast.debug_logs_enabled": "Debug Logs Enabled",
+  "eg_particle_interactions.toast.debug_logs_disabled": "Debug Logs Disabled",
+
+  "eg_particle_interactions.config.global_option.debug_show_emitter_bounds": "Show particle emitter bounds",
+  "eg_particle_interactions.config.global_option.debug_show_emitter_bounds.desc": "Visualises particle emitter bounding boxes with a particle in the bottom north-west corner and top south-east corner.\n\nThis will be disabled the next time you open the game",
+
+
   "eg_particle_interactions.config.blocks": "Block Particle Overrides",
   "eg_particle_interactions.config.blocks.desc": "Configure particle overrides for blocks. These overrides replace the vanilla block particles",
   "eg_particle_interactions.config.blocks.info": "Block Particle Override Information",
@@ -162,17 +180,5 @@
   "eg_particle_interactions.config.global_option.spawn_fluid_particle_on_place": "Spawn when fluid placed",
   "eg_particle_interactions.config.global_option.spawn_fluid_particle_on_place.desc": "Should %s particles spawn when a fluid is placed?",
   "eg_particle_interactions.config.global_option.max_particles_fluid_place": "Amount of particles when fluid placed",
-  "eg_particle_interactions.config.global_option.max_particles_fluid_place.desc": "The amount of particles that spawn inside the fluid when it is placed",
-
-
-  "eg_particle_interactions.toast.debug_logs_enabled": "Debug Logs Enabled",
-  "eg_particle_interactions.toast.debug_logs_disabled": "Debug Logs Disabled",
-
-  "eg_particle_interactions.config.debug": "Debug",
-  "eg_particle_interactions.config.debug.desc": "You found the debug menu! To access this again, hold down ALT or CTRL when opening the config screen",
-
-  "eg_particle_interactions.config.global_option.toggle_debug_logs": "Toggle interaction debug logs",
-  "eg_particle_interactions.config.global_option.toggle_debug_logs.desc": "You should keep this disabled unless you have been told to enable it.\n\nThis will be disabled the next time you open the game",
-  "eg_particle_interactions.config.global_option.debug_show_emitter_bounds": "Show particle emitter bounds",
-  "eg_particle_interactions.config.global_option.debug_show_emitter_bounds.desc": "Visualises particle emitter bounding boxes with a particle in the bottom north-west corner and top south-east corner.\n\nThis will be disabled the next time you open the game"
+  "eg_particle_interactions.config.global_option.max_particles_fluid_place.desc": "The amount of particles that spawn inside the fluid when it is placed"
 }

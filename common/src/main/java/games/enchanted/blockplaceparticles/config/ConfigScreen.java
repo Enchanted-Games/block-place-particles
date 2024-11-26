@@ -28,30 +28,46 @@ public class ConfigScreen {
     }
 
     private static YetAnotherConfigLib createConfigCategories(YetAnotherConfigLib.Builder yaclBuilder) {
-        // create debug category if holding down alt or ctrl
-        if(Screen.hasAltDown() || Screen.hasControlDown()) {
-            yaclBuilder.category( ConfigCategory.createBuilder()
-                .name(ConfigTranslation.getCategoryName(ConfigTranslation.DEBUG_CATEGORY).toComponent())
-                .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.DEBUG_CATEGORY)))
+        // general category
+        yaclBuilder.category( ConfigCategory.createBuilder()
+            .name(ConfigTranslation.getCategoryName(ConfigTranslation.GENERAL_CATEGORY).toComponent())
+            .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.GENERAL_CATEGORY)))
 
-                // enable debug logs
-                .option(
-                    ButtonOption.createBuilder()
-                        .name( ConfigTranslation.getGlobalOption(ConfigTranslation.TOGGLE_DEBUG_LOGS).toComponent() )
-                        .description( OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(ConfigTranslation.TOGGLE_DEBUG_LOGS))) )
-                        .action((yaclScreen, thisOption) -> ParticleInteractionsLogging.toggleDebugLogs())
-                    .build()
-                )
+            // category info
+            .group(OptionGroup.createBuilder()
+                .name( ConfigTranslation.getGroupName(ConfigTranslation.GENERAL_CATEGORY, "info").toComponent() )
+                .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.GENERAL_CATEGORY, "info")) ))
+                .collapsed(true)
+                .option(LabelOption.createBuilder().line(Component.empty()).build())
+            .build())
 
-                .option(
-                    booleanOption(
-                        ConfigTranslation.DEBUG_SHOW_EMITTER_BOUNDS,
-                        "",
-                        Binding.generic(ConfigHandler.debug_showEmitterBounds_DEFAULT, () -> ConfigHandler.debug_showEmitterBounds, newVal -> ConfigHandler.debug_showEmitterBounds = newVal)
-                    )
+            // compatibility
+            .group( createGenericConfigGroup(
+                "general",
+                ConfigTranslation.GENERAL_CATEGORY,
+                false,
+                genericBooleanOption(
+                    ConfigTranslation.PIXEL_CONSISTENT_TERRAIN_PARTICLES,
+                    Binding.generic(ConfigHandler.general_pixelConsistentTerrainParticles_DEFAULT, () -> ConfigHandler.general_pixelConsistentTerrainParticles, newVal -> ConfigHandler.general_pixelConsistentTerrainParticles = newVal)
                 )
-            .build());
-        }
+            ))
+
+            // debug
+            .group( createGenericConfigGroup(
+                "debug",
+                ConfigTranslation.GENERAL_CATEGORY,
+                true,
+                ButtonOption.createBuilder()
+                    .name( ConfigTranslation.getGlobalOption(ConfigTranslation.TOGGLE_DEBUG_LOGS).toComponent() )
+                    .description( OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(ConfigTranslation.TOGGLE_DEBUG_LOGS))) )
+                    .action((yaclScreen, thisOption) -> ParticleInteractionsLogging.toggleDebugLogs())
+                .build(),
+                genericBooleanOption(
+                    ConfigTranslation.DEBUG_SHOW_EMITTER_BOUNDS,
+                    Binding.generic(ConfigHandler.debug_showEmitterBounds_DEFAULT, () -> ConfigHandler.debug_showEmitterBounds, newVal -> ConfigHandler.debug_showEmitterBounds = newVal)
+                )
+            ))
+        .build());
 
         // block override category
         yaclBuilder.category( ConfigScreenHelper.createBlockParticleOverrideConfigWidgets(
@@ -348,13 +364,33 @@ public class ConfigScreen {
         for (Option<?> option : options) {
             optionGroupBuilder.option(option);
         }
-        return optionGroupBuilder.build();
+        return optionGroupBuilder.collapsed(collapseByDefault).build();
+    }
+
+    public static OptionGroup createGenericConfigGroup(String groupName, String category, boolean collapseByDefault, Option<?> ...options) {
+        ConfigTranslation.TranslationKey groupNameKey = ConfigTranslation.getGroupName(category, groupName);
+        OptionGroup.Builder optionGroupBuilder = OptionGroup.createBuilder()
+            .name( groupNameKey.toComponent() )
+            .description(OptionDescription.of( ConfigTranslation.createDesc(groupNameKey) ));
+        for (Option<?> option : options) {
+            optionGroupBuilder.option(option);
+        }
+        return optionGroupBuilder.collapsed(collapseByDefault).build();
     }
 
     private static Option<Boolean> booleanOption(String booleanOptionLabelText, String particleTypeKey, Binding<Boolean> binding) {
         return Option.<Boolean>createBuilder()
             .name( ConfigTranslation.getGlobalOption(booleanOptionLabelText).toComponent() )
             .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(booleanOptionLabelText)), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ))
+            .binding(binding)
+            .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
+        .build();
+    }
+    private static Option<Boolean> genericBooleanOption(String optionName, Binding<Boolean> binding) {
+        ConfigTranslation.TranslationKey translationKey = ConfigTranslation.getGlobalOption(optionName);
+        return Option.<Boolean>createBuilder()
+            .name( translationKey.toComponent() )
+            .description(OptionDescription.of( ConfigTranslation.createDesc(translationKey) ))
             .binding(binding)
             .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
         .build();
