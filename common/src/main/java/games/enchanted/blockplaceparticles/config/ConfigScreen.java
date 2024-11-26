@@ -33,15 +33,7 @@ public class ConfigScreen {
             .name(ConfigTranslation.getCategoryName(ConfigTranslation.GENERAL_CATEGORY).toComponent())
             .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.GENERAL_CATEGORY)))
 
-            // category info
-            .group(OptionGroup.createBuilder()
-                .name( ConfigTranslation.getGroupName(ConfigTranslation.GENERAL_CATEGORY, "info").toComponent() )
-                .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.GENERAL_CATEGORY, "info")) ))
-                .collapsed(true)
-                .option(LabelOption.createBuilder().line(Component.empty()).build())
-            .build())
-
-            // compatibility
+            // general
             .group( createGenericConfigGroup(
                 "general",
                 ConfigTranslation.GENERAL_CATEGORY,

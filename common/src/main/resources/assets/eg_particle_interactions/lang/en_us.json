@@ -72,11 +72,13 @@
   "eg_particle_interactions.config.global_option.minecart_only_with_passenger.desc": "Should %s particles only be spawned if there is a passenger riding the minecart? A passenger counts as any entity riding the minecart or a block inside the minecart, e.g: a chest for chest minecarts",
 
 
-  "eg_particle_interactions.config.general": "General / Compatability",
+  "eg_particle_interactions.config.general": "General / Compatibility",
   "eg_particle_interactions.config.general.desc": "General config options for the mod",
-  "eg_particle_interactions.config.general.info": "General / Compatability Options",
-  "eg_particle_interactions.config.general.info.desc": "General config options for the mod",
+  "eg_particle_interactions.config.general.general": "General / Compatibility Options",
+  "eg_particle_interactions.config.general.general.desc": "General config options for the mod",
 
+  "eg_particle_interactions.config.global_option.pixel_consistent_terrain_particles": "Pixel consistent block / item particles",
+  "eg_particle_interactions.config.global_option.pixel_consistent_terrain_particles.desc": "Makes the particles that appear when mining blocks, placing blocks, or eating food be pixel consistent.\n\nTry disabling this if you are having visual issues with other mods or resourcepacks",
 
   "eg_particle_interactions.config.general.debug": "Debug",
   "eg_particle_interactions.config.general.debug.desc": "CAUTION: Don't change these options unless you have been told to or know what you are doing.",
