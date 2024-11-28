@@ -1,11 +1,12 @@
 package games.enchanted.blockplaceparticles.particle.dust;
 
-import games.enchanted.blockplaceparticles.util.ColourUtil;
+import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
@@ -13,9 +14,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class FallingDust extends TextureSheetParticle {
-    protected FallingDust(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, float gravityMultiplier) {
+    protected boolean spawnSpecks;
+
+    protected FallingDust(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, float gravityMultiplier, boolean spawnSpecks) {
         super(level, x, y, z);
-        this.setSprite(spriteSet.get(this.random.nextInt(12), 12));
+
+        this.spawnSpecks = spawnSpecks;
+
+        this.setSprite(spriteSet.get(this.random));
         this.gravity = Mth.randomBetween(this.random, 0.25F, 0.38F);;
         this.friction = 1.0F;
         this.xd = xSpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
@@ -38,6 +44,17 @@ public class FallingDust extends TextureSheetParticle {
         this.zd *= 0.949999988079071;
 
         super.tick();
+
+        if(!this.spawnSpecks || this.removed || !this.hasPhysics || this.onGround) {
+            return;
+        }
+        if((this.age < 3 && this.random.nextFloat() < 0.23f) || this.random.nextFloat() < 0.01f) {
+            this.level.addParticle(this.getSpeckParticle(), this.x, this.y ,this.z, this.xd / 2, (this.yd / 2) + 0.05, this.zd / 2);
+        }
+    }
+
+    protected @NotNull ParticleOptions getSpeckParticle() {
+        return ModParticleTypes.DUST_SPECK;
     }
 
     @Override
@@ -55,21 +72,25 @@ public class FallingDust extends TextureSheetParticle {
         @Nullable
         @Override
         public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new FallingDust(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, 1);
+            FallingDust particle = new FallingDust(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet, 0.7f, true);
+            float particleSize = MathHelpers.randomBetween(0.08f, 0.12f);
+            particle.quadSize = particleSize;
+            particle.setSize(particleSize, particleSize);
+            return particle;
         }
     }
 
-    public static class RandomisedSizeProvider implements ParticleProvider<SimpleParticleType> {
+    public static class SpeckProvider implements ParticleProvider<SimpleParticleType>  {
         private final SpriteSet spriteSet;
 
-        public RandomisedSizeProvider(SpriteSet spriteSet) {
+        public SpeckProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
         @Nullable
         @Override
         public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            FallingDust particle = new FallingDust(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, 1);
+            FallingDust particle = new FallingDust(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet, 0.35f, false);
             float particleSize = MathHelpers.randomBetween(0.08f, 0.12f);
             particle.quadSize = particleSize;
             particle.setSize(particleSize, particleSize);

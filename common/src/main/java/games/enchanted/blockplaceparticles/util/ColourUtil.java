@@ -14,7 +14,7 @@ public class ColourUtil {
     private static final HashMap<ResourceLocation, Integer> colourCache = new HashMap<>();
 
     /**
-     * Calculates the average colour of the passed blockstate's particle texture.
+     * Calculates and caches the average colour from a {@link BlockState}'s pixel texture
      *
      * @param blockState the block state
      * @return the average colour in an array of a, r, g, b
@@ -31,12 +31,12 @@ public class ColourUtil {
     }
 
     /**
-     * Calculates the average colour of the passed blockstate's particle texture.
+     * Calculates the average from a {@link TextureAtlasSprite}
      *
      * @param sprite a sprite to calculate the average colour of
      * @return the average colour as an argb int
      */
-    private static int calculateAverageSpriteColour(TextureAtlasSprite sprite) {
+    public static int calculateAverageSpriteColour(TextureAtlasSprite sprite) {
         if (sprite == null) return -1;
         SpriteContents spriteContents = sprite.contents();
         if (spriteContents.getUniqueFrames().count() == 0) return -1;
@@ -66,6 +66,24 @@ public class ColourUtil {
         );
 
         return ARGB_to_ARGBint((int) (alpha / total), rgb[0], rgb[1], rgb[2]);
+    }
+
+    /**
+     * Gets a random pixel's colour from a {@link BlockState}'s pixel texture
+     *
+     * @param blockState the block state to get a random colour from
+     * @return the colour in an array of a, r, g, b
+     */
+    public static int[] getRandomBlockColour(BlockState blockState) {
+        TextureAtlasSprite particleSprite = Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState).getParticleIcon();
+        SpriteContents spriteContents = particleSprite.contents();
+
+        int x = MathHelpers.randomBetween(0, spriteContents.width() - 1);
+        int y = MathHelpers.randomBetween(0, spriteContents.height() - 1);
+
+        int sampledColour = ((SpriteContentsAccessor) spriteContents).getOriginalImage().getPixel(x, y);
+
+        return ARGBint_to_ARGB(sampledColour);
     }
 
     /**

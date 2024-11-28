@@ -104,6 +104,13 @@ public class MathHelpers {
     }
 
     /**
+     * Returns a random int between a bound (inclusive)
+     */
+    public static int randomBetween(int min, int max) {
+        return (int) Math.round((Math.random() * (max - min)) + min);
+    }
+
+    /**
      * Multiply a number by resolution, floor it, and return the result divided by resolution
      *
      * @param number     the number to floor

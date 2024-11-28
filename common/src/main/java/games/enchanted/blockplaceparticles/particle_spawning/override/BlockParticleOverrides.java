@@ -1,11 +1,9 @@
 package games.enchanted.blockplaceparticles.particle_spawning.override;
 
-import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.util.BiomeTemperatureHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.TerrainParticle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -194,7 +192,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride DUST = new BlockParticleOverride(
         "dust",
         "tinted_or_average",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ModParticleTypes.DUST, blockState),
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ModParticleTypes.TINTED_DUST, blockState),
         () -> ConfigHandler.dust_Blocks,
         (val) -> ConfigHandler.dust_Blocks = val,
         ConfigHandler.dust_Blocks_DEFAULT,

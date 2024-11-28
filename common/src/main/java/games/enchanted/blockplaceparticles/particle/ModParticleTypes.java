@@ -3,6 +3,7 @@ package games.enchanted.blockplaceparticles.particle;
 import com.mojang.serialization.MapCodec;
 import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
 import games.enchanted.blockplaceparticles.particle.bubble.UnderwaterRisingBubble;
+import games.enchanted.blockplaceparticles.particle.dust.FallingDust;
 import games.enchanted.blockplaceparticles.particle.dust.FallingTintedOrAverageDust;
 import games.enchanted.blockplaceparticles.particle.option.ParticleEmitterOptions;
 import games.enchanted.blockplaceparticles.particle.petal.FallingPetal;
@@ -40,7 +41,10 @@ public class ModParticleTypes {
     public static ParticleType<BlockParticleOption> HEAVY_GRASS_BLADE;
     public static SimpleParticleType MOSS_CLUMP;
     public static SimpleParticleType PALE_MOSS_CLUMP;
-    public static ParticleType<BlockParticleOption> DUST;
+    public static SimpleParticleType DUST;
+    public static SimpleParticleType DUST_SPECK;
+    public static ParticleType<BlockParticleOption> TINTED_DUST;
+    public static ParticleType<BlockParticleOption> TINTED_DUST_SPECK;
 
     public static ParticleType<BlockParticleOption> WATER_BUCKET_TINTED_SPLASH;
     public static SimpleParticleType LAVA_BUCKET_SPLASH;
@@ -67,7 +71,10 @@ public class ModParticleTypes {
         HEAVY_GRASS_BLADE = register((SpriteProviderReg) FallingTintedOrAveragePetal.LargerSpriteMoreGravityProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "heavy_grass_blade"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         MOSS_CLUMP = register((SpriteProviderReg) FallingPetal.RandomisedSizeMoreGravityProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "moss_clump"), false);
         PALE_MOSS_CLUMP = register((SpriteProviderReg) FallingPetal.RandomisedSizeMoreGravityProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "pale_moss_clump"), false);
-        DUST = register((SpriteProviderReg) FallingTintedOrAverageDust.RandomisedSizeProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "dust"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        DUST = register((SpriteProviderReg) FallingDust.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "dust"), false);
+        DUST_SPECK = register((SpriteProviderReg) FallingDust.SpeckProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "dust_speck"), false);
+        TINTED_DUST = register((SpriteProviderReg) FallingTintedOrAverageDust.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "tinted_dust"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        TINTED_DUST_SPECK = register((SpriteProviderReg) FallingTintedOrAverageDust.SpeckProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "tinted_dust_speck"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
 
         WATER_BUCKET_TINTED_SPLASH = register((SpriteProviderReg) BucketTintedSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "water_bucket_tinted_splash"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         LAVA_BUCKET_SPLASH = register((SpriteProviderReg) LavaSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "lava_bucket_splash"), false);
