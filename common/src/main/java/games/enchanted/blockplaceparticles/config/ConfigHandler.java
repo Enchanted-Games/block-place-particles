@@ -250,7 +250,28 @@ public class ConfigHandler {
     public static int maxDust_onBreak = maxDust_onBreak_DEFAULT;
 
     public static final List<ResourceLocation> dust_Blocks_DEFAULT = List.of(
-        RegistryHelper.getLocationFromBlock(Blocks.SAND)
+        RegistryHelper.getLocationFromBlock(Blocks.SAND),
+        RegistryHelper.getLocationFromBlock(Blocks.SUSPICIOUS_SAND),
+        RegistryHelper.getLocationFromBlock(Blocks.GRAVEL),
+        RegistryHelper.getLocationFromBlock(Blocks.SUSPICIOUS_GRAVEL),
+        RegistryHelper.getLocationFromBlock(Blocks.RED_SAND),
+        RegistryHelper.getLocationFromBlock(Blocks.SOUL_SAND),
+        RegistryHelper.getLocationFromBlock(Blocks.SOUL_SOIL),
+        RegistryHelper.getLocationFromBlock(Blocks.WHITE_CONCRETE_POWDER),
+        RegistryHelper.getLocationFromBlock(Blocks.LIGHT_GRAY_CONCRETE_POWDER),
+        RegistryHelper.getLocationFromBlock(Blocks.GRAY_CONCRETE_POWDER),
+        RegistryHelper.getLocationFromBlock(Blocks.BROWN_CONCRETE_POWDER),
+        RegistryHelper.getLocationFromBlock(Blocks.RED_CONCRETE_POWDER),
+        RegistryHelper.getLocationFromBlock(Blocks.ORANGE_CONCRETE_POWDER),
+        RegistryHelper.getLocationFromBlock(Blocks.YELLOW_CONCRETE_POWDER),
+        RegistryHelper.getLocationFromBlock(Blocks.LIME_CONCRETE_POWDER),
+        RegistryHelper.getLocationFromBlock(Blocks.GREEN_CONCRETE_POWDER),
+        RegistryHelper.getLocationFromBlock(Blocks.CYAN_CONCRETE_POWDER),
+        RegistryHelper.getLocationFromBlock(Blocks.LIGHT_BLUE_CONCRETE_POWDER),
+        RegistryHelper.getLocationFromBlock(Blocks.BLUE_CONCRETE_POWDER),
+        RegistryHelper.getLocationFromBlock(Blocks.PURPLE_CONCRETE_POWDER),
+        RegistryHelper.getLocationFromBlock(Blocks.MAGENTA_CONCRETE_POWDER),
+        RegistryHelper.getLocationFromBlock(Blocks.PINK_CONCRETE_POWDER)
     );
     @SerialEntry
     public static List<ResourceLocation> dust_Blocks = dust_Blocks_DEFAULT;

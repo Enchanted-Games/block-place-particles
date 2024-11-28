@@ -28,7 +28,10 @@ public abstract class TerrainParticle extends TextureSheetParticle {
 
     @Unique
     private void block_place_particle$recalculatePixelQuadSizes() {
-        this.block_place_particle$quadSizePixels = MathHelpers.ceilWithResolution(this.quadSize + 0.0625, this.sprite.contents().width());
+        this.block_place_particle$quadSizePixels =
+            this.quadSize <= 0.04 ?
+                (float) 1 / this.sprite.contents().width() :
+                MathHelpers.ceilWithResolution(this.quadSize + 0.0625, this.sprite.contents().width());
 
         if(this.uo + this.block_place_particle$quadSizePixels > 1) this.uo = 1 - this.block_place_particle$quadSizePixels;
         if(this.vo + this.block_place_particle$quadSizePixels > 1) this.vo = 1 - this.block_place_particle$quadSizePixels;
