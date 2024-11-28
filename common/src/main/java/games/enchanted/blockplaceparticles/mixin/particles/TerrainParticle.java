@@ -43,8 +43,8 @@ public abstract class TerrainParticle extends TextureSheetParticle {
     )
     protected void terrainParticleInit(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockState state, BlockPos pos, CallbackInfo ci) {
         if(ConfigHandler.general_pixelConsistentTerrainParticles) {
-            this.uo = MathHelpers.floorWithResolution(MathHelpers.randomBetween(0, 1), this.sprite.contents().width());
-            this.vo = MathHelpers.floorWithResolution(MathHelpers.randomBetween(0, 1), this.sprite.contents().height());
+            this.uo = (float) MathHelpers.randomBetween(0, this.sprite.contents().width()) / this.sprite.contents().width();
+            this.vo = (float) MathHelpers.randomBetween(0, this.sprite.contents().height()) / this.sprite.contents().height();
 
             this.block_place_particle$recalculatePixelQuadSizes();
         }
