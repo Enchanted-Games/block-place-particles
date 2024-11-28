@@ -191,7 +191,7 @@ public abstract class BlockParticleOverrides {
     );
     public static final BlockParticleOverride DUST = new BlockParticleOverride(
         "dust",
-        "tinted_or_average",
+        "tinted_or_random_pixel",
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ModParticleTypes.TINTED_DUST, blockState),
         () -> ConfigHandler.dust_Blocks,
         (val) -> ConfigHandler.dust_Blocks = val,

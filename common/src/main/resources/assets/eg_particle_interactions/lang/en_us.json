@@ -11,7 +11,8 @@
   "eg_particle_interactions.config.particle_type.heavy_grass_blade": "Heavy Grass Blade",
   "eg_particle_interactions.config.particle_type.moss_clump": "Moss Clump",
   "eg_particle_interactions.config.particle_type.pale_moss_clump": "Pale Moss Clump",
-  "eg_particle_interactions.config.particle_type.vanilla_particle": "Vanilla Block Breaking",
+  "eg_particle_interactions.config.particle_type.dust": "Dust",
+  "eg_particle_interactions.config.particle_type.vanilla_particle": "Vanilla Block",
 
   "eg_particle_interactions.config.particle_type.underwater_block_bubbles": "Underwater Bubble",
   "eg_particle_interactions.config.particle_type.campfire_sparks": "Campfire Spark",
@@ -100,15 +101,20 @@
   "eg_particle_interactions.config.blocks.generic_block_override": "%s Particle Options",
   "eg_particle_interactions.config.blocks.generic_block_override.desc": "When should %s particles be emitted?",
   "eg_particle_interactions.config.blocks.generic_block_override_blocks": "%s Blocks",
-  "eg_particle_interactions.config.blocks.generic_block_override_blocks.desc": "Blocks that should spawn %s particles when placed or broken",
+  "eg_particle_interactions.config.blocks.generic_block_override_blocks.desc": "Blocks that should spawn %s particles interacted with",
 
   "eg_particle_interactions.config.blocks.vanilla_block_override": "%s Particle Options",
-  "eg_particle_interactions.config.blocks.vanilla_block_override.desc": "When should %s particles be emitted?\n\nThe %s particles will be applied to all blocks that aren't specified in any other override. If this override is disabled, the %s particles will be fully disabled",
+  "eg_particle_interactions.config.blocks.vanilla_block_override.desc": "When should %s particles be emitted?\n\nThe %s particles will be applied to all blocks that aren't specified in any other override. If this override is disabled, the %s particles will not spawn.\nThis only applies when placing, breaking, or mining blocks!",
 
   "eg_particle_interactions.config.blocks.tinted_or_average": "%s Particle Options",
   "eg_particle_interactions.config.blocks.tinted_or_average.desc": "When should %s particles be emitted?\n\nThese particles are tinted with the biome colour or the average texture colour if the block doesn't have a biome tint",
   "eg_particle_interactions.config.blocks.tinted_or_average_blocks": "%s Blocks",
-  "eg_particle_interactions.config.blocks.tinted_or_average_blocks.desc": "Blocks that should spawn %s particles when placed or broken",
+  "eg_particle_interactions.config.blocks.tinted_or_average_blocks.desc": "Blocks that should spawn %s particles interacted with",
+
+  "eg_particle_interactions.config.blocks.tinted_or_random_pixel": "%s Particle Options",
+  "eg_particle_interactions.config.blocks.tinted_or_random_pixel.desc": "When should %s particles be emitted?\n\nThese particles are tinted with the biome colour or a random colour from the texture if the block doesn't have a biome tint",
+  "eg_particle_interactions.config.blocks.tinted_or_random_pixel_blocks": "%s Blocks",
+  "eg_particle_interactions.config.blocks.tinted_or_random_pixel_blocks.desc": "Blocks that should spawn %s particles interacted with",
 
 
   "eg_particle_interactions.config.block_ambient": "Block Interactions / Ambient",
