@@ -15,10 +15,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class FallingTintedOrAverageDust extends FallingDust {
+public class FallingColouredDust extends FallingDust {
     protected final BlockState dustBlockState;
 
-    protected FallingTintedOrAverageDust(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState, SpriteSet spriteSet, float gravityMultiplier, boolean spawnSpecks) {
+    protected FallingColouredDust(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState, SpriteSet spriteSet, float gravityMultiplier, boolean spawnSpecks) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier, spawnSpecks);
 
         this.dustBlockState = blockState;
@@ -54,7 +54,7 @@ public class FallingTintedOrAverageDust extends FallingDust {
         @Nullable
         @Override
         public Particle createParticle(@NotNull BlockParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            FallingTintedOrAverageDust particle = new FallingTintedOrAverageDust(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), this.spriteSet, 0.7f, true);
+            FallingColouredDust particle = new FallingColouredDust(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), this.spriteSet, 0.7f, true);
             float particleSize = MathHelpers.randomBetween(0.08f, 0.12f);
             particle.quadSize = particleSize;
             particle.setSize(particleSize, particleSize);
@@ -72,7 +72,7 @@ public class FallingTintedOrAverageDust extends FallingDust {
         @Nullable
         @Override
         public Particle createParticle(@NotNull BlockParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            FallingTintedOrAverageDust particle = new FallingTintedOrAverageDust(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), this.spriteSet, 0.35f, false);
+            FallingColouredDust particle = new FallingColouredDust(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), this.spriteSet, 0.35f, false);
             float particleSize = MathHelpers.randomBetween(0.08f, 0.12f);
             particle.quadSize = particleSize;
             particle.setSize(particleSize, particleSize);

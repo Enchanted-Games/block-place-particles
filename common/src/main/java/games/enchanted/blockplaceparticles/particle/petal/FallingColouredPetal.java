@@ -13,8 +13,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class FallingTintedOrAveragePetal extends FallingPetal {
-    protected FallingTintedOrAveragePetal(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState, SpriteSet spriteSet, float gravityMultiplier) {
+public class FallingColouredPetal extends FallingPetal {
+    protected FallingColouredPetal(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState, SpriteSet spriteSet, float gravityMultiplier) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier);
         int tintColour = Minecraft.getInstance().getBlockColors().getColor(blockState, level, blockPos, 0);
         if(tintColour == 0xffffff || tintColour == -1) {
@@ -50,7 +50,7 @@ public class FallingTintedOrAveragePetal extends FallingPetal {
         @Nullable
         @Override
         public Particle createParticle(BlockParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new FallingTintedOrAveragePetal(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 1f);
+            return new FallingColouredPetal(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 1f);
         }
     }
 
@@ -64,7 +64,7 @@ public class FallingTintedOrAveragePetal extends FallingPetal {
         @Nullable
         @Override
         public Particle createParticle(BlockParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            FallingTintedOrAveragePetal particle = new FallingTintedOrAveragePetal(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 1f);
+            FallingColouredPetal particle = new FallingColouredPetal(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 1f);
             float particleSize = level.random.nextBoolean() ? 0.10F : 0.12F;
             particle.quadSize = particleSize;
             particle.setSize(particleSize, particleSize);
@@ -82,7 +82,7 @@ public class FallingTintedOrAveragePetal extends FallingPetal {
         @Nullable
         @Override
         public Particle createParticle(BlockParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            FallingTintedOrAveragePetal particle = new FallingTintedOrAveragePetal(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 2f);
+            FallingColouredPetal particle = new FallingColouredPetal(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 2f);
             float particleSize = level.random.nextBoolean() ? 0.10F : 0.12F;
             particle.quadSize = particleSize;
             particle.setSize(particleSize, particleSize);
