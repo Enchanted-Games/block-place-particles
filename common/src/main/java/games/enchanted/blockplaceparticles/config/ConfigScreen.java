@@ -44,6 +44,10 @@ public class ConfigScreen {
                 genericBooleanOption(
                     ConfigTranslation.PIXEL_CONSISTENT_TERRAIN_PARTICLES,
                     Binding.generic(ConfigHandler.general_pixelConsistentTerrainParticles_DEFAULT, () -> ConfigHandler.general_pixelConsistentTerrainParticles, newVal -> ConfigHandler.general_pixelConsistentTerrainParticles = newVal)
+                ),
+                genericBooleanOption(
+                    ConfigTranslation.PARTICLE_ZFIGHTING_FIX,
+                    Binding.generic(ConfigHandler.general_particleZFightingFix_DEFAULT, () -> ConfigHandler.general_particleZFightingFix, newVal -> ConfigHandler.general_particleZFightingFix = newVal)
                 )
             ))
 
@@ -248,6 +252,16 @@ public class ConfigScreen {
                 booleanOption(ConfigTranslation.SPAWN_PARTICLE_WHEN_MINECART_AT_MAX_SPEED, "minecart_sparks", Binding.generic(ConfigHandler.minecart_enabled_DEFAULT, () -> ConfigHandler.minecart_enabled, newVal -> ConfigHandler.minecart_enabled = newVal)),
                 integerSliderOption(ConfigTranslation.MINECART_WHEEL_PARTICLE_AMOUNT, "minecart_sparks", ConfigHandler.minecart_spawnChance_DEFAULT, () -> ConfigHandler.minecart_spawnChance, newVal -> ConfigHandler.minecart_spawnChance = newVal, 1, 100, 1),
                 booleanOption(ConfigTranslation.MINECART_ONLY_WITH_PASSENGER, "minecart_sparks", Binding.generic(ConfigHandler.minecart_onlyWithPassenger_DEFAULT, () -> ConfigHandler.minecart_onlyWithPassenger, newVal -> ConfigHandler.minecart_onlyWithPassenger = newVal))
+            ))
+
+            // blaze sparks
+            .group( createMultipleOptionsConfigGroup(
+                "blaze_sparks",
+                "blaze_sparks",
+                ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY,
+                integerSliderOption(ConfigTranslation.ENTITY_AMBIENT_PARTICLE_SPAWN_CHANCE, "blaze_sparks", ConfigHandler.blaze_spawnChance_DEFAULT, () -> ConfigHandler.blaze_spawnChance, newVal -> ConfigHandler.blaze_spawnChance = newVal, 1, 100, 1),
+                booleanOption(ConfigTranslation.SPAWN_PARTICLE_ON_ENTITY_HURT, "blaze_sparks", Binding.generic(ConfigHandler.blaze_spawnOnHurt_DEFAULT, () -> ConfigHandler.blaze_spawnOnHurt, newVal -> ConfigHandler.blaze_spawnOnHurt = newVal)),
+                integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_ENTITY_HURT, "blaze_sparks", ConfigHandler.blaze_amountToSpawnOnHurt_DEFAULT, () -> ConfigHandler.blaze_amountToSpawnOnHurt, newVal -> ConfigHandler.blaze_amountToSpawnOnHurt = newVal, 1, 32, 1)
             ))
         .build());
 

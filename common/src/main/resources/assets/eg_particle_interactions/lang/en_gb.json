@@ -25,7 +25,9 @@
   "eg_particle_interactions.config.particle_type.axe_strip_particles": "Axe Strip",
   "eg_particle_interactions.config.particle_type.hoe_till_particles": "Hoe Till",
   "eg_particle_interactions.config.particle_type.shovel_flatten_particles": "Shovel Flatten",
+
   "eg_particle_interactions.config.particle_type.minecart_sparks": "Minecart Wheel Spark",
+  "eg_particle_interactions.config.particle_type.blaze_sparks": "Blaze Spark",
 
   "eg_particle_interactions.config.particle_type.tinted_splash": "Tinted Splash",
   "eg_particle_interactions.config.particle_type.lava_splash": "Lava Splash",
@@ -72,6 +74,13 @@
   "eg_particle_interactions.config.global_option.minecart_only_with_passenger": "Spawn only with passenger?",
   "eg_particle_interactions.config.global_option.minecart_only_with_passenger.desc": "Should %s particles only be spawned if there is a passenger riding the minecart? A passenger counts as any entity riding the minecart or a block inside the minecart, e.g: a chest for chest minecarts",
 
+  "eg_particle_interactions.config.global_option.entity_ambient_particle_spawn_chance": "Ambient particle spawn chance",
+  "eg_particle_interactions.config.global_option.entity_ambient_particle_spawn_chance.desc": "The chance for %s particles to be spawned from the entity each tick",
+  "eg_particle_interactions.config.global_option.spawn_particle_on_entity_hurt": "Spawn when entity is damaged?",
+  "eg_particle_interactions.config.global_option.spawn_particle_on_entity_hurt.desc": "Should %s particles be spawned when the entity is damaged?",
+  "eg_particle_interactions.config.global_option.amount_to_spawn_on_entity_hurt": "Amount of particles on damage",
+  "eg_particle_interactions.config.global_option.amount_to_spawn_on_entity_hurt.desc": "How many %s particles should spawn when the entity is damaged",
+
 
   "eg_particle_interactions.config.general": "General / Compatibility",
   "eg_particle_interactions.config.general.desc": "General config options for the mod",
@@ -81,11 +90,14 @@
   "eg_particle_interactions.config.global_option.pixel_consistent_terrain_particles": "Pixel consistent block / item particles",
   "eg_particle_interactions.config.global_option.pixel_consistent_terrain_particles.desc": "Makes the particles that appear when mining blocks, placing blocks, or eating food be pixel consistent.\n\nTry disabling this if you are having visual issues with other mods or resourcepacks",
 
+  "eg_particle_interactions.config.global_option.particle_zfighting_fix": "Particle Z-Fighting Fix",
+  "eg_particle_interactions.config.global_option.particle_zfighting_fix.desc": "Fixes particles z-fighting (glitching) with each-other when looking downwards, MC-91873 on the bug tracker. This fix isn't perfect but it works for most cases.\n\nThis fix works by moving each particle upwards by a small amount when it lands on a block.\n\nDisable this if particles from other mods are acting weirdly or not moving correctly. You may also want to disable this if you have another mod that also fixes this issue",
+
   "eg_particle_interactions.config.general.performance": "Performance",
   "eg_particle_interactions.config.general.performance.desc": "Config options that may have an impact on performance",
 
   "eg_particle_interactions.config.global_option.particle_physics_enabled": "Advanced particle physics",
-  "eg_particle_interactions.config.global_option.particle_physics_enabled.desc": "Controls whether some particles have advanced physics, such as sparks bouncing. Disabling this may slightly improve performance",
+  "eg_particle_interactions.config.global_option.particle_physics_enabled.desc": "Controls whether some particles have advanced physics, such as sparks bouncing.\n\nDisabling this may slightly improve performance",
 
   "eg_particle_interactions.config.general.debug": "Debug",
   "eg_particle_interactions.config.general.debug.desc": "CAUTION: Don't change these options unless you have been told to or know what you are doing.",
@@ -151,6 +163,9 @@
 
   "eg_particle_interactions.config.entity.minecart_sparks": "%s Particles",
   "eg_particle_interactions.config.entity.minecart_sparks.desc": "Configure if %s particles should be spawned and the chance for them to spawn each tick",
+
+  "eg_particle_interactions.config.entity.blaze_sparks": "%s Particles",
+  "eg_particle_interactions.config.entity.blaze_sparks.desc": "Configure if %s particles should be spawned randomly, if the entity is hurt, and the chance for them to spawn each tick",
 
 
   "eg_particle_interactions.config.items": "Item Interactions",

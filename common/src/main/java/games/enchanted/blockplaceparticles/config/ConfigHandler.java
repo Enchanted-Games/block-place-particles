@@ -50,6 +50,11 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean general_pixelConsistentTerrainParticles = general_pixelConsistentTerrainParticles_DEFAULT;
 
+    // particle z-fighting fix
+    public static final boolean general_particleZFightingFix_DEFAULT = true;
+    @SerialEntry
+    public static boolean general_particleZFightingFix = general_particleZFightingFix_DEFAULT;
+
     public static final boolean general_extraParticlePhysicsEnabled_DEFAULT = true;
     @SerialEntry
     public static boolean general_extraParticlePhysicsEnabled = general_extraParticlePhysicsEnabled_DEFAULT;
@@ -360,6 +365,19 @@ public class ConfigHandler {
     public static final boolean minecart_onlyWithPassenger_DEFAULT = true;
     @SerialEntry
     public static boolean minecart_onlyWithPassenger = minecart_onlyWithPassenger_DEFAULT;
+
+    // blaze sparks
+    public static final int blaze_spawnChance_DEFAULT = 25;
+    @SerialEntry
+    public static int blaze_spawnChance = blaze_spawnChance_DEFAULT;
+
+    public static final boolean blaze_spawnOnHurt_DEFAULT = true;
+    @SerialEntry
+    public static boolean blaze_spawnOnHurt = blaze_spawnOnHurt_DEFAULT;
+
+    public static final int blaze_amountToSpawnOnHurt_DEFAULT = 6;
+    @SerialEntry
+    public static int blaze_amountToSpawnOnHurt = blaze_amountToSpawnOnHurt_DEFAULT;
 
     // Fluid Placement Particles
     // water

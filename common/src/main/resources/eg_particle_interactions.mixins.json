@@ -19,6 +19,8 @@
     "blocks.CampfireBlock",
     "blocks.TntBlock",
     "entity.AbstractMinecartMixin",
+    "entity.Blaze",
+    "entity.Entity",
     "items.BlockItem",
     "items.BrushItem",
     "items.BucketItem",
