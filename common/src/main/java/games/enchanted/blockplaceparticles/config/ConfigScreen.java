@@ -2,10 +2,13 @@ package games.enchanted.blockplaceparticles.config;
 
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
+import dev.isxander.yacl3.api.controller.EnumControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
 import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import games.enchanted.blockplaceparticles.config.controller.BlockLocationController;
 import games.enchanted.blockplaceparticles.config.controller.FluidLocationController;
+import games.enchanted.blockplaceparticles.config.type.BrushParticleBehaviour;
+import games.enchanted.blockplaceparticles.localisation.ConfigTranslation;
 import games.enchanted.blockplaceparticles.util.RegistryHelper;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -154,6 +157,14 @@ public class ConfigScreen {
                 .collapsed(true)
                 .option(LabelOption.createBuilder().line(Component.empty()).build())
             .build())
+
+            // brushing particles
+            .group( createGenericConfigGroup(
+                "brush_particles",
+                ConfigTranslation.ITEMS_CONFIG_CATEGORY,
+                false,
+                enumCycleOption(ConfigTranslation.BRUSH_PARTICLE_BEHAVIOUR, Binding.generic(ConfigHandler.brushParticleBehaviour_DEFAULT, () -> ConfigHandler.brushParticleBehaviour, newVal -> ConfigHandler.brushParticleBehaviour = newVal), BrushParticleBehaviour.class)
+            ))
 
             // flint and steel spark
             .group( createParticleToggleAndMaxAndIntensityConfigGroup(
@@ -385,6 +396,19 @@ public class ConfigScreen {
             .description(OptionDescription.of( ConfigTranslation.createDesc(translationKey) ))
             .binding(binding)
             .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
+        .build();
+    }
+    @SuppressWarnings("unchecked")
+    private static <T extends Enum> Option<T> enumCycleOption(String optionName, Binding<T> binding, Class<T> enumClass) {
+        ConfigTranslation.TranslationKey translationKey = ConfigTranslation.getGlobalOption(optionName);
+        return Option.<T>createBuilder()
+            .name( translationKey.toComponent() )
+            .description(OptionDescription.of( ConfigTranslation.createDesc(translationKey) ))
+            .binding(binding)
+            .controller(
+                opt -> EnumControllerBuilder.<T>create(opt)
+                    .enumClass(enumClass)
+            )
         .build();
     }
 

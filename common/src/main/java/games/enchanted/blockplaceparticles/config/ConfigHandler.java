@@ -7,6 +7,7 @@ import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
 import games.enchanted.blockplaceparticles.config.adapters.FluidTypeAdapter;
 import games.enchanted.blockplaceparticles.config.adapters.ResourceLocationAndColourTypeAdapter;
 import games.enchanted.blockplaceparticles.config.adapters.ResourceLocationTypeAdapter;
+import games.enchanted.blockplaceparticles.config.type.BrushParticleBehaviour;
 import games.enchanted.blockplaceparticles.config.type.ResourceLocationAndColour;
 import games.enchanted.blockplaceparticles.platform.Services;
 import games.enchanted.blockplaceparticles.util.RegistryHelper;
@@ -394,6 +395,11 @@ public class ConfigHandler {
     public static boolean genericSplash_onPlace = genericSplash_onPlace_DEFAULT;
 
     // Item Interaction Particles
+    // brush particle behaviour
+    public static final BrushParticleBehaviour brushParticleBehaviour_DEFAULT = BrushParticleBehaviour.BLOCK_OVERRIDE_OR_DUST;
+    @SerialEntry
+    public static BrushParticleBehaviour brushParticleBehaviour = brushParticleBehaviour_DEFAULT;
+
     // flint and steel sparks
     public static final int flintAndSteelSpark_intensity_DEFAULT = 5;
     @SerialEntry

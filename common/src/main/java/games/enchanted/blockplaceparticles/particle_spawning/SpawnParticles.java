@@ -1,6 +1,7 @@
 package games.enchanted.blockplaceparticles.particle_spawning;
 
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
+import games.enchanted.blockplaceparticles.config.type.BrushParticleBehaviour;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.particle.option.ParticleEmitterOptions;
 import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
@@ -464,17 +465,35 @@ public class SpawnParticles {
 
     public static void spawnBrushingParticles(ClientLevel level, BlockParticleOverride override, BlockState blockState, Direction brushDirection, Vec3 particlePos, int armDirection, int amountOfParticles, double baseDeltaX, double baseDeltaY, double baseDeltaZ) {
         final double outwardVelocity = 0.05;
+
         for (int i = 0; i < amountOfParticles; i++) {
-            ParticleOptions particleOption = override.getParticleOptionForState(blockState, level, BlockPos.containing(particlePos), BlockParticleOverride.ORIGIN_BLOCK_BRUSHED);
+            ParticleOptions particleOption;
+            float velocityMultiplier;
+
+            // use dust particles if brush particle behaviour is "block override + dust" and particle override is none or vanilla,
+            // otherwise spawn block override particles
+            if(
+                ConfigHandler.brushParticleBehaviour == BrushParticleBehaviour.BLOCK_OVERRIDE_OR_VANILLA ||
+                (ConfigHandler.brushParticleBehaviour == BrushParticleBehaviour.BLOCK_OVERRIDE_OR_DUST && !(override == BlockParticleOverride.VANILLA || override == BlockParticleOverride.NONE))
+            ) {
+                particleOption = override.getParticleOptionForState(blockState, level, BlockPos.containing(particlePos), BlockParticleOverride.ORIGIN_BLOCK_BRUSHED);
+                velocityMultiplier = override.getParticleVelocityMultiplier();
+            }
+            else {
+                particleOption = ModParticleTypes.DUST;
+                velocityMultiplier = 0.1f;
+            }
+
             if(particleOption == null) continue;
+
             level.addParticle(
                 particleOption,
                 particlePos.x + (brushDirection.getStepX() * 0.01),
                 particlePos.y ,
                 particlePos.z + (brushDirection.getStepZ() * 0.01),
-                (baseDeltaX * (double)armDirection * level.getRandom().nextDouble() * override.getParticleVelocityMultiplier()) + (brushDirection.getStepX() * outwardVelocity),
-                (baseDeltaY + 1) * (double)armDirection * level.getRandom().nextDouble() * override.getParticleVelocityMultiplier() * brushDirection.getStepY(),
-                (baseDeltaZ * (double)armDirection * level.getRandom().nextDouble() * override.getParticleVelocityMultiplier()) + (brushDirection.getStepZ() * outwardVelocity)
+                (baseDeltaX * (double)armDirection * level.getRandom().nextDouble() * velocityMultiplier) + (brushDirection.getStepX() * outwardVelocity),
+                (baseDeltaY + 1) * (double)armDirection * level.getRandom().nextDouble() * velocityMultiplier * brushDirection.getStepY(),
+                (baseDeltaZ * (double)armDirection * level.getRandom().nextDouble() * velocityMultiplier) + (brushDirection.getStepZ() * outwardVelocity)
             );
         }
     }

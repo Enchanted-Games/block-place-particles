@@ -152,6 +152,14 @@
   "eg_particle_interactions.config.items.info": "Item Config Information",
   "eg_particle_interactions.config.items.info.desc": "Configure how particles are emitted when using or interacting with items",
 
+  "eg_particle_interactions.config.items.brush_particles": "Brushing Particles",
+  "eg_particle_interactions.config.items.brush_particles.desc": "Configure how particles should look when brushing blocks with a brush",
+  "eg_particle_interactions.config.global_option.brush_particle_behaviour": "Brushing Particle Mode",
+  "eg_particle_interactions.config.global_option.brush_particle_behaviour.desc": "§lVanilla-like§r\nUses the vanilla particles when brushing a block, unless the block has a Block Particle Override then that will be used instead.\n\n§lDust§r\nSpawns a dust particle when brushing a block, unless the block has a Block Particle Override then that will be used instead..\n\n§lDisabled§r\nDisables the brushing particles entirely",
+  "eg_particle_interactions.config.enum_option.brush_particle_behaviour.block_override_or_vanilla": "Vanilla-like",
+  "eg_particle_interactions.config.enum_option.brush_particle_behaviour.block_override_or_dust": "Dust",
+  "eg_particle_interactions.config.enum_option.brush_particle_behaviour.none": "Disabled",
+
   "eg_particle_interactions.config.items.flint_and_steel_sparks": "%s Particle Options",
   "eg_particle_interactions.config.items.flint_and_steel_sparks.desc": "Configure if %s particles are emitted and how many should spawn when you light a block on fire using a flint & steel",
   "eg_particle_interactions.config.items.fire_charge_smoke": "%s Particle Options",

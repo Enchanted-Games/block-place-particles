@@ -2,6 +2,7 @@ package games.enchanted.blockplaceparticles.config;
 
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
+import games.enchanted.blockplaceparticles.localisation.ConfigTranslation;
 import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

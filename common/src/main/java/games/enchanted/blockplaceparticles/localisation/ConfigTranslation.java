@@ -1,4 +1,4 @@
-package games.enchanted.blockplaceparticles.config;
+package games.enchanted.blockplaceparticles.localisation;
 
 import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
 import net.minecraft.network.chat.Component;
@@ -31,6 +31,8 @@ public class ConfigTranslation {
     public static final String MINECART_WHEEL_PARTICLE_AMOUNT = "minecart_wheel_particle_amount";
     public static final String MINECART_ONLY_WITH_PASSENGER = "minecart_only_with_passenger";
     public static final String MAX_PARTICLES_ON_BLOCK_CRAFT = "max_particles_block_craft";
+
+    public static final String BRUSH_PARTICLE_BEHAVIOUR = "brush_particle_behaviour";
 
     public static final String PIXEL_CONSISTENT_TERRAIN_PARTICLES = "pixel_consistent_terrain_particles";
     public static final String TOGGLE_DEBUG_LOGS = "toggle_debug_logs";
@@ -85,7 +87,7 @@ public class ConfigTranslation {
             return this;
         }
 
-        Component toComponent() {
+        public Component toComponent() {
             return Component.translatable(this.key);
         }
 

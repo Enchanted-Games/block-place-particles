@@ -2,6 +2,8 @@ package games.enchanted.blockplaceparticles.mixin.items;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
+import games.enchanted.blockplaceparticles.config.ConfigHandler;
+import games.enchanted.blockplaceparticles.config.type.BrushParticleBehaviour;
 import games.enchanted.blockplaceparticles.particle_spawning.SpawnParticles;
 import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -23,14 +25,21 @@ public abstract class BrushItem {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/BlockHitResult;getLocation()Lnet/minecraft/world/phys/Vec3;", shift = At.Shift.AFTER),
         cancellable = true
     )
-    private void spawnDustParticles(Level level, BlockHitResult hitResult, BlockState blockState, Vec3 pos, HumanoidArm arm, CallbackInfo ci, @Local(ordinal = 0) net.minecraft.world.item.BrushItem.DustParticlesDelta particlesDelta, @Local(ordinal = 0) int armDirection, @Local(ordinal = 1) int amountOfParticles) {
+    private void disableOrReplaceDustParticles(Level level, BlockHitResult hitResult, BlockState blockState, Vec3 pos, HumanoidArm arm, CallbackInfo ci, @Local(ordinal = 0) net.minecraft.world.item.BrushItem.DustParticlesDelta particlesDelta, @Local(ordinal = 0) int armDirection, @Local(ordinal = 1) int amountOfParticles) {
         if(!level.isClientSide) return;
+        if(ConfigHandler.brushParticleBehaviour == BrushParticleBehaviour.DISABLED) {
+            ci.cancel();
+            return;
+        };
 
         Vec3 particlePos = hitResult.getLocation();
         ParticleInteractionsLogging.debugInfo("Blockstate brushed {} at {}", blockState, particlePos);
 
         BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockState, BlockParticleOverride.ORIGIN_BLOCK_BRUSHED);
-        if(override == BlockParticleOverride.VANILLA || override == BlockParticleOverride.NONE) {
+        final boolean isOverrideNoneOrVanilla = (override == BlockParticleOverride.VANILLA || override == BlockParticleOverride.NONE);
+
+        // use vanilla particles if brush particle behaviour is "block override" and particle override is none or vanilla
+        if(ConfigHandler.brushParticleBehaviour == BrushParticleBehaviour.BLOCK_OVERRIDE_OR_VANILLA && isOverrideNoneOrVanilla) {
             return;
         }
 
