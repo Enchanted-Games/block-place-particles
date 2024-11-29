@@ -2,7 +2,7 @@ package games.enchanted.blockplaceparticles.particle_spawning.override;
 
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
-import games.enchanted.blockplaceparticles.util.RegistryHelper;
+import games.enchanted.blockplaceparticles.util.RegistryHelpers;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
@@ -77,7 +77,7 @@ public enum FluidPlacementParticle {
     }
 
     public static FluidPlacementParticle getParticleForFluid(Fluid fluid, boolean isFluidBeingPlaced) {
-        ResourceLocation fluidLoc = RegistryHelper.getLocationFromFluid(fluid);
+        ResourceLocation fluidLoc = RegistryHelpers.getLocationFromFluid(fluid);
         if (ConfigHandler.tintedWaterSplash_fluids.contains(fluidLoc) && shouldHaveParticle(isFluidBeingPlaced, ConfigHandler.tintedWaterSplash_onPlace)) {
             return TINTED_WATER;
         } else if (ConfigHandler.lavaSplash_fluids.contains(fluidLoc) && shouldHaveParticle(isFluidBeingPlaced, ConfigHandler.lavaSplash_onPlace)) {

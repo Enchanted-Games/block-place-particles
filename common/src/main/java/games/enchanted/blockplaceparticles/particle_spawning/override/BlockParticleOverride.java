@@ -1,7 +1,7 @@
 package games.enchanted.blockplaceparticles.particle_spawning.override;
 
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
-import games.enchanted.blockplaceparticles.util.RegistryHelper;
+import games.enchanted.blockplaceparticles.util.RegistryHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -225,7 +225,7 @@ public class BlockParticleOverride {
     public static BlockParticleOverride getOverrideForBlockState(BlockState blockState, int overrideOrigin) {
         Block block = blockState.getBlock();
         if(blockState.isAir()) return NONE;
-        ResourceLocation blockLocation = RegistryHelper.getLocationFromBlock(block);
+        ResourceLocation blockLocation = RegistryHelpers.getLocationFromBlock(block);
 
         BlockParticleOverride returnOverride = null;
         for (BlockParticleOverride override : BlockParticleOverride.blockParticleOverrides) {

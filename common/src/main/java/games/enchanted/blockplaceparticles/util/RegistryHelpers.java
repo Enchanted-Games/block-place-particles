@@ -13,34 +13,35 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public class RegistryHelper {
-    public static <T> Stream<ResourceLocation> getMatchingIdentifiers(String value, DefaultedRegistry<T> registryToSearch) {
-        int sep = value.indexOf(58);
-        Predicate<ResourceLocation> filterPredicate = getFilterPredicate(value, sep, registryToSearch);
+public class RegistryHelpers {
+    public static <T> Stream<ResourceLocation> getMatchingLocations(String search, DefaultedRegistry<T> registryToSearch) {
+        int separatorIndex = search.indexOf(':');
+        String unspacedSearch = search.replace(' ', '_');
+        Predicate<ResourceLocation> filterPredicate = getFilterPredicate(unspacedSearch, separatorIndex, registryToSearch);
 
         return registryToSearch.keySet().stream()
             .filter(filterPredicate)
-            .sorted((id1, id2) -> {
-                String path = (sep == -1 ? value : value.substring(sep + 1)).toLowerCase();
-                boolean id1StartsWith = id1.getPath().toLowerCase().startsWith(path);
-                boolean id2StartsWith = id2.getPath().toLowerCase().startsWith(path);
-                if (id1StartsWith) {
-                    return id2StartsWith ? id1.compareTo(id2) : -1;
+            .sorted((location1, location2) -> {
+                String path = (separatorIndex == -1 ? unspacedSearch : unspacedSearch.substring(separatorIndex + 1)).toLowerCase();
+                boolean location1StartsWith = location1.getPath().toLowerCase().startsWith(path);
+                boolean location2StartsWith = location2.getPath().toLowerCase().startsWith(path);
+                if (location1StartsWith) {
+                    return location2StartsWith ? location1.compareTo(location2) : -1;
                 } else {
-                    return id2StartsWith ? 1 : id1.compareTo(id2);
+                    return location2StartsWith ? 1 : location1.compareTo(location2);
                 }
             }
         );
     }
 
-    private static @NotNull <T> Predicate<ResourceLocation> getFilterPredicate(String value, int separator, DefaultedRegistry<T> registryToSearch) {
+    private static @NotNull <T> Predicate<ResourceLocation> getFilterPredicate(String search, int separatorIndex, DefaultedRegistry<T> registryToSearch) {
         Predicate<ResourceLocation> filterPredicate;
-        if (separator == -1) {
-            filterPredicate = (ResourceLocation identifier) -> identifier.getPath().contains(value) || (registryToSearch.get(identifier)).toString().toLowerCase().contains(value.toLowerCase());
+        if (separatorIndex == -1) {
+            filterPredicate = (ResourceLocation location) -> location.getPath().contains(search) || (registryToSearch.get(location)).toString().toLowerCase().contains(search.toLowerCase());
         } else {
-            String namespace = value.substring(0, separator);
-            String path = value.substring(separator + 1);
-            filterPredicate = (ResourceLocation identifier) -> identifier.getNamespace().equals(namespace) && identifier.getPath().startsWith(path);
+            String namespace = search.substring(0, separatorIndex);
+            String path = search.substring(separatorIndex + 1);
+            filterPredicate = (ResourceLocation location) -> location.getNamespace().equals(namespace) && location.getPath().startsWith(path);
         }
         return filterPredicate;
     }

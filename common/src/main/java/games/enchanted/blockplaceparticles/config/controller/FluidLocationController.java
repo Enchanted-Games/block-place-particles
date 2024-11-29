@@ -5,7 +5,7 @@ import dev.isxander.yacl3.api.utils.Dimension;
 import dev.isxander.yacl3.gui.YACLScreen;
 import games.enchanted.blockplaceparticles.config.controller.generic.AbstractFixedDropdownController;
 import games.enchanted.blockplaceparticles.config.controller.generic.GenericListControllerElement;
-import games.enchanted.blockplaceparticles.util.RegistryHelper;
+import games.enchanted.blockplaceparticles.util.RegistryHelpers;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 
@@ -25,7 +25,7 @@ public class FluidLocationController extends AbstractFixedDropdownController<Res
         if(valueFromDropdown == null) {
             valueFromDropdown = value;
         }
-        ResourceLocation validatedValue = RegistryHelper.validateFluidLocationWithFallback(
+        ResourceLocation validatedValue = RegistryHelpers.validateFluidLocationWithFallback(
             valueFromDropdown,
             null
         );
@@ -38,14 +38,14 @@ public class FluidLocationController extends AbstractFixedDropdownController<Res
 
     @Override
     public boolean isValueValid(String value) {
-        ResourceLocation blockLocFromValue = RegistryHelper.validateFluidLocationWithFallback(value, null);
+        ResourceLocation blockLocFromValue = RegistryHelpers.validateFluidLocationWithFallback(value, null);
         return blockLocFromValue != null;
     }
 
     @Override
     protected String getValidValue(String value, int offset) {
-        return RegistryHelper.getMatchingIdentifiers(value, BuiltInRegistries.FLUID)
-            .filter((ResourceLocation location) -> !RegistryHelper.getFluidFromLocation(location).defaultFluidState().createLegacyBlock().isAir())
+        return RegistryHelpers.getMatchingLocations(value, BuiltInRegistries.FLUID)
+            .filter((ResourceLocation location) -> !RegistryHelpers.getFluidFromLocation(location).defaultFluidState().createLegacyBlock().isAir())
             .skip(offset)
             .findFirst()
             .map(ResourceLocation::toString)
