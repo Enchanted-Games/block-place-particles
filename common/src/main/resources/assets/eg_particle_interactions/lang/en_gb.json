@@ -53,7 +53,7 @@
   "eg_particle_interactions.config.global_option.item_use_particle_intensity": "Particle Intensity",
   "eg_particle_interactions.config.global_option.item_use_particle_intensity.desc": "The speed that the %s particles have when spawned",
 
-  "eg_particle_interactions.config.global_option.is_override_enabled": "Override Enabled",
+  "eg_particle_interactions.config.global_option.is_override_enabled": "Override enabled",
   "eg_particle_interactions.config.global_option.is_override_enabled.desc": "Should the %s Particle Override be enabled",
 
   "eg_particle_interactions.config.global_option.is_particle_enabled": "Enable this particle?",
@@ -160,7 +160,7 @@
 
   "eg_particle_interactions.config.items.brush_particles": "Brushing Particles",
   "eg_particle_interactions.config.items.brush_particles.desc": "Configure how particles should look when brushing blocks with a brush",
-  "eg_particle_interactions.config.global_option.brush_particle_behaviour": "Brushing Particle Mode",
+  "eg_particle_interactions.config.global_option.brush_particle_behaviour": "Brushing particle mode",
   "eg_particle_interactions.config.global_option.brush_particle_behaviour.desc": "§lVanilla-like§r\nUses the vanilla particles when brushing a block, unless the block has a Block Particle Override then that will be used instead.\n\n§lDust§r\nSpawns a dust particle when brushing a block, unless the block has a Block Particle Override then that will be used instead..\n\n§lDisabled§r\nDisables the brushing particles entirely",
   "eg_particle_interactions.config.enum_option.brush_particle_behaviour.block_override_or_vanilla": "Vanilla-like",
   "eg_particle_interactions.config.enum_option.brush_particle_behaviour.block_override_or_dust": "Dust",
