@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 public class FlyingSpark extends StretchyBouncyShapeParticle {
     private final SpriteSet sprites;
     private boolean isSoul;
-    private final int SPARK_UNDERWATER_DECAY_SPEED = 3;
+    private static final int SPARK_UNDERWATER_DECAY_SPEED = 3;
 
     protected FlyingSpark(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float gravity, int lifetime, SpriteSet spriteSet) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed);
@@ -75,17 +75,21 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         }
     }
 
+    protected int getShortenedAge() {
+        return Math.clamp((long) this.age * (this.hasEnteredWater ? SPARK_UNDERWATER_DECAY_SPEED : 1), 0, this.lifetime);
+    }
+
     @Override
     public void setSpriteFromAge(@NotNull SpriteSet sprite) {
         if (!this.removed) {
-            int adjustedAge = Math.clamp(this.age * (this.hasEnteredWater ? SPARK_UNDERWATER_DECAY_SPEED : 1), 0, this.lifetime);
+            int adjustedAge = this.getShortenedAge();
             this.setSprite(sprite.get(adjustedAge, this.lifetime));
         }
     }
 
     @Override
     public int getLightColor(float partialTicks) {
-        int adjustedAge = Math.clamp(this.age * (this.hasEnteredWater ? SPARK_UNDERWATER_DECAY_SPEED : 1), 0, this.lifetime);
+        int adjustedAge = this.getShortenedAge();
         float percentageTimeAlive = Math.abs(1 - ((float) adjustedAge / this.lifetime));
         int sparkLight = (int) (percentageTimeAlive * 15f);
 

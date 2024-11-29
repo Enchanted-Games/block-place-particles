@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -15,10 +16,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class FallingColouredDust extends FallingDust {
+public class FloatingColouredDust extends FloatingDust {
     protected final BlockState dustBlockState;
 
-    protected FallingColouredDust(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState, SpriteSet spriteSet, float gravityMultiplier, boolean spawnSpecks) {
+    protected FloatingColouredDust(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState, SpriteSet spriteSet, float gravityMultiplier, boolean spawnSpecks) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier, spawnSpecks);
 
         this.dustBlockState = blockState;
@@ -44,6 +45,14 @@ public class FallingColouredDust extends FallingDust {
         return new BlockParticleOption(ModParticleTypes.TINTED_DUST_SPECK, this.dustBlockState);
     }
 
+    @Override
+    public @NotNull ParticleRenderType getRenderType() {
+        if(this.alpha < 0.99) {
+            return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+        }
+        return super.getRenderType();
+    }
+
     public static class Provider implements ParticleProvider<BlockParticleOption> {
         private final SpriteSet spriteSet;
 
@@ -54,11 +63,7 @@ public class FallingColouredDust extends FallingDust {
         @Nullable
         @Override
         public Particle createParticle(@NotNull BlockParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            FallingColouredDust particle = new FallingColouredDust(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), this.spriteSet, 0.7f, true);
-            float particleSize = MathHelpers.randomBetween(0.08f, 0.12f);
-            particle.quadSize = particleSize;
-            particle.setSize(particleSize, particleSize);
-            return particle;
+            return new FloatingColouredDust(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), this.spriteSet, 0.7f, true);
         }
     }
 
@@ -72,11 +77,7 @@ public class FallingColouredDust extends FallingDust {
         @Nullable
         @Override
         public Particle createParticle(@NotNull BlockParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            FallingColouredDust particle = new FallingColouredDust(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), this.spriteSet, 0.35f, false);
-            float particleSize = MathHelpers.randomBetween(0.08f, 0.12f);
-            particle.quadSize = particleSize;
-            particle.setSize(particleSize, particleSize);
-            return particle;
+            return new FloatingColouredDust(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), this.spriteSet, 0.35f, false);
         }
     }
 }

@@ -35,6 +35,7 @@ public class ConfigTranslation {
     public static final String BRUSH_PARTICLE_BEHAVIOUR = "brush_particle_behaviour";
 
     public static final String PIXEL_CONSISTENT_TERRAIN_PARTICLES = "pixel_consistent_terrain_particles";
+    public static final String PARTICLE_PHYSICS_ENABLED = "particle_physics_enabled";
     public static final String TOGGLE_DEBUG_LOGS = "toggle_debug_logs";
     public static final String DEBUG_SHOW_EMITTER_BOUNDS = "debug_show_emitter_bounds";
 

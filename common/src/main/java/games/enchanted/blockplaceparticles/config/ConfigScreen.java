@@ -47,6 +47,17 @@ public class ConfigScreen {
                 )
             ))
 
+            // performance
+            .group( createGenericConfigGroup(
+                "performance",
+                ConfigTranslation.GENERAL_CATEGORY,
+                false,
+                genericBooleanOption(
+                    ConfigTranslation.PARTICLE_PHYSICS_ENABLED,
+                    Binding.generic(ConfigHandler.general_extraParticlePhysicsEnabled_DEFAULT, () -> ConfigHandler.general_extraParticlePhysicsEnabled, newVal -> ConfigHandler.general_extraParticlePhysicsEnabled = newVal)
+                )
+            ))
+
             // debug
             .group( createGenericConfigGroup(
                 "debug",

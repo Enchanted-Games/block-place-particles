@@ -1,5 +1,6 @@
 package games.enchanted.blockplaceparticles.particle;
 
+import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.core.BlockPos;
@@ -56,14 +57,16 @@ public abstract class BouncyParticle extends TextureSheetParticle {
                 this.yd *= this.physics_passThroughFluidSpeed;
                 this.zd *= this.physics_passThroughFluidSpeed;
             }
-            double xVel = this.xd;
-            double yVel = this.yd;
-            double zVel = this.zd;
-            if (xVel * xVel + yVel * yVel + zVel * zVel < Mth.square(100)) {
-                Vec3 vec3 = Entity.collideBoundingBox(null, new Vec3(xVel, yVel, zVel), this.getBoundingBox(), this.level, List.of());
-                this.xd = vec3.x == 0.0 ? -this.xd * physics_bounciness : vec3.x;
-                this.yd = vec3.y == 0.0 ? -this.yd * physics_bounciness : vec3.y;
-                this.zd = vec3.z == 0.0 ? -this.zd * physics_bounciness : vec3.z;
+            if(ConfigHandler.general_extraParticlePhysicsEnabled) {
+                double xVel = this.xd;
+                double yVel = this.yd;
+                double zVel = this.zd;
+                if (xVel * xVel + yVel * yVel + zVel * zVel < Mth.square(100)) {
+                    Vec3 collisionVector = Entity.collideBoundingBox(null, new Vec3(xVel, yVel, zVel), this.getBoundingBox(), this.level, List.of());
+                    this.xd = collisionVector.x == 0.0 ? -this.xd * physics_bounciness : collisionVector.x;
+                    this.yd = collisionVector.y == 0.0 ? -this.yd * physics_bounciness : collisionVector.y;
+                    this.zd = collisionVector.z == 0.0 ? -this.zd * physics_bounciness : collisionVector.z;
+                }
             }
         }
 

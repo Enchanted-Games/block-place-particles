@@ -81,6 +81,12 @@
   "eg_particle_interactions.config.global_option.pixel_consistent_terrain_particles": "Pixel consistent block / item particles",
   "eg_particle_interactions.config.global_option.pixel_consistent_terrain_particles.desc": "Makes the particles that appear when mining blocks, placing blocks, or eating food be pixel consistent.\n\nTry disabling this if you are having visual issues with other mods or resourcepacks",
 
+  "eg_particle_interactions.config.general.performance": "Performance",
+  "eg_particle_interactions.config.general.performance.desc": "Config options that may have an impact on performance",
+
+  "eg_particle_interactions.config.global_option.particle_physics_enabled": "Advanced particle physics",
+  "eg_particle_interactions.config.global_option.particle_physics_enabled.desc": "Controls whether some particles have advanced physics, such as sparks bouncing. Disabling this may slightly improve performance",
+
   "eg_particle_interactions.config.general.debug": "Debug",
   "eg_particle_interactions.config.general.debug.desc": "CAUTION: Don't change these options unless you have been told to or know what you are doing.",
 

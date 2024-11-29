@@ -480,7 +480,7 @@ public class SpawnParticles {
                 velocityMultiplier = override.getParticleVelocityMultiplier();
             }
             else {
-                particleOption = ModParticleTypes.DUST;
+                particleOption = ModParticleTypes.BRUSH_DUST;
                 velocityMultiplier = 0.1f;
             }
 
@@ -488,11 +488,11 @@ public class SpawnParticles {
 
             level.addParticle(
                 particleOption,
-                particlePos.x + (brushDirection.getStepX() * 0.01),
-                particlePos.y ,
-                particlePos.z + (brushDirection.getStepZ() * 0.01),
+                particlePos.x + (brushDirection.getStepX() * 0.05),
+                particlePos.y + (brushDirection.getStepY() * 0.05),
+                particlePos.z + (brushDirection.getStepZ() * 0.05),
                 (baseDeltaX * (double)armDirection * level.getRandom().nextDouble() * velocityMultiplier) + (brushDirection.getStepX() * outwardVelocity),
-                (baseDeltaY + 1) * (double)armDirection * level.getRandom().nextDouble() * velocityMultiplier * brushDirection.getStepY(),
+                (baseDeltaY + 1) * level.getRandom().nextDouble() * velocityMultiplier * brushDirection.getStepY(),
                 (baseDeltaZ * (double)armDirection * level.getRandom().nextDouble() * velocityMultiplier) + (brushDirection.getStepZ() * outwardVelocity)
             );
         }

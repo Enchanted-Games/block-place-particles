@@ -44,6 +44,17 @@ public class ConfigHandler {
         return HANDLER.instance();
     }
 
+    // General options
+    // pixel consistent terrain particles
+    public static final boolean general_pixelConsistentTerrainParticles_DEFAULT = true;
+    @SerialEntry
+    public static boolean general_pixelConsistentTerrainParticles = general_pixelConsistentTerrainParticles_DEFAULT;
+
+    public static final boolean general_extraParticlePhysicsEnabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean general_extraParticlePhysicsEnabled = general_extraParticlePhysicsEnabled_DEFAULT;
+
+    // debug emitter bounds
     public static final boolean debug_showEmitterBounds_DEFAULT = false;
     public static boolean debug_showEmitterBounds = debug_showEmitterBounds_DEFAULT;
 
@@ -289,10 +300,6 @@ public class ConfigHandler {
     public static final int maxBlock_onBreak_DEFAULT = 4;
     @SerialEntry
     public static int maxBlock_onBreak = maxBlock_onBreak_DEFAULT;
-
-    public static final boolean general_pixelConsistentTerrainParticles_DEFAULT = true;
-    @SerialEntry
-    public static boolean general_pixelConsistentTerrainParticles = general_pixelConsistentTerrainParticles_DEFAULT;
 
     // Block Interaction / Ambient Particles
     // underwater bubbles
