@@ -20,9 +20,9 @@ public abstract class Entity {
 
     @Inject(
         at = @At("TAIL"),
-        method = "hurtClient"
+        method = "hurt"
     )
-    private void spawnParticlesOnHurt(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
+    private void spawnParticlesOnHurt(DamageSource damageSource, float amount, CallbackInfoReturnable<Boolean> cir) {
         if(!(this.level() instanceof ClientLevel)) return;
         if((Object) this instanceof Blaze) {
             SpawnParticles.spawnBlazeHurtParticles((ClientLevel) this.level(), this.getRandomX(0.6), this.getRandomY(), this.getRandomZ(0.6));

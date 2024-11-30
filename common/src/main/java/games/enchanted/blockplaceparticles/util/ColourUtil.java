@@ -43,8 +43,8 @@ public class ColourUtil {
         float total = 0, red = 0, blue = 0, green = 0, alpha = 0;
         for (int x = 0; x < spriteContents.width(); x++) {
             for (int y = 0; y < spriteContents.height(); y++) {
-                int color = ((SpriteContentsAccessor) spriteContents).getOriginalImage().getPixel(x, y);
-                int[] argb = ARGBint_to_ARGB(color);
+                int color = ((SpriteContentsAccessor) spriteContents).getOriginalImage().getPixelRGBA(x, y);
+                int[] argb = ABGRint_to_RGBA(color);
                 int pixelAlpha = argb[0];
                 if (pixelAlpha <= 10) continue;
                 total++;
@@ -81,9 +81,9 @@ public class ColourUtil {
         int x = MathHelpers.randomBetween(0, spriteContents.width() - 1);
         int y = MathHelpers.randomBetween(0, spriteContents.height() - 1);
 
-        int sampledColour = ((SpriteContentsAccessor) spriteContents).getOriginalImage().getPixel(x, y);
+        int sampledColour = ((SpriteContentsAccessor) spriteContents).getOriginalImage().getPixelRGBA(x, y);
 
-        return ARGBint_to_ARGB(sampledColour);
+        return ABGRint_to_RGBA(sampledColour);
     }
 
     /**
@@ -112,6 +112,17 @@ public class ColourUtil {
         int r = (argb >> 16) & 0xFF;
         int g = (argb >> 8) & 0xFF;
         int b = argb & 0xFF;
+        return new int[]{a, r, g, b};
+    }
+
+    /**
+     * Converts an int in abgr decimal format to an array of a, r, g, b
+     */
+    public static int[] ABGRint_to_RGBA(int abgr) {
+        int a = (abgr >> 24) & 0xFF;
+        int b = (abgr >> 16) & 0xFF;
+        int g = (abgr >> 8) & 0xFF;
+        int r = abgr & 0xFF;
         return new int[]{a, r, g, b};
     }
 

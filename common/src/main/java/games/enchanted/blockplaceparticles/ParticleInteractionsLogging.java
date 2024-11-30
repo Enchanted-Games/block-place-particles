@@ -29,12 +29,12 @@ public class ParticleInteractionsLogging {
             // toggle debug logs off
             ParticleInteractionsLogging.enableDebugLogs = false;
             LOG.info(debugPrefix + "Debug Logs disabled");
-            SystemToast.addOrUpdate(Minecraft.getInstance().getToastManager(), DEBUG_LOGS_TOAST, Component.literal(ParticleInteractionsMod.MOD_NAME), Component.translatable("eg_particle_interactions.toast.debug_logs_disabled"));
+            SystemToast.addOrUpdate(Minecraft.getInstance().getToasts(), DEBUG_LOGS_TOAST, Component.literal(ParticleInteractionsMod.MOD_NAME), Component.translatable("eg_particle_interactions.toast.debug_logs_disabled"));
             return;
         }
         // toggle debug logs on
         ParticleInteractionsLogging.enableDebugLogs = true;
         LOG.info(debugPrefix + "Debug Logs enabled");
-        SystemToast.addOrUpdate(Minecraft.getInstance().getToastManager(), DEBUG_LOGS_TOAST, Component.literal(ParticleInteractionsMod.MOD_NAME), Component.translatable("eg_particle_interactions.toast.debug_logs_enabled"));
+        SystemToast.addOrUpdate(Minecraft.getInstance().getToasts(), DEBUG_LOGS_TOAST, Component.literal(ParticleInteractionsMod.MOD_NAME), Component.translatable("eg_particle_interactions.toast.debug_logs_enabled"));
     }
 }

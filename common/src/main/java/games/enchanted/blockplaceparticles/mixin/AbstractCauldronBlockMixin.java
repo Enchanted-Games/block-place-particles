@@ -7,6 +7,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BucketItem;
@@ -26,13 +27,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class AbstractCauldronBlockMixin {
     @Inject(
         at = @At("TAIL"),
-        method = "useItemOn(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/InteractionHand;Lnet/minecraft/world/phys/BlockHitResult;)Lnet/minecraft/world/InteractionResult;"
+        method = "useItemOn(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/InteractionHand;Lnet/minecraft/world/phys/BlockHitResult;)Lnet/minecraft/world/ItemInteractionResult;"
     )
-    protected void spawnFluidOrBlockPlaceParticlesOnItemUse(ItemStack itemStack, BlockState blockState, Level level, BlockPos pos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult, CallbackInfoReturnable<InteractionResult> cir) {
+    protected void spawnFluidOrBlockPlaceParticlesOnItemUse(ItemStack itemStack, BlockState blockState, Level level, BlockPos pos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult, CallbackInfoReturnable<ItemInteractionResult> cir) {
         if(!level.isClientSide()) return;
-        InteractionResult result = cir.getReturnValue();
+        ItemInteractionResult result = cir.getReturnValue();
         Item usedItem = itemStack.getItem();
-        if(result != InteractionResult.SUCCESS) return;
+        if(result != ItemInteractionResult.SUCCESS) return;
         if(usedItem instanceof BucketItem) {
             Fluid placedFluid = ((BucketItemAccessor) usedItem).getContent();
             ParticleInteractionsLogging.debugInfo("Bucket of " + placedFluid.builtInRegistryHolder().key().location() + " placed in a cauldron at " + pos.toShortString());

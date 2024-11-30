@@ -95,8 +95,7 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
         // Override block particles
         if(
             originalParticleOption.getType() != ParticleTypes.BLOCK &&
-            originalParticleOption.getType() != ParticleTypes.DUST_PILLAR &&
-            originalParticleOption.getType() != ParticleTypes.BLOCK_CRUMBLE
+            originalParticleOption.getType() != ParticleTypes.DUST_PILLAR
         ) {
             return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);
         }

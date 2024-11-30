@@ -61,7 +61,7 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
 
     private void renderItemIcon(GuiGraphics graphics, Item item, int x, int y) {
         if(item == Items.AIR) {
-            graphics.blitSprite(RenderType::guiTextured, MISSING_ITEM_ICON_SPRITE, x, y, 16, 16);
+            graphics.blitSprite(MISSING_ITEM_ICON_SPRITE, x, y, 16, 16);
             return;
         }
         graphics.renderFakeItem(new ItemStack(item), x, y);

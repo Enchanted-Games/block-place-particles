@@ -95,12 +95,12 @@ public class RegistryHelpers {
         return BuiltInRegistries.BLOCK.getKey(block);
     }
     public static Block getBlockFromLocation(ResourceLocation location) {
-        return BuiltInRegistries.BLOCK.getValue(location);
+        return BuiltInRegistries.BLOCK.get(location);
     }
     public static ResourceLocation getLocationFromFluid(Fluid fluid) {
         return BuiltInRegistries.FLUID.getKey(fluid);
     }
     public static Fluid getFluidFromLocation(ResourceLocation location) {
-        return BuiltInRegistries.FLUID.getValue(location);
+        return BuiltInRegistries.FLUID.get(location);
     }
 }

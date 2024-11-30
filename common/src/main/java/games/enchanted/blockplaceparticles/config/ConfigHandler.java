@@ -206,7 +206,6 @@ public class ConfigHandler {
 
     public static final List<ResourceLocation> heavyGrassBlade_Blocks_DEFAULT = List.of(
         RegistryHelpers.getLocationFromBlock(Blocks.HANGING_ROOTS),
-        RegistryHelpers.getLocationFromBlock(Blocks.PALE_HANGING_MOSS),
         RegistryHelpers.getLocationFromBlock(Blocks.COBWEB),
         RegistryHelpers.getLocationFromBlock(Blocks.TRIPWIRE)
     );
@@ -247,8 +246,6 @@ public class ConfigHandler {
     public static int maxPaleMossClump_onBreak = maxPaleMossClump_onBreak_DEFAULT;
 
     public static final List<ResourceLocation> paleMossClump_Blocks_DEFAULT = List.of(
-        RegistryHelpers.getLocationFromBlock(Blocks.PALE_MOSS_CARPET),
-        RegistryHelpers.getLocationFromBlock(Blocks.PALE_MOSS_BLOCK)
     );
     @SerialEntry
     public static List<ResourceLocation> paleMossClump_Blocks = mossClump_Blocks_DEFAULT;

@@ -217,7 +217,7 @@ public abstract class BlockParticleOverrides {
         BlockParticleOverride.addBlockParticleOverride(GRASS_BLADE);
         BlockParticleOverride.addBlockParticleOverride(HEAVY_GRASS_BLADE);
         BlockParticleOverride.addBlockParticleOverride(MOSS_CLUMP);
-        BlockParticleOverride.addBlockParticleOverride(PALE_MOSS_CLUMP);
+//        BlockParticleOverride.addBlockParticleOverride(PALE_MOSS_CLUMP);
         BlockParticleOverride.addBlockParticleOverride(DUST);
     }
 }
