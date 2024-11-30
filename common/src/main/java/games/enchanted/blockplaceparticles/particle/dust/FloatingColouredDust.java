@@ -2,7 +2,6 @@ package games.enchanted.blockplaceparticles.particle.dust;
 
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.util.ColourUtil;
-import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;

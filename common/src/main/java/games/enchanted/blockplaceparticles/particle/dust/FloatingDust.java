@@ -9,6 +9,9 @@ import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class FloatingDust extends TextureSheetParticle {
+    public static float MIN_SIZE = 0.095f;
+    public static float MAX_SIZE = 0.125f;
+
     protected boolean spawnSpecks;
     protected SpriteSet spriteSet;
 
@@ -27,7 +30,7 @@ public abstract class FloatingDust extends TextureSheetParticle {
         this.roll = (float) Math.toRadians(this.random.nextIntBetweenInclusive(0, 360));
         this.oRoll = this.roll;
 
-        float particleSize = this.random.nextBoolean() ? 0.07F : 0.09F;
+        float particleSize = this.random.nextBoolean() ? MIN_SIZE : MAX_SIZE;
         this.quadSize = particleSize;
         this.setSize(particleSize, particleSize);
         this.gravity *= gravityMultiplier;
