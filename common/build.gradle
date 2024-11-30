@@ -26,7 +26,7 @@ dependencies {
     compileOnly group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
     annotationProcessor group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
 
-    implementation "dev.isxander:yet-another-config-lib:${yacl_version}-fabric"
+    implementation "dev.isxander:yet-another-config-lib:${yacl_version}-neoforge"
 }
 
 configurations {

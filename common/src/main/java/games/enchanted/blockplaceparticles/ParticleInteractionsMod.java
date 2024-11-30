@@ -28,7 +28,7 @@ public class ParticleInteractionsMod {
 
     @SuppressWarnings("unchecked")
     public static <R, T extends R> T register(ResourceKey<? extends Registry<R>> registryKey, Supplier<T> entry, ResourceLocation key) {
-        Registry<R> registry = Objects.requireNonNull( BuiltInRegistries.REGISTRY.getValue((ResourceKey) registryKey));
+        Registry<R> registry = Objects.requireNonNull( BuiltInRegistries.REGISTRY.get((ResourceKey) registryKey));
         return Registry.register(registry, key, entry.get());
     }
 }
