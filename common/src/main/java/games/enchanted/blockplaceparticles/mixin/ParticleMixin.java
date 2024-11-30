@@ -1,5 +1,6 @@
 package games.enchanted.blockplaceparticles.mixin;
 
+import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.util.Mth;
@@ -25,6 +26,7 @@ public abstract class ParticleMixin {
      */
     @Inject(at = @At("TAIL"), method = "tick()V")
     public void adjustParticleYWhenLanded(CallbackInfo ci) {
+        if(!ConfigHandler.general_particleZFightingFix) return;
         if ( this.hasPhysics && this.stoppedByCollision && !this.block_place_particle$hasLanded ) {
             this.block_place_particle$hasLanded = true;
             this.y += Mth.randomBetween(this.level.random, 0.0001f, 0.0003f);

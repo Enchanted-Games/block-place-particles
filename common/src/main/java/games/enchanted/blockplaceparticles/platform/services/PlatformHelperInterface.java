@@ -47,7 +47,7 @@ public interface PlatformHelperInterface {
     /**
      * Registers a particle to a particle provider
      */
-    <T extends ParticleOptions> void registerParticleProvider(ParticleType<T> particleType, ModParticleTypes.SpriteParticleProviderRegistration<T> particleProvider);
+    <T extends ParticleOptions> void registerParticleProvider(ParticleType<T> particleType, ModParticleTypes.SpriteProviderReg<T> particleProvider);
 
     /**
      * Returns the path where configuration files are stored within the .minecraft directory

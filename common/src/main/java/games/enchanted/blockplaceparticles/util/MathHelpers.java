@@ -95,4 +95,51 @@ public class MathHelpers {
         }
         return value;
     }
+
+    /**
+     * Returns a random float between a bound
+     */
+    public static float randomBetween(float min, float max) {
+        return (float) (Math.random() * (max - min)) + min;
+    }
+
+    /**
+     * Returns a random int between a bound (inclusive)
+     */
+    public static int randomBetween(int min, int max) {
+        return (int) Math.round((Math.random() * (max - min)) + min);
+    }
+
+    /**
+     * Multiply a number by resolution, floor it, and return the result divided by resolution
+     *
+     * @param number     the number to floor
+     * @param resolution the resolution
+     * @return floored result
+     */
+    public static float floorWithResolution(double number, double resolution) {
+        return (float) (Math.floor(number * resolution) / resolution);
+    }
+
+    /**
+     * Multiply a number by resolution, ceil it, and return the result divided by resolution
+     *
+     * @param number     the number to ceil
+     * @param resolution the resolution
+     * @return ceiled result
+     */
+    public static float ceilWithResolution(double number, double resolution) {
+        return (float) (Math.ceil(number * resolution) / resolution);
+    }
+
+    /**
+     * Multiply a number by resolution, round it, and return the result divided by resolution
+     *
+     * @param number     the number to round
+     * @param resolution the resolution
+     * @return rounded result
+     */
+    public static float roundWithResolution(double number, double resolution) {
+        return (float) (Math.round(number * resolution) / resolution);
+    }
 }

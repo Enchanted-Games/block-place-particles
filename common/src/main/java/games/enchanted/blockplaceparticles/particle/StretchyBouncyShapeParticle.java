@@ -13,9 +13,9 @@ import org.joml.*;
 import java.lang.Math;
 
 public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
-    private double prevPrevX;
-    private double prevPrevY;
-    private double prevPrevZ;
+    protected double prevPrevX;
+    protected double prevPrevY;
+    protected double prevPrevZ;
     private QuadFaceShape particleShape;
     /**
      * The scale that the particle will be rendered at
@@ -41,6 +41,7 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
         this.prevPrevX = this.xo;
         this.prevPrevY = this.yo;
         this.prevPrevZ = this.zo;
+        this.speedUpWhenYMotionIsBlocked = true;
 
         this.particleShapeScale = new Vector3f(1);
         this.setShape(ShapeDefinitions.CUBE);
@@ -86,10 +87,10 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
         float prevZPos = (float) Mth.lerp(d, this.prevPrevZ, this.zo);
         Vector3f prevPos = new Vector3f(prevXPos, prevYPos, prevZPos).sub(cameraPosition);
 
-        this.renderCubeGeometry(consumer, quaternionf, pos, prevPos, d);
+        this.renderCubeGeometry(consumer, pos, prevPos, d);
     }
 
-    private void renderCubeGeometry(@NotNull VertexConsumer consumer, Quaternionf quaternionf, Vector3f pos, Vector3f prevPos, float d) {
+    private void renderCubeGeometry(@NotNull VertexConsumer consumer, Vector3f pos, Vector3f prevPos, float d) {
         float cuboidSize = this.getQuadSize(d);
         float u0 = this.getU0();
         float u1 = this.getU1();
@@ -114,7 +115,6 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
             new Vector2f[]{new Vector2f(u0, v0), new Vector2f(u1, v1)},
             shapePos,
             shapeScale,
-            quaternionf,
             shapeRotation,
             cuboidSize,
             lightColor,

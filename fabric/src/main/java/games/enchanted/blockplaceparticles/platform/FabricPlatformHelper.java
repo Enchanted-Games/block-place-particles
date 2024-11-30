@@ -33,7 +33,7 @@ public class FabricPlatformHelper implements PlatformHelperInterface {
     }
 
     @Override
-    public <T extends ParticleOptions> void registerParticleProvider(ParticleType<T> particleType, ModParticleTypes.SpriteParticleProviderRegistration<T> particleProvider) {
+    public <T extends ParticleOptions> void registerParticleProvider(ParticleType<T> particleType, ModParticleTypes.SpriteProviderReg<T> particleProvider) {
         ParticleFactoryRegistry.getInstance().register(particleType, particleProvider::create);
     }
 

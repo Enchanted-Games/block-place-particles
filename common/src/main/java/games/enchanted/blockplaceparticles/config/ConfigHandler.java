@@ -7,9 +7,10 @@ import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
 import games.enchanted.blockplaceparticles.config.adapters.FluidTypeAdapter;
 import games.enchanted.blockplaceparticles.config.adapters.ResourceLocationAndColourTypeAdapter;
 import games.enchanted.blockplaceparticles.config.adapters.ResourceLocationTypeAdapter;
+import games.enchanted.blockplaceparticles.config.type.BrushParticleBehaviour;
 import games.enchanted.blockplaceparticles.config.type.ResourceLocationAndColour;
 import games.enchanted.blockplaceparticles.platform.Services;
-import games.enchanted.blockplaceparticles.util.RegistryHelper;
+import games.enchanted.blockplaceparticles.util.RegistryHelpers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
@@ -43,6 +44,22 @@ public class ConfigHandler {
         return HANDLER.instance();
     }
 
+    // General options
+    // pixel consistent terrain particles
+    public static final boolean general_pixelConsistentTerrainParticles_DEFAULT = true;
+    @SerialEntry
+    public static boolean general_pixelConsistentTerrainParticles = general_pixelConsistentTerrainParticles_DEFAULT;
+
+    // particle z-fighting fix
+    public static final boolean general_particleZFightingFix_DEFAULT = true;
+    @SerialEntry
+    public static boolean general_particleZFightingFix = general_particleZFightingFix_DEFAULT;
+
+    public static final boolean general_extraParticlePhysicsEnabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean general_extraParticlePhysicsEnabled = general_extraParticlePhysicsEnabled_DEFAULT;
+
+    // debug emitter bounds
     public static final boolean debug_showEmitterBounds_DEFAULT = false;
     public static boolean debug_showEmitterBounds = debug_showEmitterBounds_DEFAULT;
 
@@ -69,7 +86,7 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxSnowflakes_onBreak = maxSnowflakes_onBreak_DEFAULT;
 
-    public static final List<ResourceLocation> snowflake_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.SNOW), RegistryHelper.getLocationFromBlock(Blocks.SNOW_BLOCK), RegistryHelper.getLocationFromBlock(Blocks.POWDER_SNOW));
+    public static final List<ResourceLocation> snowflake_Blocks_DEFAULT = List.of(RegistryHelpers.getLocationFromBlock(Blocks.SNOW), RegistryHelpers.getLocationFromBlock(Blocks.SNOW_BLOCK), RegistryHelpers.getLocationFromBlock(Blocks.POWDER_SNOW));
     @SerialEntry
     public static List<ResourceLocation> snowflake_Blocks = snowflake_Blocks_DEFAULT;
 
@@ -86,7 +103,7 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxCherryPetals_onBreak = maxCherryPetals_onBreak_DEFAULT;
 
-    public static final List<ResourceLocation> cherryPetal_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.CHERRY_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.CHERRY_SAPLING), RegistryHelper.getLocationFromBlock(Blocks.PINK_PETALS));
+    public static final List<ResourceLocation> cherryPetal_Blocks_DEFAULT = List.of(RegistryHelpers.getLocationFromBlock(Blocks.CHERRY_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.CHERRY_SAPLING), RegistryHelpers.getLocationFromBlock(Blocks.PINK_PETALS));
     @SerialEntry
     public static List<ResourceLocation> cherryPetal_Blocks = cherryPetal_Blocks_DEFAULT;
 
@@ -103,7 +120,7 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxAzaleaLeaves_onBreak = maxAzaleaLeaves_onBreak_DEFAULT;
 
-    public static final List<ResourceLocation> azaleaLeaf_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.AZALEA), RegistryHelper.getLocationFromBlock(Blocks.AZALEA_LEAVES));
+    public static final List<ResourceLocation> azaleaLeaf_Blocks_DEFAULT = List.of(RegistryHelpers.getLocationFromBlock(Blocks.AZALEA), RegistryHelpers.getLocationFromBlock(Blocks.AZALEA_LEAVES));
     @SerialEntry
     public static List<ResourceLocation> azaleaLeaf_Blocks = azaleaLeaf_Blocks_DEFAULT;
 
@@ -120,7 +137,7 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxFloweringAzaleaLeaves_onBreak = maxFloweringAzaleaLeaves_onBreak_DEFAULT;
 
-    public static final List<ResourceLocation> floweringAzaleaLeaf_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.FLOWERING_AZALEA), RegistryHelper.getLocationFromBlock(Blocks.FLOWERING_AZALEA_LEAVES));
+    public static final List<ResourceLocation> floweringAzaleaLeaf_Blocks_DEFAULT = List.of(RegistryHelpers.getLocationFromBlock(Blocks.FLOWERING_AZALEA), RegistryHelpers.getLocationFromBlock(Blocks.FLOWERING_AZALEA_LEAVES));
     @SerialEntry
     public static List<ResourceLocation> floweringAzaleaLeaf_Blocks = floweringAzaleaLeaf_Blocks_DEFAULT;
 
@@ -137,7 +154,7 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxTintedLeaves_onBreak = maxTintedLeaves_onBreak_DEFAULT;
 
-    public static final List<ResourceLocation> tintedLeaves_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.JUNGLE_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.OAK_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.SPRUCE_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.DARK_OAK_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.ACACIA_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.BIRCH_LEAVES), RegistryHelper.getLocationFromBlock(Blocks.MANGROVE_LEAVES));
+    public static final List<ResourceLocation> tintedLeaves_Blocks_DEFAULT = List.of(RegistryHelpers.getLocationFromBlock(Blocks.JUNGLE_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.OAK_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.SPRUCE_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.DARK_OAK_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.ACACIA_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.BIRCH_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.MANGROVE_LEAVES));
     @SerialEntry
     public static List<ResourceLocation> tintedLeaves_Blocks = tintedLeaves_Blocks_DEFAULT;
 
@@ -150,15 +167,130 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean grassBlade_enabled = grassBlade_enabled_DEFAULT;
 
-    public static final int maxGrassBlade_onBreak_DEFAULT = 3;
+    public static final int maxGrassBlade_onBreak_DEFAULT = 4;
     @SerialEntry
     public static int maxGrassBlade_onBreak = maxGrassBlade_onBreak_DEFAULT;
 
-    public static final List<ResourceLocation> grassBlade_Blocks_DEFAULT = List.of(RegistryHelper.getLocationFromBlock(Blocks.SHORT_GRASS), RegistryHelper.getLocationFromBlock(Blocks.TALL_GRASS), RegistryHelper.getLocationFromBlock(Blocks.SEAGRASS), RegistryHelper.getLocationFromBlock(Blocks.HAY_BLOCK), RegistryHelper.getLocationFromBlock(Blocks.HANGING_ROOTS), RegistryHelper.getLocationFromBlock(Blocks.GRASS_BLOCK));
+    public static final List<ResourceLocation> grassBlade_Blocks_DEFAULT = List.of(
+        RegistryHelpers.getLocationFromBlock(Blocks.ATTACHED_PUMPKIN_STEM),
+        RegistryHelpers.getLocationFromBlock(Blocks.PUMPKIN_STEM),
+        RegistryHelpers.getLocationFromBlock(Blocks.ATTACHED_MELON_STEM),
+        RegistryHelpers.getLocationFromBlock(Blocks.MELON_STEM),
+        RegistryHelpers.getLocationFromBlock(Blocks.SWEET_BERRY_BUSH),
+        RegistryHelpers.getLocationFromBlock(Blocks.BEETROOTS),
+        RegistryHelpers.getLocationFromBlock(Blocks.CARROTS),
+        RegistryHelpers.getLocationFromBlock(Blocks.POTATOES),
+        RegistryHelpers.getLocationFromBlock(Blocks.WHEAT),
+        RegistryHelpers.getLocationFromBlock(Blocks.SHORT_GRASS),
+        RegistryHelpers.getLocationFromBlock(Blocks.TALL_GRASS),
+        RegistryHelpers.getLocationFromBlock(Blocks.SEAGRASS),
+        RegistryHelpers.getLocationFromBlock(Blocks.TALL_SEAGRASS),
+        RegistryHelpers.getLocationFromBlock(Blocks.HAY_BLOCK),
+        RegistryHelpers.getLocationFromBlock(Blocks.GRASS_BLOCK)
+    );
     @SerialEntry
     public static List<ResourceLocation> grassBlade_Blocks = grassBlade_Blocks_DEFAULT;
 
-    // default block particle
+    // heavy grass blade
+    public static final int maxHeavyGrassBlade_onPlace_DEFAULT = 2;
+    @SerialEntry
+    public static int maxHeavyGrassBlade_onPlace = maxHeavyGrassBlade_onPlace_DEFAULT;
+
+    public static final boolean heavyGrassBlade_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean heavyGrassBlade_enabled = heavyGrassBlade_enabled_DEFAULT;
+
+    public static final int maxHeavyGrassBlade_onBreak_DEFAULT = 4;
+    @SerialEntry
+    public static int maxHeavyGrassBlade_onBreak = maxHeavyGrassBlade_onBreak_DEFAULT;
+
+    public static final List<ResourceLocation> heavyGrassBlade_Blocks_DEFAULT = List.of(
+        RegistryHelpers.getLocationFromBlock(Blocks.HANGING_ROOTS),
+        RegistryHelpers.getLocationFromBlock(Blocks.COBWEB),
+        RegistryHelpers.getLocationFromBlock(Blocks.TRIPWIRE)
+    );
+    @SerialEntry
+    public static List<ResourceLocation> heavyGrassBlade_Blocks = heavyGrassBlade_Blocks_DEFAULT;
+
+    // moss clump
+    public static final int maxMossClump_onPlace_DEFAULT = 2;
+    @SerialEntry
+    public static int maxMossClump_onPlace = maxMossClump_onPlace_DEFAULT;
+
+    public static final boolean mossClump_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean mossClump_enabled = mossClump_enabled_DEFAULT;
+
+    public static final int maxMossClump_onBreak_DEFAULT = 3;
+    @SerialEntry
+    public static int maxMossClump_onBreak = maxMossClump_onBreak_DEFAULT;
+
+    public static final List<ResourceLocation> mossClump_Blocks_DEFAULT = List.of(
+        RegistryHelpers.getLocationFromBlock(Blocks.MOSS_CARPET),
+        RegistryHelpers.getLocationFromBlock(Blocks.MOSS_BLOCK)
+    );
+    @SerialEntry
+    public static List<ResourceLocation> mossClump_Blocks = mossClump_Blocks_DEFAULT;
+
+    // pale moss clump
+    public static final int maxPaleMossClump_onPlace_DEFAULT = 2;
+    @SerialEntry
+    public static int maxPaleMossClump_onPlace = maxPaleMossClump_onPlace_DEFAULT;
+
+    public static final boolean paleMossClump_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean paleMossClump_enabled = paleMossClump_enabled_DEFAULT;
+
+    public static final int maxPaleMossClump_onBreak_DEFAULT = 3;
+    @SerialEntry
+    public static int maxPaleMossClump_onBreak = maxPaleMossClump_onBreak_DEFAULT;
+
+    public static final List<ResourceLocation> paleMossClump_Blocks_DEFAULT = List.of(
+    );
+    @SerialEntry
+    public static List<ResourceLocation> paleMossClump_Blocks = mossClump_Blocks_DEFAULT;
+
+    // dust
+    public static final int maxDust_onPlace_DEFAULT = 2;
+    @SerialEntry
+    public static int maxDust_onPlace = maxDust_onPlace_DEFAULT;
+
+    public static final boolean dust_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean dust_enabled = dust_enabled_DEFAULT;
+
+    public static final int maxDust_onBreak_DEFAULT = 3;
+    @SerialEntry
+    public static int maxDust_onBreak = maxDust_onBreak_DEFAULT;
+
+    public static final List<ResourceLocation> dust_Blocks_DEFAULT = List.of(
+        RegistryHelpers.getLocationFromBlock(Blocks.SAND),
+        RegistryHelpers.getLocationFromBlock(Blocks.SUSPICIOUS_SAND),
+        RegistryHelpers.getLocationFromBlock(Blocks.GRAVEL),
+        RegistryHelpers.getLocationFromBlock(Blocks.SUSPICIOUS_GRAVEL),
+        RegistryHelpers.getLocationFromBlock(Blocks.RED_SAND),
+        RegistryHelpers.getLocationFromBlock(Blocks.SOUL_SAND),
+        RegistryHelpers.getLocationFromBlock(Blocks.SOUL_SOIL),
+        RegistryHelpers.getLocationFromBlock(Blocks.WHITE_CONCRETE_POWDER),
+        RegistryHelpers.getLocationFromBlock(Blocks.LIGHT_GRAY_CONCRETE_POWDER),
+        RegistryHelpers.getLocationFromBlock(Blocks.GRAY_CONCRETE_POWDER),
+        RegistryHelpers.getLocationFromBlock(Blocks.BROWN_CONCRETE_POWDER),
+        RegistryHelpers.getLocationFromBlock(Blocks.RED_CONCRETE_POWDER),
+        RegistryHelpers.getLocationFromBlock(Blocks.ORANGE_CONCRETE_POWDER),
+        RegistryHelpers.getLocationFromBlock(Blocks.YELLOW_CONCRETE_POWDER),
+        RegistryHelpers.getLocationFromBlock(Blocks.LIME_CONCRETE_POWDER),
+        RegistryHelpers.getLocationFromBlock(Blocks.GREEN_CONCRETE_POWDER),
+        RegistryHelpers.getLocationFromBlock(Blocks.CYAN_CONCRETE_POWDER),
+        RegistryHelpers.getLocationFromBlock(Blocks.LIGHT_BLUE_CONCRETE_POWDER),
+        RegistryHelpers.getLocationFromBlock(Blocks.BLUE_CONCRETE_POWDER),
+        RegistryHelpers.getLocationFromBlock(Blocks.PURPLE_CONCRETE_POWDER),
+        RegistryHelpers.getLocationFromBlock(Blocks.MAGENTA_CONCRETE_POWDER),
+        RegistryHelpers.getLocationFromBlock(Blocks.PINK_CONCRETE_POWDER)
+    );
+    @SerialEntry
+    public static List<ResourceLocation> dust_Blocks = dust_Blocks_DEFAULT;
+
+    // vanilla block particle
     public static final int maxBlock_onPlace_DEFAULT = 2;
     @SerialEntry
     public static int maxBlock_onPlace = maxBlock_onPlace_DEFAULT;
@@ -200,22 +332,22 @@ public class ConfigHandler {
     public static boolean fireSpark_enabled = fireSpark_enabled_DEFAULT;
 
     // anvil use sparks
-    public static final int maxAnvilUseSparks_onUse_DEFAULT = 12;
+    public static final int maxAnvilUseSparks_onUse_DEFAULT = 18;
     @SerialEntry
-    public static int maxAnvilUseSparks_onUse_0_3 = maxAnvilUseSparks_onUse_DEFAULT;
+    public static int maxAnvilUseSparks_onUse = maxAnvilUseSparks_onUse_DEFAULT;
 
-    public static final boolean anvilUseSparks_enabled_DEFAULT = false;
+    public static final boolean anvilUseSparks_enabled_DEFAULT = true;
     @SerialEntry
-    public static boolean anvilUseSparks_enabled_0_3 = anvilUseSparks_enabled_DEFAULT;
+    public static boolean anvilUseSparks_enabled = anvilUseSparks_enabled_DEFAULT;
 
     // grindstone use sparks
     public static final int maxGrindstoneUseSparks_onUse_DEFAULT = 12;
     @SerialEntry
-    public static int maxGrindstoneUseSparks_onUse_0_3 = maxGrindstoneUseSparks_onUse_DEFAULT;
+    public static int maxGrindstoneUseSparks_onUse = maxGrindstoneUseSparks_onUse_DEFAULT;
 
     public static final boolean grindstoneUseSparks_enabled_DEFAULT = true;
     @SerialEntry
-    public static boolean grindstoneUseSparks_enabled_0_3 = grindstoneUseSparks_enabled_DEFAULT;
+    public static boolean grindstoneUseSparks_enabled = grindstoneUseSparks_enabled_DEFAULT;
 
     // Entity Particles
     // travelling minecarts
@@ -231,11 +363,24 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean minecart_onlyWithPassenger = minecart_onlyWithPassenger_DEFAULT;
 
+    // blaze sparks
+    public static final int blaze_spawnChance_DEFAULT = 25;
+    @SerialEntry
+    public static int blaze_spawnChance = blaze_spawnChance_DEFAULT;
+
+    public static final boolean blaze_spawnOnHurt_DEFAULT = true;
+    @SerialEntry
+    public static boolean blaze_spawnOnHurt = blaze_spawnOnHurt_DEFAULT;
+
+    public static final int blaze_amountToSpawnOnHurt_DEFAULT = 6;
+    @SerialEntry
+    public static int blaze_amountToSpawnOnHurt = blaze_amountToSpawnOnHurt_DEFAULT;
+
     // Fluid Placement Particles
     // water
-    public static final List<Fluid> tintedWaterSplash_fluids_DEFAULT = List.of(Fluids.WATER, Fluids.FLOWING_WATER);
+    public static final List<ResourceLocation> tintedWaterSplash_fluids_DEFAULT = List.of(RegistryHelpers.getLocationFromFluid(Fluids.WATER), RegistryHelpers.getLocationFromFluid(Fluids.FLOWING_WATER));
     @SerialEntry
-    public static List<Fluid> tintedWaterSplash_fluids = tintedWaterSplash_fluids_DEFAULT;
+    public static List<ResourceLocation> tintedWaterSplash_fluids = tintedWaterSplash_fluids_DEFAULT;
 
     public static final int maxTintedWaterSplash_onPlace_DEFAULT = 12;
     @SerialEntry
@@ -246,9 +391,9 @@ public class ConfigHandler {
     public static boolean tintedWaterSplash_onPlace = tintedWaterSplash_onPlace_DEFAULT;
 
     // lava
-    public static final List<Fluid> lavaSplash_fluids_DEFAULT = List.of(Fluids.LAVA, Fluids.FLOWING_LAVA);
+    public static final List<ResourceLocation> lavaSplash_fluids_DEFAULT = List.of(RegistryHelpers.getLocationFromFluid(Fluids.LAVA), RegistryHelpers.getLocationFromFluid(Fluids.FLOWING_LAVA));
     @SerialEntry
-    public static List<Fluid> lavaSplash_fluids = lavaSplash_fluids_DEFAULT;
+    public static List<ResourceLocation> lavaSplash_fluids = lavaSplash_fluids_DEFAULT;
 
     public static final int maxLavaSplash_onPlace_DEFAULT = 7;
     @SerialEntry
@@ -259,9 +404,9 @@ public class ConfigHandler {
     public static boolean lavaSplash_onPlace = lavaSplash_onPlace_DEFAULT;
 
     // generic
-    public static final List<Fluid> genericSplash_fluids_DEFAULT = List.of();
+    public static final List<ResourceLocation> genericSplash_fluids_DEFAULT = List.of();
     @SerialEntry
-    public static List<Fluid> genericSplash_fluids = genericSplash_fluids_DEFAULT;
+    public static List<ResourceLocation> genericSplash_fluids = genericSplash_fluids_DEFAULT;
 
     public static final int maxGenericSplash_onPlace_DEFAULT = 10;
     @SerialEntry
@@ -272,6 +417,11 @@ public class ConfigHandler {
     public static boolean genericSplash_onPlace = genericSplash_onPlace_DEFAULT;
 
     // Item Interaction Particles
+    // brush particle behaviour
+    public static final BrushParticleBehaviour brushParticleBehaviour_DEFAULT = BrushParticleBehaviour.BLOCK_OVERRIDE_OR_DUST;
+    @SerialEntry
+    public static BrushParticleBehaviour brushParticleBehaviour = brushParticleBehaviour_DEFAULT;
+
     // flint and steel sparks
     public static final int flintAndSteelSpark_intensity_DEFAULT = 5;
     @SerialEntry

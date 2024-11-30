@@ -2,9 +2,11 @@ package games.enchanted.blockplaceparticles.particle_spawning.override;
 
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
+import games.enchanted.blockplaceparticles.util.RegistryHelpers;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.NotNull;
@@ -75,11 +77,12 @@ public enum FluidPlacementParticle {
     }
 
     public static FluidPlacementParticle getParticleForFluid(Fluid fluid, boolean isFluidBeingPlaced) {
-        if (ConfigHandler.tintedWaterSplash_fluids.contains(fluid) && shouldHaveParticle(isFluidBeingPlaced, ConfigHandler.tintedWaterSplash_onPlace)) {
+        ResourceLocation fluidLoc = RegistryHelpers.getLocationFromFluid(fluid);
+        if (ConfigHandler.tintedWaterSplash_fluids.contains(fluidLoc) && shouldHaveParticle(isFluidBeingPlaced, ConfigHandler.tintedWaterSplash_onPlace)) {
             return TINTED_WATER;
-        } else if (ConfigHandler.lavaSplash_fluids.contains(fluid) && shouldHaveParticle(isFluidBeingPlaced, ConfigHandler.lavaSplash_onPlace)) {
+        } else if (ConfigHandler.lavaSplash_fluids.contains(fluidLoc) && shouldHaveParticle(isFluidBeingPlaced, ConfigHandler.lavaSplash_onPlace)) {
             return LAVA;
-        } else if (ConfigHandler.genericSplash_fluids.contains(fluid) && shouldHaveParticle(isFluidBeingPlaced, ConfigHandler.genericSplash_onPlace)) {
+        } else if (ConfigHandler.genericSplash_fluids.contains(fluidLoc) && shouldHaveParticle(isFluidBeingPlaced, ConfigHandler.genericSplash_onPlace)) {
             return GENERIC;
         }
         return NONE;
