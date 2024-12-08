@@ -4,7 +4,6 @@ import com.mojang.serialization.MapCodec;
 import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
 import games.enchanted.blockplaceparticles.particle.bubble.UnderwaterRisingBubble;
 import games.enchanted.blockplaceparticles.particle.dust.FloatingBrushDust;
-import games.enchanted.blockplaceparticles.particle.dust.FloatingDust;
 import games.enchanted.blockplaceparticles.particle.dust.FloatingColouredDust;
 import games.enchanted.blockplaceparticles.particle.option.ParticleEmitterOptions;
 import games.enchanted.blockplaceparticles.particle.petal.FallingPetal;
@@ -38,6 +37,7 @@ public class ModParticleTypes {
     public static ParticleType<BlockParticleOption> FALLING_TINTED_LEAF;
     public static SimpleParticleType FALLING_AZALEA_LEAF;
     public static SimpleParticleType FALLING_FLOWERING_AZALEA_LEAF;
+    public static SimpleParticleType FALLING_PALE_OAK_LEAF;
     public static ParticleType<BlockParticleOption> GRASS_BLADE;
     public static ParticleType<BlockParticleOption> HEAVY_GRASS_BLADE;
     public static SimpleParticleType MOSS_CLUMP;
@@ -68,6 +68,7 @@ public class ModParticleTypes {
         FALLING_TINTED_LEAF = register((SpriteProviderReg) FallingColouredPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_tinted_leaves"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         FALLING_AZALEA_LEAF = register((SpriteProviderReg) FallingPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_azalea_leaves"), false);
         FALLING_FLOWERING_AZALEA_LEAF = register((SpriteProviderReg) FallingPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_flowering_azalea_leaves"), false);
+        FALLING_PALE_OAK_LEAF = register((SpriteProviderReg) FallingPetal.PaleOakProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_pale_oak_leaf"), false);
         GRASS_BLADE = register((SpriteProviderReg) FallingColouredPetal.LargerSpriteProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "grass_blade"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         HEAVY_GRASS_BLADE = register((SpriteProviderReg) FallingColouredPetal.LargerSpriteMoreGravityProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "heavy_grass_blade"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         MOSS_CLUMP = register((SpriteProviderReg) FallingPetal.RandomisedSizeMoreGravityProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "moss_clump"), false);

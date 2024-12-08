@@ -141,6 +141,23 @@ public class ConfigHandler {
     @SerialEntry
     public static List<ResourceLocation> floweringAzaleaLeaf_Blocks = floweringAzaleaLeaf_Blocks_DEFAULT;
 
+    // pale leaf particle
+    public static final int maxPaleLeaves_onPlace_DEFAULT = 2;
+    @SerialEntry
+    public static int maxPaleLeaves_onPlace = maxPaleLeaves_onPlace_DEFAULT;
+
+    public static final boolean paleLeaf_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean paleLeaf_enabled = paleLeaf_enabled_DEFAULT;
+
+    public static final int maxPaleLeaves_onBreak_DEFAULT = 3;
+    @SerialEntry
+    public static int maxPaleLeaves_onBreak = maxPaleLeaves_onBreak_DEFAULT;
+
+    public static final List<ResourceLocation> paleLeaf_Blocks_DEFAULT = List.of(RegistryHelpers.getLocationFromBlock(Blocks.PALE_OAK_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.PALE_OAK_SAPLING));
+    @SerialEntry
+    public static List<ResourceLocation> paleLeaf_Blocks = paleLeaf_Blocks_DEFAULT;
+
     // biome tinted leaf particle
     public static final int maxTintedLeaves_onPlace_DEFAULT = 2;
     @SerialEntry

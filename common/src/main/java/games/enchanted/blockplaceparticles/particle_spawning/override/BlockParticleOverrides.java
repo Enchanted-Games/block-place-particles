@@ -88,6 +88,24 @@ public abstract class BlockParticleOverrides {
         ConfigHandler.maxFloweringAzaleaLeaves_onBreak_DEFAULT,
         0.13f
     );
+    public static final BlockParticleOverride PALE_LEAF = new BlockParticleOverride(
+        "pale_leaf",
+        "generic_block_override",
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> ModParticleTypes.FALLING_PALE_OAK_LEAF,
+        () -> ConfigHandler.paleLeaf_Blocks,
+        (val) -> ConfigHandler.paleLeaf_Blocks = val,
+        ConfigHandler.paleLeaf_Blocks_DEFAULT,
+        () -> ConfigHandler.paleLeaf_enabled,
+        (val) -> ConfigHandler.paleLeaf_enabled = val,
+        ConfigHandler.paleLeaf_enabled_DEFAULT,
+        () -> ConfigHandler.maxPaleLeaves_onPlace,
+        (val) -> ConfigHandler.maxPaleLeaves_onPlace = val,
+        ConfigHandler.maxPaleLeaves_onPlace_DEFAULT,
+        () -> ConfigHandler.maxPaleLeaves_onBreak,
+        (val) -> ConfigHandler.maxPaleLeaves_onBreak = val,
+        ConfigHandler.maxPaleLeaves_onBreak_DEFAULT,
+        0.13f
+    );
     public static final BlockParticleOverride TINTED_LEAF = new BlockParticleOverride(
         "biome_leaf",
         "tinted_or_average",
@@ -213,6 +231,7 @@ public abstract class BlockParticleOverrides {
         BlockParticleOverride.addBlockParticleOverride(CHERRY_LEAF);
         BlockParticleOverride.addBlockParticleOverride(AZALEA_LEAF);
         BlockParticleOverride.addBlockParticleOverride(FLOWERING_AZALEA_LEAF);
+        BlockParticleOverride.addBlockParticleOverride(PALE_LEAF);
         BlockParticleOverride.addBlockParticleOverride(TINTED_LEAF);
         BlockParticleOverride.addBlockParticleOverride(GRASS_BLADE);
         BlockParticleOverride.addBlockParticleOverride(HEAVY_GRASS_BLADE);

@@ -10,7 +10,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class FallingPetal extends TextureSheetParticle {
     private float rotSpeed;
-    private final float spinAcceleration;
+    private float spinAcceleration;
+    protected float maxSpinSpeed = 100f;
 
     protected FallingPetal(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, float gravityMultiplier) {
         super(level, x, y, z);
@@ -33,7 +34,9 @@ public class FallingPetal extends TextureSheetParticle {
 
     @Override
     public void tick() {
-        this.rotSpeed += this.spinAcceleration / 2.0f;
+        this.rotSpeed += this.rotSpeed >= this.maxSpinSpeed ? 0 : (this.spinAcceleration / 2.0f);
+        if(this.rotSpeed > this.maxSpinSpeed) this.rotSpeed = this.maxSpinSpeed;
+
         this.oRoll = this.roll;
         if(!this.onGround) {
             this.roll += this.rotSpeed / 5.0F;
@@ -97,6 +100,26 @@ public class FallingPetal extends TextureSheetParticle {
             float particleSize = MathHelpers.randomBetween(0.08f, 0.12f);
             particle.quadSize = particleSize;
             particle.setSize(particleSize, particleSize);
+            return particle;
+        }
+    }
+
+    public static class PaleOakProvider implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public PaleOakProvider(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        @Nullable
+        @Override
+        public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            FallingPetal particle = new FallingPetal(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, 0.6f);
+            float particleSize = 2.0f * (level.random.nextBoolean() ? 0.05F : 0.075F);
+            particle.quadSize = particleSize;
+            particle.setSize(particleSize, particleSize);
+            particle.maxSpinSpeed = 0.1f;
+            particle.spinAcceleration = (float)Math.toRadians(level.random.nextBoolean() ? -1.0 : 1.0);
             return particle;
         }
     }
