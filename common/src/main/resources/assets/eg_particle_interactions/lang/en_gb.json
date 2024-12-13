@@ -151,7 +151,7 @@
   "eg_particle_interactions.config.block_ambient.fire_sparks.desc": "Configure if %s particles should be spawned and the chance for them to spawn each tick",
 
   "eg_particle_interactions.config.block_ambient.anvil_craft_sparks": "%s",
-  "eg_particle_interactions.config.block_ambient.anvil_craft_sparks.desc": "Configure if %s particles should be spawned when crafting an item in an anvil.\n\nThis is incomplete and will be changed in a future update",
+  "eg_particle_interactions.config.block_ambient.anvil_craft_sparks.desc": "Configure if %s particles should be spawned when crafting an item in an anvil.",
 
   "eg_particle_interactions.config.block_ambient.grindstone_craft_sparks": "%s",
   "eg_particle_interactions.config.block_ambient.grindstone_craft_sparks.desc": "Configure if %s particles should be spawned when grinding an item in a grindstone",
