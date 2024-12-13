@@ -369,6 +369,10 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean grindstoneUseSparks_enabled = grindstoneUseSparks_enabled_DEFAULT;
 
+    // falling block effects
+    public static final int fallingBlockEffect_renderDistance_DEFAULT = 64;
+    public static int fallingBlockEffect_renderDistance = fallingBlockEffect_renderDistance_DEFAULT;
+
     // Entity Particles
     // travelling minecarts
     public static final int minecart_spawnChance_DEFAULT = 50;

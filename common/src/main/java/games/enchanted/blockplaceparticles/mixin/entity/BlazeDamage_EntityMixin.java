@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(net.minecraft.world.entity.Entity.class)
-public abstract class Entity {
+public abstract class BlazeDamage_EntityMixin {
     @Shadow public abstract Level level();
     @Shadow public abstract double getRandomX(double scale);
     @Shadow public abstract double getRandomY();

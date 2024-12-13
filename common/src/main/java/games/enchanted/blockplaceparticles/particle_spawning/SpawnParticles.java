@@ -171,6 +171,26 @@ public class SpawnParticles {
         }
     }
 
+    public static void spawnFallingBlockRandomFallParticles(ClientLevel level, BlockState blockState, double x, double y, double z, Vec3 deltaMovement) {
+        if(blockState.isAir()) return;
+        int overrideOrigin = BlockParticleOverride.ORIGIN_FALLING_BLOCK_FALLING;
+        BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(blockState, overrideOrigin);
+
+        for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 4); i++) {
+            ParticleOptions particleOptions = particleOverride.getParticleOptionForState(blockState, level, BlockPos.containing(x, y, z), overrideOrigin);
+            if(particleOptions == null) continue;
+            level.addParticle(
+                particleOptions,
+                x - 0.5 + level.random.nextFloat(),
+                y       + level.random.nextFloat(),
+                z - 0.5 + level.random.nextFloat(),
+                (deltaMovement.x * 3) * -particleOverride.getParticleVelocityMultiplier(),
+                (deltaMovement.y * 3) * -particleOverride.getParticleVelocityMultiplier(),
+                (deltaMovement.z * 3) * -particleOverride.getParticleVelocityMultiplier()
+            );
+        }
+    }
+
     public static void spawnSparksAtMinecartWheels(double minecartX, double minecartY, double minecartZ, double minecartHorizontalRot, double minecartVerticalRot, boolean isOnRails, boolean hasPassenger, boolean hasBlock, Vec3 deltaMovement, double maxSpeed, Level level) {
         if (!ConfigHandler.minecart_enabled) return;
         if (!isOnRails) return;
