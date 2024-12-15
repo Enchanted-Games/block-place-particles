@@ -12,7 +12,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.tags.BlockTags;
@@ -21,7 +20,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GrindstoneBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -178,6 +176,8 @@ public class SpawnParticles {
         int overrideOrigin = BlockParticleOverride.ORIGIN_FALLING_BLOCK_FALLING;
         BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(blockState, overrideOrigin);
 
+        if(particleOverride == BlockParticleOverride.NONE || particleOverride == BlockParticleOverride.VANILLA) return;
+
         for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 4); i++) {
             ParticleOptions particleOptions = particleOverride.getParticleOptionForState(blockState, level, BlockPos.containing(x, y, z), overrideOrigin);
             if(particleOptions == null) continue;
@@ -196,16 +196,22 @@ public class SpawnParticles {
     public static void spawnFallingBlockLandParticles(ClientLevel level, BlockState blockState, double x, double y, double z, Vec3 deltaMovement) {
         int overrideOrigin = BlockParticleOverride.ORIGIN_FALLING_BLOCK_LANDED;
         BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(blockState, overrideOrigin);
+
+        if(particleOverride == BlockParticleOverride.NONE) return;
+
         BlockPos blockPos = BlockPos.containing(x, y, z);
+        double movementSpeed = deltaMovement.length();
+
+        double particleY = Math.round((y + (deltaMovement.y / 2)) - 0.1) + 0.0625;
 
         SpawnParticlesUtil.spawnParticleInCircle(
-            particleOverride.getParticleOptionForState(blockState, level, blockPos, overrideOrigin),
+            particleOverride == BlockParticleOverride.VANILLA ? ModParticleTypes.BRUSH_DUST : particleOverride.getParticleOptionForState(blockState, level, blockPos, overrideOrigin),
             level,
-            new Vec3(x, y, z),
+            new Vec3(x, particleY, z),
             16,
             0.4f,
-            0.8f,
-            0.3f * (float) (deltaMovement.length() * 2),
+            0.9f,
+            1.7f * (float) (movementSpeed * 2) * (particleOverride == BlockParticleOverride.VANILLA ? 0.1f : particleOverride.getParticleVelocityMultiplier()),
             0.025f,
             0
         );
