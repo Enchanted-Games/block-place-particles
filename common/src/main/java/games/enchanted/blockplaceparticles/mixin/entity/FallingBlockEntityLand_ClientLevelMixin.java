@@ -44,13 +44,15 @@ public abstract class FallingBlockEntityLand_ClientLevelMixin extends Level {
         if(Minecraft.getInstance().player != null && fallingBlockEntity.distanceTo(Minecraft.getInstance().player) > ConfigHandler.fallingBlockEffect_renderDistance) {
             return original.call(instance, i);
         }
-
         if(fallingBlockEntity.getBlockState().getBlock() instanceof BrushableBlock) {
             return original.call(instance, i);
         }
+
         BlockState fallingState = fallingBlockEntity.getBlockState();
         BlockPos fallingBlockPos = fallingBlockEntity.blockPosition();
-        SpawnParticles.spawnBlockBreakParticle((ClientLevel) (Object) this, fallingState, fallingBlockPos, BlockParticleOverride.getOverrideForBlockState(fallingState, BlockParticleOverride.ORIGIN_FALLING_BLOCK_LANDED));
+
+        SpawnParticles.spawnFallingBlockLandParticles((ClientLevel) (Object) this, fallingState, fallingBlockEntity.getX(), fallingBlockEntity.getY(), fallingBlockEntity.getZ(), fallingBlockEntity.getDeltaMovement());
+
         ParticleInteractionsLogging.debugInfo("Falling block ({}) was removed at {}", fallingBlockEntity, fallingBlockPos);
         return original.call(instance, i);
     }

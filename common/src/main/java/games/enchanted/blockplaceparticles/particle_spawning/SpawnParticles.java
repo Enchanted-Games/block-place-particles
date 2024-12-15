@@ -12,6 +12,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.tags.BlockTags;
@@ -20,6 +21,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GrindstoneBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -189,6 +191,24 @@ public class SpawnParticles {
                 (deltaMovement.z * 3) * -particleOverride.getParticleVelocityMultiplier()
             );
         }
+    }
+
+    public static void spawnFallingBlockLandParticles(ClientLevel level, BlockState blockState, double x, double y, double z, Vec3 deltaMovement) {
+        int overrideOrigin = BlockParticleOverride.ORIGIN_FALLING_BLOCK_LANDED;
+        BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(blockState, overrideOrigin);
+        BlockPos blockPos = BlockPos.containing(x, y, z);
+
+        SpawnParticlesUtil.spawnParticleInCircle(
+            particleOverride.getParticleOptionForState(blockState, level, blockPos, overrideOrigin),
+            level,
+            new Vec3(x, y, z),
+            16,
+            0.4f,
+            0.8f,
+            0.3f * (float) (deltaMovement.length() * 2),
+            0.025f,
+            0
+        );
     }
 
     public static void spawnSparksAtMinecartWheels(double minecartX, double minecartY, double minecartZ, double minecartHorizontalRot, double minecartVerticalRot, boolean isOnRails, boolean hasPassenger, boolean hasBlock, Vec3 deltaMovement, double maxSpeed, Level level) {
