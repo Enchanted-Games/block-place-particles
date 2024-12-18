@@ -212,7 +212,19 @@ public class SpawnParticles {
             0.4f,
             0.9f,
             1.7f * (float) (movementSpeed * 2) * (particleOverride == BlockParticleOverride.VANILLA ? 0.1f : particleOverride.getParticleVelocityMultiplier()),
-            0.025f,
+            0.035f,
+            0
+        );
+
+        SpawnParticlesUtil.spawnParticleInCircle(
+            particleOverride == BlockParticleOverride.VANILLA ? ModParticleTypes.BRUSH_DUST : particleOverride.getParticleOptionForState(blockState, level, blockPos, overrideOrigin),
+            level,
+            new Vec3(x, particleY + 0.7f, z),
+            16,
+            0.3f,
+            0.95f,
+            0.2f,
+            -0.4f * (float) (movementSpeed * 2) * (particleOverride == BlockParticleOverride.VANILLA ? 0.1f : particleOverride.getParticleVelocityMultiplier()),
             0
         );
     }
