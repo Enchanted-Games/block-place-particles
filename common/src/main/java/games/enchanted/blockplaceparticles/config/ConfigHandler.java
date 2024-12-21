@@ -310,6 +310,29 @@ public class ConfigHandler {
     @SerialEntry
     public static List<ResourceLocation> dust_Blocks = dust_Blocks_DEFAULT;
 
+    // redstone dust
+    public static final int maxRedstoneDust_onPlace_DEFAULT = 3;
+    @SerialEntry
+    public static int maxRedstoneDust_onPlace = maxRedstoneDust_onPlace_DEFAULT;
+
+    public static final boolean redstoneDust_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean redstoneDust_enabled = redstoneDust_enabled_DEFAULT;
+
+    public static final int maxRedstoneDust_onBreak_DEFAULT = 4;
+    @SerialEntry
+    public static int maxRedstoneDust_onBreak = maxRedstoneDust_onBreak_DEFAULT;
+
+    public static final List<ResourceLocation> redstoneDust_Blocks_DEFAULT = List.of(
+        RegistryHelpers.getLocationFromBlock(Blocks.REDSTONE_TORCH),
+        RegistryHelpers.getLocationFromBlock(Blocks.REDSTONE_WIRE),
+        RegistryHelpers.getLocationFromBlock(Blocks.REDSTONE_BLOCK),
+        RegistryHelpers.getLocationFromBlock(Blocks.REPEATER),
+        RegistryHelpers.getLocationFromBlock(Blocks.COMPARATOR)
+    );
+    @SerialEntry
+    public static List<ResourceLocation> redstoneDust_Blocks = redstoneDust_Blocks_DEFAULT;
+
     // vanilla block particle
     public static final int maxBlock_onPlace_DEFAULT = 2;
     @SerialEntry

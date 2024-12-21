@@ -3,9 +3,11 @@ package games.enchanted.blockplaceparticles.particle_spawning.override;
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.util.BiomeTemperatureHelpers;
+import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -225,6 +227,24 @@ public abstract class BlockParticleOverrides {
         ConfigHandler.maxDust_onBreak_DEFAULT,
         0.1f
     );
+    public static final BlockParticleOverride REDSTONE_DUST = new BlockParticleOverride(
+        "redstone_dust",
+        "generic_block_override",
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new DustParticleOptions(DustParticleOptions.REDSTONE_PARTICLE_COLOR, 1.0f),
+        () -> ConfigHandler.redstoneDust_Blocks,
+        (val) -> ConfigHandler.redstoneDust_Blocks = val,
+        ConfigHandler.redstoneDust_Blocks_DEFAULT,
+        () -> ConfigHandler.redstoneDust_enabled,
+        (val) -> ConfigHandler.redstoneDust_enabled = val,
+        ConfigHandler.redstoneDust_enabled_DEFAULT,
+        () -> ConfigHandler.maxRedstoneDust_onPlace,
+        (val) -> ConfigHandler.maxRedstoneDust_onPlace = val,
+        ConfigHandler.maxRedstoneDust_onPlace_DEFAULT,
+        () -> ConfigHandler.maxRedstoneDust_onBreak,
+        (val) -> ConfigHandler.maxRedstoneDust_onBreak = val,
+        ConfigHandler.maxRedstoneDust_onBreak_DEFAULT,
+        0.8f
+    );
 
     public static void registerOverrides() {
         BlockParticleOverride.addBlockParticleOverride(SNOW_POWDER);
@@ -238,5 +258,6 @@ public abstract class BlockParticleOverrides {
         BlockParticleOverride.addBlockParticleOverride(MOSS_CLUMP);
         BlockParticleOverride.addBlockParticleOverride(PALE_MOSS_CLUMP);
         BlockParticleOverride.addBlockParticleOverride(DUST);
+        BlockParticleOverride.addBlockParticleOverride(REDSTONE_DUST);
     }
 }
