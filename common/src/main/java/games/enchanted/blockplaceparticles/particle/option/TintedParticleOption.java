@@ -13,13 +13,15 @@ import net.minecraft.util.ExtraCodecs;
 import org.jetbrains.annotations.NotNull;
 
 public class TintedParticleOption implements ParticleOptions {
-    public static final int REDSTONE = 0xf70000;
     public static final int BRUSH_COLOUR = 0xcec5d6;
     public static final float BRUSH_VARIATION = 0.23F;
-
     public static final TintedParticleOption BRUSH_OPTION = new TintedParticleOption(ModParticleTypes.BRUSH_DUST, TintedParticleOption.BRUSH_COLOUR, TintedParticleOption.BRUSH_VARIATION, true);
     public static final TintedParticleOption BRUSH_SPECK_OPTION = new TintedParticleOption(ModParticleTypes.BRUSH_DUST_SPECK, TintedParticleOption.BRUSH_COLOUR, TintedParticleOption.BRUSH_VARIATION, true);
-    public static final TintedParticleOption REDSTONE_DUST_OPTION = new TintedParticleOption(ModParticleTypes.REDSTONE_DUST, TintedParticleOption.REDSTONE, 0.4f, true);
+
+    public static final int REDSTONE = 0xf70000;
+    public static final int REDSTONE_UNPOWERED = 0x660000;
+    public static final TintedParticleOption REDSTONE_DUST_OPTION = new TintedParticleOption(ModParticleTypes.REDSTONE_DUST, TintedParticleOption.REDSTONE, 0.4F, true);
+    public static final TintedParticleOption REDSTONE_DUST_UNPOWERED_OPTION = new TintedParticleOption(ModParticleTypes.REDSTONE_DUST, TintedParticleOption.REDSTONE_UNPOWERED, 0.2F, true);
 
     private final ParticleType<TintedParticleOption> type;
     private final int color;

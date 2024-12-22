@@ -11,6 +11,9 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.RedStoneWireBlock;
+import net.minecraft.world.level.block.RedstoneTorchBlock;
+import net.minecraft.world.level.block.RepeaterBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public abstract class BlockParticleOverrides {
@@ -231,7 +234,18 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride REDSTONE_DUST = new BlockParticleOverride(
         "redstone_dust",
         "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> TintedParticleOption.REDSTONE_DUST_OPTION,
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
+            if(blockState.hasProperty(RedstoneTorchBlock.LIT)) {
+                return blockState.getValue(RedstoneTorchBlock.LIT) ? TintedParticleOption.REDSTONE_DUST_OPTION : TintedParticleOption.REDSTONE_DUST_UNPOWERED_OPTION;
+            }
+            else if (blockState.hasProperty(RedStoneWireBlock.POWER)) {
+                return blockState.getValue(RedStoneWireBlock.POWER) > 6 ? TintedParticleOption.REDSTONE_DUST_OPTION : TintedParticleOption.REDSTONE_DUST_UNPOWERED_OPTION;
+            }
+            else if (blockState.hasProperty(RepeaterBlock.POWERED)) {
+                return blockState.getValue(RepeaterBlock.POWERED) ? TintedParticleOption.REDSTONE_DUST_OPTION : TintedParticleOption.REDSTONE_DUST_UNPOWERED_OPTION;
+            }
+            return TintedParticleOption.REDSTONE_DUST_OPTION;
+        },
         () -> ConfigHandler.redstoneDust_Blocks,
         (val) -> ConfigHandler.redstoneDust_Blocks = val,
         ConfigHandler.redstoneDust_Blocks_DEFAULT,
@@ -244,7 +258,7 @@ public abstract class BlockParticleOverrides {
         () -> ConfigHandler.maxRedstoneDust_onBreak,
         (val) -> ConfigHandler.maxRedstoneDust_onBreak = val,
         ConfigHandler.maxRedstoneDust_onBreak_DEFAULT,
-        0.15f
+        0.03f
     );
 
     public static void registerOverrides() {

@@ -2,6 +2,7 @@ package games.enchanted.blockplaceparticles.particle.dust;
 
 import games.enchanted.blockplaceparticles.particle.option.TintedParticleOption;
 import games.enchanted.blockplaceparticles.util.ColourUtil;
+import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -40,17 +41,21 @@ public class BasicTintedDust extends AbstractDust {
         return speckGetter.get();
     }
 
-    public static class Provider implements ParticleProvider<TintedParticleOption> {
+    public static class RedstoneProvider implements ParticleProvider<TintedParticleOption> {
         private final SpriteSet spriteSet;
 
-        public Provider(SpriteSet spriteSet) {
+        public RedstoneProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
         @Nullable
         @Override
         public Particle createParticle(@NotNull TintedParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new BasicTintedDust(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet, 1f, type, false, true, () -> null);
+            BasicTintedDust particle = new BasicTintedDust(level, x, y, z, xSpeed, MathHelpers.randomBetween(0.06f, 0.13f), zSpeed, this.spriteSet, -0.0f, type, false, true, () -> null);
+            particle.roll = 0;
+            particle.oRoll = 0;
+            particle.lifetime = (int)(particle.lifetime * 0.6f);
+            return particle;
         }
     }
 

@@ -79,7 +79,7 @@ public class ModParticleTypes {
         BRUSH_DUST_SPECK = register((SpriteProviderReg) BasicTintedDust.BrushSpeckProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "brush_dust_speck"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
         TINTED_DUST = register((SpriteProviderReg) FloatingColouredDust.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "tinted_dust"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         TINTED_DUST_SPECK = register((SpriteProviderReg) FloatingColouredDust.SpeckProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "tinted_dust_speck"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
-        REDSTONE_DUST = register((SpriteProviderReg) BasicTintedDust.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "redstone_dust"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
+        REDSTONE_DUST = register((SpriteProviderReg) BasicTintedDust.RedstoneProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "redstone_dust"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
 
         WATER_BUCKET_TINTED_SPLASH = register((SpriteProviderReg) ColouredBucketSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "water_bucket_tinted_splash"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         LAVA_BUCKET_SPLASH = register((SpriteProviderReg) LavaSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "lava_bucket_splash"), false);

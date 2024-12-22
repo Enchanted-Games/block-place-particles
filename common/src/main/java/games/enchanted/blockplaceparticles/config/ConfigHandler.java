@@ -325,6 +325,7 @@ public class ConfigHandler {
 
     public static final List<ResourceLocation> redstoneDust_Blocks_DEFAULT = List.of(
         RegistryHelpers.getLocationFromBlock(Blocks.REDSTONE_TORCH),
+        RegistryHelpers.getLocationFromBlock(Blocks.REDSTONE_WALL_TORCH),
         RegistryHelpers.getLocationFromBlock(Blocks.REDSTONE_WIRE),
         RegistryHelpers.getLocationFromBlock(Blocks.REDSTONE_BLOCK),
         RegistryHelpers.getLocationFromBlock(Blocks.REPEATER),
