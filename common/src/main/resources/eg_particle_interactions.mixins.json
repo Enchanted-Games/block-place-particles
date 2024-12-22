@@ -18,6 +18,7 @@
     "blocks.BaseFireBlock",
     "blocks.CampfireBlock",
     "blocks.RedstoneWireBlock",
+    "blocks.RepeaterBlock",
     "blocks.TntBlock",
     "entity.AbstractMinecartMixin",
     "entity.Blaze",

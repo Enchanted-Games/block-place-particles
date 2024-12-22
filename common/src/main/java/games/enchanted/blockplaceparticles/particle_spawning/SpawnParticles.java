@@ -6,6 +6,7 @@ import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.particle.option.ParticleEmitterOptions;
 import games.enchanted.blockplaceparticles.particle.option.TintedParticleOption;
 import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
+import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverrides;
 import games.enchanted.blockplaceparticles.particle_spawning.override.FluidPlacementParticle;
 import games.enchanted.blockplaceparticles.util.FluidHelpers;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
@@ -581,16 +582,23 @@ public class SpawnParticles {
         }
     }
 
-    public static void spawnRedstoneInteractionParticles(ClientLevel level, BlockPos pos, BlockState blockState, double x, double y, double z) {
-        int overrideOrigin = BlockParticleOverride.ORIGIN_BLOCK_INTERACTED_WITH;
-        BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockState, overrideOrigin);
+    public static void spawnRedstoneInteractionParticles(ClientLevel level, BlockState blockState, double interactionX, double interactionY, double interactionZ, float spreadX, float spreadY, float spreadZ) {
+        BlockPos pos = BlockPos.containing(interactionX, interactionY, interactionZ);
         for (int i = 0; i < 6; i++) {
-            double particleX = x;
-            double particleY = y;
-            double particleZ = z;
-            ParticleOptions particleOptions = override.getParticleOptionForState(blockState, level, pos, overrideOrigin);
+            double particleX = interactionX + MathHelpers.randomBetween(-spreadX / 2, spreadX / 2);
+            double particleY = interactionY + MathHelpers.randomBetween(-spreadY / 2, spreadY / 2);
+            double particleZ = interactionZ + MathHelpers.randomBetween(-spreadZ / 2, spreadZ / 2);
+            ParticleOptions particleOptions = BlockParticleOverrides.REDSTONE_DUST.getParticleOptionForState(blockState, level, pos, BlockParticleOverride.ORIGIN_BLOCK_INTERACTED_WITH);
             if(particleOptions == null) continue;
-            level.addParticle(particleOptions, particleX, particleY, particleZ, particleX, 0.3f, particleZ);
+            level.addParticle(
+                particleOptions,
+                particleX,
+                particleY,
+                particleZ,
+                MathHelpers.randomBetween(-0.05f, 0.05f),
+                0.2f,
+                MathHelpers.randomBetween(-0.05f, 0.05f)
+            );
         }
     }
 }

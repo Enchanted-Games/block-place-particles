@@ -26,11 +26,13 @@ public abstract class RedstoneWireBlock extends Block {
         if(!(level instanceof ClientLevel)) return;
         SpawnParticles.spawnRedstoneInteractionParticles(
             (ClientLevel) level,
-            pos,
             newState,
-            pos.getX() + (level.random.nextFloat() / 2) + 0.5f,
+            pos.getX() + 0.5f,
             pos.getY() + 0.1f,
-            pos.getZ() + (level.random.nextFloat() / 2) + 0.5f
+            pos.getZ() + 0.5f,
+            0.5f,
+            0f,
+            0.5f
         );
     }
 }
