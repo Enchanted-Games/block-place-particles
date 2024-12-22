@@ -4,6 +4,7 @@ import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.config.type.BrushParticleBehaviour;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.particle.option.ParticleEmitterOptions;
+import games.enchanted.blockplaceparticles.particle.option.TintedParticleOption;
 import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
 import games.enchanted.blockplaceparticles.particle_spawning.override.FluidPlacementParticle;
 import games.enchanted.blockplaceparticles.util.FluidHelpers;
@@ -205,7 +206,7 @@ public class SpawnParticles {
         double particleY = Math.round((y + (deltaMovement.y / 2)) - 0.1) + 0.0625;
 
         SpawnParticlesUtil.spawnParticleInCircle(
-            particleOverride == BlockParticleOverride.VANILLA ? ModParticleTypes.BRUSH_DUST : particleOverride.getParticleOptionForState(blockState, level, blockPos, overrideOrigin),
+            particleOverride == BlockParticleOverride.VANILLA ? TintedParticleOption.BRUSH_OPTION : particleOverride.getParticleOptionForState(blockState, level, blockPos, overrideOrigin),
             level,
             new Vec3(x, particleY, z),
             16,
@@ -217,7 +218,7 @@ public class SpawnParticles {
         );
 
         SpawnParticlesUtil.spawnParticleInCircle(
-            particleOverride == BlockParticleOverride.VANILLA ? ModParticleTypes.BRUSH_DUST : particleOverride.getParticleOptionForState(blockState, level, blockPos, overrideOrigin),
+            particleOverride == BlockParticleOverride.VANILLA ? TintedParticleOption.BRUSH_OPTION : particleOverride.getParticleOptionForState(blockState, level, blockPos, overrideOrigin),
             level,
             new Vec3(x, particleY + 0.7f, z),
             16,
@@ -540,7 +541,7 @@ public class SpawnParticles {
                 particleOption = override.getParticleOptionForState(blockState, level, BlockPos.containing(particlePos), BlockParticleOverride.ORIGIN_BLOCK_BRUSHED);
                 velocityMultiplier = override.getParticleVelocityMultiplier();
             } else {
-                particleOption = ModParticleTypes.BRUSH_DUST;
+                particleOption = TintedParticleOption.BRUSH_OPTION;
                 velocityMultiplier = 0.1f;
             }
 

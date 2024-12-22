@@ -134,4 +134,39 @@ public class ColourUtil {
         int b = rgb & 0xFF;
         return new int[]{r, g, b};
     }
+
+    /**
+     * Randomises the value each channel seperately. The colour is randomly decreased
+     *
+     * @param colours the colour
+     * @param amount amount to randomise by, 0 is no randomisation and 1 is full randomisation
+     * @return the randomised colour
+     */
+    public static int[] randomiseNegative(int[] colours, float amount) {
+        int[] randomised = new int[colours.length];
+        for (int i = 0; i < colours.length; i++) {
+            randomised[i] = variateColourComponent(colours[i], -MathHelpers.randomBetween(0, amount));
+        }
+        return randomised;
+    }
+
+    /**
+     * Randomises the value all channels by the same amount, effectively changes the brightness of the colour. The colour is randomly decreased
+     *
+     * @param colours the colour
+     * @param amount amount to randomise by, 0 is no randomisation and 1 is full randomisation
+     * @return the randomised colour
+     */
+    public static int[] randomiseNegativeUniform(int[] colours, float amount) {
+        float randomAmount = -MathHelpers.randomBetween(0, amount);
+        int[] randomised = new int[colours.length];
+        for (int i = 0; i < colours.length; i++) {
+            randomised[i] = variateColourComponent(colours[i], randomAmount);
+        }
+        return randomised;
+    }
+
+    public static int variateColourComponent(int colour, float variation) {
+        return MathHelpers.clampInt(colour + (int)(variation * 255), 0, 255);
+    }
 }

@@ -8,18 +8,20 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class FloatingDust extends TextureSheetParticle {
+public abstract class AbstractDust extends TextureSheetParticle {
     public static float MIN_SIZE = 0.095f;
     public static float MAX_SIZE = 0.125f;
 
     protected boolean spawnSpecks;
+    protected boolean spriteFromAge;
     protected SpriteSet spriteSet;
 
-    protected FloatingDust(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, float gravityMultiplier, boolean spawnSpecks) {
+    protected AbstractDust(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, float gravityMultiplier, boolean spawnSpecks) {
         super(level, x, y, z);
 
         this.spawnSpecks = spawnSpecks;
         this.spriteSet = spriteSet;
+        this.spriteFromAge = spawnSpecks;
 
         this.gravity = Mth.randomBetween(this.random, 0.25F, 0.38F);;
         this.friction = 1.0F;
@@ -35,7 +37,7 @@ public abstract class FloatingDust extends TextureSheetParticle {
         this.setSize(particleSize, particleSize);
         this.gravity *= gravityMultiplier;
 
-        if(this.spawnSpecks) {
+        if(this.spriteFromAge) {
             this.setSpriteFromAge(this.spriteSet);
         } else {
             this.setSprite(spriteSet.get(this.random));
@@ -44,7 +46,7 @@ public abstract class FloatingDust extends TextureSheetParticle {
 
     @Override
     public void tick() {
-        if(this.spawnSpecks) {
+        if(this.spriteFromAge) {
             this.setSpriteFromAge(this.spriteSet);
         }
 
