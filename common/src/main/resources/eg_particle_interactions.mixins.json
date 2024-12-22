@@ -17,6 +17,7 @@
     "accessor.yacl.DropdownWidgetAccessor",
     "blocks.BaseFireBlock",
     "blocks.CampfireBlock",
+    "blocks.RedstoneWireBlock",
     "blocks.TntBlock",
     "entity.AbstractMinecartMixin",
     "entity.Blaze",

@@ -580,4 +580,17 @@ public class SpawnParticles {
             level.addParticle(ModParticleTypes.FLYING_SPARK, x, y, z, xVel, yVel, zVel);
         }
     }
+
+    public static void spawnRedstoneInteractionParticles(ClientLevel level, BlockPos pos, BlockState blockState, double x, double y, double z) {
+        int overrideOrigin = BlockParticleOverride.ORIGIN_BLOCK_INTERACTED_WITH;
+        BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockState, overrideOrigin);
+        for (int i = 0; i < 6; i++) {
+            double particleX = x;
+            double particleY = y;
+            double particleZ = z;
+            ParticleOptions particleOptions = override.getParticleOptionForState(blockState, level, pos, overrideOrigin);
+            if(particleOptions == null) continue;
+            level.addParticle(particleOptions, particleX, particleY, particleZ, particleX, 0.3f, particleZ);
+        }
+    }
 }
