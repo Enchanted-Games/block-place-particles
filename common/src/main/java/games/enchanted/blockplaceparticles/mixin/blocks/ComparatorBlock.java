@@ -7,20 +7,18 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DiodeBlock;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(net.minecraft.world.level.block.RepeaterBlock.class)
-public abstract class RepeaterBlock extends DiodeBlock {
-    public RepeaterBlock(Properties properties) {
+@Mixin(net.minecraft.world.level.block.ComparatorBlock.class)
+public abstract class ComparatorBlock extends DiodeBlock implements EntityBlock {
+    protected ComparatorBlock(Properties properties) {
         super(properties);
     }
 
@@ -30,7 +28,7 @@ public abstract class RepeaterBlock extends DiodeBlock {
     )
     protected void spawnDustParticlesOnInteraction(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
         if(!(level instanceof ClientLevel)) return;
-        float[] interactionPos = InteractionPositionHelperss.getRedstoneRepeaterInteractionPos(level.getBlockState(pos));
+        float[] interactionPos = InteractionPositionHelperss.getRedstoneComparatorInteractionPos(level.getBlockState(pos));
         SpawnParticles.spawnRedstoneInteractionParticles(
             (ClientLevel) level,
             level.getBlockState(pos),

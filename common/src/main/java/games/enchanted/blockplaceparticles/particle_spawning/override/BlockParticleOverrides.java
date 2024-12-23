@@ -10,11 +10,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.RedStoneWireBlock;
-import net.minecraft.world.level.block.RedstoneTorchBlock;
-import net.minecraft.world.level.block.RepeaterBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.ComparatorMode;
 
 public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride SNOW_POWDER = new BlockParticleOverride(
@@ -237,6 +235,9 @@ public abstract class BlockParticleOverrides {
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
             if(blockState.hasProperty(RedstoneTorchBlock.LIT)) {
                 return blockState.getValue(RedstoneTorchBlock.LIT) ? TintedParticleOption.REDSTONE_DUST_OPTION : TintedParticleOption.REDSTONE_DUST_UNPOWERED_OPTION;
+            }
+            else if (blockState.hasProperty(ComparatorBlock.MODE)) {
+                return blockState.getValue(ComparatorBlock.MODE) == ComparatorMode.SUBTRACT ? TintedParticleOption.REDSTONE_DUST_OPTION : TintedParticleOption.REDSTONE_DUST_UNPOWERED_OPTION;
             }
             else if (blockState.hasProperty(RedStoneWireBlock.POWER)) {
                 return blockState.getValue(RedStoneWireBlock.POWER) > 6 ? TintedParticleOption.REDSTONE_DUST_OPTION : TintedParticleOption.REDSTONE_DUST_UNPOWERED_OPTION;

@@ -17,6 +17,7 @@
     "accessor.yacl.DropdownWidgetAccessor",
     "blocks.BaseFireBlock",
     "blocks.CampfireBlock",
+    "blocks.ComparatorBlock",
     "blocks.RedstoneWireBlock",
     "blocks.RepeaterBlock",
     "blocks.TntBlock",
