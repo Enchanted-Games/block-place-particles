@@ -34,6 +34,7 @@ import java.util.function.Function;
 
 @SuppressWarnings({"unchecked","rawtypes"})
 public class ModParticleTypes {
+    public static SimpleParticleType SNOWFLAKE;
     public static SimpleParticleType FALLING_CHERRY_PETAL;
     public static ParticleType<BlockParticleOption> FALLING_TINTED_LEAF;
     public static SimpleParticleType FALLING_AZALEA_LEAF;
@@ -66,6 +67,7 @@ public class ModParticleTypes {
     public static ParticleType<ParticleEmitterOptions> FLYING_SPARK_EMITTER;
 
     public static void registerParticles() {
+        SNOWFLAKE = register((SpriteProviderReg) FallingPetal.SnowflakeProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "snowflake"), false);
         FALLING_CHERRY_PETAL = register((SpriteProviderReg) FallingPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_cherry_leaves"), false);
         FALLING_TINTED_LEAF = register((SpriteProviderReg) FallingColouredPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_tinted_leaves"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         FALLING_AZALEA_LEAF = register((SpriteProviderReg) FallingPetal.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_azalea_leaves"), false);

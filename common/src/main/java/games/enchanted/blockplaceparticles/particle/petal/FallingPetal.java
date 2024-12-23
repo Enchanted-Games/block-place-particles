@@ -12,6 +12,7 @@ public class FallingPetal extends TextureSheetParticle {
     private float rotSpeed;
     private float spinAcceleration;
     protected float maxSpinSpeed = 100f;
+    private boolean transparency;
 
     protected FallingPetal(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, float gravityMultiplier) {
         super(level, x, y, z);
@@ -30,6 +31,12 @@ public class FallingPetal extends TextureSheetParticle {
         this.quadSize = particleSize;
         this.setSize(particleSize, particleSize);
         this.gravity *= gravityMultiplier;
+
+        this.transparency = false;
+    }
+    protected FallingPetal(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, float gravityMultiplier, boolean transparency) {
+        this(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier);
+        this.transparency = transparency;
     }
 
     @Override
@@ -51,7 +58,7 @@ public class FallingPetal extends TextureSheetParticle {
 
     @Override
     public @NotNull ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+        return this.transparency ? ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT : ParticleRenderType.PARTICLE_SHEET_OPAQUE;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
@@ -68,20 +75,24 @@ public class FallingPetal extends TextureSheetParticle {
         }
     }
 
-    public static class LargerSpriteMoreGravityProvider implements ParticleProvider<SimpleParticleType> {
+    public static class SnowflakeProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 
-        public LargerSpriteMoreGravityProvider(SpriteSet spriteSet) {
+        public SnowflakeProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
         @Nullable
         @Override
         public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            FallingPetal particle = new FallingPetal(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, 2f);
+            FallingPetal particle = new FallingPetal(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, 0.4f, true);
             float particleSize = level.random.nextBoolean() ? 0.10F : 0.12F;
             particle.quadSize = particleSize;
             particle.setSize(particleSize, particleSize);
+            particle.spinAcceleration = 0;
+            particle.maxSpinSpeed = 0;
+            particle.roll = 0;
+            particle.oRoll = 0;
             return particle;
         }
     }
