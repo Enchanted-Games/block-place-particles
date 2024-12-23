@@ -9,6 +9,7 @@ import games.enchanted.blockplaceparticles.config.controller.BlockLocationContro
 import games.enchanted.blockplaceparticles.config.controller.FluidLocationController;
 import games.enchanted.blockplaceparticles.config.type.BrushParticleBehaviour;
 import games.enchanted.blockplaceparticles.localisation.ConfigTranslation;
+import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
 import games.enchanted.blockplaceparticles.util.RegistryHelpers;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -84,6 +85,14 @@ public class ConfigScreen {
             ConfigCategory.createBuilder()
                 .name(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY).toComponent())
                 .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY)))
+
+                // vanilla block particles
+                .group(
+                    ConfigScreenHelper.createOptionsForBlockOverride(BlockParticleOverride.VANILLA)
+                )
+                .group(
+                    createSeparator()
+                )
 
                 // block config info
                 .group(OptionGroup.createBuilder()

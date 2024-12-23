@@ -115,7 +115,7 @@
   "eg_particle_interactions.config.blocks": "Block Particle Overrides",
   "eg_particle_interactions.config.blocks.desc": "Configure particle overrides for blocks. These overrides replace the vanilla block particles",
   "eg_particle_interactions.config.blocks.info": "Block Particle Override Information",
-  "eg_particle_interactions.config.blocks.info.desc": "All config options in this tab are applied from top to bottom. This means if a block is specified in two separate particle overrides, it will only emit first override that is not disabled",
+  "eg_particle_interactions.config.blocks.info.desc": "The following options in this tab are applied from top to bottom. This means if a block is specified in two separate particle overrides, it will only emit first override that is enabled",
 
   "eg_particle_interactions.config.blocks.generic_block_override": "%s Particle Options",
   "eg_particle_interactions.config.blocks.generic_block_override.desc": "When should %s particles be emitted?",

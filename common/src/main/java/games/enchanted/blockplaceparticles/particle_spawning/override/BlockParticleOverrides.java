@@ -259,7 +259,7 @@ public abstract class BlockParticleOverrides {
         () -> ConfigHandler.maxRedstoneDust_onBreak,
         (val) -> ConfigHandler.maxRedstoneDust_onBreak = val,
         ConfigHandler.maxRedstoneDust_onBreak_DEFAULT,
-        0.03f
+        0.06f
     );
 
     public static void registerOverrides() {
