@@ -46,18 +46,13 @@ public class FallingPetal extends TextureSheetParticle {
         if(this.rotSpeed > this.maxSpinSpeed) this.rotSpeed = this.maxSpinSpeed;
 
         this.oRoll = this.roll;
-        if(!this.onGround) {
-            this.roll += this.rotSpeed / 5.0F;
+        if( !this.onGround && !((ParticleAccessor) this).getStoppedByCollision() ) {
+            this.roll += this.rotSpeed / 6.5f;
         }
 
         this.xd *= 0.949999988079071;
         this.yd *= 0.8999999761581421;
         this.zd *= 0.949999988079071;
-
-
-        if ( this.hasPhysics && ((ParticleAccessor) this).getStoppedByCollision() && !this.removed ) {
-            this.remove();
-        }
 
         super.tick();
     }

@@ -174,7 +174,9 @@ public class SpawnParticles {
     }
 
     public static void spawnFallingBlockRandomFallParticles(ClientLevel level, BlockState blockState, double x, double y, double z, Vec3 deltaMovement) {
+        if(!ConfigHandler.fallingBlockEffect_enabled) return;
         if(blockState.isAir()) return;
+
         int overrideOrigin = BlockParticleOverride.ORIGIN_FALLING_BLOCK_FALLING;
         BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(blockState, overrideOrigin);
 
@@ -196,6 +198,8 @@ public class SpawnParticles {
     }
 
     public static void spawnFallingBlockLandParticles(ClientLevel level, BlockState blockState, double x, double y, double z, Vec3 deltaMovement) {
+        if(!ConfigHandler.fallingBlockEffect_enabled) return;
+
         int overrideOrigin = BlockParticleOverride.ORIGIN_FALLING_BLOCK_LANDED;
         BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(blockState, overrideOrigin);
 
@@ -584,7 +588,7 @@ public class SpawnParticles {
 
     public static void spawnRedstoneInteractionParticles(ClientLevel level, BlockState blockState, double interactionX, double interactionY, double interactionZ, float spreadX, float spreadY, float spreadZ) {
         BlockPos pos = BlockPos.containing(interactionX, interactionY, interactionZ);
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < ConfigHandler.redstoneInteractionDust_amount; i++) {
             double particleX = interactionX + MathHelpers.randomBetween(-spreadX / 2, spreadX / 2);
             double particleY = interactionY + MathHelpers.randomBetween(-spreadY / 2, spreadY / 2);
             double particleZ = interactionZ + MathHelpers.randomBetween(-spreadZ / 2, spreadZ / 2);

@@ -34,6 +34,8 @@ public class ConfigTranslation {
     public static final String SPAWN_PARTICLE_ON_ENTITY_HURT = "spawn_particle_on_entity_hurt";
     public static final String ENTITY_AMBIENT_PARTICLE_SPAWN_CHANCE = "entity_ambient_particle_spawn_chance";
     public static final String AMOUNT_TO_SPAWN_ON_ENTITY_HURT = "amount_to_spawn_on_entity_hurt";
+    public static final String PARTICLE_EFFECT_RENDER_DISTANCE = "particle_effect_render_distance";
+    public static final String AMOUNT_TO_SPAWN_ON_INTERACT = "amount_to_spawn_on_interact";
 
     public static final String BRUSH_PARTICLE_BEHAVIOUR = "brush_particle_behaviour";
 

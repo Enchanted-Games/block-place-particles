@@ -20,6 +20,8 @@
   "eg_particle_interactions.config.particle_type.fire_sparks": "Fire Spark",
   "eg_particle_interactions.config.particle_type.anvil_craft_sparks": "Anvil Crafting Sparks",
   "eg_particle_interactions.config.particle_type.grindstone_craft_sparks": "Grindstone Crafting Sparks",
+  "eg_particle_interactions.config.particle_type.falling_block_effect": "Block Falling Effect",
+  "eg_particle_interactions.config.particle_type.redstone_interaction_dust": "Redstone Interaction",
 
   "eg_particle_interactions.config.particle_type.flint_and_steel_sparks": "Flint & Steel Spark",
   "eg_particle_interactions.config.particle_type.fire_charge_smoke": "Fire Charge Smoke",

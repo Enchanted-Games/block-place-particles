@@ -394,8 +394,22 @@ public class ConfigHandler {
     public static boolean grindstoneUseSparks_enabled = grindstoneUseSparks_enabled_DEFAULT;
 
     // falling block effects
+    public static final boolean fallingBlockEffect_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean fallingBlockEffect_enabled = fallingBlockEffect_enabled_DEFAULT;
+
     public static final int fallingBlockEffect_renderDistance_DEFAULT = 64;
+    @SerialEntry
     public static int fallingBlockEffect_renderDistance = fallingBlockEffect_renderDistance_DEFAULT;
+
+    // redstone interaction dust
+    public static final boolean redstoneInteractionDust_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean redstoneInteractionDust_enabled = redstoneInteractionDust_enabled_DEFAULT;
+
+    public static final int redstoneInteractionDust_amount_DEFAULT = 6;
+    @SerialEntry
+    public static int redstoneInteractionDust_amount = redstoneInteractionDust_amount_DEFAULT;
 
     // Entity Particles
     // travelling minecarts

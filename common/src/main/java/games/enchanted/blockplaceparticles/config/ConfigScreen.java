@@ -167,6 +167,26 @@ public class ConfigScreen {
                 ConfigTranslation.ARE_PARTICLES_ENABLED,
                 integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_CRAFT, "grindstone_craft_sparks", ConfigHandler.maxGrindstoneUseSparks_onUse_DEFAULT, () -> ConfigHandler.maxGrindstoneUseSparks_onUse, newVal -> ConfigHandler.maxGrindstoneUseSparks_onUse = newVal, 1, 32, 1)
             ))
+
+            // falling block effect
+            .group( createParticleToggleAndIntSliderConfigGroup(
+                "falling_block_effect",
+                "falling_block_effect",
+                ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
+                Binding.generic(ConfigHandler.fallingBlockEffect_enabled_DEFAULT, () -> ConfigHandler.fallingBlockEffect_enabled, newVal -> ConfigHandler.fallingBlockEffect_enabled = newVal),
+                ConfigTranslation.ARE_PARTICLES_ENABLED,
+                integerSliderOption(ConfigTranslation.PARTICLE_EFFECT_RENDER_DISTANCE, "falling_block_effect", ConfigHandler.fallingBlockEffect_renderDistance_DEFAULT, () -> ConfigHandler.fallingBlockEffect_renderDistance, newVal -> ConfigHandler.fallingBlockEffect_renderDistance = newVal, 1, 512, 1)
+            ))
+
+            // redstone interaction dust
+            .group( createParticleToggleAndIntSliderConfigGroup(
+                "redstone_interaction_dust",
+                "redstone_interaction_dust",
+                ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
+                Binding.generic(ConfigHandler.redstoneInteractionDust_enabled_DEFAULT, () -> ConfigHandler.redstoneInteractionDust_enabled, newVal -> ConfigHandler.redstoneInteractionDust_enabled = newVal),
+                ConfigTranslation.ARE_PARTICLES_ENABLED,
+                integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_INTERACT, "redstone_interaction_dust", ConfigHandler.redstoneInteractionDust_amount_DEFAULT, () -> ConfigHandler.redstoneInteractionDust_amount, newVal -> ConfigHandler.redstoneInteractionDust_amount = newVal, 1, 32, 1)
+            ))
         .build());
 
         // item use category
