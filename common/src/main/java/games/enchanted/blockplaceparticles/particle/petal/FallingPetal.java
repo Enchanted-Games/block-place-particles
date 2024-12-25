@@ -1,5 +1,6 @@
 package games.enchanted.blockplaceparticles.particle.petal;
 
+import games.enchanted.blockplaceparticles.mixin.accessor.ParticleAccessor;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
@@ -13,10 +14,11 @@ public class FallingPetal extends TextureSheetParticle {
     private float spinAcceleration;
     protected float maxSpinSpeed = 100f;
     private boolean transparency;
+    protected boolean hasParticleLanded;
 
     protected FallingPetal(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, float gravityMultiplier) {
         super(level, x, y, z);
-        this.setSprite(spriteSet.get(this.random.nextInt(12), 12));
+        this.setSprite(spriteSet.get(this.random));
         this.gravity = Mth.randomBetween(this.random, 0.25F, 0.38F);;
         this.friction = 1.0F;
         this.xd = xSpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
@@ -52,6 +54,13 @@ public class FallingPetal extends TextureSheetParticle {
         this.xd *= 0.949999988079071;
         this.yd *= 0.8999999761581421;
         this.zd *= 0.949999988079071;
+
+
+        if ( this.hasPhysics && ((ParticleAccessor) this).getStoppedByCollision() && !this.hasParticleLanded ) {
+            this.hasParticleLanded = true;
+            this.rotSpeed = 0;
+            this.maxSpinSpeed = 0;
+        }
 
         super.tick();
     }

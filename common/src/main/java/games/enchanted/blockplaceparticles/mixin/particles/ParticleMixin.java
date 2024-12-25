@@ -1,4 +1,4 @@
-package games.enchanted.blockplaceparticles.mixin;
+package games.enchanted.blockplaceparticles.mixin.particles;
 
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import net.minecraft.client.multiplayer.ClientLevel;

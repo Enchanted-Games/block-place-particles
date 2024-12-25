@@ -6,7 +6,7 @@ import net.minecraft.world.level.block.ComparatorBlock;
 import net.minecraft.world.level.block.RepeaterBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class InteractionPositionHelperss {
+public class InteractionPositionHelpers {
     public static float[] getRedstoneRepeaterInteractionPos(BlockState repeaterState) {
         Direction repeaterDirection = repeaterState.getValue(RepeaterBlock.FACING);
         int repeaterDelay = repeaterState.getValue(RepeaterBlock.DELAY);

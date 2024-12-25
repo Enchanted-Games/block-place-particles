@@ -20,9 +20,9 @@ public abstract class BlockParticleOverrides {
         "generic_block_override",
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
             if(BiomeTemperatureHelpers.isWarmBiomeOrDimension(level, blockPos)) {
-                return level.random.nextInt(5) == 0 ? ParticleTypes.POOF : ParticleTypes.SNOWFLAKE;
+                return level.random.nextInt(5) == 0 ? ParticleTypes.POOF : ModParticleTypes.SNOWFLAKE;
             }
-            return ParticleTypes.SNOWFLAKE;
+            return ModParticleTypes.SNOWFLAKE;
         },
         () -> ConfigHandler.snowflake_Blocks,
         (val) -> ConfigHandler.snowflake_Blocks = val,

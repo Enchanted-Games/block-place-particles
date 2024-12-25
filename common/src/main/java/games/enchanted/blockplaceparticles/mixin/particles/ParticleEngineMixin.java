@@ -1,4 +1,4 @@
-package games.enchanted.blockplaceparticles.mixin;
+package games.enchanted.blockplaceparticles.mixin.particles;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
