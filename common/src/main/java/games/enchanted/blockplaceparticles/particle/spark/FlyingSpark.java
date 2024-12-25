@@ -105,10 +105,10 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
     }
 
-    public static class LongLifeSparkProvider implements ParticleProvider<SimpleParticleType> {
+    public static class FlyingSparkProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 
-        public LongLifeSparkProvider(SpriteSet spriteSet) {
+        public FlyingSparkProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
@@ -119,10 +119,10 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         }
     }
 
-    public static class ShortLifeSparkProvider implements ParticleProvider<SimpleParticleType> {
+    public static class FloatingSparkProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 
-        public ShortLifeSparkProvider(SpriteSet spriteSet) {
+        public FloatingSparkProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
@@ -133,10 +133,10 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         }
     }
 
-    public static class LongLifeSoulSparkProvider implements ParticleProvider<SimpleParticleType> {
+    public static class FlyingSoulSparkProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 
-        public LongLifeSoulSparkProvider(SpriteSet spriteSet) {
+        public FlyingSoulSparkProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
@@ -147,10 +147,10 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         }
     }
 
-    public static class ShortLifeSoulSparkProvider implements ParticleProvider<SimpleParticleType> {
+    public static class FloatingSoulSparkProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 
-        public ShortLifeSoulSparkProvider(SpriteSet spriteSet) {
+        public FloatingSoulSparkProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 

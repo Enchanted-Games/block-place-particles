@@ -52,10 +52,10 @@ public class FloatingColouredDust extends AbstractDust {
         return super.getRenderType();
     }
 
-    public static class Provider implements ParticleProvider<BlockParticleOption> {
+    public static class TintedDustProvider implements ParticleProvider<BlockParticleOption> {
         private final SpriteSet spriteSet;
 
-        public Provider(SpriteSet spriteSet) {
+        public TintedDustProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
@@ -66,10 +66,10 @@ public class FloatingColouredDust extends AbstractDust {
         }
     }
 
-    public static class SpeckProvider implements ParticleProvider<BlockParticleOption>  {
+    public static class TintedDustSpeckProvider implements ParticleProvider<BlockParticleOption>  {
         private final SpriteSet spriteSet;
 
-        public SpeckProvider(SpriteSet spriteSet) {
+        public TintedDustSpeckProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 

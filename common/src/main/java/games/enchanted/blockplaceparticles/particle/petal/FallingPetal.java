@@ -14,7 +14,6 @@ public class FallingPetal extends TextureSheetParticle {
     private float spinAcceleration;
     protected float maxSpinSpeed = 100f;
     private boolean transparency;
-    protected boolean hasParticleLanded;
 
     protected FallingPetal(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, float gravityMultiplier) {
         super(level, x, y, z);
@@ -56,10 +55,8 @@ public class FallingPetal extends TextureSheetParticle {
         this.zd *= 0.949999988079071;
 
 
-        if ( this.hasPhysics && ((ParticleAccessor) this).getStoppedByCollision() && !this.hasParticleLanded ) {
-            this.hasParticleLanded = true;
-            this.rotSpeed = 0;
-            this.maxSpinSpeed = 0;
+        if ( this.hasPhysics && ((ParticleAccessor) this).getStoppedByCollision() && !this.removed ) {
+            this.remove();
         }
 
         super.tick();
@@ -70,10 +67,10 @@ public class FallingPetal extends TextureSheetParticle {
         return this.transparency ? ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT : ParticleRenderType.PARTICLE_SHEET_OPAQUE;
     }
 
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
+    public static class GenericLeafProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 
-        public Provider(SpriteSet spriteSet) {
+        public GenericLeafProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 

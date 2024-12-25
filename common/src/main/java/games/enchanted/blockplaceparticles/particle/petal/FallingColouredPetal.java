@@ -40,10 +40,10 @@ public class FallingColouredPetal extends FallingPetal {
         return super.getRenderType();
     }
 
-    public static class Provider implements ParticleProvider<BlockParticleOption> {
+    public static class TintedLeafProvider implements ParticleProvider<BlockParticleOption> {
         private final SpriteSet spriteSet;
 
-        public Provider(SpriteSet spriteSet) {
+        public TintedLeafProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
@@ -54,10 +54,10 @@ public class FallingColouredPetal extends FallingPetal {
         }
     }
 
-    public static class LargerSpriteProvider implements ParticleProvider<BlockParticleOption> {
+    public static class GrassBladeProvider implements ParticleProvider<BlockParticleOption> {
         private final SpriteSet spriteSet;
 
-        public LargerSpriteProvider(SpriteSet spriteSet) {
+        public GrassBladeProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
@@ -72,10 +72,10 @@ public class FallingColouredPetal extends FallingPetal {
         }
     }
 
-    public static class LargerSpriteMoreGravityProvider implements ParticleProvider<BlockParticleOption> {
+    public static class HeavyGrassBladeProvider implements ParticleProvider<BlockParticleOption> {
         private final SpriteSet spriteSet;
 
-        public LargerSpriteMoreGravityProvider(SpriteSet spriteSet) {
+        public HeavyGrassBladeProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
