@@ -101,7 +101,7 @@
   "eg_particle_interactions.config.global_option.pixel_consistent_terrain_particles": "Pixel consistent block / item particles",
   "eg_particle_interactions.config.global_option.pixel_consistent_terrain_particles.desc": "Makes the particles that appear when mining blocks, placing blocks, or eating food be pixel consistent.\n\nTry disabling this if you are having visual issues with other mods or resourcepacks",
 
-  "eg_particle_interactions.config.global_option.particle_zfighting_fix": "Particle Z-Fighting Fix",
+  "eg_particle_interactions.config.global_option.particle_zfighting_fix": "Particle z-fighting fix",
   "eg_particle_interactions.config.global_option.particle_zfighting_fix.desc": "Fixes particles z-fighting (glitching) with each-other when looking downwards, MC-91873 on the bug tracker. This fix isn't perfect but it works for most cases.\n\nThis fix works by moving each particle upwards by a small amount when it lands on a block.\n\nDisable this if particles from other mods are acting weirdly or not moving correctly. You may also want to disable this if you have another mod that also fixes this issue",
 
   "eg_particle_interactions.config.general.performance": "Performance",
