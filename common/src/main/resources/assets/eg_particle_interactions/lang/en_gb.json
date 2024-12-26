@@ -13,6 +13,7 @@
   "eg_particle_interactions.config.particle_type.moss_clump": "Moss Clump",
   "eg_particle_interactions.config.particle_type.pale_moss_clump": "Pale Moss Clump",
   "eg_particle_interactions.config.particle_type.dust": "Dust",
+  "eg_particle_interactions.config.particle_type.redstone_dust": "Redstone Dust",
   "eg_particle_interactions.config.particle_type.vanilla_particle": "Vanilla Block",
 
   "eg_particle_interactions.config.particle_type.underwater_block_bubbles": "Underwater Bubble",
@@ -20,6 +21,8 @@
   "eg_particle_interactions.config.particle_type.fire_sparks": "Fire Spark",
   "eg_particle_interactions.config.particle_type.anvil_craft_sparks": "Anvil Crafting Sparks",
   "eg_particle_interactions.config.particle_type.grindstone_craft_sparks": "Grindstone Crafting Sparks",
+  "eg_particle_interactions.config.particle_type.falling_block_effect": "Block Falling",
+  "eg_particle_interactions.config.particle_type.redstone_interaction_dust": "Redstone Interaction",
 
   "eg_particle_interactions.config.particle_type.flint_and_steel_sparks": "Flint & Steel Spark",
   "eg_particle_interactions.config.particle_type.fire_charge_smoke": "Fire Charge Smoke",
@@ -56,10 +59,17 @@
   "eg_particle_interactions.config.global_option.item_use_particle_intensity": "Particle Intensity",
   "eg_particle_interactions.config.global_option.item_use_particle_intensity.desc": "The speed that the %s particles have when spawned",
 
+  "eg_particle_interactions.config.global_option.particle_effect_render_distance": "Render distance (blocks)",
+  "eg_particle_interactions.config.global_option.particle_effect_render_distance.desc": "The maximum distance that %s particles will be visible from, in blocks",
+
+  "eg_particle_interactions.config.global_option.amount_to_spawn_on_interact": "Amount of particles on interaction",
+  "eg_particle_interactions.config.global_option.amount_to_spawn_on_interact.desc": "The amount of %s particles to spawn for each interaction",
+
+
   "eg_particle_interactions.config.global_option.is_override_enabled": "Override enabled",
   "eg_particle_interactions.config.global_option.is_override_enabled.desc": "Should the %s Particle Override be enabled",
 
-  "eg_particle_interactions.config.global_option.is_particle_enabled": "Enable this particle?",
+  "eg_particle_interactions.config.global_option.is_particle_enabled": "Particle enabled",
   "eg_particle_interactions.config.global_option.is_particle_enabled.desc": "Should %s particles be spawned",
 
   "eg_particle_interactions.config.global_option.particle_spawn_chance": "Particle spawn chance",
@@ -156,6 +166,12 @@
   "eg_particle_interactions.config.block_ambient.grindstone_craft_sparks": "%s",
   "eg_particle_interactions.config.block_ambient.grindstone_craft_sparks.desc": "Configure if %s particles should be spawned when grinding an item in a grindstone",
 
+  "eg_particle_interactions.config.block_ambient.falling_block_effect": "%s Particles",
+  "eg_particle_interactions.config.block_ambient.falling_block_effect.desc": "Configure if particles should be spawned when a block is falling and when it lands",
+
+  "eg_particle_interactions.config.block_ambient.redstone_interaction_dust": "%s Dust Particles",
+  "eg_particle_interactions.config.block_ambient.redstone_interaction_dust.desc": "Configure if redstone dust particles should be spawned when some redstone components are interacted with. This applies to redstone dust, repeaters, and comparators",
+
 
   "eg_particle_interactions.config.entity": "Entity Particles",
   "eg_particle_interactions.config.entity.desc": "Configure how particles are emitted from entities in the world",
@@ -177,7 +193,7 @@
   "eg_particle_interactions.config.items.brush_particles": "Brushing Particles",
   "eg_particle_interactions.config.items.brush_particles.desc": "Configure how particles should look when brushing blocks with a brush",
   "eg_particle_interactions.config.global_option.brush_particle_behaviour": "Brushing particle mode",
-  "eg_particle_interactions.config.global_option.brush_particle_behaviour.desc": "§lVanilla-like§r\nUses the vanilla particles when brushing a block, unless the block has a Block Particle Override then that will be used instead.\n\n§lDust§r\nSpawns a dust particle when brushing a block, unless the block has a Block Particle Override then that will be used instead.\n\n§lDisabled§r\nDisables the brushing particles entirely",
+  "eg_particle_interactions.config.global_option.brush_particle_behaviour.desc": "§lVanilla-like§r\nUses the vanilla particles when brushing a block. If the block has a Block Particle Override then that will be spawned instead.\n\n§lDust§r\nSpawns a dust particle when brushing a block. If the block has a Block Particle Override then that will be spawned instead.\n\n§lDisabled§r\nDisables the brushing particles entirely",
   "eg_particle_interactions.config.enum_option.brush_particle_behaviour.block_override_or_vanilla": "Vanilla-like",
   "eg_particle_interactions.config.enum_option.brush_particle_behaviour.block_override_or_dust": "Dust",
   "eg_particle_interactions.config.enum_option.brush_particle_behaviour.none": "Disabled",
