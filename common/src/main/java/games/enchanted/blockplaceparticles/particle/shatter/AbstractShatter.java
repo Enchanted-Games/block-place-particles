@@ -2,13 +2,12 @@ package games.enchanted.blockplaceparticles.particle.shatter;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
-import games.enchanted.blockplaceparticles.util.TextureHelpers;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -17,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-public class AbstractShatter extends Particle {
+public abstract class AbstractShatter extends Particle {
     protected final float slice0X;
     protected final float slice0Y;
     protected final float slice1X;
@@ -26,10 +25,12 @@ public class AbstractShatter extends Particle {
     protected final float uvOffset;
     protected final boolean inverseSlicePositions;
     protected final TextureAtlasSprite sprite;
+    protected final BlockState blockState;
 
     protected AbstractShatter(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockState blockState) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed);
 
+        this.blockState = blockState;
         this.sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(blockState);
 //        this.sprite = TextureHelpers.getDebugSprite();
 
@@ -42,15 +43,21 @@ public class AbstractShatter extends Particle {
         this.slice0Y = (float) MathHelpers.randomBetween(2, randomSizeThird) / randomSize;
         this.slice1X = (float) MathHelpers.randomBetween((randomSizeThird * 2) + 1, randomSize - 1) / randomSize;
         this.slice1Y = (float) MathHelpers.randomBetween((randomSizeThird * 2) - 1, randomSize - 1) / randomSize;
+
         this.inverseSlicePositions = level.random.nextBoolean();
+        this.roll = level.random.nextFloat() >= 0.5f ? 0f : (float) Math.toRadians(90);
+        this.oRoll = this.roll;
 
-        this.xd = xSpeed;
-        this.yd = ySpeed;
-        this.zd = zSpeed;
+        setInitialVelocity(xSpeed, ySpeed, zSpeed, 0.1f);
 
-        this.gravity = 0f;
+        this.gravity = MathHelpers.randomBetween(0.75f, 0.9f);
+        this.lifetime = MathHelpers.randomBetween(20, 50);
+    }
 
-        this.lifetime = 20;
+    protected void setInitialVelocity(double xSpeed, double ySpeed, double zSpeed, float variance) {
+        this.xd = xSpeed + ((level.random.nextFloat() * variance) - (variance / 2));
+        this.yd = ySpeed + ((level.random.nextFloat() * variance) - (variance / 2));
+        this.zd = zSpeed + ((level.random.nextFloat() * variance) - (variance / 2));
     }
 
     @Override
@@ -65,16 +72,34 @@ public class AbstractShatter extends Particle {
         return this.uvScale;
     }
 
-    @Override
-    public void render(@NotNull VertexConsumer vertexConsumer, @NotNull Camera camera, float partialTicks) {
-        Quaternionf quaternionf = new Quaternionf();
-        SingleQuadParticle.FacingCameraMode.LOOKAT_XYZ.setRotation(quaternionf, camera, partialTicks);
-        if (this.roll != 0.0F) {
-            quaternionf.rotateZ(Mth.lerp(partialTicks, this.oRoll, this.roll));
+    protected SingleQuadParticle.FacingCameraMode getFacingMode(@Nullable Direction facingDirection) {
+        switch (facingDirection) {
+            case NORTH -> {
+                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelpers.eulerAnglesToQuaternion(0f, (float) Math.toRadians(270), 0f));
+            }
+            case EAST -> {
+                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelpers.eulerAnglesToQuaternion(0f, (float) Math.toRadians(180), 0f));
+            }
+            case SOUTH -> {
+                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelpers.eulerAnglesToQuaternion(0f, (float) Math.toRadians(90), 0f));
+            }
+            case WEST -> {
+                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelpers.eulerAnglesToQuaternion(0f, 0f, 0f));
+            }
+            case UP -> {
+                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelpers.eulerAnglesToQuaternion(0f, (float) Math.toRadians(90), (float) Math.toRadians(90)));
+            }
+            case DOWN -> {
+                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelpers.eulerAnglesToQuaternion(0f, (float) Math.toRadians(90), (float) Math.toRadians(-90)));
+            }
+            case null, default -> {
+                return SingleQuadParticle.FacingCameraMode.LOOKAT_XYZ;
+            }
         }
-
-        this.renderQuads(vertexConsumer, camera, quaternionf, partialTicks);
     }
+
+    @Override
+    public abstract void render(@NotNull VertexConsumer vertexConsumer, @NotNull Camera camera, float partialTicks);
 
     protected void renderQuads(VertexConsumer buffer, Camera camera, Quaternionf quaternion, float partialTicks) {
         Vec3 cameraPosition = camera.getPosition();
@@ -132,6 +157,8 @@ public class AbstractShatter extends Particle {
     }
 
     private void renderVertex(VertexConsumer buffer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float u, float v, int packedLight, float scale) {
+        xOffset -= 0.5f;
+        yOffset -= 0.5f;
         Vector3f vector3f = (new Vector3f(xOffset, yOffset, 0.0F)).rotate(quaternion).mul(scale).add(x, y, z);
         buffer.addVertex(vector3f.x(), vector3f.y(), vector3f.z()).setUv(u, v).setColor(this.rCol, this.gCol, this.bCol, this.alpha).setLight(packedLight);
     }
@@ -139,15 +166,5 @@ public class AbstractShatter extends Particle {
     @Override
     public @NotNull ParticleRenderType getRenderType() {
         return ParticleRenderType.TERRAIN_SHEET;
-    }
-
-    public static class PortalShatterProvider implements ParticleProvider<BlockParticleOption> {
-        public PortalShatterProvider(SpriteSet spriteSet) {}
-
-        @Nullable
-        @Override
-        public Particle createParticle(@NotNull BlockParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new AbstractShatter(level, x, y, z, xSpeed, ySpeed, zSpeed, type.getState());
-        }
     }
 }

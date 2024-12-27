@@ -4,11 +4,9 @@ import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.particle.option.TintedParticleOption;
 import games.enchanted.blockplaceparticles.util.BiomeTemperatureHelpers;
-import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
@@ -261,6 +259,24 @@ public abstract class BlockParticleOverrides {
         ConfigHandler.maxRedstoneDust_onBreak_DEFAULT,
         0.06f
     );
+    public static final BlockParticleOverride NETHER_PORTAL_SHATTER = new BlockParticleOverride(
+        "nether_portal_shatter",
+        "generic_block_override",
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ModParticleTypes.NETHER_PORTAL_SHATTER, blockState),
+        () -> ConfigHandler.netherPortalShatter_Blocks,
+        (val) -> ConfigHandler.netherPortalShatter_Blocks = val,
+        ConfigHandler.netherPortalShatter_Blocks_DEFAULT,
+        () -> ConfigHandler.netherPortalShatter_enabled,
+        (val) -> ConfigHandler.netherPortalShatter_enabled = val,
+        ConfigHandler.netherPortalShatter_enabled_DEFAULT,
+        () -> ConfigHandler.maxNetherPortalShatter_onPlace,
+        (val) -> ConfigHandler.maxNetherPortalShatter_onPlace = val,
+        ConfigHandler.maxNetherPortalShatter_onPlace_DEFAULT,
+        () -> ConfigHandler.maxNetherPortalShatter_onBreak,
+        (val) -> ConfigHandler.maxNetherPortalShatter_onBreak = val,
+        ConfigHandler.maxNetherPortalShatter_onBreak_DEFAULT,
+        0.15f
+    );
 
     public static void registerOverrides() {
         BlockParticleOverride.addBlockParticleOverride(SNOW_POWDER);
@@ -275,5 +291,6 @@ public abstract class BlockParticleOverrides {
         BlockParticleOverride.addBlockParticleOverride(PALE_MOSS_CLUMP);
         BlockParticleOverride.addBlockParticleOverride(DUST);
         BlockParticleOverride.addBlockParticleOverride(REDSTONE_DUST);
+        BlockParticleOverride.addBlockParticleOverride(NETHER_PORTAL_SHATTER);
     }
 }

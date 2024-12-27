@@ -334,6 +334,25 @@ public class ConfigHandler {
     @SerialEntry
     public static List<ResourceLocation> redstoneDust_Blocks = redstoneDust_Blocks_DEFAULT;
 
+    // nether portal shatter
+    public static final int maxNetherPortalShatter_onPlace_DEFAULT = 3;
+    @SerialEntry
+    public static int maxNetherPortalShatter_onPlace = maxNetherPortalShatter_onPlace_DEFAULT;
+
+    public static final boolean netherPortalShatter_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean netherPortalShatter_enabled = netherPortalShatter_enabled_DEFAULT;
+
+    public static final int maxNetherPortalShatter_onBreak_DEFAULT = 4;
+    @SerialEntry
+    public static int maxNetherPortalShatter_onBreak = maxNetherPortalShatter_onBreak_DEFAULT;
+
+    public static final List<ResourceLocation> netherPortalShatter_Blocks_DEFAULT = List.of(
+        RegistryHelpers.getLocationFromBlock(Blocks.NETHER_PORTAL)
+    );
+    @SerialEntry
+    public static List<ResourceLocation> netherPortalShatter_Blocks = netherPortalShatter_Blocks_DEFAULT;
+
     // vanilla block particle
     public static final int maxBlock_onPlace_DEFAULT = 2;
     @SerialEntry
