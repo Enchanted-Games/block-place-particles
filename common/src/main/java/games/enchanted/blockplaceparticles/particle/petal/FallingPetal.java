@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 public class FallingPetal extends TextureSheetParticle {
     private float rotSpeed;
     private float spinAcceleration;
-    protected float maxSpinSpeed = 100f;
+    protected float maxSpinSpeed = 1f;
     private boolean transparency;
 
     protected FallingPetal(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, float gravityMultiplier) {
