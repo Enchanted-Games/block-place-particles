@@ -50,7 +50,10 @@ public abstract class AbstractShatter extends Particle {
         setInitialVelocity(xSpeed, ySpeed, zSpeed, 0.1f);
 
         this.gravity = MathHelpers.randomBetween(0.75f, 0.9f);
-        this.lifetime = MathHelpers.randomBetween(10, 50);
+        this.lifetime = MathHelpers.randomBetween(5, 25);
+
+//        this.gravity = MathHelpers.randomBetween(0.1f, 0.25f);
+//        this.lifetime = MathHelpers.randomBetween(5, 14);
     }
 
     protected void setInitialVelocity(double xSpeed, double ySpeed, double zSpeed, float variance) {
