@@ -1,6 +1,7 @@
 package games.enchanted.blockplaceparticles.particle.shatter;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import games.enchanted.blockplaceparticles.particle.ModParticleRenderTypes;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
 import games.enchanted.blockplaceparticles.util.TextureHelpers;
 import net.minecraft.client.Camera;
@@ -49,7 +50,7 @@ public abstract class AbstractShatter extends Particle {
         setInitialVelocity(xSpeed, ySpeed, zSpeed, 0.1f);
 
         this.gravity = MathHelpers.randomBetween(0.75f, 0.9f);
-        this.lifetime = MathHelpers.randomBetween(20, 50);
+        this.lifetime = MathHelpers.randomBetween(10, 50);
     }
 
     protected void setInitialVelocity(double xSpeed, double ySpeed, double zSpeed, float variance) {
@@ -78,7 +79,9 @@ public abstract class AbstractShatter extends Particle {
         return this.uvScale;
     }
 
-    protected SingleQuadParticle.FacingCameraMode getFacingMode(@Nullable Direction facingDirection) {
+    protected abstract Direction getParticleFacingDirection();
+
+    private SingleQuadParticle.FacingCameraMode getFacingMode(@Nullable Direction facingDirection) {
         switch (facingDirection) {
             case NORTH -> {
                 return (quaternion, camera, partialTicks) -> quaternion.set(MathHelpers.eulerAnglesToQuaternion(0f, (float) Math.toRadians(270), 0f));
@@ -104,33 +107,15 @@ public abstract class AbstractShatter extends Particle {
         }
     }
 
-    /**
-     * Override this method if you wish to add additional or replace existing geometry
-     *
-     * @param vertexConsumer the vertex consumer
-     * @param camera         the camera
-     * @param partialTicks   partial ticks
-     */
-    protected void renderGeometry(@NotNull VertexConsumer vertexConsumer, @NotNull Camera camera, float partialTicks) {
+    @Override
+    public void render(@NotNull VertexConsumer vertexConsumer, @NotNull Camera camera, float partialTicks) {
+        this.renderTick(partialTicks);
         Quaternionf quaternionf = new Quaternionf();
-        this.getFacingMode(null).setRotation(quaternionf, camera, partialTicks);
+        this.getFacingMode(this.getParticleFacingDirection()).setRotation(quaternionf, camera, partialTicks);
         if (this.roll != 0.0F) {
             quaternionf.rotateZ(Mth.lerp(partialTicks, this.oRoll, this.roll));
         }
         this.renderQuads(vertexConsumer, camera, quaternionf, partialTicks);
-    }
-
-    /**
-     * Avoid overriding to render geometry, instead see {@link AbstractShatter#renderGeometry}
-     *
-     * @param vertexConsumer the vertex consumer
-     * @param camera         the camera
-     * @param partialTicks   partial ticks
-     */
-    @Override
-    public void render(@NotNull VertexConsumer vertexConsumer, @NotNull Camera camera, float partialTicks) {
-        this.renderTick(partialTicks);
-        this.renderGeometry(vertexConsumer, camera, partialTicks);
     };
 
     protected void renderQuads(VertexConsumer buffer, Camera camera, Quaternionf quaternion, float partialTicks) {
@@ -197,6 +182,6 @@ public abstract class AbstractShatter extends Particle {
 
     @Override
     public @NotNull ParticleRenderType getRenderType() {
-        return ParticleRenderType.TERRAIN_SHEET;
+        return ModParticleRenderTypes.BACKFACE_TERRAIN_PARTICLE;
     }
 }

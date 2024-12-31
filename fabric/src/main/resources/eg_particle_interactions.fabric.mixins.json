@@ -7,7 +7,8 @@
   "mixins": [
   ],
   "client": [
-    "items.AxeItemFabric"
+    "items.AxeItemFabric",
+    "particles.ParticleEngineMixinFabric"
   ],
   "server": [],
   "injectors": {
