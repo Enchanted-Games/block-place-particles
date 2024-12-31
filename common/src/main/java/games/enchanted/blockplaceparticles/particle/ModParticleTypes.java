@@ -16,6 +16,8 @@ import games.enchanted.blockplaceparticles.particle.spark.SparkFlash;
 import games.enchanted.blockplaceparticles.particle.splash.BlockSplash;
 import games.enchanted.blockplaceparticles.particle.splash.ColouredBucketSplash;
 import games.enchanted.blockplaceparticles.particle.splash.LavaSplash;
+import games.enchanted.blockplaceparticles.particle.swirling.EmberParticle;
+import games.enchanted.blockplaceparticles.particle.swirling.SwirlingParticle;
 import games.enchanted.blockplaceparticles.platform.Services;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
@@ -66,7 +68,11 @@ public class ModParticleTypes {
 
     public static SimpleParticleType UNDERWATER_RISING_BUBBLE;
 
+    public static SimpleParticleType FLOATING_EMBER;
+
     public static ParticleType<ParticleEmitterOptions> FLYING_SPARK_EMITTER;
+
+    public static SimpleParticleType SWIRL_TEST;
 
     public static void registerParticles() {
         SNOWFLAKE = register((SpriteProviderReg) FallingPetal.SnowflakeProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "snowflake"), false);
@@ -99,6 +105,8 @@ public class ModParticleTypes {
         SOUL_SPARK_FLASH = register((SpriteProviderReg) SparkFlash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "soul_spark_flash"), false);
 
         UNDERWATER_RISING_BUBBLE = register((SpriteProviderReg) UnderwaterRisingBubble.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "underwater_rising_bubble"), false);
+
+        FLOATING_EMBER = register((SpriteProviderReg) EmberParticle.EmberProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_ember"), true);
 
         FLYING_SPARK_EMITTER = register((SpriteProviderReg) SparkEmitter.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flying_spark_emitter"), true, ParticleEmitterOptions::codec, ParticleEmitterOptions::streamCodec);
     }
