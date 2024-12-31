@@ -262,7 +262,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride NETHER_PORTAL_SHATTER = new BlockParticleOverride(
         "nether_portal_shatter",
         "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ModParticleTypes.NETHER_PORTAL_SHATTER, blockState),
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ModParticleTypes.BLOCK_SHATTER, blockState),
         () -> ConfigHandler.netherPortalShatter_Blocks,
         (val) -> ConfigHandler.netherPortalShatter_Blocks = val,
         ConfigHandler.netherPortalShatter_Blocks_DEFAULT,

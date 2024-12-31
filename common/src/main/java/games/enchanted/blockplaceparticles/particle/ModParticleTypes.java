@@ -9,7 +9,7 @@ import games.enchanted.blockplaceparticles.particle.option.ParticleEmitterOption
 import games.enchanted.blockplaceparticles.particle.option.TintedParticleOption;
 import games.enchanted.blockplaceparticles.particle.petal.FallingColouredPetal;
 import games.enchanted.blockplaceparticles.particle.petal.FallingPetal;
-import games.enchanted.blockplaceparticles.particle.shatter.PortalShatter;
+import games.enchanted.blockplaceparticles.particle.shatter.BlockShatter;
 import games.enchanted.blockplaceparticles.particle.spark.FlyingSpark;
 import games.enchanted.blockplaceparticles.particle.spark.SparkEmitter;
 import games.enchanted.blockplaceparticles.particle.spark.SparkFlash;
@@ -50,7 +50,7 @@ public class ModParticleTypes {
     public static ParticleType<BlockParticleOption> TINTED_DUST;
     public static ParticleType<BlockParticleOption> TINTED_DUST_SPECK;
     public static ParticleType<TintedParticleOption> REDSTONE_DUST;
-    public static ParticleType<BlockParticleOption> NETHER_PORTAL_SHATTER;
+    public static ParticleType<BlockParticleOption> BLOCK_SHATTER;
 
     public static ParticleType<BlockParticleOption> WATER_BUCKET_TINTED_SPLASH;
     public static SimpleParticleType LAVA_BUCKET_SPLASH;
@@ -84,7 +84,7 @@ public class ModParticleTypes {
         TINTED_DUST = register((SpriteProviderReg) FloatingColouredDust.TintedDustProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "tinted_dust"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         TINTED_DUST_SPECK = register((SpriteProviderReg) FloatingColouredDust.TintedDustSpeckProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "tinted_dust_speck"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         REDSTONE_DUST = register((SpriteProviderReg) BasicTintedDust.RedstoneProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "redstone_dust"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
-        NETHER_PORTAL_SHATTER = register((SpriteProviderReg) PortalShatter.NetherPortalShatterProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "nether_portal_shatter"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        BLOCK_SHATTER = register((SpriteProviderReg) BlockShatter.BlockShatterProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "nether_portal_shatter"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
 
         WATER_BUCKET_TINTED_SPLASH = register((SpriteProviderReg) ColouredBucketSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "water_bucket_tinted_splash"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         LAVA_BUCKET_SPLASH = register((SpriteProviderReg) LavaSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "lava_bucket_splash"), false);

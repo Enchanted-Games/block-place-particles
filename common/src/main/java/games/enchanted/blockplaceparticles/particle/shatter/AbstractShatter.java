@@ -2,6 +2,7 @@ package games.enchanted.blockplaceparticles.particle.shatter;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
+import games.enchanted.blockplaceparticles.util.TextureHelpers;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -24,15 +25,12 @@ public abstract class AbstractShatter extends Particle {
     protected final float uvScale;
     protected final float uvOffset;
     protected final boolean inverseSlicePositions;
-    protected final TextureAtlasSprite sprite;
-    protected final BlockState blockState;
+    protected TextureAtlasSprite sprite;
 
-    protected AbstractShatter(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockState blockState) {
+    protected AbstractShatter(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed);
 
-        this.blockState = blockState;
-        this.sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(blockState);
-//        this.sprite = TextureHelpers.getDebugSprite();
+        this.sprite = TextureHelpers.getDebugSprite();
 
         int spriteWidth = this.sprite.contents().width();
         int randomSize = MathHelpers.randomBetween(3,5);
@@ -68,6 +66,14 @@ public abstract class AbstractShatter extends Particle {
         super.tick();
     }
 
+    protected void renderTick(float partialTicks) {
+        float percentageAge = (float) this.age / this.lifetime;
+        if(percentageAge > 0.8) {
+            float finalA = (Mth.lerp(partialTicks, this.age, this.age + 0.5f) / this.lifetime) - 0.8f;
+            this.alpha = Math.abs(1 - (finalA * 5f));
+        }
+    }
+
     protected float getParticleScale(float partialTicks) {
         return this.uvScale;
     }
@@ -98,8 +104,34 @@ public abstract class AbstractShatter extends Particle {
         }
     }
 
+    /**
+     * Override this method if you wish to add additional or replace existing geometry
+     *
+     * @param vertexConsumer the vertex consumer
+     * @param camera         the camera
+     * @param partialTicks   partial ticks
+     */
+    protected void renderGeometry(@NotNull VertexConsumer vertexConsumer, @NotNull Camera camera, float partialTicks) {
+        Quaternionf quaternionf = new Quaternionf();
+        this.getFacingMode(null).setRotation(quaternionf, camera, partialTicks);
+        if (this.roll != 0.0F) {
+            quaternionf.rotateZ(Mth.lerp(partialTicks, this.oRoll, this.roll));
+        }
+        this.renderQuads(vertexConsumer, camera, quaternionf, partialTicks);
+    }
+
+    /**
+     * Avoid overriding to render geometry, instead see {@link AbstractShatter#renderGeometry}
+     *
+     * @param vertexConsumer the vertex consumer
+     * @param camera         the camera
+     * @param partialTicks   partial ticks
+     */
     @Override
-    public abstract void render(@NotNull VertexConsumer vertexConsumer, @NotNull Camera camera, float partialTicks);
+    public void render(@NotNull VertexConsumer vertexConsumer, @NotNull Camera camera, float partialTicks) {
+        this.renderTick(partialTicks);
+        this.renderGeometry(vertexConsumer, camera, partialTicks);
+    };
 
     protected void renderQuads(VertexConsumer buffer, Camera camera, Quaternionf quaternion, float partialTicks) {
         Vec3 cameraPosition = camera.getPosition();
@@ -156,7 +188,7 @@ public abstract class AbstractShatter extends Particle {
         this.renderVertex(buffer, quaternion, x, y, z, this.slice1X, this.inverseSlicePositions ? this.slice1Y : 0,     u0, v1, lightColour, scale);
     }
 
-    private void renderVertex(VertexConsumer buffer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float u, float v, int packedLight, float scale) {
+    protected void renderVertex(VertexConsumer buffer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float u, float v, int packedLight, float scale) {
         xOffset -= 0.5f;
         yOffset -= 0.5f;
         Vector3f vector3f = (new Vector3f(xOffset, yOffset, 0.0F)).rotate(quaternion).mul(scale).add(x, y, z);
