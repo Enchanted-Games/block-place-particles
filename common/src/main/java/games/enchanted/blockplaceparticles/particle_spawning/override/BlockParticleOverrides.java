@@ -275,7 +275,7 @@ public abstract class BlockParticleOverrides {
         () -> ConfigHandler.maxNetherPortalShatter_onBreak,
         (val) -> ConfigHandler.maxNetherPortalShatter_onBreak = val,
         ConfigHandler.maxNetherPortalShatter_onBreak_DEFAULT,
-        0.15f
+        0.2f
     );
 
     public static void registerOverrides() {
