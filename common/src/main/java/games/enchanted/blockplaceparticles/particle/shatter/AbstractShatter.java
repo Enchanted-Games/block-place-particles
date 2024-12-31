@@ -44,7 +44,7 @@ public abstract class AbstractShatter extends Particle {
         this.slice1Y = (float) MathHelpers.randomBetween((randomSizeThird * 2) - 1, randomSize - 1) / randomSize;
 
         this.inverseSlicePositions = level.random.nextBoolean();
-        this.roll = level.random.nextFloat() >= 0.5f ? 0f : (float) Math.toRadians(90);
+        this.roll = (float) Math.toRadians(MathHelpers.randomBetween(0, 3) * 90);
         this.oRoll = this.roll;
 
         setInitialVelocity(xSpeed, ySpeed, zSpeed, 0.1f);
@@ -70,8 +70,12 @@ public abstract class AbstractShatter extends Particle {
     protected void renderTick(float partialTicks) {
         float percentageAge = (float) this.age / this.lifetime;
         if(percentageAge > 0.8) {
-            float finalA = (Mth.lerp(partialTicks, this.age, this.age + 0.5f) / this.lifetime) - 0.8f;
-            this.alpha = Math.abs(1 - (finalA * 5f));
+            float finalA = 1 - (((Mth.lerp(partialTicks, this.age, this.age + 1f) / this.lifetime) - 0.8f) * 5f);
+            if(finalA < 0) {
+                this.alpha = 0f;
+                return;
+            }
+            this.alpha = finalA;
         }
     }
 
