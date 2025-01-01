@@ -13,9 +13,11 @@ public class ConfigTranslation {
     public static final String ENTITY_PARTICLES_CONFIG_CATEGORY = "entity";
     public static final String FLUIDS_CONFIG_CATEGORY = "fluids";
 
-    public static final String ARE_PARTICLES_ENABLED = "is_particle_enabled";
+    public static final String IS_PARTICLE_ENABLED = "is_particle_enabled";
+    public static final String IS_PARTICLE_ENABLED_WITH_TYPE = "is_particle_enabled_with_type";
     public static final String IS_OVERRIDE_ENABLED = "is_override_enabled";
     public static final String PARTICLE_SPAWN_CHANCE = "particle_spawn_chance";
+    public static final String PARTICLE_SPAWN_CHANCE_WITH_TYPE = "particle_spawn_chance_with_type";
     public static final String MAX_PARTICLES_ON_BLOCK_PLACE = "max_particles_block_place";
     public static final String MAX_PARTICLES_ON_BLOCK_PLACE_ALONG_EDGES = "max_particles_block_place_along_edges";
     public static final String MAX_PARTICLES_ON_BLOCK_BREAK = "max_particles_block_break";

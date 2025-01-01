@@ -385,6 +385,14 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean campfireSpark_enabled = campfireSpark_enabled_DEFAULT;
 
+    public static final int campfireEmber_spawnChance_DEFAULT = 45;
+    @SerialEntry
+    public static int campfireEmber_spawnChance = campfireEmber_spawnChance_DEFAULT;
+
+    public static final boolean campfireEmber_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean campfireEmber_enabled = campfireEmber_enabled_DEFAULT;
+
     // fire sparks
     public static final int fireSpark_spawnChance_DEFAULT = 25;
     @SerialEntry
@@ -393,6 +401,14 @@ public class ConfigHandler {
     public static final boolean fireSpark_enabled_DEFAULT = true;
     @SerialEntry
     public static boolean fireSpark_enabled = fireSpark_enabled_DEFAULT;
+
+    public static final int fireEmber_spawnChance_DEFAULT = 45;
+    @SerialEntry
+    public static int fireEmber_spawnChance = fireEmber_spawnChance_DEFAULT;
+
+    public static final boolean fireEmber_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean fireEmber_enabled = fireEmber_enabled_DEFAULT;
 
     // anvil use sparks
     public static final int maxAnvilUseSparks_onUse_DEFAULT = 18;

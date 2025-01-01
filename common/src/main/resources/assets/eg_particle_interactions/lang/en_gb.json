@@ -17,8 +17,10 @@
   "eg_particle_interactions.config.particle_type.vanilla_particle": "Vanilla Block",
 
   "eg_particle_interactions.config.particle_type.underwater_block_bubbles": "Underwater Bubble",
-  "eg_particle_interactions.config.particle_type.campfire_sparks": "Campfire Spark",
-  "eg_particle_interactions.config.particle_type.fire_sparks": "Fire Spark",
+  "eg_particle_interactions.config.particle_type.campfire_particles": "Campfire Ambient",
+  "eg_particle_interactions.config.particle_type.sparks": "Spark",
+  "eg_particle_interactions.config.particle_type.embers": "Ember",
+  "eg_particle_interactions.config.particle_type.fire_particles": "Fire Ambient",
   "eg_particle_interactions.config.particle_type.anvil_craft_sparks": "Anvil Crafting Sparks",
   "eg_particle_interactions.config.particle_type.grindstone_craft_sparks": "Grindstone Crafting Sparks",
   "eg_particle_interactions.config.particle_type.falling_block_effect": "Block Falling",
@@ -72,8 +74,14 @@
   "eg_particle_interactions.config.global_option.is_particle_enabled": "Particle enabled",
   "eg_particle_interactions.config.global_option.is_particle_enabled.desc": "Should %s particles be spawned",
 
+  "eg_particle_interactions.config.global_option.is_particle_enabled_with_type": "%s enabled",
+  "eg_particle_interactions.config.global_option.is_particle_enabled_with_type.desc": "Should %s particles be spawned",
+
   "eg_particle_interactions.config.global_option.particle_spawn_chance": "Particle spawn chance",
   "eg_particle_interactions.config.global_option.particle_spawn_chance.desc": "The chance for %s particles to be spawned each tick",
+
+  "eg_particle_interactions.config.global_option.particle_spawn_chance_with_type": "%s spawn chance",
+  "eg_particle_interactions.config.global_option.particle_spawn_chance_with_type.desc": "The chance for %s particles to be spawned each tick",
 
   "eg_particle_interactions.config.global_option.max_particles_block_craft": "Amount of particles when item crafted",
   "eg_particle_interactions.config.global_option.max_particles_block_craft.desc": "The amount of %s particles that should be spawned when an item is crafted",
@@ -154,11 +162,11 @@
   "eg_particle_interactions.config.block_ambient.underwater_block_bubbles": "%s Particle Options",
   "eg_particle_interactions.config.block_ambient.underwater_block_bubbles.desc": "Control how many %s particles should be spawned and when",
 
-  "eg_particle_interactions.config.block_ambient.campfire_sparks": "%s Particles",
-  "eg_particle_interactions.config.block_ambient.campfire_sparks.desc": "Configure if %s particles should be spawned and the chance for them to spawn each tick",
+  "eg_particle_interactions.config.block_ambient.campfire_particles": "%s Particles",
+  "eg_particle_interactions.config.block_ambient.campfire_particles.desc": "Configure if campfires should emit additional ambient particles and the chance for them to spawn each tick",
 
-  "eg_particle_interactions.config.block_ambient.fire_sparks": "%s Particles",
-  "eg_particle_interactions.config.block_ambient.fire_sparks.desc": "Configure if %s particles should be spawned and the chance for them to spawn each tick",
+  "eg_particle_interactions.config.block_ambient.fire_particles": "%s Particles",
+  "eg_particle_interactions.config.block_ambient.fire_particles.desc": "Configure if %s particles should be spawned and the chance for them to spawn each tick",
 
   "eg_particle_interactions.config.block_ambient.anvil_craft_sparks": "%s",
   "eg_particle_interactions.config.block_ambient.anvil_craft_sparks.desc": "Configure if %s particles should be spawned when crafting an item in an anvil.",

@@ -53,7 +53,7 @@ public class SwirlingParticle extends TextureSheetParticle {
     protected void renderTick(float partialTicks) {}
 
     @Override
-    public void render(VertexConsumer buffer, Camera renderInfo, float partialTicks) {
+    public void render(@NotNull VertexConsumer buffer, @NotNull Camera renderInfo, float partialTicks) {
         this.renderTick(partialTicks);
         super.render(buffer, renderInfo, partialTicks);
     }

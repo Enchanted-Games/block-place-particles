@@ -288,48 +288,70 @@ public class SpawnParticles {
     }
 
     public static void spawnAmbientCampfireSparks(Level level, BlockPos particlePos, BlockState campfireState) {
-        if (!ConfigHandler.campfireSpark_enabled) return;
-        double sparkIntensity = 5 / 12.;
-        if (level.random.nextFloat() * 101 <= ConfigHandler.campfireSpark_spawnChance) {
-            for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 3) + 1; i++) {
-                SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
-                    level,
-                    campfireState.is(Blocks.SOUL_CAMPFIRE) ? ModParticleTypes.FLOATING_SOUL_SPARK : ModParticleTypes.FLOATING_SPARK,
-                    (double) particlePos.getX() + 0.5,
-                    (double) particlePos.getY() + 0.5,
-                    (double) particlePos.getZ() + 0.5,
-                    sparkIntensity
-                );
+        if (ConfigHandler.campfireSpark_enabled) {
+            double sparkIntensity = 5 / 12.;
+            if (level.random.nextFloat() * 101 <= ConfigHandler.campfireSpark_spawnChance) {
+                for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 3) + 1; i++) {
+                    SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
+                        level,
+                        campfireState.is(Blocks.SOUL_CAMPFIRE) ? ModParticleTypes.FLOATING_SOUL_SPARK : ModParticleTypes.FLOATING_SPARK,
+                        (double) particlePos.getX() + 0.5,
+                        (double) particlePos.getY() + 0.5,
+                        (double) particlePos.getZ() + 0.5,
+                        sparkIntensity
+                    );
+                }
             }
         }
-
-        level.addParticle(
-            ModParticleTypes.FLOATING_EMBER,
-            (double) particlePos.getX() + (level.random.nextFloat() * 0.75) + 0.125f,
-            (double) particlePos.getY() + (level.random.nextFloat() * 0.75) + 0.125f,
-            (double) particlePos.getZ() + (level.random.nextFloat() * 0.75) + 0.125f,
-            0,
-            0,
-            0
-        );
+        if(ConfigHandler.campfireEmber_enabled) {
+            if (level.random.nextFloat() * 101 <= ConfigHandler.campfireEmber_spawnChance) {
+                for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 4); i++) {
+                    level.addParticle(
+                        ModParticleTypes.FLOATING_EMBER,
+                        (double) particlePos.getX() + (level.random.nextFloat() * 0.75) + 0.125f,
+                        (double) particlePos.getY() + (level.random.nextFloat() * 0.75) + 0.125f,
+                        (double) particlePos.getZ() + (level.random.nextFloat() * 0.75) + 0.125f,
+                        0,
+                        0,
+                        0
+                    );
+                }
+            }
+        }
     }
 
     public static void spawnAmbientFireSparks(Level level, BlockState fireState, BlockPos particlePos, double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
-        if (!ConfigHandler.fireSpark_enabled) return;
-        double sparkIntensity = 5 / 12.;
         double width = Math.abs(minX - maxX);
         double height = Math.abs(minY - maxY);
         double depth = Math.abs(minZ - maxZ);
-        if (level.random.nextFloat() * 101 <= ConfigHandler.fireSpark_spawnChance) {
-            for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 3) + 1; i++) {
-                SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
-                    level,
-                    fireState.is(Blocks.SOUL_FIRE) ? ModParticleTypes.FLOATING_SOUL_SPARK : ModParticleTypes.FLOATING_SPARK,
-                    particlePos.getX() + minX + (level.random.nextFloat() * width),
-                    particlePos.getY() + minY + (level.random.nextFloat() * height),
-                    particlePos.getZ() + minZ + (level.random.nextFloat() * depth),
-                    sparkIntensity
-                );
+        if (ConfigHandler.fireSpark_enabled) {
+            double sparkIntensity = 5 / 12.;
+            if (level.random.nextFloat() * 101 <= ConfigHandler.fireSpark_spawnChance) {
+                for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 3) + 1; i++) {
+                    SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
+                        level,
+                        fireState.is(Blocks.SOUL_FIRE) ? ModParticleTypes.FLOATING_SOUL_SPARK : ModParticleTypes.FLOATING_SPARK,
+                        particlePos.getX() + minX + (level.random.nextFloat() * width),
+                        particlePos.getY() + minY + (level.random.nextFloat() * height),
+                        particlePos.getZ() + minZ + (level.random.nextFloat() * depth),
+                        sparkIntensity
+                    );
+                }
+            }
+        }
+        if(ConfigHandler.fireEmber_enabled) {
+            if (level.random.nextFloat() * 101 <= ConfigHandler.fireEmber_spawnChance) {
+                for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 4); i++) {
+                    level.addParticle(
+                        ModParticleTypes.FLOATING_EMBER,
+                        particlePos.getX() + minX + (level.random.nextFloat() * width),
+                        particlePos.getY() + minY + (level.random.nextFloat() * height),
+                        particlePos.getZ() + minZ + (level.random.nextFloat() * depth),
+                        0,
+                        0,
+                        0
+                    );
+                }
             }
         }
     }
