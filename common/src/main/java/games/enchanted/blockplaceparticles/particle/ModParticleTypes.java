@@ -72,8 +72,6 @@ public class ModParticleTypes {
 
     public static ParticleType<ParticleEmitterOptions> FLYING_SPARK_EMITTER;
 
-    public static SimpleParticleType SWIRL_TEST;
-
     public static void registerParticles() {
         SNOWFLAKE = register((SpriteProviderReg) FallingPetal.SnowflakeProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "snowflake"), false);
         FALLING_CHERRY_PETAL = register((SpriteProviderReg) FallingPetal.GenericLeafProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_cherry_leaves"), false);

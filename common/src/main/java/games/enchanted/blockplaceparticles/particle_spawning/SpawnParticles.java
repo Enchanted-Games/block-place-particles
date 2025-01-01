@@ -302,6 +302,16 @@ public class SpawnParticles {
                 );
             }
         }
+
+        level.addParticle(
+            ModParticleTypes.FLOATING_EMBER,
+            (double) particlePos.getX() + (level.random.nextFloat() * 0.75) + 0.125f,
+            (double) particlePos.getY() + (level.random.nextFloat() * 0.75) + 0.125f,
+            (double) particlePos.getZ() + (level.random.nextFloat() * 0.75) + 0.125f,
+            0,
+            0,
+            0
+        );
     }
 
     public static void spawnAmbientFireSparks(Level level, BlockState fireState, BlockPos particlePos, double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
