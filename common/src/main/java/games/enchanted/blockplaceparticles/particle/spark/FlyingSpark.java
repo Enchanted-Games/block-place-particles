@@ -11,6 +11,8 @@ import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.LightLayer;
 import org.jetbrains.annotations.NotNull;
@@ -19,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 public class FlyingSpark extends StretchyBouncyShapeParticle {
     private final SpriteSet sprites;
     private boolean isSoul;
+    protected boolean hasSpawnedSmokeParticle = false;
     private static final int SPARK_UNDERWATER_DECAY_SPEED = 3;
 
     protected FlyingSpark(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float gravity, int lifetime, SpriteSet spriteSet) {
@@ -68,10 +71,15 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
 
         // spawn random spark flashes
         if(
-            this.random.nextFloat() > percentageTimeUntilDeath + 0.8f ||
-            (this.random.nextFloat() < 0.01f && this.isParticleMoving())
+            this.random.nextFloat() > percentageTimeUntilDeath + 0.8f || (this.random.nextFloat() < 0.01f && this.isParticleMoving())
         ) {
             this.level.addParticle(this.isSoul ? ModParticleTypes.SOUL_SPARK_FLASH : ModParticleTypes.SPARK_FLASH, this.prevPrevX, this.prevPrevY, this.prevPrevZ, 0, 0, 0);
+        }
+
+        if(this.hasEnteredWater && !this.hasSpawnedSmokeParticle) {
+            this.level.addParticle(ModParticleTypes.WATER_VAPOUR, this.xo, this.yo, this.zo, -this.xd / 6, -this.yd / 2, -this.zd / 6);
+            this.level.playLocalSound(this.xo, this.yo, this.zo, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.AMBIENT, 0.15f, 1.2f, false);
+            this.hasSpawnedSmokeParticle = true;
         }
     }
 

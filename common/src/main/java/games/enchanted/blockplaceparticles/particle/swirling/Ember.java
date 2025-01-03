@@ -12,8 +12,8 @@ import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class EmberParticle extends SwirlingParticle {
-    protected EmberParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, boolean shouldSwirl) {
+public class Ember extends SwirlingParticle {
+    protected Ember(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, boolean shouldSwirl) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, shouldSwirl);
         this.setInitialVelocity(xSpeed, ySpeed, zSpeed, 0.015f);
 
@@ -68,7 +68,7 @@ public class EmberParticle extends SwirlingParticle {
         @Nullable
         @Override
         public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new EmberParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, true);
+            return new Ember(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, true);
         }
     }
 }
