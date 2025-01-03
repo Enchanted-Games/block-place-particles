@@ -14,6 +14,7 @@
   "eg_particle_interactions.config.particle_type.pale_moss_clump": "Pale Moss Clump",
   "eg_particle_interactions.config.particle_type.dust": "Dust",
   "eg_particle_interactions.config.particle_type.redstone_dust": "Redstone Dust",
+  "eg_particle_interactions.config.particle_type.nether_portal_shatter": "Block Shatter",
   "eg_particle_interactions.config.particle_type.vanilla_particle": "Vanilla Block",
 
   "eg_particle_interactions.config.particle_type.underwater_block_bubbles": "Underwater Bubble",
