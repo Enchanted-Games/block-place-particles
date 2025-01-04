@@ -58,6 +58,11 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean general_particleZFightingFix = general_particleZFightingFix_DEFAULT;
 
+    // auto collapse config lists
+    public static final boolean general_autoCollapseConfigLists_DEFAULT = false;
+    @SerialEntry
+    public static boolean general_autoCollapseConfigLists = general_autoCollapseConfigLists_DEFAULT;
+
     // - performance
     // advanced particle physics
     public static final boolean general_extraParticlePhysicsEnabled_DEFAULT = true;

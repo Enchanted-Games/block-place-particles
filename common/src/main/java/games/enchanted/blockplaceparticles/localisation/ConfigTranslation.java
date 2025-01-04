@@ -44,6 +44,7 @@ public class ConfigTranslation {
 
     public static final String PIXEL_CONSISTENT_TERRAIN_PARTICLES = "pixel_consistent_terrain_particles";
     public static final String PARTICLE_ZFIGHTING_FIX = "particle_zfighting_fix";
+    public static final String AUTO_COLLAPSE_CONFIG_LISTS = "auto_collapse_config_lists";
 
     public static final String PARTICLE_PHYSICS_ENABLED = "particle_physics_enabled";
 

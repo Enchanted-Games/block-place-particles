@@ -57,6 +57,10 @@ public class ConfigScreen {
                 genericBooleanOption(
                     ConfigTranslation.PARTICLE_ZFIGHTING_FIX,
                     Binding.generic(ConfigHandler.general_particleZFightingFix_DEFAULT, () -> ConfigHandler.general_particleZFightingFix, newVal -> ConfigHandler.general_particleZFightingFix = newVal)
+                ),
+                genericBooleanOption(
+                    ConfigTranslation.AUTO_COLLAPSE_CONFIG_LISTS,
+                    Binding.generic(ConfigHandler.general_autoCollapseConfigLists_DEFAULT, () -> ConfigHandler.general_autoCollapseConfigLists, newVal -> ConfigHandler.general_autoCollapseConfigLists = newVal)
                 )
             ))
 
@@ -495,10 +499,10 @@ public class ConfigScreen {
     }
 
     public static ListOption<ResourceLocation> createBlockLocationListOption(String particleTypeKey, String groupName, String category, List<ResourceLocation> defaultValue, Supplier<List<ResourceLocation>> getter, Consumer<List<ResourceLocation>> setter) {
-        return createListOption(RegistryHelpers.getLocationFromBlock(Blocks.STONE), BlockLocationController::new, particleTypeKey, groupName, category, true, defaultValue, getter, setter);
+        return createListOption(RegistryHelpers.getLocationFromBlock(Blocks.STONE), BlockLocationController::new, particleTypeKey, groupName, category, ConfigHandler.general_autoCollapseConfigLists, defaultValue, getter, setter);
     }
     private static ListOption<ResourceLocation> createFluidListOption(String particleTypeKey, String groupName, String category, List<ResourceLocation> defaultValue, Supplier<List<ResourceLocation>> getter, Consumer<List<ResourceLocation>> setter) {
-        return createListOption(RegistryHelpers.getLocationFromFluid(Fluids.WATER), FluidLocationController::new, particleTypeKey, groupName, category, false, defaultValue, getter, setter);
+        return createListOption(RegistryHelpers.getLocationFromFluid(Fluids.WATER), FluidLocationController::new, particleTypeKey, groupName, category, ConfigHandler.general_autoCollapseConfigLists, defaultValue, getter, setter);
     }
     private static <T> ListOption<T> createListOption(T initial, Function<ListOptionEntry<T>, Controller<T>> controller, String particleTypeKey, String groupName, String category, boolean collapsedByDefault, List<T> defaultValue, Supplier<List<T>> getter, Consumer<List<T>> setter) {
         ConfigTranslation.TranslationKey groupNameKey = ConfigTranslation.getGroupName(category, groupName);
