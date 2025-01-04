@@ -158,12 +158,12 @@
   "eg_particle_interactions.config.blocks.vanilla_block_override.desc": "When should %s particles be emitted?\n\nThe %s particles will be applied to all blocks that aren't specified in any other override. If this override is disabled, the %s particles will not spawn.\nThis only applies when placing, breaking, or mining blocks!",
 
   "eg_particle_interactions.config.blocks.tinted_or_average": "%s Particle Options",
-  "eg_particle_interactions.config.blocks.tinted_or_average.desc": "When should %s particles be emitted?\n\nThese particles are tinted with the biome colour or the average texture colour if the block doesn't have a biome tint",
+  "eg_particle_interactions.config.blocks.tinted_or_average.desc": "When should %s particles be emitted?\n\nThese particles are tinted with the average colour of the block's particle texture",
   "eg_particle_interactions.config.blocks.tinted_or_average_blocks": "%s Blocks",
   "eg_particle_interactions.config.blocks.tinted_or_average_blocks.desc": "Blocks that should spawn %s particles interacted with",
 
   "eg_particle_interactions.config.blocks.tinted_or_random_pixel": "%s Particle Options",
-  "eg_particle_interactions.config.blocks.tinted_or_random_pixel.desc": "When should %s particles be emitted?\n\nThese particles are tinted with the biome colour or a random colour from the texture if the block doesn't have a biome tint",
+  "eg_particle_interactions.config.blocks.tinted_or_random_pixel.desc": "When should %s particles be emitted?\n\nThese particles are tinted with a random colour from the block's particle texture",
   "eg_particle_interactions.config.blocks.tinted_or_random_pixel_blocks": "%s Blocks",
   "eg_particle_interactions.config.blocks.tinted_or_random_pixel_blocks.desc": "Blocks that should spawn %s particles interacted with",
 
