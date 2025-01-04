@@ -44,6 +44,9 @@ public class ConfigHandler {
         return HANDLER.instance();
     }
 
+    @SerialEntry
+    public static double config_version = 0.5;
+
     // General options
     // pixel consistent terrain particles
     public static final boolean general_pixelConsistentTerrainParticles_DEFAULT = true;
@@ -370,23 +373,23 @@ public class ConfigHandler {
     public static List<ResourceLocation> redstoneDust_Blocks = redstoneDust_Blocks_DEFAULT;
 
     // nether portal shatter
-    public static final int maxNetherPortalShatter_onPlace_DEFAULT = 3;
+    public static final int maxBlockShatter_onPlace_DEFAULT = 3;
     @SerialEntry
-    public static int maxNetherPortalShatter_onPlace = maxNetherPortalShatter_onPlace_DEFAULT;
+    public static int maxBlockShatter_onPlace = maxBlockShatter_onPlace_DEFAULT;
 
-    public static final boolean netherPortalShatter_enabled_DEFAULT = true;
+    public static final boolean blockShatter_enabled_DEFAULT = true;
     @SerialEntry
-    public static boolean netherPortalShatter_enabled = netherPortalShatter_enabled_DEFAULT;
+    public static boolean blockShatter_enabled = blockShatter_enabled_DEFAULT;
 
-    public static final int maxNetherPortalShatter_onBreak_DEFAULT = 4;
+    public static final int maxBlockShatter_onBreak_DEFAULT = 4;
     @SerialEntry
-    public static int maxNetherPortalShatter_onBreak = maxNetherPortalShatter_onBreak_DEFAULT;
+    public static int maxBlockShatter_onBreak = maxBlockShatter_onBreak_DEFAULT;
 
-    public static final List<ResourceLocation> netherPortalShatter_Blocks_DEFAULT = List.of(
+    public static final List<ResourceLocation> blockShatter_Blocks_DEFAULT = List.of(
         RegistryHelpers.getLocationFromBlock(Blocks.NETHER_PORTAL)
     );
     @SerialEntry
-    public static List<ResourceLocation> netherPortalShatter_Blocks = netherPortalShatter_Blocks_DEFAULT;
+    public static List<ResourceLocation> blockShatter_Blocks = blockShatter_Blocks_DEFAULT;
 
     // vanilla block particle
     public static final int maxBlock_onPlace_DEFAULT = 2;
