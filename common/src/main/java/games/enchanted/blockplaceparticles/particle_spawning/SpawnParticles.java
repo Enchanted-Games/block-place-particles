@@ -307,7 +307,7 @@ public class SpawnParticles {
             if (level.random.nextFloat() * 101 <= ConfigHandler.campfireEmber_spawnChance) {
                 for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 4); i++) {
                     level.addParticle(
-                        ModParticleTypes.FLOATING_EMBER,
+                        campfireState.is(Blocks.SOUL_CAMPFIRE) ? ModParticleTypes.FLOATING_SOUL_EMBER : ModParticleTypes.FLOATING_EMBER,
                         (double) particlePos.getX() + (level.random.nextFloat() * 0.75) + 0.125f,
                         (double) particlePos.getY() + (level.random.nextFloat() * 0.75) + 0.125f,
                         (double) particlePos.getZ() + (level.random.nextFloat() * 0.75) + 0.125f,
@@ -343,7 +343,7 @@ public class SpawnParticles {
             if (level.random.nextFloat() * 101 <= ConfigHandler.fireEmber_spawnChance) {
                 for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 4); i++) {
                     level.addParticle(
-                        ModParticleTypes.FLOATING_EMBER,
+                        fireState.is(Blocks.SOUL_FIRE) ? ModParticleTypes.FLOATING_SOUL_EMBER : ModParticleTypes.FLOATING_EMBER,
                         particlePos.getX() + minX + (level.random.nextFloat() * width),
                         particlePos.getY() + minY + (level.random.nextFloat() * height),
                         particlePos.getZ() + minZ + (level.random.nextFloat() * depth),

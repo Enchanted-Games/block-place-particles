@@ -70,6 +70,7 @@ public class ModParticleTypes {
     public static SimpleParticleType UNDERWATER_RISING_BUBBLE;
 
     public static SimpleParticleType FLOATING_EMBER;
+    public static SimpleParticleType FLOATING_SOUL_EMBER;
     public static SimpleParticleType WATER_VAPOUR;
 
     public static ParticleType<ParticleEmitterOptions> FLYING_SPARK_EMITTER;
@@ -108,6 +109,7 @@ public class ModParticleTypes {
         UNDERWATER_RISING_BUBBLE = register((SpriteProviderReg) UnderwaterRisingBubble.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "underwater_rising_bubble"), false);
 
         FLOATING_EMBER = register((SpriteProviderReg) Ember.EmberProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_ember"), true);
+        FLOATING_SOUL_EMBER = register((SpriteProviderReg) Ember.EmberProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_soul_ember"), true);
         WATER_VAPOUR = register((SpriteProviderReg) WaterVapour.WaterVapourProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "water_vapour"), true);
 
         FLYING_SPARK_EMITTER = register((SpriteProviderReg) SparkEmitter.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flying_spark_emitter"), true, ParticleEmitterOptions::codec, ParticleEmitterOptions::streamCodec);
