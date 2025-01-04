@@ -40,6 +40,7 @@ public class ModParticleTypes {
     public static SimpleParticleType SNOWFLAKE;
     public static SimpleParticleType FALLING_CHERRY_PETAL;
     public static ParticleType<BlockParticleOption> FALLING_TINTED_LEAF;
+    public static ParticleType<BlockParticleOption> FALLING_TINTED_PINE_LEAF;
     public static SimpleParticleType FALLING_AZALEA_LEAF;
     public static SimpleParticleType FALLING_FLOWERING_AZALEA_LEAF;
     public static SimpleParticleType FALLING_PALE_OAK_LEAF;
@@ -77,6 +78,7 @@ public class ModParticleTypes {
         SNOWFLAKE = register((SpriteProviderReg) FallingPetal.SnowflakeProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "snowflake"), false);
         FALLING_CHERRY_PETAL = register((SpriteProviderReg) FallingPetal.GenericLeafProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_cherry_leaves"), false);
         FALLING_TINTED_LEAF = register((SpriteProviderReg) FallingColouredPetal.TintedLeafProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_tinted_leaves"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        FALLING_TINTED_PINE_LEAF = register((SpriteProviderReg) FallingColouredPetal.TintedLeafProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_tinted_pine_leaves"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         FALLING_AZALEA_LEAF = register((SpriteProviderReg) FallingPetal.GenericLeafProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_azalea_leaves"), false);
         FALLING_FLOWERING_AZALEA_LEAF = register((SpriteProviderReg) FallingPetal.GenericLeafProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_flowering_azalea_leaves"), false);
         FALLING_PALE_OAK_LEAF = register((SpriteProviderReg) FallingPetal.PaleOakProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_pale_oak_leaf"), false);

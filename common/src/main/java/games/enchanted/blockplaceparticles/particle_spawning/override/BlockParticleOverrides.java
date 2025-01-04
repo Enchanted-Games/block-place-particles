@@ -108,9 +108,27 @@ public abstract class BlockParticleOverrides {
         ConfigHandler.maxPaleLeaves_onBreak_DEFAULT,
         0.13f
     );
+    public static final BlockParticleOverride TINTED_PINE_LEAF = new BlockParticleOverride(
+        "biome_pine_leaf",
+        "tinted_or_random_pixel",
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ModParticleTypes.FALLING_TINTED_PINE_LEAF, blockState),
+        () -> ConfigHandler.tintedPineLeaves_Blocks,
+        (val) -> ConfigHandler.tintedPineLeaves_Blocks = val,
+        ConfigHandler.tintedPineLeaves_Blocks_DEFAULT,
+        () -> ConfigHandler.tintedPineLeaves_enabled,
+        (val) -> ConfigHandler.tintedPineLeaves_enabled = val,
+        ConfigHandler.tintedPineLeaves_enabled_DEFAULT,
+        () -> ConfigHandler.maxTintedPineLeaves_onPlace,
+        (val) -> ConfigHandler.maxTintedPineLeaves_onPlace = val,
+        ConfigHandler.maxTintedPineLeaves_onPlace_DEFAULT,
+        () -> ConfigHandler.maxTintedPineLeaves_onBreak,
+        (val) -> ConfigHandler.maxTintedPineLeaves_onBreak = val,
+        ConfigHandler.maxTintedPineLeaves_onBreak_DEFAULT,
+        0.13f
+    );
     public static final BlockParticleOverride TINTED_LEAF = new BlockParticleOverride(
         "biome_leaf",
-        "tinted_or_average",
+        "tinted_or_random_pixel",
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ModParticleTypes.FALLING_TINTED_LEAF, blockState),
         () -> ConfigHandler.tintedLeaves_Blocks,
         (val) -> ConfigHandler.tintedLeaves_Blocks = val,
@@ -128,7 +146,7 @@ public abstract class BlockParticleOverrides {
     );
     public static final BlockParticleOverride GRASS_BLADE = new BlockParticleOverride(
         "grass_blade",
-        "tinted_or_average",
+        "tinted_or_random_pixel",
         (int overrideOrigin) -> overrideOrigin != BlockParticleOverride.ORIGIN_ITEM_PARTICLE_OVERRIDDEN,
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
             if(
@@ -156,7 +174,7 @@ public abstract class BlockParticleOverrides {
     );
     public static final BlockParticleOverride HEAVY_GRASS_BLADE = new BlockParticleOverride(
         "heavy_grass_blade",
-        "tinted_or_average",
+        "tinted_or_random_pixel",
         (int overrideOrigin) -> overrideOrigin != BlockParticleOverride.ORIGIN_ITEM_PARTICLE_OVERRIDDEN,
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ModParticleTypes.HEAVY_GRASS_BLADE, blockState),
         () -> ConfigHandler.heavyGrassBlade_Blocks,
@@ -284,6 +302,7 @@ public abstract class BlockParticleOverrides {
         BlockParticleOverride.addBlockParticleOverride(AZALEA_LEAF);
         BlockParticleOverride.addBlockParticleOverride(FLOWERING_AZALEA_LEAF);
         BlockParticleOverride.addBlockParticleOverride(PALE_LEAF);
+        BlockParticleOverride.addBlockParticleOverride(TINTED_PINE_LEAF);
         BlockParticleOverride.addBlockParticleOverride(TINTED_LEAF);
         BlockParticleOverride.addBlockParticleOverride(GRASS_BLADE);
         BlockParticleOverride.addBlockParticleOverride(HEAVY_GRASS_BLADE);

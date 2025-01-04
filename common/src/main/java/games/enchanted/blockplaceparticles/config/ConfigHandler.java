@@ -189,9 +189,26 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxTintedLeaves_onBreak = maxTintedLeaves_onBreak_DEFAULT;
 
-    public static final List<ResourceLocation> tintedLeaves_Blocks_DEFAULT = List.of(RegistryHelpers.getLocationFromBlock(Blocks.JUNGLE_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.OAK_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.SPRUCE_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.DARK_OAK_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.ACACIA_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.BIRCH_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.MANGROVE_LEAVES));
+    public static final List<ResourceLocation> tintedLeaves_Blocks_DEFAULT = List.of(RegistryHelpers.getLocationFromBlock(Blocks.JUNGLE_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.OAK_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.DARK_OAK_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.ACACIA_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.MANGROVE_LEAVES));
     @SerialEntry
     public static List<ResourceLocation> tintedLeaves_Blocks = tintedLeaves_Blocks_DEFAULT;
+
+    // biome tinted pine leaf particle
+    public static final int maxTintedPineLeaves_onPlace_DEFAULT = 2;
+    @SerialEntry
+    public static int maxTintedPineLeaves_onPlace = maxTintedPineLeaves_onPlace_DEFAULT;
+
+    public static final boolean tintedPineLeaves_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean tintedPineLeaves_enabled = tintedPineLeaves_enabled_DEFAULT;
+
+    public static final int maxTintedPineLeaves_onBreak_DEFAULT = 3;
+    @SerialEntry
+    public static int maxTintedPineLeaves_onBreak = maxTintedPineLeaves_onBreak_DEFAULT;
+
+    public static final List<ResourceLocation> tintedPineLeaves_Blocks_DEFAULT = List.of(RegistryHelpers.getLocationFromBlock(Blocks.BIRCH_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.SPRUCE_LEAVES));
+    @SerialEntry
+    public static List<ResourceLocation> tintedPineLeaves_Blocks = tintedPineLeaves_Blocks_DEFAULT;
 
     // grass blade
     public static final int maxGrassBlade_onPlace_DEFAULT = 2;

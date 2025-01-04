@@ -7,6 +7,8 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 public class TextureHelpers {
     public static @Nullable TextureAtlas getTextureAtlas(ResourceLocation atlasLocation) {
         AbstractTexture abstractTexture = Minecraft.getInstance().getTextureManager().getTexture(atlasLocation);
@@ -18,5 +20,9 @@ public class TextureHelpers {
 
     public static TextureAtlasSprite getDebugSprite() {
         return getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).getSprite(ResourceLocation.withDefaultNamespace("block/debug"));
+    }
+
+    public static TextureAtlasSprite getSpriteFromBlockAtlas(ResourceLocation location) {
+        return Objects.requireNonNull(getTextureAtlas(TextureAtlas.LOCATION_BLOCKS)).getSprite(location);
     }
 }

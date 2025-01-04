@@ -127,7 +127,7 @@ public class FallingPetal extends TextureSheetParticle {
         @Override
         public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             FallingPetal particle = new FallingPetal(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, 0.6f);
-            float particleSize = 2.0f * (level.random.nextBoolean() ? 0.05F : 0.075F);
+            float particleSize = level.random.nextBoolean() ? 0.1f : 0.15f;
             particle.quadSize = particleSize;
             particle.setSize(particleSize, particleSize);
             particle.maxSpinSpeed = 0.1f;
