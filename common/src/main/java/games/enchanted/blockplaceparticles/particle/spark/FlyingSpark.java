@@ -1,5 +1,6 @@
 package games.enchanted.blockplaceparticles.particle.spark;
 
+import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.particle.StretchyBouncyShapeParticle;
 import games.enchanted.blockplaceparticles.shapes.ShapeDefinitions;
@@ -71,13 +72,24 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
 
         // spawn random spark flashes
         if(
-            this.random.nextFloat() > percentageTimeUntilDeath + 0.8f || (this.random.nextFloat() < 0.01f && this.isParticleMoving())
+            (
+                ConfigHandler.particle_sparks_additionalFlashEffects &&
+                !this.hasEnteredWater
+            )
+            &&
+            (
+                this.random.nextFloat() > percentageTimeUntilDeath + 0.8f ||
+                (this.random.nextFloat() < 0.01f && this.isParticleMoving())
+            )
         ) {
             this.level.addParticle(this.isSoul ? ModParticleTypes.SOUL_SPARK_FLASH : ModParticleTypes.SPARK_FLASH, this.prevPrevX, this.prevPrevY, this.prevPrevZ, 0, 0, 0);
         }
 
+        if(!ConfigHandler.particle_sparks_waterEvaporation) {
+            this.hasSpawnedSmokeParticle = true;
+        }
         if(this.hasEnteredWater && !this.hasSpawnedSmokeParticle) {
-            this.level.addParticle(ModParticleTypes.WATER_VAPOUR, this.xo, this.yo, this.zo, -this.xd / 6, -this.yd / 2, -this.zd / 6);
+            this.level.addParticle(ModParticleTypes.WATER_VAPOUR, this.xo, this.yo, this.zo, this.xd / 6, -this.yd / 2, this.zd / 6);
             this.level.playLocalSound(this.xo, this.yo, this.zo, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.AMBIENT, 0.15f, 1.2f, false);
             this.hasSpawnedSmokeParticle = true;
         }

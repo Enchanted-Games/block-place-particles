@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 public class ConfigTranslation {
     private static final String CONFIG_KEY_PREFIX = ParticleInteractionsMod.MOD_ID + ".config";
 
+    public static final TranslationKey MOD_CREDITS_KEY = new TranslationKey(ParticleInteractionsMod.MOD_ID + ".mod_credits");
     public static final String GENERAL_CATEGORY = "general";
     public static final String BLOCKS_CONFIG_CATEGORY = "blocks";
     public static final String BLOCK_AMBIENT_CONFIG_CATEGORY = "block_ambient";
@@ -43,12 +44,18 @@ public class ConfigTranslation {
 
     public static final String PIXEL_CONSISTENT_TERRAIN_PARTICLES = "pixel_consistent_terrain_particles";
     public static final String PARTICLE_ZFIGHTING_FIX = "particle_zfighting_fix";
+
     public static final String PARTICLE_PHYSICS_ENABLED = "particle_physics_enabled";
+
+    public static final String SPARKS_ADDITIONAL_FLASH_EFFECT = "sparks_additional_flash_effect";
+    public static final String SPARKS_WATER_EVAPORATION = "sparks_water_evaporation";
+    public static final String DUST_ADDITIONAL_SPECKS = "dust_additional_specks";
+
     public static final String TOGGLE_DEBUG_LOGS = "toggle_debug_logs";
     public static final String DEBUG_SHOW_EMITTER_BOUNDS = "debug_show_emitter_bounds";
 
     public static Component createDesc(TranslationKey translationKey) {
-        return translationKey.append(".desc").toComponent();
+        return translationKey.copy().append(".desc").toComponent();
     }
     public static Component createPlaceholder(Component component, Object... args) {
         return Component.literal(component.getString().formatted(args));
@@ -94,6 +101,10 @@ public class ConfigTranslation {
         TranslationKey append(String string) {
             this.key = this.key + string;
             return this;
+        }
+
+        TranslationKey copy() {
+            return new TranslationKey(this.key);
         }
 
         public Component toComponent() {

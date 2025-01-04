@@ -55,10 +55,28 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean general_particleZFightingFix = general_particleZFightingFix_DEFAULT;
 
+    // - performance
+    // advanced particle physics
     public static final boolean general_extraParticlePhysicsEnabled_DEFAULT = true;
     @SerialEntry
     public static boolean general_extraParticlePhysicsEnabled = general_extraParticlePhysicsEnabled_DEFAULT;
 
+    // sparks: spawn additional flash effects
+    public static final boolean particle_sparks_additionalFlashEffects_DEFAULT = true;
+    @SerialEntry
+    public static boolean particle_sparks_additionalFlashEffects = particle_sparks_additionalFlashEffects_DEFAULT;
+
+    // sparks: water evaporation
+    public static final boolean particle_sparks_waterEvaporation_DEFAULT = true;
+    @SerialEntry
+    public static boolean particle_sparks_waterEvaporation = particle_sparks_waterEvaporation_DEFAULT;
+
+    // dust: spawn specks
+    public static final boolean particle_dust_additionalSpecks_DEFAULT = true;
+    @SerialEntry
+    public static boolean particle_dust_additionalSpecks = particle_dust_additionalSpecks_DEFAULT;
+
+    // - debug
     // debug emitter bounds
     public static final boolean debug_showEmitterBounds_DEFAULT = false;
     public static boolean debug_showEmitterBounds = debug_showEmitterBounds_DEFAULT;

@@ -37,6 +37,14 @@ public class ConfigScreen {
             .name(ConfigTranslation.getCategoryName(ConfigTranslation.GENERAL_CATEGORY).toComponent())
             .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.GENERAL_CATEGORY)))
 
+            // info (mod name and credits)
+            .group(OptionGroup.createBuilder()
+                .name( ConfigTranslation.MOD_CREDITS_KEY.toComponent() )
+                .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.MOD_CREDITS_KEY) ))
+                .collapsed(true)
+                .option(LabelOption.createBuilder().line(Component.empty()).build())
+            .build())
+
             // general
             .group( createGenericConfigGroup(
                 "general",
@@ -60,6 +68,18 @@ public class ConfigScreen {
                 genericBooleanOption(
                     ConfigTranslation.PARTICLE_PHYSICS_ENABLED,
                     Binding.generic(ConfigHandler.general_extraParticlePhysicsEnabled_DEFAULT, () -> ConfigHandler.general_extraParticlePhysicsEnabled, newVal -> ConfigHandler.general_extraParticlePhysicsEnabled = newVal)
+                ),
+                genericBooleanOption(
+                    ConfigTranslation.SPARKS_ADDITIONAL_FLASH_EFFECT,
+                    Binding.generic(ConfigHandler.particle_sparks_additionalFlashEffects_DEFAULT, () -> ConfigHandler.particle_sparks_additionalFlashEffects, newVal -> ConfigHandler.particle_sparks_additionalFlashEffects = newVal)
+                ),
+                genericBooleanOption(
+                    ConfigTranslation.SPARKS_WATER_EVAPORATION,
+                    Binding.generic(ConfigHandler.particle_sparks_waterEvaporation_DEFAULT, () -> ConfigHandler.particle_sparks_waterEvaporation, newVal -> ConfigHandler.particle_sparks_waterEvaporation = newVal)
+                ),
+                genericBooleanOption(
+                    ConfigTranslation.DUST_ADDITIONAL_SPECKS,
+                    Binding.generic(ConfigHandler.particle_dust_additionalSpecks_DEFAULT, () -> ConfigHandler.particle_dust_additionalSpecks, newVal -> ConfigHandler.particle_dust_additionalSpecks = newVal)
                 )
             ))
 

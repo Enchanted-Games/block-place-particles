@@ -1,5 +1,6 @@
 package games.enchanted.blockplaceparticles.particle.dust;
 
+import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
@@ -60,6 +61,9 @@ public abstract class AbstractDust extends TextureSheetParticle {
         super.tick();
 
         if(!this.spawnSpecks || this.removed || !this.hasPhysics || this.onGround) {
+            return;
+        }
+        if(!ConfigHandler.particle_dust_additionalSpecks) {
             return;
         }
         if((this.age < 3 && this.random.nextFloat() < 0.23f) || this.random.nextFloat() < 0.01f) {
