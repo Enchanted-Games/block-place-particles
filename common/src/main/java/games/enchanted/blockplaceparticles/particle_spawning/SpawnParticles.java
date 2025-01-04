@@ -4,7 +4,9 @@ import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.config.type.BrushParticleBehaviour;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.particle.option.ParticleEmitterOptions;
+import games.enchanted.blockplaceparticles.particle.option.TintedParticleOption;
 import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
+import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverrides;
 import games.enchanted.blockplaceparticles.particle_spawning.override.FluidPlacementParticle;
 import games.enchanted.blockplaceparticles.util.FluidHelpers;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
@@ -171,6 +173,68 @@ public class SpawnParticles {
         }
     }
 
+    public static void spawnFallingBlockRandomFallParticles(ClientLevel level, BlockState blockState, double x, double y, double z, Vec3 deltaMovement) {
+        if(!ConfigHandler.fallingBlockEffect_enabled) return;
+        if(blockState.isAir()) return;
+
+        int overrideOrigin = BlockParticleOverride.ORIGIN_FALLING_BLOCK_FALLING;
+        BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(blockState, overrideOrigin);
+
+        if(particleOverride == BlockParticleOverride.NONE || particleOverride == BlockParticleOverride.VANILLA) return;
+
+        for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 4); i++) {
+            ParticleOptions particleOptions = particleOverride.getParticleOptionForState(blockState, level, BlockPos.containing(x, y, z), overrideOrigin);
+            if(particleOptions == null) continue;
+            level.addParticle(
+                particleOptions,
+                x - 0.5 + level.random.nextFloat(),
+                y       + level.random.nextFloat(),
+                z - 0.5 + level.random.nextFloat(),
+                (deltaMovement.x * 3) * -particleOverride.getParticleVelocityMultiplier(),
+                (deltaMovement.y * 3) * -particleOverride.getParticleVelocityMultiplier(),
+                (deltaMovement.z * 3) * -particleOverride.getParticleVelocityMultiplier()
+            );
+        }
+    }
+
+    public static void spawnFallingBlockLandParticles(ClientLevel level, BlockState blockState, double x, double y, double z, Vec3 deltaMovement) {
+        if(!ConfigHandler.fallingBlockEffect_enabled) return;
+
+        int overrideOrigin = BlockParticleOverride.ORIGIN_FALLING_BLOCK_LANDED;
+        BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(blockState, overrideOrigin);
+
+        if(particleOverride == BlockParticleOverride.NONE) return;
+
+        BlockPos blockPos = BlockPos.containing(x, y, z);
+        double movementSpeed = deltaMovement.length();
+
+        double particleY = Math.round((y + (deltaMovement.y / 2)) - 0.1) + 0.0625;
+
+        SpawnParticlesUtil.spawnParticleInCircle(
+            particleOverride == BlockParticleOverride.VANILLA ? TintedParticleOption.BRUSH_OPTION : particleOverride.getParticleOptionForState(blockState, level, blockPos, overrideOrigin),
+            level,
+            new Vec3(x, particleY, z),
+            16,
+            0.4f,
+            0.9f,
+            1.7f * (float) (movementSpeed * 2) * (particleOverride == BlockParticleOverride.VANILLA ? 0.1f : particleOverride.getParticleVelocityMultiplier()),
+            0.035f,
+            0
+        );
+
+        SpawnParticlesUtil.spawnParticleInCircle(
+            particleOverride == BlockParticleOverride.VANILLA ? TintedParticleOption.BRUSH_OPTION : particleOverride.getParticleOptionForState(blockState, level, blockPos, overrideOrigin),
+            level,
+            new Vec3(x, particleY + 0.7f, z),
+            16,
+            0.3f,
+            0.95f,
+            0.2f,
+            -0.4f * (float) (movementSpeed * 2) * (particleOverride == BlockParticleOverride.VANILLA ? 0.1f : particleOverride.getParticleVelocityMultiplier()),
+            0
+        );
+    }
+
     public static void spawnSparksAtMinecartWheels(double minecartX, double minecartY, double minecartZ, double minecartHorizontalRot, double minecartVerticalRot, boolean isOnRails, boolean hasPassenger, boolean hasBlock, Vec3 deltaMovement, double maxSpeed, Level level) {
         if (!ConfigHandler.minecart_enabled) return;
         if (!isOnRails) return;
@@ -224,38 +288,70 @@ public class SpawnParticles {
     }
 
     public static void spawnAmbientCampfireSparks(Level level, BlockPos particlePos, BlockState campfireState) {
-        if (!ConfigHandler.campfireSpark_enabled) return;
-        double sparkIntensity = 5 / 12.;
-        if (level.random.nextFloat() * 101 <= ConfigHandler.campfireSpark_spawnChance) {
-            for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 3) + 1; i++) {
-                SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
-                    level,
-                    campfireState.is(Blocks.SOUL_CAMPFIRE) ? ModParticleTypes.FLOATING_SOUL_SPARK : ModParticleTypes.FLOATING_SPARK,
-                    (double) particlePos.getX() + 0.5,
-                    (double) particlePos.getY() + 0.5,
-                    (double) particlePos.getZ() + 0.5,
-                    sparkIntensity
-                );
+        if (ConfigHandler.campfireSpark_enabled) {
+            double sparkIntensity = 5 / 12.;
+            if (level.random.nextFloat() * 101 <= ConfigHandler.campfireSpark_spawnChance) {
+                for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 3) + 1; i++) {
+                    SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
+                        level,
+                        campfireState.is(Blocks.SOUL_CAMPFIRE) ? ModParticleTypes.FLOATING_SOUL_SPARK : ModParticleTypes.FLOATING_SPARK,
+                        (double) particlePos.getX() + 0.5,
+                        (double) particlePos.getY() + 0.5,
+                        (double) particlePos.getZ() + 0.5,
+                        sparkIntensity
+                    );
+                }
+            }
+        }
+        if(ConfigHandler.campfireEmber_enabled) {
+            if (level.random.nextFloat() * 101 <= ConfigHandler.campfireEmber_spawnChance) {
+                for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 4); i++) {
+                    level.addParticle(
+                        campfireState.is(Blocks.SOUL_CAMPFIRE) ? ModParticleTypes.FLOATING_SOUL_EMBER : ModParticleTypes.FLOATING_EMBER,
+                        (double) particlePos.getX() + (level.random.nextFloat() * 0.75) + 0.125f,
+                        (double) particlePos.getY() + (level.random.nextFloat() * 0.75) + 0.125f,
+                        (double) particlePos.getZ() + (level.random.nextFloat() * 0.75) + 0.125f,
+                        0,
+                        0,
+                        0
+                    );
+                }
             }
         }
     }
 
     public static void spawnAmbientFireSparks(Level level, BlockState fireState, BlockPos particlePos, double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
-        if (!ConfigHandler.fireSpark_enabled) return;
-        double sparkIntensity = 5 / 12.;
         double width = Math.abs(minX - maxX);
         double height = Math.abs(minY - maxY);
         double depth = Math.abs(minZ - maxZ);
-        if (level.random.nextFloat() * 101 <= ConfigHandler.fireSpark_spawnChance) {
-            for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 3) + 1; i++) {
-                SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
-                    level,
-                    fireState.is(Blocks.SOUL_FIRE) ? ModParticleTypes.FLOATING_SOUL_SPARK : ModParticleTypes.FLOATING_SPARK,
-                    particlePos.getX() + minX + (level.random.nextFloat() * width),
-                    particlePos.getY() + minY + (level.random.nextFloat() * height),
-                    particlePos.getZ() + minZ + (level.random.nextFloat() * depth),
-                    sparkIntensity
-                );
+        if (ConfigHandler.fireSpark_enabled) {
+            double sparkIntensity = 5 / 12.;
+            if (level.random.nextFloat() * 101 <= ConfigHandler.fireSpark_spawnChance) {
+                for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 3) + 1; i++) {
+                    SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
+                        level,
+                        fireState.is(Blocks.SOUL_FIRE) ? ModParticleTypes.FLOATING_SOUL_SPARK : ModParticleTypes.FLOATING_SPARK,
+                        particlePos.getX() + minX + (level.random.nextFloat() * width),
+                        particlePos.getY() + minY + (level.random.nextFloat() * height),
+                        particlePos.getZ() + minZ + (level.random.nextFloat() * depth),
+                        sparkIntensity
+                    );
+                }
+            }
+        }
+        if(ConfigHandler.fireEmber_enabled) {
+            if (level.random.nextFloat() * 101 <= ConfigHandler.fireEmber_spawnChance) {
+                for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 4); i++) {
+                    level.addParticle(
+                        fireState.is(Blocks.SOUL_FIRE) ? ModParticleTypes.FLOATING_SOUL_EMBER : ModParticleTypes.FLOATING_EMBER,
+                        particlePos.getX() + minX + (level.random.nextFloat() * width),
+                        particlePos.getY() + minY + (level.random.nextFloat() * height),
+                        particlePos.getZ() + minZ + (level.random.nextFloat() * depth),
+                        0,
+                        0,
+                        0
+                    );
+                }
             }
         }
     }
@@ -482,7 +578,7 @@ public class SpawnParticles {
                 particleOption = override.getParticleOptionForState(blockState, level, BlockPos.containing(particlePos), BlockParticleOverride.ORIGIN_BLOCK_BRUSHED);
                 velocityMultiplier = override.getParticleVelocityMultiplier();
             } else {
-                particleOption = ModParticleTypes.BRUSH_DUST;
+                particleOption = TintedParticleOption.BRUSH_OPTION;
                 velocityMultiplier = 0.1f;
             }
 
@@ -519,6 +615,26 @@ public class SpawnParticles {
             float yVel = MathHelpers.randomBetween(0.4f, 0.6f);
             float zVel = (float) MathHelpers.clampOutside(MathHelpers.randomBetween(-0.5f, 0.5f), -0.2, 0.2);
             level.addParticle(ModParticleTypes.FLYING_SPARK, x, y, z, xVel, yVel, zVel);
+        }
+    }
+
+    public static void spawnRedstoneInteractionParticles(ClientLevel level, BlockState blockState, double interactionX, double interactionY, double interactionZ, float spreadX, float spreadY, float spreadZ) {
+        BlockPos pos = BlockPos.containing(interactionX, interactionY, interactionZ);
+        for (int i = 0; i < ConfigHandler.redstoneInteractionDust_amount; i++) {
+            double particleX = interactionX + MathHelpers.randomBetween(-spreadX / 2, spreadX / 2);
+            double particleY = interactionY + MathHelpers.randomBetween(-spreadY / 2, spreadY / 2);
+            double particleZ = interactionZ + MathHelpers.randomBetween(-spreadZ / 2, spreadZ / 2);
+            ParticleOptions particleOptions = BlockParticleOverrides.REDSTONE_DUST.getParticleOptionForState(blockState, level, pos, BlockParticleOverride.ORIGIN_BLOCK_INTERACTED_WITH);
+            if(particleOptions == null) continue;
+            level.addParticle(
+                particleOptions,
+                particleX,
+                particleY,
+                particleZ,
+                MathHelpers.randomBetween(-0.05f, 0.05f),
+                0.2f,
+                MathHelpers.randomBetween(-0.05f, 0.05f)
+            );
         }
     }
 }

@@ -44,6 +44,9 @@ public class ConfigHandler {
         return HANDLER.instance();
     }
 
+    @SerialEntry
+    public static double config_version = 0.5;
+
     // General options
     // pixel consistent terrain particles
     public static final boolean general_pixelConsistentTerrainParticles_DEFAULT = true;
@@ -55,10 +58,33 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean general_particleZFightingFix = general_particleZFightingFix_DEFAULT;
 
+    // auto collapse config lists
+    public static final boolean general_autoCollapseConfigLists_DEFAULT = false;
+    @SerialEntry
+    public static boolean general_autoCollapseConfigLists = general_autoCollapseConfigLists_DEFAULT;
+
+    // - performance
+    // advanced particle physics
     public static final boolean general_extraParticlePhysicsEnabled_DEFAULT = true;
     @SerialEntry
     public static boolean general_extraParticlePhysicsEnabled = general_extraParticlePhysicsEnabled_DEFAULT;
 
+    // sparks: spawn additional flash effects
+    public static final boolean particle_sparks_additionalFlashEffects_DEFAULT = true;
+    @SerialEntry
+    public static boolean particle_sparks_additionalFlashEffects = particle_sparks_additionalFlashEffects_DEFAULT;
+
+    // sparks: water evaporation
+    public static final boolean particle_sparks_waterEvaporation_DEFAULT = true;
+    @SerialEntry
+    public static boolean particle_sparks_waterEvaporation = particle_sparks_waterEvaporation_DEFAULT;
+
+    // dust: spawn specks
+    public static final boolean particle_dust_additionalSpecks_DEFAULT = true;
+    @SerialEntry
+    public static boolean particle_dust_additionalSpecks = particle_dust_additionalSpecks_DEFAULT;
+
+    // - debug
     // debug emitter bounds
     public static final boolean debug_showEmitterBounds_DEFAULT = false;
     public static boolean debug_showEmitterBounds = debug_showEmitterBounds_DEFAULT;
@@ -171,9 +197,26 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxTintedLeaves_onBreak = maxTintedLeaves_onBreak_DEFAULT;
 
-    public static final List<ResourceLocation> tintedLeaves_Blocks_DEFAULT = List.of(RegistryHelpers.getLocationFromBlock(Blocks.JUNGLE_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.OAK_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.SPRUCE_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.DARK_OAK_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.ACACIA_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.BIRCH_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.MANGROVE_LEAVES));
+    public static final List<ResourceLocation> tintedLeaves_Blocks_DEFAULT = List.of(RegistryHelpers.getLocationFromBlock(Blocks.JUNGLE_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.OAK_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.DARK_OAK_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.ACACIA_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.MANGROVE_LEAVES));
     @SerialEntry
     public static List<ResourceLocation> tintedLeaves_Blocks = tintedLeaves_Blocks_DEFAULT;
+
+    // biome tinted pine leaf particle
+    public static final int maxTintedPineLeaves_onPlace_DEFAULT = 2;
+    @SerialEntry
+    public static int maxTintedPineLeaves_onPlace = maxTintedPineLeaves_onPlace_DEFAULT;
+
+    public static final boolean tintedPineLeaves_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean tintedPineLeaves_enabled = tintedPineLeaves_enabled_DEFAULT;
+
+    public static final int maxTintedPineLeaves_onBreak_DEFAULT = 3;
+    @SerialEntry
+    public static int maxTintedPineLeaves_onBreak = maxTintedPineLeaves_onBreak_DEFAULT;
+
+    public static final List<ResourceLocation> tintedPineLeaves_Blocks_DEFAULT = List.of(RegistryHelpers.getLocationFromBlock(Blocks.BIRCH_LEAVES), RegistryHelpers.getLocationFromBlock(Blocks.SPRUCE_LEAVES));
+    @SerialEntry
+    public static List<ResourceLocation> tintedPineLeaves_Blocks = tintedPineLeaves_Blocks_DEFAULT;
 
     // grass blade
     public static final int maxGrassBlade_onPlace_DEFAULT = 2;
@@ -310,6 +353,49 @@ public class ConfigHandler {
     @SerialEntry
     public static List<ResourceLocation> dust_Blocks = dust_Blocks_DEFAULT;
 
+    // redstone dust
+    public static final int maxRedstoneDust_onPlace_DEFAULT = 3;
+    @SerialEntry
+    public static int maxRedstoneDust_onPlace = maxRedstoneDust_onPlace_DEFAULT;
+
+    public static final boolean redstoneDust_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean redstoneDust_enabled = redstoneDust_enabled_DEFAULT;
+
+    public static final int maxRedstoneDust_onBreak_DEFAULT = 4;
+    @SerialEntry
+    public static int maxRedstoneDust_onBreak = maxRedstoneDust_onBreak_DEFAULT;
+
+    public static final List<ResourceLocation> redstoneDust_Blocks_DEFAULT = List.of(
+        RegistryHelpers.getLocationFromBlock(Blocks.REDSTONE_TORCH),
+        RegistryHelpers.getLocationFromBlock(Blocks.REDSTONE_WALL_TORCH),
+        RegistryHelpers.getLocationFromBlock(Blocks.REDSTONE_WIRE),
+        RegistryHelpers.getLocationFromBlock(Blocks.REDSTONE_BLOCK),
+        RegistryHelpers.getLocationFromBlock(Blocks.REPEATER),
+        RegistryHelpers.getLocationFromBlock(Blocks.COMPARATOR)
+    );
+    @SerialEntry
+    public static List<ResourceLocation> redstoneDust_Blocks = redstoneDust_Blocks_DEFAULT;
+
+    // nether portal shatter
+    public static final int maxBlockShatter_onPlace_DEFAULT = 3;
+    @SerialEntry
+    public static int maxBlockShatter_onPlace = maxBlockShatter_onPlace_DEFAULT;
+
+    public static final boolean blockShatter_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean blockShatter_enabled = blockShatter_enabled_DEFAULT;
+
+    public static final int maxBlockShatter_onBreak_DEFAULT = 4;
+    @SerialEntry
+    public static int maxBlockShatter_onBreak = maxBlockShatter_onBreak_DEFAULT;
+
+    public static final List<ResourceLocation> blockShatter_Blocks_DEFAULT = List.of(
+        RegistryHelpers.getLocationFromBlock(Blocks.NETHER_PORTAL)
+    );
+    @SerialEntry
+    public static List<ResourceLocation> blockShatter_Blocks = blockShatter_Blocks_DEFAULT;
+
     // vanilla block particle
     public static final int maxBlock_onPlace_DEFAULT = 2;
     @SerialEntry
@@ -342,6 +428,14 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean campfireSpark_enabled = campfireSpark_enabled_DEFAULT;
 
+    public static final int campfireEmber_spawnChance_DEFAULT = 45;
+    @SerialEntry
+    public static int campfireEmber_spawnChance = campfireEmber_spawnChance_DEFAULT;
+
+    public static final boolean campfireEmber_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean campfireEmber_enabled = campfireEmber_enabled_DEFAULT;
+
     // fire sparks
     public static final int fireSpark_spawnChance_DEFAULT = 25;
     @SerialEntry
@@ -350,6 +444,14 @@ public class ConfigHandler {
     public static final boolean fireSpark_enabled_DEFAULT = true;
     @SerialEntry
     public static boolean fireSpark_enabled = fireSpark_enabled_DEFAULT;
+
+    public static final int fireEmber_spawnChance_DEFAULT = 45;
+    @SerialEntry
+    public static int fireEmber_spawnChance = fireEmber_spawnChance_DEFAULT;
+
+    public static final boolean fireEmber_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean fireEmber_enabled = fireEmber_enabled_DEFAULT;
 
     // anvil use sparks
     public static final int maxAnvilUseSparks_onUse_DEFAULT = 18;
@@ -368,6 +470,24 @@ public class ConfigHandler {
     public static final boolean grindstoneUseSparks_enabled_DEFAULT = true;
     @SerialEntry
     public static boolean grindstoneUseSparks_enabled = grindstoneUseSparks_enabled_DEFAULT;
+
+    // falling block effects
+    public static final boolean fallingBlockEffect_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean fallingBlockEffect_enabled = fallingBlockEffect_enabled_DEFAULT;
+
+    public static final int fallingBlockEffect_renderDistance_DEFAULT = 64;
+    @SerialEntry
+    public static int fallingBlockEffect_renderDistance = fallingBlockEffect_renderDistance_DEFAULT;
+
+    // redstone interaction dust
+    public static final boolean redstoneInteractionDust_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean redstoneInteractionDust_enabled = redstoneInteractionDust_enabled_DEFAULT;
+
+    public static final int redstoneInteractionDust_amount_DEFAULT = 6;
+    @SerialEntry
+    public static int redstoneInteractionDust_amount = redstoneInteractionDust_amount_DEFAULT;
 
     // Entity Particles
     // travelling minecarts

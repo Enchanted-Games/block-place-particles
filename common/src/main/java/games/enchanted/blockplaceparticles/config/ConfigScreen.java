@@ -9,6 +9,7 @@ import games.enchanted.blockplaceparticles.config.controller.BlockLocationContro
 import games.enchanted.blockplaceparticles.config.controller.FluidLocationController;
 import games.enchanted.blockplaceparticles.config.type.BrushParticleBehaviour;
 import games.enchanted.blockplaceparticles.localisation.ConfigTranslation;
+import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
 import games.enchanted.blockplaceparticles.util.RegistryHelpers;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -36,6 +37,14 @@ public class ConfigScreen {
             .name(ConfigTranslation.getCategoryName(ConfigTranslation.GENERAL_CATEGORY).toComponent())
             .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.GENERAL_CATEGORY)))
 
+            // info (mod name and credits)
+            .group(OptionGroup.createBuilder()
+                .name( ConfigTranslation.MOD_CREDITS_KEY.toComponent() )
+                .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.MOD_CREDITS_KEY) ))
+                .collapsed(true)
+                .option(LabelOption.createBuilder().line(Component.empty()).build())
+            .build())
+
             // general
             .group( createGenericConfigGroup(
                 "general",
@@ -48,6 +57,10 @@ public class ConfigScreen {
                 genericBooleanOption(
                     ConfigTranslation.PARTICLE_ZFIGHTING_FIX,
                     Binding.generic(ConfigHandler.general_particleZFightingFix_DEFAULT, () -> ConfigHandler.general_particleZFightingFix, newVal -> ConfigHandler.general_particleZFightingFix = newVal)
+                ),
+                genericBooleanOption(
+                    ConfigTranslation.AUTO_COLLAPSE_CONFIG_LISTS,
+                    Binding.generic(ConfigHandler.general_autoCollapseConfigLists_DEFAULT, () -> ConfigHandler.general_autoCollapseConfigLists, newVal -> ConfigHandler.general_autoCollapseConfigLists = newVal)
                 )
             ))
 
@@ -59,6 +72,18 @@ public class ConfigScreen {
                 genericBooleanOption(
                     ConfigTranslation.PARTICLE_PHYSICS_ENABLED,
                     Binding.generic(ConfigHandler.general_extraParticlePhysicsEnabled_DEFAULT, () -> ConfigHandler.general_extraParticlePhysicsEnabled, newVal -> ConfigHandler.general_extraParticlePhysicsEnabled = newVal)
+                ),
+                genericBooleanOption(
+                    ConfigTranslation.SPARKS_ADDITIONAL_FLASH_EFFECT,
+                    Binding.generic(ConfigHandler.particle_sparks_additionalFlashEffects_DEFAULT, () -> ConfigHandler.particle_sparks_additionalFlashEffects, newVal -> ConfigHandler.particle_sparks_additionalFlashEffects = newVal)
+                ),
+                genericBooleanOption(
+                    ConfigTranslation.SPARKS_WATER_EVAPORATION,
+                    Binding.generic(ConfigHandler.particle_sparks_waterEvaporation_DEFAULT, () -> ConfigHandler.particle_sparks_waterEvaporation, newVal -> ConfigHandler.particle_sparks_waterEvaporation = newVal)
+                ),
+                genericBooleanOption(
+                    ConfigTranslation.DUST_ADDITIONAL_SPECKS,
+                    Binding.generic(ConfigHandler.particle_dust_additionalSpecks_DEFAULT, () -> ConfigHandler.particle_dust_additionalSpecks, newVal -> ConfigHandler.particle_dust_additionalSpecks = newVal)
                 )
             ))
 
@@ -84,6 +109,14 @@ public class ConfigScreen {
             ConfigCategory.createBuilder()
                 .name(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY).toComponent())
                 .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY)))
+
+                // vanilla block particles
+                .group(
+                    ConfigScreenHelper.createOptionsForBlockOverride(BlockParticleOverride.VANILLA)
+                )
+                .group(
+                    createSeparator()
+                )
 
                 // block config info
                 .group(OptionGroup.createBuilder()
@@ -119,24 +152,26 @@ public class ConfigScreen {
                 integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK, "underwater_block_bubbles", ConfigHandler.maxUnderwaterBubbles_onBreak_DEFAULT, () -> ConfigHandler.maxUnderwaterBubbles_onBreak, newVal -> ConfigHandler.maxUnderwaterBubbles_onBreak = newVal, 1, 50, 1)
             ))
 
-            // campfire spark
-            .group( createParticleToggleAndIntSliderConfigGroup(
-                "campfire_sparks",
-                "campfire_sparks",
+            // campfire ambient particles
+            .group( createMultipleOptionsConfigGroup(
+                "campfire_particles",
+                "campfire_particles",
                 ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
-                Binding.generic(ConfigHandler.campfireSpark_enabled_DEFAULT, () -> ConfigHandler.campfireSpark_enabled, newVal -> ConfigHandler.campfireSpark_enabled = newVal),
-                ConfigTranslation.ARE_PARTICLES_ENABLED,
-                integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE, "campfire_sparks", ConfigHandler.campfireSpark_spawnChance_DEFAULT, () -> ConfigHandler.campfireSpark_spawnChance, newVal -> ConfigHandler.campfireSpark_spawnChance = newVal, 1, 100, 1)
+                booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "sparks", Binding.generic(ConfigHandler.campfireSpark_enabled_DEFAULT, () -> ConfigHandler.campfireSpark_enabled, newVal -> ConfigHandler.campfireSpark_enabled = newVal)),
+                integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE_WITH_TYPE, "sparks", ConfigHandler.campfireSpark_spawnChance_DEFAULT, () -> ConfigHandler.campfireSpark_spawnChance, newVal -> ConfigHandler.campfireSpark_spawnChance = newVal, 1, 100, 1),
+                booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "embers", Binding.generic(ConfigHandler.campfireEmber_enabled_DEFAULT, () -> ConfigHandler.campfireEmber_enabled, newVal -> ConfigHandler.campfireEmber_enabled = newVal)),
+                integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE_WITH_TYPE, "embers", ConfigHandler.campfireEmber_spawnChance_DEFAULT, () -> ConfigHandler.campfireEmber_spawnChance, newVal -> ConfigHandler.campfireEmber_spawnChance = newVal, 1, 100, 1)
             ))
 
-            // fire spark
-            .group( createParticleToggleAndIntSliderConfigGroup(
-                "fire_sparks",
-                "fire_sparks",
+            // fire ambient particles
+            .group( createMultipleOptionsConfigGroup(
+                "fire_particles",
+                "fire_particles",
                 ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
-                Binding.generic(ConfigHandler.fireSpark_enabled_DEFAULT, () -> ConfigHandler.fireSpark_enabled, newVal -> ConfigHandler.fireSpark_enabled = newVal),
-                ConfigTranslation.ARE_PARTICLES_ENABLED,
-                integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE, "fire_sparks", ConfigHandler.fireSpark_spawnChance_DEFAULT, () -> ConfigHandler.fireSpark_spawnChance, newVal -> ConfigHandler.fireSpark_spawnChance = newVal, 1, 100, 1)
+                booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "sparks", Binding.generic(ConfigHandler.fireSpark_enabled_DEFAULT, () -> ConfigHandler.fireSpark_enabled, newVal -> ConfigHandler.fireSpark_enabled = newVal)),
+                integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE_WITH_TYPE, "sparks", ConfigHandler.fireSpark_spawnChance_DEFAULT, () -> ConfigHandler.fireSpark_spawnChance, newVal -> ConfigHandler.fireSpark_spawnChance = newVal, 1, 100, 1),
+                booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "embers", Binding.generic(ConfigHandler.fireEmber_enabled_DEFAULT, () -> ConfigHandler.fireEmber_enabled, newVal -> ConfigHandler.fireEmber_enabled = newVal)),
+                integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE_WITH_TYPE, "embers", ConfigHandler.fireEmber_spawnChance_DEFAULT, () -> ConfigHandler.fireEmber_spawnChance, newVal -> ConfigHandler.fireEmber_spawnChance = newVal, 1, 100, 1)
             ))
 
             // anvil use spark
@@ -145,7 +180,7 @@ public class ConfigScreen {
                 "anvil_craft_sparks",
                 ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
                 Binding.generic(ConfigHandler.anvilUseSparks_enabled_DEFAULT, () -> ConfigHandler.anvilUseSparks_enabled, newVal -> ConfigHandler.anvilUseSparks_enabled = newVal),
-                ConfigTranslation.ARE_PARTICLES_ENABLED,
+                ConfigTranslation.IS_PARTICLE_ENABLED,
                 integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_CRAFT, "anvil_craft_sparks", ConfigHandler.maxAnvilUseSparks_onUse_DEFAULT, () -> ConfigHandler.maxAnvilUseSparks_onUse, newVal -> ConfigHandler.maxAnvilUseSparks_onUse = newVal, 1, 32, 1)
             ))
 
@@ -155,8 +190,28 @@ public class ConfigScreen {
                 "grindstone_craft_sparks",
                 ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
                 Binding.generic(ConfigHandler.grindstoneUseSparks_enabled_DEFAULT, () -> ConfigHandler.grindstoneUseSparks_enabled, newVal -> ConfigHandler.grindstoneUseSparks_enabled = newVal),
-                ConfigTranslation.ARE_PARTICLES_ENABLED,
+                ConfigTranslation.IS_PARTICLE_ENABLED,
                 integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_CRAFT, "grindstone_craft_sparks", ConfigHandler.maxGrindstoneUseSparks_onUse_DEFAULT, () -> ConfigHandler.maxGrindstoneUseSparks_onUse, newVal -> ConfigHandler.maxGrindstoneUseSparks_onUse = newVal, 1, 32, 1)
+            ))
+
+            // falling block effect
+            .group( createParticleToggleAndIntSliderConfigGroup(
+                "falling_block_effect",
+                "falling_block_effect",
+                ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
+                Binding.generic(ConfigHandler.fallingBlockEffect_enabled_DEFAULT, () -> ConfigHandler.fallingBlockEffect_enabled, newVal -> ConfigHandler.fallingBlockEffect_enabled = newVal),
+                ConfigTranslation.IS_PARTICLE_ENABLED,
+                integerSliderOption(ConfigTranslation.PARTICLE_EFFECT_RENDER_DISTANCE, "falling_block_effect", ConfigHandler.fallingBlockEffect_renderDistance_DEFAULT, () -> ConfigHandler.fallingBlockEffect_renderDistance, newVal -> ConfigHandler.fallingBlockEffect_renderDistance = newVal, 1, 512, 1)
+            ))
+
+            // redstone interaction dust
+            .group( createParticleToggleAndIntSliderConfigGroup(
+                "redstone_interaction_dust",
+                "redstone_interaction_dust",
+                ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
+                Binding.generic(ConfigHandler.redstoneInteractionDust_enabled_DEFAULT, () -> ConfigHandler.redstoneInteractionDust_enabled, newVal -> ConfigHandler.redstoneInteractionDust_enabled = newVal),
+                ConfigTranslation.IS_PARTICLE_ENABLED,
+                integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_INTERACT, "redstone_interaction_dust", ConfigHandler.redstoneInteractionDust_amount_DEFAULT, () -> ConfigHandler.redstoneInteractionDust_amount, newVal -> ConfigHandler.redstoneInteractionDust_amount = newVal, 1, 32, 1)
             ))
         .build());
 
@@ -354,23 +409,6 @@ public class ConfigScreen {
         return createMultipleOptionsConfigGroup(particleTypeKey, groupName, category, onFluidPlaceOption, maxPlaceParticlesOption);
     }
 
-    public static OptionGroup createBlockPlaceAndBreakConfigGroup(String particleTypeKey, String groupName, String category, Binding<Boolean> spawnOnBlockPlaceBinding, Option<Integer> maxPlaceParticlesOption, Binding<Boolean> spawnOnBlockBreakBinding, Option<Integer> maxBreakParticlesOption) {
-        Option<Boolean> spawnOnBlockPlaceOption = Option.<Boolean>createBuilder()
-            .name( ConfigTranslation.getGlobalOption(ConfigTranslation.SPAWN_BLOCK_PARTICLE_ON_PLACE).toComponent() )
-            .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(ConfigTranslation.SPAWN_BLOCK_PARTICLE_ON_PLACE)), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ))
-            .binding(spawnOnBlockPlaceBinding)
-            .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
-        .build();
-        Option<Boolean> spawnOnBlockBreakOption = Option.<Boolean>createBuilder()
-            .name( ConfigTranslation.getGlobalOption(ConfigTranslation.SPAWN_BLOCK_PARTICLE_ON_BREAK).toComponent() )
-            .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(ConfigTranslation.SPAWN_BLOCK_PARTICLE_ON_BREAK)), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ))
-            .binding(spawnOnBlockBreakBinding)
-            .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
-        .build();
-
-        return createMultipleOptionsConfigGroup(particleTypeKey, groupName, category, spawnOnBlockPlaceOption, maxPlaceParticlesOption, spawnOnBlockBreakOption, maxBreakParticlesOption);
-    }
-
     private static OptionGroup createParticleToggleAndMaxAndIntensityConfigGroup(String particleTypeKey, String groupName, String category, Binding<Boolean> particleEnabledBinding, String particleEnabledTranslationOption, Option<Integer> maxParticlesOnUseOption, Option<Integer> particleIntensityOption) {
         Option<Boolean> particleToggleOption = booleanOption(particleEnabledTranslationOption, particleTypeKey, particleEnabledBinding);
         return createMultipleOptionsConfigGroup(particleTypeKey, groupName, category, particleToggleOption, maxParticlesOnUseOption, particleIntensityOption);
@@ -408,7 +446,7 @@ public class ConfigScreen {
 
     private static Option<Boolean> booleanOption(String booleanOptionLabelText, String particleTypeKey, Binding<Boolean> binding) {
         return Option.<Boolean>createBuilder()
-            .name( ConfigTranslation.getGlobalOption(booleanOptionLabelText).toComponent() )
+            .name( ConfigTranslation.createPlaceholder(ConfigTranslation.getGlobalOption(booleanOptionLabelText).toComponent(), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) )
             .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(booleanOptionLabelText)), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ))
             .binding(binding)
             .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
@@ -448,7 +486,7 @@ public class ConfigScreen {
         return createIntegerOption(maxParticlesDefault, getter, setter, ConfigTranslation.getGlobalOption(optionName).toComponent(), ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(optionName)), min, max, step);
     }
     private static Option<Integer> integerSliderOption(String optionName, String particleTypeKey, int maxParticlesDefault, Supplier<Integer> getter, Consumer<Integer> setter, int min, int max, int step) {
-        return createIntegerOption(maxParticlesDefault, getter, setter, ConfigTranslation.getGlobalOption(optionName).toComponent(), ConfigTranslation.createPlaceholder( ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(optionName)), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ), min, max, step);
+        return createIntegerOption(maxParticlesDefault, getter, setter, ConfigTranslation.createPlaceholder(ConfigTranslation.getGlobalOption(optionName).toComponent(), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ), ConfigTranslation.createPlaceholder( ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(optionName)), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ), min, max, step);
     }
 
     private static Option<Integer> createIntegerOption(int defaultValue, Supplier<Integer> getter, Consumer<Integer> setter, Component name, Component description, int min, int max, int step) {
@@ -461,10 +499,10 @@ public class ConfigScreen {
     }
 
     public static ListOption<ResourceLocation> createBlockLocationListOption(String particleTypeKey, String groupName, String category, List<ResourceLocation> defaultValue, Supplier<List<ResourceLocation>> getter, Consumer<List<ResourceLocation>> setter) {
-        return createListOption(RegistryHelpers.getLocationFromBlock(Blocks.STONE), BlockLocationController::new, particleTypeKey, groupName, category, true, defaultValue, getter, setter);
+        return createListOption(RegistryHelpers.getLocationFromBlock(Blocks.STONE), BlockLocationController::new, particleTypeKey, groupName, category, ConfigHandler.general_autoCollapseConfigLists, defaultValue, getter, setter);
     }
     private static ListOption<ResourceLocation> createFluidListOption(String particleTypeKey, String groupName, String category, List<ResourceLocation> defaultValue, Supplier<List<ResourceLocation>> getter, Consumer<List<ResourceLocation>> setter) {
-        return createListOption(RegistryHelpers.getLocationFromFluid(Fluids.WATER), FluidLocationController::new, particleTypeKey, groupName, category, false, defaultValue, getter, setter);
+        return createListOption(RegistryHelpers.getLocationFromFluid(Fluids.WATER), FluidLocationController::new, particleTypeKey, groupName, category, ConfigHandler.general_autoCollapseConfigLists, defaultValue, getter, setter);
     }
     private static <T> ListOption<T> createListOption(T initial, Function<ListOptionEntry<T>, Controller<T>> controller, String particleTypeKey, String groupName, String category, boolean collapsedByDefault, List<T> defaultValue, Supplier<List<T>> getter, Consumer<List<T>> setter) {
         ConfigTranslation.TranslationKey groupNameKey = ConfigTranslation.getGroupName(category, groupName);

@@ -1,5 +1,6 @@
 package games.enchanted.blockplaceparticles.particle.petal;
 
+import games.enchanted.blockplaceparticles.mixin.accessor.ParticleAccessor;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
@@ -11,11 +12,12 @@ import org.jetbrains.annotations.Nullable;
 public class FallingPetal extends TextureSheetParticle {
     private float rotSpeed;
     private float spinAcceleration;
-    protected float maxSpinSpeed = 100f;
+    protected float maxSpinSpeed = 1f;
+    private boolean transparency;
 
     protected FallingPetal(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, float gravityMultiplier) {
         super(level, x, y, z);
-        this.setSprite(spriteSet.get(this.random.nextInt(12), 12));
+        this.setSprite(spriteSet.get(this.random));
         this.gravity = Mth.randomBetween(this.random, 0.25F, 0.38F);;
         this.friction = 1.0F;
         this.xd = xSpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
@@ -30,6 +32,12 @@ public class FallingPetal extends TextureSheetParticle {
         this.quadSize = particleSize;
         this.setSize(particleSize, particleSize);
         this.gravity *= gravityMultiplier;
+
+        this.transparency = false;
+    }
+    protected FallingPetal(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, float gravityMultiplier, boolean transparency) {
+        this(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier);
+        this.transparency = transparency;
     }
 
     @Override
@@ -38,8 +46,8 @@ public class FallingPetal extends TextureSheetParticle {
         if(this.rotSpeed > this.maxSpinSpeed) this.rotSpeed = this.maxSpinSpeed;
 
         this.oRoll = this.roll;
-        if(!this.onGround) {
-            this.roll += this.rotSpeed / 5.0F;
+        if( !this.onGround && !((ParticleAccessor) this).getStoppedByCollision() ) {
+            this.roll += this.rotSpeed / 6.5f;
         }
 
         this.xd *= 0.949999988079071;
@@ -51,13 +59,13 @@ public class FallingPetal extends TextureSheetParticle {
 
     @Override
     public @NotNull ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+        return this.transparency ? ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT : ParticleRenderType.PARTICLE_SHEET_OPAQUE;
     }
 
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
+    public static class GenericLeafProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 
-        public Provider(SpriteSet spriteSet) {
+        public GenericLeafProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
@@ -68,20 +76,24 @@ public class FallingPetal extends TextureSheetParticle {
         }
     }
 
-    public static class LargerSpriteMoreGravityProvider implements ParticleProvider<SimpleParticleType> {
+    public static class SnowflakeProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 
-        public LargerSpriteMoreGravityProvider(SpriteSet spriteSet) {
+        public SnowflakeProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
         @Nullable
         @Override
         public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            FallingPetal particle = new FallingPetal(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, 2f);
+            FallingPetal particle = new FallingPetal(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, 0.4f, true);
             float particleSize = level.random.nextBoolean() ? 0.10F : 0.12F;
             particle.quadSize = particleSize;
             particle.setSize(particleSize, particleSize);
+            particle.spinAcceleration = 0;
+            particle.maxSpinSpeed = 0;
+            particle.roll = 0;
+            particle.oRoll = 0;
             return particle;
         }
     }
@@ -115,7 +127,7 @@ public class FallingPetal extends TextureSheetParticle {
         @Override
         public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             FallingPetal particle = new FallingPetal(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, 0.6f);
-            float particleSize = 2.0f * (level.random.nextBoolean() ? 0.05F : 0.075F);
+            float particleSize = level.random.nextBoolean() ? 0.1f : 0.15f;
             particle.quadSize = particleSize;
             particle.setSize(particleSize, particleSize);
             particle.maxSpinSpeed = 0.1f;

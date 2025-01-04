@@ -5,12 +5,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class ColourUtil {
+    private static final int RANDOM_TEXTURE_PIXEL_MAX_LOOPS = 10;
     private static final HashMap<ResourceLocation, Integer> colourCache = new HashMap<>();
 
     /**
@@ -75,15 +78,35 @@ public class ColourUtil {
      * @return the colour in an array of a, r, g, b
      */
     public static int[] getRandomBlockColour(BlockState blockState) {
-        TextureAtlasSprite particleSprite = Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState).getParticleIcon();
-        SpriteContents spriteContents = particleSprite.contents();
+        return getRandomBlockColour(blockState, 30);
+    }
 
-        int x = MathHelpers.randomBetween(0, spriteContents.width() - 1);
-        int y = MathHelpers.randomBetween(0, spriteContents.height() - 1);
+    /**
+     * Gets a random pixel's colour from a {@link BlockState}'s pixel texture
+     *
+     * @param blockState the block state to get a random colour from
+     * @param excludeAlpha the minimum threshold that is allowed for the opacity
+     * @return the colour in an array of a, r, g, b
+     */
+    public static int[] getRandomBlockColour(BlockState blockState, int excludeAlpha) {
+        for (int i = 0; i < RANDOM_TEXTURE_PIXEL_MAX_LOOPS; i++) {
+            TextureAtlasSprite particleSprite = blockState.getBlock() == Blocks.GRASS_BLOCK ?
+                TextureHelpers.getSpriteFromBlockAtlas(ResourceLocation.withDefaultNamespace("block/grass_block_top")) :
+                Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState).getParticleIcon();
+            SpriteContents spriteContents = particleSprite.contents();
 
-        int sampledColour = ((SpriteContentsAccessor) spriteContents).getOriginalImage().getPixel(x, y);
+            int x = MathHelpers.randomBetween(0, spriteContents.width() - 1);
+            int y = MathHelpers.randomBetween(0, spriteContents.height() - 1);
 
-        return ARGBint_to_ARGB(sampledColour);
+            int sampledColour = ((SpriteContentsAccessor) spriteContents).getOriginalImage().getPixel(x, y);
+
+            int[] argb = ARGBint_to_ARGB(sampledColour);
+
+            if(i == RANDOM_TEXTURE_PIXEL_MAX_LOOPS - 1) return argb;
+            if(argb[0] < excludeAlpha) continue;
+            return argb;
+        }
+        return new int[]{255, 255, 255, 255};
     }
 
     /**
@@ -133,5 +156,67 @@ public class ColourUtil {
         int g = (rgb >> 8) & 0xFF;
         int b = rgb & 0xFF;
         return new int[]{r, g, b};
+    }
+
+    /**
+     * Converts an int in rgb decimal format to an array of a, r, g, b
+     */
+    public static int[] RGBint_to_ARGB(int rgb) {
+        int[] rgbArray = RGBint_to_RGB(rgb);
+        return new int[]{255, rgbArray[0], rgbArray[1], rgbArray[2]};
+    }
+
+    /**
+     * Randomises the value each channel seperately. The colour is randomly decreased
+     *
+     * @param colours the colour
+     * @param amount amount to randomise by, 0 is no randomisation and 1 is full randomisation
+     * @return the randomised colour
+     */
+    public static int[] randomiseNegative(int[] colours, float amount) {
+        int[] randomised = new int[colours.length];
+        for (int i = 0; i < colours.length; i++) {
+            randomised[i] = variateColourComponent(colours[i], -MathHelpers.randomBetween(0, amount));
+        }
+        return randomised;
+    }
+
+    /**
+     * Randomises the value all channels by the same amount, effectively changes the brightness of the colour. The colour is randomly decreased
+     *
+     * @param colours the colour
+     * @param amount amount to randomise by, 0 is no randomisation and 1 is full randomisation
+     * @return the randomised colour
+     */
+    public static int[] randomiseNegativeUniform(int[] colours, float amount) {
+        float randomAmount = -MathHelpers.randomBetween(0, amount);
+        int[] randomised = new int[colours.length];
+        for (int i = 0; i < colours.length; i++) {
+            randomised[i] = variateColourComponent(colours[i], randomAmount);
+        }
+        return randomised;
+    }
+
+    public static int variateColourComponent(int colour, float variation) {
+        return MathHelpers.clampInt(colour + (int)(variation * 255), 0, 255);
+    }
+
+    /**
+     * Multiply two colours together. The inputs can be either ARGB or RGB, but they must both be the same format
+     *
+     * @return the colour in ARGB or RGB
+     */
+    public static int[] multiplyColours(int[] colour1, int[] colour2) {
+        if(colour1.length != colour2.length) {
+            throw new IllegalArgumentException(ColourUtil.class.getName() + "#multiplyColours: colour1 and colour2 must both be either ARGB or RGB arrays. colour1: " + Arrays.toString(colour1) + ", colour2: " + Arrays.toString(colour2));
+        }
+        if(!(colour1.length == 4 || colour1.length == 3)) {
+            throw new IllegalArgumentException(ColourUtil.class.getName() + "#multiplyColours: both colours must have 4 or 3 values. colour1: " + Arrays.toString(colour1) + ", colour2: " + Arrays.toString(colour2));
+        }
+        int[] multipliedColour = new int[colour1.length];
+        for (int i = 0; i < colour1.length; i++) {
+            multipliedColour[i] = (int) (Math.clamp((colour1[i] / 255f) * (colour2[i] / 255f), 0f, 255f) * 255);
+        }
+        return multipliedColour;
     }
 }

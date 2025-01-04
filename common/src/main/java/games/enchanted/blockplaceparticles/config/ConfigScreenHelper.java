@@ -19,12 +19,6 @@ public class ConfigScreenHelper {
             );
             configCategoryBuilder.group(createBlockListForBlockOverride(override));
         }
-        configCategoryBuilder.group(
-            ConfigScreen.createSeparator()
-        );
-        configCategoryBuilder.group(
-            createOptionsForBlockOverride(BlockParticleOverride.VANILLA)
-        );
 
         return configCategoryBuilder;
     }

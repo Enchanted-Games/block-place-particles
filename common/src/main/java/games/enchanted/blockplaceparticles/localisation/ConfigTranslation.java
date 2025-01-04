@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 public class ConfigTranslation {
     private static final String CONFIG_KEY_PREFIX = ParticleInteractionsMod.MOD_ID + ".config";
 
+    public static final TranslationKey MOD_CREDITS_KEY = new TranslationKey(ParticleInteractionsMod.MOD_ID + ".mod_credits");
     public static final String GENERAL_CATEGORY = "general";
     public static final String BLOCKS_CONFIG_CATEGORY = "blocks";
     public static final String BLOCK_AMBIENT_CONFIG_CATEGORY = "block_ambient";
@@ -13,9 +14,11 @@ public class ConfigTranslation {
     public static final String ENTITY_PARTICLES_CONFIG_CATEGORY = "entity";
     public static final String FLUIDS_CONFIG_CATEGORY = "fluids";
 
-    public static final String ARE_PARTICLES_ENABLED = "is_particle_enabled";
+    public static final String IS_PARTICLE_ENABLED = "is_particle_enabled";
+    public static final String IS_PARTICLE_ENABLED_WITH_TYPE = "is_particle_enabled_with_type";
     public static final String IS_OVERRIDE_ENABLED = "is_override_enabled";
     public static final String PARTICLE_SPAWN_CHANCE = "particle_spawn_chance";
+    public static final String PARTICLE_SPAWN_CHANCE_WITH_TYPE = "particle_spawn_chance_with_type";
     public static final String MAX_PARTICLES_ON_BLOCK_PLACE = "max_particles_block_place";
     public static final String MAX_PARTICLES_ON_BLOCK_PLACE_ALONG_EDGES = "max_particles_block_place_along_edges";
     public static final String MAX_PARTICLES_ON_BLOCK_BREAK = "max_particles_block_break";
@@ -34,17 +37,26 @@ public class ConfigTranslation {
     public static final String SPAWN_PARTICLE_ON_ENTITY_HURT = "spawn_particle_on_entity_hurt";
     public static final String ENTITY_AMBIENT_PARTICLE_SPAWN_CHANCE = "entity_ambient_particle_spawn_chance";
     public static final String AMOUNT_TO_SPAWN_ON_ENTITY_HURT = "amount_to_spawn_on_entity_hurt";
+    public static final String PARTICLE_EFFECT_RENDER_DISTANCE = "particle_effect_render_distance";
+    public static final String AMOUNT_TO_SPAWN_ON_INTERACT = "amount_to_spawn_on_interact";
 
     public static final String BRUSH_PARTICLE_BEHAVIOUR = "brush_particle_behaviour";
 
     public static final String PIXEL_CONSISTENT_TERRAIN_PARTICLES = "pixel_consistent_terrain_particles";
     public static final String PARTICLE_ZFIGHTING_FIX = "particle_zfighting_fix";
+    public static final String AUTO_COLLAPSE_CONFIG_LISTS = "auto_collapse_config_lists";
+
     public static final String PARTICLE_PHYSICS_ENABLED = "particle_physics_enabled";
+
+    public static final String SPARKS_ADDITIONAL_FLASH_EFFECT = "sparks_additional_flash_effect";
+    public static final String SPARKS_WATER_EVAPORATION = "sparks_water_evaporation";
+    public static final String DUST_ADDITIONAL_SPECKS = "dust_additional_specks";
+
     public static final String TOGGLE_DEBUG_LOGS = "toggle_debug_logs";
     public static final String DEBUG_SHOW_EMITTER_BOUNDS = "debug_show_emitter_bounds";
 
     public static Component createDesc(TranslationKey translationKey) {
-        return translationKey.append(".desc").toComponent();
+        return translationKey.copy().append(".desc").toComponent();
     }
     public static Component createPlaceholder(Component component, Object... args) {
         return Component.literal(component.getString().formatted(args));
@@ -90,6 +102,10 @@ public class ConfigTranslation {
         TranslationKey append(String string) {
             this.key = this.key + string;
             return this;
+        }
+
+        TranslationKey copy() {
+            return new TranslationKey(this.key);
         }
 
         public Component toComponent() {

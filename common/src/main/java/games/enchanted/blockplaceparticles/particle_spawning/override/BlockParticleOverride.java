@@ -25,6 +25,9 @@ public class BlockParticleOverride {
     public static final int ORIGIN_ITEM_PARTICLE_OVERRIDDEN = 4;
     public static final int ORIGIN_BLOCK_BRUSHED = 5;
     public static final int ORIGIN_BLOCK_CRACK = 6;
+    public static final int ORIGIN_FALLING_BLOCK_LANDED = 7;
+    public static final int ORIGIN_FALLING_BLOCK_FALLING = 8;
+    public static final int ORIGIN_BLOCK_INTERACTED_WITH = 9;
 
     public static final BlockParticleOverride NONE = new BlockParticleOverride("none");
     public static final BlockParticleOverride VANILLA = new BlockParticleOverride(

@@ -2,13 +2,15 @@ package games.enchanted.blockplaceparticles.particle_spawning.override;
 
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
+import games.enchanted.blockplaceparticles.particle.option.TintedParticleOption;
 import games.enchanted.blockplaceparticles.util.BiomeTemperatureHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.ComparatorMode;
 
 public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride SNOW_POWDER = new BlockParticleOverride(
@@ -16,9 +18,9 @@ public abstract class BlockParticleOverrides {
         "generic_block_override",
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
             if(BiomeTemperatureHelpers.isWarmBiomeOrDimension(level, blockPos)) {
-                return level.random.nextInt(5) == 0 ? ParticleTypes.POOF : ParticleTypes.SNOWFLAKE;
+                return level.random.nextInt(5) == 0 ? ParticleTypes.POOF : ModParticleTypes.SNOWFLAKE;
             }
-            return ParticleTypes.SNOWFLAKE;
+            return ModParticleTypes.SNOWFLAKE;
         },
         () -> ConfigHandler.snowflake_Blocks,
         (val) -> ConfigHandler.snowflake_Blocks = val,
@@ -106,9 +108,27 @@ public abstract class BlockParticleOverrides {
         ConfigHandler.maxPaleLeaves_onBreak_DEFAULT,
         0.13f
     );
+    public static final BlockParticleOverride TINTED_PINE_LEAF = new BlockParticleOverride(
+        "biome_pine_leaf",
+        "tinted_or_random_pixel",
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ModParticleTypes.FALLING_TINTED_PINE_LEAF, blockState),
+        () -> ConfigHandler.tintedPineLeaves_Blocks,
+        (val) -> ConfigHandler.tintedPineLeaves_Blocks = val,
+        ConfigHandler.tintedPineLeaves_Blocks_DEFAULT,
+        () -> ConfigHandler.tintedPineLeaves_enabled,
+        (val) -> ConfigHandler.tintedPineLeaves_enabled = val,
+        ConfigHandler.tintedPineLeaves_enabled_DEFAULT,
+        () -> ConfigHandler.maxTintedPineLeaves_onPlace,
+        (val) -> ConfigHandler.maxTintedPineLeaves_onPlace = val,
+        ConfigHandler.maxTintedPineLeaves_onPlace_DEFAULT,
+        () -> ConfigHandler.maxTintedPineLeaves_onBreak,
+        (val) -> ConfigHandler.maxTintedPineLeaves_onBreak = val,
+        ConfigHandler.maxTintedPineLeaves_onBreak_DEFAULT,
+        0.13f
+    );
     public static final BlockParticleOverride TINTED_LEAF = new BlockParticleOverride(
         "biome_leaf",
-        "tinted_or_average",
+        "tinted_or_random_pixel",
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ModParticleTypes.FALLING_TINTED_LEAF, blockState),
         () -> ConfigHandler.tintedLeaves_Blocks,
         (val) -> ConfigHandler.tintedLeaves_Blocks = val,
@@ -126,7 +146,7 @@ public abstract class BlockParticleOverrides {
     );
     public static final BlockParticleOverride GRASS_BLADE = new BlockParticleOverride(
         "grass_blade",
-        "tinted_or_average",
+        "tinted_or_random_pixel",
         (int overrideOrigin) -> overrideOrigin != BlockParticleOverride.ORIGIN_ITEM_PARTICLE_OVERRIDDEN,
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
             if(
@@ -154,7 +174,7 @@ public abstract class BlockParticleOverrides {
     );
     public static final BlockParticleOverride HEAVY_GRASS_BLADE = new BlockParticleOverride(
         "heavy_grass_blade",
-        "tinted_or_average",
+        "tinted_or_random_pixel",
         (int overrideOrigin) -> overrideOrigin != BlockParticleOverride.ORIGIN_ITEM_PARTICLE_OVERRIDDEN,
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ModParticleTypes.HEAVY_GRASS_BLADE, blockState),
         () -> ConfigHandler.heavyGrassBlade_Blocks,
@@ -225,6 +245,56 @@ public abstract class BlockParticleOverrides {
         ConfigHandler.maxDust_onBreak_DEFAULT,
         0.1f
     );
+    public static final BlockParticleOverride REDSTONE_DUST = new BlockParticleOverride(
+        "redstone_dust",
+        "generic_block_override",
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
+            if(blockState.hasProperty(RedstoneTorchBlock.LIT)) {
+                return blockState.getValue(RedstoneTorchBlock.LIT) ? TintedParticleOption.REDSTONE_DUST_OPTION : TintedParticleOption.REDSTONE_DUST_UNPOWERED_OPTION;
+            }
+            else if (blockState.hasProperty(ComparatorBlock.MODE)) {
+                return blockState.getValue(ComparatorBlock.MODE) == ComparatorMode.SUBTRACT ? TintedParticleOption.REDSTONE_DUST_OPTION : TintedParticleOption.REDSTONE_DUST_UNPOWERED_OPTION;
+            }
+            else if (blockState.hasProperty(RedStoneWireBlock.POWER)) {
+                return blockState.getValue(RedStoneWireBlock.POWER) > 6 ? TintedParticleOption.REDSTONE_DUST_OPTION : TintedParticleOption.REDSTONE_DUST_UNPOWERED_OPTION;
+            }
+            else if (blockState.hasProperty(RepeaterBlock.POWERED)) {
+                return blockState.getValue(RepeaterBlock.POWERED) ? TintedParticleOption.REDSTONE_DUST_OPTION : TintedParticleOption.REDSTONE_DUST_UNPOWERED_OPTION;
+            }
+            return TintedParticleOption.REDSTONE_DUST_OPTION;
+        },
+        () -> ConfigHandler.redstoneDust_Blocks,
+        (val) -> ConfigHandler.redstoneDust_Blocks = val,
+        ConfigHandler.redstoneDust_Blocks_DEFAULT,
+        () -> ConfigHandler.redstoneDust_enabled,
+        (val) -> ConfigHandler.redstoneDust_enabled = val,
+        ConfigHandler.redstoneDust_enabled_DEFAULT,
+        () -> ConfigHandler.maxRedstoneDust_onPlace,
+        (val) -> ConfigHandler.maxRedstoneDust_onPlace = val,
+        ConfigHandler.maxRedstoneDust_onPlace_DEFAULT,
+        () -> ConfigHandler.maxRedstoneDust_onBreak,
+        (val) -> ConfigHandler.maxRedstoneDust_onBreak = val,
+        ConfigHandler.maxRedstoneDust_onBreak_DEFAULT,
+        0.06f
+    );
+    public static final BlockParticleOverride NETHER_PORTAL_SHATTER = new BlockParticleOverride(
+        "nether_portal_shatter",
+        "generic_block_override",
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ModParticleTypes.BLOCK_SHATTER, blockState),
+        () -> ConfigHandler.blockShatter_Blocks,
+        (val) -> ConfigHandler.blockShatter_Blocks = val,
+        ConfigHandler.blockShatter_Blocks_DEFAULT,
+        () -> ConfigHandler.blockShatter_enabled,
+        (val) -> ConfigHandler.blockShatter_enabled = val,
+        ConfigHandler.blockShatter_enabled_DEFAULT,
+        () -> ConfigHandler.maxBlockShatter_onPlace,
+        (val) -> ConfigHandler.maxBlockShatter_onPlace = val,
+        ConfigHandler.maxBlockShatter_onPlace_DEFAULT,
+        () -> ConfigHandler.maxBlockShatter_onBreak,
+        (val) -> ConfigHandler.maxBlockShatter_onBreak = val,
+        ConfigHandler.maxBlockShatter_onBreak_DEFAULT,
+        0.2f
+    );
 
     public static void registerOverrides() {
         BlockParticleOverride.addBlockParticleOverride(SNOW_POWDER);
@@ -232,11 +302,14 @@ public abstract class BlockParticleOverrides {
         BlockParticleOverride.addBlockParticleOverride(AZALEA_LEAF);
         BlockParticleOverride.addBlockParticleOverride(FLOWERING_AZALEA_LEAF);
         BlockParticleOverride.addBlockParticleOverride(PALE_LEAF);
+        BlockParticleOverride.addBlockParticleOverride(TINTED_PINE_LEAF);
         BlockParticleOverride.addBlockParticleOverride(TINTED_LEAF);
         BlockParticleOverride.addBlockParticleOverride(GRASS_BLADE);
         BlockParticleOverride.addBlockParticleOverride(HEAVY_GRASS_BLADE);
         BlockParticleOverride.addBlockParticleOverride(MOSS_CLUMP);
         BlockParticleOverride.addBlockParticleOverride(PALE_MOSS_CLUMP);
         BlockParticleOverride.addBlockParticleOverride(DUST);
+        BlockParticleOverride.addBlockParticleOverride(REDSTONE_DUST);
+        BlockParticleOverride.addBlockParticleOverride(NETHER_PORTAL_SHATTER);
     }
 }

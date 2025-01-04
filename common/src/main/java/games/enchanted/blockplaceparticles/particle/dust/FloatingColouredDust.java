@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class FloatingColouredDust extends FloatingDust {
+public class FloatingColouredDust extends AbstractDust {
     protected final BlockState dustBlockState;
 
     protected FloatingColouredDust(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState, SpriteSet spriteSet, float gravityMultiplier, boolean spawnSpecks) {
@@ -52,10 +52,10 @@ public class FloatingColouredDust extends FloatingDust {
         return super.getRenderType();
     }
 
-    public static class Provider implements ParticleProvider<BlockParticleOption> {
+    public static class TintedDustProvider implements ParticleProvider<BlockParticleOption> {
         private final SpriteSet spriteSet;
 
-        public Provider(SpriteSet spriteSet) {
+        public TintedDustProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
@@ -66,10 +66,10 @@ public class FloatingColouredDust extends FloatingDust {
         }
     }
 
-    public static class SpeckProvider implements ParticleProvider<BlockParticleOption>  {
+    public static class TintedDustSpeckProvider implements ParticleProvider<BlockParticleOption>  {
         private final SpriteSet spriteSet;
 
-        public SpeckProvider(SpriteSet spriteSet) {
+        public TintedDustSpeckProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 

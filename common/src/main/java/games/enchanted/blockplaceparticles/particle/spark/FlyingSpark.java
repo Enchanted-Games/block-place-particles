@@ -1,5 +1,6 @@
 package games.enchanted.blockplaceparticles.particle.spark;
 
+import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.particle.StretchyBouncyShapeParticle;
 import games.enchanted.blockplaceparticles.shapes.ShapeDefinitions;
@@ -11,6 +12,8 @@ import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.LightLayer;
 import org.jetbrains.annotations.NotNull;
@@ -19,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
 public class FlyingSpark extends StretchyBouncyShapeParticle {
     private final SpriteSet sprites;
     private boolean isSoul;
+    protected boolean hasSpawnedSmokeParticle = false;
     private static final int SPARK_UNDERWATER_DECAY_SPEED = 3;
 
     protected FlyingSpark(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float gravity, int lifetime, SpriteSet spriteSet) {
@@ -68,10 +72,26 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
 
         // spawn random spark flashes
         if(
-            this.random.nextFloat() > percentageTimeUntilDeath + 0.8f ||
-            (this.random.nextFloat() < 0.01f && this.isParticleMoving())
+            (
+                ConfigHandler.particle_sparks_additionalFlashEffects &&
+                !this.hasEnteredWater
+            )
+            &&
+            (
+                this.random.nextFloat() > percentageTimeUntilDeath + 0.8f ||
+                (this.random.nextFloat() < 0.01f && this.isParticleMoving())
+            )
         ) {
             this.level.addParticle(this.isSoul ? ModParticleTypes.SOUL_SPARK_FLASH : ModParticleTypes.SPARK_FLASH, this.prevPrevX, this.prevPrevY, this.prevPrevZ, 0, 0, 0);
+        }
+
+        if(!ConfigHandler.particle_sparks_waterEvaporation) {
+            this.hasSpawnedSmokeParticle = true;
+        }
+        if(this.hasEnteredWater && !this.hasSpawnedSmokeParticle) {
+            this.level.addParticle(ModParticleTypes.WATER_VAPOUR, this.xo, this.yo, this.zo, this.xd / 6, -this.yd / 2, this.zd / 6);
+            this.level.playLocalSound(this.xo, this.yo, this.zo, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.AMBIENT, 0.15f, 1.2f, false);
+            this.hasSpawnedSmokeParticle = true;
         }
     }
 
@@ -105,10 +125,10 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
     }
 
-    public static class LongLifeSparkProvider implements ParticleProvider<SimpleParticleType> {
+    public static class FlyingSparkProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 
-        public LongLifeSparkProvider(SpriteSet spriteSet) {
+        public FlyingSparkProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
@@ -119,10 +139,10 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         }
     }
 
-    public static class ShortLifeSparkProvider implements ParticleProvider<SimpleParticleType> {
+    public static class FloatingSparkProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 
-        public ShortLifeSparkProvider(SpriteSet spriteSet) {
+        public FloatingSparkProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
@@ -133,10 +153,10 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         }
     }
 
-    public static class LongLifeSoulSparkProvider implements ParticleProvider<SimpleParticleType> {
+    public static class FlyingSoulSparkProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 
-        public LongLifeSoulSparkProvider(SpriteSet spriteSet) {
+        public FlyingSoulSparkProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
@@ -147,10 +167,10 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         }
     }
 
-    public static class ShortLifeSoulSparkProvider implements ParticleProvider<SimpleParticleType> {
+    public static class FloatingSoulSparkProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 
-        public ShortLifeSoulSparkProvider(SpriteSet spriteSet) {
+        public FloatingSoulSparkProvider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
