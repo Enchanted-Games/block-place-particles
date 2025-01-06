@@ -3,6 +3,7 @@ package games.enchanted.blockplaceparticles.particle.shatter;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.blockplaceparticles.particle.ModParticleRenderTypes;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
+import games.enchanted.blockplaceparticles.util.RenderingUtil;
 import games.enchanted.blockplaceparticles.util.TextureHelpers;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -183,8 +184,7 @@ public abstract class AbstractShatter extends Particle {
     protected void renderVertex(VertexConsumer buffer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float u, float v, int packedLight, float scale) {
         xOffset -= 0.5f;
         yOffset -= 0.5f;
-        Vector3f vector3f = (new Vector3f(xOffset, yOffset, 0.0F)).rotate(quaternion).mul(scale).add(x, y, z);
-        buffer.addVertex(vector3f.x(), vector3f.y(), vector3f.z()).setUv(u, v).setColor(this.rCol, this.gCol, this.bCol, this.alpha).setLight(packedLight);
+        RenderingUtil.addVertexToConsumer(buffer, quaternion, x, y, z, xOffset, yOffset, scale, u, v, packedLight, this.rCol, this.gCol, this.bCol, this.alpha);
     }
 
     @Override

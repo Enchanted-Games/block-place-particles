@@ -2,6 +2,7 @@ package games.enchanted.blockplaceparticles.shapes;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
+import games.enchanted.blockplaceparticles.util.RenderingUtil;
 import org.joml.*;
 
 import java.lang.Math;
@@ -57,7 +58,7 @@ public class QuadFaceShape {
     }
 
     protected void renderVertex(VertexConsumer vertexConsumer, Vector3d vertexPos, float u, float v, int lightColor, Vector4f colour) {
-        vertexConsumer.addVertex((float) vertexPos.x, (float) vertexPos.y, (float) vertexPos.z).setUv(u, v).setColor(colour.x, colour.y, colour.z, colour.w).setLight(lightColor);
+        RenderingUtil.addVertexToConsumer(vertexConsumer, (float) vertexPos.x, (float) vertexPos.y, (float) vertexPos.z, 0, 0, 1, u, v, lightColor, colour.x, colour.y, colour.z, colour.w);
     }
 
     /**

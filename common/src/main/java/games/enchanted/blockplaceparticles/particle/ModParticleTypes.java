@@ -3,6 +3,7 @@ package games.enchanted.blockplaceparticles.particle;
 import com.mojang.serialization.MapCodec;
 import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
 import games.enchanted.blockplaceparticles.particle.bubble.UnderwaterRisingBubble;
+import games.enchanted.blockplaceparticles.particle.constant_motion.LavaPop;
 import games.enchanted.blockplaceparticles.particle.dust.BasicTintedDust;
 import games.enchanted.blockplaceparticles.particle.dust.FloatingColouredDust;
 import games.enchanted.blockplaceparticles.particle.option.ParticleEmitterOptions;
@@ -16,6 +17,7 @@ import games.enchanted.blockplaceparticles.particle.spark.SparkFlash;
 import games.enchanted.blockplaceparticles.particle.splash.BlockSplash;
 import games.enchanted.blockplaceparticles.particle.splash.ColouredBucketSplash;
 import games.enchanted.blockplaceparticles.particle.splash.LavaSplash;
+import games.enchanted.blockplaceparticles.particle.constant_motion.ConstantMotionAnimatedParticle;
 import games.enchanted.blockplaceparticles.particle.swirling.Ember;
 import games.enchanted.blockplaceparticles.particle.swirling.WaterVapour;
 import games.enchanted.blockplaceparticles.platform.Services;
@@ -73,6 +75,8 @@ public class ModParticleTypes {
     public static SimpleParticleType FLOATING_SOUL_EMBER;
     public static SimpleParticleType WATER_VAPOUR;
 
+    public static SimpleParticleType LAVA_POP;
+
     public static ParticleType<ParticleEmitterOptions> FLYING_SPARK_EMITTER;
 
     public static void registerParticles() {
@@ -111,6 +115,8 @@ public class ModParticleTypes {
         FLOATING_EMBER = register((SpriteProviderReg) Ember.EmberProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_ember"), true);
         FLOATING_SOUL_EMBER = register((SpriteProviderReg) Ember.EmberProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_soul_ember"), true);
         WATER_VAPOUR = register((SpriteProviderReg) WaterVapour.WaterVapourProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "water_vapour"), true);
+
+        LAVA_POP = register((SpriteProviderReg) LavaPop.LavaPopProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "lava_pop"), true);
 
         FLYING_SPARK_EMITTER = register((SpriteProviderReg) SparkEmitter.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flying_spark_emitter"), true, ParticleEmitterOptions::codec, ParticleEmitterOptions::streamCodec);
     }
