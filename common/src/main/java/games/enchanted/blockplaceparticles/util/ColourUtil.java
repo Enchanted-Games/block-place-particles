@@ -167,6 +167,13 @@ public class ColourUtil {
     }
 
     /**
+     * Converts a r g b values in 0-1 range to an array of a, r, g, b
+     */
+    public static int[] ARGBfloats_to_ARGB(float a, float r, float g, float b) {
+        return new int[]{(int) (a * 255), (int) (r * 255), (int) (g * 255), (int) (b * 255)};
+    }
+
+    /**
      * Randomises the value each channel seperately. The colour is randomly decreased
      *
      * @param colours the colour
