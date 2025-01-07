@@ -16,14 +16,14 @@ public class ParticleInteractionsMod {
     public static final String MOD_NAME = "Particle Interactions";
 
     public static void startOfModLoading() {
-        ParticleInteractionsLogging.message("Mod is loading on a {} environment", Services.PLATFORM.getPlatformName());
+        ParticleInteractionsLogging.info("Mod is loading on a {} environment", Services.PLATFORM.getPlatformName());
     }
 
     public static void endOfModLoading() {
         ConfigHandler.load();
         ConfigHandler.save();
         BlockParticleOverrides.registerOverrides();
-        ParticleInteractionsLogging.message("Loaded Successfully!");
+        ParticleInteractionsLogging.info("Loaded Successfully!");
     }
 
     @SuppressWarnings("unchecked")

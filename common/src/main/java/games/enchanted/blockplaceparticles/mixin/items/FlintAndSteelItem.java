@@ -32,12 +32,12 @@ public abstract class FlintAndSteelItem {
                 // placed a fire
                 BlockPos firePos = clickedPos.relative(useOnContext.getClickedFace());
                 if(BaseFireBlock.canBePlacedAt(level, firePos, useOnContext.getHorizontalDirection())) {
-                    ParticleInteractionsLogging.debugInfo("Fire placed by '" + this + "' at " + firePos.toShortString() + ". (interacted at " + clickedPos.toShortString() + ")");
+                    ParticleInteractionsLogging.interactionDebugInfo("Fire placed by '" + this + "' at " + firePos.toShortString() + ". (interacted at " + clickedPos.toShortString() + ")");
                     SpawnParticles.spawnFlintAndSteelSparkParticle(level, firePos);
                 }
             }else {
                 // lit a block
-                ParticleInteractionsLogging.debugInfo("Block lit by '" + this + "' at " + clickedPos.toShortString());
+                ParticleInteractionsLogging.interactionDebugInfo("Block lit by '" + this + "' at " + clickedPos.toShortString());
                 SpawnParticles.spawnFlintAndSteelSparkParticle(level, clickedPos);
             }
         }

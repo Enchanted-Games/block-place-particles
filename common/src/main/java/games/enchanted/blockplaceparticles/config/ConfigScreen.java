@@ -93,9 +93,14 @@ public class ConfigScreen {
                 ConfigTranslation.GENERAL_CATEGORY,
                 true,
                 ButtonOption.createBuilder()
-                    .name( ConfigTranslation.getGlobalOption(ConfigTranslation.TOGGLE_DEBUG_LOGS).toComponent() )
-                    .description( OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(ConfigTranslation.TOGGLE_DEBUG_LOGS))) )
-                    .action((yaclScreen, thisOption) -> ParticleInteractionsLogging.toggleDebugLogs())
+                    .name( ConfigTranslation.getGlobalOption(ConfigTranslation.TOGGLE_INTERACTION_DEBUG_LOGS).toComponent() )
+                    .description( OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(ConfigTranslation.TOGGLE_INTERACTION_DEBUG_LOGS))) )
+                    .action((yaclScreen, thisOption) -> ParticleInteractionsLogging.toggleInteractionDebugLogging())
+                .build(),
+                ButtonOption.createBuilder()
+                    .name( ConfigTranslation.getGlobalOption(ConfigTranslation.TOGGLE_TEXTURE_DEBUG_LOGS).toComponent() )
+                    .description( OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(ConfigTranslation.TOGGLE_TEXTURE_DEBUG_LOGS))) )
+                    .action((yaclScreen, thisOption) -> ParticleInteractionsLogging.toggleTextureDebugLogging())
                 .build(),
                 genericBooleanOption(
                     ConfigTranslation.DEBUG_SHOW_EMITTER_BOUNDS,

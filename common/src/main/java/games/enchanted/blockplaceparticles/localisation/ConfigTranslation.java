@@ -52,7 +52,8 @@ public class ConfigTranslation {
     public static final String SPARKS_WATER_EVAPORATION = "sparks_water_evaporation";
     public static final String DUST_ADDITIONAL_SPECKS = "dust_additional_specks";
 
-    public static final String TOGGLE_DEBUG_LOGS = "toggle_debug_logs";
+    public static final String TOGGLE_INTERACTION_DEBUG_LOGS = "toggle_debug_logs";
+    public static final String TOGGLE_TEXTURE_DEBUG_LOGS = "toggle_texture_debug_logs";
     public static final String DEBUG_SHOW_EMITTER_BOUNDS = "debug_show_emitter_bounds";
 
     public static Component createDesc(TranslationKey translationKey) {

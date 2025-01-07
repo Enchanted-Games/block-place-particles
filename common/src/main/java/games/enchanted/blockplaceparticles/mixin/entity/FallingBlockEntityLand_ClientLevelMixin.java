@@ -5,7 +5,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle_spawning.SpawnParticles;
-import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -53,7 +52,7 @@ public abstract class FallingBlockEntityLand_ClientLevelMixin extends Level {
 
         SpawnParticles.spawnFallingBlockLandParticles((ClientLevel) (Object) this, fallingState, fallingBlockEntity.getX(), fallingBlockEntity.getY(), fallingBlockEntity.getZ(), fallingBlockEntity.getDeltaMovement());
 
-        ParticleInteractionsLogging.debugInfo("Falling block ({}) was removed at {}", fallingBlockEntity, fallingBlockPos);
+        ParticleInteractionsLogging.interactionDebugInfo("Falling block ({}) was removed at {}", fallingBlockEntity, fallingBlockPos);
         return original.call(instance, i);
     }
 }
