@@ -1,11 +1,10 @@
 package games.enchanted.blockplaceparticles.particle.constant_motion;
 
-import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.*;
-import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.particle.TextureSheetParticle;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class ConstantMotionAnimatedParticle extends TextureSheetParticle {
     SpriteSet sprites;

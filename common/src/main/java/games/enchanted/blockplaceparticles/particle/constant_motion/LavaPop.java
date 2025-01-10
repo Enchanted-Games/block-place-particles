@@ -11,7 +11,6 @@ import net.minecraft.core.particles.SimpleParticleType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
-import org.joml.Vector3f;
 
 public class LavaPop extends ConstantMotionAnimatedParticle {
     protected LavaPop(ClientLevel level, double x, double y, double z, SpriteSet spriteSet, int lifetime, float quadSize, boolean transparency) {
@@ -34,7 +33,7 @@ public class LavaPop extends ConstantMotionAnimatedParticle {
 
     private void renderVertex(VertexConsumer buffer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, int packedLight) {
         yOffset += 1f;
-        RenderingUtil.addVertexToConsumer(buffer, quaternion, x, y, z, xOffset, yOffset, scale, u, v, packedLight);
+        RenderingUtil.addVertexToConsumer(buffer, quaternion, x, y, z, xOffset, yOffset, scale, u, v, packedLight, this.rCol, this.gCol, this.bCol, this.alpha);
     }
 
     public static class LavaPopProvider implements ParticleProvider<SimpleParticleType> {
@@ -47,7 +46,7 @@ public class LavaPop extends ConstantMotionAnimatedParticle {
         @Nullable
         @Override
         public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new LavaPop(level, x, y, z, spriteSet, MathHelpers.randomBetween(16, 20), 2/8f, false);
+            return new LavaPop(level, x, y, z, spriteSet, MathHelpers.randomBetween(26, 32), 2/8f, false);
         }
     }
 }

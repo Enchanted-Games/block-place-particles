@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.GrindstoneBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -35,7 +36,8 @@ import org.joml.Vector3f;
 
 public class SpawnParticles {
     public static void spawnBlockPlaceParticle(ClientLevel level, BlockPos blockPos, BlockState placedBlockState) {
-        if (ConfigHandler.underwaterBubbles_onPlace) spawnUnderwaterBubbles(ConfigHandler.maxUnderwaterBubbles_onPlace, level, blockPos);
+        if (ConfigHandler.underwaterBubbles_onPlace)
+            spawnUnderwaterBubbles(ConfigHandler.maxUnderwaterBubbles_onPlace, level, blockPos);
 
         int overrideOrigin = BlockParticleOverride.ORIGIN_BLOCK_PLACED;
         BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(placedBlockState, overrideOrigin);
@@ -70,7 +72,8 @@ public class SpawnParticles {
                 }
 
                 int amountOfParticlesAlongEdge = Mth.ceil(edgeLength * maxParticlesPerEdge);
-                if (amountOfParticlesAlongEdge < 1) amountOfParticlesAlongEdge = 1; // always try to spawn at least 1 particle per edge
+                if (amountOfParticlesAlongEdge < 1)
+                    amountOfParticlesAlongEdge = 1; // always try to spawn at least 1 particle per edge
 
                 for (int i = 0; i < amountOfParticlesAlongEdge; ++i) {
                     double particlePos = ((double) i + 0.5) / (double) amountOfParticlesAlongEdge;
@@ -103,7 +106,8 @@ public class SpawnParticles {
     }
 
     public static void spawnBlockBreakParticle(ClientLevel level, BlockState brokenBlockState, BlockPos brokenBlockPos, BlockParticleOverride particleOverride) {
-        if (ConfigHandler.underwaterBubbles_onBreak) spawnUnderwaterBubbles(ConfigHandler.maxUnderwaterBubbles_onBreak, level, brokenBlockPos);
+        if (ConfigHandler.underwaterBubbles_onBreak)
+            spawnUnderwaterBubbles(ConfigHandler.maxUnderwaterBubbles_onBreak, level, brokenBlockPos);
 
         if (particleOverride == BlockParticleOverride.NONE) {
             return;
@@ -174,21 +178,21 @@ public class SpawnParticles {
     }
 
     public static void spawnFallingBlockRandomFallParticles(ClientLevel level, BlockState blockState, double x, double y, double z, Vec3 deltaMovement) {
-        if(!ConfigHandler.fallingBlockEffect_enabled) return;
-        if(blockState.isAir()) return;
+        if (!ConfigHandler.fallingBlockEffect_enabled) return;
+        if (blockState.isAir()) return;
 
         int overrideOrigin = BlockParticleOverride.ORIGIN_FALLING_BLOCK_FALLING;
         BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(blockState, overrideOrigin);
 
-        if(particleOverride == BlockParticleOverride.NONE || particleOverride == BlockParticleOverride.VANILLA) return;
+        if (particleOverride == BlockParticleOverride.NONE || particleOverride == BlockParticleOverride.VANILLA) return;
 
         for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 4); i++) {
             ParticleOptions particleOptions = particleOverride.getParticleOptionForState(blockState, level, BlockPos.containing(x, y, z), overrideOrigin);
-            if(particleOptions == null) continue;
+            if (particleOptions == null) continue;
             level.addParticle(
                 particleOptions,
                 x - 0.5 + level.random.nextFloat(),
-                y       + level.random.nextFloat(),
+                y + level.random.nextFloat(),
                 z - 0.5 + level.random.nextFloat(),
                 (deltaMovement.x * 3) * -particleOverride.getParticleVelocityMultiplier(),
                 (deltaMovement.y * 3) * -particleOverride.getParticleVelocityMultiplier(),
@@ -198,12 +202,12 @@ public class SpawnParticles {
     }
 
     public static void spawnFallingBlockLandParticles(ClientLevel level, BlockState blockState, double x, double y, double z, Vec3 deltaMovement) {
-        if(!ConfigHandler.fallingBlockEffect_enabled) return;
+        if (!ConfigHandler.fallingBlockEffect_enabled) return;
 
         int overrideOrigin = BlockParticleOverride.ORIGIN_FALLING_BLOCK_LANDED;
         BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(blockState, overrideOrigin);
 
-        if(particleOverride == BlockParticleOverride.NONE) return;
+        if (particleOverride == BlockParticleOverride.NONE) return;
 
         BlockPos blockPos = BlockPos.containing(x, y, z);
         double movementSpeed = deltaMovement.length();
@@ -303,7 +307,7 @@ public class SpawnParticles {
                 }
             }
         }
-        if(ConfigHandler.campfireEmber_enabled) {
+        if (ConfigHandler.campfireEmber_enabled) {
             if (level.random.nextFloat() * 101 <= ConfigHandler.campfireEmber_spawnChance) {
                 for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 4); i++) {
                     level.addParticle(
@@ -339,7 +343,7 @@ public class SpawnParticles {
                 }
             }
         }
-        if(ConfigHandler.fireEmber_enabled) {
+        if (ConfigHandler.fireEmber_enabled) {
             if (level.random.nextFloat() * 101 <= ConfigHandler.fireEmber_spawnChance) {
                 for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 4); i++) {
                     level.addParticle(
@@ -606,7 +610,7 @@ public class SpawnParticles {
     }
 
     public static void spawnBlazeHurtParticles(ClientLevel level, double x, double y, double z) {
-        if(!ConfigHandler.blaze_spawnOnHurt) return;
+        if (!ConfigHandler.blaze_spawnOnHurt) return;
         for (int i = 0; i < level.random.nextIntBetweenInclusive(
             ConfigHandler.blaze_amountToSpawnOnHurt <= 1 ? 1 : ConfigHandler.blaze_amountToSpawnOnHurt - 1,
             ConfigHandler.blaze_amountToSpawnOnHurt + 2
@@ -625,7 +629,7 @@ public class SpawnParticles {
             double particleY = interactionY + MathHelpers.randomBetween(-spreadY / 2, spreadY / 2);
             double particleZ = interactionZ + MathHelpers.randomBetween(-spreadZ / 2, spreadZ / 2);
             ParticleOptions particleOptions = BlockParticleOverrides.REDSTONE_DUST.getParticleOptionForState(blockState, level, pos, BlockParticleOverride.ORIGIN_BLOCK_INTERACTED_WITH);
-            if(particleOptions == null) continue;
+            if (particleOptions == null) continue;
             level.addParticle(
                 particleOptions,
                 particleX,
@@ -635,6 +639,15 @@ public class SpawnParticles {
                 0.2f,
                 MathHelpers.randomBetween(-0.05f, 0.05f)
             );
+        }
+    }
+
+    public static void spawnLavaBubblePopParticles(ClientLevel level, BlockPos fluidPos, FluidState fluidState) {
+        if (level.random.nextFloat() < (float) 20 / 2500) {
+            double d0 = (double)fluidPos.getX() + level.random.nextDouble();
+            double d1 = (double)fluidPos.getY() + 0.95;
+            double d2 = (double)fluidPos.getZ() + level.random.nextDouble();
+            level.addParticle(ModParticleTypes.LAVA_POP, d0, d1, d2, 0.0f, 0.0f, 0.0f);
         }
     }
 }

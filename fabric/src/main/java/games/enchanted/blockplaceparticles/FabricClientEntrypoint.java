@@ -2,9 +2,7 @@ package games.enchanted.blockplaceparticles;
 
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.resource.ClientResourceReload;
-import games.enchanted.blockplaceparticles.util.ColourUtil;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.resources.ResourceLocation;
