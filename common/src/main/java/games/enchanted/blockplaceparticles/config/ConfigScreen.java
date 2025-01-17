@@ -325,12 +325,12 @@ public class ConfigScreen {
             ))
         .build());
 
-        // fluid config category
+        // fluid placement config category
         yaclBuilder.category( ConfigCategory.createBuilder()
             .name(ConfigTranslation.getCategoryName(ConfigTranslation.FLUIDS_CONFIG_CATEGORY).toComponent())
             .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.FLUIDS_CONFIG_CATEGORY)))
 
-            // fluid config info
+            // fluid placement config info
             .group(OptionGroup.createBuilder()
                 .name( ConfigTranslation.getGroupName(ConfigTranslation.FLUIDS_CONFIG_CATEGORY, "info").toComponent() )
                 .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.FLUIDS_CONFIG_CATEGORY, "info")) ))
@@ -390,6 +390,30 @@ public class ConfigScreen {
                 ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
                 ConfigHandler.genericSplash_fluids_DEFAULT, () -> ConfigHandler.genericSplash_fluids, newVal -> ConfigHandler.genericSplash_fluids = newVal
             ))
+        .build());
+
+        // fluid ambient config category
+        yaclBuilder.category( ConfigCategory.createBuilder()
+            .name(ConfigTranslation.getCategoryName(ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY).toComponent())
+            .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY)))
+
+            // fluid ambient config info
+            .group(OptionGroup.createBuilder()
+                .name( ConfigTranslation.getGroupName(ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY, "info").toComponent() )
+                .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY, "info")) ))
+                .collapsed(true)
+                .option(LabelOption.createBuilder().line(Component.empty()).build())
+            .build())
+
+            // lava bubble pop
+            .group( createMultipleOptionsConfigGroup(
+                "lava_bubble_pop",
+                "lava_bubble_pop",
+                ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY,
+                booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "lava_bubble_pop", Binding.generic(ConfigHandler.lavaBubblePop_enabled_DEFAULT, () -> ConfigHandler.lavaBubblePop_enabled, newVal -> ConfigHandler.lavaBubblePop_enabled = newVal)),
+                integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE_WITH_TYPE, "lava_bubble_pop", ConfigHandler.lavaBubblePop_spawnChance_DEFAULT, () -> ConfigHandler.lavaBubblePop_spawnChance, newVal -> ConfigHandler.lavaBubblePop_spawnChance = newVal, 1, 100, 1)
+            ))
+
         .build());
 
         return yaclBuilder.build();

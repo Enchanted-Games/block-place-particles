@@ -44,6 +44,8 @@
   "eg_particle_interactions.config.particle_type.lava_splash": "Lava Splash",
   "eg_particle_interactions.config.particle_type.generic_splash": "Generic Splash",
 
+  "eg_particle_interactions.config.particle_type.lava_bubble_pop": "Lava Bubble Pop",
+
 
   "eg_particle_interactions.config.global_option.spawn_block_particle_on_place": "Spawn when block placed",
   "eg_particle_interactions.config.global_option.spawn_block_particle_on_place.desc": "Should %s particles spawn when a block is placed?",
@@ -255,6 +257,16 @@
   "eg_particle_interactions.config.fluids.generic_splash.desc": "When should %s particles be emitted?\n\nThese particles are intended for modded fluids that don't fit the options above. It will use the texture of the fluid instead of a splash texture, similar to vanilla block breaking particles",
   "eg_particle_interactions.config.fluids.generic_splash_fluids": "%s Fluids",
   "eg_particle_interactions.config.fluids.generic_splash_fluids.desc": "Fluids that should spawn %s particles when placed",
+
+
+  "eg_particle_interactions.config.fluid_ambient": "Fluid Ambient",
+  "eg_particle_interactions.config.fluid_ambient.desc": "Configure how particles are emitted from fluids in the world",
+  "eg_particle_interactions.config.fluid_ambient.info": "Fluid Ambient Information",
+  "eg_particle_interactions.config.fluid_ambient.info.desc": "Configure how particles are emitted from fluids in the world",
+
+  "eg_particle_interactions.config.fluid_ambient.lava_bubble_pop": "%s Particle Options",
+  "eg_particle_interactions.config.fluid_ambient.lava_bubble_pop.desc": "Configure if %s particles should be emitted from lava source blocks and the chance for them to spawn",
+
 
   "eg_particle_interactions.config.global_option.spawn_fluid_particle_on_place": "Spawn when fluid placed",
   "eg_particle_interactions.config.global_option.spawn_fluid_particle_on_place.desc": "Should %s particles spawn when a fluid is placed?",

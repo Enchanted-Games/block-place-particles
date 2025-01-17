@@ -614,4 +614,15 @@ public class ConfigHandler {
     public static final boolean shovelFlatten_onUse_DEFAULT = true;
     @SerialEntry
     public static boolean shovelFlatten_onUse = shovelFlatten_onUse_DEFAULT;
+
+    // fluid ambient
+    // lava bubble pop particles
+    public static final boolean lavaBubblePop_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean lavaBubblePop_enabled = lavaBubblePop_enabled_DEFAULT;
+
+    public static final int lavaBubblePop_spawnChance_DEFAULT = 20;
+    @SerialEntry
+    public static int lavaBubblePop_spawnChance = lavaBubblePop_spawnChance_DEFAULT;
+
 }

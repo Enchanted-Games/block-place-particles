@@ -13,6 +13,7 @@ public class ConfigTranslation {
     public static final String ITEMS_CONFIG_CATEGORY = "items";
     public static final String ENTITY_PARTICLES_CONFIG_CATEGORY = "entity";
     public static final String FLUIDS_CONFIG_CATEGORY = "fluids";
+    public static final String FLUID_AMBIENT_CONFIG_CATEGORY = "fluid_ambient";
 
     public static final String IS_PARTICLE_ENABLED = "is_particle_enabled";
     public static final String IS_PARTICLE_ENABLED_WITH_TYPE = "is_particle_enabled_with_type";
