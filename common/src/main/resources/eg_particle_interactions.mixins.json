@@ -19,6 +19,7 @@
     "blocks.ComparatorBlock",
     "blocks.RedstoneWireBlock",
     "blocks.RepeaterBlock",
+    "blocks.SeagrassBlock",
     "blocks.TntBlock",
     "entity.AbstractMinecartMixin",
     "entity.Blaze",

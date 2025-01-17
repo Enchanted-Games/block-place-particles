@@ -6,18 +6,18 @@ import games.enchanted.blockplaceparticles.particle.bubble.UnderwaterRisingBubbl
 import games.enchanted.blockplaceparticles.particle.constant_motion.LavaPop;
 import games.enchanted.blockplaceparticles.particle.dust.BasicTintedDust;
 import games.enchanted.blockplaceparticles.particle.dust.FloatingColouredDust;
+import games.enchanted.blockplaceparticles.particle.emitter.UnderwaterBubbleEmitter;
 import games.enchanted.blockplaceparticles.particle.option.ParticleEmitterOptions;
 import games.enchanted.blockplaceparticles.particle.option.TintedParticleOption;
 import games.enchanted.blockplaceparticles.particle.petal.FallingColouredPetal;
 import games.enchanted.blockplaceparticles.particle.petal.FallingPetal;
 import games.enchanted.blockplaceparticles.particle.shatter.BlockShatter;
 import games.enchanted.blockplaceparticles.particle.spark.FlyingSpark;
-import games.enchanted.blockplaceparticles.particle.spark.SparkEmitter;
+import games.enchanted.blockplaceparticles.particle.emitter.SparkEmitter;
 import games.enchanted.blockplaceparticles.particle.spark.SparkFlash;
 import games.enchanted.blockplaceparticles.particle.splash.BlockSplash;
 import games.enchanted.blockplaceparticles.particle.splash.ColouredBucketSplash;
 import games.enchanted.blockplaceparticles.particle.splash.LavaSplash;
-import games.enchanted.blockplaceparticles.particle.constant_motion.ConstantMotionAnimatedParticle;
 import games.enchanted.blockplaceparticles.particle.swirling.Ember;
 import games.enchanted.blockplaceparticles.particle.swirling.WaterVapour;
 import games.enchanted.blockplaceparticles.platform.Services;
@@ -70,6 +70,7 @@ public class ModParticleTypes {
     public static SimpleParticleType SOUL_SPARK_FLASH;
 
     public static SimpleParticleType UNDERWATER_RISING_BUBBLE;
+    public static SimpleParticleType UNDERWATER_RISING_BUBBLE_SMALL;
 
     public static SimpleParticleType FLOATING_EMBER;
     public static SimpleParticleType FLOATING_SOUL_EMBER;
@@ -78,6 +79,7 @@ public class ModParticleTypes {
     public static SimpleParticleType LAVA_POP;
 
     public static ParticleType<ParticleEmitterOptions> FLYING_SPARK_EMITTER;
+    public static ParticleType<ParticleEmitterOptions> UNDERWATER_RISING_BUBBLE_SMALL_EMITTER;
 
     public static void registerParticles() {
         SNOWFLAKE = register((SpriteProviderReg) FallingPetal.SnowflakeProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "snowflake"), false);
@@ -111,6 +113,7 @@ public class ModParticleTypes {
         SOUL_SPARK_FLASH = register((SpriteProviderReg) SparkFlash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "soul_spark_flash"), false);
 
         UNDERWATER_RISING_BUBBLE = register((SpriteProviderReg) UnderwaterRisingBubble.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "underwater_rising_bubble"), false);
+        UNDERWATER_RISING_BUBBLE_SMALL = register((SpriteProviderReg) UnderwaterRisingBubble.SmallProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "underwater_rising_bubble_small"), false);
 
         FLOATING_EMBER = register((SpriteProviderReg) Ember.EmberProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_ember"), true);
         FLOATING_SOUL_EMBER = register((SpriteProviderReg) Ember.EmberProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_soul_ember"), true);
@@ -119,6 +122,7 @@ public class ModParticleTypes {
         LAVA_POP = register((SpriteProviderReg) LavaPop.LavaPopProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "lava_pop"), true);
 
         FLYING_SPARK_EMITTER = register((SpriteProviderReg) SparkEmitter.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flying_spark_emitter"), true, ParticleEmitterOptions::codec, ParticleEmitterOptions::streamCodec);
+        UNDERWATER_RISING_BUBBLE_SMALL_EMITTER = register((SpriteProviderReg) UnderwaterBubbleEmitter.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "underwater_rising_bubble_small_emitter"), true, ParticleEmitterOptions::codec, ParticleEmitterOptions::streamCodec);
     }
 
     private static SimpleParticleType register(SpriteProviderReg<SimpleParticleType> provider, ResourceLocation particleID, boolean alwaysShow) {

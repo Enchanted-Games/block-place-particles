@@ -3,6 +3,7 @@ package games.enchanted.blockplaceparticles.particle_spawning;
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.config.type.BrushParticleBehaviour;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
+import games.enchanted.blockplaceparticles.particle.emitter.UnderwaterBubbleEmitter;
 import games.enchanted.blockplaceparticles.particle.option.ParticleEmitterOptions;
 import games.enchanted.blockplaceparticles.particle.option.TintedParticleOption;
 import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
@@ -15,6 +16,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
@@ -477,9 +479,7 @@ public class SpawnParticles {
             3,
             7,
             1,
-            0.25f,
-            0,
-            0.25f
+            new Vector3f(0.25f, 0, 0.25f)
         );
         SpawnParticlesUtil.spawnParticleInCircle(
             emitter,
@@ -560,9 +560,7 @@ public class SpawnParticles {
             ConfigHandler.maxGrindstoneUseSparks_onUse < 6 ? ConfigHandler.maxGrindstoneUseSparks_onUse : 6,
             1,
             (int) Math.ceil((double) ConfigHandler.maxGrindstoneUseSparks_onUse / 6),
-            width,
-            height,
-            depth
+            new Vector3f(width, height, depth)
         );
     }
 
@@ -643,12 +641,28 @@ public class SpawnParticles {
     }
 
     public static void spawnLavaBubblePopParticles(ClientLevel level, BlockPos fluidPos, FluidState fluidState) {
-        if(!ConfigHandler.lavaBubblePop_enabled) return;
+        if (!ConfigHandler.lavaBubblePop_enabled) return;
         if (level.random.nextFloat() < (float) ConfigHandler.lavaBubblePop_spawnChance / 2500) {
-            double d0 = (double)fluidPos.getX() + level.random.nextDouble();
-            double d1 = (double)fluidPos.getY() + 0.95;
-            double d2 = (double)fluidPos.getZ() + level.random.nextDouble();
+            double d0 = (double) fluidPos.getX() + level.random.nextDouble();
+            double d1 = (double) fluidPos.getY() + 0.95;
+            double d2 = (double) fluidPos.getZ() + level.random.nextDouble();
             level.addParticle(ModParticleTypes.LAVA_POP, d0, d1, d2, 0.0f, 0.0f, 0.0f);
+        }
+    }
+
+    public static void spawnRandomUnderwaterBubbleStreams(ClientLevel level, BlockPos blockPos, BlockState blockState) {
+        if (!ConfigHandler.lavaBubblePop_enabled) return;
+        if (level.random.nextFloat() < (float) ConfigHandler.lavaBubblePop_spawnChance / 2500) {
+            double d0 = (double) blockPos.getX() + level.random.nextDouble();
+            double d1 = (double) blockPos.getY() + level.random.nextDouble();
+            double d2 = (double) blockPos.getZ() + level.random.nextDouble();
+            ParticleEmitterOptions emitter = new ParticleEmitterOptions(
+                ModParticleTypes.UNDERWATER_RISING_BUBBLE_SMALL_EMITTER,
+                MathHelpers.randomBetween(9, 30),
+                MathHelpers.randomBetween(2, 4),
+                1
+            );
+            level.addParticle(emitter, d0, d1, d2, 0.0f, 0.0f, 0.0f);
         }
     }
 }
