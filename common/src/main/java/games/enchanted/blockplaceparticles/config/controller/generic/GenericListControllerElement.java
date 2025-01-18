@@ -4,17 +4,17 @@ import dev.isxander.yacl3.api.utils.Dimension;
 import dev.isxander.yacl3.gui.YACLScreen;
 import dev.isxander.yacl3.gui.controllers.dropdown.AbstractDropdownController;
 import dev.isxander.yacl3.gui.controllers.dropdown.AbstractDropdownControllerElement;
-import dev.isxander.yacl3.gui.controllers.dropdown.DropdownWidget;
 import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
 import games.enchanted.blockplaceparticles.mixin.accessor.yacl.DropdownWidgetAccessor;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -68,6 +68,31 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
     }
 
     @Override
+    protected void drawHoveredControl(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+        super.drawHoveredControl(graphics, mouseX, mouseY, delta);
+
+        Component text = this.getHoverTooltipText();
+        if(text == null) return;
+        Dimension<Integer> dimension = this.getDimension();
+
+        graphics.renderTooltip(Minecraft.getInstance().font, text, dimension.x(), dimension.y());
+    }
+
+    public @Nullable Component getHoverTooltipText() {
+        if(this.currentItem == null) return null;
+
+        String[] seperatedString = this.currentItem.toString().split(":");
+        if(seperatedString.length == 1) return Component.literal(seperatedString[0]);
+
+        return Component.empty()
+        .append(
+            Component.literal(seperatedString[0] + ":").withColor(0xbababa)
+        ).append(
+            Component.literal(seperatedString[1])
+        );
+    }
+
+    @Override
     public boolean charTyped(char chr, int modifiers) {
         if(this.dropdownWidget != null) {
             ((DropdownWidgetAccessor) this.dropdownWidget).setFirstVisibleIndex(0);
@@ -117,11 +142,13 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
 
     @Override
     protected Component getValueText() {
-        if (inputField.isEmpty() || controller == null)
+        if (inputField.isEmpty() || controller == null) {
             return super.getValueText();
+        }
 
-        if (inputFieldFocused)
+        if (inputFieldFocused) {
             return Component.literal(inputField);
+        }
 
         return getRenderedValueText();
     }
