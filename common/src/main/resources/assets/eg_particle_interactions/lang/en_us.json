@@ -45,6 +45,7 @@
   "eg_particle_interactions.config.particle_type.generic_splash": "Generic Splash",
 
   "eg_particle_interactions.config.particle_type.lava_bubble_pop": "Lava Bubble Pop",
+  "eg_particle_interactions.config.particle_type.underwater_bubble_streams": "Underwater Bubble Stream",
 
 
   "eg_particle_interactions.config.global_option.spawn_block_particle_on_place": "Spawn when block placed",
@@ -266,6 +267,9 @@
 
   "eg_particle_interactions.config.fluid_ambient.lava_bubble_pop": "%s Particle Options",
   "eg_particle_interactions.config.fluid_ambient.lava_bubble_pop.desc": "Configure if %s particles should be emitted from lava source blocks and the chance for them to spawn",
+
+  "eg_particle_interactions.config.fluid_ambient.underwater_bubble_streams": "%s Particle Options",
+  "eg_particle_interactions.config.fluid_ambient.underwater_bubble_streams.desc": "Configure if %s particles should be spawned underwater and the chance for them to spawn.\nThese particles only spawn from seagrass (and similar blocks)",
 
 
   "eg_particle_interactions.config.global_option.spawn_fluid_particle_on_place": "Spawn when fluid placed",

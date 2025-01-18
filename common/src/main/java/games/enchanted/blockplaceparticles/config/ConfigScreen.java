@@ -414,6 +414,15 @@ public class ConfigScreen {
                 integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE_WITH_TYPE, "lava_bubble_pop", ConfigHandler.lavaBubblePop_spawnChance_DEFAULT, () -> ConfigHandler.lavaBubblePop_spawnChance, newVal -> ConfigHandler.lavaBubblePop_spawnChance = newVal, 1, 100, 1)
             ))
 
+            // underwater bubble streams
+            .group( createMultipleOptionsConfigGroup(
+                "underwater_bubble_streams",
+                "underwater_bubble_streams",
+                ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY,
+                booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "underwater_bubble_streams", Binding.generic(ConfigHandler.underwaterBubbleStreams_enabled_DEFAULT, () -> ConfigHandler.underwaterBubbleStreams_enabled, newVal -> ConfigHandler.underwaterBubbleStreams_enabled = newVal)),
+                integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE_WITH_TYPE, "underwater_bubble_streams", ConfigHandler.underwaterBubbleStreams_spawnChance_DEFAULT, () -> ConfigHandler.underwaterBubbleStreams_spawnChance, newVal -> ConfigHandler.underwaterBubbleStreams_spawnChance = newVal, 1, 100, 1)
+            ))
+
         .build());
 
         return yaclBuilder.build();

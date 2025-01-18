@@ -625,4 +625,13 @@ public class ConfigHandler {
     @SerialEntry
     public static int lavaBubblePop_spawnChance = lavaBubblePop_spawnChance_DEFAULT;
 
+    // underwater bubble streams
+    public static final boolean underwaterBubbleStreams_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean underwaterBubbleStreams_enabled = underwaterBubbleStreams_enabled_DEFAULT;
+
+    public static final int underwaterBubbleStreams_spawnChance_DEFAULT = 15;
+    @SerialEntry
+    public static int underwaterBubbleStreams_spawnChance = underwaterBubbleStreams_spawnChance_DEFAULT;
+
 }

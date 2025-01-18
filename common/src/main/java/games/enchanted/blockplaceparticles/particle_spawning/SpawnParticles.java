@@ -651,8 +651,8 @@ public class SpawnParticles {
     }
 
     public static void spawnRandomUnderwaterBubbleStreams(ClientLevel level, BlockPos blockPos, BlockState blockState) {
-        if (!ConfigHandler.lavaBubblePop_enabled) return;
-        if (level.random.nextFloat() < (float) ConfigHandler.lavaBubblePop_spawnChance / 2500) {
+        if (!ConfigHandler.underwaterBubbleStreams_enabled) return;
+        if (level.random.nextFloat() < (float) ConfigHandler.underwaterBubbleStreams_spawnChance / 2500) {
             double d0 = (double) blockPos.getX() + level.random.nextDouble();
             double d1 = (double) blockPos.getY() + level.random.nextDouble();
             double d2 = (double) blockPos.getZ() + level.random.nextDouble();
