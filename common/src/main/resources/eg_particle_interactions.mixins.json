@@ -26,6 +26,7 @@
     "entity.BlazeDamage_EntityMixin",
     "entity.FallingBlockEntity",
     "entity.FallingBlockEntityLand_ClientLevelMixin",
+    "entity.LocalPlayer_EntityMixin",
     "fluids.LavaFluid",
     "items.BlockItem",
     "items.BrushItem",

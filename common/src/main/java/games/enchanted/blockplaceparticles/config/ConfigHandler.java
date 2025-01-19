@@ -453,6 +453,14 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean fireEmber_enabled = fireEmber_enabled_DEFAULT;
 
+    // block disturbance particles
+    public static final List<ResourceLocation> blockDisturbance_Blocks_DEFAULT = List.of(
+        RegistryHelpers.getLocationFromBlock(Blocks.SHORT_GRASS),
+        RegistryHelpers.getLocationFromBlock(Blocks.COBWEB)
+    );
+    @SerialEntry
+    public static List<ResourceLocation> blockDisturbance_Blocks = blockDisturbance_Blocks_DEFAULT;
+
     // anvil use sparks
     public static final int maxAnvilUseSparks_onUse_DEFAULT = 18;
     @SerialEntry

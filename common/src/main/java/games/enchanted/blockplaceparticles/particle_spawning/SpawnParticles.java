@@ -3,7 +3,6 @@ package games.enchanted.blockplaceparticles.particle_spawning;
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.config.type.BrushParticleBehaviour;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
-import games.enchanted.blockplaceparticles.particle.emitter.UnderwaterBubbleEmitter;
 import games.enchanted.blockplaceparticles.particle.option.ParticleEmitterOptions;
 import games.enchanted.blockplaceparticles.particle.option.TintedParticleOption;
 import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
@@ -11,13 +10,14 @@ import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParti
 import games.enchanted.blockplaceparticles.particle_spawning.override.FluidPlacementParticle;
 import games.enchanted.blockplaceparticles.util.FluidHelpers;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
+import games.enchanted.blockplaceparticles.util.RegistryHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
@@ -663,6 +663,44 @@ public class SpawnParticles {
                 1
             );
             level.addParticle(emitter, d0, d1, d2, 0.0f, 0.0f, 0.0f);
+        }
+    }
+
+    public static void spawnBlockDisturbanceParticles(ClientLevel level, BlockPos blockPos, BlockState blockState, double entityX, double entityY, double entityZ, Vec3 deltaMovement, boolean isSprinting) {
+        double speed = deltaMovement.length();
+        if(speed <= 0.1 && !isSprinting) return;
+
+        ResourceLocation blockLocation = RegistryHelpers.getLocationFromBlock(blockState.getBlock());
+        if(!ConfigHandler.blockDisturbance_Blocks.contains(blockLocation)) return;
+
+        int overrideOrigin = BlockParticleOverride.ORIGIN_BLOCK_WALKED_THROUGH;
+
+        int particlesAmount =  (speed < 0.16 || !isSprinting ? 1 : 20);
+
+        for (int i = 0; i < particlesAmount; i++) {
+            double particleX = entityX + ((level.random.nextFloat() * 0.5) - 0.25);
+            double particleY = entityY + 0.35 + ((level.random.nextFloat() * 0.5) - 0.25);
+            double particleZ = entityZ + ((level.random.nextFloat() * 0.5) - 0.25);
+
+            // skip spawning if the particle is out of the block bounds
+            BlockPos entityBlockPos = BlockPos.containing(particleX, blockPos.getY(), particleZ);
+            if(level.getBlockState(entityBlockPos).isAir()) continue;
+
+            BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(blockState, overrideOrigin);
+            if (particleOverride == BlockParticleOverride.NONE) continue;
+
+            ParticleOptions particleToSpawn = particleOverride.getParticleOptionForState(blockState, level, blockPos, overrideOrigin);
+            if(particleToSpawn == null) continue;
+
+            level.addParticle(
+                particleToSpawn,
+                particleX,
+                particleY,
+                particleZ,
+                deltaMovement.x * 3 * particleOverride.getParticleVelocityMultiplier(),
+                deltaMovement.y * 3 * particleOverride.getParticleVelocityMultiplier() + 0.05,
+                deltaMovement.z * 3 * particleOverride.getParticleVelocityMultiplier()
+            );
         }
     }
 }
