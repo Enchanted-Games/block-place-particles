@@ -1,9 +1,13 @@
-package games.enchanted.blockplaceparticles.util;
+package games.enchanted.blockplaceparticles.registry;
 
 import net.minecraft.ResourceLocationException;
 import net.minecraft.core.DefaultedRegistry;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
@@ -76,6 +80,26 @@ public class RegistryHelpers {
         return fallback;
     }
 
+    public static BlockLocation validateBlockOrTagLocationWithFallback(String location, BlockLocation fallback) {
+        try {
+            if(location.startsWith("#")) {
+                return new BlockLocation(ResourceLocation.parse(location.replace("#", "").toLowerCase()), true);
+            }
+
+            ResourceLocation blockLocation = ResourceLocation.parse(location.toLowerCase());
+            Optional<Block> blockFromLoc = BuiltInRegistries.BLOCK.getOptional(blockLocation);
+            if(blockFromLoc.isEmpty()) {
+                return fallback;
+            }
+            if(blockFromLoc.get().defaultBlockState().isAir()) {
+                return fallback;
+            }
+            return new BlockLocation(blockLocation);
+        } catch (ResourceLocationException ignored) {}
+
+        return fallback;
+    }
+
     public static ResourceLocation validateFluidLocationWithFallback(String location, ResourceLocation fallback) {
         try {
             ResourceLocation fluidLocation = ResourceLocation.parse(location.toLowerCase());
@@ -91,8 +115,19 @@ public class RegistryHelpers {
         return fallback;
     }
 
+    public static boolean isBlockInTag(ResourceLocation blockLocation, TagKey<Block> tagKey) {
+        Optional<HolderSet.Named<Block>> tagHolder = BuiltInRegistries.BLOCK.get(tagKey);
+        if(tagHolder.isEmpty()) return false;
+
+        Holder<Block> blockHolder = getBlockHolderFromLocation(blockLocation);
+        return tagHolder.get().contains(blockHolder);
+    }
+
     public static ResourceLocation getLocationFromBlock(Block block) {
         return BuiltInRegistries.BLOCK.getKey(block);
+    }
+    public static BlockLocation getBlockOrTagLocationFromBlock(Block block) {
+        return new BlockLocation(getLocationFromBlock(block));
     }
     public static Block getBlockFromLocation(ResourceLocation location) {
         return BuiltInRegistries.BLOCK.getValue(location);
@@ -102,5 +137,12 @@ public class RegistryHelpers {
     }
     public static Fluid getFluidFromLocation(ResourceLocation location) {
         return BuiltInRegistries.FLUID.getValue(location);
+    }
+
+    public static Holder<Block> getBlockHolderFromLocation(ResourceLocation location) {
+        return BuiltInRegistries.BLOCK.wrapAsHolder(getBlockFromLocation(location));
+    }
+    public static TagKey<Block> getBlockTagKey(ResourceLocation tagLocation) {
+        return TagKey.create(Registries.BLOCK, tagLocation);
     }
 }

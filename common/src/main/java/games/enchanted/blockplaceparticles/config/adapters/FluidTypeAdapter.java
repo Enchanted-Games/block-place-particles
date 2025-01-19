@@ -1,7 +1,7 @@
 package games.enchanted.blockplaceparticles.config.adapters;
 
 import com.google.gson.*;
-import games.enchanted.blockplaceparticles.util.RegistryHelpers;
+import games.enchanted.blockplaceparticles.registry.RegistryHelpers;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 

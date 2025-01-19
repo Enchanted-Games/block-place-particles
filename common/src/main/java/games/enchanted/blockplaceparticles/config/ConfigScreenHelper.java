@@ -4,8 +4,8 @@ import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
 import games.enchanted.blockplaceparticles.localisation.ConfigTranslation;
 import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
+import games.enchanted.blockplaceparticles.registry.BlockLocation;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 
 public class ConfigScreenHelper {
     public static ConfigCategory.Builder createBlockParticleOverrideConfigWidgets(ConfigCategory.Builder configCategoryBuilder) {
@@ -38,7 +38,7 @@ public class ConfigScreenHelper {
 
         return ConfigScreen.createMultipleOptionsConfigGroup(override.getName(), override.getGroupName(), ConfigTranslation.BLOCKS_CONFIG_CATEGORY, overrideEnabled, maxParticlesOnPlaceOption, maxParticlesOnBreakOption);
     }
-    public static ListOption<ResourceLocation> createBlockListForBlockOverride(BlockParticleOverride override) {
+    public static ListOption<BlockLocation> createBlockListForBlockOverride(BlockParticleOverride override) {
         return ConfigScreen.createBlockLocationListOption(
             override.getName(),
             override.getGroupName() + "_blocks",

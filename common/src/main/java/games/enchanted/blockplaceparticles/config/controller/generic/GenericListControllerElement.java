@@ -17,10 +17,9 @@ import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public abstract class GenericListControllerElement<T, R extends AbstractDropdownController<T>> extends AbstractDropdownControllerElement<T, ResourceLocation> {
+public abstract class GenericListControllerElement<T, R extends AbstractDropdownController<T>> extends AbstractDropdownControllerElement<T, T> {
     private static final ResourceLocation MISSING_ITEM_ICON_SPRITE = ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "missing_item_icon");
 
     private final R controller;
@@ -49,10 +48,7 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
     }
 
     @Override
-    public abstract List<ResourceLocation> computeMatchingValues();
-
-    @Override
-    protected void renderDropdownEntry(GuiGraphics graphics, Dimension<Integer> entryDimension, ResourceLocation identifier) {
+    protected void renderDropdownEntry(GuiGraphics graphics, Dimension<Integer> entryDimension, T identifier) {
         T item = matchingItems.get(identifier);
         if(item == null) return;
         super.renderDropdownEntry(graphics, entryDimension, identifier);
@@ -102,8 +98,8 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
     }
 
     @Override
-    public String getString(ResourceLocation identifier) {
-        return identifier.toString();
+    public String getString(T val) {
+        return val.toString();
     }
 
     @Override

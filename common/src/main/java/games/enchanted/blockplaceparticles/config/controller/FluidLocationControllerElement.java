@@ -3,7 +3,7 @@ package games.enchanted.blockplaceparticles.config.controller;
 import dev.isxander.yacl3.api.utils.Dimension;
 import dev.isxander.yacl3.gui.YACLScreen;
 import games.enchanted.blockplaceparticles.config.controller.generic.GenericListControllerElement;
-import games.enchanted.blockplaceparticles.util.RegistryHelpers;
+import games.enchanted.blockplaceparticles.registry.RegistryHelpers;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

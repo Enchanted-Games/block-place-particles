@@ -5,7 +5,6 @@ import dev.isxander.yacl3.api.utils.Dimension;
 import dev.isxander.yacl3.gui.AbstractWidget;
 import dev.isxander.yacl3.gui.YACLScreen;
 import dev.isxander.yacl3.gui.controllers.dropdown.AbstractDropdownController;
-import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
@@ -39,7 +38,8 @@ public abstract class AbstractFixedDropdownController<T> extends AbstractDropdow
     }
 
     protected String getValueFromDropdown(int offset) {
-        List<ResourceLocation> matchingValues = getWidget().computeMatchingValues();
+        List<?> matchingValues = getWidget().computeMatchingValues();
+        if(offset < 0) return null;
         if(offset <= matchingValues.size() - 1) {
             return matchingValues.get(offset).toString();
         }

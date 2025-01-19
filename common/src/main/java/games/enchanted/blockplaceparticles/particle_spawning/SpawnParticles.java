@@ -10,7 +10,7 @@ import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParti
 import games.enchanted.blockplaceparticles.particle_spawning.override.FluidPlacementParticle;
 import games.enchanted.blockplaceparticles.util.FluidHelpers;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
-import games.enchanted.blockplaceparticles.util.RegistryHelpers;
+import games.enchanted.blockplaceparticles.registry.RegistryHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

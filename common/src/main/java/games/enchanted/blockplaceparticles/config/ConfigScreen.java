@@ -10,7 +10,8 @@ import games.enchanted.blockplaceparticles.config.controller.FluidLocationContro
 import games.enchanted.blockplaceparticles.config.type.BrushParticleBehaviour;
 import games.enchanted.blockplaceparticles.localisation.ConfigTranslation;
 import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
-import games.enchanted.blockplaceparticles.util.RegistryHelpers;
+import games.enchanted.blockplaceparticles.registry.BlockLocation;
+import games.enchanted.blockplaceparticles.registry.RegistryHelpers;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -536,8 +537,8 @@ public class ConfigScreen {
         .build();
     }
 
-    public static ListOption<ResourceLocation> createBlockLocationListOption(String particleTypeKey, String groupName, String category, List<ResourceLocation> defaultValue, Supplier<List<ResourceLocation>> getter, Consumer<List<ResourceLocation>> setter) {
-        return createListOption(RegistryHelpers.getLocationFromBlock(Blocks.STONE), BlockLocationController::new, particleTypeKey, groupName, category, ConfigHandler.general_autoCollapseConfigLists, defaultValue, getter, setter);
+    public static ListOption<BlockLocation> createBlockLocationListOption(String particleTypeKey, String groupName, String category, List<BlockLocation> defaultValue, Supplier<List<BlockLocation>> getter, Consumer<List<BlockLocation>> setter) {
+        return createListOption(new BlockLocation(RegistryHelpers.getLocationFromBlock(Blocks.STONE)), BlockLocationController::new, particleTypeKey, groupName, category, ConfigHandler.general_autoCollapseConfigLists, defaultValue, getter, setter);
     }
     private static ListOption<ResourceLocation> createFluidListOption(String particleTypeKey, String groupName, String category, List<ResourceLocation> defaultValue, Supplier<List<ResourceLocation>> getter, Consumer<List<ResourceLocation>> setter) {
         return createListOption(RegistryHelpers.getLocationFromFluid(Fluids.WATER), FluidLocationController::new, particleTypeKey, groupName, category, ConfigHandler.general_autoCollapseConfigLists, defaultValue, getter, setter);
