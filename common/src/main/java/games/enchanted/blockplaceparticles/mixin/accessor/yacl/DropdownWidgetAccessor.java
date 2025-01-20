@@ -7,6 +7,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(dev.isxander.yacl3.gui.controllers.dropdown.DropdownWidget.class)
 public interface DropdownWidgetAccessor {
-    @Accessor("firstVisibleIndex")
+    @Accessor(value = "firstVisibleIndex", remap = false)
     void setFirstVisibleIndex(int newIndex);
 }

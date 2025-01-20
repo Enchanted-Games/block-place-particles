@@ -38,7 +38,8 @@
     "particles.BreakingItemParticle",
     "particles.ParticleEngineMixin",
     "particles.ParticleMixin",
-    "particles.TerrainParticle"
+    "particles.TerrainParticle",
+    "yacl.StringControllerElement"
   ],
   "server": [],
   "injectors": {

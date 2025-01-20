@@ -8,6 +8,7 @@ import games.enchanted.blockplaceparticles.particle.option.TintedParticleOption;
 import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
 import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverrides;
 import games.enchanted.blockplaceparticles.particle_spawning.override.FluidPlacementParticle;
+import games.enchanted.blockplaceparticles.registry.TagUtil;
 import games.enchanted.blockplaceparticles.util.FluidHelpers;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
 import games.enchanted.blockplaceparticles.registry.RegistryHelpers;
@@ -671,11 +672,11 @@ public class SpawnParticles {
         if(speed <= 0.1 && !isSprinting) return;
 
         ResourceLocation blockLocation = RegistryHelpers.getLocationFromBlock(blockState.getBlock());
-        if(!ConfigHandler.blockDisturbance_Blocks.contains(blockLocation)) return;
+        if(!TagUtil.doesListContainBlock(ConfigHandler.blockDisturbance_Blocks, blockLocation)) return;
 
         int overrideOrigin = BlockParticleOverride.ORIGIN_BLOCK_WALKED_THROUGH;
 
-        int particlesAmount =  (speed < 0.16 || !isSprinting ? 1 : 20);
+        int particlesAmount =  (speed > 0.16 || isSprinting ? 3 : 1);
 
         for (int i = 0; i < particlesAmount; i++) {
             double particleX = entityX + ((level.random.nextFloat() * 0.5) - 0.25);

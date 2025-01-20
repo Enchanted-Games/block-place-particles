@@ -37,6 +37,11 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
     }
 
     @Override
+    protected void renderDropdownEntry(GuiGraphics graphics, Dimension<Integer> entryDimension, T value) {
+        super.renderDropdownEntry(graphics, entryDimension, value);
+    }
+
+    @Override
     protected void drawValueText(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
         var oldDimension = getDimension();
         setDimension(getDimension().withWidth(getDimension().width() - getDecorationPadding()));
@@ -68,15 +73,7 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
     }
 
     public @Nullable Component getHoverTooltipText() {
-        String[] seperatedString = this.getController().option().pendingValue().toString().split(":");
-        if(seperatedString.length == 1) return Component.literal(seperatedString[0]);
-
-        return Component.empty()
-        .append(
-            Component.literal(seperatedString[0] + ":").withColor(0xbababa)
-        ).append(
-            Component.literal(seperatedString[1])
-        );
+        return Component.literal(this.getController().option().pendingValue().toString());
     }
 
     @Override

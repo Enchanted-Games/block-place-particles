@@ -146,6 +146,11 @@
   "eg_particle_interactions.toast.debug_logs_enabled": "Debug Logs Enabled",
   "eg_particle_interactions.toast.debug_logs_disabled": "Debug Logs Disabled",
 
+  "eg_particle_interactions.config.global_option.toggle_texture_debug_logs": "Toggle texture debug logs",
+  "eg_particle_interactions.config.global_option.toggle_texture_debug_logs.desc": "Logs extra texture information to the log for debugging purposes.\n\nThis will be disabled the next time you open the game",
+  "eg_particle_interactions.toast.texture_debug_logs_enabled": "Texture Debug Logs Enabled",
+  "eg_particle_interactions.toast.texture_debug_logs_disabled": "Texture Debug Logs Disabled",
+
   "eg_particle_interactions.config.global_option.debug_show_emitter_bounds": "Show particle emitter bounds",
   "eg_particle_interactions.config.global_option.debug_show_emitter_bounds.desc": "Visualises particle emitter bounding boxes with a particle in the bottom north-west corner and top south-east corner.\n\nThis will be disabled the next time you open the game",
 

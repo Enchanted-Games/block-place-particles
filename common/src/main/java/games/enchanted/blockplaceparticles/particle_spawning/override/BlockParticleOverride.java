@@ -3,6 +3,7 @@ package games.enchanted.blockplaceparticles.particle_spawning.override;
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.registry.BlockLocation;
 import games.enchanted.blockplaceparticles.registry.RegistryHelpers;
+import games.enchanted.blockplaceparticles.registry.TagUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -253,19 +254,7 @@ public class BlockParticleOverride {
     // TODO: separate this into a general util function
     private static boolean doesOverrideContainBlock(BlockParticleOverride override, ResourceLocation blockResourceLocation) {
         if (override.supportedBlockResourceLocations_getter == null) return false;
-        List<BlockLocation> locations = override.supportedBlockResourceLocations_getter.get();
-
-        boolean containsBlockDirectly = locations.contains(new BlockLocation(blockResourceLocation));
-        if(containsBlockDirectly) return true;
-
-        // otherwise check if the block is included in any tags
-        List<BlockLocation> tagLocations = locations.stream().filter(BlockLocation::isTag).toList();
-        for (BlockLocation tagLocation : tagLocations) {
-            if(RegistryHelpers.isBlockInTag(blockResourceLocation, RegistryHelpers.getBlockTagKey(tagLocation.location()))) {
-                return true;
-            }
-        }
-        return false;
+        return TagUtil.doesListContainBlock(override.supportedBlockResourceLocations_getter.get(), blockResourceLocation);
     }
 
     public static int getParticleMultiplierForOverride(BlockParticleOverride override, boolean isBlockBeingPlaced) {

@@ -6,13 +6,13 @@ import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
 import games.enchanted.blockplaceparticles.config.controller.generic.GenericListControllerElement;
 import games.enchanted.blockplaceparticles.registry.BlockLocation;
 import games.enchanted.blockplaceparticles.registry.RegistryHelpers;
+import games.enchanted.blockplaceparticles.util.TextUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,6 +35,12 @@ public class BlockLocationControllerElement extends GenericListControllerElement
             ArrayList<BlockLocation> tagLocations = new ArrayList<>();
             BlockLocation validatedLoc = RegistryHelpers.validateBlockOrTagLocationWithFallback(this.inputField, null);
             this.currentItem = validatedLoc;
+
+            if(!validatedLoc.location().getPath().isEmpty()) {
+                this.matchingItems.put(validatedLoc.location(), validatedLoc);
+                tagLocations.add(validatedLoc);
+            }
+
             for (ResourceLocation tagResourceLocation : tagResourceLocations) {
                 this.matchingItems.put(tagResourceLocation, validatedLoc);
                 tagLocations.add(new BlockLocation(tagResourceLocation, true));
@@ -75,9 +81,15 @@ public class BlockLocationControllerElement extends GenericListControllerElement
     public Component getRenderedValueText() {
         BlockLocation currentValue = this.getController().option().pendingValue();
         if(currentValue.isTag()) {
-            return Component.literal("block tag: " + currentValue.location().toString());
+            return TextUtil.formatResourceLocationToChatComponent(currentValue.location(), "#");
         }
         return Component.translatable( RegistryHelpers.getBlockFromLocation(currentValue.location()).getDescriptionId() );
+    }
+
+    @Override
+    public @Nullable Component getHoverTooltipText() {
+        BlockLocation value = this.getController().option().pendingValue();
+        return TextUtil.formatResourceLocationToChatComponent(value.location(), value.isTag() ? "#" : "");
     }
 
     @Override

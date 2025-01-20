@@ -2,6 +2,9 @@ package games.enchanted.blockplaceparticles.registry;
 
 import net.minecraft.resources.ResourceLocation;
 
+/**
+ * A type that stores a resource location for a {@link net.minecraft.world.level.block.Block} or the resource location of a block tag
+ */
 public record BlockLocation(ResourceLocation location, boolean isTag) {
     public BlockLocation(ResourceLocation location) {
         this(location, false);
