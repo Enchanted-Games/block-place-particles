@@ -45,7 +45,15 @@ public class BlockLocationController extends AbstractFixedDropdownController<Blo
 
     @Override
     protected String getValidValue(String value, int offset) {
-        if(value.startsWith("#")) return value;
+        if(value.startsWith("#")) {
+            value = value.replace("#", "");
+            return RegistryHelpers.getMatchingTagLocations(value, BuiltInRegistries.BLOCK)
+                .skip(offset)
+                .findFirst()
+                .map(ResourceLocation::toString)
+                .orElseGet(this::getString);
+        }
+
         return RegistryHelpers.getMatchingLocations(value, BuiltInRegistries.BLOCK)
             .filter((ResourceLocation location) -> !RegistryHelpers.getBlockFromLocation(location).defaultBlockState().isAir())
             .skip(offset)

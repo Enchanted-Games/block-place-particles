@@ -250,6 +250,7 @@ public class BlockParticleOverride {
         return NONE;
     }
 
+    // TODO: separate this into a general util function
     private static boolean doesOverrideContainBlock(BlockParticleOverride override, ResourceLocation blockResourceLocation) {
         if (override.supportedBlockResourceLocations_getter == null) return false;
         List<BlockLocation> locations = override.supportedBlockResourceLocations_getter.get();

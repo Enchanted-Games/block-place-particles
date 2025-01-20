@@ -47,15 +47,8 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
         }
     }
 
-    @Override
-    protected void renderDropdownEntry(GuiGraphics graphics, Dimension<Integer> entryDimension, T identifier) {
-        T item = matchingItems.get(identifier);
-        if(item == null) return;
-        super.renderDropdownEntry(graphics, entryDimension, identifier);
-        this.renderItemIcon(graphics, getItemToRender(item), entryDimension.xLimit() - 2, entryDimension.y() + 1);
-    }
-
-    private void renderItemIcon(GuiGraphics graphics, Item item, int x, int y) {
+    protected void renderItemIcon(GuiGraphics graphics, Item item, int x, int y) {
+        if(item == null) return;;
         if(item == Items.AIR) {
             graphics.blitSprite(RenderType::guiTextured, MISSING_ITEM_ICON_SPRITE, x, y, 16, 16);
             return;
@@ -75,9 +68,7 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
     }
 
     public @Nullable Component getHoverTooltipText() {
-        if(this.currentItem == null) return null;
-
-        String[] seperatedString = this.currentItem.toString().split(":");
+        String[] seperatedString = this.getController().option().pendingValue().toString().split(":");
         if(seperatedString.length == 1) return Component.literal(seperatedString[0]);
 
         return Component.empty()
