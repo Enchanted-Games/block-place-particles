@@ -11,7 +11,9 @@ import games.enchanted.blockplaceparticles.config.type.BrushParticleBehaviour;
 import games.enchanted.blockplaceparticles.platform.Services;
 import games.enchanted.blockplaceparticles.registry.BlockLocation;
 import games.enchanted.blockplaceparticles.registry.RegistryHelpers;
+import games.enchanted.blockplaceparticles.registry.TagUtil;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
@@ -59,7 +61,7 @@ public class ConfigHandler {
     public static boolean general_particleZFightingFix = general_particleZFightingFix_DEFAULT;
 
     // auto collapse config lists
-    public static final boolean general_autoCollapseConfigLists_DEFAULT = false;
+    public static final boolean general_autoCollapseConfigLists_DEFAULT = true;
     @SerialEntry
     public static boolean general_autoCollapseConfigLists = general_autoCollapseConfigLists_DEFAULT;
 
@@ -112,7 +114,7 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxSnowflakes_onBreak = maxSnowflakes_onBreak_DEFAULT;
 
-    public static final List<BlockLocation> snowflake_Blocks_DEFAULT = List.of(RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.SNOW), RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.SNOW_BLOCK), RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.POWDER_SNOW));
+    public static final List<BlockLocation> snowflake_Blocks_DEFAULT = List.of(RegistryHelpers.getBlockLocationFromBlock(Blocks.SNOW), RegistryHelpers.getBlockLocationFromBlock(Blocks.SNOW_BLOCK), RegistryHelpers.getBlockLocationFromBlock(Blocks.POWDER_SNOW));
     @SerialEntry
     public static List<BlockLocation> snowflake_Blocks = snowflake_Blocks_DEFAULT;
 
@@ -129,7 +131,7 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxCherryPetals_onBreak = maxCherryPetals_onBreak_DEFAULT;
 
-    public static final List<BlockLocation> cherryPetal_Blocks_DEFAULT = List.of(RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.CHERRY_LEAVES), RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.CHERRY_SAPLING), RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.PINK_PETALS));
+    public static final List<BlockLocation> cherryPetal_Blocks_DEFAULT = List.of(RegistryHelpers.getBlockLocationFromBlock(Blocks.CHERRY_LEAVES), RegistryHelpers.getBlockLocationFromBlock(Blocks.CHERRY_SAPLING), RegistryHelpers.getBlockLocationFromBlock(Blocks.PINK_PETALS));
     @SerialEntry
     public static List<BlockLocation> cherryPetal_Blocks = cherryPetal_Blocks_DEFAULT;
 
@@ -146,7 +148,7 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxAzaleaLeaves_onBreak = maxAzaleaLeaves_onBreak_DEFAULT;
 
-    public static final List<BlockLocation> azaleaLeaf_Blocks_DEFAULT = List.of(RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.AZALEA), RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.AZALEA_LEAVES));
+    public static final List<BlockLocation> azaleaLeaf_Blocks_DEFAULT = List.of(RegistryHelpers.getBlockLocationFromBlock(Blocks.AZALEA), RegistryHelpers.getBlockLocationFromBlock(Blocks.AZALEA_LEAVES));
     @SerialEntry
     public static List<BlockLocation> azaleaLeaf_Blocks = azaleaLeaf_Blocks_DEFAULT;
 
@@ -163,7 +165,7 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxFloweringAzaleaLeaves_onBreak = maxFloweringAzaleaLeaves_onBreak_DEFAULT;
 
-    public static final List<BlockLocation> floweringAzaleaLeaf_Blocks_DEFAULT = List.of(RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.FLOWERING_AZALEA), RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.FLOWERING_AZALEA_LEAVES));
+    public static final List<BlockLocation> floweringAzaleaLeaf_Blocks_DEFAULT = List.of(RegistryHelpers.getBlockLocationFromBlock(Blocks.FLOWERING_AZALEA), RegistryHelpers.getBlockLocationFromBlock(Blocks.FLOWERING_AZALEA_LEAVES));
     @SerialEntry
     public static List<BlockLocation> floweringAzaleaLeaf_Blocks = floweringAzaleaLeaf_Blocks_DEFAULT;
 
@@ -180,7 +182,7 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxPaleLeaves_onBreak = maxPaleLeaves_onBreak_DEFAULT;
 
-    public static final List<BlockLocation> paleLeaf_Blocks_DEFAULT = List.of(RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.PALE_OAK_LEAVES), RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.PALE_OAK_SAPLING));
+    public static final List<BlockLocation> paleLeaf_Blocks_DEFAULT = List.of(RegistryHelpers.getBlockLocationFromBlock(Blocks.PALE_OAK_LEAVES), RegistryHelpers.getBlockLocationFromBlock(Blocks.PALE_OAK_SAPLING));
     @SerialEntry
     public static List<BlockLocation> paleLeaf_Blocks = paleLeaf_Blocks_DEFAULT;
 
@@ -197,7 +199,7 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxTintedLeaves_onBreak = maxTintedLeaves_onBreak_DEFAULT;
 
-    public static final List<BlockLocation> tintedLeaves_Blocks_DEFAULT = List.of(RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.JUNGLE_LEAVES), RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.OAK_LEAVES), RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.DARK_OAK_LEAVES), RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.ACACIA_LEAVES), RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.MANGROVE_LEAVES));
+    public static final List<BlockLocation> tintedLeaves_Blocks_DEFAULT = List.of(RegistryHelpers.getBlockLocationFromBlock(Blocks.JUNGLE_LEAVES), RegistryHelpers.getBlockLocationFromBlock(Blocks.OAK_LEAVES), RegistryHelpers.getBlockLocationFromBlock(Blocks.DARK_OAK_LEAVES), RegistryHelpers.getBlockLocationFromBlock(Blocks.ACACIA_LEAVES), RegistryHelpers.getBlockLocationFromBlock(Blocks.MANGROVE_LEAVES));
     @SerialEntry
     public static List<BlockLocation> tintedLeaves_Blocks = tintedLeaves_Blocks_DEFAULT;
 
@@ -214,7 +216,7 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxTintedPineLeaves_onBreak = maxTintedPineLeaves_onBreak_DEFAULT;
 
-    public static final List<BlockLocation> tintedPineLeaves_Blocks_DEFAULT = List.of(RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.BIRCH_LEAVES), RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.SPRUCE_LEAVES));
+    public static final List<BlockLocation> tintedPineLeaves_Blocks_DEFAULT = List.of(RegistryHelpers.getBlockLocationFromBlock(Blocks.BIRCH_LEAVES), RegistryHelpers.getBlockLocationFromBlock(Blocks.SPRUCE_LEAVES));
     @SerialEntry
     public static List<BlockLocation> tintedPineLeaves_Blocks = tintedPineLeaves_Blocks_DEFAULT;
 
@@ -232,21 +234,18 @@ public class ConfigHandler {
     public static int maxGrassBlade_onBreak = maxGrassBlade_onBreak_DEFAULT;
 
     public static final List<BlockLocation> grassBlade_Blocks_DEFAULT = List.of(
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.ATTACHED_PUMPKIN_STEM),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.PUMPKIN_STEM),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.ATTACHED_MELON_STEM),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.MELON_STEM),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.SWEET_BERRY_BUSH),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.BEETROOTS),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.CARROTS),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.POTATOES),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.WHEAT),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.SHORT_GRASS),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.TALL_GRASS),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.SEAGRASS),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.TALL_SEAGRASS),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.HAY_BLOCK),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.GRASS_BLOCK)
+        new BlockLocation(BlockTags.CROPS.location(), true),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.VINE),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.SHORT_GRASS),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.TALL_GRASS),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.FERN),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.LARGE_FERN),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.SWEET_BERRY_BUSH),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.DEAD_BUSH),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.SEAGRASS),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.TALL_SEAGRASS),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.HAY_BLOCK),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.GRASS_BLOCK)
     );
     @SerialEntry
     public static List<BlockLocation> grassBlade_Blocks = grassBlade_Blocks_DEFAULT;
@@ -265,10 +264,10 @@ public class ConfigHandler {
     public static int maxHeavyGrassBlade_onBreak = maxHeavyGrassBlade_onBreak_DEFAULT;
 
     public static final List<BlockLocation> heavyGrassBlade_Blocks_DEFAULT = List.of(
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.HANGING_ROOTS),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.PALE_HANGING_MOSS),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.COBWEB),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.TRIPWIRE)
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.HANGING_ROOTS),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.PALE_HANGING_MOSS),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.COBWEB),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.TRIPWIRE)
     );
     @SerialEntry
     public static List<BlockLocation> heavyGrassBlade_Blocks = heavyGrassBlade_Blocks_DEFAULT;
@@ -287,8 +286,8 @@ public class ConfigHandler {
     public static int maxMossClump_onBreak = maxMossClump_onBreak_DEFAULT;
 
     public static final List<BlockLocation> mossClump_Blocks_DEFAULT = List.of(
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.MOSS_CARPET),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.MOSS_BLOCK)
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.MOSS_CARPET),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.MOSS_BLOCK)
     );
     @SerialEntry
     public static List<BlockLocation> mossClump_Blocks = mossClump_Blocks_DEFAULT;
@@ -307,8 +306,8 @@ public class ConfigHandler {
     public static int maxPaleMossClump_onBreak = maxPaleMossClump_onBreak_DEFAULT;
 
     public static final List<BlockLocation> paleMossClump_Blocks_DEFAULT = List.of(
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.PALE_MOSS_CARPET),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.PALE_MOSS_BLOCK)
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.PALE_MOSS_CARPET),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.PALE_MOSS_BLOCK)
     );
     @SerialEntry
     public static List<BlockLocation> paleMossClump_Blocks = mossClump_Blocks_DEFAULT;
@@ -327,28 +326,28 @@ public class ConfigHandler {
     public static int maxDust_onBreak = maxDust_onBreak_DEFAULT;
 
     public static final List<BlockLocation> dust_Blocks_DEFAULT = List.of(
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.SAND),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.SUSPICIOUS_SAND),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.GRAVEL),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.SUSPICIOUS_GRAVEL),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.RED_SAND),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.SOUL_SAND),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.SOUL_SOIL),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.WHITE_CONCRETE_POWDER),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.LIGHT_GRAY_CONCRETE_POWDER),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.GRAY_CONCRETE_POWDER),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.BROWN_CONCRETE_POWDER),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.RED_CONCRETE_POWDER),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.ORANGE_CONCRETE_POWDER),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.YELLOW_CONCRETE_POWDER),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.LIME_CONCRETE_POWDER),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.GREEN_CONCRETE_POWDER),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.CYAN_CONCRETE_POWDER),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.LIGHT_BLUE_CONCRETE_POWDER),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.BLUE_CONCRETE_POWDER),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.PURPLE_CONCRETE_POWDER),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.MAGENTA_CONCRETE_POWDER),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.PINK_CONCRETE_POWDER)
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.SAND),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.SUSPICIOUS_SAND),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.GRAVEL),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.SUSPICIOUS_GRAVEL),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.RED_SAND),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.SOUL_SAND),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.SOUL_SOIL),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.WHITE_CONCRETE_POWDER),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.LIGHT_GRAY_CONCRETE_POWDER),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.GRAY_CONCRETE_POWDER),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.BROWN_CONCRETE_POWDER),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.RED_CONCRETE_POWDER),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.ORANGE_CONCRETE_POWDER),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.YELLOW_CONCRETE_POWDER),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.LIME_CONCRETE_POWDER),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.GREEN_CONCRETE_POWDER),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.CYAN_CONCRETE_POWDER),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.LIGHT_BLUE_CONCRETE_POWDER),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.BLUE_CONCRETE_POWDER),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.PURPLE_CONCRETE_POWDER),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.MAGENTA_CONCRETE_POWDER),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.PINK_CONCRETE_POWDER)
     );
     @SerialEntry
     public static List<BlockLocation> dust_Blocks = dust_Blocks_DEFAULT;
@@ -367,12 +366,12 @@ public class ConfigHandler {
     public static int maxRedstoneDust_onBreak = maxRedstoneDust_onBreak_DEFAULT;
 
     public static final List<BlockLocation> redstoneDust_Blocks_DEFAULT = List.of(
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.REDSTONE_TORCH),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.REDSTONE_WALL_TORCH),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.REDSTONE_WIRE),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.REDSTONE_BLOCK),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.REPEATER),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.COMPARATOR)
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.REDSTONE_TORCH),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.REDSTONE_WALL_TORCH),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.REDSTONE_WIRE),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.REDSTONE_BLOCK),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.REPEATER),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.COMPARATOR)
     );
     @SerialEntry
     public static List<BlockLocation> redstoneDust_Blocks = redstoneDust_Blocks_DEFAULT;
@@ -391,7 +390,7 @@ public class ConfigHandler {
     public static int maxBlockShatter_onBreak = maxBlockShatter_onBreak_DEFAULT;
 
     public static final List<BlockLocation> blockShatter_Blocks_DEFAULT = List.of(
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.NETHER_PORTAL)
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.NETHER_PORTAL)
     );
     @SerialEntry
     public static List<BlockLocation> blockShatter_Blocks = blockShatter_Blocks_DEFAULT;
@@ -453,13 +452,36 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean fireEmber_enabled = fireEmber_enabled_DEFAULT;
 
-    // block disturbance particles
-    public static final List<BlockLocation> blockDisturbance_Blocks_DEFAULT = List.of(
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.SHORT_GRASS),
-        RegistryHelpers.getBlockOrTagLocationFromBlock(Blocks.COBWEB)
+    // block rustle particles
+    public static final boolean blockRustle_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean blockRustle_enabled = blockRustle_enabled_DEFAULT;
+
+    public static final List<BlockLocation> blockRustle_Blocks_DEFAULT = List.of(
+        new BlockLocation(BlockTags.FLOWERS.location(), true),
+        new BlockLocation(BlockTags.CROPS.location(), true),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.VINE),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.SHORT_GRASS),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.TALL_GRASS),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.FERN),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.LARGE_FERN),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.SWEET_BERRY_BUSH),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.DEAD_BUSH),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.SEAGRASS),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.TALL_SEAGRASS),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.WARPED_ROOTS),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.TWISTING_VINES),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.TWISTING_VINES_PLANT),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.NETHER_SPROUTS),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.CRIMSON_ROOTS),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.WEEPING_VINES),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.WEEPING_VINES_PLANT),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.HANGING_ROOTS),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.COBWEB),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.SNOW)
     );
     @SerialEntry
-    public static List<BlockLocation> blockDisturbance_Blocks = blockDisturbance_Blocks_DEFAULT;
+    public static List<BlockLocation> blockRustle_Blocks = blockRustle_Blocks_DEFAULT;
 
     // anvil use sparks
     public static final int maxAnvilUseSparks_onUse_DEFAULT = 18;

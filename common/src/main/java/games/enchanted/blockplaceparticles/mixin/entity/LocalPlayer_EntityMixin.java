@@ -33,6 +33,8 @@ public abstract class LocalPlayer_EntityMixin {
         method = "checkInsideBlocks(Ljava/util/List;Ljava/util/Set;)V"
     )
     protected void trySpawnParticlesWhenPlayerInsideBlock(BlockState insideBlockState, Level level, BlockPos insideBlockPos, Entity entity, Operation<Void> original) {
+        original.call(insideBlockState, level, insideBlockPos, entity);
+
         if(
             block_place_particle$ticksUntilNextBlockDisturbance > 0
             ||
@@ -43,13 +45,11 @@ public abstract class LocalPlayer_EntityMixin {
             !(player.level() instanceof ClientLevel clientLevel)
         ) {
             --block_place_particle$ticksUntilNextBlockDisturbance;
-            original.call(insideBlockState, level, insideBlockPos, entity);
             return;
         }
 
-        block_place_particle$ticksUntilNextBlockDisturbance = 2;
-        SpawnParticles.spawnBlockDisturbanceParticles(clientLevel, insideBlockPos, insideBlockState, this.getX(), this.getY(), this.getZ(), this.getDeltaMovement(), player.isSprinting());
-
-        original.call(insideBlockState, level, insideBlockPos, entity);
+        block_place_particle$ticksUntilNextBlockDisturbance = MathHelpers.randomBetween(3, 10);
+        BlockPos verticalOffsetBlockPos = BlockPos.containing(insideBlockPos.getX(), this.getY() + 0.1, insideBlockPos.getZ());
+        SpawnParticles.spawnBlockDisturbanceParticles(clientLevel, verticalOffsetBlockPos, level.getBlockState(verticalOffsetBlockPos), this.getX(), this.getY(), this.getZ(), this.getDeltaMovement(), player.isSprinting());
     }
 }

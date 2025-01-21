@@ -672,11 +672,11 @@ public class SpawnParticles {
         if(speed <= 0.1 && !isSprinting) return;
 
         ResourceLocation blockLocation = RegistryHelpers.getLocationFromBlock(blockState.getBlock());
-        if(!TagUtil.doesListContainBlock(ConfigHandler.blockDisturbance_Blocks, blockLocation)) return;
+        if(!TagUtil.doesListContainBlock(ConfigHandler.blockRustle_Blocks, blockLocation)) return;
 
         int overrideOrigin = BlockParticleOverride.ORIGIN_BLOCK_WALKED_THROUGH;
 
-        int particlesAmount =  (speed > 0.16 || isSprinting ? 3 : 1);
+        int particlesAmount =  (speed > 0.25 || isSprinting ? 3 : 1);
 
         for (int i = 0; i < particlesAmount; i++) {
             double particleX = entityX + ((level.random.nextFloat() * 0.5) - 0.25);

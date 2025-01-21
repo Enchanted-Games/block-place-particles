@@ -148,7 +148,7 @@ public class RegistryHelpers {
     public static ResourceLocation getLocationFromBlock(Block block) {
         return BuiltInRegistries.BLOCK.getKey(block);
     }
-    public static BlockLocation getBlockOrTagLocationFromBlock(Block block) {
+    public static BlockLocation getBlockLocationFromBlock(Block block) {
         return new BlockLocation(getLocationFromBlock(block));
     }
     public static Block getBlockFromLocation(ResourceLocation location) {

@@ -158,6 +158,24 @@ public class ConfigScreen {
                 integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK, "underwater_block_bubbles", ConfigHandler.maxUnderwaterBubbles_onBreak_DEFAULT, () -> ConfigHandler.maxUnderwaterBubbles_onBreak, newVal -> ConfigHandler.maxUnderwaterBubbles_onBreak = newVal, 1, 50, 1)
             ))
 
+            // block rustle particles
+            .group( createMultipleOptionsConfigGroup(
+                "block_rustle",
+                "block_rustle",
+                ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
+                booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "block_rustle", Binding.generic(ConfigHandler.blockRustle_enabled_DEFAULT, () -> ConfigHandler.blockRustle_enabled, newVal -> ConfigHandler.blockRustle_enabled = newVal))
+            ))
+            .group(
+                createBlockLocationListOption(
+                    "block_rustle",
+                    "block_rustle_blocks",
+                    ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
+                    ConfigHandler.blockRustle_Blocks_DEFAULT,
+                    () -> ConfigHandler.blockRustle_Blocks,
+                    newVal -> ConfigHandler.blockRustle_Blocks = newVal
+                )
+            )
+
             // campfire ambient particles
             .group( createMultipleOptionsConfigGroup(
                 "campfire_particles",
