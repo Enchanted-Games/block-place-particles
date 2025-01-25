@@ -22,6 +22,7 @@
   "eg_particle_interactions.config.particle_type.vanilla_particle": "Vanilla Block",
 
   "eg_particle_interactions.config.particle_type.underwater_block_bubbles": "Underwater Bubble",
+  "eg_particle_interactions.config.particle_type.block_rustle": "Block Rustling",
   "eg_particle_interactions.config.particle_type.campfire_particles": "Campfire Ambient",
   "eg_particle_interactions.config.particle_type.sparks": "Spark",
   "eg_particle_interactions.config.particle_type.embers": "Ember",
@@ -186,6 +187,11 @@
 
   "eg_particle_interactions.config.block_ambient.underwater_block_bubbles": "%s Particle Options",
   "eg_particle_interactions.config.block_ambient.underwater_block_bubbles.desc": "Control how many %s particles should be spawned and when",
+
+  "eg_particle_interactions.config.block_ambient.block_rustle": "%s Particle Options",
+  "eg_particle_interactions.config.block_ambient.block_rustle.desc": "Controls if particles should spawn when walking or running through certain blocks.\nThe particles that spawn are dependent on the Block Particle Override for that block",
+  "eg_particle_interactions.config.block_ambient.block_rustle_blocks": "%s Blocks",
+  "eg_particle_interactions.config.block_ambient.block_rustle_blocks.desc": "Blocks that should spawn particles when walking or running through them.\nThe particles that spawn are dependent on the Block Particle Override for that block",
 
   "eg_particle_interactions.config.block_ambient.campfire_particles": "%s Particles",
   "eg_particle_interactions.config.block_ambient.campfire_particles.desc": "Configure if campfires should emit additional ambient particles and the chance for them to spawn each tick",

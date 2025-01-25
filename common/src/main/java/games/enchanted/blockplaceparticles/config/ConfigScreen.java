@@ -147,6 +147,10 @@ public class ConfigScreen {
                 .option(LabelOption.createBuilder().line(Component.empty()).build())
             .build())
 
+            .group(
+                ConfigScreen.createSeparator()
+            )
+
             // underwater bubbles
             .group( createMultipleOptionsConfigGroup(
                 "underwater_block_bubbles",
@@ -157,6 +161,10 @@ public class ConfigScreen {
                 booleanOption(ConfigTranslation.SPAWN_BLOCK_PARTICLE_ON_BREAK, "underwater_block_bubbles", Binding.generic(ConfigHandler.underwaterBubbles_onBreak_DEFAULT, () -> ConfigHandler.underwaterBubbles_onBreak, newVal -> ConfigHandler.underwaterBubbles_onBreak = newVal)),
                 integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK, "underwater_block_bubbles", ConfigHandler.maxUnderwaterBubbles_onBreak_DEFAULT, () -> ConfigHandler.maxUnderwaterBubbles_onBreak, newVal -> ConfigHandler.maxUnderwaterBubbles_onBreak = newVal, 1, 50, 1)
             ))
+
+            .group(
+                ConfigScreen.createSeparator()
+            )
 
             // block rustle particles
             .group( createMultipleOptionsConfigGroup(
@@ -176,6 +184,10 @@ public class ConfigScreen {
                 )
             )
 
+            .group(
+                ConfigScreen.createSeparator()
+            )
+
             // campfire ambient particles
             .group( createMultipleOptionsConfigGroup(
                 "campfire_particles",
@@ -186,6 +198,10 @@ public class ConfigScreen {
                 booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "embers", Binding.generic(ConfigHandler.campfireEmber_enabled_DEFAULT, () -> ConfigHandler.campfireEmber_enabled, newVal -> ConfigHandler.campfireEmber_enabled = newVal)),
                 integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE_WITH_TYPE, "embers", ConfigHandler.campfireEmber_spawnChance_DEFAULT, () -> ConfigHandler.campfireEmber_spawnChance, newVal -> ConfigHandler.campfireEmber_spawnChance = newVal, 1, 100, 1)
             ))
+
+            .group(
+                ConfigScreen.createSeparator()
+            )
 
             // fire ambient particles
             .group( createMultipleOptionsConfigGroup(
@@ -198,6 +214,10 @@ public class ConfigScreen {
                 integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE_WITH_TYPE, "embers", ConfigHandler.fireEmber_spawnChance_DEFAULT, () -> ConfigHandler.fireEmber_spawnChance, newVal -> ConfigHandler.fireEmber_spawnChance = newVal, 1, 100, 1)
             ))
 
+            .group(
+                ConfigScreen.createSeparator()
+            )
+
             // anvil use spark
             .group( createParticleToggleAndIntSliderConfigGroup(
                 "anvil_craft_sparks",
@@ -207,6 +227,10 @@ public class ConfigScreen {
                 ConfigTranslation.IS_PARTICLE_ENABLED,
                 integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_CRAFT, "anvil_craft_sparks", ConfigHandler.maxAnvilUseSparks_onUse_DEFAULT, () -> ConfigHandler.maxAnvilUseSparks_onUse, newVal -> ConfigHandler.maxAnvilUseSparks_onUse = newVal, 1, 32, 1)
             ))
+
+            .group(
+                ConfigScreen.createSeparator()
+            )
 
             // grindstone use spark
             .group( createParticleToggleAndIntSliderConfigGroup(
@@ -218,6 +242,10 @@ public class ConfigScreen {
                 integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_CRAFT, "grindstone_craft_sparks", ConfigHandler.maxGrindstoneUseSparks_onUse_DEFAULT, () -> ConfigHandler.maxGrindstoneUseSparks_onUse, newVal -> ConfigHandler.maxGrindstoneUseSparks_onUse = newVal, 1, 32, 1)
             ))
 
+            .group(
+                ConfigScreen.createSeparator()
+            )
+
             // falling block effect
             .group( createParticleToggleAndIntSliderConfigGroup(
                 "falling_block_effect",
@@ -227,6 +255,10 @@ public class ConfigScreen {
                 ConfigTranslation.IS_PARTICLE_ENABLED,
                 integerSliderOption(ConfigTranslation.PARTICLE_EFFECT_RENDER_DISTANCE, "falling_block_effect", ConfigHandler.fallingBlockEffect_renderDistance_DEFAULT, () -> ConfigHandler.fallingBlockEffect_renderDistance, newVal -> ConfigHandler.fallingBlockEffect_renderDistance = newVal, 1, 512, 1)
             ))
+
+            .group(
+                ConfigScreen.createSeparator()
+            )
 
             // redstone interaction dust
             .group( createParticleToggleAndIntSliderConfigGroup(
@@ -252,6 +284,10 @@ public class ConfigScreen {
                 .option(LabelOption.createBuilder().line(Component.empty()).build())
             .build())
 
+            .group(
+                ConfigScreen.createSeparator()
+            )
+
             // brushing particles
             .group( createGenericConfigGroup(
                 "brush_particles",
@@ -259,6 +295,10 @@ public class ConfigScreen {
                 false,
                 enumCycleOption(ConfigTranslation.BRUSH_PARTICLE_BEHAVIOUR, Binding.generic(ConfigHandler.brushParticleBehaviour_DEFAULT, () -> ConfigHandler.brushParticleBehaviour, newVal -> ConfigHandler.brushParticleBehaviour = newVal), BrushParticleBehaviour.class)
             ))
+
+            .group(
+                ConfigScreen.createSeparator()
+            )
 
             // flint and steel spark
             .group( createParticleToggleAndMaxAndIntensityConfigGroup(
@@ -271,6 +311,10 @@ public class ConfigScreen {
                 integerSliderOption(ConfigTranslation.ITEM_USE_PARTICLE_INTENSITY, "flint_and_steel_sparks", ConfigHandler.flintAndSteelSpark_intensity_DEFAULT, () -> ConfigHandler.flintAndSteelSpark_intensity, newVal -> ConfigHandler.flintAndSteelSpark_intensity = newVal, 1, 8, 1)
             ))
 
+            .group(
+                ConfigScreen.createSeparator()
+            )
+
             // fire charge smoke
             .group( createParticleToggleAndMaxAndIntensityConfigGroup(
                 "fire_charge_smoke",
@@ -282,6 +326,10 @@ public class ConfigScreen {
                 integerSliderOption(ConfigTranslation.ITEM_USE_PARTICLE_INTENSITY, "fire_charge_smoke", ConfigHandler.fireCharge_intensity_DEFAULT, () -> ConfigHandler.fireCharge_intensity, newVal -> ConfigHandler.fireCharge_intensity = newVal, 1, 8, 1)
             ))
 
+            .group(
+                ConfigScreen.createSeparator()
+            )
+
             // axe strip
             .group( createMultipleOptionsConfigGroup(
                 "axe_strip_particles",
@@ -291,6 +339,10 @@ public class ConfigScreen {
                 integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE, "axe_strip_particles", ConfigHandler.maxAxeStrip_onUse_DEFAULT, () -> ConfigHandler.maxAxeStrip_onUse, newVal -> ConfigHandler.maxAxeStrip_onUse = newVal, 1, 50, 1)
             ))
 
+            .group(
+                ConfigScreen.createSeparator()
+            )
+
             // hoe till
             .group( createMultipleOptionsConfigGroup(
                 "hoe_till_particles",
@@ -299,6 +351,10 @@ public class ConfigScreen {
                 booleanOption(ConfigTranslation.SPAWN_PARTICLE_ON_ITEM_USE, "hoe_till_particles", Binding.generic(ConfigHandler.hoeTill_onUse_DEFAULT, () -> ConfigHandler.hoeTill_onUse, newVal -> ConfigHandler.hoeTill_onUse = newVal)),
                 integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE, "hoe_till_particles", ConfigHandler.maxHoeTill_onUse_DEFAULT, () -> ConfigHandler.maxHoeTill_onUse, newVal -> ConfigHandler.maxHoeTill_onUse = newVal, 1, 50, 1)
             ))
+
+            .group(
+                ConfigScreen.createSeparator()
+            )
 
             // shovel flatten
             .group( createMultipleOptionsConfigGroup(
@@ -323,6 +379,10 @@ public class ConfigScreen {
                 .option(LabelOption.createBuilder().line(Component.empty()).build())
             .build())
 
+            .group(
+                ConfigScreen.createSeparator()
+            )
+
             // minecart sparks at max speed
             .group( createMultipleOptionsConfigGroup(
                 "minecart_sparks",
@@ -332,6 +392,10 @@ public class ConfigScreen {
                 integerSliderOption(ConfigTranslation.MINECART_WHEEL_PARTICLE_AMOUNT, "minecart_sparks", ConfigHandler.minecart_spawnChance_DEFAULT, () -> ConfigHandler.minecart_spawnChance, newVal -> ConfigHandler.minecart_spawnChance = newVal, 1, 100, 1),
                 booleanOption(ConfigTranslation.MINECART_ONLY_WITH_PASSENGER, "minecart_sparks", Binding.generic(ConfigHandler.minecart_onlyWithPassenger_DEFAULT, () -> ConfigHandler.minecart_onlyWithPassenger, newVal -> ConfigHandler.minecart_onlyWithPassenger = newVal))
             ))
+
+            .group(
+                ConfigScreen.createSeparator()
+            )
 
             // blaze sparks
             .group( createMultipleOptionsConfigGroup(
@@ -356,6 +420,10 @@ public class ConfigScreen {
                 .collapsed(true)
                 .option(LabelOption.createBuilder().line(Component.empty()).build())
             .build())
+
+            .group(
+                ConfigScreen.createSeparator()
+            )
 
             // tinted water splash
             .group( createFluidParticleToggleAndMaxConfigGroup(
@@ -424,6 +492,10 @@ public class ConfigScreen {
                 .option(LabelOption.createBuilder().line(Component.empty()).build())
             .build())
 
+            .group(
+                ConfigScreen.createSeparator()
+            )
+
             // lava bubble pop
             .group( createMultipleOptionsConfigGroup(
                 "lava_bubble_pop",
@@ -432,6 +504,10 @@ public class ConfigScreen {
                 booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "lava_bubble_pop", Binding.generic(ConfigHandler.lavaBubblePop_enabled_DEFAULT, () -> ConfigHandler.lavaBubblePop_enabled, newVal -> ConfigHandler.lavaBubblePop_enabled = newVal)),
                 integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE_WITH_TYPE, "lava_bubble_pop", ConfigHandler.lavaBubblePop_spawnChance_DEFAULT, () -> ConfigHandler.lavaBubblePop_spawnChance, newVal -> ConfigHandler.lavaBubblePop_spawnChance = newVal, 1, 100, 1)
             ))
+
+            .group(
+                ConfigScreen.createSeparator()
+            )
 
             // underwater bubble streams
             .group( createMultipleOptionsConfigGroup(
