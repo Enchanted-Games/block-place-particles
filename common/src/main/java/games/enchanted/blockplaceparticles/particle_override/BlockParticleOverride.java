@@ -1,7 +1,7 @@
-package games.enchanted.blockplaceparticles.particle_spawning.override;
+package games.enchanted.blockplaceparticles.particle_override;
 
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
-import games.enchanted.blockplaceparticles.registry.BlockLocation;
+import games.enchanted.blockplaceparticles.registry.BlockOrTagLocation;
 import games.enchanted.blockplaceparticles.registry.RegistryHelpers;
 import games.enchanted.blockplaceparticles.registry.TagUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -57,9 +57,9 @@ public class BlockParticleOverride {
     private final String groupName;
     @NotNull final BlockParticleOverride.ReplaceParticleFromOriginConsumer shouldReplaceParticleFromOrigin_getter;
     @NotNull final GetParticleOptionConsumer getParticleOption;
-    @Nullable final Supplier<List<BlockLocation>> supportedBlockResourceLocations_getter;
-    @Nullable final Consumer<List<BlockLocation>> supportedBlockResourceLocations_setter;
-    @Nullable final List<BlockLocation> supportedBlockResourceLocations_default;
+    @Nullable final Supplier<List<BlockOrTagLocation>> supportedBlockResourceLocations_getter;
+    @Nullable final Consumer<List<BlockOrTagLocation>> supportedBlockResourceLocations_setter;
+    @Nullable final List<BlockOrTagLocation> supportedBlockResourceLocations_default;
     final Supplier<Boolean> overrideEnabled_getter;
     final Consumer<Boolean> overrideEnabled_setter;
     final boolean overrideEnabled_default;
@@ -96,9 +96,9 @@ public class BlockParticleOverride {
         String overrideName,
         String groupName,
         @NotNull GetParticleOptionConsumer getParticleOption,
-        @NotNull Supplier<List<BlockLocation>> supportedBlockResourceLocations_getter,
-        @NotNull Consumer<List<BlockLocation>> supportedBlockResourceLocations_setter,
-        @NotNull List<BlockLocation> supportedBlockResourceLocations_default,
+        @NotNull Supplier<List<BlockOrTagLocation>> supportedBlockResourceLocations_getter,
+        @NotNull Consumer<List<BlockOrTagLocation>> supportedBlockResourceLocations_setter,
+        @NotNull List<BlockOrTagLocation> supportedBlockResourceLocations_default,
         Supplier<Boolean> overrideEnabled_getter,
         Consumer<Boolean> overrideEnabled_setter,
         boolean overrideEnabled_default,
@@ -156,9 +156,9 @@ public class BlockParticleOverride {
         String groupName,
         @NotNull BlockParticleOverride.ReplaceParticleFromOriginConsumer shouldReplaceParticleFromOrigin_getter,
         @NotNull GetParticleOptionConsumer getParticleOption,
-        @NotNull Supplier<List<BlockLocation>> supportedBlockResourceLocations_getter,
-        @NotNull Consumer<List<BlockLocation>> supportedBlockResourceLocations_setter,
-        @NotNull List<BlockLocation> supportedBlockResourceLocations_default,
+        @NotNull Supplier<List<BlockOrTagLocation>> supportedBlockResourceLocations_getter,
+        @NotNull Consumer<List<BlockOrTagLocation>> supportedBlockResourceLocations_setter,
+        @NotNull List<BlockOrTagLocation> supportedBlockResourceLocations_default,
         Supplier<Boolean> overrideEnabled_getter,
         Consumer<Boolean> overrideEnabled_setter,
         boolean overrideEnabled_default,
@@ -294,15 +294,15 @@ public class BlockParticleOverride {
         return groupName;
     }
 
-    public @Nullable Supplier<List<BlockLocation>> getSupportedBlockResourceLocations_getter() {
+    public @Nullable Supplier<List<BlockOrTagLocation>> getSupportedBlockResourceLocations_getter() {
         return supportedBlockResourceLocations_getter;
     }
 
-    public @Nullable Consumer<List<BlockLocation>> getSupportedBlockResourceLocations_setter() {
+    public @Nullable Consumer<List<BlockOrTagLocation>> getSupportedBlockResourceLocations_setter() {
         return supportedBlockResourceLocations_setter;
     }
 
-    public @Nullable List<BlockLocation> getSupportedBlockResourceLocations_default() {
+    public @Nullable List<BlockOrTagLocation> getSupportedBlockResourceLocations_default() {
         return supportedBlockResourceLocations_default;
     }
 

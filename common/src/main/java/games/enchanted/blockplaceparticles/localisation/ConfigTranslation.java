@@ -49,6 +49,10 @@ public class ConfigTranslation {
 
     public static final String PARTICLE_PHYSICS_ENABLED = "particle_physics_enabled";
 
+    public static final String RENDER_DISTANCE_INTERACTION = "render_distance_interaction";
+    public static final String RENDER_DISTANCE_BLOCK = "render_distance_block";
+    public static final String RENDER_DISTANCE_AMBIENT = "render_distance_ambient";
+
     public static final String SPARKS_ADDITIONAL_FLASH_EFFECT = "sparks_additional_flash_effect";
     public static final String SPARKS_WATER_EVAPORATION = "sparks_water_evaporation";
     public static final String DUST_ADDITIONAL_SPECKS = "dust_additional_specks";

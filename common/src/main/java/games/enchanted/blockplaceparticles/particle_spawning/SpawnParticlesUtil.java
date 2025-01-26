@@ -1,12 +1,30 @@
 package games.enchanted.blockplaceparticles.particle_spawning;
 
 import games.enchanted.blockplaceparticles.util.MathHelpers;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 public class SpawnParticlesUtil {
+    public static boolean isParticleOutsideRenderDistance(@NotNull ParticleCategory particleCategory, BlockPos particlePos) {
+        return isParticleOutsideRenderDistance(particleCategory, particlePos.getX(), particlePos.getY(), particlePos.getZ());
+    }
+
+    public static boolean isParticleOutsideRenderDistance(@NotNull ParticleCategory particleCategory, double x, double y, double z) {
+        LocalPlayer player = Minecraft.getInstance().player;
+        if(player == null) return false;
+
+        double distanceFromPlayer = MathHelpers.getDistanceBetweenPoints(player.getX() / 16, player.getY() / 16, player.getZ() / 16, x / 16, y / 16, z / 16);
+        double maxDistance = Math.min(particleCategory.getMaxDistance(), Minecraft.getInstance().options.renderDistance().get());
+
+        return distanceFromPlayer >= maxDistance;
+    }
+
     /**
      * Spawns a particle option in a flat circular shape
      *

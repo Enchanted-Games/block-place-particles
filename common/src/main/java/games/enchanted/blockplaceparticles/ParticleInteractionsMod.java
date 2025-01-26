@@ -1,7 +1,7 @@
 package games.enchanted.blockplaceparticles;
 
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
-import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverrides;
+import games.enchanted.blockplaceparticles.particle_override.BlockParticleOverrides;
 import games.enchanted.blockplaceparticles.platform.Services;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;

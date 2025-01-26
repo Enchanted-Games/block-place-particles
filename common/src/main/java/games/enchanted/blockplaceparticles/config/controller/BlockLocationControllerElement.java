@@ -4,7 +4,7 @@ import dev.isxander.yacl3.api.utils.Dimension;
 import dev.isxander.yacl3.gui.YACLScreen;
 import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
 import games.enchanted.blockplaceparticles.config.controller.generic.GenericListControllerElement;
-import games.enchanted.blockplaceparticles.registry.BlockLocation;
+import games.enchanted.blockplaceparticles.registry.BlockOrTagLocation;
 import games.enchanted.blockplaceparticles.registry.RegistryHelpers;
 import games.enchanted.blockplaceparticles.util.TextUtil;
 import net.minecraft.client.gui.GuiGraphics;
@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockLocationControllerElement extends GenericListControllerElement<BlockLocation, BlockLocationController> {
+public class BlockLocationControllerElement extends GenericListControllerElement<BlockOrTagLocation, BlockLocationController> {
     private static final ResourceLocation BLOCK_TAG_ICON = ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "block_tag_icon");
 
     public BlockLocationControllerElement(BlockLocationController control, YACLScreen screen, Dimension<Integer> dim) {
@@ -27,13 +27,13 @@ public class BlockLocationControllerElement extends GenericListControllerElement
     }
 
     @Override
-    public List<BlockLocation> computeMatchingValues() {
+    public List<BlockOrTagLocation> computeMatchingValues() {
         if(this.inputField.startsWith("#"))  {
             // tag logic
             String value = this.inputField.replace("#", "");
             List<ResourceLocation> tagResourceLocations = RegistryHelpers.getMatchingTagLocations(value, BuiltInRegistries.BLOCK).toList();
-            ArrayList<BlockLocation> tagLocations = new ArrayList<>();
-            BlockLocation validatedLoc = RegistryHelpers.validateBlockOrTagLocationWithFallback(this.inputField, null);
+            ArrayList<BlockOrTagLocation> tagLocations = new ArrayList<>();
+            BlockOrTagLocation validatedLoc = RegistryHelpers.validateBlockOrTagLocationWithFallback(this.inputField, null);
             this.currentItem = validatedLoc;
 
             if(!validatedLoc.location().getPath().isEmpty()) {
@@ -43,43 +43,43 @@ public class BlockLocationControllerElement extends GenericListControllerElement
 
             for (ResourceLocation tagResourceLocation : tagResourceLocations) {
                 this.matchingItems.put(tagResourceLocation, validatedLoc);
-                tagLocations.add(new BlockLocation(tagResourceLocation, true));
+                tagLocations.add(new BlockOrTagLocation(tagResourceLocation, true));
             }
             return tagLocations;
         }
         List<ResourceLocation> blockResourceLocations = RegistryHelpers.getMatchingLocations(this.inputField, BuiltInRegistries.BLOCK).toList();
-        ArrayList<BlockLocation> blockLocations = new ArrayList<>();
+        ArrayList<BlockOrTagLocation> blockOrTagLocations = new ArrayList<>();
         ResourceLocation validatedLoc = RegistryHelpers.validateBlockLocationWithFallback(this.inputField, null);
-        this.currentItem = validatedLoc == null ? null : new BlockLocation(validatedLoc);
+        this.currentItem = validatedLoc == null ? null : new BlockOrTagLocation(validatedLoc);
         for (ResourceLocation blockLocation : blockResourceLocations) {
             Block blockFromLocation = RegistryHelpers.getBlockFromLocation(blockLocation);
             if (blockFromLocation.defaultBlockState().isAir()) continue;
-            this.matchingItems.put(blockLocation, new BlockLocation(RegistryHelpers.getLocationFromBlock(blockFromLocation)));
-            blockLocations.add(new BlockLocation(blockLocation));
+            this.matchingItems.put(blockLocation, new BlockOrTagLocation(RegistryHelpers.getLocationFromBlock(blockFromLocation)));
+            blockOrTagLocations.add(new BlockOrTagLocation(blockLocation));
         }
-        return blockLocations;
+        return blockOrTagLocations;
     }
 
     @Override
-    public Item getItemToRender(BlockLocation value) {
+    public Item getItemToRender(BlockOrTagLocation value) {
         if(value.isTag()) return null;
         return RegistryHelpers.getBlockFromLocation(value.location()).asItem();
     }
 
     @Override
-    protected void renderDropdownEntry(GuiGraphics graphics, Dimension<Integer> entryDimension, BlockLocation blockLocation) {
-        super.renderDropdownEntry(graphics, entryDimension, blockLocation);
-        if(blockLocation.isTag()) {
+    protected void renderDropdownEntry(GuiGraphics graphics, Dimension<Integer> entryDimension, BlockOrTagLocation blockOrTagLocation) {
+        super.renderDropdownEntry(graphics, entryDimension, blockOrTagLocation);
+        if(blockOrTagLocation.isTag()) {
             // render tag icon
             renderTagIcon( graphics, entryDimension.xLimit() - 2, entryDimension.y() + 1);
             return;
         }
-        this.renderItemIcon(graphics, getItemToRender(blockLocation), entryDimension.xLimit() - 2, entryDimension.y() + 1);
+        this.renderItemIcon(graphics, getItemToRender(blockOrTagLocation), entryDimension.xLimit() - 2, entryDimension.y() + 1);
     }
 
     @Override
     public Component getRenderedValueText() {
-        BlockLocation currentValue = this.getController().option().pendingValue();
+        BlockOrTagLocation currentValue = this.getController().option().pendingValue();
         if(currentValue.isTag()) {
             return TextUtil.formatResourceLocationToChatComponent(currentValue.location(), "#");
         }
@@ -88,7 +88,7 @@ public class BlockLocationControllerElement extends GenericListControllerElement
 
     @Override
     public @Nullable Component getHoverTooltipText() {
-        BlockLocation value = this.getController().option().pendingValue();
+        BlockOrTagLocation value = this.getController().option().pendingValue();
         return TextUtil.formatResourceLocationToChatComponent(value.location(), value.isTag() ? "#" : "");
     }
 

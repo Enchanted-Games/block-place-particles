@@ -5,7 +5,7 @@ import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.config.type.BrushParticleBehaviour;
 import games.enchanted.blockplaceparticles.particle_spawning.SpawnParticles;
-import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
+import games.enchanted.blockplaceparticles.particle_override.BlockParticleOverride;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.HumanoidArm;

@@ -5,8 +5,8 @@ import net.minecraft.resources.ResourceLocation;
 /**
  * A type that stores a resource location for a {@link net.minecraft.world.level.block.Block} or the resource location of a block tag
  */
-public record BlockLocation(ResourceLocation location, boolean isTag) {
-    public BlockLocation(ResourceLocation location) {
+public record BlockOrTagLocation(ResourceLocation location, boolean isTag) {
+    public BlockOrTagLocation(ResourceLocation location) {
         this(location, false);
     }
 
@@ -17,7 +17,7 @@ public record BlockLocation(ResourceLocation location, boolean isTag) {
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof BlockLocation castedObj)) return false;
+        if(!(obj instanceof BlockOrTagLocation castedObj)) return false;
         return this.location.equals(castedObj.location);
     }
 }

@@ -28,11 +28,6 @@ public abstract class FallingBlockEntity extends Entity {
     )
     public void tick(CallbackInfo ci) {
         if(!(this.level() instanceof ClientLevel clientLevel)) return;
-        if(Minecraft.getInstance().player == null) return;
-
-        if(this.distanceTo(Minecraft.getInstance().player) > ConfigHandler.fallingBlockEffect_renderDistance) {
-            return;
-        }
 
         float particleChance = Math.clamp((float) this.getDeltaMovement().length(), 0f, 0.98f);
         if(clientLevel.random.nextFloat() < particleChance) {

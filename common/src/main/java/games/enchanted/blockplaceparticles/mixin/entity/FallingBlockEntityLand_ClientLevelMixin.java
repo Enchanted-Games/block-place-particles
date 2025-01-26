@@ -40,9 +40,6 @@ public abstract class FallingBlockEntityLand_ClientLevelMixin extends Level {
             return original.call(instance, i);
         }
 
-        if(Minecraft.getInstance().player != null && fallingBlockEntity.distanceTo(Minecraft.getInstance().player) > ConfigHandler.fallingBlockEffect_renderDistance) {
-            return original.call(instance, i);
-        }
         if(fallingBlockEntity.getBlockState().getBlock() instanceof BrushableBlock) {
             return original.call(instance, i);
         }

@@ -102,10 +102,10 @@ public class RegistryHelpers {
         return fallback;
     }
 
-    public static BlockLocation validateBlockOrTagLocationWithFallback(String location, BlockLocation fallback) {
+    public static BlockOrTagLocation validateBlockOrTagLocationWithFallback(String location, BlockOrTagLocation fallback) {
         try {
             if(location.startsWith("#")) {
-                return new BlockLocation(ResourceLocation.parse(location.replace("#", "").toLowerCase()), true);
+                return new BlockOrTagLocation(ResourceLocation.parse(location.replace("#", "").toLowerCase()), true);
             }
 
             ResourceLocation blockLocation = ResourceLocation.parse(location.toLowerCase());
@@ -116,7 +116,7 @@ public class RegistryHelpers {
             if(blockFromLoc.get().defaultBlockState().isAir()) {
                 return fallback;
             }
-            return new BlockLocation(blockLocation);
+            return new BlockOrTagLocation(blockLocation);
         } catch (ResourceLocationException ignored) {}
 
         return fallback;
@@ -148,8 +148,8 @@ public class RegistryHelpers {
     public static ResourceLocation getLocationFromBlock(Block block) {
         return BuiltInRegistries.BLOCK.getKey(block);
     }
-    public static BlockLocation getBlockLocationFromBlock(Block block) {
-        return new BlockLocation(getLocationFromBlock(block));
+    public static BlockOrTagLocation getBlockLocationFromBlock(Block block) {
+        return new BlockOrTagLocation(getLocationFromBlock(block));
     }
     public static Block getBlockFromLocation(ResourceLocation location) {
         return BuiltInRegistries.BLOCK.getValue(location);
