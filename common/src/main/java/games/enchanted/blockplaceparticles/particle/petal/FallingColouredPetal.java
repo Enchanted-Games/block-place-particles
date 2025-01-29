@@ -54,6 +54,22 @@ public class FallingColouredPetal extends FallingPetal {
         }
     }
 
+    public static class FlowerPetalProvider implements ParticleProvider<BlockParticleOption> {
+        private final SpriteSet spriteSet;
+
+        public FlowerPetalProvider(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        @Nullable
+        @Override
+        public Particle createParticle(BlockParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            FallingColouredPetal particle = new FallingColouredPetal(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 1f);
+            particle.maxSpinSpeed = 0.5f;
+            return particle;
+        }
+    }
+
     public static class GrassBladeProvider implements ParticleProvider<BlockParticleOption> {
         private final SpriteSet spriteSet;
 

@@ -46,6 +46,7 @@ public class ModParticleTypes {
     public static SimpleParticleType FALLING_AZALEA_LEAF;
     public static SimpleParticleType FALLING_FLOWERING_AZALEA_LEAF;
     public static SimpleParticleType FALLING_PALE_OAK_LEAF;
+    public static ParticleType<BlockParticleOption> FLOWER_PETAL;
     public static ParticleType<BlockParticleOption> GRASS_BLADE;
     public static ParticleType<BlockParticleOption> HEAVY_GRASS_BLADE;
     public static SimpleParticleType MOSS_CLUMP;
@@ -89,6 +90,7 @@ public class ModParticleTypes {
         FALLING_AZALEA_LEAF = register((SpriteProviderReg) FallingPetal.GenericLeafProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_azalea_leaves"), false);
         FALLING_FLOWERING_AZALEA_LEAF = register((SpriteProviderReg) FallingPetal.GenericLeafProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_flowering_azalea_leaves"), false);
         FALLING_PALE_OAK_LEAF = register((SpriteProviderReg) FallingPetal.PaleOakProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_pale_oak_leaf"), false);
+        FLOWER_PETAL = register((SpriteProviderReg) FallingColouredPetal.FlowerPetalProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flower_petal"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         GRASS_BLADE = register((SpriteProviderReg) FallingColouredPetal.GrassBladeProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "grass_blade"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         HEAVY_GRASS_BLADE = register((SpriteProviderReg) FallingColouredPetal.HeavyGrassBladeProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "heavy_grass_blade"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         MOSS_CLUMP = register((SpriteProviderReg) FallingPetal.RandomisedSizeMoreGravityProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "moss_clump"), false);

@@ -234,6 +234,30 @@ public class ConfigHandler {
     @SerialEntry
     public static List<BlockOrTagLocation> tintedPineLeaves_Blocks = tintedPineLeaves_Blocks_DEFAULT;
 
+    // flower petal particle
+    public static final int maxFlowerPetals_onPlace_DEFAULT = 3;
+    @SerialEntry
+    public static int maxFlowerPetals_onPlace = maxFlowerPetals_onPlace_DEFAULT;
+
+    public static final boolean flowerPetals_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean flowerPetals_enabled = flowerPetals_enabled_DEFAULT;
+
+    public static final int maxFlowerPetals_onBreak_DEFAULT = 3;
+    @SerialEntry
+    public static int maxFlowerPetals_onBreak = maxFlowerPetals_onBreak_DEFAULT;
+
+    public static final List<BlockOrTagLocation> flowerPetals_Blocks_DEFAULT = List.of(
+        new BlockOrTagLocation(BlockTags.FLOWERS.location(), true),
+        new BlockOrTagLocation(BlockTags.CAVE_VINES.location(), true),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.TWISTING_VINES_PLANT),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.TWISTING_VINES),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.WEEPING_VINES_PLANT),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.WEEPING_VINES)
+    );
+    @SerialEntry
+    public static List<BlockOrTagLocation> flowerPetals_Blocks = flowerPetals_Blocks_DEFAULT;
+
     // grass blade
     public static final int maxGrassBlade_onPlace_DEFAULT = 2;
     @SerialEntry
@@ -492,7 +516,8 @@ public class ConfigHandler {
         RegistryHelpers.getBlockLocationFromBlock(Blocks.WEEPING_VINES_PLANT),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.HANGING_ROOTS),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.COBWEB),
-        RegistryHelpers.getBlockLocationFromBlock(Blocks.SNOW)
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.SNOW),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.REDSTONE_WIRE)
     );
     @SerialEntry
     public static List<BlockOrTagLocation> blockRustle_Blocks = blockRustle_Blocks_DEFAULT;

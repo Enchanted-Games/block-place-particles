@@ -144,6 +144,24 @@ public abstract class BlockParticleOverrides {
         ConfigHandler.maxTintedLeaves_onBreak_DEFAULT,
         0.13f
     );
+    public static final BlockParticleOverride FLOWER_PETAL = new BlockParticleOverride(
+        "flower_petal",
+        "tinted_or_random_pixel",
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ModParticleTypes.FLOWER_PETAL, blockState),
+        () -> ConfigHandler.flowerPetals_Blocks,
+        (val) -> ConfigHandler.flowerPetals_Blocks = val,
+        ConfigHandler.flowerPetals_Blocks_DEFAULT,
+        () -> ConfigHandler.flowerPetals_enabled,
+        (val) -> ConfigHandler.flowerPetals_enabled = val,
+        ConfigHandler.flowerPetals_enabled_DEFAULT,
+        () -> ConfigHandler.maxFlowerPetals_onPlace,
+        (val) -> ConfigHandler.maxFlowerPetals_onPlace = val,
+        ConfigHandler.maxFlowerPetals_onPlace_DEFAULT,
+        () -> ConfigHandler.maxFlowerPetals_onBreak,
+        (val) -> ConfigHandler.maxFlowerPetals_onBreak = val,
+        ConfigHandler.maxFlowerPetals_onBreak_DEFAULT,
+        0.18f
+    );
     public static final BlockParticleOverride GRASS_BLADE = new BlockParticleOverride(
         "grass_blade",
         "tinted_or_random_pixel",
@@ -304,6 +322,7 @@ public abstract class BlockParticleOverrides {
         BlockParticleOverride.addBlockParticleOverride(PALE_LEAF);
         BlockParticleOverride.addBlockParticleOverride(TINTED_PINE_LEAF);
         BlockParticleOverride.addBlockParticleOverride(TINTED_LEAF);
+        BlockParticleOverride.addBlockParticleOverride(FLOWER_PETAL);
         BlockParticleOverride.addBlockParticleOverride(GRASS_BLADE);
         BlockParticleOverride.addBlockParticleOverride(HEAVY_GRASS_BLADE);
         BlockParticleOverride.addBlockParticleOverride(MOSS_CLUMP);

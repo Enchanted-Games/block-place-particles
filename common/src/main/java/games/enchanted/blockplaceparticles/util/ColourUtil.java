@@ -1,5 +1,6 @@
 package games.enchanted.blockplaceparticles.util;
 
+import com.mojang.blaze3d.platform.NativeImage;
 import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import games.enchanted.blockplaceparticles.mixin.accessor.SpriteContentsAccessor;
 import net.minecraft.client.Minecraft;
@@ -83,7 +84,7 @@ public class ColourUtil {
     }
 
     /**
-     * Gets a random pixel's colour from a {@link BlockState}'s pixel texture
+     * Gets a random pixel's colour from a {@link BlockState}'s particle texture
      *
      * @param blockState the block state to get a random colour from
      * @return the colour in an array of a, r, g, b
@@ -120,7 +121,13 @@ public class ColourUtil {
             randomPixelCoordinate = pixelCoordinatesList[MathHelpers.randomBetween(0, pixelCoordinatesList.length - 1)];
         }
 
-        int sampledColour = ((SpriteContentsAccessor) spriteContents).getOriginalImage().getPixel(randomPixelCoordinate.x(), randomPixelCoordinate.y());
+        NativeImage particleImage = ((SpriteContentsAccessor) spriteContents).getOriginalImage();
+
+        if(randomPixelCoordinate.x() > particleImage.getWidth() - 1 || randomPixelCoordinate.y() > particleImage.getHeight() - 1) {
+            return new int[]{255, 255, 255, 255};
+        }
+
+        int sampledColour = particleImage.getPixel(randomPixelCoordinate.x(), randomPixelCoordinate.y());
         return ARGBint_to_ARGB(sampledColour);
     }
 
