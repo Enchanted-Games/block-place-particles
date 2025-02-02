@@ -12,6 +12,7 @@
   "eg_particle_interactions.config.particle_type.pale_leaf": "Pale Oak Leaf",
   "eg_particle_interactions.config.particle_type.biome_pine_leaf": "Pine Leaf",
   "eg_particle_interactions.config.particle_type.biome_leaf": "Generic Leaf",
+  "eg_particle_interactions.config.particle_type.flower_petal": "Flower Petal",
   "eg_particle_interactions.config.particle_type.grass_blade": "Grass Blade",
   "eg_particle_interactions.config.particle_type.heavy_grass_blade": "Heavy Grass Blade",
   "eg_particle_interactions.config.particle_type.moss_clump": "Moss Clump",
@@ -127,16 +128,25 @@
   "eg_particle_interactions.config.general.performance": "Performance",
   "eg_particle_interactions.config.general.performance.desc": "Config options that may have an impact on performance",
 
+  "eg_particle_interactions.config.global_option.render_distance_interaction": "§oRender Distance:§r Interaction Particles",
+  "eg_particle_interactions.config.global_option.render_distance_interaction.desc": "The maximum distance in chunks that particles spawned from block, item, or entity interactions are visible from.\n\nHigh values may result in worse performance",
+
+  "eg_particle_interactions.config.global_option.render_distance_block": "§oRender Distance:§r Block Particles",
+  "eg_particle_interactions.config.global_option.render_distance_block.desc": "The maximum distance in chunks that block breaking or placement particles are visible from.\n\nHigh values may result in worse performance",
+
+  "eg_particle_interactions.config.global_option.render_distance_ambient": "§oRender Distance:§r Ambient Particles",
+  "eg_particle_interactions.config.global_option.render_distance_ambient.desc": "The maximum distance in chunks that ambient particles are visible from. This includes particles that arent included in the previous two render distance settings, such as ambient fire embers.\n\nHigh values may result in worse performance",
+
   "eg_particle_interactions.config.global_option.particle_physics_enabled": "Advanced particle physics",
   "eg_particle_interactions.config.global_option.particle_physics_enabled.desc": "Controls whether some particles have advanced physics, such as sparks bouncing.\n\nDisabling this may improve performance when a lot of physics particles are in the world",
 
-  "eg_particle_interactions.config.global_option.sparks_additional_flash_effect": "Sparks: Additional flash effect",
+  "eg_particle_interactions.config.global_option.sparks_additional_flash_effect": "§oSparks:§r Additional flash effect",
   "eg_particle_interactions.config.global_option.sparks_additional_flash_effect.desc": "Disabling this will prevent sparks from spawning extra flash effect particles.\n\nDisabling this may very slightly improve performance",
 
-  "eg_particle_interactions.config.global_option.sparks_water_evaporation": "Sparks: Evaporation effect in water",
+  "eg_particle_interactions.config.global_option.sparks_water_evaporation": "§oSparks:§r Evaporation effect in water",
   "eg_particle_interactions.config.global_option.sparks_water_evaporation.desc": "Disabling this will prevent sparks from playing a fizzing sound and spawning steam particles when entering water\n\nDisabling this may very slightly improve performance",
 
-  "eg_particle_interactions.config.global_option.dust_additional_specks": "Dust: Spawn extra dust specks",
+  "eg_particle_interactions.config.global_option.dust_additional_specks": "§oDust:§r Spawn extra dust specks",
   "eg_particle_interactions.config.global_option.dust_additional_specks.desc": "Disabling this will prevent dust particles from spawning additional small bits of dust\n\nDisabling this may very slightly improve performance",
 
   "eg_particle_interactions.config.general.debug": "Debug",
