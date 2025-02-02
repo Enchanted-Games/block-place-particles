@@ -29,7 +29,6 @@ public class ConfigScreen {
             .save(ConfigHandler::save)
             .title(ConfigTranslation.getConfigTitle().toComponent());
         return createConfigCategories(yaclBuilder).generateScreen(parentScreen);
-
     }
 
     private static YetAnotherConfigLib createConfigCategories(YetAnotherConfigLib.Builder yaclBuilder) {

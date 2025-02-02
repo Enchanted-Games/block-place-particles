@@ -20,18 +20,10 @@ public class BasicTintedDust extends AbstractDust {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier, spawnSpecks);
         this.spriteFromAge = spriteFromAge;
 
-        int[] rgb = ColourUtil.RGBint_to_RGB(tintedParticleOption.getColor());
-        float colourVariation = tintedParticleOption.getVariationAmount();
-
-        int[] randomRgb;
-        if(tintedParticleOption.getUniformVariation()) {
-            randomRgb = ColourUtil.randomiseNegativeUniform(rgb, colourVariation);
-        } else {
-            randomRgb = ColourUtil.randomiseNegative(rgb, colourVariation);
-        }
-        this.rCol = randomRgb[0] / 255f;
-        this.gCol = randomRgb[1] / 255f;
-        this.bCol = randomRgb[2] / 255f;
+        int[] rgb = tintedParticleOption.getRandomisedColour();
+        this.rCol = rgb[0] / 255f;
+        this.gCol = rgb[1] / 255f;
+        this.bCol = rgb[2] / 255f;
 
         this.speckGetter = speckGetter;
     }
@@ -72,7 +64,6 @@ public class BasicTintedDust extends AbstractDust {
             return new BasicTintedDust(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet, 0.7f, type, true, true, () -> TintedParticleOption.BRUSH_SPECK_OPTION);
         }
     }
-
     public static class BrushSpeckProvider implements ParticleProvider<TintedParticleOption>  {
         private final SpriteSet spriteSet;
 
@@ -84,6 +75,64 @@ public class BasicTintedDust extends AbstractDust {
         @Override
         public Particle createParticle(@NotNull TintedParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new BasicTintedDust(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet, 0.35f, type, false, false, () -> null);
+        }
+    }
+
+    public static class ItemFrameProvider implements ParticleProvider<TintedParticleOption> {
+        private final SpriteSet spriteSet;
+
+        public ItemFrameProvider(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        @Nullable
+        @Override
+        public Particle createParticle(@NotNull TintedParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new BasicTintedDust(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet, 0.7f, type, true, true, () -> TintedParticleOption.ITEM_FRAME_DUST_SPECK_OPTION);
+        }
+    }
+    public static class ItemFrameSpeckProvider implements ParticleProvider<TintedParticleOption>  {
+        private final SpriteSet spriteSet;
+
+        public ItemFrameSpeckProvider(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        @Nullable
+        @Override
+        public Particle createParticle(@NotNull TintedParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new BasicTintedDust(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet, 0.35f, type, false, false, () -> null);
+        }
+    }
+
+    public static class GlowItemFrameProvider implements ParticleProvider<TintedParticleOption> {
+        private final SpriteSet spriteSet;
+
+        public GlowItemFrameProvider(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        @Nullable
+        @Override
+        public Particle createParticle(@NotNull TintedParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            BasicTintedDust particle = new BasicTintedDust(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet, 0.7f, type, true, true, () -> TintedParticleOption.GLOW_ITEM_FRAME_DUST_SPECK_OPTION);
+            particle.emissive = true;
+            return particle;
+        }
+    }
+    public static class GlowItemFrameSpeckProvider implements ParticleProvider<TintedParticleOption>  {
+        private final SpriteSet spriteSet;
+
+        public GlowItemFrameSpeckProvider(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        @Nullable
+        @Override
+        public Particle createParticle(@NotNull TintedParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            BasicTintedDust particle = new BasicTintedDust(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet, 0.35f, type, false, false, () -> null);
+            particle.emissive = true;
+            return particle;
         }
     }
 }

@@ -13,6 +13,7 @@ import games.enchanted.blockplaceparticles.util.FluidHelpers;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
 import games.enchanted.blockplaceparticles.registry.RegistryHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.entity.ItemFrameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -32,9 +33,11 @@ import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector3d;
 import org.joml.Vector3f;
 
 public class SpawnParticles {
@@ -687,6 +690,7 @@ public class SpawnParticles {
     }
 
     public static void spawnBlockDisturbanceParticles(ClientLevel level, BlockPos blockPos, BlockState blockState, double entityX, double entityY, double entityZ, Vec3 deltaMovement, boolean isSprinting) {
+        if(!ConfigHandler.blockRustle_enabled) return;
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, blockPos)) return;
         double speed = deltaMovement.length();
         if(speed <= 0.1 && !isSprinting) return;
@@ -723,5 +727,42 @@ public class SpawnParticles {
                 deltaMovement.z * 3 * particleOverride.getParticleVelocityMultiplier()
             );
         }
+    }
+
+    public static void spawnItemFrameInteractionParticles(ClientLevel level, double x, double y, double z, AABB boundingBox, Direction itemFrameDirection, ItemFrameParticleOrigin particleOrigin, boolean glowingItemFrame) {
+        if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, x, y, z)) return;
+
+        int particlesAmount = 5;
+        double particleSpeed = 0.2;
+
+        ParticleOptions particleOptionToSpawn;
+        if(particleOrigin == ItemFrameParticleOrigin.FRAME_KILLED) {
+            return;
+        } else {
+            particleOptionToSpawn = glowingItemFrame ? TintedParticleOption.GLOW_ITEM_FRAME_DUST_OPTION : TintedParticleOption.ITEM_FRAME_DUST_OPTION;
+        }
+
+        for (int i = 0; i < particlesAmount; i++) {
+            double randomX = boundingBox.minX + (boundingBox.getXsize() * level.random.nextDouble());
+            double randomY = boundingBox.minY + (boundingBox.getYsize() * level.random.nextDouble());
+            double randomZ = boundingBox.minZ + (boundingBox.getZsize() * level.random.nextDouble());
+
+            level.addParticle(
+                particleOptionToSpawn,
+                (itemFrameDirection.getStepX() * 0.15) + x,
+                (itemFrameDirection.getStepY() * 0.15) + y,
+                (itemFrameDirection.getStepZ() * 0.15) + z,
+                (itemFrameDirection.getStepX() * 0.03) + (randomX - x) * 2 * particleSpeed,
+                (itemFrameDirection.getStepY() * 0.03) + (randomY - y) * 2 * particleSpeed,
+                (itemFrameDirection.getStepZ() * 0.03) + (randomZ - z) * 2 * particleSpeed
+            );
+        }
+    }
+
+    public enum ItemFrameParticleOrigin {
+        FRAME_KILLED(),
+        HELD_ITEM_REMOVED(),
+        ITEM_ROTATED(),
+        ITEM_PLACED(),
     }
 }
