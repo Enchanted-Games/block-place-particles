@@ -436,6 +436,20 @@ public class ConfigScreen {
                 booleanOption(ConfigTranslation.SPAWN_PARTICLE_ON_ENTITY_HURT, "blaze_sparks", Binding.generic(ConfigHandler.blaze_spawnOnHurt_DEFAULT, () -> ConfigHandler.blaze_spawnOnHurt, newVal -> ConfigHandler.blaze_spawnOnHurt = newVal)),
                 integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_ENTITY_HURT, "blaze_sparks", ConfigHandler.blaze_amountToSpawnOnHurt_DEFAULT, () -> ConfigHandler.blaze_amountToSpawnOnHurt, newVal -> ConfigHandler.blaze_amountToSpawnOnHurt = newVal, 1, 32, 1)
             ))
+
+            .group(
+                ConfigScreen.createSeparator()
+            )
+
+            // item frame interactions
+            .group( createMultipleOptionsConfigGroup(
+                "item_frame_dust",
+                "item_frame_dust",
+                ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY,
+                booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "item_frame_dust", Binding.generic(ConfigHandler.itemFrame_enabled_DEFAULT, () -> ConfigHandler.itemFrame_enabled, newVal -> ConfigHandler.itemFrame_enabled = newVal)),
+                integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_INTERACT, "item_frame_dust", ConfigHandler.itemFrame_amount_DEFAULT, () -> ConfigHandler.itemFrame_amount, newVal -> ConfigHandler.itemFrame_amount = newVal, 1, 30, 1)
+            ))
+
         .build());
 
         // fluid placement config category

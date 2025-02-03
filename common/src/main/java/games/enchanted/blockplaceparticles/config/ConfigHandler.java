@@ -585,6 +585,15 @@ public class ConfigHandler {
     @SerialEntry
     public static int blaze_amountToSpawnOnHurt = blaze_amountToSpawnOnHurt_DEFAULT;
 
+    // item frame interaction
+    public static final boolean itemFrame_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean itemFrame_enabled = itemFrame_enabled_DEFAULT;
+
+    public static final int itemFrame_amount_DEFAULT = 7;
+    @SerialEntry
+    public static int itemFrame_amount = itemFrame_amount_DEFAULT;
+
     // Fluid Placement Particles
     // water
     public static final List<ResourceLocation> tintedWaterSplash_fluids_DEFAULT = List.of(RegistryHelpers.getLocationFromFluid(Fluids.WATER), RegistryHelpers.getLocationFromFluid(Fluids.FLOWING_WATER));

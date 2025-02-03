@@ -13,7 +13,6 @@ import games.enchanted.blockplaceparticles.util.FluidHelpers;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
 import games.enchanted.blockplaceparticles.registry.RegistryHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.entity.ItemFrameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -37,7 +36,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3d;
 import org.joml.Vector3f;
 
 public class SpawnParticles {
@@ -723,16 +721,16 @@ public class SpawnParticles {
                 particleY,
                 particleZ,
                 deltaMovement.x * 3 * particleOverride.getParticleVelocityMultiplier(),
-                deltaMovement.y * 3 * particleOverride.getParticleVelocityMultiplier() + 0.05,
+                Math.min(deltaMovement.y, 0.1) * 3 * particleOverride.getParticleVelocityMultiplier() + 0.1,
                 deltaMovement.z * 3 * particleOverride.getParticleVelocityMultiplier()
             );
         }
     }
 
     public static void spawnItemFrameInteractionParticles(ClientLevel level, double x, double y, double z, AABB boundingBox, Direction itemFrameDirection, ItemFrameParticleOrigin particleOrigin, boolean glowingItemFrame) {
+        if(!ConfigHandler.itemFrame_enabled) return;
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, x, y, z)) return;
 
-        int particlesAmount = 5;
         double particleSpeed = 0.2;
 
         ParticleOptions particleOptionToSpawn;
@@ -742,7 +740,7 @@ public class SpawnParticles {
             particleOptionToSpawn = glowingItemFrame ? TintedParticleOption.GLOW_ITEM_FRAME_DUST_OPTION : TintedParticleOption.ITEM_FRAME_DUST_OPTION;
         }
 
-        for (int i = 0; i < particlesAmount; i++) {
+        for (int i = 0; i < ConfigHandler.itemFrame_amount; i++) {
             double randomX = boundingBox.minX + (boundingBox.getXsize() * level.random.nextDouble());
             double randomY = boundingBox.minY + (boundingBox.getYsize() * level.random.nextDouble());
             double randomZ = boundingBox.minZ + (boundingBox.getZsize() * level.random.nextDouble());
