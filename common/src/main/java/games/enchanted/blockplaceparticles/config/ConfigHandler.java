@@ -558,6 +558,20 @@ public class ConfigHandler {
     @SerialEntry
     public static int redstoneInteractionDust_amount = redstoneInteractionDust_amount_DEFAULT;
 
+    // smoker smoke
+    public static final boolean smokerSmoke_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean smokerSmoke_enabled = smokerSmoke_enabled_DEFAULT;
+
+    // furnace embers
+    public static final boolean furnaceEmbers_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean furnaceEmbers_enabled = furnaceEmbers_enabled_DEFAULT;
+
+    public static final boolean furnaceVanillaParticles_enabled_DEFAULT = false;
+    @SerialEntry
+    public static boolean furnaceVanillaParticles_enabled = furnaceVanillaParticles_enabled_DEFAULT;
+
     // Entity Particles
     // travelling minecarts
     public static final int minecart_spawnChance_DEFAULT = 50;

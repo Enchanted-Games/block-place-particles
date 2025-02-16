@@ -32,6 +32,8 @@
   "eg_particle_interactions.config.particle_type.grindstone_craft_sparks": "Grindstone Crafting Sparks",
   "eg_particle_interactions.config.particle_type.falling_block_effect": "Block Falling",
   "eg_particle_interactions.config.particle_type.redstone_interaction_dust": "Redstone Interaction",
+  "eg_particle_interactions.config.particle_type.smoker_smoke": "Smoker Smoke",
+  "eg_particle_interactions.config.particle_type.furnace_embers": "Furnace Embers",
 
   "eg_particle_interactions.config.particle_type.flint_and_steel_sparks": "Flint & Steel Spark",
   "eg_particle_interactions.config.particle_type.fire_charge_smoke": "Fire Charge Smoke",
@@ -170,31 +172,31 @@
   "eg_particle_interactions.config.blocks": "Block Particle Overrides",
   "eg_particle_interactions.config.blocks.desc": "Configure particle overrides for blocks. These overrides replace the vanilla block particles",
   "eg_particle_interactions.config.blocks.info": "Block Particle Override Information",
-  "eg_particle_interactions.config.blocks.info.desc": "The following options in this tab are applied from top to bottom. This means if a block is specified in two separate particle overrides, it will only emit first override that is enabled",
+  "eg_particle_interactions.config.blocks.info.desc": "The following options in this tab are applied from top to bottom. This means if a block is specified in two separate particle overrides, it will only spawn the first override that is enabled",
 
   "eg_particle_interactions.config.blocks.generic_block_override": "%s Particle Options",
-  "eg_particle_interactions.config.blocks.generic_block_override.desc": "When should %s particles be emitted?",
+  "eg_particle_interactions.config.blocks.generic_block_override.desc": "When should %s particles be spawned?",
   "eg_particle_interactions.config.blocks.generic_block_override_blocks": "%s Blocks",
   "eg_particle_interactions.config.blocks.generic_block_override_blocks.desc": "Blocks that should spawn %s particles interacted with",
 
   "eg_particle_interactions.config.blocks.vanilla_block_override": "%s Particle Options",
-  "eg_particle_interactions.config.blocks.vanilla_block_override.desc": "When should %s particles be emitted?\n\nThe %s particles will be applied to all blocks that aren't specified in any other override. If this override is disabled, the %s particles will not spawn.\nThis only applies when placing, breaking, or mining blocks!",
+  "eg_particle_interactions.config.blocks.vanilla_block_override.desc": "When should %s particles be spawned?\n\nThe %s particles will be applied to all blocks that aren't specified in any other override. If this override is disabled, the %s particles will not spawn.\nThis only applies when placing, breaking, or mining blocks!",
 
   "eg_particle_interactions.config.blocks.tinted_or_average": "%s Particle Options",
-  "eg_particle_interactions.config.blocks.tinted_or_average.desc": "When should %s particles be emitted?\n\nThese particles are tinted with the average colour of the block's particle texture",
+  "eg_particle_interactions.config.blocks.tinted_or_average.desc": "When should %s particles be spawned?\n\nThese particles are tinted with the average colour of the block's particle texture",
   "eg_particle_interactions.config.blocks.tinted_or_average_blocks": "%s Blocks",
   "eg_particle_interactions.config.blocks.tinted_or_average_blocks.desc": "Blocks that should spawn %s particles interacted with",
 
   "eg_particle_interactions.config.blocks.tinted_or_random_pixel": "%s Particle Options",
-  "eg_particle_interactions.config.blocks.tinted_or_random_pixel.desc": "When should %s particles be emitted?\n\nThese particles are tinted with a random colour from the block's particle texture",
+  "eg_particle_interactions.config.blocks.tinted_or_random_pixel.desc": "When should %s particles be spawned?\n\nThese particles are tinted with a random colour from the block's particle texture",
   "eg_particle_interactions.config.blocks.tinted_or_random_pixel_blocks": "%s Blocks",
   "eg_particle_interactions.config.blocks.tinted_or_random_pixel_blocks.desc": "Blocks that should spawn %s particles interacted with",
 
 
   "eg_particle_interactions.config.block_ambient": "Block Interactions / Ambient",
-  "eg_particle_interactions.config.block_ambient.desc": "Configure how particles are emitted from blocks in the world or when interacting with blocks",
+  "eg_particle_interactions.config.block_ambient.desc": "Configure how particles are spawned from blocks in the world or when interacting with blocks",
   "eg_particle_interactions.config.block_ambient.info": "Block Interactions / Ambient Information",
-  "eg_particle_interactions.config.block_ambient.info.desc": "Configure how particles are emitted from blocks in the world or when interacting with blocks",
+  "eg_particle_interactions.config.block_ambient.info.desc": "Configure how particles are spawned from blocks in the world or when interacting with blocks",
 
   "eg_particle_interactions.config.block_ambient.underwater_block_bubbles": "%s Particle Options",
   "eg_particle_interactions.config.block_ambient.underwater_block_bubbles.desc": "Control how many %s particles should be spawned and when",
@@ -205,7 +207,7 @@
   "eg_particle_interactions.config.block_ambient.block_rustle_blocks.desc": "Blocks that should spawn particles when walking or running through them.\nThe particles that spawn are dependent on the Block Particle Override for that block",
 
   "eg_particle_interactions.config.block_ambient.campfire_particles": "%s Particles",
-  "eg_particle_interactions.config.block_ambient.campfire_particles.desc": "Configure if campfires should emit additional ambient particles and the chance for them to spawn each tick",
+  "eg_particle_interactions.config.block_ambient.campfire_particles.desc": "Configure if campfires should spawn additional ambient particles and the chance for them to spawn each tick",
 
   "eg_particle_interactions.config.block_ambient.fire_particles": "%s Particles",
   "eg_particle_interactions.config.block_ambient.fire_particles.desc": "Configure if %s particles should be spawned and the chance for them to spawn each tick",
@@ -222,11 +224,19 @@
   "eg_particle_interactions.config.block_ambient.redstone_interaction_dust": "%s Dust Particles",
   "eg_particle_interactions.config.block_ambient.redstone_interaction_dust.desc": "Configure if redstone dust particles should be spawned when some redstone components are interacted with. This applies to redstone dust, repeaters, and comparators",
 
+  "eg_particle_interactions.config.block_ambient.smoker_smoke": "Smoke Particles from Smokers",
+  "eg_particle_interactions.config.block_ambient.smoker_smoke.desc": "Configure if large smoke particles should be spawned from lit smokers",
+
+  "eg_particle_interactions.config.block_ambient.furnace_embers": "Ember Particles from Furnaces",
+  "eg_particle_interactions.config.block_ambient.furnace_embers.desc": "Configure if ember and spark particles should be spawned from lit furnaces. You can also enable or disable the vanilla furnace particles here",
+  "eg_particle_interactions.config.global_option.are_vanilla_furnace_particles_enabled": "Vanilla furnace particles enabled",
+  "eg_particle_interactions.config.global_option.are_vanilla_furnace_particles_enabled.desc": "Should furnaces spawn the vanilla flame and smoke particles?",
+
 
   "eg_particle_interactions.config.entity": "Entity Particles",
-  "eg_particle_interactions.config.entity.desc": "Configure how particles are emitted from entities in the world",
+  "eg_particle_interactions.config.entity.desc": "Configure how particles are spawned from entities in the world",
   "eg_particle_interactions.config.entity.info": "Entity Particles Config Information",
-  "eg_particle_interactions.config.entity.info.desc": "Configure how particles are emitted from entities in the world",
+  "eg_particle_interactions.config.entity.info.desc": "Configure how particles are spawned from entities in the world",
 
   "eg_particle_interactions.config.entity.minecart_sparks": "%s Particles",
   "eg_particle_interactions.config.entity.minecart_sparks.desc": "Configure if %s particles should be spawned and the chance for them to spawn each tick",
@@ -239,9 +249,9 @@
 
 
   "eg_particle_interactions.config.items": "Item Interactions",
-  "eg_particle_interactions.config.items.desc": "Configure how particles are emitted when using or interacting with items",
+  "eg_particle_interactions.config.items.desc": "Configure how particles are spawned when using or interacting with items",
   "eg_particle_interactions.config.items.info": "Item Config Information",
-  "eg_particle_interactions.config.items.info.desc": "Configure how particles are emitted when using or interacting with items",
+  "eg_particle_interactions.config.items.info.desc": "Configure how particles are spawned when using or interacting with items",
 
   "eg_particle_interactions.config.items.brush_particles": "Brushing Particles",
   "eg_particle_interactions.config.items.brush_particles.desc": "Configure how particles should look when brushing blocks with a brush",
@@ -252,9 +262,9 @@
   "eg_particle_interactions.config.enum_option.brush_particle_behaviour.none": "Disabled",
 
   "eg_particle_interactions.config.items.flint_and_steel_sparks": "%s Particle Options",
-  "eg_particle_interactions.config.items.flint_and_steel_sparks.desc": "Configure if %s particles are emitted and how many should spawn when you light a block on fire using a flint & steel",
+  "eg_particle_interactions.config.items.flint_and_steel_sparks.desc": "Configure if %s particles are spawned and how many should spawn when you light a block on fire using a flint & steel",
   "eg_particle_interactions.config.items.fire_charge_smoke": "%s Particle Options",
-  "eg_particle_interactions.config.items.fire_charge_smoke.desc": "Configure if %s particles are emitted and how many should spawn when you light a block on fire using a fire charge",
+  "eg_particle_interactions.config.items.fire_charge_smoke.desc": "Configure if %s particles are spawned and how many should spawn when you light a block on fire using a fire charge",
 
   "eg_particle_interactions.config.items.axe_strip_particles": "%s Particle Options",
   "eg_particle_interactions.config.items.axe_strip_particles.desc": "Configure if %s particles should be spawned when stripping a log with an axe",
@@ -265,33 +275,33 @@
 
 
   "eg_particle_interactions.config.fluids": "Fluid Placement",
-  "eg_particle_interactions.config.fluids.desc": "Configure how particles are emitted when placing fluids",
+  "eg_particle_interactions.config.fluids.desc": "Configure how particles are spawned when placing fluids",
   "eg_particle_interactions.config.fluids.info": "Fluid Config Information",
-  "eg_particle_interactions.config.fluids.info.desc": "All config options in this tab are applied from top to bottom. This means if a fluid is specified in two separate particle types, it will only emit the particle higher up in the config menu",
+  "eg_particle_interactions.config.fluids.info.desc": "All config options in this tab are applied from top to bottom. This means if a fluid is specified in two separate particle types, it will only spawn the particle higher up in the config menu",
 
   "eg_particle_interactions.config.fluids.generic_particle": "%s Particle Options",
-  "eg_particle_interactions.config.fluids.generic_particle.desc": "When should %s particles be emitted?",
+  "eg_particle_interactions.config.fluids.generic_particle.desc": "When should %s particles be spawned?",
   "eg_particle_interactions.config.fluids.generic_particle_fluids": "%s Fluids",
   "eg_particle_interactions.config.fluids.generic_particle_fluids.desc": "Fluids that should spawn %s particles when placed",
 
   "eg_particle_interactions.config.fluids.tinted_splash": "%s Particle Options",
-  "eg_particle_interactions.config.fluids.tinted_splash.desc": "When should %s particles be emitted?\n\nThese particles are tinted with the biome colour of the fluid they are spawned from",
+  "eg_particle_interactions.config.fluids.tinted_splash.desc": "When should %s particles be spawned?\n\nThese particles are tinted with the biome colour of the fluid they are spawned from",
   "eg_particle_interactions.config.fluids.tinted_splash_fluids": "%s Fluids",
   "eg_particle_interactions.config.fluids.tinted_splash_fluids.desc": "Fluids that should spawn %s particles when placed",
 
   "eg_particle_interactions.config.fluids.generic_splash": "%s Particle Options",
-  "eg_particle_interactions.config.fluids.generic_splash.desc": "When should %s particles be emitted?\n\nThese particles are intended for modded fluids that don't fit the options above. It will use the texture of the fluid instead of a splash texture, similar to vanilla block breaking particles",
+  "eg_particle_interactions.config.fluids.generic_splash.desc": "When should %s particles be spawned?\n\nThese particles are intended for modded fluids that don't fit the options above. It will use the texture of the fluid instead of a splash texture, similar to vanilla block breaking particles",
   "eg_particle_interactions.config.fluids.generic_splash_fluids": "%s Fluids",
   "eg_particle_interactions.config.fluids.generic_splash_fluids.desc": "Fluids that should spawn %s particles when placed",
 
 
   "eg_particle_interactions.config.fluid_ambient": "Fluid Ambient",
-  "eg_particle_interactions.config.fluid_ambient.desc": "Configure how particles are emitted from fluids in the world",
+  "eg_particle_interactions.config.fluid_ambient.desc": "Configure how particles are spawned from fluids in the world",
   "eg_particle_interactions.config.fluid_ambient.info": "Fluid Ambient Information",
-  "eg_particle_interactions.config.fluid_ambient.info.desc": "Configure how particles are emitted from fluids in the world",
+  "eg_particle_interactions.config.fluid_ambient.info.desc": "Configure how particles are spawned from fluids in the world",
 
   "eg_particle_interactions.config.fluid_ambient.lava_bubble_pop": "%s Particle Options",
-  "eg_particle_interactions.config.fluid_ambient.lava_bubble_pop.desc": "Configure if %s particles should be emitted from lava source blocks and the chance for them to spawn",
+  "eg_particle_interactions.config.fluid_ambient.lava_bubble_pop.desc": "Configure if %s particles should be spawned from lava source blocks and the chance for them to spawn",
 
   "eg_particle_interactions.config.fluid_ambient.underwater_bubble_streams": "%s Particle Options",
   "eg_particle_interactions.config.fluid_ambient.underwater_bubble_streams.desc": "Configure if %s particles should be spawned underwater and the chance for them to spawn.\nThese particles only spawn from seagrass (and similar blocks)",

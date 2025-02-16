@@ -40,6 +40,7 @@ public class ConfigTranslation {
     public static final String AMOUNT_TO_SPAWN_ON_ENTITY_HURT = "amount_to_spawn_on_entity_hurt";
     public static final String PARTICLE_EFFECT_RENDER_DISTANCE = "particle_effect_render_distance";
     public static final String AMOUNT_TO_SPAWN_ON_INTERACT = "amount_to_spawn_on_interact";
+    public static final String ARE_VANILLA_FURNACE_PARTICLES_ENABLED = "are_vanilla_furnace_particles_enabled";
 
     public static final String BRUSH_PARTICLE_BEHAVIOUR = "brush_particle_behaviour";
 

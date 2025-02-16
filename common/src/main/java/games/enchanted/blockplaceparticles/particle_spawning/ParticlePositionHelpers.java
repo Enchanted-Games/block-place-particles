@@ -1,7 +1,10 @@
 package games.enchanted.blockplaceparticles.particle_spawning;
 
 
+import games.enchanted.blockplaceparticles.util.MathHelpers;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.AbstractFurnaceBlock;
 import net.minecraft.world.level.block.ComparatorBlock;
 import net.minecraft.world.level.block.RepeaterBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -58,5 +61,21 @@ public class ParticlePositionHelpers {
         final float height = 0.4f;
         float[] xyPos = comparatorPositions[positionsIndex];
         return new float[]{xyPos[0], height, xyPos[1]};
+    }
+
+    public static double[] getRandomFurnaceParticlePosition(BlockPos blockPos, BlockState furnaceState) {
+        Direction direction = furnaceState.getValue(AbstractFurnaceBlock.FACING);
+        Direction.Axis direction$axis = direction.getAxis();
+        double baseX = blockPos.getX() + 0.5;
+        double baseY = blockPos.getY();
+        double baseZ = blockPos.getZ() + 0.5;
+
+        double outwardOffset = 0.52;
+        double randomOffset = MathHelpers.randomBetween(-0.3f, 0.3f);
+        double offsetX = direction$axis == Direction.Axis.X ? direction.getStepX() * outwardOffset : randomOffset;
+        double offsetY = MathHelpers.randomBetween(0, 0.375f);
+        double offsetZ = direction$axis == Direction.Axis.Z ? direction.getStepZ() * outwardOffset : randomOffset;
+
+        return new double[]{baseX + offsetX, baseY + offsetY, baseZ + offsetZ};
     }
 }

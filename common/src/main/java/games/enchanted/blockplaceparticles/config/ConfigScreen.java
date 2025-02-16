@@ -299,6 +299,31 @@ public class ConfigScreen {
                 ConfigTranslation.IS_PARTICLE_ENABLED,
                 integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_INTERACT, "redstone_interaction_dust", ConfigHandler.redstoneInteractionDust_amount_DEFAULT, () -> ConfigHandler.redstoneInteractionDust_amount, newVal -> ConfigHandler.redstoneInteractionDust_amount = newVal, 1, 32, 1)
             ))
+
+            .group(
+                ConfigScreen.createSeparator()
+            )
+
+            // smoker smoke
+            .group( createMultipleOptionsConfigGroup(
+                "smoker_smoke",
+                "smoker_smoke",
+                ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
+                booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "smoker_smoke", Binding.generic(ConfigHandler.smokerSmoke_enabled_DEFAULT, () -> ConfigHandler.smokerSmoke_enabled, newVal -> ConfigHandler.smokerSmoke_enabled = newVal))
+            ))
+
+            .group(
+                ConfigScreen.createSeparator()
+            )
+
+            // smoker smoke
+            .group( createMultipleOptionsConfigGroup(
+                "furnace_embers",
+                "furnace_embers",
+                ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
+                booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "furnace_embers", Binding.generic(ConfigHandler.furnaceEmbers_enabled_DEFAULT, () -> ConfigHandler.furnaceEmbers_enabled, newVal -> ConfigHandler.furnaceEmbers_enabled = newVal)),
+                booleanOption(ConfigTranslation.ARE_VANILLA_FURNACE_PARTICLES_ENABLED, "furnace_embers", Binding.generic(ConfigHandler.furnaceVanillaParticles_enabled_DEFAULT, () -> ConfigHandler.furnaceVanillaParticles_enabled, newVal -> ConfigHandler.furnaceVanillaParticles_enabled = newVal))
+            ))
         .build());
 
         // item use category

@@ -8,10 +8,10 @@ import games.enchanted.blockplaceparticles.particle.option.TintedParticleOption;
 import games.enchanted.blockplaceparticles.particle_override.BlockParticleOverride;
 import games.enchanted.blockplaceparticles.particle_override.BlockParticleOverrides;
 import games.enchanted.blockplaceparticles.particle_override.FluidPlacementParticle;
+import games.enchanted.blockplaceparticles.registry.RegistryHelpers;
 import games.enchanted.blockplaceparticles.registry.TagUtil;
 import games.enchanted.blockplaceparticles.util.FluidHelpers;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
-import games.enchanted.blockplaceparticles.registry.RegistryHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -26,6 +26,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FurnaceBlock;
 import net.minecraft.world.level.block.GrindstoneBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.AttachFace;
@@ -640,6 +641,7 @@ public class SpawnParticles {
 
     public static void spawnRedstoneInteractionParticles(ClientLevel level, BlockState blockState, double interactionX, double interactionY, double interactionZ, float spreadX, float spreadY, float spreadZ) {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, interactionX, interactionY, interactionZ)) return;
+        if(!ConfigHandler.redstoneInteractionDust_enabled) return;
         BlockPos pos = BlockPos.containing(interactionX, interactionY, interactionZ);
         for (int i = 0; i < ConfigHandler.redstoneInteractionDust_amount; i++) {
             double particleX = interactionX + MathHelpers.randomBetween(-spreadX / 2, spreadX / 2);
@@ -762,5 +764,28 @@ public class SpawnParticles {
         HELD_ITEM_REMOVED(),
         ITEM_ROTATED(),
         ITEM_PLACED(),
+    }
+
+    public static void spawnSmokerSmokeParticles(ClientLevel level, BlockPos blockPos) {
+        if(!ConfigHandler.smokerSmoke_enabled) return;
+        if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, blockPos)) return;
+
+        if(level.random.nextFloat() > 0.3) {
+            Vec3 centerPos = blockPos.getCenter();
+            level.addParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, centerPos.x, blockPos.getY() + .8, centerPos.z, 0, 0.07f, 0);
+        }
+    }
+
+    public static void spawnAdditionalFurnaceParticles(ClientLevel level, BlockPos blockPos, BlockState furnaceState) {
+        if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, blockPos)) return;
+        if(!ConfigHandler.furnaceEmbers_enabled) return;
+
+        double[] positions = ParticlePositionHelpers.getRandomFurnaceParticlePosition(blockPos, furnaceState);
+        if( level.getBlockState(BlockPos.containing(positions[0], positions[1], positions[2])).isSolid() ) return;
+
+        Direction furnaceDirection = furnaceState.getValue(FurnaceBlock.FACING);
+        final boolean spawnSpark = level.random.nextFloat() < 0.7;
+        final float outwardVelocity = MathHelpers.randomBetween(0.01f, 0.03f) * (spawnSpark ? 1 : 5);
+        level.addParticle(spawnSpark ? ModParticleTypes.FLOATING_EMBER : ModParticleTypes.FLOATING_SPARK, positions[0], positions[1], positions[2], furnaceDirection.getStepX() * outwardVelocity, 0.05f, furnaceDirection.getStepZ() * outwardVelocity);
     }
 }
