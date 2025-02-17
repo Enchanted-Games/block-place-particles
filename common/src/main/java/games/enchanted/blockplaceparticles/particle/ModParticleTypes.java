@@ -86,6 +86,12 @@ public class ModParticleTypes {
     public static ParticleType<ParticleEmitterOptions> FLYING_SPARK_EMITTER;
     public static ParticleType<ParticleEmitterOptions> UNDERWATER_RISING_BUBBLE_SMALL_EMITTER;
 
+    // this only exists because the vanilla block cracking particles are created inside the particle engine
+    public static ParticleType<BlockParticleOption> BLOCK_CRACK;
+    // this exists so block particles can be spawned with low velocities and still move correctly (hacky workaround
+    //  for Block Particle Overrides not having a way to spawn different particles at different velocities)
+    public static ParticleType<BlockParticleOption> BLOCK_HIGH_VELOCITY;
+
     public static void registerParticles() {
         SNOWFLAKE = register((SpriteProviderReg) FallingPetal.SnowflakeProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "snowflake"), false);
         FALLING_CHERRY_PETAL = register((SpriteProviderReg) FallingPetal.GenericLeafProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_cherry_leaves"), false);
@@ -133,6 +139,9 @@ public class ModParticleTypes {
 
         FLYING_SPARK_EMITTER = register((SpriteProviderReg) SparkEmitter.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flying_spark_emitter"), true, ParticleEmitterOptions::codec, ParticleEmitterOptions::streamCodec);
         UNDERWATER_RISING_BUBBLE_SMALL_EMITTER = register((SpriteProviderReg) UnderwaterBubbleEmitter.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "underwater_rising_bubble_small_emitter"), true, ParticleEmitterOptions::codec, ParticleEmitterOptions::streamCodec);
+
+        BLOCK_CRACK = register((SpriteProviderReg) CustomMovementTerrainParticle.CrackingProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "block_crack"), true, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        BLOCK_HIGH_VELOCITY = register((SpriteProviderReg) CustomMovementTerrainParticle.UncappedMotionProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "block_high_velocity"), true, BlockParticleOption::codec, BlockParticleOption::streamCodec);
     }
 
     private static SimpleParticleType register(SpriteProviderReg<SimpleParticleType> provider, ResourceLocation particleID, boolean alwaysShow) {

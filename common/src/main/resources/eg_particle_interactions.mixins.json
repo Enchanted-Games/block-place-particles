@@ -11,6 +11,7 @@
     "accessor.BucketItemAccessor",
     "accessor.ParticleAccessor",
     "accessor.SpriteContentsAccessor",
+    "accessor.TerrainParticleInvoker",
     "accessor.TextureAtlasAccessor",
     "accessor.yacl.DropdownWidgetAccessor",
     "blocks.AbstractCauldronBlock",

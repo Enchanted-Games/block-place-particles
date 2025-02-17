@@ -167,14 +167,17 @@ public abstract class BlockParticleOverrides {
         "tinted_or_random_pixel",
         (int overrideOrigin) -> overrideOrigin != BlockParticleOverride.ORIGIN_ITEM_PARTICLE_OVERRIDDEN,
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
+            boolean spawnDirt = level.random.nextFloat() > 0.9;
             if(
                 blockState.getBlock() == Blocks.GRASS_BLOCK &&
                 (overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_CRACK || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_PLACED || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_BROKEN || overrideOrigin == BlockParticleOverride.ORIGIN_ITEM_PARTICLE_OVERRIDDEN)
             ) {
                 // occasionally spawn dirt particles if a grass block is placed or broken
-                return level.random.nextFloat() > 0.3 ? new BlockParticleOption(ParticleTypes.BLOCK, Blocks.DIRT.defaultBlockState()) : new BlockParticleOption(ModParticleTypes.GRASS_BLADE, blockState);
+                spawnDirt = level.random.nextFloat() > 0.7;
             }
-            return new BlockParticleOption(ModParticleTypes.GRASS_BLADE, blockState);
+            return spawnDirt ?
+                new BlockParticleOption(overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_CRACK ? ModParticleTypes.BLOCK_CRACK : ModParticleTypes.BLOCK_HIGH_VELOCITY, Blocks.DIRT.defaultBlockState()) :
+                new BlockParticleOption(ModParticleTypes.GRASS_BLADE, blockState);
         },
         () -> ConfigHandler.grassBlade_Blocks,
         (val) -> ConfigHandler.grassBlade_Blocks = val,
