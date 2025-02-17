@@ -248,12 +248,15 @@ public class ConfigHandler {
     public static int maxFlowerPetals_onBreak = maxFlowerPetals_onBreak_DEFAULT;
 
     public static final List<BlockOrTagLocation> flowerPetals_Blocks_DEFAULT = List.of(
-        new BlockOrTagLocation(BlockTags.FLOWERS.location(), true),
-        new BlockOrTagLocation(BlockTags.CAVE_VINES.location(), true),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.TWISTING_VINES_PLANT),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.TWISTING_VINES),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.WEEPING_VINES_PLANT),
-        RegistryHelpers.getBlockLocationFromBlock(Blocks.WEEPING_VINES)
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.WEEPING_VINES),
+        new BlockOrTagLocation(BlockTags.CAVE_VINES.location(), true),
+        new BlockOrTagLocation(BlockTags.FLOWERS.location(), true),
+        new BlockOrTagLocation(ResourceLocation.fromNamespaceAndPath("c", "flowers"), true),
+        new BlockOrTagLocation(ResourceLocation.fromNamespaceAndPath("c", "flowers/small"), true),
+        new BlockOrTagLocation(ResourceLocation.fromNamespaceAndPath("c", "flowers/tall"), true)
     );
     @SerialEntry
     public static List<BlockOrTagLocation> flowerPetals_Blocks = flowerPetals_Blocks_DEFAULT;
@@ -496,8 +499,6 @@ public class ConfigHandler {
     public static boolean blockRustle_enabled = blockRustle_enabled_DEFAULT;
 
     public static final List<BlockOrTagLocation> blockRustle_Blocks_DEFAULT = List.of(
-        new BlockOrTagLocation(BlockTags.FLOWERS.location(), true),
-        new BlockOrTagLocation(BlockTags.CROPS.location(), true),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.VINE),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.SHORT_GRASS),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.TALL_GRASS),
@@ -517,7 +518,13 @@ public class ConfigHandler {
         RegistryHelpers.getBlockLocationFromBlock(Blocks.HANGING_ROOTS),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.COBWEB),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.SNOW),
-        RegistryHelpers.getBlockLocationFromBlock(Blocks.REDSTONE_WIRE)
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.REDSTONE_WIRE),
+        new BlockOrTagLocation(BlockTags.CAVE_VINES.location(), true),
+        new BlockOrTagLocation(BlockTags.FLOWERS.location(), true),
+        new BlockOrTagLocation(ResourceLocation.fromNamespaceAndPath("c", "flowers"), true),
+        new BlockOrTagLocation(ResourceLocation.fromNamespaceAndPath("c", "flowers/small"), true),
+        new BlockOrTagLocation(ResourceLocation.fromNamespaceAndPath("c", "flowers/tall"), true),
+        new BlockOrTagLocation(BlockTags.CROPS.location(), true)
     );
     @SerialEntry
     public static List<BlockOrTagLocation> blockRustle_Blocks = blockRustle_Blocks_DEFAULT;

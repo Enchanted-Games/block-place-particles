@@ -54,5 +54,11 @@ public class ParticleMixin implements ParticleAccess {
     @Override
     public void setBypassMovementCollisionCheck(boolean newValue) {
         this.block_place_particle$bypassMovementCollisionCheck = newValue;
+        if(!newValue) stoppedByCollision = false;
+    }
+
+    @Override
+    public boolean getBypassMovementCollisionCheck() {
+        return this.block_place_particle$bypassMovementCollisionCheck;
     }
 }

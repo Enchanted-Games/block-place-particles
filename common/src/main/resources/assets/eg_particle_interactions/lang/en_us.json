@@ -128,17 +128,19 @@
   "eg_particle_interactions.config.global_option.auto_collapse_config_lists": "Auto collapse config menu lists",
   "eg_particle_interactions.config.global_option.auto_collapse_config_lists.desc": "Should lists in the config menu be collapsed by default?\n\nEnabling this is useful if your config has very long lists of blocks / fluids / etc.\nThis doesn't take effect until you close and re-open the config menu",
 
-  "eg_particle_interactions.config.general.performance": "Performance",
-  "eg_particle_interactions.config.general.performance.desc": "Config options that may have an impact on performance",
+  "eg_particle_interactions.config.general.performance_general": "Performance: General",
+  "eg_particle_interactions.config.general.performance_general.desc": "Config options that may have an impact on performance",
+  "eg_particle_interactions.config.general.performance_particles": "Performance: Particles",
+  "eg_particle_interactions.config.general.performance_particles.desc": "Toggles for certain particle behaviours that can have a performance impact",
 
   "eg_particle_interactions.config.global_option.render_distance_interaction": "§oRender Distance:§r Interaction Particles",
-  "eg_particle_interactions.config.global_option.render_distance_interaction.desc": "The maximum distance in chunks that particles spawned from block, item, or entity interactions are visible from.\n\nHigh values may result in worse performance",
+  "eg_particle_interactions.config.global_option.render_distance_interaction.desc": "The maximum distance in chunks that particles spawned from block, item, or entity interactions are visible from.\n\nHigh values may result in worse performance, the final render distance is capped at Minecraft's render distance",
 
   "eg_particle_interactions.config.global_option.render_distance_block": "§oRender Distance:§r Block Particles",
-  "eg_particle_interactions.config.global_option.render_distance_block.desc": "The maximum distance in chunks that block breaking or placement particles are visible from.\n\nHigh values may result in worse performance",
+  "eg_particle_interactions.config.global_option.render_distance_block.desc": "The maximum distance in chunks that block breaking or placement particles are visible from.\n\nHigh values may result in worse performance, the final render distance is capped at Minecraft's render distance",
 
   "eg_particle_interactions.config.global_option.render_distance_ambient": "§oRender Distance:§r Ambient Particles",
-  "eg_particle_interactions.config.global_option.render_distance_ambient.desc": "The maximum distance in chunks that ambient particles are visible from. This includes particles that arent included in the previous two render distance settings, such as ambient fire embers.\n\nHigh values may result in worse performance",
+  "eg_particle_interactions.config.global_option.render_distance_ambient.desc": "The maximum distance in chunks that ambient particles are visible from. This includes particles that arent included in the previous two render distance settings, such as ambient fire embers.\n\nHigh values may result in worse performance, the final render distance is capped at Minecraft's render distance",
 
   "eg_particle_interactions.config.global_option.particle_physics_enabled": "Advanced particle physics",
   "eg_particle_interactions.config.global_option.particle_physics_enabled.desc": "Controls whether some particles have advanced physics, such as sparks bouncing.\n\nDisabling this may improve performance when a lot of physics particles are in the world",

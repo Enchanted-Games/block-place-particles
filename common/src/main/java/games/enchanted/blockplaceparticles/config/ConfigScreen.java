@@ -64,9 +64,9 @@ public class ConfigScreen {
                 )
             ))
 
-            // performance
+            // performance: general
             .group( createGenericConfigGroup(
-                "performance",
+                "performance_general",
                 ConfigTranslation.GENERAL_CATEGORY,
                 false,
                 integerSliderOption(
@@ -99,7 +99,13 @@ public class ConfigScreen {
                 genericBooleanOption(
                     ConfigTranslation.PARTICLE_PHYSICS_ENABLED,
                     Binding.generic(ConfigHandler.general_extraParticlePhysicsEnabled_DEFAULT, () -> ConfigHandler.general_extraParticlePhysicsEnabled, newVal -> ConfigHandler.general_extraParticlePhysicsEnabled = newVal)
-                ),
+                )
+            ))
+
+            .group( createGenericConfigGroup(
+                "performance_particles",
+                ConfigTranslation.GENERAL_CATEGORY,
+                false,
                 genericBooleanOption(
                     ConfigTranslation.SPARKS_ADDITIONAL_FLASH_EFFECT,
                     Binding.generic(ConfigHandler.particle_sparks_additionalFlashEffects_DEFAULT, () -> ConfigHandler.particle_sparks_additionalFlashEffects, newVal -> ConfigHandler.particle_sparks_additionalFlashEffects = newVal)
