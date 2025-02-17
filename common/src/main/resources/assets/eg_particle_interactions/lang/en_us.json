@@ -34,6 +34,7 @@
   "eg_particle_interactions.config.particle_type.redstone_interaction_dust": "Redstone Interaction",
   "eg_particle_interactions.config.particle_type.smoker_smoke": "Smoker Smoke",
   "eg_particle_interactions.config.particle_type.furnace_embers": "Furnace Embers",
+  "eg_particle_interactions.config.particle_type.blast_furnace_sparks": "Blast Furnace Sparks",
 
   "eg_particle_interactions.config.particle_type.flint_and_steel_sparks": "Flint & Steel Spark",
   "eg_particle_interactions.config.particle_type.fire_charge_smoke": "Fire Charge Smoke",
@@ -233,6 +234,9 @@
   "eg_particle_interactions.config.block_ambient.furnace_embers.desc": "Configure if ember and spark particles should be spawned from lit furnaces. You can also enable or disable the vanilla furnace particles here",
   "eg_particle_interactions.config.global_option.are_vanilla_furnace_particles_enabled": "Vanilla furnace particles enabled",
   "eg_particle_interactions.config.global_option.are_vanilla_furnace_particles_enabled.desc": "Should furnaces spawn the vanilla flame and smoke particles?",
+
+  "eg_particle_interactions.config.block_ambient.blast_furnace_sparks": "Spark Particles from Blast Furnaces",
+  "eg_particle_interactions.config.block_ambient.blast_furnace_sparks.desc": "Configure if spark and ember particles should be spawned from lit blast furnaces",
 
 
   "eg_particle_interactions.config.entity": "Entity Particles",

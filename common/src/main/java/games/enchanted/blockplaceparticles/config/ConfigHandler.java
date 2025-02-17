@@ -579,6 +579,11 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean furnaceVanillaParticles_enabled = furnaceVanillaParticles_enabled_DEFAULT;
 
+    // blast furnace sparks
+    public static final boolean blastFurnaceSparks_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean blastFurnaceSparks_enabled = blastFurnaceSparks_enabled_DEFAULT;
+
     // Entity Particles
     // travelling minecarts
     public static final int minecart_spawnChance_DEFAULT = 50;

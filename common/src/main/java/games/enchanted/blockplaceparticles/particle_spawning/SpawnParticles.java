@@ -781,11 +781,24 @@ public class SpawnParticles {
         if(!ConfigHandler.furnaceEmbers_enabled) return;
 
         double[] positions = ParticlePositionHelpers.getRandomFurnaceParticlePosition(blockPos, furnaceState);
-        if( level.getBlockState(BlockPos.containing(positions[0], positions[1], positions[2])).isSolid() ) return;
+        if( level.getBlockState(BlockPos.containing(positions[0], positions[1], positions[2])).isSuffocating(level, blockPos) ) return;
 
         Direction furnaceDirection = furnaceState.getValue(FurnaceBlock.FACING);
         final boolean spawnSpark = level.random.nextFloat() < 0.7;
         final float outwardVelocity = MathHelpers.randomBetween(0.01f, 0.03f) * (spawnSpark ? 1 : 5);
         level.addParticle(spawnSpark ? ModParticleTypes.FLOATING_EMBER : ModParticleTypes.FLOATING_SPARK, positions[0], positions[1], positions[2], furnaceDirection.getStepX() * outwardVelocity, 0.05f, furnaceDirection.getStepZ() * outwardVelocity);
+    }
+
+    public static void spawnAdditionalBlastFurnaceParticles(ClientLevel level, BlockPos blockPos, BlockState furnaceState) {
+        if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, blockPos)) return;
+        if(!ConfigHandler.blastFurnaceSparks_enabled) return;
+
+        double[] positions = ParticlePositionHelpers.getRandomFurnaceParticlePosition(blockPos, furnaceState);
+        if( level.getBlockState(BlockPos.containing(positions[0], positions[1], positions[2])).isSuffocating(level, blockPos) ) return;
+
+        Direction furnaceDirection = furnaceState.getValue(FurnaceBlock.FACING);
+        final boolean spawnSpark = level.random.nextFloat() < 0.2;
+        final float outwardVelocity = MathHelpers.randomBetween(0.01f, 0.03f) * (spawnSpark ? 1 : 5);
+        level.addParticle(spawnSpark ? ModParticleTypes.FLOATING_EMBER : ModParticleTypes.FLOATING_SPARK, positions[0], positions[1] + 0.125, positions[2], furnaceDirection.getStepX() * outwardVelocity, 0.05f, furnaceDirection.getStepZ() * outwardVelocity);
     }
 }

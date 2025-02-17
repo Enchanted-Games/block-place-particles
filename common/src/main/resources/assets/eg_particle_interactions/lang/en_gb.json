@@ -34,6 +34,7 @@
   "eg_particle_interactions.config.particle_type.redstone_interaction_dust": "Redstone Interaction",
   "eg_particle_interactions.config.particle_type.smoker_smoke": "Smoker Smoke",
   "eg_particle_interactions.config.particle_type.furnace_embers": "Furnace Embers",
+  "eg_particle_interactions.config.particle_type.blast_furnace_sparks": "Blast Furnace Sparks",
 
   "eg_particle_interactions.config.particle_type.flint_and_steel_sparks": "Flint & Steel Spark",
   "eg_particle_interactions.config.particle_type.fire_charge_smoke": "Fire Charge Smoke",

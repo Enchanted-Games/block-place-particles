@@ -322,13 +322,25 @@ public class ConfigScreen {
                 ConfigScreen.createSeparator()
             )
 
-            // smoker smoke
+            // furnace embers
             .group( createMultipleOptionsConfigGroup(
                 "furnace_embers",
                 "furnace_embers",
                 ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
                 booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "furnace_embers", Binding.generic(ConfigHandler.furnaceEmbers_enabled_DEFAULT, () -> ConfigHandler.furnaceEmbers_enabled, newVal -> ConfigHandler.furnaceEmbers_enabled = newVal)),
                 booleanOption(ConfigTranslation.ARE_VANILLA_FURNACE_PARTICLES_ENABLED, "furnace_embers", Binding.generic(ConfigHandler.furnaceVanillaParticles_enabled_DEFAULT, () -> ConfigHandler.furnaceVanillaParticles_enabled, newVal -> ConfigHandler.furnaceVanillaParticles_enabled = newVal))
+            ))
+
+            .group(
+                ConfigScreen.createSeparator()
+            )
+
+            // blast furnace sparks
+            .group( createMultipleOptionsConfigGroup(
+                "blast_furnace_sparks",
+                "blast_furnace_sparks",
+                ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
+                booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "blast_furnace_sparks", Binding.generic(ConfigHandler.blastFurnaceSparks_enabled_DEFAULT, () -> ConfigHandler.blastFurnaceSparks_enabled, newVal -> ConfigHandler.blastFurnaceSparks_enabled = newVal))
             ))
         .build());
 
