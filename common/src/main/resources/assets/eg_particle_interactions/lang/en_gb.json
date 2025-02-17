@@ -235,6 +235,9 @@
   "eg_particle_interactions.config.global_option.are_vanilla_furnace_particles_enabled": "Vanilla furnace particles enabled",
   "eg_particle_interactions.config.global_option.are_vanilla_furnace_particles_enabled.desc": "Should furnaces spawn the vanilla flame and smoke particles?",
 
+  "eg_particle_interactions.config.block_ambient.blast_furnace_sparks": "Spark Particles from Blast Furnaces",
+  "eg_particle_interactions.config.block_ambient.blast_furnace_sparks.desc": "Configure if spark and ember particles should be spawned from lit blast furnaces",
+
 
   "eg_particle_interactions.config.entity": "Entity Particles",
   "eg_particle_interactions.config.entity.desc": "Configure how particles are spawned from entities in the world",
