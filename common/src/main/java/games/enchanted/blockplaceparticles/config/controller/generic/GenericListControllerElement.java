@@ -79,7 +79,7 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
     @Override
     public boolean charTyped(char chr, int modifiers) {
         if(this.dropdownWidget != null) {
-            ((DropdownWidgetAccessor) this.dropdownWidget).setFirstVisibleIndex(0);
+            ((DropdownWidgetAccessor) this.dropdownWidget).block_place_particle$setFirstVisibleIndex(0);
             this.dropdownWidget.scrollUp();
         }
         return super.charTyped(chr, modifiers);

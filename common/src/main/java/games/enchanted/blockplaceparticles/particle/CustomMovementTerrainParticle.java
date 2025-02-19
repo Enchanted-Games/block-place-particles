@@ -25,7 +25,7 @@ public class CustomMovementTerrainParticle extends TerrainParticle {
         @Nullable
         @Override
         public Particle createParticle(@NotNull BlockParticleOption particleOption, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            Particle particle = TerrainParticleInvoker.invokeCreateTerrainParticle(particleOption, level, x, y, z, xSpeed, ySpeed, zSpeed);
+            Particle particle = TerrainParticleInvoker.block_place_particle$invokeCreateTerrainParticle(particleOption, level, x, y, z, xSpeed, ySpeed, zSpeed);
             if (particle != null) {
                 particle.setPower(0.2F).scale(0.6F);
             }
@@ -39,7 +39,7 @@ public class CustomMovementTerrainParticle extends TerrainParticle {
         @Nullable
         @Override
         public Particle createParticle(@NotNull BlockParticleOption particleOption, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return TerrainParticleInvoker.invokeCreateTerrainParticle(particleOption, level, x, y, z, xSpeed * 6, ySpeed * 6, zSpeed * 6);
+            return TerrainParticleInvoker.block_place_particle$invokeCreateTerrainParticle(particleOption, level, x, y, z, xSpeed * 6, ySpeed * 6, zSpeed * 6);
         }
     }
 }

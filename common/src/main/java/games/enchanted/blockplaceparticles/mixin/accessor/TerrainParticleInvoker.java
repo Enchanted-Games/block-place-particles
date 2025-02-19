@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(TerrainParticle.class)
 public interface TerrainParticleInvoker {
     @Invoker("createTerrainParticle")
-    static TerrainParticle invokeCreateTerrainParticle(BlockParticleOption particleOption, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+    static TerrainParticle block_place_particle$invokeCreateTerrainParticle(BlockParticleOption particleOption, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         throw new AssertionError();
     }
 }

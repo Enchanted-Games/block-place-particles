@@ -49,7 +49,7 @@ public class FallingPetal extends TextureSheetParticle {
         if(this.rotSpeed > this.maxSpinSpeed) this.rotSpeed = this.maxSpinSpeed;
 
         this.oRoll = this.roll;
-        if( !this.onGround && !((ParticleAccessor) this).getStoppedByCollision() ) {
+        if( !this.onGround && !((ParticleAccessor) this).block_place_particle$getStoppedByCollision() ) {
             this.roll += this.rotSpeed / 6.5f;
         }
 
