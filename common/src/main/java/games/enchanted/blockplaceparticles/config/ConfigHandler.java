@@ -500,6 +500,7 @@ public class ConfigHandler {
 
     public static final List<BlockOrTagLocation> blockRustle_Blocks_DEFAULT = List.of(
         RegistryHelpers.getBlockLocationFromBlock(Blocks.VINE),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.PALE_HANGING_MOSS),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.SHORT_GRASS),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.TALL_GRASS),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.FERN),
