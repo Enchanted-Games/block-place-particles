@@ -3,15 +3,17 @@ package games.enchanted.blockplaceparticles.particle;
 import com.mojang.serialization.MapCodec;
 import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
 import games.enchanted.blockplaceparticles.particle.bubble.UnderwaterRisingBubble;
+import games.enchanted.blockplaceparticles.particle.constant_motion.LavaPop;
 import games.enchanted.blockplaceparticles.particle.dust.BasicTintedDust;
 import games.enchanted.blockplaceparticles.particle.dust.FloatingColouredDust;
+import games.enchanted.blockplaceparticles.particle.emitter.UnderwaterBubbleEmitter;
 import games.enchanted.blockplaceparticles.particle.option.ParticleEmitterOptions;
 import games.enchanted.blockplaceparticles.particle.option.TintedParticleOption;
 import games.enchanted.blockplaceparticles.particle.petal.FallingColouredPetal;
 import games.enchanted.blockplaceparticles.particle.petal.FallingPetal;
 import games.enchanted.blockplaceparticles.particle.shatter.BlockShatter;
 import games.enchanted.blockplaceparticles.particle.spark.FlyingSpark;
-import games.enchanted.blockplaceparticles.particle.spark.SparkEmitter;
+import games.enchanted.blockplaceparticles.particle.emitter.SparkEmitter;
 import games.enchanted.blockplaceparticles.particle.spark.SparkFlash;
 import games.enchanted.blockplaceparticles.particle.splash.BlockSplash;
 import games.enchanted.blockplaceparticles.particle.splash.ColouredBucketSplash;
@@ -44,12 +46,17 @@ public class ModParticleTypes {
     public static SimpleParticleType FALLING_AZALEA_LEAF;
     public static SimpleParticleType FALLING_FLOWERING_AZALEA_LEAF;
     public static SimpleParticleType FALLING_PALE_OAK_LEAF;
+    public static ParticleType<BlockParticleOption> FLOWER_PETAL;
     public static ParticleType<BlockParticleOption> GRASS_BLADE;
     public static ParticleType<BlockParticleOption> HEAVY_GRASS_BLADE;
     public static SimpleParticleType MOSS_CLUMP;
     public static SimpleParticleType PALE_MOSS_CLUMP;
     public static ParticleType<TintedParticleOption> BRUSH_DUST;
     public static ParticleType<TintedParticleOption> BRUSH_DUST_SPECK;
+    public static ParticleType<TintedParticleOption> ITEM_FRAME_DUST;
+    public static ParticleType<TintedParticleOption> ITEM_FRAME_DUST_SPECK;
+    public static ParticleType<TintedParticleOption> GLOW_ITEM_FRAME_DUST;
+    public static ParticleType<TintedParticleOption> GLOW_ITEM_FRAME_DUST_SPECK;
     public static ParticleType<BlockParticleOption> TINTED_DUST;
     public static ParticleType<BlockParticleOption> TINTED_DUST_SPECK;
     public static ParticleType<TintedParticleOption> REDSTONE_DUST;
@@ -68,12 +75,22 @@ public class ModParticleTypes {
     public static SimpleParticleType SOUL_SPARK_FLASH;
 
     public static SimpleParticleType UNDERWATER_RISING_BUBBLE;
+    public static SimpleParticleType UNDERWATER_RISING_BUBBLE_SMALL;
 
     public static SimpleParticleType FLOATING_EMBER;
     public static SimpleParticleType FLOATING_SOUL_EMBER;
     public static SimpleParticleType WATER_VAPOUR;
 
+    public static SimpleParticleType LAVA_POP;
+
     public static ParticleType<ParticleEmitterOptions> FLYING_SPARK_EMITTER;
+    public static ParticleType<ParticleEmitterOptions> UNDERWATER_RISING_BUBBLE_SMALL_EMITTER;
+
+    // this only exists because the vanilla block cracking particles are created inside the particle engine
+    public static ParticleType<BlockParticleOption> BLOCK_CRACK;
+    // this exists so block particles can be spawned with low velocities and still move correctly (hacky workaround
+    //  for Block Particle Overrides not having a way to spawn different particles at different velocities)
+    public static ParticleType<BlockParticleOption> BLOCK_HIGH_VELOCITY;
 
     public static void registerParticles() {
         SNOWFLAKE = register((SpriteProviderReg) FallingPetal.SnowflakeProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "snowflake"), false);
@@ -83,12 +100,17 @@ public class ModParticleTypes {
         FALLING_AZALEA_LEAF = register((SpriteProviderReg) FallingPetal.GenericLeafProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_azalea_leaves"), false);
         FALLING_FLOWERING_AZALEA_LEAF = register((SpriteProviderReg) FallingPetal.GenericLeafProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_flowering_azalea_leaves"), false);
         FALLING_PALE_OAK_LEAF = register((SpriteProviderReg) FallingPetal.PaleOakProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "falling_pale_oak_leaf"), false);
+        FLOWER_PETAL = register((SpriteProviderReg) FallingColouredPetal.FlowerPetalProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flower_petal"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         GRASS_BLADE = register((SpriteProviderReg) FallingColouredPetal.GrassBladeProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "grass_blade"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         HEAVY_GRASS_BLADE = register((SpriteProviderReg) FallingColouredPetal.HeavyGrassBladeProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "heavy_grass_blade"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         MOSS_CLUMP = register((SpriteProviderReg) FallingPetal.RandomisedSizeMoreGravityProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "moss_clump"), false);
         PALE_MOSS_CLUMP = register((SpriteProviderReg) FallingPetal.RandomisedSizeMoreGravityProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "pale_moss_clump"), false);
         BRUSH_DUST = register((SpriteProviderReg) BasicTintedDust.BrushProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "brush_dust"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
         BRUSH_DUST_SPECK = register((SpriteProviderReg) BasicTintedDust.BrushSpeckProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "brush_dust_speck"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
+        ITEM_FRAME_DUST = register((SpriteProviderReg) BasicTintedDust.ItemFrameProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "item_frame_dust"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
+        ITEM_FRAME_DUST_SPECK = register((SpriteProviderReg) BasicTintedDust.ItemFrameSpeckProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "item_frame_dust_speck"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
+        GLOW_ITEM_FRAME_DUST = register((SpriteProviderReg) BasicTintedDust.GlowItemFrameProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "glow_item_frame_dust"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
+        GLOW_ITEM_FRAME_DUST_SPECK = register((SpriteProviderReg) BasicTintedDust.GlowItemFrameSpeckProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "glow_item_frame_dust_speck"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
         TINTED_DUST = register((SpriteProviderReg) FloatingColouredDust.TintedDustProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "tinted_dust"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         TINTED_DUST_SPECK = register((SpriteProviderReg) FloatingColouredDust.TintedDustSpeckProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "tinted_dust_speck"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         REDSTONE_DUST = register((SpriteProviderReg) BasicTintedDust.RedstoneProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "redstone_dust"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
@@ -107,12 +129,19 @@ public class ModParticleTypes {
         SOUL_SPARK_FLASH = register((SpriteProviderReg) SparkFlash.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "soul_spark_flash"), false);
 
         UNDERWATER_RISING_BUBBLE = register((SpriteProviderReg) UnderwaterRisingBubble.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "underwater_rising_bubble"), false);
+        UNDERWATER_RISING_BUBBLE_SMALL = register((SpriteProviderReg) UnderwaterRisingBubble.SmallProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "underwater_rising_bubble_small"), false);
 
         FLOATING_EMBER = register((SpriteProviderReg) Ember.EmberProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_ember"), true);
         FLOATING_SOUL_EMBER = register((SpriteProviderReg) Ember.EmberProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "floating_soul_ember"), true);
         WATER_VAPOUR = register((SpriteProviderReg) WaterVapour.WaterVapourProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "water_vapour"), true);
 
+        LAVA_POP = register((SpriteProviderReg) LavaPop.LavaPopProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "lava_pop"), true);
+
         FLYING_SPARK_EMITTER = register((SpriteProviderReg) SparkEmitter.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "flying_spark_emitter"), true, ParticleEmitterOptions::codec, ParticleEmitterOptions::streamCodec);
+        UNDERWATER_RISING_BUBBLE_SMALL_EMITTER = register((SpriteProviderReg) UnderwaterBubbleEmitter.Provider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "underwater_rising_bubble_small_emitter"), true, ParticleEmitterOptions::codec, ParticleEmitterOptions::streamCodec);
+
+        BLOCK_CRACK = register((SpriteProviderReg) CustomMovementTerrainParticle.CrackingProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "block_crack"), true, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        BLOCK_HIGH_VELOCITY = register((SpriteProviderReg) CustomMovementTerrainParticle.UncappedMotionProvider::new, ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "block_high_velocity"), true, BlockParticleOption::codec, BlockParticleOption::streamCodec);
     }
 
     private static SimpleParticleType register(SpriteProviderReg<SimpleParticleType> provider, ResourceLocation particleID, boolean alwaysShow) {

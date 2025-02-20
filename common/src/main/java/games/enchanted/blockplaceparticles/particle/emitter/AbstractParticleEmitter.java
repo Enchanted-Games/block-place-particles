@@ -22,6 +22,7 @@ public abstract class AbstractParticleEmitter extends Particle {
     protected float emitterWidth;
     protected float emitterHeight;
     protected float emitterDepth;
+    protected Vector3f emitterVariance;
     protected boolean emitOnFirstTick;
 
     protected AbstractParticleEmitter(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, ParticleEmitterOptions emitterOptions) {
@@ -32,10 +33,12 @@ public abstract class AbstractParticleEmitter extends Particle {
         this.emitterInterval = emitterOptions.getTickInterval();
         this.emitterIterations = emitterOptions.getTickIterations();
         this.particlesPerEmission = emitterOptions.getParticlesPerEmission();
-        this.emitterWidth = emitterOptions.getWidth();
-        this.emitterHeight = emitterOptions.getHeight();
-        this.emitterDepth = emitterOptions.getDepth();
+        Vector3f emitterDim = emitterOptions.getDimensions();
+        this.emitterWidth = emitterDim.x();
+        this.emitterHeight = emitterDim.y();
+        this.emitterDepth = emitterDim.z();
         this.emitOnFirstTick = emitterOptions.getEmitOnFirstTick();
+        this.emitterVariance = emitterOptions.getVelocityVariance();
         this.setLifetime(emitterInterval * emitterIterations);
         this.x -= (this.emitterWidth / 2);
         this.y -= (this.emitterHeight / 2);
@@ -55,7 +58,15 @@ public abstract class AbstractParticleEmitter extends Particle {
         if((this.age - (emitOnFirstTick ? 1 : 0)) % emitterInterval == 0) {
             for (int i = 0; i < particlesPerEmission; i++) {
                 double[] emitPos = getRandomPositionInsideBounds();
-                level.addParticle(this.getParticleToEmit(level, emitPos[0], emitPos[1], emitPos[2]), emitPos[0], emitPos[1], emitPos[2], this.emittedXSpeed, this.emittedYSpeed, this.emittedZSpeed);
+                level.addParticle(
+                    this.getParticleToEmit(level, emitPos[0], emitPos[1], emitPos[2]),
+                    emitPos[0],
+                    emitPos[1],
+                    emitPos[2],
+                    this.emittedXSpeed + ((level.random.nextFloat() * emitterVariance.x) - (emitterVariance.x / 2)),
+                    this.emittedYSpeed + ((level.random.nextFloat() * emitterVariance.y) - (emitterVariance.y / 2)),
+                    this.emittedZSpeed + ((level.random.nextFloat() * emitterVariance.z) - (emitterVariance.z / 2))
+                );
             }
         }
     }

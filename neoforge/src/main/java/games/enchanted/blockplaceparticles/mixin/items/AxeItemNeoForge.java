@@ -31,7 +31,7 @@ public abstract class AxeItemNeoForge {
         Optional<BlockState> strippedBlockState = this.getStripped(unstrippedBlockstate);
 
         if (strippedBlockState.isPresent() && level.isClientSide()) {
-            ParticleInteractionsLogging.debugInfo("Axe used (" + this + ") at " + blockPos.toShortString() + " to strip " + unstrippedBlockstate.getBlock());
+            ParticleInteractionsLogging.interactionDebugInfo("Axe used (" + this + ") at " + blockPos.toShortString() + " to strip " + unstrippedBlockstate.getBlock());
             SpawnParticles.spawnAxeStripParticle(level, blockPos, unstrippedBlockstate, strippedBlockState.get(), context);
         }
     }

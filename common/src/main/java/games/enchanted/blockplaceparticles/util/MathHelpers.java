@@ -1,5 +1,6 @@
 package games.enchanted.blockplaceparticles.util;
 
+import net.minecraft.util.Mth;
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
@@ -71,6 +72,16 @@ public class MathHelpers {
      */
     public static float getDistanceBetweenVectors(Vector3f pointA, Vector3f pointB) {
         return (float) new Vector3d(pointA).distance(pointB.x, pointB.y, pointB.z);
+    }
+
+    /**
+     * Returns the distance in a straight line between two positions
+     */
+    public static double getDistanceBetweenPoints(double x1, double y1, double z1, double x2, double y2, double z2) {
+        double distX = x1 - x2;
+        double distY = y1 - y2;
+        double distZ = z1 - z2;
+        return Math.sqrt(distX * distX + distY * distY + distZ * distZ);
     }
 
     /**

@@ -13,6 +13,7 @@ public class ConfigTranslation {
     public static final String ITEMS_CONFIG_CATEGORY = "items";
     public static final String ENTITY_PARTICLES_CONFIG_CATEGORY = "entity";
     public static final String FLUIDS_CONFIG_CATEGORY = "fluids";
+    public static final String FLUID_AMBIENT_CONFIG_CATEGORY = "fluid_ambient";
 
     public static final String IS_PARTICLE_ENABLED = "is_particle_enabled";
     public static final String IS_PARTICLE_ENABLED_WITH_TYPE = "is_particle_enabled_with_type";
@@ -39,6 +40,7 @@ public class ConfigTranslation {
     public static final String AMOUNT_TO_SPAWN_ON_ENTITY_HURT = "amount_to_spawn_on_entity_hurt";
     public static final String PARTICLE_EFFECT_RENDER_DISTANCE = "particle_effect_render_distance";
     public static final String AMOUNT_TO_SPAWN_ON_INTERACT = "amount_to_spawn_on_interact";
+    public static final String ARE_VANILLA_FURNACE_PARTICLES_ENABLED = "are_vanilla_furnace_particles_enabled";
 
     public static final String BRUSH_PARTICLE_BEHAVIOUR = "brush_particle_behaviour";
 
@@ -48,11 +50,16 @@ public class ConfigTranslation {
 
     public static final String PARTICLE_PHYSICS_ENABLED = "particle_physics_enabled";
 
+    public static final String RENDER_DISTANCE_INTERACTION = "render_distance_interaction";
+    public static final String RENDER_DISTANCE_BLOCK = "render_distance_block";
+    public static final String RENDER_DISTANCE_AMBIENT = "render_distance_ambient";
+
     public static final String SPARKS_ADDITIONAL_FLASH_EFFECT = "sparks_additional_flash_effect";
     public static final String SPARKS_WATER_EVAPORATION = "sparks_water_evaporation";
     public static final String DUST_ADDITIONAL_SPECKS = "dust_additional_specks";
 
-    public static final String TOGGLE_DEBUG_LOGS = "toggle_debug_logs";
+    public static final String TOGGLE_INTERACTION_DEBUG_LOGS = "toggle_debug_logs";
+    public static final String TOGGLE_TEXTURE_DEBUG_LOGS = "toggle_texture_debug_logs";
     public static final String DEBUG_SHOW_EMITTER_BOUNDS = "debug_show_emitter_bounds";
 
     public static Component createDesc(TranslationKey translationKey) {

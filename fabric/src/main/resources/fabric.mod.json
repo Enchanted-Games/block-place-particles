@@ -14,7 +14,7 @@
     },
     "license": "${license}",
     "icon": "assets/${mod_id}/icon.png",
-    "environment": "*",
+    "environment": "client",
     "entrypoints": {
         "client": [
             "games.enchanted.blockplaceparticles.FabricClientEntrypoint"
@@ -33,9 +33,5 @@
         "minecraft": ${minecraft_fabric_version_range},
         "java": ">=${java_version}",
         "yet_another_config_lib_v3": ">=${yacl_version}"
-    },
-    "suggests": {
-        "another-mod": "*"
     }
 }
-  

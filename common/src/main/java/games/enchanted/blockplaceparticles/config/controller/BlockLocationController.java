@@ -5,12 +5,13 @@ import dev.isxander.yacl3.api.utils.Dimension;
 import dev.isxander.yacl3.gui.YACLScreen;
 import games.enchanted.blockplaceparticles.config.controller.generic.AbstractFixedDropdownController;
 import games.enchanted.blockplaceparticles.config.controller.generic.GenericListControllerElement;
-import games.enchanted.blockplaceparticles.util.RegistryHelpers;
+import games.enchanted.blockplaceparticles.registry.BlockOrTagLocation;
+import games.enchanted.blockplaceparticles.registry.RegistryHelpers;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 
-public class BlockLocationController extends AbstractFixedDropdownController<ResourceLocation> {
-    public BlockLocationController(Option<ResourceLocation> option) {
+public class BlockLocationController extends AbstractFixedDropdownController<BlockOrTagLocation> {
+    public BlockLocationController(Option<BlockOrTagLocation> option) {
         super(option);
     }
 
@@ -25,7 +26,7 @@ public class BlockLocationController extends AbstractFixedDropdownController<Res
         if(valueFromDropdown == null) {
             valueFromDropdown = value;
         }
-        ResourceLocation validatedValue = RegistryHelpers.validateBlockLocationWithFallback(
+        BlockOrTagLocation validatedValue = RegistryHelpers.validateBlockOrTagLocationWithFallback(
             valueFromDropdown,
             null
         );
@@ -38,12 +39,21 @@ public class BlockLocationController extends AbstractFixedDropdownController<Res
 
     @Override
     public boolean isValueValid(String value) {
-        ResourceLocation blockLocFromValue = RegistryHelpers.validateBlockLocationWithFallback(value, null);
+        BlockOrTagLocation blockLocFromValue = RegistryHelpers.validateBlockOrTagLocationWithFallback(value, null);
         return blockLocFromValue != null;
     }
 
     @Override
     protected String getValidValue(String value, int offset) {
+        if(value.startsWith("#")) {
+            value = value.replace("#", "");
+            return RegistryHelpers.getMatchingTagLocations(value, BuiltInRegistries.BLOCK)
+                .skip(offset)
+                .findFirst()
+                .map(ResourceLocation::toString)
+                .orElseGet(this::getString);
+        }
+
         return RegistryHelpers.getMatchingLocations(value, BuiltInRegistries.BLOCK)
             .filter((ResourceLocation location) -> !RegistryHelpers.getBlockFromLocation(location).defaultBlockState().isAir())
             .skip(offset)
@@ -53,7 +63,7 @@ public class BlockLocationController extends AbstractFixedDropdownController<Res
     }
 
     @Override
-    public GenericListControllerElement<ResourceLocation, ?> createWidget(YACLScreen screen, Dimension<Integer> widgetDimension) {
+    public GenericListControllerElement<BlockOrTagLocation, ?> createWidget(YACLScreen screen, Dimension<Integer> widgetDimension) {
         return new BlockLocationControllerElement(this, screen, widgetDimension);
     }
 }

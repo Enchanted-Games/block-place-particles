@@ -2,6 +2,7 @@ package games.enchanted.blockplaceparticles.shapes;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
+import games.enchanted.blockplaceparticles.util.RenderingUtil;
 import org.joml.*;
 
 import java.lang.Math;
@@ -28,9 +29,9 @@ public class QuadFaceShape {
      * @param rotation               the pitch, yaw, and roll that this shape will be rendered at in degrees, rotation is relative to the origin of the shape
      * @param size                   the scale the shape will render at
      * @param lightColour            light colour
-     * @param colour                 tint colour
+     * @param argb                   a colour to tint the shape with, in array of int in argb format
      */
-    public void renderShapeWithRotation(VertexConsumer vertexConsumer, Vector2f[] uvCoordinates, Vector3f pos, Vector3f scale, Vector3f rotation, float size, int lightColour, Vector4f colour) {
+    public void renderShapeWithRotation(VertexConsumer vertexConsumer, Vector2f[] uvCoordinates, Vector3f pos, Vector3f scale, Vector3f rotation, float size, int lightColour, int[] argb) {
         if(uvCoordinates.length > 2) throw new IllegalArgumentException("VertexShape#renderShape requires exactly 2 elements in uvCoordinates specifying the top left and top right uv coordinates");
         float pitchRad = (float) Math.toRadians(rotation.x);
         float yawRad   = (float) Math.toRadians(rotation.y);
@@ -42,22 +43,22 @@ public class QuadFaceShape {
             Vector3d vertex3 = MathHelpers.rotate3DPoint( new Vector3d(this.vertices[i + 2]).mul(scale), pitchRad, yawRad, rollRad ).mul(size).add(pos.x, pos.y, pos.z);
             Vector3d vertex4 = MathHelpers.rotate3DPoint( new Vector3d(this.vertices[i + 3]).mul(scale), pitchRad, yawRad, rollRad ).mul(size).add(pos.x, pos.y, pos.z);
 
-            this.renderVertex(vertexConsumer, vertex1, uvCoordinates[0].x, uvCoordinates[1].y, lightColour, colour);
-            this.renderVertex(vertexConsumer, vertex2, uvCoordinates[0].x, uvCoordinates[0].y, lightColour, colour);
-            this.renderVertex(vertexConsumer, vertex3, uvCoordinates[1].x, uvCoordinates[0].y, lightColour, colour);
-            this.renderVertex(vertexConsumer, vertex4, uvCoordinates[1].x, uvCoordinates[1].y, lightColour, colour);
+            this.renderVertex(vertexConsumer, vertex1, uvCoordinates[0].x, uvCoordinates[1].y, lightColour, argb);
+            this.renderVertex(vertexConsumer, vertex2, uvCoordinates[0].x, uvCoordinates[0].y, lightColour, argb);
+            this.renderVertex(vertexConsumer, vertex3, uvCoordinates[1].x, uvCoordinates[0].y, lightColour, argb);
+            this.renderVertex(vertexConsumer, vertex4, uvCoordinates[1].x, uvCoordinates[1].y, lightColour, argb);
         }
     }
     /**
-     * @see QuadFaceShape#renderShapeWithRotation(VertexConsumer, Vector2f[], Vector3f, Vector3f, Vector3f, float, int, Vector4f)
+     * @see QuadFaceShape#renderShapeWithRotation(VertexConsumer, Vector2f[], Vector3f, Vector3f, Vector3f, float, int, int[])
      *
      */
-    public void renderShape(VertexConsumer vertexConsumer, Vector2f[] uvCoordinates, Vector3f pos, Vector3f scale, float size, int lightColour, Vector4f colour) {
-        this.renderShapeWithRotation(vertexConsumer, uvCoordinates, pos, scale, new Vector3f(0), size, lightColour, colour);
+    public void renderShape(VertexConsumer vertexConsumer, Vector2f[] uvCoordinates, Vector3f pos, Vector3f scale, float size, int lightColour, int[] argb) {
+        this.renderShapeWithRotation(vertexConsumer, uvCoordinates, pos, scale, new Vector3f(0), size, lightColour, argb);
     }
 
-    protected void renderVertex(VertexConsumer vertexConsumer, Vector3d vertexPos, float u, float v, int lightColor, Vector4f colour) {
-        vertexConsumer.addVertex((float) vertexPos.x, (float) vertexPos.y, (float) vertexPos.z).setUv(u, v).setColor(colour.x, colour.y, colour.z, colour.w).setLight(lightColor);
+    protected void renderVertex(VertexConsumer vertexConsumer, Vector3d vertexPos, float u, float v, int lightColor, int[] argb) {
+        RenderingUtil.addVertexToConsumer(vertexConsumer, (float) vertexPos.x, (float) vertexPos.y, (float) vertexPos.z, 0, 0, 1, u, v, lightColor, argb[1] / 255f, argb[2] / 255f, argb[3] / 255f, argb[0] / 255f);
     }
 
     /**

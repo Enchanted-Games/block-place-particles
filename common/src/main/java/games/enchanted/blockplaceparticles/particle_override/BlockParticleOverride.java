@@ -1,7 +1,9 @@
-package games.enchanted.blockplaceparticles.particle_spawning.override;
+package games.enchanted.blockplaceparticles.particle_override;
 
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
-import games.enchanted.blockplaceparticles.util.RegistryHelpers;
+import games.enchanted.blockplaceparticles.registry.BlockOrTagLocation;
+import games.enchanted.blockplaceparticles.registry.RegistryHelpers;
+import games.enchanted.blockplaceparticles.registry.TagUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -28,6 +30,7 @@ public class BlockParticleOverride {
     public static final int ORIGIN_FALLING_BLOCK_LANDED = 7;
     public static final int ORIGIN_FALLING_BLOCK_FALLING = 8;
     public static final int ORIGIN_BLOCK_INTERACTED_WITH = 9;
+    public static final int ORIGIN_BLOCK_WALKED_THROUGH = 10;
 
     public static final BlockParticleOverride NONE = new BlockParticleOverride("none");
     public static final BlockParticleOverride VANILLA = new BlockParticleOverride(
@@ -54,9 +57,9 @@ public class BlockParticleOverride {
     private final String groupName;
     @NotNull final BlockParticleOverride.ReplaceParticleFromOriginConsumer shouldReplaceParticleFromOrigin_getter;
     @NotNull final GetParticleOptionConsumer getParticleOption;
-    @Nullable final Supplier<List<ResourceLocation>> supportedBlockResourceLocations_getter;
-    @Nullable final Consumer<List<ResourceLocation>> supportedBlockResourceLocations_setter;
-    @Nullable final List<ResourceLocation> supportedBlockResourceLocations_default;
+    @Nullable final Supplier<List<BlockOrTagLocation>> supportedBlockResourceLocations_getter;
+    @Nullable final Consumer<List<BlockOrTagLocation>> supportedBlockResourceLocations_setter;
+    @Nullable final List<BlockOrTagLocation> supportedBlockResourceLocations_default;
     final Supplier<Boolean> overrideEnabled_getter;
     final Consumer<Boolean> overrideEnabled_setter;
     final boolean overrideEnabled_default;
@@ -93,9 +96,9 @@ public class BlockParticleOverride {
         String overrideName,
         String groupName,
         @NotNull GetParticleOptionConsumer getParticleOption,
-        @NotNull Supplier<List<ResourceLocation>> supportedBlockResourceLocations_getter,
-        @NotNull Consumer<List<ResourceLocation>> supportedBlockResourceLocations_setter,
-        @NotNull List<ResourceLocation> supportedBlockResourceLocations_default,
+        @NotNull Supplier<List<BlockOrTagLocation>> supportedBlockResourceLocations_getter,
+        @NotNull Consumer<List<BlockOrTagLocation>> supportedBlockResourceLocations_setter,
+        @NotNull List<BlockOrTagLocation> supportedBlockResourceLocations_default,
         Supplier<Boolean> overrideEnabled_getter,
         Consumer<Boolean> overrideEnabled_setter,
         boolean overrideEnabled_default,
@@ -153,9 +156,9 @@ public class BlockParticleOverride {
         String groupName,
         @NotNull BlockParticleOverride.ReplaceParticleFromOriginConsumer shouldReplaceParticleFromOrigin_getter,
         @NotNull GetParticleOptionConsumer getParticleOption,
-        @NotNull Supplier<List<ResourceLocation>> supportedBlockResourceLocations_getter,
-        @NotNull Consumer<List<ResourceLocation>> supportedBlockResourceLocations_setter,
-        @NotNull List<ResourceLocation> supportedBlockResourceLocations_default,
+        @NotNull Supplier<List<BlockOrTagLocation>> supportedBlockResourceLocations_getter,
+        @NotNull Consumer<List<BlockOrTagLocation>> supportedBlockResourceLocations_setter,
+        @NotNull List<BlockOrTagLocation> supportedBlockResourceLocations_default,
         Supplier<Boolean> overrideEnabled_getter,
         Consumer<Boolean> overrideEnabled_setter,
         boolean overrideEnabled_default,
@@ -228,15 +231,11 @@ public class BlockParticleOverride {
     public static BlockParticleOverride getOverrideForBlockState(BlockState blockState, int overrideOrigin) {
         Block block = blockState.getBlock();
         if(blockState.isAir()) return NONE;
-        ResourceLocation blockLocation = RegistryHelpers.getLocationFromBlock(block);
+        ResourceLocation blockResourceLocation = RegistryHelpers.getLocationFromBlock(block);
 
         BlockParticleOverride returnOverride = null;
         for (BlockParticleOverride override : BlockParticleOverride.blockParticleOverrides) {
-            if (override.supportedBlockResourceLocations_getter == null) continue;
-            List<ResourceLocation> locations = override.supportedBlockResourceLocations_getter.get();
-
-            boolean overrideContainsThisBlock = locations.contains(blockLocation);
-            if(!overrideContainsThisBlock) continue;
+            if (!doesOverrideContainBlock(override, blockResourceLocation)) continue;
 
             if(override.overrideEnabled_getter.get()) {
                 returnOverride = override;
@@ -250,6 +249,12 @@ public class BlockParticleOverride {
 
         if(VANILLA.overrideEnabled_getter.get()) return VANILLA;
         return NONE;
+    }
+
+    // TODO: separate this into a general util function
+    private static boolean doesOverrideContainBlock(BlockParticleOverride override, ResourceLocation blockResourceLocation) {
+        if (override.supportedBlockResourceLocations_getter == null) return false;
+        return TagUtil.doesListContainBlock(override.supportedBlockResourceLocations_getter.get(), blockResourceLocation);
     }
 
     public static int getParticleMultiplierForOverride(BlockParticleOverride override, boolean isBlockBeingPlaced) {
@@ -289,15 +294,15 @@ public class BlockParticleOverride {
         return groupName;
     }
 
-    public @Nullable Supplier<List<ResourceLocation>> getSupportedBlockResourceLocations_getter() {
+    public @Nullable Supplier<List<BlockOrTagLocation>> getSupportedBlockResourceLocations_getter() {
         return supportedBlockResourceLocations_getter;
     }
 
-    public @Nullable Consumer<List<ResourceLocation>> getSupportedBlockResourceLocations_setter() {
+    public @Nullable Consumer<List<BlockOrTagLocation>> getSupportedBlockResourceLocations_setter() {
         return supportedBlockResourceLocations_setter;
     }
 
-    public @Nullable List<ResourceLocation> getSupportedBlockResourceLocations_default() {
+    public @Nullable List<BlockOrTagLocation> getSupportedBlockResourceLocations_default() {
         return supportedBlockResourceLocations_default;
     }
 

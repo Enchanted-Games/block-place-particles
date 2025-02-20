@@ -1,7 +1,7 @@
 package games.enchanted.blockplaceparticles.mixin.blocks;
 
 import games.enchanted.blockplaceparticles.particle_spawning.SpawnParticles;
-import games.enchanted.blockplaceparticles.util.InteractionPositionHelpers;
+import games.enchanted.blockplaceparticles.particle_spawning.ParticlePositionHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
@@ -27,7 +27,7 @@ public abstract class RepeaterBlock extends DiodeBlock {
     )
     protected void spawnDustParticlesOnInteraction(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
         if(!(level instanceof ClientLevel)) return;
-        float[] interactionPos = InteractionPositionHelpers.getRedstoneRepeaterInteractionPos(level.getBlockState(pos));
+        float[] interactionPos = ParticlePositionHelpers.getRedstoneRepeaterInteractionPos(level.getBlockState(pos));
         SpawnParticles.spawnRedstoneInteractionParticles(
             (ClientLevel) level,
             level.getBlockState(pos),

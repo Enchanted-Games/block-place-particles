@@ -7,6 +7,6 @@ import net.minecraft.server.packs.resources.ResourceManager;
 public class ClientResourceReload {
     public static void onReload(ResourceManager resourceManager) {
         ColourUtil.invalidateCaches();
-        ParticleInteractionsLogging.message("Cleared average block colour cache");
+        ParticleInteractionsLogging.info("Cleared average texture colour cache and opaque pixels cache");
     }
 }

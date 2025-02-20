@@ -3,12 +3,15 @@ package games.enchanted.blockplaceparticles.config.controller;
 import dev.isxander.yacl3.api.utils.Dimension;
 import dev.isxander.yacl3.gui.YACLScreen;
 import games.enchanted.blockplaceparticles.config.controller.generic.GenericListControllerElement;
-import games.enchanted.blockplaceparticles.util.RegistryHelpers;
+import games.enchanted.blockplaceparticles.registry.RegistryHelpers;
+import games.enchanted.blockplaceparticles.util.TextUtil;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.material.Fluid;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +33,19 @@ public class FluidLocationControllerElement extends GenericListControllerElement
             fluidLocations.add(resourceLocation);
         }
         return fluidLocations;
+    }
+
+    @Override
+    protected void renderDropdownEntry(GuiGraphics graphics, Dimension<Integer> entryDimension, ResourceLocation identifier) {
+        ResourceLocation item = matchingItems.get(identifier);
+        if(item == null) return;
+        super.renderDropdownEntry(graphics, entryDimension, identifier);
+        this.renderItemIcon(graphics, getItemToRender(item), entryDimension.xLimit() - 2, entryDimension.y() + 1);
+    }
+
+    @Override
+    public @Nullable Component getHoverTooltipText() {
+        return TextUtil.formatResourceLocationToChatComponent(this.getController().option().pendingValue());
     }
 
     @Override

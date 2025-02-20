@@ -1,7 +1,6 @@
-package games.enchanted.blockplaceparticles.particle.spark;
+package games.enchanted.blockplaceparticles.particle.emitter;
 
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
-import games.enchanted.blockplaceparticles.particle.emitter.AbstractParticleEmitter;
 import games.enchanted.blockplaceparticles.particle.option.ParticleEmitterOptions;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;

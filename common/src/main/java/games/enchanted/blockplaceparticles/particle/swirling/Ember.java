@@ -1,5 +1,6 @@
 package games.enchanted.blockplaceparticles.particle.swirling;
 
+import games.enchanted.blockplaceparticles.duck.ParticleAccess;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
@@ -28,6 +29,8 @@ public class Ember extends SwirlingParticle {
 
         this.quadSize = 2.5f/32f;
         this.setSize(1/32f, 1/32f);
+
+        ((ParticleAccess) this).setBypassMovementCollisionCheck(true);
     }
 
     @Override

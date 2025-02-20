@@ -1,5 +1,6 @@
 package games.enchanted.blockplaceparticles.particle.bubble;
 
+import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.BlockPos;
@@ -20,7 +21,7 @@ public class UnderwaterRisingBubble extends TextureSheetParticle {
         this.xd = xSpeed * 0.2F + (Math.random() * 2.0 - 1.0) * 0.02F;
         this.yd = ySpeed * 0.2F + (Math.random() * 2.0 - 1.0) * 0.02F;
         this.zd = zSpeed * 0.2F + (Math.random() * 2.0 - 1.0) * 0.02F;
-        this.lifetime = (int)(40.0 / (Math.random() * 0.8 + 0.2));
+        this.lifetime = MathHelpers.randomBetween(100, 600);
     }
     
     @Override
@@ -57,6 +58,22 @@ public class UnderwaterRisingBubble extends TextureSheetParticle {
         @Override
         public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new UnderwaterRisingBubble(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
+        }
+    }
+
+    public static class SmallProvider implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public SmallProvider(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        @Nullable
+        @Override
+        public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            UnderwaterRisingBubble particle = new UnderwaterRisingBubble(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
+            particle.quadSize = MathHelpers.randomBetween(0.02f, 0.05f);
+            return particle;
         }
     }
 }

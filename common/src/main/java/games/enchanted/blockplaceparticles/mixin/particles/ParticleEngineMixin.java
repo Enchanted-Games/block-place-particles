@@ -3,8 +3,8 @@ package games.enchanted.blockplaceparticles.mixin.particles;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import games.enchanted.blockplaceparticles.particle_override.BlockParticleOverride;
 import games.enchanted.blockplaceparticles.particle_spawning.SpawnParticles;
-import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleEngine;
@@ -24,11 +24,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-@Mixin(ParticleEngine.class)
+@Mixin(value = ParticleEngine.class, priority = 3000)
 public abstract class ParticleEngineMixin implements PreparableReloadListener {
     @Shadow
     protected ClientLevel level;
@@ -43,14 +42,14 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
         SpawnParticles.spawnBlockBreakParticle(this.level, brokenBlockState, brokenBlockPos, particleOverride);
     }
 
-    @Redirect(
+    @WrapOperation(
         method = "destroy",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/shapes/VoxelShape;forAllBoxes(Lnet/minecraft/world/phys/shapes/Shapes$DoubleLineConsumer;)V")
     )
-    public void skipSpawningVanillaDestroyParticles(VoxelShape instance, Shapes.DoubleLineConsumer action) {
+    public void skipSpawningVanillaDestroyParticles(VoxelShape instance, Shapes.DoubleLineConsumer action, Operation<Void> original) {
     }
 
-    // override BLOCK and DUST_PILLAR particles if they have a particle override
+    // override item and block particles if they have a particle override
     @WrapOperation(
         method = "createParticle(Lnet/minecraft/core/particles/ParticleOptions;DDDDDD)Lnet/minecraft/client/particle/Particle;",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/ParticleEngine;makeParticle(Lnet/minecraft/core/particles/ParticleOptions;DDDDDD)Lnet/minecraft/client/particle/Particle;")

@@ -1,5 +1,6 @@
 package games.enchanted.blockplaceparticles.particle.petal;
 
+import games.enchanted.blockplaceparticles.duck.ParticleAccess;
 import games.enchanted.blockplaceparticles.mixin.accessor.ParticleAccessor;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -34,6 +35,8 @@ public class FallingPetal extends TextureSheetParticle {
         this.gravity *= gravityMultiplier;
 
         this.transparency = false;
+
+        ((ParticleAccess) this).setBypassMovementCollisionCheck(true);
     }
     protected FallingPetal(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, float gravityMultiplier, boolean transparency) {
         this(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier);
@@ -46,13 +49,17 @@ public class FallingPetal extends TextureSheetParticle {
         if(this.rotSpeed > this.maxSpinSpeed) this.rotSpeed = this.maxSpinSpeed;
 
         this.oRoll = this.roll;
-        if( !this.onGround && !((ParticleAccessor) this).getStoppedByCollision() ) {
+        if( !this.onGround && !((ParticleAccessor) this).block_place_particle$getStoppedByCollision() ) {
             this.roll += this.rotSpeed / 6.5f;
         }
 
         this.xd *= 0.949999988079071;
         this.yd *= 0.8999999761581421;
         this.zd *= 0.949999988079071;
+
+        if(this.age >= 6 && ((ParticleAccess) this).getBypassMovementCollisionCheck()) {
+            ((ParticleAccess) this).setBypassMovementCollisionCheck(false);
+        }
 
         super.tick();
     }

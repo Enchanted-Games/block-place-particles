@@ -5,7 +5,7 @@ import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.config.type.BrushParticleBehaviour;
 import games.enchanted.blockplaceparticles.particle_spawning.SpawnParticles;
-import games.enchanted.blockplaceparticles.particle_spawning.override.BlockParticleOverride;
+import games.enchanted.blockplaceparticles.particle_override.BlockParticleOverride;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.HumanoidArm;
@@ -33,7 +33,7 @@ public abstract class BrushItem {
         };
 
         Vec3 particlePos = hitResult.getLocation();
-        ParticleInteractionsLogging.debugInfo("Blockstate brushed {} at {}", blockState, particlePos);
+        ParticleInteractionsLogging.interactionDebugInfo("Blockstate brushed {} at {}", blockState, particlePos);
 
         BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockState, BlockParticleOverride.ORIGIN_BLOCK_BRUSHED);
         final boolean isOverrideNoneOrVanilla = (override == BlockParticleOverride.VANILLA || override == BlockParticleOverride.NONE);

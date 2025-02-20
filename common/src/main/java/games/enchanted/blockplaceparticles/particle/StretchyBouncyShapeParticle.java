@@ -3,6 +3,7 @@ package games.enchanted.blockplaceparticles.particle;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.blockplaceparticles.shapes.QuadFaceShape;
 import games.enchanted.blockplaceparticles.shapes.ShapeDefinitions;
+import games.enchanted.blockplaceparticles.util.ColourUtil;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -118,7 +119,7 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
             shapeRotation,
             cuboidSize,
             lightColor,
-            new Vector4f(this.rCol, this.gCol, this.bCol, this.alpha)
+            ColourUtil.ARGBfloats_to_ARGB(this.alpha, this.rCol, this.gCol, this.bCol)
         );
     }
 }

@@ -33,12 +33,12 @@ public abstract class AbstractCauldronBlock {
         Item usedItem = itemStack.getItem();
         if(result != InteractionResult.SUCCESS) return;
         if(usedItem instanceof BucketItem) {
-            Fluid placedFluid = ((BucketItemAccessor) usedItem).getContent();
-            ParticleInteractionsLogging.debugInfo("Bucket of " + placedFluid.builtInRegistryHolder().key().location() + " placed in a cauldron at " + pos.toShortString());
+            Fluid placedFluid = ((BucketItemAccessor) usedItem).block_place_particle$getContent();
+            ParticleInteractionsLogging.interactionDebugInfo("Bucket of " + placedFluid.builtInRegistryHolder().key().location() + " placed in a cauldron at " + pos.toShortString());
             SpawnParticles.spawnFluidPlacedParticle(level, pos, placedFluid);
         } else if(usedItem instanceof BlockItem) {
             BlockState placedState = ((BlockItem) usedItem).getBlock().defaultBlockState();
-            ParticleInteractionsLogging.debugInfo("Block '" + placedState.getBlock().builtInRegistryHolder().key().location() + "' placed in a cauldron at " + pos.toShortString());
+            ParticleInteractionsLogging.interactionDebugInfo("Block '" + placedState.getBlock().builtInRegistryHolder().key().location() + "' placed in a cauldron at " + pos.toShortString());
             SpawnParticles.spawnBlockPlaceParticle((ClientLevel) level, pos, placedState);
         }
     }
