@@ -4,12 +4,9 @@ import dev.isxander.yacl3.api.utils.Dimension;
 import dev.isxander.yacl3.gui.YACLScreen;
 import dev.isxander.yacl3.gui.controllers.dropdown.AbstractDropdownController;
 import dev.isxander.yacl3.gui.controllers.dropdown.AbstractDropdownControllerElement;
-import dev.isxander.yacl3.gui.controllers.dropdown.DropdownWidget;
 import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
 import games.enchanted.blockplaceparticles.mixin.accessor.yacl.DropdownWidgetAccessor;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -70,7 +67,7 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
     @Override
     public boolean charTyped(char chr, int modifiers) {
         if(this.dropdownWidget != null) {
-            ((DropdownWidgetAccessor) this.dropdownWidget).setFirstVisibleIndex(0);
+            ((DropdownWidgetAccessor) this.dropdownWidget).block_place_particle$setFirstVisibleIndex(0);
             this.dropdownWidget.scrollUp();
         }
         return super.charTyped(chr, modifiers);

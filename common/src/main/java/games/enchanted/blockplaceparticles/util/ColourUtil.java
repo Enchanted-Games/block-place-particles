@@ -43,7 +43,7 @@ public class ColourUtil {
         float total = 0, red = 0, blue = 0, green = 0, alpha = 0;
         for (int x = 0; x < spriteContents.width(); x++) {
             for (int y = 0; y < spriteContents.height(); y++) {
-                int color = ((SpriteContentsAccessor) spriteContents).getOriginalImage().getPixelRGBA(x, y);
+                int color = ((SpriteContentsAccessor) spriteContents).block_place_particle$getOriginalImage().getPixelRGBA(x, y);
                 int[] argb = ABGRint_to_RGBA(color);
                 int pixelAlpha = argb[0];
                 if (pixelAlpha <= 10) continue;
@@ -81,7 +81,7 @@ public class ColourUtil {
         int x = MathHelpers.randomBetween(0, spriteContents.width() - 1);
         int y = MathHelpers.randomBetween(0, spriteContents.height() - 1);
 
-        int sampledColour = ((SpriteContentsAccessor) spriteContents).getOriginalImage().getPixelRGBA(x, y);
+        int sampledColour = ((SpriteContentsAccessor) spriteContents).block_place_particle$getOriginalImage().getPixelRGBA(x, y);
 
         return ABGRint_to_RGBA(sampledColour);
     }

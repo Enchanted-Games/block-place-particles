@@ -6,7 +6,6 @@ import games.enchanted.blockplaceparticles.particle_spawning.SpawnParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -35,7 +34,7 @@ public abstract class AbstractCauldronBlockMixin {
         Item usedItem = itemStack.getItem();
         if(result != ItemInteractionResult.SUCCESS) return;
         if(usedItem instanceof BucketItem) {
-            Fluid placedFluid = ((BucketItemAccessor) usedItem).getContent();
+            Fluid placedFluid = ((BucketItemAccessor) usedItem).block_place_particle$getContent();
             ParticleInteractionsLogging.debugInfo("Bucket of " + placedFluid.builtInRegistryHolder().key().location() + " placed in a cauldron at " + pos.toShortString());
             SpawnParticles.spawnFluidPlacedParticle(level, pos, placedFluid);
         } else if(usedItem instanceof BlockItem) {
