@@ -5,6 +5,7 @@ import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.particle.RegParticleProvidersNeoForge;
 import games.enchanted.blockplaceparticles.resource.ClientResourceReload;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -12,7 +13,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
+import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import org.jetbrains.annotations.NotNull;
@@ -33,8 +34,8 @@ public class NeoForgeClientEntrypoint {
         });
 
         // register client resource reload listener
-        bus.addListener((RegisterClientReloadListenersEvent event) -> {
-            event.registerReloadListener(new SimplePreparableReloadListener<Void>() {
+        bus.addListener((AddClientReloadListenersEvent event) -> {
+            event.addListener(ResourceLocation.fromNamespaceAndPath(ParticleInteractionsMod.MOD_ID, "clear_cache_listener"), new SimplePreparableReloadListener<Void>() {
                 @Override
                 protected @NotNull Void prepare(@NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller) {
                     ClientResourceReload.onReload(resourceManager);
