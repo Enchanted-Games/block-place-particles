@@ -110,13 +110,18 @@ public class ColourUtil {
 
         ImageCoordinate randomPixelCoordinate;
 
-        if(pixelCoordinatesList.length == 1 && (pixelCoordinatesList[0].x() < 0 || pixelCoordinatesList[0].y() < 0) ) {
-            // assume all pixels in the sprite are opaque
+        if(pixelCoordinatesList.length == 0) {
+            // no valid pixels, so just return transparent white
+            return new int[]{0, 255, 255, 255};
+        }
+        else if(pixelCoordinatesList.length == 1 && (pixelCoordinatesList[0].x() < 0 || pixelCoordinatesList[0].y() < 0) ) {
+            // entirely transparent pixels or assume all pixels in the sprite are opaque
             randomPixelCoordinate = new ImageCoordinate(
                 MathHelpers.randomBetween(0, spriteContents.width() - 1),
                 MathHelpers.randomBetween(0, spriteContents.height() - 1)
             );
-        } else{
+        }
+        else {
             // otherwise get a random coordinate from the list
             randomPixelCoordinate = pixelCoordinatesList[MathHelpers.randomBetween(0, pixelCoordinatesList.length - 1)];
         }
