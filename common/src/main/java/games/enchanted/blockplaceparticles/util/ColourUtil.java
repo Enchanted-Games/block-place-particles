@@ -35,7 +35,7 @@ public class ColourUtil {
      * @return the average colour in an array of a, r, g, b
      */
     public static int[] getAverageBlockColour(BlockState blockState) {
-        TextureAtlasSprite particleSprite = Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState).getParticleIcon();
+        TextureAtlasSprite particleSprite = Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState).particleIcon();
         ResourceLocation particleSpriteLocation = particleSprite.contents().name();
         if(averageSpriteColourCache.containsKey(particleSpriteLocation)) {
             return ARGBint_to_ARGB(averageSpriteColourCache.get(particleSpriteLocation));
@@ -92,7 +92,7 @@ public class ColourUtil {
     public static int[] getRandomBlockColour(BlockState blockState) {
         TextureAtlasSprite particleSprite = blockState.getBlock() == Blocks.GRASS_BLOCK ?
             TextureHelpers.getSpriteFromBlockAtlas(ResourceLocation.withDefaultNamespace("block/grass_block_top")) :
-            Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState).getParticleIcon();
+            Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState).particleIcon();
         SpriteContents spriteContents = particleSprite.contents();
 
         ResourceLocation particleSpriteLocation = particleSprite.contents().name();
