@@ -115,7 +115,7 @@ public class ColourUtil {
             return new int[]{0, 255, 255, 255};
         }
         else if(pixelCoordinatesList.length == 1 && (pixelCoordinatesList[0].x() < 0 || pixelCoordinatesList[0].y() < 0) ) {
-            // entirely transparent pixels or assume all pixels in the sprite are opaque
+            // assume all pixels in the sprite are opaque
             randomPixelCoordinate = new ImageCoordinate(
                 MathHelpers.randomBetween(0, spriteContents.width() - 1),
                 MathHelpers.randomBetween(0, spriteContents.height() - 1)
