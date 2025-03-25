@@ -1,4 +1,4 @@
-package games.enchanted.blockplaceparticles.mixin.accessor;
+package games.enchanted.blockplaceparticles.mixin.accessor.client;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.renderer.texture.SpriteContents;

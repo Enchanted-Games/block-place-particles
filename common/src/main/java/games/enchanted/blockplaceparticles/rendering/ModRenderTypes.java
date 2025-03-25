@@ -1,10 +1,7 @@
 package games.enchanted.blockplaceparticles.rendering;
 
-import com.mojang.blaze3d.pipeline.RenderPipeline;
-import com.mojang.blaze3d.pipeline.RenderTarget;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.MeshData;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import games.enchanted.blockplaceparticles.mixin.accessor.client.CompositeStateBuilderInvoker;
+import games.enchanted.blockplaceparticles.mixin.accessor.client.RenderTypeInvoker;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderStateShard;
@@ -22,19 +19,11 @@ public abstract class ModRenderTypes extends RenderType {
     private static final Function<ResourceLocation, RenderType> TRANSLUCENT_PARTICLE_BACKFACE = Util.memoize(ModRenderTypes::createTranslucentParticleBackface);
 
     private static RenderType createTranslucentParticleBackface(ResourceLocation location) {
-//        RenderType.CompositeState renderState = RenderType.CompositeState.builder()
-//            .setShaderState(PARTICLE_SHADER)
-//            .setTextureState(new RenderStateShard.TextureStateShard(location, TriState.FALSE, false))
-//            .setCullState(RenderStateShard.NO_CULL)
-//            .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-//            .setOutputState(PARTICLES_TARGET)
-//            .setLightmapState(LIGHTMAP)
-//            .setWriteMaskState(COLOR_DEPTH_WRITE)
-//            .createCompositeState(false);
-        RenderType.CompositeState renderState = RenderType.CompositeState.builder()
-            .setTextureState(new RenderStateShard.TextureStateShard(location, TriState.FALSE, false))
-            .setLightmapState(LIGHTMAP).createCompositeState(false);
-        return RenderType.create("translucent_particle_backface", 1536, false, false, RenderPipelines.TRANSLUCENT_PARTICLE, renderState);
+        RenderType.CompositeState.CompositeStateBuilder stateBuilder = RenderType.CompositeState.builder();
+            ((CompositeStateBuilderInvoker) stateBuilder).evs$invokeSetTextureState(new RenderStateShard.TextureStateShard(location, TriState.FALSE, false));
+            ((CompositeStateBuilderInvoker) stateBuilder).evs$invokeSetLightmapState(LIGHTMAP);
+        RenderType.CompositeState state = ((CompositeStateBuilderInvoker) stateBuilder).evs$invokeCreateCompositeState(false);
+        return RenderTypeInvoker.evs$invokeCreate("translucent_particle_backface", 1536, false, false, ModRenderPipelines.BACKFACE_TRANSLUCENT_PARTICLE, state);
     }
 
     public static RenderType translucentParticleBackface(ResourceLocation location) {

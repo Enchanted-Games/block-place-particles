@@ -1,4 +1,4 @@
-package games.enchanted.blockplaceparticles.mixin.accessor;
+package games.enchanted.blockplaceparticles.mixin.accessor.client;
 
 import net.minecraft.client.particle.Particle;
 import org.spongepowered.asm.mixin.Mixin;

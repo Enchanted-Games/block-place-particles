@@ -1,7 +1,7 @@
 package games.enchanted.blockplaceparticles.particle.petal;
 
 import games.enchanted.blockplaceparticles.duck.ParticleAccess;
-import games.enchanted.blockplaceparticles.mixin.accessor.ParticleAccessor;
+import games.enchanted.blockplaceparticles.mixin.accessor.client.ParticleAccessor;
 import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;

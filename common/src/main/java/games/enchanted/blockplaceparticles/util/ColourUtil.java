@@ -2,7 +2,7 @@ package games.enchanted.blockplaceparticles.util;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
-import games.enchanted.blockplaceparticles.mixin.accessor.SpriteContentsAccessor;
+import games.enchanted.blockplaceparticles.mixin.accessor.client.SpriteContentsAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;

@@ -1,4 +1,4 @@
-package games.enchanted.blockplaceparticles.mixin.accessor;
+package games.enchanted.blockplaceparticles.mixin.accessor.client;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.TerrainParticle;

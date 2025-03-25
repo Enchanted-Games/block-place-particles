@@ -1,6 +1,6 @@
 package games.enchanted.blockplaceparticles.particle;
 
-import games.enchanted.blockplaceparticles.mixin.accessor.TerrainParticleInvoker;
+import games.enchanted.blockplaceparticles.mixin.accessor.client.TerrainParticleInvoker;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.BlockPos;
