@@ -4,6 +4,7 @@ import games.enchanted.blockplaceparticles.ParticleInteractionsLogging;
 import games.enchanted.blockplaceparticles.particle_spawning.SpawnParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.material.Fluid;
@@ -23,7 +24,7 @@ public abstract class BucketItem {
         method = "playEmptySound",
         at = @At(value = "HEAD")
     )
-    private void spawnFluidParticlesOnBucketEmpty(Player player, LevelAccessor levelAccessor, BlockPos fluidPos, CallbackInfo ci) {
+    private void spawnFluidParticlesOnBucketEmpty(LivingEntity livingEntity, LevelAccessor levelAccessor, BlockPos fluidPos, CallbackInfo ci) {
         if(levelAccessor.isClientSide()) {
             Fluid placedFluid = this.content;
             FluidState placedFluidState = content.defaultFluidState();

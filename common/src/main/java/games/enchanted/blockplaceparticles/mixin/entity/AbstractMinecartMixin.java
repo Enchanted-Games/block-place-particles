@@ -29,8 +29,8 @@ public abstract class AbstractMinecartMixin extends VehicleEntity {
     @Shadow public abstract boolean isOnRails();
     @Shadow public abstract @NotNull Direction getMotionDirection();
     @Shadow public abstract BlockState getDisplayBlockState();
-    @Shadow public abstract float lerpTargetXRot();
-    @Shadow public abstract float lerpTargetYRot();
+//    @Shadow public abstract float lerpTargetXRot();
+//    @Shadow public abstract float lerpTargetYRot();
 
     public AbstractMinecartMixin(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -54,8 +54,8 @@ public abstract class AbstractMinecartMixin extends VehicleEntity {
     )
     protected void spawnSparksWhileMovingOnRails(CallbackInfo ci) {
         if (block_place_particle$shouldSpawnSparks() && this.level().isClientSide) {
-            float horizontalRot = this.lerpTargetYRot();
-            float verticalRot = this.lerpTargetXRot();
+            float horizontalRot = this.getYRot();
+            float verticalRot = this.getXRot();
 
             BlockPos blockPos = BlockPos.containing(this.getX(), this.getY(),this.getZ());
             BlockState blockState = this.level().getBlockState(blockPos);

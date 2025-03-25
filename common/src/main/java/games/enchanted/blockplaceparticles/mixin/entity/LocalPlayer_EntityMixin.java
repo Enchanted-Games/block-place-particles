@@ -7,6 +7,7 @@ import games.enchanted.blockplaceparticles.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,11 +30,11 @@ public abstract class LocalPlayer_EntityMixin {
     @Unique private int block_place_particle$ticksUntilNextBlockDisturbance = 0;
 
     @WrapOperation(
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;entityInside(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)V"),
-        method = "checkInsideBlocks(Ljava/util/List;Ljava/util/Set;)V"
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;entityInside(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/InsideBlockEffectApplier;)V"),
+        method = {"lambda$checkInsideBlocks$0", "method_67632"}
     )
-    protected void trySpawnParticlesWhenPlayerInsideBlock(BlockState insideBlockState, Level level, BlockPos insideBlockPos, Entity entity, Operation<Void> original) {
-        original.call(insideBlockState, level, insideBlockPos, entity);
+    protected void trySpawnParticlesWhenPlayerInsideBlock(BlockState insideBlockState, Level level, BlockPos insideBlockPos, Entity entity, InsideBlockEffectApplier insideBlockEffectApplier, Operation<Void> original) {
+        original.call(insideBlockState, level, insideBlockPos, entity, insideBlockEffectApplier);
 
         if(
             block_place_particle$ticksUntilNextBlockDisturbance > 0
