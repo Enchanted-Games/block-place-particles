@@ -167,7 +167,7 @@ public abstract class BlockParticleOverrides {
         "tinted_or_random_pixel",
         (int overrideOrigin) -> overrideOrigin != BlockParticleOverride.ORIGIN_ITEM_PARTICLE_OVERRIDDEN,
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
-            boolean spawnDirt = level.random.nextFloat() > 0.9;
+            boolean spawnDirt = false;
             if(
                 blockState.getBlock() == Blocks.GRASS_BLOCK &&
                 (overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_CRACK || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_PLACED || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_BROKEN || overrideOrigin == BlockParticleOverride.ORIGIN_ITEM_PARTICLE_OVERRIDDEN)

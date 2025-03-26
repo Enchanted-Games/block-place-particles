@@ -213,7 +213,14 @@ public class ConfigHandler {
     @SerialEntry
     public static int maxTintedLeaves_onBreak = maxTintedLeaves_onBreak_DEFAULT;
 
-    public static final List<BlockOrTagLocation> tintedLeaves_Blocks_DEFAULT = List.of(RegistryHelpers.getBlockLocationFromBlock(Blocks.JUNGLE_LEAVES), RegistryHelpers.getBlockLocationFromBlock(Blocks.OAK_LEAVES), RegistryHelpers.getBlockLocationFromBlock(Blocks.DARK_OAK_LEAVES), RegistryHelpers.getBlockLocationFromBlock(Blocks.ACACIA_LEAVES), RegistryHelpers.getBlockLocationFromBlock(Blocks.MANGROVE_LEAVES));
+    public static final List<BlockOrTagLocation> tintedLeaves_Blocks_DEFAULT = List.of(
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.LEAF_LITTER),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.JUNGLE_LEAVES),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.OAK_LEAVES),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.DARK_OAK_LEAVES),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.ACACIA_LEAVES),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.MANGROVE_LEAVES)
+    );
     @SerialEntry
     public static List<BlockOrTagLocation> tintedLeaves_Blocks = tintedLeaves_Blocks_DEFAULT;
 
@@ -252,6 +259,7 @@ public class ConfigHandler {
         RegistryHelpers.getBlockLocationFromBlock(Blocks.TWISTING_VINES),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.WEEPING_VINES_PLANT),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.WEEPING_VINES),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.BUSH),
         new BlockOrTagLocation(BlockTags.CAVE_VINES.location(), true),
         new BlockOrTagLocation(BlockTags.FLOWERS.location(), true),
         new BlockOrTagLocation(ResourceLocation.fromNamespaceAndPath("c", "flowers"), true),
@@ -286,7 +294,11 @@ public class ConfigHandler {
         RegistryHelpers.getBlockLocationFromBlock(Blocks.SEAGRASS),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.TALL_SEAGRASS),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.HAY_BLOCK),
-        RegistryHelpers.getBlockLocationFromBlock(Blocks.GRASS_BLOCK)
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.GRASS_BLOCK),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.GLOW_LICHEN),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.SHORT_DRY_GRASS),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.TALL_DRY_GRASS),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.DEAD_BUSH)
     );
     @SerialEntry
     public static List<BlockOrTagLocation> grassBlade_Blocks = grassBlade_Blocks_DEFAULT;
@@ -499,6 +511,10 @@ public class ConfigHandler {
     public static boolean blockRustle_enabled = blockRustle_enabled_DEFAULT;
 
     public static final List<BlockOrTagLocation> blockRustle_Blocks_DEFAULT = List.of(
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.BUSH),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.SHORT_DRY_GRASS),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.TALL_DRY_GRASS),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.LEAF_LITTER),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.VINE),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.PALE_HANGING_MOSS),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.SHORT_GRASS),
