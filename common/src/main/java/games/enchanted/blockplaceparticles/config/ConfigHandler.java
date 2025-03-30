@@ -132,6 +132,25 @@ public class ConfigHandler {
     @SerialEntry
     public static List<BlockOrTagLocation> snowflake_Blocks = snowflake_Blocks_DEFAULT;
 
+    // firefly particle
+    public static final int maxFirefly_onPlace_DEFAULT = 2;
+    @SerialEntry
+    public static int maxFirefly_onPlace = maxFirefly_onPlace_DEFAULT;
+
+    public static final boolean firefly_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean firefly_enabled = firefly_enabled_DEFAULT;
+
+    public static final int maxFirefly_onBreak_DEFAULT = 3;
+    @SerialEntry
+    public static int maxFirefly_onBreak = maxFirefly_onBreak_DEFAULT;
+
+    public static final List<BlockOrTagLocation> firefly_Blocks_DEFAULT = List.of(
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.FIREFLY_BUSH)
+    );
+    @SerialEntry
+    public static List<BlockOrTagLocation> firefly_Blocks = firefly_Blocks_DEFAULT;
+
     // cherry petal particle
     public static final int maxCherryPetals_onPlace_DEFAULT = 2;
     @SerialEntry
@@ -511,6 +530,7 @@ public class ConfigHandler {
     public static boolean blockRustle_enabled = blockRustle_enabled_DEFAULT;
 
     public static final List<BlockOrTagLocation> blockRustle_Blocks_DEFAULT = List.of(
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.FIREFLY_BUSH),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.BUSH),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.SHORT_DRY_GRASS),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.TALL_DRY_GRASS),

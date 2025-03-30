@@ -212,6 +212,30 @@ public abstract class BlockParticleOverrides {
         ConfigHandler.maxHeavyGrassBlade_onBreak_DEFAULT,
         0.13f
     );
+    public static final BlockParticleOverride FIREFLY = new BlockParticleOverride(
+        "firefly",
+        "generic_block_override",
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
+            boolean firefly = level.random.nextFloat() > 0.6;
+            if(overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_WALKED_THROUGH) {
+                firefly = true;
+            }
+            return firefly ? ParticleTypes.FIREFLY : GRASS_BLADE.getParticleOptionForState(blockState, level, blockPos, overrideOrigin);
+        },
+        () -> ConfigHandler.firefly_Blocks,
+        (val) -> ConfigHandler.firefly_Blocks = val,
+        ConfigHandler.firefly_Blocks_DEFAULT,
+        () -> ConfigHandler.firefly_enabled,
+        (val) -> ConfigHandler.firefly_enabled = val,
+        ConfigHandler.firefly_enabled_DEFAULT,
+        () -> ConfigHandler.maxFirefly_onPlace,
+        (val) -> ConfigHandler.maxFirefly_onPlace = val,
+        ConfigHandler.maxFirefly_onPlace_DEFAULT,
+        () -> ConfigHandler.maxFirefly_onBreak,
+        (val) -> ConfigHandler.maxFirefly_onBreak = val,
+        ConfigHandler.maxFirefly_onBreak_DEFAULT,
+        0.13f
+    );
     public static final BlockParticleOverride MOSS_CLUMP = new BlockParticleOverride(
         "moss_clump",
         "generic_block_override",
@@ -319,6 +343,7 @@ public abstract class BlockParticleOverrides {
 
     public static void registerOverrides() {
         BlockParticleOverride.addBlockParticleOverride(SNOW_POWDER);
+        BlockParticleOverride.addBlockParticleOverride(FIREFLY);
         BlockParticleOverride.addBlockParticleOverride(CHERRY_LEAF);
         BlockParticleOverride.addBlockParticleOverride(AZALEA_LEAF);
         BlockParticleOverride.addBlockParticleOverride(FLOWERING_AZALEA_LEAF);

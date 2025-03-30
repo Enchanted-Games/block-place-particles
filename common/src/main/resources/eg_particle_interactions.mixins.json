@@ -44,6 +44,7 @@
     "items.HoeItem",
     "items.ShovelItem",
     "particles.BreakingItemParticle",
+    "particles.FireflyParticleMixin",
     "particles.ParticleEngineMixin",
     "particles.ParticleMixin",
     "particles.TerrainParticle",
