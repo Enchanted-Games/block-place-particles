@@ -3,7 +3,7 @@ package games.enchanted.blockplaceparticles.particle_override;
 import games.enchanted.blockplaceparticles.config.ConfigHandler;
 import games.enchanted.blockplaceparticles.particle.ModParticleTypes;
 import games.enchanted.blockplaceparticles.particle.option.TintedParticleOption;
-import games.enchanted.blockplaceparticles.util.BiomeTemperatureHelpers;
+import games.enchanted.blockplaceparticles.util.BiomeHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -17,7 +17,7 @@ public abstract class BlockParticleOverrides {
         "snowflake",
         "generic_block_override",
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
-            if(BiomeTemperatureHelpers.isWarmBiomeOrDimension(level, blockPos)) {
+            if(BiomeHelpers.isWarmBiomeOrDimension(level, blockPos)) {
                 return level.random.nextInt(5) == 0 ? ParticleTypes.POOF : ModParticleTypes.SNOWFLAKE;
             }
             return ModParticleTypes.SNOWFLAKE;
@@ -168,6 +168,11 @@ public abstract class BlockParticleOverrides {
         (int overrideOrigin) -> overrideOrigin != BlockParticleOverride.ORIGIN_ITEM_PARTICLE_OVERRIDDEN,
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
             boolean spawnDirt = false;
+            boolean spawnFirefly =
+                level.getMaxLocalRawBrightness(blockPos) <= 13 &&
+                    BiomeHelpers.isSwampyBiome(level, blockPos) &&
+                    level.random.nextFloat() > (overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_BROKEN || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_PLACED ? 0.9f : 0.6f);
+
             if(
                 blockState.getBlock() == Blocks.GRASS_BLOCK &&
                 (overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_CRACK || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_PLACED || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_BROKEN || overrideOrigin == BlockParticleOverride.ORIGIN_ITEM_PARTICLE_OVERRIDDEN)
@@ -175,9 +180,14 @@ public abstract class BlockParticleOverrides {
                 // occasionally spawn dirt particles if a grass block is placed or broken
                 spawnDirt = level.random.nextFloat() > 0.7;
             }
-            return spawnDirt ?
-                new BlockParticleOption(overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_CRACK ? ModParticleTypes.BLOCK_CRACK : ModParticleTypes.BLOCK_HIGH_VELOCITY, Blocks.DIRT.defaultBlockState()) :
-                new BlockParticleOption(ModParticleTypes.GRASS_BLADE, blockState);
+
+            if(spawnDirt) {
+                return new BlockParticleOption(overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_CRACK ? ModParticleTypes.BLOCK_CRACK : ModParticleTypes.BLOCK_HIGH_VELOCITY, Blocks.DIRT.defaultBlockState());
+            }
+            if(spawnFirefly) {
+                return ParticleTypes.FIREFLY;
+            }
+            return new BlockParticleOption(ModParticleTypes.GRASS_BLADE, blockState);
         },
         () -> ConfigHandler.grassBlade_Blocks,
         (val) -> ConfigHandler.grassBlade_Blocks = val,

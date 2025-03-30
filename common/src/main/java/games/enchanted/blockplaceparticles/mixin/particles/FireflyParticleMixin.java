@@ -22,9 +22,16 @@ public class FireflyParticleMixin {
     )
     public boolean block_place_particle$makeFirefliesNotDieInFireflyBushes(BlockState state, Operation<Boolean> original) {
         Supplier<List<BlockOrTagLocation>> fireflyOverrideBlocks = BlockParticleOverrides.FIREFLY.getSupportedBlockResourceLocations_getter();
-        if(fireflyOverrideBlocks == null || !fireflyOverrideBlocks.get().contains(new BlockOrTagLocation(RegistryHelpers.getLocationFromBlock(state.getBlock()), false))) {
+        Supplier<List<BlockOrTagLocation>> grassBladeOverrideBlocks = BlockParticleOverrides.GRASS_BLADE.getSupportedBlockResourceLocations_getter();
+        if(fireflyOverrideBlocks == null || grassBladeOverrideBlocks == null) {
             return original.call(state);
         }
-        return original.call(Blocks.AIR.defaultBlockState());
+        if(
+            fireflyOverrideBlocks.get().contains(new BlockOrTagLocation(RegistryHelpers.getLocationFromBlock(state.getBlock()), false)) ||
+            grassBladeOverrideBlocks.get().contains(new BlockOrTagLocation(RegistryHelpers.getLocationFromBlock(state.getBlock()), false)))
+        {
+            return original.call(Blocks.AIR.defaultBlockState());
+        }
+        return original.call(state);
     }
 }

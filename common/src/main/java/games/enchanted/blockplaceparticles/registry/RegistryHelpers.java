@@ -1,17 +1,25 @@
 package games.enchanted.blockplaceparticles.registry;
 
+import com.mojang.authlib.minecraft.client.MinecraftClient;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.ResourceLocationException;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.DefaultedRegistry;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeSource;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
@@ -158,7 +166,6 @@ public class RegistryHelpers {
         return BuiltInRegistries.BLOCK.wrapAsHolder(getBlockFromLocation(location));
     }
 
-
     public static boolean isBlockInTag(ResourceLocation blockLocation, TagKey<Block> tagKey) {
         Optional<HolderSet.Named<Block>> tagHolder = BuiltInRegistries.BLOCK.get(tagKey);
         if(tagHolder.isEmpty()) return false;
@@ -166,7 +173,6 @@ public class RegistryHelpers {
         Holder<Block> blockHolder = getBlockHolderFromLocation(blockLocation);
         return tagHolder.get().contains(blockHolder);
     }
-
     public static TagKey<Block> getBlockTagKey(ResourceLocation tagLocation) {
         return TagKey.create(Registries.BLOCK, tagLocation);
     }
@@ -174,4 +180,39 @@ public class RegistryHelpers {
     public static List<ResourceLocation> getLoadedBlockTags() {
         return BuiltInRegistries.BLOCK.getTags().map(t -> t.key().location()).toList();
     }
+
+
+    public static @Nullable Registry<Biome> getBiomeRegistry() {
+        if(Minecraft.getInstance().level == null) return null;
+        return Minecraft.getInstance().level.registryAccess().lookupOrThrow(Registries.BIOME);
+    }
+    public static @Nullable Biome getBiomeFromLocation(ResourceLocation location) {
+        Registry<Biome> biomeReg = getBiomeRegistry();
+        if(biomeReg == null) return null;
+        return biomeReg.getValue(location);
+    }
+    public static @Nullable ResourceLocation getLocationFromBiome(Biome biome) {
+        Registry<Biome> biomeReg = getBiomeRegistry();
+        if(biomeReg == null) return null;
+        return biomeReg.getKey(biome);
+    }
+    public static @Nullable Holder<Biome> getBiomeHolderFromLocation(ResourceLocation location) {
+        Registry<Biome> biomeReg = getBiomeRegistry();
+        Biome biome = getBiomeFromLocation(location);
+        if(biomeReg == null || biome == null) return null;
+        return biomeReg.wrapAsHolder(biome);
+    }
+    public static boolean isBiomeInTag(ResourceLocation biomeLocation, TagKey<Biome> tagKey) {
+        if(Minecraft.getInstance().level == null) return false;
+        Optional<HolderSet.Named<Biome>> tagHolder = Minecraft.getInstance().level.registryAccess().lookupOrThrow(Registries.BIOME).get(tagKey);
+        if(tagHolder.isEmpty()) return false;
+
+        Holder<Biome> biomeHolder = getBiomeHolderFromLocation(biomeLocation);
+        if(biomeHolder == null) return false;
+        return tagHolder.get().contains(biomeHolder);
+    }
+    public static TagKey<Biome> getBiomeTagKey(ResourceLocation tagLocation) {
+        return TagKey.create(Registries.BIOME, tagLocation);
+    }
+
 }
