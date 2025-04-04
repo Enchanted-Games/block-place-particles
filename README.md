@@ -5,7 +5,7 @@ A mod that adds particles to more interactions in the game, such as when placing
 
 Every single feature added by this mod can be adjusted or disabled entirely in the mods' config menu! To access this, click the Mods button on the title or pause screen (on Fabric you need [Mod Menu](https://modrinth.com/mod/modmenu)), click on the Particle Interactions mod, and click the config button
 
-The mod is currently only being updated for the latest Minecraft version (1.21.4 as of writing). Mod updates will not be backported to older versions until at least the full 1.0 release (or until i have more time to do so)
+The mod is currently only being updated for the latest Minecraft version (1.21.5 as of writing). Mod updates will not be backported to older versions until at least the full 1.0 release (or until i have more time to do so)
 
 ## This mod is in beta!
 Some things may be changed or removed entirely before the full release. The config may break between versions before the full release. If you spot bugs / crashes / other mod incompatibilities, you can report them on [the GitHub issue tracker](https://github.com/Enchanted-Games/block-place-particles/issues)!
