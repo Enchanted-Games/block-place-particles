@@ -11,7 +11,7 @@ The mod is currently only being updated for the latest Minecraft version (1.21.4
 Some things may be changed or removed entirely before the full release. The config may break between versions before the full release. If you spot bugs / crashes / other mod incompatibilities, you can report them on [the GitHub issue tracker](https://github.com/Enchanted-Games/block-place-particles/issues)!
 Please test this with your favourite mods and report any issues or unexpected behaviour on the issue tracker!
 
-## Current Features as of v0.6
+## Current Features as of v0.7
 ### Particles
 - Unique block breaking/placement particles which appear when breaking, placing or sprinting on certain blocks (Block Particle Overrides)
 
