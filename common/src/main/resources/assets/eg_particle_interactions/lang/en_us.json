@@ -6,6 +6,7 @@
   "eg_particle_interactions.mod_credits.desc": "Configure almost every feature of the mod here!",
 
   "eg_particle_interactions.config.particle_type.snowflake": "Snowflake",
+  "eg_particle_interactions.config.particle_type.firefly": "Firefly",
   "eg_particle_interactions.config.particle_type.cherry_petal": "Cherry Petal",
   "eg_particle_interactions.config.particle_type.azalea_leaf": "Azalea Leaf",
   "eg_particle_interactions.config.particle_type.flowering_azalea_leaf": "Flowering Azalea Leaf",
