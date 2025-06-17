@@ -653,7 +653,7 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean itemFrame_enabled = itemFrame_enabled_DEFAULT;
 
-    public static final int itemFrame_amount_DEFAULT = 7;
+    public static final int itemFrame_amount_DEFAULT = 4;
     @SerialEntry
     public static int itemFrame_amount = itemFrame_amount_DEFAULT;
 
