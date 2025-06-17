@@ -20,7 +20,7 @@ public abstract class ModRenderTypes extends RenderType {
 
     private static RenderType createTranslucentParticleBackface(ResourceLocation location) {
         RenderType.CompositeState.CompositeStateBuilder stateBuilder = RenderType.CompositeState.builder();
-            ((CompositeStateBuilderInvoker) stateBuilder).evs$invokeSetTextureState(new RenderStateShard.TextureStateShard(location, TriState.FALSE, false));
+            ((CompositeStateBuilderInvoker) stateBuilder).evs$invokeSetTextureState(new RenderStateShard.TextureStateShard(location, false));
             ((CompositeStateBuilderInvoker) stateBuilder).evs$invokeSetLightmapState(LIGHTMAP);
         RenderType.CompositeState state = ((CompositeStateBuilderInvoker) stateBuilder).evs$invokeCreateCompositeState(false);
         return RenderTypeInvoker.evs$invokeCreate("translucent_particle_backface", 1536, false, false, ModRenderPipelines.BACKFACE_TRANSLUCENT_PARTICLE, state);

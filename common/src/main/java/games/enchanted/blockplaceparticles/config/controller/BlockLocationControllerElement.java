@@ -8,7 +8,7 @@ import games.enchanted.blockplaceparticles.registry.BlockOrTagLocation;
 import games.enchanted.blockplaceparticles.registry.RegistryHelpers;
 import games.enchanted.blockplaceparticles.util.TextUtil;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -103,6 +103,6 @@ public class BlockLocationControllerElement extends GenericListControllerElement
     }
 
     protected void renderTagIcon(GuiGraphics graphics, int x, int y) {
-        graphics.blitSprite(RenderType::guiTextured, BLOCK_TAG_ICON, x, y, 16, 16);
+        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, BLOCK_TAG_ICON, x, y, 16, 16);
     }
 }

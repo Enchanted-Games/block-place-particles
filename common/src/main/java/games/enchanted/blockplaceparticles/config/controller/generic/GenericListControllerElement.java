@@ -8,7 +8,7 @@ import games.enchanted.blockplaceparticles.ParticleInteractionsMod;
 import games.enchanted.blockplaceparticles.mixin.accessor.yacl.DropdownWidgetAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -55,7 +55,7 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
     protected void renderItemIcon(GuiGraphics graphics, Item item, int x, int y) {
         if(item == null) return;;
         if(item == Items.AIR) {
-            graphics.blitSprite(RenderType::guiTextured, MISSING_ITEM_ICON_SPRITE, x, y, 16, 16);
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, MISSING_ITEM_ICON_SPRITE, x, y, 16, 16);
             return;
         }
         graphics.renderFakeItem(new ItemStack(item), x, y);
@@ -69,7 +69,7 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
         if(text == null) return;
         Dimension<Integer> dimension = this.getDimension();
 
-        graphics.renderTooltip(Minecraft.getInstance().font, text, dimension.x(), dimension.y());
+        graphics.setTooltipForNextFrame(Minecraft.getInstance().font, text, dimension.x(), dimension.y());
     }
 
     public @Nullable Component getHoverTooltipText() {
