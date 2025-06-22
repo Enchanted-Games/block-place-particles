@@ -14,7 +14,7 @@
   },
   "license": "${license}",
   "icon": "${icon}",
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "main": [
       "${fabric_common_entry}"

@@ -485,8 +485,12 @@ loom {
 
     runConfigs.all {
         ideConfigGenerated(stonecutter.current.isActive)
-        vmArgs("-Dmixin.debug.export=true")
         runDir = "../../run"
+    }
+
+    val widenerFile = file("src/main/resources/${mod.id}.accesswidener");
+    if(widenerFile.exists()) {
+        accessWidenerPath = widenerFile;
     }
 }
 base { archivesName.set(env.archivesBaseName) }
