@@ -36,13 +36,15 @@ public class ColourUtil {
      */
     public static int[] getAverageBlockColour(BlockState blockState) {
         TextureAtlasSprite particleSprite = Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState).particleIcon();
-        ResourceLocation particleSpriteLocation = particleSprite.contents().name();
-        if(averageSpriteColourCache.containsKey(particleSpriteLocation)) {
-            return ARGBint_to_ARGB(averageSpriteColourCache.get(particleSpriteLocation));
+        try (SpriteContents contents = particleSprite.contents()) {
+            ResourceLocation particleSpriteLocation = contents.name();
+            if(averageSpriteColourCache.containsKey(particleSpriteLocation)) {
+                return ARGBint_to_ARGB(averageSpriteColourCache.get(particleSpriteLocation));
+            }
+            int average = calculateAverageSpriteColour(particleSprite);
+            averageSpriteColourCache.put(particleSpriteLocation, average);
+            return ARGBint_to_ARGB(average);
         }
-        int average = calculateAverageSpriteColour(particleSprite);
-        averageSpriteColourCache.put(particleSpriteLocation, average);
-        return ARGBint_to_ARGB(average);
     }
 
     /**
@@ -53,34 +55,37 @@ public class ColourUtil {
      */
     public static int calculateAverageSpriteColour(TextureAtlasSprite sprite) {
         if (sprite == null) return -1;
-        SpriteContents spriteContents = sprite.contents();
-        if (spriteContents.getUniqueFrames().count() == 0) return -1;
-        float total = 0, red = 0, blue = 0, green = 0, alpha = 0;
-        for (int x = 0; x < spriteContents.width(); x++) {
-            for (int y = 0; y < spriteContents.height(); y++) {
-                int color = ((SpriteContentsAccessor) spriteContents).block_place_particle$getOriginalImage().getPixel(x, y);
-                int[] argb = ARGBint_to_ARGB(color);
-                int pixelAlpha = argb[0];
-                if (pixelAlpha <= 10) continue;
-                total++;
-                alpha += pixelAlpha;
-                red += argb[1];
-                green += argb[2];
-                blue += argb[3];
+        try (SpriteContents spriteContents = sprite.contents()) {
+            if (spriteContents.getUniqueFrames().findAny().isEmpty()) return -1;
+            float total = 0, red = 0, blue = 0, green = 0, alpha = 0;
+            for (int x = 0; x < spriteContents.width(); x++) {
+                for (int y = 0; y < spriteContents.height(); y++) {
+                    try (NativeImage image = ((SpriteContentsAccessor) spriteContents).block_place_particle$getOriginalImage()) {
+                        int color = image.getPixel(x, y);
+                        int[] argb = ARGBint_to_ARGB(color);
+                        int pixelAlpha = argb[0];
+                        if (pixelAlpha <= 10) continue;
+                        total++;
+                        alpha += pixelAlpha;
+                        red += argb[1];
+                        green += argb[2];
+                        blue += argb[3];
+                    }
+                }
             }
+
+            float[] hsb = Color.RGBtoHSB((int) (red / total), (int) (green / total), (int) (blue / total), null);
+            hsb[2] *= 1.05f;
+            int[] rgb = RGBint_to_RGB(
+                Color.HSBtoRGB(
+                    Math.clamp(hsb[0], 0, 1),
+                    Math.clamp(hsb[1], 0, 1),
+                    Math.clamp(hsb[2], 0, 1)
+                )
+            );
+
+            return ARGB_to_ARGBint((int) (alpha / total), rgb[0], rgb[1], rgb[2]);
         }
-
-        float[] hsb = Color.RGBtoHSB((int) (red / total), (int) (green / total), (int) (blue / total), null);
-        hsb[2] *= 1.05f;
-        int[] rgb = RGBint_to_RGB(
-            Color.HSBtoRGB(
-                Math.clamp(hsb[0], 0, 1),
-                Math.clamp(hsb[1], 0, 1),
-                Math.clamp(hsb[2], 0, 1)
-            )
-        );
-
-        return ARGB_to_ARGBint((int) (alpha / total), rgb[0], rgb[1], rgb[2]);
     }
 
     /**
@@ -95,7 +100,7 @@ public class ColourUtil {
             Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState).particleIcon();
         SpriteContents spriteContents = particleSprite.contents();
 
-        ResourceLocation particleSpriteLocation = particleSprite.contents().name();
+        ResourceLocation particleSpriteLocation = spriteContents.name();
 
         ImageCoordinate[] pixelCoordinatesList;
 
@@ -126,13 +131,15 @@ public class ColourUtil {
             randomPixelCoordinate = pixelCoordinatesList[MathHelpers.randomBetween(0, pixelCoordinatesList.length - 1)];
         }
 
-        NativeImage particleImage = ((SpriteContentsAccessor) spriteContents).block_place_particle$getOriginalImage();
+        int sampledColour;
+        try (NativeImage particleImage = ((SpriteContentsAccessor) spriteContents).block_place_particle$getOriginalImage()) {
 
-        if(randomPixelCoordinate.x() > particleImage.getWidth() - 1 || randomPixelCoordinate.y() > particleImage.getHeight() - 1) {
-            return new int[]{255, 255, 255, 255};
+            if (randomPixelCoordinate.x() > particleImage.getWidth() - 1 || randomPixelCoordinate.y() > particleImage.getHeight() - 1) {
+                return new int[]{255, 255, 255, 255};
+            }
+
+            sampledColour = particleImage.getPixel(randomPixelCoordinate.x(), randomPixelCoordinate.y());
         }
-
-        int sampledColour = particleImage.getPixel(randomPixelCoordinate.x(), randomPixelCoordinate.y());
         return ARGBint_to_ARGB(sampledColour);
     }
 
@@ -142,13 +149,15 @@ public class ColourUtil {
 
         for (int x = 0; x < spriteContents.width(); x++) {
             for (int y = 0; y < spriteContents.height(); y++) {
-                int sampledColour = ((SpriteContentsAccessor) spriteContents).block_place_particle$getOriginalImage().getPixel(x, y);
-                int[] argb = ARGBint_to_ARGB(sampledColour);
+                try(NativeImage image = ((SpriteContentsAccessor) spriteContents).block_place_particle$getOriginalImage()) {
+                    int sampledColour = image.getPixel(x, y);
+                    int[] argb = ARGBint_to_ARGB(sampledColour);
 
-                if(argb[0] <= OPAQUE_PIXELS_THRESHOLD) continue;
+                    if(argb[0] <= OPAQUE_PIXELS_THRESHOLD) continue;
 
-                coordinatesList.add(new ImageCoordinate(x, y));
-                totalOpaquePixels++;
+                    coordinatesList.add(new ImageCoordinate(x, y));
+                    totalOpaquePixels++;
+                }
             }
         }
 
