@@ -15,6 +15,20 @@ plugins {
 
 // Leave this alone unless adding more dependencies.
 repositories {
+    // modmenu
+    maven("https://maven.terraformersmc.com/") {
+        name = "Terraformers"
+    }
+
+    // yacl
+    maven("https://maven.isxander.dev/releases") {
+        name = "Xander Maven"
+    }
+    // required by yacl
+    maven("https://thedarkcolour.github.io/KotlinForForge/") {
+        name = "Kotlin for Forge"
+    }
+
     mavenCentral()
     exclusiveContent {
         forRepository { maven("https://www.cursemaven.com") { name = "CurseForge" } }
@@ -175,8 +189,10 @@ enum class DepType {
             return true
         }
     },
+    // Mod Implementation
+    MOD_IMPL,
     // Implementation
-    IMPL,
+    IMPLE_YACL_HACK,
     // Forge Runtime Library
     FRL{
         override fun includeInDepsList(): Boolean {
@@ -221,7 +237,17 @@ val apis = arrayListOf(
     APISource(DepType.API, APIModInfo(if(env.atMost("1.16.5")) "fabric" else "fabric-api","fabric-api"), "net.fabricmc.fabric-api:fabric-api",optionalVersionProperty("deps.api.fabric"))
     { src ->
         src.versionRange.isPresent && env.isFabric
-    }
+    },
+
+    APISource(DepType.MOD_IMPL, APIModInfo("modmenu"), "com.terraformersmc:modmenu",optionalVersionProperty("deps.api.modmenu"))
+    { src ->
+        src.versionRange.isPresent && env.isFabric
+    },
+
+    APISource(DepType.IMPLE_YACL_HACK, APIModInfo("yet_another_config_lib_v3"), "dev.isxander:yet-another-config-lib",optionalVersionProperty("deps.api.yacl"))
+    { src ->
+        src.versionRange.isPresent
+    },
 )
 
 // Stores information about the mod itself.
@@ -487,8 +513,17 @@ dependencies {
                 if(src.type == DepType.API || src.type == DepType.API_OPTIONAL) {
                     modApi("${src.mavenLocation}:${ver.min}")
                 }
-                if(src.type == DepType.IMPL) {
+                if(src.type == DepType.MOD_IMPL) {
                     modImplementation("${src.mavenLocation}:${ver.min}")
+                }
+                if(src.type == DepType.IMPLE_YACL_HACK) {
+                    if(env.isNeo) {
+                        implementation("${src.mavenLocation}:${ver.min}") {
+                            exclude(group = "net.neoforged.fancymodloader", module = "loader")
+                        }
+                    } else {
+                        modImplementation("${src.mavenLocation}:${ver.min}")
+                    }
                 }
                 if(src.type == DepType.INCLUDE) {
                     modImplementation("${src.mavenLocation}:${ver.min}")
