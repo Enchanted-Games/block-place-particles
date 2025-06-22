@@ -21,6 +21,9 @@
     ],
     "client": [
       "${fabric_client_entry}"
+    ],
+    "modmenu": [
+      "games.enchanted.eg_particle_interactions.fabric.ModMenuIntegration"
     ]
   },
 ${mixin_field}

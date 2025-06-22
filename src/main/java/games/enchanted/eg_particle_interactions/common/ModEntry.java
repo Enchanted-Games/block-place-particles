@@ -1,5 +1,8 @@
 package games.enchanted.eg_particle_interactions.common;
 
+import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
+import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverrides;
+
 /**
  * This is the entry point for your mod's common side, called by each modloader specific side.
  */
@@ -9,9 +12,9 @@ public class ModEntry {
     }
 
     public static void endOfModLoading() {
-        games.enchanted.eg_particle_interactions.common.config.ConfigHandler.load();
-        games.enchanted.eg_particle_interactions.common.config.ConfigHandler.save();
-        games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverrides.registerOverrides();
+        ConfigHandler.load();
+        ConfigHandler.save();
+        BlockParticleOverrides.registerOverrides();
         Logging.info("Loaded Successfully!");
     }
 }

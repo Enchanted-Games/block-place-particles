@@ -60,17 +60,15 @@ public class ColourUtil {
             float total = 0, red = 0, blue = 0, green = 0, alpha = 0;
             for (int x = 0; x < spriteContents.width(); x++) {
                 for (int y = 0; y < spriteContents.height(); y++) {
-                    try (NativeImage image = ((SpriteContentsAccessor) spriteContents).block_place_particle$getOriginalImage()) {
-                        int color = image.getPixel(x, y);
-                        int[] argb = ARGBint_to_ARGB(color);
-                        int pixelAlpha = argb[0];
-                        if (pixelAlpha <= 10) continue;
-                        total++;
-                        alpha += pixelAlpha;
-                        red += argb[1];
-                        green += argb[2];
-                        blue += argb[3];
-                    }
+                    int color = ((SpriteContentsAccessor) spriteContents).block_place_particle$getOriginalImage().getPixel(x, y);
+                    int[] argb = ARGBint_to_ARGB(color);
+                    int pixelAlpha = argb[0];
+                    if (pixelAlpha <= 10) continue;
+                    total++;
+                    alpha += pixelAlpha;
+                    red += argb[1];
+                    green += argb[2];
+                    blue += argb[3];
                 }
             }
 
@@ -131,15 +129,13 @@ public class ColourUtil {
             randomPixelCoordinate = pixelCoordinatesList[MathHelpers.randomBetween(0, pixelCoordinatesList.length - 1)];
         }
 
-        int sampledColour;
-        try (NativeImage particleImage = ((SpriteContentsAccessor) spriteContents).block_place_particle$getOriginalImage()) {
-
-            if (randomPixelCoordinate.x() > particleImage.getWidth() - 1 || randomPixelCoordinate.y() > particleImage.getHeight() - 1) {
-                return new int[]{255, 255, 255, 255};
-            }
-
-            sampledColour = particleImage.getPixel(randomPixelCoordinate.x(), randomPixelCoordinate.y());
+        NativeImage particleImage = ((SpriteContentsAccessor) spriteContents).block_place_particle$getOriginalImage();
+        if (randomPixelCoordinate.x() > particleImage.getWidth() - 1 || randomPixelCoordinate.y() > particleImage.getHeight() - 1) {
+            return new int[]{255, 255, 255, 255};
         }
+
+        int sampledColour = particleImage.getPixel(randomPixelCoordinate.x(), randomPixelCoordinate.y());
+
         return ARGBint_to_ARGB(sampledColour);
     }
 
@@ -149,15 +145,14 @@ public class ColourUtil {
 
         for (int x = 0; x < spriteContents.width(); x++) {
             for (int y = 0; y < spriteContents.height(); y++) {
-                try(NativeImage image = ((SpriteContentsAccessor) spriteContents).block_place_particle$getOriginalImage()) {
-                    int sampledColour = image.getPixel(x, y);
-                    int[] argb = ARGBint_to_ARGB(sampledColour);
+                NativeImage image = ((SpriteContentsAccessor) spriteContents).block_place_particle$getOriginalImage();
+                int sampledColour = image.getPixel(x, y);
+                int[] argb = ARGBint_to_ARGB(sampledColour);
 
-                    if(argb[0] <= OPAQUE_PIXELS_THRESHOLD) continue;
+                if(argb[0] <= OPAQUE_PIXELS_THRESHOLD) continue;
 
-                    coordinatesList.add(new ImageCoordinate(x, y));
-                    totalOpaquePixels++;
-                }
+                coordinatesList.add(new ImageCoordinate(x, y));
+                totalOpaquePixels++;
             }
         }
 
