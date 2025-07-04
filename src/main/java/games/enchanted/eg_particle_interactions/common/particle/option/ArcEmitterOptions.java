@@ -14,31 +14,22 @@ import org.jetbrains.annotations.NotNull;
 public class ArcEmitterOptions implements ParticleOptions {
     private final ParticleType<ArcEmitterOptions> type;
     private final int length;
-    private final boolean canSpawnSplits;
+    private final int splits;
 
-    public ArcEmitterOptions(ParticleType<ArcEmitterOptions> type, int length) {
+    public ArcEmitterOptions(ParticleType<ArcEmitterOptions> type, int length, int splits) {
         this.type = type;
         this.length = length;
-        this.canSpawnSplits = true;
-    }
-
-    public ArcEmitterOptions(ParticleType<ArcEmitterOptions> type, int length, boolean canSpawnSplits) {
-        this.type = type;
-        this.length = length;
-        this.canSpawnSplits = canSpawnSplits;
-    }
-
-    public ArcEmitterOptions withSplitsDisabled() {
-        return new ArcEmitterOptions(this.type, this.length, false);
+        this.splits = splits;
     }
 
     private static Codec<ArcEmitterOptions> createCodec(ParticleType<ArcEmitterOptions> type) {
         return RecordCodecBuilder.create((RecordCodecBuilder.Instance<ArcEmitterOptions> instance) ->
             instance.group(
-                ExtraCodecs.POSITIVE_INT.fieldOf("length").forGetter(ArcEmitterOptions::getLength)
+                ExtraCodecs.POSITIVE_INT.fieldOf("length").forGetter(ArcEmitterOptions::getLength),
+                ExtraCodecs.POSITIVE_INT.fieldOf("splits").forGetter(ArcEmitterOptions::getSplits)
             ).apply(
                 instance,
-                (Integer length) -> new ArcEmitterOptions(type, length)
+                (Integer length, Integer splits) -> new ArcEmitterOptions(type, length, splits)
             )
         );
     }
@@ -60,7 +51,7 @@ public class ArcEmitterOptions implements ParticleOptions {
         return length;
     }
 
-    public boolean canSpawnSplits() {
-        return canSpawnSplits;
+    public int getSplits() {
+        return splits;
     }
 }
