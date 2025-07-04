@@ -6,14 +6,16 @@ import games.enchanted.eg_particle_interactions.common.particle.bubble.Underwate
 import games.enchanted.eg_particle_interactions.common.particle.constant_motion.LavaPop;
 import games.enchanted.eg_particle_interactions.common.particle.dust.BasicTintedDust;
 import games.enchanted.eg_particle_interactions.common.particle.dust.FloatingColouredDust;
-import games.enchanted.eg_particle_interactions.common.particle.emitter.UnderwaterBubbleEmitter;
-import games.enchanted.eg_particle_interactions.common.particle.option.ParticleEmitterOptions;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.arc.ArcEmitter;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.random_distribution.UnderwaterBubbleEmitter;
+import games.enchanted.eg_particle_interactions.common.particle.option.ArcEmitterOptions;
+import games.enchanted.eg_particle_interactions.common.particle.option.RandomDistributionEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.option.TintedParticleOption;
 import games.enchanted.eg_particle_interactions.common.particle.petal.FallingColouredPetal;
 import games.enchanted.eg_particle_interactions.common.particle.petal.FallingPetal;
 import games.enchanted.eg_particle_interactions.common.particle.shatter.BlockShatter;
 import games.enchanted.eg_particle_interactions.common.particle.spark.FlyingSpark;
-import games.enchanted.eg_particle_interactions.common.particle.emitter.SparkEmitter;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.random_distribution.SparkEmitter;
 import games.enchanted.eg_particle_interactions.common.particle.spark.SparkFlash;
 import games.enchanted.eg_particle_interactions.common.particle.splash.BlockSplash;
 import games.enchanted.eg_particle_interactions.common.particle.splash.ColouredBucketSplash;
@@ -84,8 +86,9 @@ public class ModParticleTypes {
 
     public static SimpleParticleType LAVA_POP;
 
-    public static ParticleType<ParticleEmitterOptions> FLYING_SPARK_EMITTER;
-    public static ParticleType<ParticleEmitterOptions> UNDERWATER_RISING_BUBBLE_SMALL_EMITTER;
+    public static ParticleType<RandomDistributionEmitterOptions> FLYING_SPARK_EMITTER;
+    public static ParticleType<RandomDistributionEmitterOptions> UNDERWATER_RISING_BUBBLE_SMALL_EMITTER;
+    public static ParticleType<ArcEmitterOptions> ARC_EMITTER;
 
     // this only exists because the vanilla block cracking particles are created inside the particle engine
     public static ParticleType<BlockParticleOption> BLOCK_CRACK;
@@ -138,8 +141,9 @@ public class ModParticleTypes {
 
         LAVA_POP = register((SpriteProviderReg) LavaPop.LavaPopProvider::new, ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "lava_pop"), true);
 
-        FLYING_SPARK_EMITTER = register((SpriteProviderReg) SparkEmitter.Provider::new, ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "flying_spark_emitter"), true, ParticleEmitterOptions::codec, ParticleEmitterOptions::streamCodec);
-        UNDERWATER_RISING_BUBBLE_SMALL_EMITTER = register((SpriteProviderReg) UnderwaterBubbleEmitter.Provider::new, ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "underwater_rising_bubble_small_emitter"), true, ParticleEmitterOptions::codec, ParticleEmitterOptions::streamCodec);
+        FLYING_SPARK_EMITTER = register((SpriteProviderReg) SparkEmitter.Provider::new, ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "flying_spark_emitter"), true, RandomDistributionEmitterOptions::codec, RandomDistributionEmitterOptions::streamCodec);
+        UNDERWATER_RISING_BUBBLE_SMALL_EMITTER = register((SpriteProviderReg) UnderwaterBubbleEmitter.Provider::new, ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "underwater_rising_bubble_small_emitter"), true, RandomDistributionEmitterOptions::codec, RandomDistributionEmitterOptions::streamCodec);
+        ARC_EMITTER = register((SpriteProviderReg) ArcEmitter.Provider::new, ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "arc_emitter"), true, ArcEmitterOptions::codec, ArcEmitterOptions::streamCodec);
 
         BLOCK_CRACK = register((SpriteProviderReg) CustomMovementTerrainParticle.CrackingProvider::new, ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "block_crack"), true, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         BLOCK_HIGH_VELOCITY = register((SpriteProviderReg) CustomMovementTerrainParticle.UncappedMotionProvider::new, ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "block_high_velocity"), true, BlockParticleOption::codec, BlockParticleOption::streamCodec);

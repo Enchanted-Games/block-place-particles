@@ -33,6 +33,7 @@
     "entity.FallingBlockEntity",
     "entity.FallingBlockEntityLand_ClientLevelMixin",
     "entity.ItemFrameMixin",
+    "entity.LightningBoltMixin",
     "entity.LocalPlayer_EntityMixin",
     "fluids.LavaFluid",
     "items.BlockItem",

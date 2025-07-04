@@ -3,7 +3,8 @@ package games.enchanted.eg_particle_interactions.common.particle_spawning;
 import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
 import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
-import games.enchanted.eg_particle_interactions.common.particle.option.ParticleEmitterOptions;
+import games.enchanted.eg_particle_interactions.common.particle.option.ArcEmitterOptions;
+import games.enchanted.eg_particle_interactions.common.particle.option.RandomDistributionEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.option.TintedParticleOption;
 import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverride;
 import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverrides;
@@ -489,7 +490,7 @@ public class SpawnParticles {
         double x = blockPos.getX() + 0.5f;
         double y = blockPos.getY() + 1. + (level.random.nextDouble() / 16f);
         double z = blockPos.getZ() + 0.5f;
-        ParticleEmitterOptions emitter = new ParticleEmitterOptions(
+        RandomDistributionEmitterOptions emitter = new RandomDistributionEmitterOptions(
             ModParticleTypes.FLYING_SPARK_EMITTER,
             3,
             7,
@@ -530,7 +531,7 @@ public class SpawnParticles {
             z = blockPos.getZ() + 0.5f;
         }
 
-        ParticleEmitterOptions emitter = getGrindstoneSparkEmitter(attachFace, facing);
+        RandomDistributionEmitterOptions emitter = getGrindstoneSparkEmitter(attachFace, facing);
         final float HORIZONTAL_MIN_SPEED = 0.05f;
         final float HORIZONTAL_MAX_SPEED = 0.3f;
         final float UPWARDS_SPEED = 0.5f;
@@ -555,7 +556,7 @@ public class SpawnParticles {
         );
     }
 
-    private static @NotNull ParticleEmitterOptions getGrindstoneSparkEmitter(AttachFace attachFace, Direction facing) {
+    private static @NotNull RandomDistributionEmitterOptions getGrindstoneSparkEmitter(AttachFace attachFace, Direction facing) {
         final float EMITTER_BOUND_WIDTH = 0.1f;
         final float EMITTER_BOUND_LENGTH = 0.8f;
 
@@ -571,7 +572,7 @@ public class SpawnParticles {
             depth = EMITTER_BOUND_WIDTH;
         }
 
-        return new ParticleEmitterOptions(
+        return new RandomDistributionEmitterOptions(
             ModParticleTypes.FLYING_SPARK_EMITTER,
             ConfigHandler.maxGrindstoneUseSparks_onUse < 6 ? ConfigHandler.maxGrindstoneUseSparks_onUse : 6,
             1,
@@ -679,7 +680,7 @@ public class SpawnParticles {
             double d0 = (double) blockPos.getX() + level.random.nextDouble();
             double d1 = (double) blockPos.getY() + level.random.nextDouble();
             double d2 = (double) blockPos.getZ() + level.random.nextDouble();
-            ParticleEmitterOptions emitter = new ParticleEmitterOptions(
+            RandomDistributionEmitterOptions emitter = new RandomDistributionEmitterOptions(
                 ModParticleTypes.UNDERWATER_RISING_BUBBLE_SMALL_EMITTER,
                 MathHelpers.randomBetween(9, 30),
                 MathHelpers.randomBetween(2, 4),
@@ -800,5 +801,9 @@ public class SpawnParticles {
         final boolean spawnSpark = level.random.nextFloat() < 0.2;
         final float outwardVelocity = MathHelpers.randomBetween(0.01f, 0.03f) * (spawnSpark ? 1 : 5);
         level.addParticle(spawnSpark ? ModParticleTypes.FLOATING_EMBER : ModParticleTypes.FLOATING_SPARK, positions[0], positions[1] + 0.125, positions[2], furnaceDirection.getStepX() * outwardVelocity, 0.05f, furnaceDirection.getStepZ() * outwardVelocity);
+    }
+
+    public static void spawnLightningImpactSparks(ClientLevel level, double x, double y, double z) {
+        SpawnParticlesUtil.spawnParticleInCircle(new ArcEmitterOptions(ModParticleTypes.ARC_EMITTER, 10), level, new Vec3(x, y, z), 20, 0.2f, 0.8f, 3f, 0.3f, 0.0f);
     }
 }

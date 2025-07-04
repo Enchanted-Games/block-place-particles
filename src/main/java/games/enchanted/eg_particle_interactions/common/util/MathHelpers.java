@@ -44,6 +44,18 @@ public class MathHelpers {
     }
 
     /**
+     * Converts yaw and pitch to a vector
+     *
+     * @param pitch the pitch in radians
+     * @param yaw   the yaw in radians
+     * @return facing vector
+     */
+    public static Vector3f directionVectorFromPitchYaw(float pitch, float yaw) {
+        float cosPitch = (float) Math.cos(pitch);
+        return new Vector3f((float) Math.sin(-yaw) * cosPitch, -(float) Math.sin(pitch), (float) Math.cos(-yaw) * cosPitch);
+    }
+
+    /**
      * Converts euler angles to a quaternion
      *
      * @param roll  the roll in radians

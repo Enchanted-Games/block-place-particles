@@ -1,42 +1,28 @@
-package games.enchanted.eg_particle_interactions.common.particle.emitter;
+package games.enchanted.eg_particle_interactions.common.particle.emitter.random_distribution;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
-import games.enchanted.eg_particle_interactions.common.particle.option.ParticleEmitterOptions;
-import net.minecraft.client.Camera;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.AbstractEmitterParticle;
+import games.enchanted.eg_particle_interactions.common.particle.option.RandomDistributionEmitterOptions;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.core.particles.ParticleOptions;
-import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
-public abstract class AbstractParticleEmitter extends Particle {
+public abstract class AbstractRandomDistributionEmitter extends AbstractEmitterParticle {
     protected double emittedXSpeed;
     protected double emittedYSpeed;
     protected double emittedZSpeed;
     protected int emitterInterval;
     protected int emitterIterations;
     protected int particlesPerEmission;
-    protected float emitterWidth;
-    protected float emitterHeight;
-    protected float emitterDepth;
     protected Vector3f emitterVariance;
     protected boolean emitOnFirstTick;
 
-    protected AbstractParticleEmitter(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, ParticleEmitterOptions emitterOptions) {
-        super(level, x, y, z);
+    protected AbstractRandomDistributionEmitter(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomDistributionEmitterOptions emitterOptions) {
+        super(level, x, y, z, emitterOptions.getDimensions().x, emitterOptions.getDimensions().y, emitterOptions.getDimensions().z);
         this.emittedXSpeed = xSpeed;
         this.emittedYSpeed = ySpeed;
         this.emittedZSpeed = zSpeed;
         this.emitterInterval = emitterOptions.getTickInterval();
         this.emitterIterations = emitterOptions.getTickIterations();
         this.particlesPerEmission = emitterOptions.getParticlesPerEmission();
-        Vector3f emitterDim = emitterOptions.getDimensions();
-        this.emitterWidth = emitterDim.x();
-        this.emitterHeight = emitterDim.y();
-        this.emitterDepth = emitterDim.z();
         this.emitOnFirstTick = emitterOptions.getEmitOnFirstTick();
         this.emitterVariance = emitterOptions.getVelocityVariance();
         this.setLifetime(emitterInterval * emitterIterations);
@@ -46,15 +32,7 @@ public abstract class AbstractParticleEmitter extends Particle {
     }
 
     @Override
-    public void tick() {
-        if(this.age++ >= this.lifetime) {
-            this.remove();
-            return;
-        }
-        if(ConfigHandler.debug_showEmitterBounds) {
-            level.addParticle(new DustParticleOptions(0xFFFF0000, 0.5f), x, y, z, 0, 0, 0);
-            level.addParticle(new DustParticleOptions(0xFF00FF00, 0.5f), x + this.emitterWidth, y + this.emitterHeight, z + this.emitterDepth, 0, 0, 0);
-        }
+    protected void emitterTick() {
         if((this.age - (emitOnFirstTick ? 1 : 0)) % emitterInterval == 0) {
             for (int i = 0; i < particlesPerEmission; i++) {
                 double[] emitPos = getRandomPositionInsideBounds();
@@ -76,24 +54,5 @@ public abstract class AbstractParticleEmitter extends Particle {
         double newY = y + (this.emitterHeight * this.level.random.nextFloat());
         double newZ = z + (this.emitterDepth * this.level.random.nextFloat());
         return new double[]{newX, newY, newZ};
-    }
-
-    /**
-     * Called every time before spawning the next particle
-     *
-     * @param level the level
-     * @param x     the x
-     * @param y     the y
-     * @param z     the z
-     * @return the particle to emit
-     */
-    protected abstract ParticleOptions getParticleToEmit(ClientLevel level, double x, double y, double z);
-
-    @Override
-    public void render(@NotNull VertexConsumer vertexConsumer, @NotNull Camera camera, float v) {}
-
-    @Override
-    public @NotNull ParticleRenderType getRenderType() {
-        return ParticleRenderType.NO_RENDER;
     }
 }
