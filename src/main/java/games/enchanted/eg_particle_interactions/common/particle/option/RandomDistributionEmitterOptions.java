@@ -14,7 +14,7 @@ import org.joml.Vector3f;
 
 public class RandomDistributionEmitterOptions implements ParticleOptions {
     private final ParticleType<RandomDistributionEmitterOptions> type;
-    private final int tickIterations;
+    private final int repeat;
     private final int tickInterval;
     private final int particlesPerEmission;
     private final boolean emitOnFirstTick;
@@ -23,7 +23,7 @@ public class RandomDistributionEmitterOptions implements ParticleOptions {
 
     public RandomDistributionEmitterOptions(ParticleType<RandomDistributionEmitterOptions> type, int tickIterations, int tickInvertal, int particlesPerEmission, boolean emitOnFirstTick, Vector3f dimensions, Vector3f velocityVariance) {
         this.type = type;
-        this.tickIterations = tickIterations;
+        this.repeat = tickIterations;
         this.tickInterval = tickInvertal;
         this.particlesPerEmission = particlesPerEmission;
         this.emitOnFirstTick = emitOnFirstTick;
@@ -31,22 +31,22 @@ public class RandomDistributionEmitterOptions implements ParticleOptions {
         this.velocityVariance = velocityVariance;
     }
 
-    public RandomDistributionEmitterOptions(ParticleType<RandomDistributionEmitterOptions> type, int tickIterations, int tickInvertal, int particlesPerEmission) {
-        this(type, tickIterations, tickInvertal, particlesPerEmission, true, new Vector3f(0, 0, 0), new Vector3f(0, 0, 0));
+    public RandomDistributionEmitterOptions(ParticleType<RandomDistributionEmitterOptions> type, int repeat, int tickInvertal, int particlesPerEmission) {
+        this(type, repeat, tickInvertal, particlesPerEmission, true, new Vector3f(0, 0, 0), new Vector3f(0, 0, 0));
     }
 
-    public RandomDistributionEmitterOptions(ParticleType<RandomDistributionEmitterOptions> type, int tickIterations, int tickInvertal, int particlesPerEmission, Vector3f dimensions) {
-        this(type, tickIterations, tickInvertal, particlesPerEmission, true, dimensions, new Vector3f(0, 0, 0));
+    public RandomDistributionEmitterOptions(ParticleType<RandomDistributionEmitterOptions> type, int repeat, int tickInvertal, int particlesPerEmission, Vector3f dimensions) {
+        this(type, repeat, tickInvertal, particlesPerEmission, true, dimensions, new Vector3f(0, 0, 0));
     }
 
-    public RandomDistributionEmitterOptions(ParticleType<RandomDistributionEmitterOptions> type, int tickIterations, int tickInvertal, int particlesPerEmission, Vector3f dimensions, Vector3f velocityVariance) {
-        this(type, tickIterations, tickInvertal, particlesPerEmission, true, dimensions, velocityVariance);
+    public RandomDistributionEmitterOptions(ParticleType<RandomDistributionEmitterOptions> type, int repeat, int tickInvertal, int particlesPerEmission, Vector3f dimensions, Vector3f velocityVariance) {
+        this(type, repeat, tickInvertal, particlesPerEmission, true, dimensions, velocityVariance);
     }
 
     private static Codec<RandomDistributionEmitterOptions> createCodec(ParticleType<RandomDistributionEmitterOptions> type) {
         return RecordCodecBuilder.create((RecordCodecBuilder.Instance<RandomDistributionEmitterOptions> instance) ->
             instance.group(
-                ExtraCodecs.POSITIVE_INT.fieldOf("repeat").forGetter(RandomDistributionEmitterOptions::getTickIterations),
+                ExtraCodecs.POSITIVE_INT.fieldOf("repeat").forGetter(RandomDistributionEmitterOptions::getRepeat),
                 ExtraCodecs.POSITIVE_INT.fieldOf("interval").forGetter(RandomDistributionEmitterOptions::getTickInterval),
                 ExtraCodecs.POSITIVE_INT.optionalFieldOf("amount_per_emission", 1).forGetter(RandomDistributionEmitterOptions::getParticlesPerEmission),
                 Codec.BOOL.optionalFieldOf("emit_on_first_tick", true).forGetter(RandomDistributionEmitterOptions::getEmitOnFirstTick),
@@ -72,8 +72,8 @@ public class RandomDistributionEmitterOptions implements ParticleOptions {
         return this.type;
     }
 
-    public int getTickIterations() {
-        return tickIterations;
+    public int getRepeat() {
+        return repeat;
     }
 
     public int getTickInterval() {

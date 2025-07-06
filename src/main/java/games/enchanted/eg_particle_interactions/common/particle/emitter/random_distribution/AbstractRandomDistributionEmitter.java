@@ -3,6 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.emitter.random_
 import games.enchanted.eg_particle_interactions.common.particle.emitter.AbstractEmitterParticle;
 import games.enchanted.eg_particle_interactions.common.particle.option.RandomDistributionEmitterOptions;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.particles.ParticleOptions;
 import org.joml.Vector3f;
 
 public abstract class AbstractRandomDistributionEmitter extends AbstractEmitterParticle {
@@ -21,7 +22,7 @@ public abstract class AbstractRandomDistributionEmitter extends AbstractEmitterP
         this.emittedYSpeed = ySpeed;
         this.emittedZSpeed = zSpeed;
         this.emitterInterval = emitterOptions.getTickInterval();
-        this.emitterIterations = emitterOptions.getTickIterations();
+        this.emitterIterations = emitterOptions.getRepeat();
         this.particlesPerEmission = emitterOptions.getParticlesPerEmission();
         this.emitOnFirstTick = emitterOptions.getEmitOnFirstTick();
         this.emitterVariance = emitterOptions.getVelocityVariance();
@@ -36,8 +37,10 @@ public abstract class AbstractRandomDistributionEmitter extends AbstractEmitterP
         if((this.age - (emitOnFirstTick ? 1 : 0)) % emitterInterval == 0) {
             for (int i = 0; i < particlesPerEmission; i++) {
                 double[] emitPos = getRandomPositionInsideBounds();
+                ParticleOptions particle = this.getParticleToEmit(level, emitPos[0], emitPos[1], emitPos[2]);
+                if(particle == null) continue;
                 level.addParticle(
-                    this.getParticleToEmit(level, emitPos[0], emitPos[1], emitPos[2]),
+                    particle,
                     emitPos[0],
                     emitPos[1],
                     emitPos[2],

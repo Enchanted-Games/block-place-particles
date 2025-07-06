@@ -10,6 +10,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.function.Supplier;
+
 public class SpawnParticlesUtil {
     public static boolean isParticleOutsideRenderDistance(@NotNull ParticleCategory particleCategory, BlockPos particlePos) {
         return isParticleOutsideRenderDistance(particleCategory, particlePos.getX(), particlePos.getY(), particlePos.getZ());
@@ -39,6 +41,23 @@ public class SpawnParticlesUtil {
      * @param verticalVelocityMultiplier multiplied by particle distance from the center
      */
     public static void spawnParticleInCircle(ParticleOptions particleOptions, ClientLevel level, Vec3 center, int amount, float spread, float radius, float outwardVelocityMultiplier, float verticalVelocityBase, float verticalVelocityMultiplier) {
+        spawnParticleInCircle(() -> particleOptions, level, center, amount, spread, radius, outwardVelocityMultiplier, verticalVelocityBase, verticalVelocityMultiplier);
+    }
+
+    /**
+     * Spawns a particle option in a flat circular shape
+     *
+     * @param particleOptions            supplier for particle options to spawn
+     * @param level                      level
+     * @param center                     center of the circle
+     * @param amount                     amount of particles to spawn
+     * @param spread                     how far particles can deviate from the radius (in blocks)
+     * @param radius                     the distance to spawn particles from the center position (in blocks)
+     * @param outwardVelocityMultiplier  how quickly particles should fly out from the center
+     * @param verticalVelocityBase       base vertical velocity for all particles
+     * @param verticalVelocityMultiplier multiplied by particle distance from the center
+     */
+    public static void spawnParticleInCircle(Supplier<ParticleOptions> particleOptions, ClientLevel level, Vec3 center, int amount, float spread, float radius, float outwardVelocityMultiplier, float verticalVelocityBase, float verticalVelocityMultiplier) {
         float randomAngleOffset = (float) Math.toRadians(MathHelpers.randomBetween(0, 360f));
         radius /= 2;
         for (int i = 0; i < amount; i++) {
@@ -48,7 +67,7 @@ public class SpawnParticlesUtil {
             double x = center.x + distX;
             double z = center.z + distZ;
             double distFromCenter = Math.max(Math.abs(distX), Math.abs(distZ));
-            level.addParticle(particleOptions, x, center.y, z, Math.clamp(distX, -1, 1) * outwardVelocityMultiplier, verticalVelocityBase + (Math.abs(radius + (spread / 2) - distFromCenter) * verticalVelocityMultiplier), Math.clamp(distZ, -1, 1) * outwardVelocityMultiplier);
+            level.addParticle(particleOptions.get(), x, center.y, z, Math.clamp(distX, -1, 1) * outwardVelocityMultiplier, verticalVelocityBase + (Math.abs(radius + (spread / 2) - distFromCenter) * verticalVelocityMultiplier), Math.clamp(distZ, -1, 1) * outwardVelocityMultiplier);
         }
     }
 

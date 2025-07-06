@@ -9,6 +9,7 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleOptions;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractEmitterParticle extends Particle {
     protected float emitterWidth;
@@ -46,7 +47,7 @@ public abstract class AbstractEmitterParticle extends Particle {
      * @param z     the z
      * @return the particle to emit
      */
-    protected abstract ParticleOptions getParticleToEmit(ClientLevel level, double x, double y, double z);
+    protected abstract @Nullable ParticleOptions getParticleToEmit(ClientLevel level, double x, double y, double z);
 
     @Override
     public void render(@NotNull VertexConsumer vertexConsumer, @NotNull Camera camera, float v) {}

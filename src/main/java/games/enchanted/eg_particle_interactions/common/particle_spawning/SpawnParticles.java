@@ -804,6 +804,25 @@ public class SpawnParticles {
     }
 
     public static void spawnLightningImpactSparks(ClientLevel level, double x, double y, double z) {
-        SpawnParticlesUtil.spawnParticleInCircle(new ArcEmitterOptions(ModParticleTypes.ARC_EMITTER, 10, 5), level, new Vec3(x, y, z), 20, 0.2f, 0.8f, 3f, 0.3f, 0.0f);
+        SpawnParticlesUtil.spawnParticleInCircle(
+            () -> new ArcEmitterOptions(
+                ModParticleTypes.ARC_EMITTER,
+                MathHelpers.randomBetween(7, 14),
+                MathHelpers.randomBetween(3, 5),
+                40,
+                ArcEmitterOptions.REPEAT_DEFAULT,
+                ArcEmitterOptions.TICK_INTERVAL_DEFAULT,
+                MathHelpers.randomBetween(160, 380),
+                null
+            ),
+            level,
+            new Vec3(x, y + 0.5, z),
+            3,
+            0.2f,
+            0.8f,
+            3f,
+            0.3f,
+            0.0f
+        );
     }
 }

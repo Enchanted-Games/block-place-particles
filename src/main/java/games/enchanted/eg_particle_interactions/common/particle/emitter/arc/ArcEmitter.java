@@ -13,14 +13,12 @@ import org.jetbrains.annotations.Nullable;
 public class ArcEmitter extends AbstractArcEmitter {
     protected ArcEmitter(ClientLevel level, double x, double y, double z, ArcEmitterOptions options) {
         super(level, x, y, z, 0, 0, 0, options);
-        this.setLifetime(100);
     }
 
     @Override
-    protected ParticleOptions getParticleToEmit(ClientLevel level, double x, double y, double z) {
-        return ModParticleTypes.SPARK_FLASH;
+    protected @Nullable ParticleOptions getParticleToEmit(ClientLevel level, double x, double y, double z) {
+        return level.random.nextFloat() > 0.5 ? ModParticleTypes.SPARK_FLASH : null;
     }
-
 
     public static class Provider implements ParticleProvider<ArcEmitterOptions> {
         public Provider(SpriteSet spriteSet) {}
