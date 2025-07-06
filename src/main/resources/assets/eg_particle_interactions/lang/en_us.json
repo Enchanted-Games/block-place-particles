@@ -27,6 +27,8 @@
   "eg_particle_interactions.config.particle_type.block_rustle": "Block Rustling",
   "eg_particle_interactions.config.particle_type.campfire_particles": "Campfire Ambient",
   "eg_particle_interactions.config.particle_type.sparks": "Spark",
+  "eg_particle_interactions.config.particle_type.lightning_strike": "Lightning Strike",
+  "eg_particle_interactions.config.particle_type.arcs": "Arc",
   "eg_particle_interactions.config.particle_type.embers": "Ember",
   "eg_particle_interactions.config.particle_type.fire_particles": "Fire Ambient",
   "eg_particle_interactions.config.particle_type.anvil_craft_sparks": "Anvil Crafting Sparks",
@@ -114,6 +116,9 @@
   "eg_particle_interactions.config.global_option.spawn_particle_on_entity_hurt.desc": "Should %s particles be spawned when the entity is damaged?",
   "eg_particle_interactions.config.global_option.amount_to_spawn_on_entity_hurt": "Amount of particles on damage",
   "eg_particle_interactions.config.global_option.amount_to_spawn_on_entity_hurt.desc": "How many %s particles should spawn when the entity is damaged",
+
+  "eg_particle_interactions.config.global_option.amount_to_spawn_on_lightning_strike": "Amount of %s particles on lightning strike",
+  "eg_particle_interactions.config.global_option.amount_to_spawn_on_lightning_strike.desc": "The maximum amount of %s particles that can spawn when a lightning bolt hits something",
 
 
   "eg_particle_interactions.config.general": "General / Compatibility",
@@ -247,6 +252,9 @@
 
   "eg_particle_interactions.config.entity.minecart_sparks": "%s Particles",
   "eg_particle_interactions.config.entity.minecart_sparks.desc": "Configure if %s particles should be spawned and the chance for them to spawn each tick",
+
+  "eg_particle_interactions.config.entity.lightning_strike": "%s Particles",
+  "eg_particle_interactions.config.entity.lightning_strike.desc": "Configure if %s particles should be spawned when a lightning bold hits something, and how many spark and arc particles can appear",
 
   "eg_particle_interactions.config.entity.blaze_sparks": "%s Particles",
   "eg_particle_interactions.config.entity.blaze_sparks.desc": "Configure if %s particles should be spawned randomly, if the entity is hurt, and the chance for them to spawn each tick",

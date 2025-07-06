@@ -470,6 +470,20 @@ public class ConfigScreen {
                 ConfigScreen.createSeparator()
             )
 
+            // lightning strike effect
+            .group( createMultipleOptionsConfigGroup(
+                "lightning_strike",
+                "lightning_strike",
+                ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY,
+                booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED, "lightning_strike", Binding.generic(ConfigHandler.lightningStrike_enabled_DEFAULT, () -> ConfigHandler.lightningStrike_enabled, newVal -> ConfigHandler.lightningStrike_enabled = newVal)),
+                integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_LIGHTNING_STRIKE, "arcs", ConfigHandler.lightningStrike_amountOfArcs_DEFAULT, () -> ConfigHandler.lightningStrike_amountOfArcs, newVal -> ConfigHandler.lightningStrike_amountOfArcs = newVal, 0, 16, 1),
+                integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_LIGHTNING_STRIKE, "sparks", ConfigHandler.lightningStrike_amountOfSparks_DEFAULT, () -> ConfigHandler.lightningStrike_amountOfSparks, newVal -> ConfigHandler.lightningStrike_amountOfSparks = newVal, 0, 32, 1)
+            ))
+
+            .group(
+                ConfigScreen.createSeparator()
+            )
+
             // blaze sparks
             .group( createMultipleOptionsConfigGroup(
                 "blaze_sparks",
@@ -612,7 +626,7 @@ public class ConfigScreen {
 
     public static OptionGroup createSeparator() {
         return OptionGroup.createBuilder()
-            .name(Component.translatable("eg_particle_interactions.common.config.category_separator").withColor(0xff6c6c6c))
+            .name(Component.translatable("eg_particle_interactions.config.category_separator").withColor(0xff6c6c6c))
             .collapsed(true)
             .option(LabelOption.createBuilder().line(Component.empty()).build())
         .build();

@@ -76,6 +76,7 @@ public class ModParticleTypes {
 
     public static SimpleParticleType SPARK_FLASH;
     public static SimpleParticleType SOUL_SPARK_FLASH;
+    public static SimpleParticleType LIGHTNING_FLASH;
 
     public static SimpleParticleType UNDERWATER_RISING_BUBBLE;
     public static SimpleParticleType UNDERWATER_RISING_BUBBLE_SMALL;
@@ -131,6 +132,7 @@ public class ModParticleTypes {
 
         SPARK_FLASH = register((SpriteProviderReg) SparkFlash.Provider::new, ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "spark_flash"), false);
         SOUL_SPARK_FLASH = register((SpriteProviderReg) SparkFlash.Provider::new, ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "soul_spark_flash"), false);
+        LIGHTNING_FLASH = register((SpriteProviderReg) SparkFlash.RandomAnimationProvider::new, ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "lightning_flash"), false);
 
         UNDERWATER_RISING_BUBBLE = register((SpriteProviderReg) UnderwaterRisingBubble.Provider::new, ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "underwater_rising_bubble"), false);
         UNDERWATER_RISING_BUBBLE_SMALL = register((SpriteProviderReg) UnderwaterRisingBubble.SmallProvider::new, ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "underwater_rising_bubble_small"), false);

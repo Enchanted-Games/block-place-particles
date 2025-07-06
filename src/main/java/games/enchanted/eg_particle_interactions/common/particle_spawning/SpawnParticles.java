@@ -804,25 +804,39 @@ public class SpawnParticles {
     }
 
     public static void spawnLightningImpactSparks(ClientLevel level, double x, double y, double z) {
+        if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, x, y, z)) return;
+        if(!ConfigHandler.lightningStrike_enabled) return;
+
         SpawnParticlesUtil.spawnParticleInCircle(
             () -> new ArcEmitterOptions(
                 ModParticleTypes.ARC_EMITTER,
                 MathHelpers.randomBetween(7, 14),
                 MathHelpers.randomBetween(3, 5),
                 40,
-                ArcEmitterOptions.REPEAT_DEFAULT,
+                MathHelpers.randomBetween(4, 6),
                 ArcEmitterOptions.TICK_INTERVAL_DEFAULT,
                 MathHelpers.randomBetween(160, 380),
                 null
             ),
             level,
             new Vec3(x, y + 0.5, z),
-            3,
+            ConfigHandler.lightningStrike_amountOfArcs,
             0.2f,
             0.8f,
             3f,
             0.3f,
             0.0f
+        );
+        SpawnParticlesUtil.spawnParticleInCircle(
+            ModParticleTypes.FLYING_SPARK,
+            level,
+            new Vec3(x, y + 0.01, z),
+            MathHelpers.randomBetween(Math.max(0, ConfigHandler.lightningStrike_amountOfSparks - 4), ConfigHandler.lightningStrike_amountOfSparks),
+            0.3f,
+            0.8f,
+            0.25f,
+            0.25f,
+            1.1f
         );
     }
 }

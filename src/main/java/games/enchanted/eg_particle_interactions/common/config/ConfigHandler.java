@@ -66,17 +66,17 @@ public class ConfigHandler {
 
     // - performance
     // interaction render distance
-    public static final int general_interactionRenderDistance_DEFAULT = 8;
+    public static final int general_interactionRenderDistance_DEFAULT = 6;
     @SerialEntry
     public static int general_interactionRenderDistance = general_interactionRenderDistance_DEFAULT;
 
     // block render distance
-    public static final int general_blockRenderDistance_DEFAULT = 8;
+    public static final int general_blockRenderDistance_DEFAULT = 6;
     @SerialEntry
     public static int general_blockRenderDistance = general_blockRenderDistance_DEFAULT;
 
     // ambient render distance
-    public static final int general_ambientRenderDistance_DEFAULT = 8;
+    public static final int general_ambientRenderDistance_DEFAULT = 3;
     @SerialEntry
     public static int general_ambientRenderDistance = general_ambientRenderDistance_DEFAULT;
 
@@ -634,6 +634,19 @@ public class ConfigHandler {
     public static final boolean minecart_onlyWithPassenger_DEFAULT = true;
     @SerialEntry
     public static boolean minecart_onlyWithPassenger = minecart_onlyWithPassenger_DEFAULT;
+
+    // lightning strike particles
+    public static final boolean lightningStrike_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean lightningStrike_enabled = lightningStrike_enabled_DEFAULT;
+
+    public static final int lightningStrike_amountOfArcs_DEFAULT = 3;
+    @SerialEntry
+    public static int lightningStrike_amountOfArcs = lightningStrike_amountOfArcs_DEFAULT;
+
+    public static final int lightningStrike_amountOfSparks_DEFAULT = 18;
+    @SerialEntry
+    public static int lightningStrike_amountOfSparks = lightningStrike_amountOfSparks_DEFAULT;
 
     // blaze sparks
     public static final int blaze_spawnChance_DEFAULT = 25;

@@ -1,6 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.spark;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
@@ -13,8 +14,9 @@ public class SparkFlash extends TextureSheetParticle {
     private final SpriteSet sprites;
     private final float originalQuadSize;
     protected int prevAge;
+    protected final boolean useRandomAnimation;
 
-    SparkFlash(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet sprites) {
+    SparkFlash(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet sprites, boolean useRandomAnimation) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed);
         this.speedUpWhenYMotionIsBlocked = true;
         this.friction = 0.96F;
@@ -22,6 +24,12 @@ public class SparkFlash extends TextureSheetParticle {
         this.xd = (xSpeed / 2) + (Math.random() * 3.0 - 1.5) * 0.07 * (this.random.nextFloat() > 0.95 ? 2 : 1);
         this.yd = (ySpeed / 2) + (Math.random() * 3.0 - 1.5) * 0.07 * (this.random.nextFloat() > 0.95 ? 2 : 1);
         this.zd = (zSpeed / 2) + (Math.random() * 3.0 - 1.5) * 0.07 * (this.random.nextFloat() > 0.95 ? 2 : 1);
+        this.useRandomAnimation = useRandomAnimation;
+        if(useRandomAnimation) {
+            int rot = this.random.nextIntBetweenInclusive(0, 3);
+            this.roll = rot * 90;
+            this.oRoll = roll;
+        }
 
         this.lifetime = this.random.nextInt(4) + 3;
 
@@ -37,7 +45,11 @@ public class SparkFlash extends TextureSheetParticle {
     public void tick() {
         prevAge = age;
         super.tick();
-        this.setSpriteFromAge(this.sprites);
+        if(useRandomAnimation) {
+            this.pickSprite(this.sprites);
+        } else {
+            this.setSpriteFromAge(this.sprites);
+        }
     }
 
     @Override
@@ -66,7 +78,21 @@ public class SparkFlash extends TextureSheetParticle {
         @Nullable
         @Override
         public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new SparkFlash(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
+            return new SparkFlash(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, false);
+        }
+    }
+
+    public static class RandomAnimationProvider implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public RandomAnimationProvider(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        @Nullable
+        @Override
+        public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new SparkFlash(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, true);
         }
     }
 }

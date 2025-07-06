@@ -82,7 +82,7 @@ public abstract class AbstractArcEmitter extends AbstractEmitterParticle {
     }
 
     @FunctionalInterface
-    private interface ParticleSupplier{
+    private interface ParticleSupplier {
         ParticleOptions getParticle(ClientLevel level, double x, double y, double z);
     }
 

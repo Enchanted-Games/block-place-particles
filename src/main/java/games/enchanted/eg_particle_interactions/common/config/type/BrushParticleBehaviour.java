@@ -17,6 +17,6 @@ public enum BrushParticleBehaviour implements NameableEnum {
 
     @Override
     public Component getDisplayName() {
-        return Component.translatable("eg_particle_interactions.common.config.enum_option." + ConfigTranslation.BRUSH_PARTICLE_BEHAVIOUR + "." + this.translationKey);
+        return Component.translatable("eg_particle_interactions.config.enum_option." + ConfigTranslation.BRUSH_PARTICLE_BEHAVIOUR + "." + this.translationKey);
     }
 }
