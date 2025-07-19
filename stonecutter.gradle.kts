@@ -6,7 +6,7 @@ plugins {
     id("architectury-plugin") version "3.4-SNAPSHOT" apply false
 }
 
-stonecutter active "1.21.6-fabric" /* You may have to edit this. Make sure it matches one of the versions present in settings.gradle.kts */
+stonecutter active "1.21.8-fabric" /* You may have to edit this. Make sure it matches one of the versions present in settings.gradle.kts */
 
 // Builds every version into `build/libs/{mod.version}/`
 stonecutter registerChiseled tasks.register("chiseledBuild", stonecutter.chiseled) {
