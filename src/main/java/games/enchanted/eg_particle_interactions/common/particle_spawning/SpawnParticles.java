@@ -825,7 +825,7 @@ public class SpawnParticles {
             0.8f,
             3f,
             0.3f,
-            0.0f
+            1.0f
         );
         SpawnParticlesUtil.spawnParticleInCircle(
             ModParticleTypes.FLYING_SPARK,

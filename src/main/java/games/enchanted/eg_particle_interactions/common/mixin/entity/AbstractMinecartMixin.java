@@ -29,8 +29,6 @@ public abstract class AbstractMinecartMixin extends VehicleEntity {
     @Shadow public abstract boolean isOnRails();
     @Shadow public abstract @NotNull Direction getMotionDirection();
     @Shadow public abstract BlockState getDisplayBlockState();
-//    @Shadow public abstract float lerpTargetXRot();
-//    @Shadow public abstract float lerpTargetYRot();
 
     public AbstractMinecartMixin(EntityType<?> entityType, Level level) {
         super(entityType, level);
