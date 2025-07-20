@@ -3,7 +3,7 @@ package games.enchanted.eg_particle_interactions.common.config;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
-import games.enchanted.eg_particle_interactions.common.ModConstants;
+import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.config.adapters.BlockLocationTypeAdapter;
 import games.enchanted.eg_particle_interactions.common.config.adapters.FluidTypeAdapter;
 import games.enchanted.eg_particle_interactions.common.config.adapters.ResourceLocationTypeAdapter;
@@ -21,10 +21,10 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class ConfigHandler {
-    public static final Path CONFIG_PATH = PlatformHelper.getConfigPath().resolve(ModConstants.MOD_ID + "_config.json");
+    public static final Path CONFIG_PATH = PlatformHelper.getConfigPath().resolve(Constants.MOD_ID + "_config.json");
 
     public static final ConfigClassHandler<ConfigHandler> HANDLER = ConfigClassHandler.createBuilder(ConfigHandler.class)
-        .id(ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "config"))
+        .id(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "config"))
         .serializer(config -> GsonConfigSerializerBuilder.create(config)
             .appendGsonBuilder(builder -> builder.registerTypeAdapter(Fluid.class, new FluidTypeAdapter()))
             .appendGsonBuilder(builder -> builder.registerTypeAdapter(ResourceLocation.class, new ResourceLocationTypeAdapter()))

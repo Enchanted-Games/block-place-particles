@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common.config.controller;
 
 import dev.isxander.yacl3.api.utils.Dimension;
 import dev.isxander.yacl3.gui.YACLScreen;
-import games.enchanted.eg_particle_interactions.common.ModConstants;
+import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.config.controller.generic.GenericListControllerElement;
 import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlockLocationControllerElement extends GenericListControllerElement<BlockOrTagLocation, BlockLocationController> {
-    private static final ResourceLocation BLOCK_TAG_ICON = ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "block_tag_icon");
+    private static final ResourceLocation BLOCK_TAG_ICON = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "block_tag_icon");
 
     public BlockLocationControllerElement(BlockLocationController control, YACLScreen screen, Dimension<Integer> dim) {
         super(control, screen, dim);

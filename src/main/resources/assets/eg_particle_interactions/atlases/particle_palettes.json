@@ -1,0 +1,9 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:directory",
+      "prefix": "",
+      "source": "eg_particle_interactions/particle_palettes"
+    }
+  ]
+}

@@ -1,12 +1,12 @@
 package games.enchanted.eg_particle_interactions.common.localisation;
 
-import games.enchanted.eg_particle_interactions.common.ModConstants;
+import games.enchanted.eg_particle_interactions.common.Constants;
 import net.minecraft.network.chat.Component;
 
 public class ConfigTranslation {
-    private static final String CONFIG_KEY_PREFIX = ModConstants.MOD_ID + ".config";
+    private static final String CONFIG_KEY_PREFIX = Constants.MOD_ID + ".config";
 
-    public static final TranslationKey MOD_CREDITS_KEY = new TranslationKey(ModConstants.MOD_ID + ".mod_credits");
+    public static final TranslationKey MOD_CREDITS_KEY = new TranslationKey(Constants.MOD_ID + ".mod_credits");
     public static final String GENERAL_CATEGORY = "general";
     public static final String BLOCKS_CONFIG_CATEGORY = "blocks";
     public static final String BLOCK_AMBIENT_CONFIG_CATEGORY = "block_ambient";

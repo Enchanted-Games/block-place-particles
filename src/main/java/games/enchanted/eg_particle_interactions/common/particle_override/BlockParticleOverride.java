@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+// TODO: rewrite this, its gotten to a point where there are way too many arguments per constructor
+// possibly change it to each block/tag/fluid/whatever specifying the override it uses, rather than the override
+//   specifying the block/tag/fluid/whatever it applies to
 public class BlockParticleOverride {
     public static final int ORIGIN_BLOCK_PLACED = 1;
     public static final int ORIGIN_BLOCK_BROKEN = 2;

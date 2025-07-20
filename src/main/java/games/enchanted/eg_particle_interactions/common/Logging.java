@@ -10,11 +10,11 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class Logging {
-    public static final Logger LOG = LoggerFactory.getLogger(ModConstants.MOD_NAME);
+    public static final Logger LOG = LoggerFactory.getLogger(Constants.MOD_NAME);
 
-    private static final String messagePrefix = "[" + ModConstants.MOD_NAME + "]: ";
-    private static final String interactionDebugPrefix = "[" + ModConstants.MOD_NAME + " Interaction Debug]: ";
-    private static final String textureDebugPrefix = "[" + ModConstants.MOD_NAME + " Texture Debug]: ";
+    private static final String messagePrefix = "[" + Constants.MOD_NAME + "]: ";
+    private static final String interactionDebugPrefix = "[" + Constants.MOD_NAME + " Interaction Debug]: ";
+    private static final String textureDebugPrefix = "[" + Constants.MOD_NAME + " Texture Debug]: ";
 
     private static final SystemToast.SystemToastId INTERACTION_DEBUG_LOGS_TOAST = new SystemToast.SystemToastId(3000L);
     private static boolean interactionDebugLogsEnabled = false;
@@ -54,13 +54,13 @@ public class Logging {
             // toggle debug logs off
             fieldSetter.accept(false);
             LOG.info(debugPrefix + debugLoggingName + " disabled");
-            SystemToast.addOrUpdate(Minecraft.getInstance().getToastManager(), toastId, Component.literal(ModConstants.MOD_NAME), Component.translatable(disabledTranslationKey));
+            SystemToast.addOrUpdate(Minecraft.getInstance().getToastManager(), toastId, Component.literal(Constants.MOD_NAME), Component.translatable(disabledTranslationKey));
             return;
         }
         // toggle debug logs on
         fieldSetter.accept(true);
         LOG.info(debugPrefix + debugLoggingName + " enabled");
-        SystemToast.addOrUpdate(Minecraft.getInstance().getToastManager(), toastId, Component.literal(ModConstants.MOD_NAME), Component.translatable(enabledTranslationKey));
+        SystemToast.addOrUpdate(Minecraft.getInstance().getToastManager(), toastId, Component.literal(Constants.MOD_NAME), Component.translatable(enabledTranslationKey));
     }
 
     public static void toggleInteractionDebugLogging() {

@@ -93,12 +93,11 @@ public class ColourUtil {
      * @return the colour in an array of a, r, g, b
      */
     public static int[] getRandomBlockColour(BlockState blockState) {
-        TextureAtlasSprite particleSprite = blockState.getBlock() == Blocks.GRASS_BLOCK ?
-            TextureHelpers.getSpriteFromBlockAtlas(ResourceLocation.withDefaultNamespace("block/grass_block_top")) :
-            Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState).particleIcon();
-        SpriteContents spriteContents = particleSprite.contents();
+        TextureAtlasSprite particleSprite = Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState).particleIcon();
+        ResourceLocation particleSpriteLocation = particleSprite.contents().name();
 
-        ResourceLocation particleSpriteLocation = spriteContents.name();
+        TextureAtlasSprite paletteSprite = TextureHelpers.getParticlePaletteOrBlockSprite(blockState.getBlock().builtInRegistryHolder().key().location(), particleSpriteLocation);
+        SpriteContents spriteContents = paletteSprite.contents();
 
         ImageCoordinate[] pixelCoordinatesList;
 
@@ -151,7 +150,8 @@ public class ColourUtil {
 
                 if(argb[0] <= OPAQUE_PIXELS_THRESHOLD) continue;
 
-                coordinatesList.add(new ImageCoordinate(x, y));
+                ImageCoordinate coordinate = new ImageCoordinate(x, y);
+                if(!coordinatesList.contains(coordinate)) coordinatesList.add(coordinate);
                 totalOpaquePixels++;
             }
         }

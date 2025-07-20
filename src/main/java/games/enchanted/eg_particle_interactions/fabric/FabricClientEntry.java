@@ -1,8 +1,8 @@
 //? if fabric {
 package games.enchanted.eg_particle_interactions.fabric;
 
-import games.enchanted.eg_particle_interactions.common.ModConstants;
-import games.enchanted.eg_particle_interactions.common.ModEntry;
+import games.enchanted.eg_particle_interactions.common.Constants;
+import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
 import games.enchanted.eg_particle_interactions.common.resource.ClientResourceReload;
 import net.fabricmc.api.ClientModInitializer;
@@ -15,7 +15,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 public class FabricClientEntry implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        ModEntry.startOfModLoading();
+        ParticleInteractionsMod.startOfModLoading();
 
         // register particles
         ModParticleTypes.registerParticles();
@@ -25,7 +25,7 @@ public class FabricClientEntry implements ClientModInitializer {
             new SimpleSynchronousResourceReloadListener() {
                 @Override
                 public ResourceLocation getFabricId() {
-                    return ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "client_resource_reloader");
+                    return ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "client_resource_reloader");
                 }
 
                 @Override
@@ -35,7 +35,7 @@ public class FabricClientEntry implements ClientModInitializer {
             }
         );
 
-        ModEntry.endOfModLoading();
+        ParticleInteractionsMod.endOfModLoading();
     }
 }
 //?}
