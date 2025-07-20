@@ -7,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.awt.*;
@@ -26,7 +25,8 @@ public class ColourUtil {
      * Stores a list of non-transparent pixel coordinates for a sprite resource location.
      * If the length of the list is 1 and at least 1 coordinate is negative, assume the sprite contains entirely non-transparent pixels
      */
-    private static final HashMap<ResourceLocation, ImageCoordinate[]> spriteOpaquePixelsCache = new HashMap<>();
+    private static final HashMap<ResourceLocation, ImageCoordinate[]> SPRITE_OPAQUE_PIXELS_CACHE = new HashMap<>();
+    private static final HashMap<BlockState, TextureAtlasSprite> BLOCKSTATE_PARTICLE_SPRITE_CACHE = new HashMap<>();
 
     /**
      * Calculates and caches the average colour from a {@link BlockState}'s pixel texture
@@ -93,20 +93,29 @@ public class ColourUtil {
      * @return the colour in an array of a, r, g, b
      */
     public static int[] getRandomBlockColour(BlockState blockState) {
-        TextureAtlasSprite particleSprite = Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState).particleIcon();
-        ResourceLocation particleSpriteLocation = particleSprite.contents().name();
+        TextureAtlasSprite paletteSprite;
 
-        TextureAtlasSprite paletteSprite = TextureHelpers.getParticlePaletteOrBlockSprite(blockState.getBlock().builtInRegistryHolder().key().location(), particleSpriteLocation);
+        if(BLOCKSTATE_PARTICLE_SPRITE_CACHE.containsKey(blockState)) {
+            paletteSprite = BLOCKSTATE_PARTICLE_SPRITE_CACHE.get(blockState);
+        } else {
+            TextureAtlasSprite particleSprite = Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState).particleIcon();
+            ResourceLocation particleSpriteLocation = particleSprite.contents().name();
+            paletteSprite = TextureHelpers.getParticlePaletteOrBlockSprite(blockState.getBlock().builtInRegistryHolder().key().location(), particleSpriteLocation);
+            BLOCKSTATE_PARTICLE_SPRITE_CACHE.put(blockState, paletteSprite);
+            Logging.textureDebugInfo("Palette sprite for blockstate: {} has been cached", blockState);
+        }
+
         SpriteContents spriteContents = paletteSprite.contents();
+        ResourceLocation paletteSpriteLocation = spriteContents.name();
 
         ImageCoordinate[] pixelCoordinatesList;
 
-        if(spriteOpaquePixelsCache.containsKey(particleSpriteLocation)) {
-            pixelCoordinatesList = spriteOpaquePixelsCache.get(particleSpriteLocation);
+        if(SPRITE_OPAQUE_PIXELS_CACHE.containsKey(paletteSpriteLocation)) {
+            pixelCoordinatesList = SPRITE_OPAQUE_PIXELS_CACHE.get(paletteSpriteLocation);
         } else {
             // calculate valid coordinates
             pixelCoordinatesList = findOutWhereOpaquePixelCoordinatesAre(spriteContents);
-            spriteOpaquePixelsCache.put(particleSpriteLocation, pixelCoordinatesList);
+            SPRITE_OPAQUE_PIXELS_CACHE.put(paletteSpriteLocation, pixelCoordinatesList);
             Logging.textureDebugInfo("Opaque pixels list for sprite: {} has been cached", spriteContents.name());
         }
 
@@ -177,7 +186,7 @@ public class ColourUtil {
      */
     public static void invalidateCaches() {
         ColourUtil.averageSpriteColourCache.clear();
-        ColourUtil.spriteOpaquePixelsCache.clear();
+        ColourUtil.SPRITE_OPAQUE_PIXELS_CACHE.clear();
     }
 
     /**
