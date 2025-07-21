@@ -3,6 +3,7 @@ package games.enchanted.eg_particle_interactions.common.util;
 import com.mojang.blaze3d.platform.NativeImage;
 import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.mixin.accessor.client.SpriteContentsAccessor;
+import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteAtlasManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -92,7 +93,7 @@ public class ColourUtil {
      * @param blockState the block state to get a random colour from
      * @return the colour in an array of a, r, g, b
      */
-    public static int[] getRandomBlockColour(BlockState blockState) {
+    public static int[] getRandomBlockColour(BlockState blockState, int[] tintColour) {
         TextureAtlasSprite paletteSprite;
 
         if(BLOCKSTATE_PARTICLE_SPRITE_CACHE.containsKey(blockState)) {
@@ -104,6 +105,8 @@ public class ColourUtil {
             BLOCKSTATE_PARTICLE_SPRITE_CACHE.put(blockState, paletteSprite);
             Logging.textureDebugInfo("Palette sprite for blockstate: {} has been cached", blockState);
         }
+
+        ParticlePaletteAtlasManager.ParticlePaletteSettingsMetadataSection paletteMetadata = ParticlePaletteAtlasManager.getMetadataFromSprite(paletteSprite);
 
         SpriteContents spriteContents = paletteSprite.contents();
         ResourceLocation paletteSpriteLocation = spriteContents.name();
@@ -143,8 +146,12 @@ public class ColourUtil {
         }
 
         int sampledColour = particleImage.getPixel(randomPixelCoordinate.x(), randomPixelCoordinate.y());
+        int[] sampledARGB = ARGBint_to_ARGB(sampledColour);
 
-        return ARGBint_to_ARGB(sampledColour);
+        if(paletteMetadata.useBiomeTint()) {
+            return ColourUtil.multiplyColours(sampledARGB, tintColour);
+        }
+        return sampledARGB;
     }
 
     private static ImageCoordinate[] findOutWhereOpaquePixelCoordinatesAre(SpriteContents spriteContents) {
@@ -187,6 +194,7 @@ public class ColourUtil {
     public static void invalidateCaches() {
         ColourUtil.averageSpriteColourCache.clear();
         ColourUtil.SPRITE_OPAQUE_PIXELS_CACHE.clear();
+        ColourUtil.BLOCKSTATE_PARTICLE_SPRITE_CACHE.clear();
     }
 
     /**

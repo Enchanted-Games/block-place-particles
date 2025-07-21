@@ -18,13 +18,12 @@ public class FallingColouredPetal extends FallingPetal {
     protected FallingColouredPetal(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState, SpriteSet spriteSet, float gravityMultiplier) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier);
         int tintColour = Minecraft.getInstance().getBlockColors().getColor(blockState, level, blockPos, 0);
-        int[] tintColourRGB = ColourUtil.RGBint_to_ARGB(tintColour);
-        int[] averageTextureColourRGB = ColourUtil.getRandomBlockColour(blockState);
-        int[] multipliedColour = ColourUtil.multiplyColours(tintColourRGB, averageTextureColourRGB);
-        this.rCol = (float)multipliedColour[1] / 255f;
-        this.gCol = (float)multipliedColour[2] / 255f;
-        this.bCol = (float)multipliedColour[3] / 255f;
-        this.alpha = (float)multipliedColour[0] / 255f;
+        int[] tintColourARGB = ColourUtil.RGBint_to_ARGB(tintColour);
+        int[] averageTextureColourARGB = ColourUtil.getRandomBlockColour(blockState, tintColourARGB);
+        this.rCol = (float)averageTextureColourARGB[1] / 255f;
+        this.gCol = (float)averageTextureColourARGB[2] / 255f;
+        this.bCol = (float)averageTextureColourARGB[3] / 255f;
+        this.alpha = (float)averageTextureColourARGB[0] / 255f;
     }
 
     @Override

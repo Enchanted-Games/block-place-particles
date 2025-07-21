@@ -24,19 +24,12 @@ public class FloatingColouredDust extends AbstractDust {
         this.dustBlockState = blockState;
 
         int tintColour = Minecraft.getInstance().getBlockColors().getColor(blockState, level, blockPos, 0);
-        if(tintColour == 0xffffff || tintColour == -1) {
-            // use average texture colour
-            int[] averageBlockColour = ColourUtil.getRandomBlockColour(blockState);
-            this.rCol = (float)averageBlockColour[1] / 255f;
-            this.gCol = (float)averageBlockColour[2] / 255f;
-            this.bCol = (float)averageBlockColour[3] / 255f;
-            this.alpha = (float)averageBlockColour[0] / 255f;
-        } else {
-            // use block biome tint colour
-            this.rCol = ((tintColour >> 16 & 255) / 255f) * 0.75f;
-            this.gCol = ((tintColour >> 8 & 255) / 255f) * 0.75f;
-            this.bCol = ((tintColour & 255) / 255f) * 0.75f;
-        }
+        int[] tintColourARGB = ColourUtil.RGBint_to_ARGB(tintColour);
+        int[] averageTextureColourARGB = ColourUtil.getRandomBlockColour(blockState, tintColourARGB);
+        this.rCol = (float)averageTextureColourARGB[1] / 255f;
+        this.gCol = (float)averageTextureColourARGB[2] / 255f;
+        this.bCol = (float)averageTextureColourARGB[3] / 255f;
+        this.alpha = (float)averageTextureColourARGB[0] / 255f;
     }
 
     @Override
