@@ -59,6 +59,10 @@ public class ConfigScreen {
                     Binding.generic(ConfigHandler.general_particleZFightingFix_DEFAULT, () -> ConfigHandler.general_particleZFightingFix, newVal -> ConfigHandler.general_particleZFightingFix = newVal)
                 ),
                 genericBooleanOption(
+                    ConfigTranslation.PROJECTILE_PARTICLE_VELOCITY_FIX,
+                    Binding.generic(ConfigHandler.general_projectileBreakingParticleVelocity_DEFAULT, () -> ConfigHandler.general_projectileBreakingParticleVelocity, newVal -> ConfigHandler.general_projectileBreakingParticleVelocity = newVal)
+                ),
+                genericBooleanOption(
                     ConfigTranslation.AUTO_COLLAPSE_CONFIG_LISTS,
                     Binding.generic(ConfigHandler.general_autoCollapseConfigLists_DEFAULT, () -> ConfigHandler.general_autoCollapseConfigLists, newVal -> ConfigHandler.general_autoCollapseConfigLists = newVal)
                 )

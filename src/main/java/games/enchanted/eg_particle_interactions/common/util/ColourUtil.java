@@ -19,7 +19,7 @@ public class ColourUtil {
     /**
      * Stores the average colour for a sprite resource location
      */
-    private static final HashMap<ResourceLocation, Integer> averageSpriteColourCache = new HashMap<>();
+    private static final HashMap<ResourceLocation, Integer> AVERAGE_SPRITE_COLOUR_CACHE = new HashMap<>();
 
     private static final int OPAQUE_PIXELS_THRESHOLD = 20;
     /**
@@ -39,11 +39,11 @@ public class ColourUtil {
         TextureAtlasSprite particleSprite = Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState).particleIcon();
         try (SpriteContents contents = particleSprite.contents()) {
             ResourceLocation particleSpriteLocation = contents.name();
-            if(averageSpriteColourCache.containsKey(particleSpriteLocation)) {
-                return ARGBint_to_ARGB(averageSpriteColourCache.get(particleSpriteLocation));
+            if(AVERAGE_SPRITE_COLOUR_CACHE.containsKey(particleSpriteLocation)) {
+                return ARGBint_to_ARGB(AVERAGE_SPRITE_COLOUR_CACHE.get(particleSpriteLocation));
             }
             int average = calculateAverageSpriteColour(particleSprite);
-            averageSpriteColourCache.put(particleSpriteLocation, average);
+            AVERAGE_SPRITE_COLOUR_CACHE.put(particleSpriteLocation, average);
             return ARGBint_to_ARGB(average);
         }
     }
@@ -192,7 +192,7 @@ public class ColourUtil {
      * Clears all calculated average colours
      */
     public static void invalidateCaches() {
-        ColourUtil.averageSpriteColourCache.clear();
+        ColourUtil.AVERAGE_SPRITE_COLOUR_CACHE.clear();
         ColourUtil.SPRITE_OPAQUE_PIXELS_CACHE.clear();
         ColourUtil.BLOCKSTATE_PARTICLE_SPRITE_CACHE.clear();
     }

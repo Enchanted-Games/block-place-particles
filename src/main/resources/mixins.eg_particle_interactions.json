@@ -4,6 +4,8 @@
   "package": "games.enchanted.eg_particle_interactions.common.mixin",
   "compatibilityLevel": "JAVA_${java_ver}",
   "mixins": [
+    "entity.projectile_particles.SnowballMixin",
+    "entity.projectile_particles.ThrownEggMixin"
   ],
   "client": [
     "LevelEventHandlerMixin",

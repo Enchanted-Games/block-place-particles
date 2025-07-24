@@ -59,6 +59,11 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean general_particleZFightingFix = general_particleZFightingFix_DEFAULT;
 
+    // projectile breaking particles
+    public static final boolean general_projectileBreakingParticleVelocity_DEFAULT = true;
+    @SerialEntry
+    public static boolean general_projectileBreakingParticleVelocity = general_projectileBreakingParticleVelocity_DEFAULT;
+
     // auto collapse config lists
     public static final boolean general_autoCollapseConfigLists_DEFAULT = true;
     @SerialEntry
