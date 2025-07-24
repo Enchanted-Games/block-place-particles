@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractDust extends TextureSheetParticle {
     public static float MIN_SIZE = 0.095f;
@@ -71,7 +72,10 @@ public abstract class AbstractDust extends TextureSheetParticle {
             return;
         }
         if((this.age < 3 && this.random.nextFloat() < 0.23f) || this.random.nextFloat() < 0.01f) {
-            this.level.addParticle(this.getSpeckParticle(), this.x, this.y ,this.z, this.xd / 2, (this.yd / 2) + 0.05, this.zd / 2);
+            ParticleOptions particleOptions = this.getSpeckParticle();
+            if(particleOptions != null) {
+                this.level.addParticle(particleOptions, this.x, this.y, this.z, this.xd / 2, (this.yd / 2) + 0.05, this.zd / 2);
+            }
         }
     }
 
@@ -80,7 +84,7 @@ public abstract class AbstractDust extends TextureSheetParticle {
         return this.emissive ? LightTexture.FULL_BRIGHT : super.getLightColor(partialTick);
     }
 
-    protected abstract @NotNull ParticleOptions getSpeckParticle();
+    protected abstract @Nullable ParticleOptions getSpeckParticle();
 
     @Override
     public @NotNull ParticleRenderType getRenderType() {

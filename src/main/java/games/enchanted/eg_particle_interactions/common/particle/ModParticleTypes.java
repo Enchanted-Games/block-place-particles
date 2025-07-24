@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.particle.bubble.UnderwaterRisingBubble;
 import games.enchanted.eg_particle_interactions.common.particle.constant_motion.LavaPop;
+import games.enchanted.eg_particle_interactions.common.particle.dust.BasicDust;
 import games.enchanted.eg_particle_interactions.common.particle.dust.BasicTintedDust;
 import games.enchanted.eg_particle_interactions.common.particle.dust.FloatingColouredDust;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.arc.ArcEmitter;
@@ -43,6 +44,7 @@ import java.util.function.Function;
 @SuppressWarnings({"unchecked","rawtypes"})
 public class ModParticleTypes {
     public static SimpleParticleType SNOWFLAKE;
+    public static SimpleParticleType SNOWFLAKE_SPECK;
     public static SimpleParticleType FALLING_CHERRY_PETAL;
     public static ParticleType<BlockParticleOption> FALLING_TINTED_LEAF;
     public static ParticleType<BlockParticleOption> FALLING_TINTED_PINE_LEAF;
@@ -98,7 +100,8 @@ public class ModParticleTypes {
     public static ParticleType<BlockParticleOption> BLOCK_HIGH_VELOCITY;
 
     public static void registerParticles() {
-        SNOWFLAKE = register((SpriteProviderReg) FallingPetal.SnowflakeProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "snowflake"), false);
+        SNOWFLAKE = register((SpriteProviderReg) BasicDust.SnowflakeProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "snowflake"), false);
+        SNOWFLAKE_SPECK = register((SpriteProviderReg) BasicDust.SnowflakeSpeckProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "snowflake_speck"), false);
         FALLING_CHERRY_PETAL = register((SpriteProviderReg) FallingPetal.GenericLeafProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "falling_cherry_leaves"), false);
         FALLING_TINTED_LEAF = register((SpriteProviderReg) FallingColouredPetal.TintedLeafProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "falling_tinted_leaves"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         FALLING_TINTED_PINE_LEAF = register((SpriteProviderReg) FallingColouredPetal.TintedLeafProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "falling_tinted_pine_leaves"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);

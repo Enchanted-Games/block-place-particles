@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.dust;
 
+import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
 import games.enchanted.eg_particle_interactions.common.particle.option.TintedParticleOption;
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
@@ -8,29 +9,20 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.SimpleParticleType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-public class BasicTintedDust extends AbstractDust {
-    private final Supplier<ParticleOptions> speckGetter;
-
+public class BasicTintedDust extends BasicDust {
     protected BasicTintedDust(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, float gravityMultiplier, TintedParticleOption tintedParticleOption, boolean spawnSpecks, boolean spriteFromAge, Supplier<ParticleOptions> speckGetter) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier, spawnSpecks);
-        this.spriteFromAge = spriteFromAge;
+        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier, spawnSpecks, spriteFromAge, speckGetter);
 
         int[] rgb = tintedParticleOption.getRandomisedColour();
         this.rCol = rgb[0] / 255f;
         this.gCol = rgb[1] / 255f;
         this.bCol = rgb[2] / 255f;
-
-        this.speckGetter = speckGetter;
-    }
-
-    @Override
-    protected @NotNull ParticleOptions getSpeckParticle() {
-        return speckGetter.get();
     }
 
     public static class RedstoneProvider implements ParticleProvider<TintedParticleOption> {

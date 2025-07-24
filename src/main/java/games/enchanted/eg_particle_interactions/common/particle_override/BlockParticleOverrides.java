@@ -34,7 +34,7 @@ public abstract class BlockParticleOverrides {
         () -> ConfigHandler.maxSnowflakes_onBreak,
         (val) -> ConfigHandler.maxSnowflakes_onBreak = val,
         ConfigHandler.maxSnowflakes_onBreak_DEFAULT,
-        0.1f
+        0.15f
     );
     public static final BlockParticleOverride CHERRY_LEAF = new BlockParticleOverride(
         "cherry_petal",
