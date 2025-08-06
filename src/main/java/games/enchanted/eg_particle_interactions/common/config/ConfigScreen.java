@@ -622,6 +622,16 @@ public class ConfigScreen {
                 booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "underwater_bubble_streams", Binding.generic(ConfigHandler.underwaterBubbleStreams_enabled_DEFAULT, () -> ConfigHandler.underwaterBubbleStreams_enabled, newVal -> ConfigHandler.underwaterBubbleStreams_enabled = newVal)),
                 integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE_WITH_TYPE, "underwater_bubble_streams", ConfigHandler.underwaterBubbleStreams_spawnChance_DEFAULT, () -> ConfigHandler.underwaterBubbleStreams_spawnChance, newVal -> ConfigHandler.underwaterBubbleStreams_spawnChance = newVal, 1, 100, 1)
             ))
+            .group(
+                createBlockLocationListOption(
+                    "underwater_bubble_streams",
+                    "underwater_bubble_streams_blocks",
+                    ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY,
+                    ConfigHandler.underwaterBubbleStreams_blocks_DEFAULT,
+                    () -> ConfigHandler.underwaterBubbleStreams_blocks,
+                    newVal -> ConfigHandler.underwaterBubbleStreams_blocks = newVal
+                )
+            )
 
         .build());
 

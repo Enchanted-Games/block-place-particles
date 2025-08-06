@@ -677,19 +677,24 @@ public class SpawnParticles {
     }
 
     public static void spawnRandomUnderwaterBubbleStreams(ClientLevel level, BlockPos blockPos, BlockState blockState) {
-        if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, blockPos)) return;
         if (!ConfigHandler.underwaterBubbleStreams_enabled) return;
+        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, blockPos)) return;
+        if (!FluidHelpers.probablyPlacedUnderwater(level, blockPos)) return;
+
+        ResourceLocation blockLocation = RegistryHelpers.getLocationFromBlock(blockState.getBlock());
+        if(!TagUtil.doesListContainBlock(ConfigHandler.underwaterBubbleStreams_blocks, blockLocation)) return;
+
         if (level.random.nextFloat() < (float) ConfigHandler.underwaterBubbleStreams_spawnChance / 2500) {
-            double d0 = (double) blockPos.getX() + level.random.nextDouble();
-            double d1 = (double) blockPos.getY() + level.random.nextDouble();
-            double d2 = (double) blockPos.getZ() + level.random.nextDouble();
+            double x = (double) blockPos.getX() + level.random.nextDouble();
+            double y = (double) blockPos.getY() + (blockState.isSolid() ? 1.05 : level.random.nextDouble());
+            double z = (double) blockPos.getZ() + level.random.nextDouble();
             RandomDistributionEmitterOptions emitter = new RandomDistributionEmitterOptions(
                 ModParticleTypes.UNDERWATER_RISING_BUBBLE_SMALL_EMITTER,
                 MathHelpers.randomBetween(9, 30),
                 MathHelpers.randomBetween(2, 4),
                 1
             );
-            level.addParticle(emitter, d0, d1, d2, 0.0f, 0.0f, 0.0f);
+            level.addParticle(emitter, x, y, z, 0.0f, 0.0f, 0.0f);
         }
     }
 

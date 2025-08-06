@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.bubble;
 
+import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
@@ -22,6 +23,8 @@ public class UnderwaterRisingBubble extends TextureSheetParticle {
         this.yd = ySpeed * 0.2F + (Math.random() * 2.0 - 1.0) * 0.02F;
         this.zd = zSpeed * 0.2F + (Math.random() * 2.0 - 1.0) * 0.02F;
         this.lifetime = MathHelpers.randomBetween(100, 600);
+
+        ((ParticleAccess) this).setBypassMovementCollisionCheck(true);
     }
     
     @Override
@@ -30,11 +33,16 @@ public class UnderwaterRisingBubble extends TextureSheetParticle {
         if (this.age > 1 && !this.removed && !this.level.getFluidState(BlockPos.containing(this.x, this.y + 0.125f, this.z)).is(FluidTags.WATER)) {
             this.popAndRemove();
         }
-        else if(this.age >= this.lifetime - 1) {
+        else if(this.age >= this.lifetime - 1 || ((ParticleAccess) this).eg_particle_interactions$isStoppedByCollision()) {
             this.popAndRemove();
         }
         this.xd *= 0.9;
         this.zd *= 0.9;
+
+        // if moving upwards
+        if(this.yd > 0 && ((ParticleAccess) this).getBypassMovementCollisionCheck()) {
+            ((ParticleAccess) this).setBypassMovementCollisionCheck(false);
+        }
     }
 
     private void popAndRemove() {

@@ -322,7 +322,9 @@
   "eg_particle_interactions.config.fluid_ambient.lava_bubble_pop.desc": "Configure if %s particles should be spawned from lava source blocks and the chance for them to spawn",
 
   "eg_particle_interactions.config.fluid_ambient.underwater_bubble_streams": "%s Particle Options",
-  "eg_particle_interactions.config.fluid_ambient.underwater_bubble_streams.desc": "Configure if %s particles should be spawned underwater and the chance for them to spawn.\nThese particles only spawn from seagrass (and similar blocks)",
+  "eg_particle_interactions.config.fluid_ambient.underwater_bubble_streams.desc": "Configure if %s particles should be spawned underwater, the chance for them to spawn, and what blocks they can spawn from.",
+  "eg_particle_interactions.config.fluid_ambient.underwater_bubble_streams_blocks": "%s Blocks",
+  "eg_particle_interactions.config.fluid_ambient.underwater_bubble_streams_blocks.desc": "Configure which blocks can emit %s particles when underwater",
 
 
   "eg_particle_interactions.config.global_option.spawn_fluid_particle_on_place": "Spawn when fluid placed",

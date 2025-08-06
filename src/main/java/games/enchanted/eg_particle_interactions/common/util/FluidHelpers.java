@@ -45,12 +45,11 @@ public class FluidHelpers {
     static boolean trueBooleans(int howMany, boolean ... bools) {
         int total = 0;
 
-        for (boolean b:bools) {
-            if (b && (++total == howMany)) {
+        for (boolean bool : bools) {
+            if (bool && (++total == howMany)) {
                 return true;
             }
         }
-
         return false;
     }
 }

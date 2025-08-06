@@ -26,8 +26,6 @@ public abstract class SeagrassBlock_BlockMixin extends BlockBehaviour {
     )
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random, CallbackInfo ci) {
         if(!(level instanceof ClientLevel clientLevel)) return;
-        if((Object) this instanceof net.minecraft.world.level.block.SeagrassBlock || (Object) this instanceof TallSeagrassBlock) {
-            SpawnParticles.spawnRandomUnderwaterBubbleStreams(clientLevel, pos, state);
-        }
+        SpawnParticles.spawnRandomUnderwaterBubbleStreams(clientLevel, pos, state);
     }
 }
