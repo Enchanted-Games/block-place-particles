@@ -38,6 +38,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector3d;
 import org.joml.Vector3f;
 
 public class SpawnParticles {
@@ -63,6 +64,7 @@ public class SpawnParticles {
 
         if (!placedBlockState.isAir() && placedBlockState.shouldSpawnTerrainParticles()) {
             VoxelShape blockShape = placedBlockState.getShape(level, blockPos);
+            Vec3 blockCenter = blockShape.bounds().getCenter();
             double verticalAxisOffset = level.getBlockState(blockPos.offset(0, -1, 0)).isSolid() ? 0.01 : 0; // move particles up out the block below them if it is solid
             blockShape.forAllEdges((x1, y1, z1, x2, y2, z2) -> {
                 double width = Math.abs(x1 - x2);
@@ -102,9 +104,9 @@ public class SpawnParticles {
                         (double) blockPos.getX() + MathHelpers.expandWhenOutOfBound(particleXOffset, 0, 1),
                         (double) blockPos.getY() + MathHelpers.expandWhenOutOfBound(particleYOffset, 0, 1),
                         (double) blockPos.getZ() + MathHelpers.expandWhenOutOfBound(particleZOffset, 0, 1),
-                        (particleXOffset - 0.5) * particleOutwardVelocityAdjustment,
-                        (particleYOffset - 0.5) * particleOutwardVelocityAdjustment,
-                        (particleZOffset - 0.5) * particleOutwardVelocityAdjustment
+                        (particleXOffset - blockCenter.x()) * particleOutwardVelocityAdjustment,
+                        (particleYOffset - blockCenter.y()) * particleOutwardVelocityAdjustment,
+                        (particleZOffset - blockCenter.z()) * particleOutwardVelocityAdjustment
                     );
                 }
             });
@@ -126,6 +128,7 @@ public class SpawnParticles {
 
         if (!brokenBlockState.isAir() && brokenBlockState.shouldSpawnTerrainParticles()) {
             VoxelShape blockShape = brokenBlockState.getShape(level, brokenBlockPos);
+            Vec3 blockCenter = blockShape.bounds().getCenter();
             blockShape.forAllBoxes((x1, y1, z1, x2, y2, z2) -> {
                 double width = Math.abs(x1 - x2);
                 int amountAlongWidth = Math.clamp(Mth.ceil(width * maxParticlesPerLength), 1, 999);
@@ -151,9 +154,9 @@ public class SpawnParticles {
                                 brokenBlockPos.getX() + (particleXOffset * width + x1),
                                 brokenBlockPos.getY() + (particleYOffset * height + y1),
                                 brokenBlockPos.getZ() + (particleZOffset * depth + z1),
-                                (particleXOffset - 0.5) * particleOutwardVelocityAdjustment,
-                                (particleYOffset - 0.5) * particleOutwardVelocityAdjustment,
-                                (particleZOffset - 0.5) * particleOutwardVelocityAdjustment
+                                (particleXOffset - blockCenter.x()) * particleOutwardVelocityAdjustment,
+                                (particleYOffset - blockCenter.y()) * particleOutwardVelocityAdjustment,
+                                (particleZOffset - blockCenter.z()) * particleOutwardVelocityAdjustment
                             );
                         }
                     }
