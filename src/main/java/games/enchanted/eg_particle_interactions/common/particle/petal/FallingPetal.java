@@ -57,7 +57,8 @@ public class FallingPetal extends TextureSheetParticle {
         this.yd *= 0.8999999761581421;
         this.zd *= 0.949999988079071;
 
-        if(this.age >= 6 && ((ParticleAccess) this).getBypassMovementCollisionCheck()) {
+        // if moving downwards
+        if(this.yd < 0 && ((ParticleAccess) this).getBypassMovementCollisionCheck()) {
             ((ParticleAccess) this).setBypassMovementCollisionCheck(false);
         }
 
