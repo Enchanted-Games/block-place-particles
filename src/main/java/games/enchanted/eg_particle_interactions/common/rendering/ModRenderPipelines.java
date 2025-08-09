@@ -8,8 +8,8 @@ public class ModRenderPipelines {
     public static final RenderPipeline BACKFACE_TRANSLUCENT_PARTICLE;
 
     static {
-        BACKFACE_TRANSLUCENT_PARTICLE = RenderPipelinesAccessor.evs$invokeRegister(
-            RenderPipeline.builder(RenderPipelinesAccessor.evs$getParticleSnippet())
+        BACKFACE_TRANSLUCENT_PARTICLE = RenderPipelinesAccessor.block_place_particle$invokeRegister(
+            RenderPipeline.builder(RenderPipelinesAccessor.block_place_particle$getParticleSnippet())
                 .withLocation("pipeline/translucent_particle")
                 .withBlend(BlendFunction.TRANSLUCENT)
                 .withCull(false)
