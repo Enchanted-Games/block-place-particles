@@ -104,4 +104,24 @@ public class FallingColouredPetal extends FallingPetal {
             return particle;
         }
     }
+
+    public static class ChainSnapProvider implements ParticleProvider<BlockParticleOption> {
+        private final SpriteSet spriteSet;
+
+        public ChainSnapProvider(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        @Nullable
+        @Override
+        public Particle createParticle(BlockParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            FallingColouredPetal particle = new FallingColouredPetal(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 3f);
+            float particleSize = level.random.nextBoolean() ? 0.14F : 0.15F;
+            particle.quadSize = particleSize;
+            particle.setSize(particleSize, particleSize);
+            particle.maxSpinSpeed = 0.2f;
+            particle.spinAcceleration = (float)Math.toRadians(level.random.nextBoolean() ? -1.0 : 1.0);
+            return particle;
+        }
+    }
 }

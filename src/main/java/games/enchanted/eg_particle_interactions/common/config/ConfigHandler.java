@@ -472,6 +472,25 @@ public class ConfigHandler {
     @SerialEntry
     public static List<BlockOrTagLocation> blockShatter_Blocks = blockShatter_Blocks_DEFAULT;
 
+    // chain snap
+    public static final int maxChainSnap_onPlace_DEFAULT = 2;
+    @SerialEntry
+    public static int maxChainSnap_onPlace = maxChainSnap_onPlace_DEFAULT;
+
+    public static final boolean chainSnap_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean chainSnap_enabled = chainSnap_enabled_DEFAULT;
+
+    public static final int maxChainSnap_onBreak_DEFAULT = 6;
+    @SerialEntry
+    public static int maxChainSnap_onBreak = maxChainSnap_onBreak_DEFAULT;
+
+    public static final List<BlockOrTagLocation> chainSnap_Blocks_DEFAULT = List.of(
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.CHAIN)
+    );
+    @SerialEntry
+    public static List<BlockOrTagLocation> chainSnap_Blocks = chainSnap_Blocks_DEFAULT;
+
     // vanilla block particle
     public static final int maxBlock_onPlace_DEFAULT = 2;
     @SerialEntry

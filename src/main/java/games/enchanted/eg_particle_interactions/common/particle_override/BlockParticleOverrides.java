@@ -350,6 +350,29 @@ public abstract class BlockParticleOverrides {
         ConfigHandler.maxBlockShatter_onBreak_DEFAULT,
         0.2f
     );
+    public static final BlockParticleOverride CHAIN_SNAP = new BlockParticleOverride(
+        "chain_snap",
+        "tinted_or_random_pixel",
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
+            if(overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_BROKEN || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_CRACK) {
+                return level.random.nextFloat() > 0.9 ? ModParticleTypes.SPARK_FLASH : new BlockParticleOption(ModParticleTypes.CHAIN_SNAP, blockState);
+            }
+            return new BlockParticleOption(ModParticleTypes.CHAIN_SNAP, blockState);
+        },
+        () -> ConfigHandler.chainSnap_Blocks,
+        (val) -> ConfigHandler.chainSnap_Blocks = val,
+        ConfigHandler.chainSnap_Blocks_DEFAULT,
+        () -> ConfigHandler.chainSnap_enabled,
+        (val) -> ConfigHandler.chainSnap_enabled = val,
+        ConfigHandler.chainSnap_enabled_DEFAULT,
+        () -> ConfigHandler.maxChainSnap_onPlace,
+        (val) -> ConfigHandler.maxChainSnap_onPlace = val,
+        ConfigHandler.maxChainSnap_onPlace_DEFAULT,
+        () -> ConfigHandler.maxChainSnap_onBreak,
+        (val) -> ConfigHandler.maxChainSnap_onBreak = val,
+        ConfigHandler.maxChainSnap_onBreak_DEFAULT,
+        0.22f
+    );
 
     public static void registerOverrides() {
         BlockParticleOverride.addBlockParticleOverride(SNOW_POWDER);
@@ -368,5 +391,6 @@ public abstract class BlockParticleOverrides {
         BlockParticleOverride.addBlockParticleOverride(DUST);
         BlockParticleOverride.addBlockParticleOverride(REDSTONE_DUST);
         BlockParticleOverride.addBlockParticleOverride(NETHER_PORTAL_SHATTER);
+        BlockParticleOverride.addBlockParticleOverride(CHAIN_SNAP);
     }
 }
