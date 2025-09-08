@@ -2,7 +2,6 @@ package games.enchanted.eg_particle_interactions.common.particle.drip;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
-import games.enchanted.eg_particle_interactions.common.mixin.accessor.client.ParticleAccessor;
 import games.enchanted.eg_particle_interactions.common.particle.option.DripParticleOption;
 import games.enchanted.eg_particle_interactions.common.util.RenderingUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -25,7 +24,7 @@ public class GenericDripAndLandParticle extends TextureSheetParticle {
         this.pickSprite(sprites);
         this.setSize(0.01F, 0.01F);
         this.quadSize = 0.15f;
-        this.gravity = dripParticleOption.getGravity();
+        this.gravity = dripParticleOption.getGravity() + (level.random.nextFloat() * dripParticleOption.getGravityRandomness());
 
         this.startFallingAtTicks = dripParticleOption.getStartFallingTicks();
 

@@ -15,33 +15,39 @@ import org.jetbrains.annotations.NotNull;
 public class DripParticleOption implements ParticleOptions {
     public static final int DEFAULT_START_FALLING_TICKS = 5;
     public static final float DEFAULT_GRAVITY = 0.05F;
+    public static final float DEFAULT_GRAVITY_RANDOMNESS = 0.0F;
 
-    public static final DripParticleOption FALLING_HONEY_DROP = new DripParticleOption(ModParticleTypes.HONEY_DROP, 0, 0.016f);
+    public static final DripParticleOption FALLING_HONEY_DROP = new DripParticleOption(ModParticleTypes.HONEY_DROP, 0, 0.02f, 0.03f);
 
     private final ParticleType<DripParticleOption> type;
     private final int startFallingTicks;
     private final float gravity;
+    private final float gravityRandomness;
 
-    public DripParticleOption(ParticleType<DripParticleOption> type, int fallTicks, float gravity) {
+    public DripParticleOption(ParticleType<DripParticleOption> type, int fallTicks, float gravity, float gravityRandomness) {
         this.type = type;
         this.startFallingTicks = fallTicks;
         this.gravity = gravity;
+        this.gravityRandomness = gravityRandomness;
     }
 
     private static Codec<DripParticleOption> createCodec(ParticleType<DripParticleOption> type) {
         return RecordCodecBuilder.create((RecordCodecBuilder.Instance<DripParticleOption> instance) ->
             instance.group(
                 ExtraCodecs.POSITIVE_INT.optionalFieldOf("start_falling_ticks", DEFAULT_START_FALLING_TICKS).forGetter(DripParticleOption::getStartFallingTicks),
-                Codec.FLOAT.optionalFieldOf("gravity", DEFAULT_GRAVITY).forGetter(DripParticleOption::getGravity)
+                Codec.FLOAT.optionalFieldOf("gravity", DEFAULT_GRAVITY).forGetter(DripParticleOption::getGravity),
+                Codec.FLOAT.optionalFieldOf("gravity_randomess", DEFAULT_GRAVITY_RANDOMNESS).forGetter(DripParticleOption::getGravity)
             ).apply(
                 instance,
                 (
                     Integer fallTicks,
-                    Float gravity
+                    Float gravity,
+                    Float gravityRandomness
                 ) -> new DripParticleOption(
                     type,
                     fallTicks,
-                    gravity
+                    gravity,
+                    gravityRandomness
                 )
             )
         );
@@ -66,5 +72,9 @@ public class DripParticleOption implements ParticleOptions {
 
     public float getGravity() {
         return gravity;
+    }
+
+    public float getGravityRandomness() {
+        return gravityRandomness;
     }
 }
