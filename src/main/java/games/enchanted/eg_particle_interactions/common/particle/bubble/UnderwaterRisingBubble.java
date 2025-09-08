@@ -24,7 +24,7 @@ public class UnderwaterRisingBubble extends TextureSheetParticle {
         this.zd = zSpeed * 0.2F + (Math.random() * 2.0 - 1.0) * 0.02F;
         this.lifetime = MathHelpers.randomBetween(100, 600);
 
-        ((ParticleAccess) this).setBypassMovementCollisionCheck(true);
+        ((ParticleAccess) this).eg_particle_interactions$setBypassMovementCollisionCheck(true);
     }
     
     @Override
@@ -40,8 +40,8 @@ public class UnderwaterRisingBubble extends TextureSheetParticle {
         this.zd *= 0.9;
 
         // if moving upwards
-        if(this.yd > 0 && ((ParticleAccess) this).getBypassMovementCollisionCheck()) {
-            ((ParticleAccess) this).setBypassMovementCollisionCheck(false);
+        if(this.yd > 0 && ((ParticleAccess) this).eg_particle_interactions$getBypassMovementCollisionCheck()) {
+            ((ParticleAccess) this).eg_particle_interactions$setBypassMovementCollisionCheck(false);
         }
     }
 

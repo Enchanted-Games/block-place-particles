@@ -36,7 +36,7 @@ public class FallingPetal extends TextureSheetParticle {
 
         this.transparency = false;
 
-        ((ParticleAccess) this).setBypassMovementCollisionCheck(true);
+        ((ParticleAccess) this).eg_particle_interactions$setBypassMovementCollisionCheck(true);
     }
     protected FallingPetal(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, float gravityMultiplier, boolean transparency) {
         this(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier);
@@ -58,8 +58,8 @@ public class FallingPetal extends TextureSheetParticle {
         this.zd *= 0.949999988079071;
 
         // if moving downwards
-        if(this.yd < 0 && ((ParticleAccess) this).getBypassMovementCollisionCheck()) {
-            ((ParticleAccess) this).setBypassMovementCollisionCheck(false);
+        if(this.yd < 0 && ((ParticleAccess) this).eg_particle_interactions$getBypassMovementCollisionCheck()) {
+            ((ParticleAccess) this).eg_particle_interactions$setBypassMovementCollisionCheck(false);
         }
 
         super.tick();

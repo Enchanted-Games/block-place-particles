@@ -32,9 +32,17 @@ public class ParticleMixin implements ParticleAccess {
         at = @At("TAIL"),
         method = "tick()V"
     )
-    public void adjustParticleYWhenLanded(CallbackInfo ci) {
+    public void eg_particle_interactions$adjustParticleYWhenLanded(CallbackInfo ci) {
         if(!ConfigHandler.general_particleZFightingFix) return;
-        if ( this.hasPhysics && this.stoppedByCollision && !this.block_place_particle$hasLanded ) {
+        if(this.hasPhysics && this.stoppedByCollision) {
+            eg_particle_interactions$moveUpBecauseParticleLanded();
+        }
+    }
+
+    @Unique
+    @Override
+    public void eg_particle_interactions$moveUpBecauseParticleLanded() {
+        if(!block_place_particle$hasLanded) {
             this.block_place_particle$hasLanded = true;
             this.y += Mth.randomBetween(this.level.random, 0.0001f, 0.0003f);
         }
@@ -47,23 +55,28 @@ public class ParticleMixin implements ParticleAccess {
         at = @At(value = "FIELD", target = "Lnet/minecraft/client/particle/Particle;stoppedByCollision:Z", opcode = Opcodes.GETFIELD, ordinal = 0),
         method = "move"
     )
-    private boolean bypassMovementCollisionCheck(boolean original) {
+    private boolean eg_particle_interactions$bypassMovementCollisionCheck(boolean original) {
         return !block_place_particle$bypassMovementCollisionCheck && original;
     }
 
     @Override
-    public void setBypassMovementCollisionCheck(boolean newValue) {
+    public void eg_particle_interactions$setBypassMovementCollisionCheck(boolean newValue) {
         this.block_place_particle$bypassMovementCollisionCheck = newValue;
         if(!newValue) stoppedByCollision = false;
     }
 
     @Override
-    public boolean getBypassMovementCollisionCheck() {
+    public boolean eg_particle_interactions$getBypassMovementCollisionCheck() {
         return this.block_place_particle$bypassMovementCollisionCheck;
     }
 
     @Override
     public boolean eg_particle_interactions$isStoppedByCollision() {
         return this.stoppedByCollision;
+    }
+
+    @Override
+    public void eg_particle_interactions$setHasStoppedByCollision(boolean newValue) {
+        this.stoppedByCollision = newValue;
     }
 }

@@ -3,6 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.option;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -12,25 +13,35 @@ import net.minecraft.util.ExtraCodecs;
 import org.jetbrains.annotations.NotNull;
 
 public class DripParticleOption implements ParticleOptions {
+    public static final int DEFAULT_START_FALLING_TICKS = 5;
+    public static final float DEFAULT_GRAVITY = 0.05F;
+
+    public static final DripParticleOption FALLING_HONEY_DROP = new DripParticleOption(ModParticleTypes.HONEY_DROP, 0, 0.016f);
+
     private final ParticleType<DripParticleOption> type;
     private final int startFallingTicks;
+    private final float gravity;
 
-    public DripParticleOption(ParticleType<DripParticleOption> type, int fallTicks) {
+    public DripParticleOption(ParticleType<DripParticleOption> type, int fallTicks, float gravity) {
         this.type = type;
         this.startFallingTicks = fallTicks;
+        this.gravity = gravity;
     }
 
     private static Codec<DripParticleOption> createCodec(ParticleType<DripParticleOption> type) {
         return RecordCodecBuilder.create((RecordCodecBuilder.Instance<DripParticleOption> instance) ->
             instance.group(
-                ExtraCodecs.POSITIVE_INT.optionalFieldOf("start_falling_ticks", 5).forGetter(DripParticleOption::getStartFallingTicks)
+                ExtraCodecs.POSITIVE_INT.optionalFieldOf("start_falling_ticks", DEFAULT_START_FALLING_TICKS).forGetter(DripParticleOption::getStartFallingTicks),
+                Codec.FLOAT.optionalFieldOf("gravity", DEFAULT_GRAVITY).forGetter(DripParticleOption::getGravity)
             ).apply(
                 instance,
                 (
-                    Integer fallTicks
+                    Integer fallTicks,
+                    Float gravity
                 ) -> new DripParticleOption(
                     type,
-                    fallTicks
+                    fallTicks,
+                    gravity
                 )
             )
         );
@@ -51,5 +62,9 @@ public class DripParticleOption implements ParticleOptions {
 
     public int getStartFallingTicks() {
         return startFallingTicks;
+    }
+
+    public float getGravity() {
+        return gravity;
     }
 }

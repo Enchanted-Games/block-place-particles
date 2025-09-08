@@ -852,27 +852,30 @@ public class SpawnParticles {
 
     public static void spawnHoneyCollectionParticles(ClientLevel level, double x, double y, double z, Direction faceDirection) {
         for (int i = 0; i < 12; i++) {
+            double xOffset = (level.random.nextDouble() - 0.5) * 0.5 * (1 + Math.abs(faceDirection.getStepX()));
+            double yOffset = (level.random.nextDouble() - 0.5) * 0.5 * (1 + Math.abs(faceDirection.getStepY()));
+            double zOffset = (level.random.nextDouble() - 0.5) * 0.5 * (1 + Math.abs(faceDirection.getStepZ()));
             level.addParticle(
-                new DripParticleOption(ModParticleTypes.HONEY_DROP, 1),
-                x + level.random.nextDouble(),
-                y + level.random.nextDouble(),
-                z + level.random.nextDouble(),
-                level.random.nextFloat() - 0.5,
-                level.random.nextFloat() - 0.5,
-                level.random.nextFloat() - 0.5
+                DripParticleOption.FALLING_HONEY_DROP,
+                x + xOffset,
+                y + yOffset,
+                z + zOffset,
+                0,
+                0,
+                0
             );
         }
     }
     public static void spawnHoneyCollectionParticlesOnPlayer(ClientLevel level, Player player) {
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 6; i++) {
             level.addParticle(
-                new DripParticleOption(ModParticleTypes.HONEY_DROP, 1),
-                player.getX(),
-                player.getY() + 0.8,
-                player.getZ(),
-                level.random.nextFloat() - 0.5,
-                level.random.nextFloat() - 0.5,
-                level.random.nextFloat() - 0.5
+                DripParticleOption.FALLING_HONEY_DROP,
+                player.getX() - 0.25 + (level.random.nextDouble() / 2),
+                player.getY() + 0.85 + (level.random.nextDouble() / 5),
+                player.getZ() - 0.25 + (level.random.nextDouble() / 2),
+                0,
+                0,
+                0
             );
         }
     }

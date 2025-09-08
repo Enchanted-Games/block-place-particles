@@ -30,7 +30,7 @@ public class Ember extends SwirlingParticle {
         this.quadSize = 2.5f/32f;
         this.setSize(1/32f, 1/32f);
 
-        ((ParticleAccess) this).setBypassMovementCollisionCheck(true);
+        ((ParticleAccess) this).eg_particle_interactions$setBypassMovementCollisionCheck(true);
     }
 
     @Override

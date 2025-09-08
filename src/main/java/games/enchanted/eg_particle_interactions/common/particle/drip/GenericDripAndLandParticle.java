@@ -1,6 +1,8 @@
 package games.enchanted.eg_particle_interactions.common.particle.drip;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
+import games.enchanted.eg_particle_interactions.common.mixin.accessor.client.ParticleAccessor;
 import games.enchanted.eg_particle_interactions.common.particle.option.DripParticleOption;
 import games.enchanted.eg_particle_interactions.common.util.RenderingUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -8,7 +10,6 @@ import net.minecraft.client.particle.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
-import org.joml.Random;
 
 public class GenericDripAndLandParticle extends TextureSheetParticle {
     protected boolean hasLanded = false;
@@ -23,7 +24,8 @@ public class GenericDripAndLandParticle extends TextureSheetParticle {
         super(level, x, y, z);
         this.pickSprite(sprites);
         this.setSize(0.01F, 0.01F);
-        this.gravity = 0.04F;
+        this.quadSize = 0.15f;
+        this.gravity = dripParticleOption.getGravity();
 
         this.startFallingAtTicks = dripParticleOption.getStartFallingTicks();
 
@@ -45,7 +47,7 @@ public class GenericDripAndLandParticle extends TextureSheetParticle {
         this.yo = this.y;
         this.zo = this.z;
 
-        if (this.age++ >= lifetime) {
+        if (this.age++ >= this.lifetime) {
             this.remove();
         }
 
@@ -70,13 +72,17 @@ public class GenericDripAndLandParticle extends TextureSheetParticle {
     }
 
     protected void land() {
+        if(this.hasLanded) return;
+        this.hasLanded = true;
+
         float v0 = this.getV0();
         this.v1 = this.getV1();
         float halfHeight = Math.abs(v0 - this.v1) / 2;
         this.v0 = v0 + halfHeight;
-        this.hasLanded = true;
 
-        this.lifetime = this.age += level.random.nextInt(30, 60);
+        this.lifetime = this.age + level.random.nextInt(30, 60);
+
+        ((ParticleAccess) this).eg_particle_interactions$moveUpBecauseParticleLanded();
     }
 
     @Override
