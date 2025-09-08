@@ -13,15 +13,18 @@ import org.joml.Quaternionf;
 public class DripAndLandParticle extends TextureSheetParticle {
     protected boolean hasLanded = false;
     protected final int startFallingAtTicks;
+    protected final boolean translucent;
 
     protected float uo;
     protected float u1;
     protected float v0;
     protected float v1;
 
-    DripAndLandParticle(ClientLevel level, double x, double y, double z, SpriteSet sprites, DripParticleOption dripParticleOption) {
+    DripAndLandParticle(ClientLevel level, double x, double y, double z, SpriteSet sprites, DripParticleOption dripParticleOption, boolean translucent) {
         super(level, x, y, z);
         this.pickSprite(sprites);
+        this.translucent = translucent;
+
         this.setSize(0.01F, 0.01F);
         this.quadSize = 0.15f;
         this.gravity = dripParticleOption.getGravity() + (level.random.nextFloat() * dripParticleOption.getGravityRandomness());
@@ -86,7 +89,7 @@ public class DripAndLandParticle extends TextureSheetParticle {
 
     @Override
     public @NotNull ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+        return this.translucent ? ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT : ParticleRenderType.PARTICLE_SHEET_OPAQUE;
     }
 
     @Override
@@ -113,7 +116,7 @@ public class DripAndLandParticle extends TextureSheetParticle {
 
         @Override
         public @Nullable Particle createParticle(DripParticleOption options, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new DripAndLandParticle(level, x, y, z, sprites, options);
+            return new DripAndLandParticle(level, x, y, z, sprites, options, true);
         }
     }
 }
