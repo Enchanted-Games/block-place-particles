@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.particle.petal;
+package games.enchanted.eg_particle_interactions.common.particle.falling_spin;
 
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
 import net.minecraft.client.Minecraft;
@@ -9,13 +9,12 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class FallingColouredPetal extends FallingPetal {
-    protected FallingColouredPetal(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState, SpriteSet spriteSet, float gravityMultiplier) {
+public class FallingSpinningColouredParticle extends FallingSpinningParticle {
+    protected FallingSpinningColouredParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState, SpriteSet spriteSet, float gravityMultiplier) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier);
         int tintColour = Minecraft.getInstance().getBlockColors().getColor(blockState, level, blockPos, 0);
         int[] tintColourARGB = ColourUtil.RGBint_to_ARGB(tintColour);
@@ -44,7 +43,7 @@ public class FallingColouredPetal extends FallingPetal {
         @Nullable
         @Override
         public Particle createParticle(BlockParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            FallingColouredPetal particle = new FallingColouredPetal(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 1f);
+            FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 1f);
             float particleSize = level.random.nextBoolean() ? 0.1f : 0.15f;
             particle.quadSize = particleSize;
             particle.maxSpinSpeed = 0.5f;
@@ -63,7 +62,7 @@ public class FallingColouredPetal extends FallingPetal {
         @Nullable
         @Override
         public Particle createParticle(BlockParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            FallingColouredPetal particle = new FallingColouredPetal(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 1f);
+            FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 1f);
             particle.maxSpinSpeed = 0.5f;
             return particle;
         }
@@ -79,7 +78,7 @@ public class FallingColouredPetal extends FallingPetal {
         @Nullable
         @Override
         public Particle createParticle(BlockParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            FallingColouredPetal particle = new FallingColouredPetal(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 1f);
+            FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 1f);
             float particleSize = level.random.nextBoolean() ? 0.10F : 0.12F;
             particle.quadSize = particleSize;
             particle.setSize(particleSize, particleSize);
@@ -97,7 +96,7 @@ public class FallingColouredPetal extends FallingPetal {
         @Nullable
         @Override
         public Particle createParticle(BlockParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            FallingColouredPetal particle = new FallingColouredPetal(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 2f);
+            FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 2f);
             float particleSize = level.random.nextBoolean() ? 0.10F : 0.12F;
             particle.quadSize = particleSize;
             particle.setSize(particleSize, particleSize);
@@ -115,7 +114,7 @@ public class FallingColouredPetal extends FallingPetal {
         @Nullable
         @Override
         public Particle createParticle(BlockParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            FallingColouredPetal particle = new FallingColouredPetal(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 3f);
+            FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 3f);
             float particleSize = level.random.nextBoolean() ? 0.14F : 0.15F;
             particle.quadSize = particleSize;
             particle.setSize(particleSize, particleSize);

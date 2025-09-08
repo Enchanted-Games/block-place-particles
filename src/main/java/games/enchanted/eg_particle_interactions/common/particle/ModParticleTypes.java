@@ -14,8 +14,8 @@ import games.enchanted.eg_particle_interactions.common.particle.option.ArcEmitte
 import games.enchanted.eg_particle_interactions.common.particle.option.DripParticleOption;
 import games.enchanted.eg_particle_interactions.common.particle.option.RandomDistributionEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.option.TintedParticleOption;
-import games.enchanted.eg_particle_interactions.common.particle.petal.FallingColouredPetal;
-import games.enchanted.eg_particle_interactions.common.particle.petal.FallingPetal;
+import games.enchanted.eg_particle_interactions.common.particle.falling_spin.FallingSpinningColouredParticle;
+import games.enchanted.eg_particle_interactions.common.particle.falling_spin.FallingSpinningParticle;
 import games.enchanted.eg_particle_interactions.common.particle.shatter.BlockShatter;
 import games.enchanted.eg_particle_interactions.common.particle.spark.FlyingSpark;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.random_distribution.SparkEmitter;
@@ -107,17 +107,17 @@ public class ModParticleTypes {
     public static void registerParticles() {
         SNOWFLAKE = register((SpriteProviderReg) BasicDust.SnowflakeProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "snowflake"), false);
         SNOWFLAKE_SPECK = register((SpriteProviderReg) BasicDust.SnowflakeSpeckProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "snowflake_speck"), false);
-        FALLING_CHERRY_PETAL = register((SpriteProviderReg) FallingPetal.GenericLeafProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "falling_cherry_leaves"), false);
-        FALLING_TINTED_LEAF = register((SpriteProviderReg) FallingColouredPetal.TintedLeafProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "falling_tinted_leaves"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
-        FALLING_TINTED_PINE_LEAF = register((SpriteProviderReg) FallingColouredPetal.TintedLeafProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "falling_tinted_pine_leaves"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
-        FALLING_AZALEA_LEAF = register((SpriteProviderReg) FallingPetal.GenericLeafProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "falling_azalea_leaves"), false);
-        FALLING_FLOWERING_AZALEA_LEAF = register((SpriteProviderReg) FallingPetal.GenericLeafProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "falling_flowering_azalea_leaves"), false);
-        FALLING_PALE_OAK_LEAF = register((SpriteProviderReg) FallingPetal.PaleOakProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "falling_pale_oak_leaf"), false);
-        FLOWER_PETAL = register((SpriteProviderReg) FallingColouredPetal.FlowerPetalProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "flower_petal"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
-        GRASS_BLADE = register((SpriteProviderReg) FallingColouredPetal.GrassBladeProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "grass_blade"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
-        HEAVY_GRASS_BLADE = register((SpriteProviderReg) FallingColouredPetal.HeavyGrassBladeProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "heavy_grass_blade"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
-        MOSS_CLUMP = register((SpriteProviderReg) FallingPetal.RandomisedSizeMoreGravityProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "moss_clump"), false);
-        PALE_MOSS_CLUMP = register((SpriteProviderReg) FallingPetal.RandomisedSizeMoreGravityProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "pale_moss_clump"), false);
+        FALLING_CHERRY_PETAL = register((SpriteProviderReg) FallingSpinningParticle.GenericLeafProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "falling_cherry_leaves"), false);
+        FALLING_TINTED_LEAF = register((SpriteProviderReg) FallingSpinningColouredParticle.TintedLeafProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "falling_tinted_leaves"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        FALLING_TINTED_PINE_LEAF = register((SpriteProviderReg) FallingSpinningColouredParticle.TintedLeafProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "falling_tinted_pine_leaves"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        FALLING_AZALEA_LEAF = register((SpriteProviderReg) FallingSpinningParticle.GenericLeafProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "falling_azalea_leaves"), false);
+        FALLING_FLOWERING_AZALEA_LEAF = register((SpriteProviderReg) FallingSpinningParticle.GenericLeafProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "falling_flowering_azalea_leaves"), false);
+        FALLING_PALE_OAK_LEAF = register((SpriteProviderReg) FallingSpinningParticle.PaleOakProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "falling_pale_oak_leaf"), false);
+        FLOWER_PETAL = register((SpriteProviderReg) FallingSpinningColouredParticle.FlowerPetalProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "flower_petal"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        GRASS_BLADE = register((SpriteProviderReg) FallingSpinningColouredParticle.GrassBladeProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "grass_blade"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        HEAVY_GRASS_BLADE = register((SpriteProviderReg) FallingSpinningColouredParticle.HeavyGrassBladeProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "heavy_grass_blade"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        MOSS_CLUMP = register((SpriteProviderReg) FallingSpinningParticle.RandomisedSizeMoreGravityProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "moss_clump"), false);
+        PALE_MOSS_CLUMP = register((SpriteProviderReg) FallingSpinningParticle.RandomisedSizeMoreGravityProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "pale_moss_clump"), false);
         BRUSH_DUST = register((SpriteProviderReg) BasicTintedDust.BrushProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "brush_dust"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
         BRUSH_DUST_SPECK = register((SpriteProviderReg) BasicTintedDust.BrushSpeckProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "brush_dust_speck"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
         ITEM_FRAME_DUST = register((SpriteProviderReg) BasicTintedDust.ItemFrameProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "item_frame_dust"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
@@ -128,7 +128,7 @@ public class ModParticleTypes {
         TINTED_DUST_SPECK = register((SpriteProviderReg) FloatingColouredDust.TintedDustSpeckProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "tinted_dust_speck"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         REDSTONE_DUST = register((SpriteProviderReg) BasicTintedDust.RedstoneProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "redstone_dust"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
         BLOCK_SHATTER = register((SpriteProviderReg) BlockShatter.BlockShatterProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "block_shatter"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
-        CHAIN_SNAP = register((SpriteProviderReg) FallingColouredPetal.ChainSnapProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "chain_snap"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        CHAIN_SNAP = register((SpriteProviderReg) FallingSpinningColouredParticle.ChainSnapProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "chain_snap"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
 
         HONEY_DROP = register((SpriteProviderReg) GenericDripAndLandParticle.UntintedDropProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "honey_drop"), false, DripParticleOption::codec, DripParticleOption::streamCodec);
 
