@@ -4,6 +4,7 @@ import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
 import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
 import games.enchanted.eg_particle_interactions.common.particle.option.ArcEmitterOptions;
+import games.enchanted.eg_particle_interactions.common.particle.option.DripParticleOption;
 import games.enchanted.eg_particle_interactions.common.particle.option.RandomDistributionEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.option.TintedParticleOption;
 import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverride;
@@ -23,6 +24,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -846,5 +848,32 @@ public class SpawnParticles {
             0.25f,
             1.1f
         );
+    }
+
+    public static void spawnHoneyCollectionParticles(ClientLevel level, double x, double y, double z, Direction faceDirection) {
+        for (int i = 0; i < 12; i++) {
+            level.addParticle(
+                new DripParticleOption(ModParticleTypes.HONEY_DROP, 1),
+                x + level.random.nextDouble(),
+                y + level.random.nextDouble(),
+                z + level.random.nextDouble(),
+                level.random.nextFloat() - 0.5,
+                level.random.nextFloat() - 0.5,
+                level.random.nextFloat() - 0.5
+            );
+        }
+    }
+    public static void spawnHoneyCollectionParticlesOnPlayer(ClientLevel level, Player player) {
+        for (int i = 0; i < 12; i++) {
+            level.addParticle(
+                new DripParticleOption(ModParticleTypes.HONEY_DROP, 1),
+                player.getX(),
+                player.getY() + 0.8,
+                player.getZ(),
+                level.random.nextFloat() - 0.5,
+                level.random.nextFloat() - 0.5,
+                level.random.nextFloat() - 0.5
+            );
+        }
     }
 }

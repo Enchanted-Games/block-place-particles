@@ -4,12 +4,14 @@ import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.particle.bubble.UnderwaterRisingBubble;
 import games.enchanted.eg_particle_interactions.common.particle.constant_motion.LavaPop;
+import games.enchanted.eg_particle_interactions.common.particle.drip.GenericDripAndLandParticle;
 import games.enchanted.eg_particle_interactions.common.particle.dust.BasicDust;
 import games.enchanted.eg_particle_interactions.common.particle.dust.BasicTintedDust;
 import games.enchanted.eg_particle_interactions.common.particle.dust.FloatingColouredDust;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.arc.ArcEmitter;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.random_distribution.UnderwaterBubbleEmitter;
 import games.enchanted.eg_particle_interactions.common.particle.option.ArcEmitterOptions;
+import games.enchanted.eg_particle_interactions.common.particle.option.DripParticleOption;
 import games.enchanted.eg_particle_interactions.common.particle.option.RandomDistributionEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.option.TintedParticleOption;
 import games.enchanted.eg_particle_interactions.common.particle.petal.FallingColouredPetal;
@@ -67,6 +69,8 @@ public class ModParticleTypes {
     public static ParticleType<TintedParticleOption> REDSTONE_DUST;
     public static ParticleType<BlockParticleOption> BLOCK_SHATTER;
 
+    public static ParticleType<DripParticleOption> HONEY_DROP;
+
     public static ParticleType<BlockParticleOption> WATER_BUCKET_TINTED_SPLASH;
     public static SimpleParticleType LAVA_BUCKET_SPLASH;
     public static ParticleType<BlockParticleOption> GENERIC_FLUID_BUCKET_SPLASH;
@@ -123,6 +127,8 @@ public class ModParticleTypes {
         TINTED_DUST_SPECK = register((SpriteProviderReg) FloatingColouredDust.TintedDustSpeckProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "tinted_dust_speck"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         REDSTONE_DUST = register((SpriteProviderReg) BasicTintedDust.RedstoneProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "redstone_dust"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
         BLOCK_SHATTER = register((SpriteProviderReg) BlockShatter.BlockShatterProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "block_shatter"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+
+        HONEY_DROP = register((SpriteProviderReg) GenericDripAndLandParticle.UntintedDropProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "honey_drop"), false, DripParticleOption::codec, DripParticleOption::streamCodec);
 
         WATER_BUCKET_TINTED_SPLASH = register((SpriteProviderReg) ColouredBucketSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "water_bucket_tinted_splash"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         LAVA_BUCKET_SPLASH = register((SpriteProviderReg) LavaSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "lava_bucket_splash"), false);
