@@ -121,10 +121,6 @@ public class ConfigScreen {
                 genericBooleanOption(
                     ConfigTranslation.DUST_ADDITIONAL_SPECKS,
                     Binding.generic(ConfigHandler.particle_dust_additionalSpecks_DEFAULT, () -> ConfigHandler.particle_dust_additionalSpecks, newVal -> ConfigHandler.particle_dust_additionalSpecks = newVal)
-                ),
-                genericBooleanOption(
-                    ConfigTranslation.DUST_ADDITIONAL_SPECKS,
-                    Binding.generic(ConfigHandler.particle_dust_additionalSpecks_DEFAULT, () -> ConfigHandler.particle_dust_additionalSpecks, newVal -> ConfigHandler.particle_dust_additionalSpecks = newVal)
                 )
             ))
 
