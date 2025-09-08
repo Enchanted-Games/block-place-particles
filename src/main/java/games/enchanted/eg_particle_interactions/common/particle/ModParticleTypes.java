@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.particle.bubble.UnderwaterRisingBubble;
 import games.enchanted.eg_particle_interactions.common.particle.constant_motion.LavaPop;
-import games.enchanted.eg_particle_interactions.common.particle.drip.GenericDripAndLandParticle;
+import games.enchanted.eg_particle_interactions.common.particle.drip.DripAndLandParticle;
 import games.enchanted.eg_particle_interactions.common.particle.dust.BasicDust;
 import games.enchanted.eg_particle_interactions.common.particle.dust.BasicTintedDust;
 import games.enchanted.eg_particle_interactions.common.particle.dust.FloatingColouredDust;
@@ -130,7 +130,7 @@ public class ModParticleTypes {
         BLOCK_SHATTER = register((SpriteProviderReg) BlockShatter.BlockShatterProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "block_shatter"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         CHAIN_SNAP = register((SpriteProviderReg) FallingSpinningColouredParticle.ChainSnapProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "chain_snap"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
 
-        HONEY_DROP = register((SpriteProviderReg) GenericDripAndLandParticle.UntintedDropProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "honey_drop"), false, DripParticleOption::codec, DripParticleOption::streamCodec);
+        HONEY_DROP = register((SpriteProviderReg) DripAndLandParticle.UntintedDropProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "honey_drop"), false, DripParticleOption::codec, DripParticleOption::streamCodec);
 
         WATER_BUCKET_TINTED_SPLASH = register((SpriteProviderReg) ColouredBucketSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "water_bucket_tinted_splash"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         LAVA_BUCKET_SPLASH = register((SpriteProviderReg) LavaSplash.Provider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "lava_bucket_splash"), false);

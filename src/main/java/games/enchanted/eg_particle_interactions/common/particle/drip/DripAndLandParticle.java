@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 
-public class GenericDripAndLandParticle extends TextureSheetParticle {
+public class DripAndLandParticle extends TextureSheetParticle {
     protected boolean hasLanded = false;
     protected final int startFallingAtTicks;
 
@@ -19,7 +19,7 @@ public class GenericDripAndLandParticle extends TextureSheetParticle {
     protected float v0;
     protected float v1;
 
-    GenericDripAndLandParticle(ClientLevel level, double x, double y, double z, SpriteSet sprites, DripParticleOption dripParticleOption) {
+    DripAndLandParticle(ClientLevel level, double x, double y, double z, SpriteSet sprites, DripParticleOption dripParticleOption) {
         super(level, x, y, z);
         this.pickSprite(sprites);
         this.setSize(0.01F, 0.01F);
@@ -113,7 +113,7 @@ public class GenericDripAndLandParticle extends TextureSheetParticle {
 
         @Override
         public @Nullable Particle createParticle(DripParticleOption options, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new GenericDripAndLandParticle(level, x, y, z, sprites, options);
+            return new DripAndLandParticle(level, x, y, z, sprites, options);
         }
     }
 }
