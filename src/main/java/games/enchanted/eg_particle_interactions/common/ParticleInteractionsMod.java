@@ -29,14 +29,17 @@ public class ParticleInteractionsMod {
     }
 
     public static void registerAtlases(ReloadableResourceManager resourceManager, TextureManager textureManager) {
-        createReloadListeners(textureManager);
+        List<Pair<ResourceLocation, PreparableReloadListener>> reloadListeners = createReloadListeners(textureManager);
         //? if fabric {
         resourceManager.registerReloadListener(particlePaletteAtlas);
+        reloadListeners.forEach(resourceLocationAndReloadListenerPair -> {
+            resourceManager.registerReloadListener(resourceLocationAndReloadListenerPair.value());
+        });
         //?}
     }
 
     public static List<Pair<ResourceLocation, PreparableReloadListener>> createReloadListeners(TextureManager textureManager) {
         particlePaletteAtlas = new ParticlePaletteAtlasManager(textureManager);
-        return List.of(Pair.of(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "particle_palettes_texture_atlas_listener"), new ParticlePaletteAtlasManager(textureManager)));
+        return List.of(Pair.of(ParticlePaletteAtlasManager.ATLAS_LOCATION, particlePaletteAtlas));
     }
 }

@@ -12,7 +12,8 @@ import net.minecraft.server.packs.metadata.MetadataSectionType;
 import java.util.Set;
 
 public class ParticlePaletteAtlasManager extends TextureAtlasHolder {
-    private static final String ATLAS_ID = "particle_palettes";
+    public static final String ATLAS_ID = "particle_palettes";
+    public static final ResourceLocation ATLAS_LOCATION = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/atlas/" + ATLAS_ID);
 
     public ParticlePaletteAtlasManager(TextureManager textureManager) {
         super(

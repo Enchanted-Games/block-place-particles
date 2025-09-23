@@ -2,15 +2,11 @@ package games.enchanted.eg_particle_interactions.common.util;
 
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Objects;
 
 public class TextureHelpers {
     public static @NotNull TextureAtlas getTextureAtlas(ResourceLocation atlasLocation) {
