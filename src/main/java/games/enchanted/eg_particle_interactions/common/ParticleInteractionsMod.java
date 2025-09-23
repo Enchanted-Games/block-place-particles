@@ -31,7 +31,6 @@ public class ParticleInteractionsMod {
     public static void registerAtlases(ReloadableResourceManager resourceManager, TextureManager textureManager) {
         List<Pair<ResourceLocation, PreparableReloadListener>> reloadListeners = createReloadListeners(textureManager);
         //? if fabric {
-        resourceManager.registerReloadListener(particlePaletteAtlas);
         reloadListeners.forEach(resourceLocationAndReloadListenerPair -> {
             resourceManager.registerReloadListener(resourceLocationAndReloadListenerPair.value());
         });
