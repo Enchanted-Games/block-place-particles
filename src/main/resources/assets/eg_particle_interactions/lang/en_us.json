@@ -45,6 +45,7 @@
   "eg_particle_interactions.config.particle_type.axe_strip_particles": "Axe Strip",
   "eg_particle_interactions.config.particle_type.hoe_till_particles": "Hoe Till",
   "eg_particle_interactions.config.particle_type.shovel_flatten_particles": "Shovel Flatten",
+  "eg_particle_interactions.config.particle_type.honey_collection": "Honey Collection",
 
   "eg_particle_interactions.config.particle_type.minecart_sparks": "Minecart Wheel Spark",
   "eg_particle_interactions.config.particle_type.blaze_sparks": "Blaze Spark",
@@ -291,6 +292,14 @@
   "eg_particle_interactions.config.items.hoe_till_particles.desc": "Configure if %s particles should be spawned when tilling a block with a hoe",
   "eg_particle_interactions.config.items.shovel_flatten_particles": "%s Particle Options",
   "eg_particle_interactions.config.items.shovel_flatten_particles.desc": "Configure if %s particles should be spawned when flattening a block with a shovel",
+  "eg_particle_interactions.config.items.honey_collection": "%s Particle Options",
+  "eg_particle_interactions.config.items.honey_collection.desc": "Configure if %s particles should be spawned when collecting honey bottles from a beehive",
+  "eg_particle_interactions.config.global_option.spawn_particle_on_honey_collected": "Spawn when honey collected",
+  "eg_particle_interactions.config.global_option.spawn_particle_on_honey_collected.desc": "Configure if %s particles should be spawned when collecting honey bottles from a beehive",
+  "eg_particle_interactions.config.global_option.max_particles_on_honey_collected": "Amount of particles when honey collected",
+  "eg_particle_interactions.config.global_option.max_particles_on_honey_collected.desc": "The amount of %s particles that spawn when collecting honey bottles from a beehive",
+  "eg_particle_interactions.config.global_option.replace_vanilla_honey_particles": "Replace vanilla honey drops",
+  "eg_particle_interactions.config.global_option.replace_vanilla_honey_particles.desc": "Should vanilla honey drop particles be replaced with Particle Interaction's custom honey drop particles?",
 
 
   "eg_particle_interactions.config.fluids": "Fluid Placement",

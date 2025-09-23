@@ -18,6 +18,7 @@ public class DripParticleOption implements ParticleOptions {
     public static final float DEFAULT_GRAVITY_RANDOMNESS = 0.0F;
 
     public static final DripParticleOption FALLING_HONEY_DROP = new DripParticleOption(ModParticleTypes.HONEY_DROP, 0, 0.02f, 0.03f);
+    public static final DripParticleOption HANGING_HONEY_DROP = new DripParticleOption(ModParticleTypes.HONEY_DROP, 30, 0.02f, 0.03f);
 
     private final ParticleType<DripParticleOption> type;
     private final int startFallingTicks;

@@ -40,7 +40,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3d;
 import org.joml.Vector3f;
 
 public class SpawnParticles {
@@ -851,7 +850,7 @@ public class SpawnParticles {
     }
 
     public static void spawnHoneyCollectionParticles(ClientLevel level, double x, double y, double z, Direction faceDirection) {
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < level.random.nextIntBetweenInclusive(Math.max(ConfigHandler.maxHoneyCollection_onUse - 2, 0), Math.max(ConfigHandler.maxHoneyCollection_onUse, 1)); i++) {
             double xOffset = (level.random.nextDouble() - 0.5) * 0.5 * (1 + Math.abs(faceDirection.getStepX()));
             double yOffset = (level.random.nextDouble() - 0.5) * 0.5 * (1 + Math.abs(faceDirection.getStepY()));
             double zOffset = (level.random.nextDouble() - 0.5) * 0.5 * (1 + Math.abs(faceDirection.getStepZ()));
@@ -867,7 +866,7 @@ public class SpawnParticles {
         }
     }
     public static void spawnHoneyCollectionParticlesOnPlayer(ClientLevel level, Player player) {
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < level.random.nextIntBetweenInclusive(Math.max(ConfigHandler.maxHoneyCollection_onUse / 2, 0), Math.max(ConfigHandler.maxHoneyCollection_onUse / 2, 1)); i++) {
             level.addParticle(
                 DripParticleOption.FALLING_HONEY_DROP,
                 player.getX() - 0.25 + (level.random.nextDouble() / 2),

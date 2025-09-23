@@ -437,6 +437,20 @@ public class ConfigScreen {
                 booleanOption(ConfigTranslation.SPAWN_PARTICLE_ON_ITEM_USE, "shovel_flatten_particles", Binding.generic(ConfigHandler.shovelFlatten_onUse_DEFAULT, () -> ConfigHandler.shovelFlatten_onUse, newVal -> ConfigHandler.shovelFlatten_onUse = newVal)),
                 integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE, "shovel_flatten_particles", ConfigHandler.maxShovelFlatten_onUse_DEFAULT, () -> ConfigHandler.maxShovelFlatten_onUse, newVal -> ConfigHandler.maxShovelFlatten_onUse = newVal, 1, 50, 1)
             ))
+
+            .group(
+                ConfigScreen.createSeparator()
+            )
+
+            // honey collection
+            .group( createMultipleOptionsConfigGroup(
+                "honey_collection",
+                "honey_collection",
+                ConfigTranslation.ITEMS_CONFIG_CATEGORY,
+                booleanOption(ConfigTranslation.SPAWN_ON_HONEY_COLLECTED, "honey_collection", Binding.generic(ConfigHandler.honeyCollection_enabled_DEFAULT, () -> ConfigHandler.honeyCollection_enabled, newVal -> ConfigHandler.honeyCollection_enabled = newVal)),
+                integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_HONEY_COLLECTED, "honey_collection", ConfigHandler.maxHoneyCollection_onUse_DEFAULT, () -> ConfigHandler.maxHoneyCollection_onUse, newVal -> ConfigHandler.maxHoneyCollection_onUse = newVal, 1, 50, 1),
+                booleanOption(ConfigTranslation.REPLACE_VANILLA_PARTICLES, "honey_collection", Binding.generic(ConfigHandler.honeyCollection_replaceVanilla_DEFAULT, () -> ConfigHandler.honeyCollection_replaceVanilla, newVal -> ConfigHandler.honeyCollection_replaceVanilla = newVal))
+            ))
         .build());
 
         // entity category

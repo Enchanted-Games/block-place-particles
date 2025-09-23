@@ -793,6 +793,19 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean shovelFlatten_onUse = shovelFlatten_onUse_DEFAULT;
 
+    // honey collection particles
+    public static final int maxHoneyCollection_onUse_DEFAULT = 12;
+    @SerialEntry
+    public static int maxHoneyCollection_onUse = maxHoneyCollection_onUse_DEFAULT;
+
+    public static final boolean honeyCollection_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean honeyCollection_enabled = honeyCollection_enabled_DEFAULT;
+
+    public static final boolean honeyCollection_replaceVanilla_DEFAULT = true;
+    @SerialEntry
+    public static boolean honeyCollection_replaceVanilla = honeyCollection_replaceVanilla_DEFAULT;
+
     // fluid ambient
     // lava bubble pop particles
     public static final boolean lavaBubblePop_enabled_DEFAULT = true;

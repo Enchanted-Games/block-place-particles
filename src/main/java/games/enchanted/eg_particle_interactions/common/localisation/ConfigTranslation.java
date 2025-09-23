@@ -28,6 +28,9 @@ public class ConfigTranslation {
     public static final String MAX_PARTICLES_ON_ITEM_USE = "max_particles_item_use";
     public static final String ITEM_USE_PARTICLE_INTENSITY = "item_use_particle_intensity";
     public static final String SPAWN_PARTICLE_ON_ITEM_USE = "spawn_particle_on_item_use";
+    public static final String SPAWN_ON_HONEY_COLLECTED = "spawn_particle_on_honey_collected";
+    public static final String MAX_PARTICLES_ON_HONEY_COLLECTED = "max_particles_on_honey_collected";
+    public static final String REPLACE_VANILLA_PARTICLES = "replace_vanilla_honey_particles";
     public static final String SPAWN_BLOCK_PARTICLE_ON_PLACE = "spawn_block_particle_on_place";
     public static final String SPAWN_BLOCK_PARTICLE_ON_BREAK = "spawn_block_particle_on_break";
     public static final String SPAWN_FLUID_PARTICLE_ON_PLACE = "spawn_fluid_particle_on_place";
