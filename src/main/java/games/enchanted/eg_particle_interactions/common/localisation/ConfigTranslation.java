@@ -52,6 +52,7 @@ public class ConfigTranslation {
     public static final String PARTICLE_ZFIGHTING_FIX = "particle_zfighting_fix";
     public static final String PROJECTILE_PARTICLE_VELOCITY_FIX = "projectile_particle_velocity_fix";
     public static final String AUTO_COLLAPSE_CONFIG_LISTS = "auto_collapse_config_lists";
+    public static final String FIREFLY_FIXES = "firefly_fixes";
 
     public static final String PARTICLE_PHYSICS_ENABLED = "particle_physics_enabled";
 

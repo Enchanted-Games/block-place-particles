@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.particles;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
 import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
 import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
@@ -31,6 +32,7 @@ public abstract class FireflyParticleMixin extends TextureSheetParticle {
         method = "<init>"
     )
     private void block_place_particle$makeFirefliesNotGetStuckOnStuff(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, CallbackInfo ci) {
+        if(!ConfigHandler.general_fireflyFixes) return;
         ((ParticleAccess) this).eg_particle_interactions$setBypassMovementCollisionCheck(true);
     }
 
@@ -39,6 +41,9 @@ public abstract class FireflyParticleMixin extends TextureSheetParticle {
         method = "tick"
     )
     public boolean block_place_particle$makeFirefliesNotDieInFireflyBushes(BlockState state, Operation<Boolean> original) {
+        if(!ConfigHandler.general_fireflyFixes) {
+            return original.call(state);
+        }
         Supplier<List<BlockOrTagLocation>> fireflyOverrideBlocks = BlockParticleOverrides.FIREFLY.getSupportedBlockResourceLocations_getter();
         Supplier<List<BlockOrTagLocation>> grassBladeOverrideBlocks = BlockParticleOverrides.GRASS_BLADE.getSupportedBlockResourceLocations_getter();
         if(fireflyOverrideBlocks == null || grassBladeOverrideBlocks == null) {

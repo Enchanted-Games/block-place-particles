@@ -21,6 +21,8 @@ public class RegisterTextureAtlases {
         method = "<init>"
     )
     private void eg_particle_interactions$registerTextureAtlases(CallbackInfo ci) {
+        //? if fabric {
         ParticleInteractionsMod.registerAtlases(resourceManager, textureManager);
+        //?}
     }
 }

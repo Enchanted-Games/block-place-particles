@@ -69,6 +69,11 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean general_autoCollapseConfigLists = general_autoCollapseConfigLists_DEFAULT;
 
+    // firefly tweaks
+    public static final boolean general_fireflyFixes_DEFAULT = true;
+    @SerialEntry
+    public static boolean general_fireflyFixes = general_fireflyFixes_DEFAULT;
+
     // - performance
     // interaction render distance
     public static final int general_interactionRenderDistance_DEFAULT = 6;
@@ -490,6 +495,26 @@ public class ConfigHandler {
     );
     @SerialEntry
     public static List<BlockOrTagLocation> chainSnap_Blocks = chainSnap_Blocks_DEFAULT;
+
+    // sugar cane
+    public static final int maxSugarCane_onPlace_DEFAULT = 3;
+    @SerialEntry
+    public static int maxSugarCane_onPlace = maxSugarCane_onPlace_DEFAULT;
+
+    public static final boolean sugarCane_enabled_DEFAULT = true;
+    @SerialEntry
+    public static boolean sugarCane_enabled = sugarCane_enabled_DEFAULT;
+
+    public static final int maxSugarCane_onBreak_DEFAULT = 4;
+    @SerialEntry
+    public static int maxSugarCane_onBreak = maxSugarCane_onBreak_DEFAULT;
+
+    public static final List<BlockOrTagLocation> sugarCane_Blocks_DEFAULT = List.of(
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.SUGAR_CANE),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.MANGROVE_ROOTS)
+    );
+    @SerialEntry
+    public static List<BlockOrTagLocation> sugarCane_Blocks = sugarCane_Blocks_DEFAULT;
 
     // vanilla block particle
     public static final int maxBlock_onPlace_DEFAULT = 2;

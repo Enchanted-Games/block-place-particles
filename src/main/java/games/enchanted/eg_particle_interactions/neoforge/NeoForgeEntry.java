@@ -1,14 +1,16 @@
 //? if neoforge {
 /*package games.enchanted.eg_particle_interactions.neoforge;
 
-import games.enchanted.eg_particle_interactions.common.ModConstants;
-import games.enchanted.eg_particle_interactions.common.ModEntry;
+import games.enchanted.eg_particle_interactions.common.Constants;
+import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.config.ConfigScreen;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
 import games.enchanted.eg_particle_interactions.common.resource.ClientResourceReload;
 import games.enchanted.eg_particle_interactions.neoforge.registry.NeoParticleProviderRegistry;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -30,7 +32,7 @@ public class NeoForgeEntry {
 
     public NeoForgeEntry(IEventBus bus) {
         this.eventBus = bus;
-        ModEntry.startOfModLoading();
+        ParticleInteractionsMod.startOfModLoading();
 
         // register stuff
         bus.addListener((RegisterEvent event) -> {
@@ -41,7 +43,10 @@ public class NeoForgeEntry {
 
         // register client resource reload listener
         bus.addListener((AddClientReloadListenersEvent event) -> {
-            event.addListener(ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "clear_cache_listener"), new SimplePreparableReloadListener<Void>() {
+            ParticleInteractionsMod.createReloadListeners(Minecraft.getInstance().getTextureManager()).forEach(resourceLocationAndListenerPair -> {
+                event.addListener(resourceLocationAndListenerPair.key(), resourceLocationAndListenerPair.value());
+            });
+            event.addListener(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "clear_cache_listener"), new SimplePreparableReloadListener<Void>() {
                 @Override
                 protected @NotNull Void prepare(@NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller) {
                     ClientResourceReload.onReload(resourceManager);
@@ -58,7 +63,7 @@ public class NeoForgeEntry {
         // register config screen
         ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () -> (client, parent) -> ConfigScreen.createConfigScreen(parent));
 
-        ModEntry.endOfModLoading();
+        ParticleInteractionsMod.endOfModLoading();
     }
 }
 *///?}

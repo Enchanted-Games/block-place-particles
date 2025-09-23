@@ -65,6 +65,10 @@ public class ConfigScreen {
                 genericBooleanOption(
                     ConfigTranslation.AUTO_COLLAPSE_CONFIG_LISTS,
                     Binding.generic(ConfigHandler.general_autoCollapseConfigLists_DEFAULT, () -> ConfigHandler.general_autoCollapseConfigLists, newVal -> ConfigHandler.general_autoCollapseConfigLists = newVal)
+                ),
+                genericBooleanOption(
+                    ConfigTranslation.FIREFLY_FIXES,
+                    Binding.generic(ConfigHandler.general_fireflyFixes_DEFAULT, () -> ConfigHandler.general_fireflyFixes, newVal -> ConfigHandler.general_fireflyFixes = newVal)
                 )
             ))
 

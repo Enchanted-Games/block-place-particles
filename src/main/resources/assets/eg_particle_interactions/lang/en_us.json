@@ -140,6 +140,9 @@
   "eg_particle_interactions.config.global_option.auto_collapse_config_lists": "Auto collapse config menu lists",
   "eg_particle_interactions.config.global_option.auto_collapse_config_lists.desc": "Should lists in the config menu be collapsed by default?\n\nEnabling this is useful if your config has very long lists of blocks / fluids / etc.\nThis doesn't take effect until you close and re-open the config menu",
 
+  "eg_particle_interactions.config.global_option.firefly_fixes": "Firefly fixes",
+  "eg_particle_interactions.config.global_option.firefly_fixes.desc": "Fixes some annoying issues with firefly particles when enabled:\n - Fireflies won't die in any block other than air (yes, they die in flowers or grass in vanilla!)\n - Fireflies won't get stuck in place on the floor or underside of blocks (once you notice this, you cant unsee it)",
+
   "eg_particle_interactions.config.general.performance_general": "Performance: General",
   "eg_particle_interactions.config.general.performance_general.desc": "Config options that may have an impact on performance",
   "eg_particle_interactions.config.general.performance_particles": "Performance: Particles",

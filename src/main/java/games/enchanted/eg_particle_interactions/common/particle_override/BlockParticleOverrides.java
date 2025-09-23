@@ -373,6 +373,24 @@ public abstract class BlockParticleOverrides {
         ConfigHandler.maxChainSnap_onBreak_DEFAULT,
         0.22f
     );
+    public static final BlockParticleOverride SUGAR_CANE = new BlockParticleOverride(
+        "sugar_cane",
+        "tinted_or_random_pixel",
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ModParticleTypes.SUGAR_CANE, blockState),
+        () -> ConfigHandler.sugarCane_Blocks,
+        (val) -> ConfigHandler.sugarCane_Blocks = val,
+        ConfigHandler.sugarCane_Blocks_DEFAULT,
+        () -> ConfigHandler.sugarCane_enabled,
+        (val) -> ConfigHandler.sugarCane_enabled = val,
+        ConfigHandler.sugarCane_enabled_DEFAULT,
+        () -> ConfigHandler.maxSugarCane_onPlace,
+        (val) -> ConfigHandler.maxSugarCane_onPlace = val,
+        ConfigHandler.maxSugarCane_onPlace_DEFAULT,
+        () -> ConfigHandler.maxSugarCane_onBreak,
+        (val) -> ConfigHandler.maxSugarCane_onBreak = val,
+        ConfigHandler.maxSugarCane_onBreak_DEFAULT,
+        0.13f
+    );
 
     public static void registerOverrides() {
         BlockParticleOverride.addBlockParticleOverride(SNOW_POWDER);
@@ -392,5 +410,6 @@ public abstract class BlockParticleOverrides {
         BlockParticleOverride.addBlockParticleOverride(REDSTONE_DUST);
         BlockParticleOverride.addBlockParticleOverride(NETHER_PORTAL_SHATTER);
         BlockParticleOverride.addBlockParticleOverride(CHAIN_SNAP);
+        BlockParticleOverride.addBlockParticleOverride(SUGAR_CANE);
     }
 }
