@@ -497,7 +497,7 @@ public class ConfigHandler {
     public static List<BlockOrTagLocation> chainSnap_Blocks = chainSnap_Blocks_DEFAULT;
 
     // sugar cane
-    public static final int maxSugarCane_onPlace_DEFAULT = 3;
+    public static final int maxSugarCane_onPlace_DEFAULT = 2;
     @SerialEntry
     public static int maxSugarCane_onPlace = maxSugarCane_onPlace_DEFAULT;
 
@@ -505,7 +505,7 @@ public class ConfigHandler {
     @SerialEntry
     public static boolean sugarCane_enabled = sugarCane_enabled_DEFAULT;
 
-    public static final int maxSugarCane_onBreak_DEFAULT = 4;
+    public static final int maxSugarCane_onBreak_DEFAULT = 3;
     @SerialEntry
     public static int maxSugarCane_onBreak = maxSugarCane_onBreak_DEFAULT;
 
@@ -579,6 +579,7 @@ public class ConfigHandler {
     public static boolean blockRustle_enabled = blockRustle_enabled_DEFAULT;
 
     public static final List<BlockOrTagLocation> blockRustle_Blocks_DEFAULT = List.of(
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.SUGAR_CANE),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.FIREFLY_BUSH),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.BUSH),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.SHORT_DRY_GRASS),

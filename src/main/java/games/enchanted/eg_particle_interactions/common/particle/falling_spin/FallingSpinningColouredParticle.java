@@ -123,4 +123,22 @@ public class FallingSpinningColouredParticle extends FallingSpinningParticle {
             return particle;
         }
     }
+
+    public static class SugarCaneProvider implements ParticleProvider<BlockParticleOption> {
+        private final SpriteSet spriteSet;
+
+        public SugarCaneProvider(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        @Nullable
+        @Override
+        public Particle createParticle(BlockParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 2.5f);
+            float particleSize = level.random.nextBoolean() ? 0.11F : 0.13F;
+            particle.quadSize = particleSize;
+            particle.setSize(particleSize, particleSize);
+            return particle;
+        }
+    }
 }

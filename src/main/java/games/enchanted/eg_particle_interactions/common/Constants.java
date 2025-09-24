@@ -4,10 +4,11 @@ public class Constants {
     public static final String MOD_NAME = "Particle Interactions";
     public static final String MOD_ID = "eg_particle_interactions";
 
+    public static final String TARGET_PLATFORM =
     //? if fabric {
-    public static final String TARGET_PLATFORM = "fabric";
+        "fabric";
     //?}
     //? if neoforge {
-    /*public static final String TARGET_PLATFORM = "neoforge";
+        /*"neoforge";
     *///?}
 }

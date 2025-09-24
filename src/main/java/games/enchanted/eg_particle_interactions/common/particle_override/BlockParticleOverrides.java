@@ -389,7 +389,7 @@ public abstract class BlockParticleOverrides {
         () -> ConfigHandler.maxSugarCane_onBreak,
         (val) -> ConfigHandler.maxSugarCane_onBreak = val,
         ConfigHandler.maxSugarCane_onBreak_DEFAULT,
-        0.13f
+        0.19f
     );
 
     public static void registerOverrides() {
