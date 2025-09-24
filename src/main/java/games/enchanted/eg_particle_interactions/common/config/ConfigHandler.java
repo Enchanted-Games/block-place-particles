@@ -511,6 +511,7 @@ public class ConfigHandler {
 
     public static final List<BlockOrTagLocation> sugarCane_Blocks_DEFAULT = List.of(
         RegistryHelpers.getBlockLocationFromBlock(Blocks.SUGAR_CANE),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.BAMBOO),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.MANGROVE_ROOTS)
     );
     @SerialEntry
