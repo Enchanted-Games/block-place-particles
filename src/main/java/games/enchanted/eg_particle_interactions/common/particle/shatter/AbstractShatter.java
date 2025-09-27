@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.particle.shatter;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleRenderTypes;
+import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import games.enchanted.eg_particle_interactions.common.util.render.RenderingUtil;
 import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
@@ -18,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 
-public abstract class AbstractShatter extends Particle {
+public abstract class AbstractShatter extends CustomGeometryParticle {
     protected final float slice0X;
     protected final float slice0Y;
     protected final float slice1X;
@@ -26,12 +27,9 @@ public abstract class AbstractShatter extends Particle {
     protected final float uvScale;
     protected final float uvOffset;
     protected final boolean inverseSlicePositions;
-    protected TextureAtlasSprite sprite;
 
     protected AbstractShatter(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed);
-
-        this.sprite = TextureHelpers.getDebugSprite();
+        super(level, x, y, z, xSpeed, ySpeed, zSpeed, TextureHelpers.getDebugSprite());
 
         int spriteWidth = this.sprite.contents().width();
         int randomSize = MathHelpers.randomBetween(3,5);
@@ -114,16 +112,17 @@ public abstract class AbstractShatter extends Particle {
         }
     }
 
-    @Override
-    public void render(@NotNull VertexConsumer vertexConsumer, @NotNull Camera camera, float partialTicks) {
-        this.renderTick(partialTicks);
-        Quaternionf quaternionf = new Quaternionf();
-        this.getFacingMode(this.getParticleFacingDirection()).setRotation(quaternionf, camera, partialTicks);
-        if (this.roll != 0.0F) {
-            quaternionf.rotateZ(Mth.lerp(partialTicks, this.oRoll, this.roll));
-        }
-        this.renderQuads(vertexConsumer, camera, quaternionf, partialTicks);
-    };
+    // TODO: Rendering
+//    @Override
+//    public void render(@NotNull VertexConsumer vertexConsumer, @NotNull Camera camera, float partialTicks) {
+//        this.renderTick(partialTicks);
+//        Quaternionf quaternionf = new Quaternionf();
+//        this.getFacingMode(this.getParticleFacingDirection()).setRotation(quaternionf, camera, partialTicks);
+//        if (this.roll != 0.0F) {
+//            quaternionf.rotateZ(Mth.lerp(partialTicks, this.oRoll, this.roll));
+//        }
+//        this.renderQuads(vertexConsumer, camera, quaternionf, partialTicks);
+//    };
 
     protected void renderQuads(VertexConsumer buffer, Camera camera, Quaternionf quaternion, float partialTicks) {
         Vec3 cameraPosition = camera.getPosition();
@@ -183,11 +182,11 @@ public abstract class AbstractShatter extends Particle {
     protected void renderVertex(VertexConsumer buffer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float u, float v, int packedLight, float scale) {
         xOffset -= 0.5f;
         yOffset -= 0.5f;
-        RenderingUtil.addVertexToConsumer(buffer, quaternion, x, y, z, xOffset, yOffset, scale, u, v, packedLight, this.rCol, this.gCol, this.bCol, this.alpha);
+//        RenderingUtil.addVertexToConsumer(buffer, quaternion, x, y, z, xOffset, yOffset, scale, u, v, packedLight, this.rCol, this.gCol, this.bCol, this.alpha);
     }
 
     @Override
-    public @NotNull ParticleRenderType getRenderType() {
-        return ModParticleRenderTypes.BACKFACE_TERRAIN_PARTICLE;
+    protected ParticleLayer getParticleLayer() {
+        return ParticleLayer.BACKFACE_TERRAIN;
     }
 }

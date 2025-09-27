@@ -63,6 +63,7 @@ public class SparkFlash extends CustomGeometryParticle {
         return 240;
     }
 
+// TODO: rendering
 //    @Override
 //    public void render(@NotNull VertexConsumer buffer, @NotNull Camera renderInfo, float partialTicks) {
 //        this.quadSize = this.originalQuadSize * (0.5f + (Math.abs(1 - Mth.lerp(partialTicks, this.prevAge, this.age) / this.lifetime) * 0.5f));

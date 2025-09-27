@@ -51,7 +51,7 @@ public abstract class AbstractMinecartMixin extends VehicleEntity {
         method = "tick"
     )
     protected void spawnSparksWhileMovingOnRails(CallbackInfo ci) {
-        if (block_place_particle$shouldSpawnSparks() && this.level().isClientSide) {
+        if (block_place_particle$shouldSpawnSparks() && this.level().isClientSide()) {
             float horizontalRot = this.getYRot();
             float verticalRot = this.getXRot();
 

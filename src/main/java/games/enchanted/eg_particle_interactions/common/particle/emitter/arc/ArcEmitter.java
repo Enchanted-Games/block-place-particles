@@ -7,6 +7,7 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,9 +24,20 @@ public class ArcEmitter extends AbstractArcEmitter {
     public static class Provider implements ParticleProvider<ArcEmitterOptions> {
         public Provider(SpriteSet spriteSet) {}
 
-        @Nullable
         @Override
-        public Particle createParticle(@NotNull ArcEmitterOptions options, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public @Nullable Particle createParticle(
+            ArcEmitterOptions options,
+            ClientLevel level,
+            double x,
+            double y,
+            double z,
+            double xSpeed,
+            double ySpeed,
+            double zSpeed
+            //? if minecraft: > 1.21.8 {
+            , RandomSource random
+            //?}
+        ) {
             return new ArcEmitter(level, x, y, z, options);
         }
     }

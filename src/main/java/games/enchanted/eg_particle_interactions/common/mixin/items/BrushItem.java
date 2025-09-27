@@ -26,7 +26,7 @@ public abstract class BrushItem {
         cancellable = true
     )
     private void disableOrReplaceDustParticles(Level level, BlockHitResult hitResult, BlockState blockState, Vec3 pos, HumanoidArm arm, CallbackInfo ci, @Local(ordinal = 0) net.minecraft.world.item.BrushItem.DustParticlesDelta particlesDelta, @Local(ordinal = 0) int armDirection, @Local(ordinal = 1) int amountOfParticles) {
-        if(!level.isClientSide) return;
+        if(!level.isClientSide()) return;
         if(ConfigHandler.brushParticleBehaviour == BrushParticleBehaviour.DISABLED) {
             ci.cancel();
             return;

@@ -77,12 +77,12 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
     }
 
     @Override
-    public boolean charTyped(char chr, int modifiers) {
+    public boolean onCharTyped(char chr, String cpStr, int modifiers) {
         if(this.dropdownWidget != null) {
             ((DropdownWidgetAccessor) this.dropdownWidget).block_place_particle$setFirstVisibleIndex(0);
             this.dropdownWidget.scrollUp();
         }
-        return super.charTyped(chr, modifiers);
+        return super.onCharTyped(chr, cpStr, modifiers);
     }
 
     @Override
@@ -106,8 +106,8 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        return super.mouseClicked(mouseX + this.getDecorationPadding(), mouseY, button);
+    public boolean onMouseClicked(double mouseX, double mouseY, int button) {
+        return super.onMouseClicked(mouseX + this.getDecorationPadding(), mouseY, button);
     }
 
     public void setLastSelectedDropdownIndex(int index) {

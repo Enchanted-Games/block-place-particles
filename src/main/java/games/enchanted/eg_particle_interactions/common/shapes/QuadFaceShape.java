@@ -58,7 +58,10 @@ public class QuadFaceShape {
     }
 
     protected void renderVertex(VertexConsumer vertexConsumer, Vector3d vertexPos, float u, float v, int lightColor, int[] argb) {
-        RenderingUtil.addVertexToConsumer(vertexConsumer, (float) vertexPos.x, (float) vertexPos.y, (float) vertexPos.z, 0, 0, 1, u, v, lightColor, argb[1] / 255f, argb[2] / 255f, argb[3] / 255f, argb[0] / 255f);
+        //? if minecraft: <= 1.21.8 {
+        /*RenderingUtil.addVertexToConsumer(vertexConsumer, (float) vertexPos.x, (float) vertexPos.y, (float) vertexPos.z, 0, 0, 1, u, v, lightColor, argb[1] / 255f, argb[2] / 255f, argb[3] / 255f, argb[0] / 255f);
+        *///?}
+        // TODO: Rendering
     }
 
     /**
