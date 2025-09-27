@@ -265,7 +265,7 @@ val apis = arrayListOf(
 
     APISource(
         DepType.IMPL_YACL_HACK,
-        APIModInfo("yet_another_config_lib_v3"),
+        APIModInfo("yet_another_config_lib_v3", "yacl"),
         "dev.isxander:yet-another-config-lib",
         optionalVersionProperty("deps.api.yacl"),
         { src ->
@@ -693,33 +693,33 @@ publishMods {
         }
     }
 
-//    curseforge {
-//        projectId = modPublish.curseforgeProjectToken
-//        // Get one here: https://legacy.curseforge.com/account/api-tokens
-//        accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
-//        minecraftVersions.addAll(modPublish.mcTargets)
-//        apis.forEach{ src ->
-//            if(src.enabled) src.versionRange.ifPresent{ ver ->
-//                if(src.type.isOptional()){
-//                    src.modInfo.curseSlug?.let {
-//                        optional {
-//                            slug = it
-//                            version = ver.min
-//
-//                        }
-//                    }
-//                }
-//                else{
-//                    src.modInfo.curseSlug?.let {
-//                        requires {
-//                            slug = it
-//                            version = ver.min
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
+    curseforge {
+        projectId = modPublish.curseforgeProjectToken
+        // Get one here: https://legacy.curseforge.com/account/api-tokens
+        accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+        minecraftVersions.addAll(modPublish.mcTargets)
+        apis.forEach{ src ->
+            if(src.enabled) src.versionRange.ifPresent{ ver ->
+                if(src.type.isOptional()){
+                    src.modInfo.curseSlug?.let {
+                        optional {
+                            slug = it
+                            version = ver.min
+
+                        }
+                    }
+                }
+                else{
+                    src.modInfo.curseSlug?.let {
+                        requires {
+                            slug = it
+                            version = ver.min
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 // TODO Disable if not uploading to a maven
 /*publishing {
