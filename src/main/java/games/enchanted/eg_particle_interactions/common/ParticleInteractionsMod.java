@@ -38,7 +38,11 @@ public class ParticleInteractionsMod {
     }
 
     public static List<Pair<ResourceLocation, PreparableReloadListener>> createReloadListeners(TextureManager textureManager) {
-        particlePaletteAtlas = new ParticlePaletteAtlasManager(textureManager);
+        //? if minecraft: <= 1.21.8 {
+        /*particlePaletteAtlas = new ParticlePaletteAtlasManager(textureManager);
         return List.of(Pair.of(ParticlePaletteAtlasManager.ATLAS_LOCATION, particlePaletteAtlas));
+        *///?} else {
+        return List.of();
+        //?}
     }
 }

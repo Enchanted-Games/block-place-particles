@@ -1,17 +1,18 @@
 package games.enchanted.eg_particle_interactions.common.particle.splash;
 
+import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
+import games.enchanted.eg_particle_interactions.common.particle.option.DripParticleOption;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class BucketSplash extends TextureSheetParticle {
-    protected BucketSplash(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, @Nullable SpriteSet spriteSet) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed);
-        if(spriteSet != null) {
-            this.setSprite(spriteSet.get(this.random.nextInt(12), 12));
-        }
+public class BucketSplash extends CustomGeometryParticle {
+    protected BucketSplash(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, TextureAtlasSprite sprite) {
+        super(level, x, y, z, xSpeed, ySpeed, zSpeed, sprite);
 
         this.gravity = 0.95F;
         this.friction = 0.999F;
@@ -38,8 +39,8 @@ public class BucketSplash extends TextureSheetParticle {
     }
 
     @Override
-    public @NotNull ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+    protected ParticleLayer getParticleLayer() {
+        return ParticleLayer.TRANSLUCENT;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
@@ -49,10 +50,21 @@ public class BucketSplash extends TextureSheetParticle {
             this.spriteSet = spriteSet;
         }
 
-        @Nullable
         @Override
-        public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new BucketSplash(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
+        public @Nullable Particle createParticle(
+            SimpleParticleType options,
+            ClientLevel level,
+            double x,
+            double y,
+            double z,
+            double xSpeed,
+            double ySpeed,
+            double zSpeed
+            //? if minecraft: > 1.21.8 {
+            , RandomSource random
+            //?}
+        ) {
+            return new BucketSplash(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet.get(random));
         }
     }
 }

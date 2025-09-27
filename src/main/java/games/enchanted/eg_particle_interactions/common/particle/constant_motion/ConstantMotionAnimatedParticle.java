@@ -1,29 +1,27 @@
 package games.enchanted.eg_particle_interactions.common.particle.constant_motion;
 
+import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.TextureSheetParticle;
-import org.jetbrains.annotations.NotNull;
 
-public class ConstantMotionAnimatedParticle extends TextureSheetParticle {
+public class ConstantMotionAnimatedParticle extends CustomGeometryParticle {
     SpriteSet sprites;
-    boolean transparency = false;
+    boolean translucent;
 
-    protected ConstantMotionAnimatedParticle(ClientLevel level, double x, double y, double z, SpriteSet spriteSet, int lifetime, float quadSize, boolean transparency) {
-        super(level, x, y, z);
+    protected ConstantMotionAnimatedParticle(ClientLevel level, double x, double y, double z, SpriteSet spriteSet, int lifetime, float quadSize, boolean translucent) {
+        super(level, x, y, z, spriteSet.get(level.random));
         this.sprites = spriteSet;
         this.setSpriteFromAge(sprites);
         this.xd = 0;
         this.yd = 0;
         this.zd = 0;
 
-        this.transparency = transparency;
+        this.translucent = translucent;
         this.lifetime = lifetime;
         this.quadSize = quadSize;
     }
-    protected ConstantMotionAnimatedParticle(ClientLevel level, double x, double y, double z, double constantXSpeed, double constantYSpeed, double constantZSpeed, SpriteSet spriteSet, int lifetime, float quadSize, boolean transparency) {
-        this(level, x, y, z, spriteSet, lifetime, quadSize, transparency);
+    protected ConstantMotionAnimatedParticle(ClientLevel level, double x, double y, double z, double constantXSpeed, double constantYSpeed, double constantZSpeed, SpriteSet spriteSet, int lifetime, float quadSize, boolean translucent) {
+        this(level, x, y, z, spriteSet, lifetime, quadSize, translucent);
         this.xd = constantXSpeed;
         this.yd = constantYSpeed;
         this.zd = constantZSpeed;
@@ -45,7 +43,7 @@ public class ConstantMotionAnimatedParticle extends TextureSheetParticle {
     }
 
     @Override
-    public @NotNull ParticleRenderType getRenderType() {
-        return this.transparency ? ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT : ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+    protected ParticleLayer getParticleLayer() {
+        return this.translucent ? ParticleLayer.TRANSLUCENT : ParticleLayer.OPAQUE;
     }
 }

@@ -7,6 +7,7 @@ import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.joml.*;
@@ -37,8 +38,8 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
      * @param ySpeed y velocity
      * @param zSpeed z velocity
      */
-    protected StretchyBouncyShapeParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed);
+    protected StretchyBouncyShapeParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, TextureAtlasSprite sprite) {
+        super(level, x, y, z, xSpeed, ySpeed, zSpeed, sprite);
         this.prevPrevX = this.xo;
         this.prevPrevY = this.yo;
         this.prevPrevZ = this.zo;
@@ -75,21 +76,21 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
         return (quaternionf, camera, d) -> quaternionf.set(0.0f, 0.0f, 0.0f, camera.rotation().w);
     }
 
-    @Override
-    protected void renderRotatedQuad(@NotNull VertexConsumer consumer, @NotNull Camera camera, @NotNull Quaternionf quaternionf, float d) {
-        Vector3f cameraPosition = camera.getPosition().toVector3f();
-
-        float xPos = (float) Mth.lerp(d, this.xo, this.x);
-        float yPos = (float) Mth.lerp(d, this.yo, this.y);
-        float zPos = (float) Mth.lerp(d, this.zo, this.z);
-        Vector3f pos = new Vector3f(xPos, yPos, zPos).sub(cameraPosition);
-        float prevXPos = (float) Mth.lerp(d, this.prevPrevX, this.xo);
-        float prevYPos = (float) Mth.lerp(d, this.prevPrevY, this.yo);
-        float prevZPos = (float) Mth.lerp(d, this.prevPrevZ, this.zo);
-        Vector3f prevPos = new Vector3f(prevXPos, prevYPos, prevZPos).sub(cameraPosition);
-
-        this.renderCubeGeometry(consumer, pos, prevPos, d);
-    }
+//    @Override
+//    protected void renderRotatedQuad(@NotNull VertexConsumer consumer, @NotNull Camera camera, @NotNull Quaternionf quaternionf, float d) {
+//        Vector3f cameraPosition = camera.getPosition().toVector3f();
+//
+//        float xPos = (float) Mth.lerp(d, this.xo, this.x);
+//        float yPos = (float) Mth.lerp(d, this.yo, this.y);
+//        float zPos = (float) Mth.lerp(d, this.zo, this.z);
+//        Vector3f pos = new Vector3f(xPos, yPos, zPos).sub(cameraPosition);
+//        float prevXPos = (float) Mth.lerp(d, this.prevPrevX, this.xo);
+//        float prevYPos = (float) Mth.lerp(d, this.prevPrevY, this.yo);
+//        float prevZPos = (float) Mth.lerp(d, this.prevPrevZ, this.zo);
+//        Vector3f prevPos = new Vector3f(prevXPos, prevYPos, prevZPos).sub(cameraPosition);
+//
+//        this.renderCubeGeometry(consumer, pos, prevPos, d);
+//    }
 
     private void renderCubeGeometry(@NotNull VertexConsumer consumer, Vector3f pos, Vector3f prevPos, float d) {
         float cuboidSize = this.getQuadSize(d);

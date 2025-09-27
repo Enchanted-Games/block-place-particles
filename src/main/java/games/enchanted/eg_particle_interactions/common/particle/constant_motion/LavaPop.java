@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common.particle.constant_motion
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
-import games.enchanted.eg_particle_interactions.common.util.RenderingUtil;
+import games.enchanted.eg_particle_interactions.common.util.render.RenderingUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;

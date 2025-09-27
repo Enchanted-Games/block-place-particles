@@ -3,11 +3,15 @@ package games.enchanted.eg_particle_interactions.common.mixin.particles;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import games.enchanted.eg_particle_interactions.common.particle.ModParticleRenderTypes;
+import games.enchanted.eg_particle_interactions.common.particle_group.CustomGeometryParticleGroup;
 import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverride;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.client.particle.ParticleGroup;
+import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -25,6 +29,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(value = ParticleEngine.class, priority = 3000)
@@ -158,4 +163,17 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
         }
         ci.cancel();
     }
+
+    //? if minecraft: > 1.21.8 {
+    @Inject(
+        at = @At("HEAD"),
+        method = "createParticleGroup",
+        cancellable = true
+    )
+    private void block_place_particle$createCustomParticleGroup(ParticleRenderType particleRenderType, CallbackInfoReturnable<ParticleGroup<?>> cir) {
+        if(particleRenderType == ModParticleRenderTypes.CUSTOM_GEOMETRY) {
+            cir.setReturnValue(new CustomGeometryParticleGroup((ParticleEngine) (Object) this));
+        }
+    }
+    //?}
 }

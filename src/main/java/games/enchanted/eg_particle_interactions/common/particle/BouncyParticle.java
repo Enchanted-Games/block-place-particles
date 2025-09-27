@@ -1,8 +1,9 @@
 package games.enchanted.eg_particle_interactions.common.particle;
 
 import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
+import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
@@ -11,7 +12,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-public abstract class BouncyParticle extends TextureSheetParticle {
+public abstract class BouncyParticle extends CustomGeometryParticle {
     protected boolean physics_canBounce = true;
     /**
      * How bouncy this particle is. 0 is no bouncing at all, 1 is full bouncing
@@ -36,8 +37,8 @@ public abstract class BouncyParticle extends TextureSheetParticle {
      * @param ySpeed y velocity
      * @param zSpeed z velocity
      */
-    protected BouncyParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed);
+    protected BouncyParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, TextureAtlasSprite sprite) {
+        super(level, x, y, z, xSpeed, ySpeed, zSpeed, sprite);
     }
 
     protected float getTotalVelocity() {

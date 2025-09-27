@@ -5,7 +5,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
@@ -14,17 +13,35 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+//? if minecraft: <= 1.21.8 {
+/*import net.minecraft.client.particle.TextureSheetParticle;
+ *///?} else {
+import net.minecraft.client.particle.SingleQuadParticle;
+//?}
+
 @Mixin(net.minecraft.client.particle.TerrainParticle.class)
-public abstract class TerrainParticle extends TextureSheetParticle {
+public abstract class TerrainParticle
+    //? if minecraft: <= 1.21.8 {
+    /*extends TextureSheetParticle
+    *///?} else {
+    extends SingleQuadParticle
+    //?}
+{
     @Unique private static final float MIN_UV = 0.0000001f;
     @Unique private float block_place_particle$quadSizePixels = 1;
 
     @Mutable @Shadow @Final private float uo;
     @Mutable @Shadow @Final private float vo;
 
-    protected TerrainParticle(ClientLevel level, double x, double y, double z) {
+    //? if minecraft: <=1.21.8 {
+    /*protected TerrainParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
     }
+    *///?} else {
+    protected TerrainParticle(ClientLevel level, double x, double y, double z, TextureAtlasSprite sprite) {
+        super(level, x, y, z, sprite);
+    }
+    //?}
 
     @Unique
     private void block_place_particle$recalculatePixelQuadSizes() {

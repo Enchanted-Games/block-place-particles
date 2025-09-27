@@ -3,7 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.shatter;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
-import games.enchanted.eg_particle_interactions.common.util.RenderingUtil;
+import games.enchanted.eg_particle_interactions.common.util.render.RenderingUtil;
 import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -17,7 +17,6 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
-import org.joml.Vector3f;
 
 public abstract class AbstractShatter extends Particle {
     protected final float slice0X;

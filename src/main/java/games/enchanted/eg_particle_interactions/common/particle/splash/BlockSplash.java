@@ -9,6 +9,8 @@ import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,8 +21,7 @@ public class BlockSplash extends BucketSplash {
     private final float vo;
 
     protected BlockSplash(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, null);
-        this.setSprite(Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(blockState));
+        super(level, x, y, z, xSpeed, ySpeed, zSpeed, Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(blockState));
         this.pos = blockPos;
         this.uo = this.random.nextFloat() * 3.0F;
         this.vo = this.random.nextFloat() * 3.0F;
@@ -36,8 +37,8 @@ public class BlockSplash extends BucketSplash {
     }
 
     @Override
-    public @NotNull ParticleRenderType getRenderType() {
-        return ParticleRenderType.TERRAIN_SHEET;
+    protected ParticleLayer getParticleLayer() {
+        return ParticleLayer.TERRAIN;
     }
 
     @Override
@@ -69,9 +70,20 @@ public class BlockSplash extends BucketSplash {
     public static class Provider implements ParticleProvider<BlockParticleOption> {
         public Provider(SpriteSet spriteSet) {}
 
-        @Nullable
         @Override
-        public Particle createParticle(BlockParticleOption type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public @Nullable Particle createParticle(
+            BlockParticleOption type,
+            ClientLevel level,
+            double x,
+            double y,
+            double z,
+            double xSpeed,
+            double ySpeed,
+            double zSpeed
+            //? if minecraft: > 1.21.8 {
+            , RandomSource random
+            //?}
+        ) {
             return new BlockSplash(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState());
         }
     }

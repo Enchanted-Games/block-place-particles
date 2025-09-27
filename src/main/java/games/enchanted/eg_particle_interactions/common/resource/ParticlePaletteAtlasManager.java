@@ -3,37 +3,53 @@ package games.enchanted.eg_particle_interactions.common.resource;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.Constants;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.resources.TextureAtlasHolder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.metadata.MetadataSectionType;
 
+//? if minecraft: <= 1.21.8 {
+/*eimport net.minecraft.client.resources.TextureAtlasHolder;
+ *///?}
+
 import java.util.Set;
 
-public class ParticlePaletteAtlasManager extends TextureAtlasHolder {
-    public static final String ATLAS_ID = "particle_palettes";
-    public static final ResourceLocation ATLAS_LOCATION = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/atlas/" + ATLAS_ID);
+public class ParticlePaletteAtlasManager
+    //? if minecraft: <= 1.21.8 {
+    /*extends TextureAtlasHolder
+    *///?}
+{
+    private static final String ID = "particle_palettes";
+    public static final ResourceLocation ATLAS_LOCATION = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/atlas/" + ID);
+    public static final ResourceLocation ATLAS_ID = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, ID);
+    public static final Set<MetadataSectionType<?>> METADATA_SECTIONS = Set.of(ParticlePaletteSettingsMetadataSection.TYPE);
 
     public ParticlePaletteAtlasManager(TextureManager textureManager) {
-        super(
+        //? if minecraft: <= 1.21.8 {
+        /*super(
             textureManager,
-            ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/atlas/" + ATLAS_ID),
-            ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, ATLAS_ID),
-            Set.of(ParticlePaletteSettingsMetadataSection.TYPE)
+            ATLAS_LOCATION,
+            ATLAS_ID,
+            METADATA_SECTIONS
         );
+        *///?}
     }
 
     public TextureAtlasSprite get(ResourceLocation location) {
-        return this.getSprite(location);
-    }
-
-    public ParticlePaletteSettingsMetadataSection getMetadata(ResourceLocation location) {
-        return getMetadataFromSprite(this.get(location));
+        //? if minecraft: <= 1.21.8 {
+        /*return this.getSprite(location);
+        *///?} else {
+        return Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(ATLAS_ID).getSprite(location);
+        //?}
     }
 
     public static ParticlePaletteSettingsMetadataSection getMetadataFromSprite(TextureAtlasSprite sprite) {
-        return sprite.contents().metadata().getSection(ParticlePaletteSettingsMetadataSection.TYPE).orElse(ParticlePaletteSettingsMetadataSection.DEFAULT);
+        //? if minecraft: <= 1.21.8 {
+        /*return sprite.contents().metadata().getSection(ParticlePaletteSettingsMetadataSection.TYPE).orElse(ParticlePaletteSettingsMetadataSection.DEFAULT);
+        *///?} else {
+        return sprite.contents().getAdditionalMetadata(ParticlePaletteSettingsMetadataSection.TYPE).orElse(ParticlePaletteSettingsMetadataSection.DEFAULT);
+        //?}
     }
 
     public record ParticlePaletteSettingsMetadataSection(boolean useBiomeTint) {

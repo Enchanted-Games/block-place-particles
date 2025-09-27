@@ -10,7 +10,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class TextureHelpers {
     public static @NotNull TextureAtlas getTextureAtlas(ResourceLocation atlasLocation) {
-        return Minecraft.getInstance().getModelManager().getAtlas(atlasLocation);
+        return Minecraft.getInstance()
+            //? if minecraft: <= 1.21.8 {
+            /*.getModelManager().getAtlas(atlasLocation);
+            *///?} else {
+            .getAtlasManager().getAtlasOrThrow(atlasLocation);
+            //?}
     }
 
     public static TextureAtlasSprite getSpriteFromBlockAtlas(ResourceLocation location) {

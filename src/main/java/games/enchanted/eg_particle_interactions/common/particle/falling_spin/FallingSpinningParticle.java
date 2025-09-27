@@ -2,23 +2,24 @@ package games.enchanted.eg_particle_interactions.common.particle.falling_spin;
 
 import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
 import games.enchanted.eg_particle_interactions.common.mixin.accessor.client.ParticleAccessor;
+import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class FallingSpinningParticle extends TextureSheetParticle {
+public class FallingSpinningParticle extends CustomGeometryParticle {
     private float rotSpeed;
     protected float spinAcceleration;
     protected float maxSpinSpeed = 1f;
     private boolean transparency;
 
     protected FallingSpinningParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, float gravityMultiplier) {
-        super(level, x, y, z);
-        this.setSprite(spriteSet.get(this.random));
+        super(level, x, y, z, spriteSet.get(level.random));
         this.gravity = Mth.randomBetween(this.random, 0.25F, 0.38F);;
         this.friction = 1.0F;
         this.xd = xSpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
@@ -66,8 +67,8 @@ public class FallingSpinningParticle extends TextureSheetParticle {
     }
 
     @Override
-    public @NotNull ParticleRenderType getRenderType() {
-        return this.transparency ? ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT : ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+    protected ParticleLayer getParticleLayer() {
+        return this.transparency ? ParticleLayer.TRANSLUCENT : ParticleLayer.OPAQUE;
     }
 
     public static class GenericLeafProvider implements ParticleProvider<SimpleParticleType> {
@@ -77,9 +78,20 @@ public class FallingSpinningParticle extends TextureSheetParticle {
             this.spriteSet = spriteSet;
         }
 
-        @Nullable
         @Override
-        public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public @Nullable Particle createParticle(
+            SimpleParticleType options,
+            ClientLevel level,
+            double x,
+            double y,
+            double z,
+            double xSpeed,
+            double ySpeed,
+            double zSpeed
+            //? if minecraft: > 1.21.8 {
+            , RandomSource random
+            //?}
+        ) {
             return new FallingSpinningParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, 1);
         }
     }
@@ -91,9 +103,20 @@ public class FallingSpinningParticle extends TextureSheetParticle {
             this.spriteSet = spriteSet;
         }
 
-        @Nullable
         @Override
-        public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public @Nullable Particle createParticle(
+            SimpleParticleType options,
+            ClientLevel level,
+            double x,
+            double y,
+            double z,
+            double xSpeed,
+            double ySpeed,
+            double zSpeed
+            //? if minecraft: > 1.21.8 {
+            , RandomSource random
+            //?}
+        ) {
             FallingSpinningParticle particle = new FallingSpinningParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, 0.4f, true);
             float particleSize = level.random.nextBoolean() ? 0.10F : 0.12F;
             particle.quadSize = particleSize;
@@ -113,9 +136,20 @@ public class FallingSpinningParticle extends TextureSheetParticle {
             this.spriteSet = spriteSet;
         }
 
-        @Nullable
         @Override
-        public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public @Nullable Particle createParticle(
+            SimpleParticleType options,
+            ClientLevel level,
+            double x,
+            double y,
+            double z,
+            double xSpeed,
+            double ySpeed,
+            double zSpeed
+            //? if minecraft: > 1.21.8 {
+            , RandomSource random
+            //?}
+        ) {
             FallingSpinningParticle particle = new FallingSpinningParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, 2f);
             float particleSize = MathHelpers.randomBetween(0.08f, 0.12f);
             particle.quadSize = particleSize;
@@ -131,9 +165,20 @@ public class FallingSpinningParticle extends TextureSheetParticle {
             this.spriteSet = spriteSet;
         }
 
-        @Nullable
         @Override
-        public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public @Nullable Particle createParticle(
+            SimpleParticleType options,
+            ClientLevel level,
+            double x,
+            double y,
+            double z,
+            double xSpeed,
+            double ySpeed,
+            double zSpeed
+            //? if minecraft: > 1.21.8 {
+            , RandomSource random
+            //?}
+        ) {
             FallingSpinningParticle particle = new FallingSpinningParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, 0.6f);
             float particleSize = level.random.nextBoolean() ? 0.1f : 0.15f;
             particle.quadSize = particleSize;

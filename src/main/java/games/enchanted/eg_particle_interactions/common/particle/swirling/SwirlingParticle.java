@@ -1,15 +1,15 @@
 package games.enchanted.eg_particle_interactions.common.particle.swirling;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
+import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.TextureSheetParticle;
 import org.jetbrains.annotations.NotNull;
 
-public class SwirlingParticle extends TextureSheetParticle {
+public class SwirlingParticle extends CustomGeometryParticle {
     protected float rotSpeed;
     protected float spinAcceleration;
     protected double swirlPeriod;
@@ -17,7 +17,7 @@ public class SwirlingParticle extends TextureSheetParticle {
     protected final boolean shouldSwirl;
 
     protected SwirlingParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, boolean shouldSwirl) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed);
+        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet.get(level.random));
         this.xd = xSpeed;
         this.yd = ySpeed;
         this.zd = zSpeed;
@@ -41,11 +41,6 @@ public class SwirlingParticle extends TextureSheetParticle {
         this.zd = zSpeed + ((level.random.nextFloat() * variance) - (variance / 2));
     }
 
-    @Override
-    public @NotNull ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
-    }
-
     public void applyGravity() {
         this.yd -= (0.04f * this.gravity);
     }
@@ -53,10 +48,23 @@ public class SwirlingParticle extends TextureSheetParticle {
     protected void renderTick(float partialTicks) {}
 
     @Override
+    protected ParticleLayer getParticleLayer() {
+        return ParticleLayer.OPAQUE;
+    }
+
+    //? if minecraft: <= 1.21.8 {
+    /*@Override
     public void render(@NotNull VertexConsumer buffer, @NotNull Camera renderInfo, float partialTicks) {
         this.renderTick(partialTicks);
         super.render(buffer, renderInfo, partialTicks);
     }
+    *///?} else {
+    @Override
+    public void extract(@NotNull CustomParticleGeometryRenderState state, @NotNull Camera renderInfo, float partialTicks) {
+        this.renderTick(partialTicks);
+        super.extract(state, renderInfo, partialTicks);
+    }
+    //?}
 
     @Override
     public void tick() {

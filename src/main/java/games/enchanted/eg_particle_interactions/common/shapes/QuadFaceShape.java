@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common.shapes;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
-import games.enchanted.eg_particle_interactions.common.util.RenderingUtil;
+import games.enchanted.eg_particle_interactions.common.util.render.RenderingUtil;
 import org.joml.*;
 
 import java.lang.Math;

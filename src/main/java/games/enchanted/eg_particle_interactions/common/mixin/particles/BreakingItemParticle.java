@@ -5,17 +5,26 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.TextureSheetParticle;
-import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+//? if minecraft: <= 1.21.8 {
+/*import net.minecraft.client.particle.TextureSheetParticle;
+ *///?} else {
+import net.minecraft.client.particle.SingleQuadParticle;
+//?}
+
 @Mixin(net.minecraft.client.particle.BreakingItemParticle.class)
-public abstract class BreakingItemParticle extends TextureSheetParticle {
+public abstract class BreakingItemParticle
+    //? if minecraft: <= 1.21.8 {
+    /*extends TextureSheetParticle
+     *///?} else {
+    extends SingleQuadParticle
+    //?}
+{
     @Unique private static final float MIN_UV = 0.0000001f;
     @Unique private float block_place_particle$quadSizePixels = 1;
 
@@ -23,9 +32,15 @@ public abstract class BreakingItemParticle extends TextureSheetParticle {
     @Shadow @Final private float uo;
     @Mutable @Shadow @Final private float vo;
 
-    protected BreakingItemParticle(ClientLevel level, double x, double y, double z) {
+    //? if minecraft: <=1.21.8 {
+    /*protected BreakingItemParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
     }
+    *///?} else {
+    protected BreakingItemParticle(ClientLevel level, double x, double y, double z, TextureAtlasSprite sprite) {
+        super(level, x, y, z, sprite);
+    }
+    //?}
 
     @Unique
     private void block_place_particle$recalculatePixelQuadSizes() {
@@ -38,11 +53,19 @@ public abstract class BreakingItemParticle extends TextureSheetParticle {
         if(this.vo + this.block_place_particle$quadSizePixels > 1) this.vo = 1 - this.block_place_particle$quadSizePixels;
     }
 
-    @Inject(
+    //? if minecraft: <= 1.21.8 {
+    /*@Inject(
         at = @At("TAIL"),
         method = "<init>(Lnet/minecraft/client/multiplayer/ClientLevel;DDDDDDLnet/minecraft/client/renderer/item/ItemStackRenderState;)V"
     )
-    protected void terrainParticleInit(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, ItemStackRenderState stackRenderState, CallbackInfo ci) {
+    protected void block_place_particle$terrainParticleInit(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, ItemStackRenderState stackRenderState, CallbackInfo ci) {
+    *///?} else {
+    @Inject(
+        at = @At("TAIL"),
+        method = "<init>(Lnet/minecraft/client/multiplayer/ClientLevel;DDDLnet/minecraft/client/renderer/texture/TextureAtlasSprite;)V"
+    )
+    //?}
+    protected void block_place_particle$terrainParticleInit(ClientLevel level, double x, double y, double z, TextureAtlasSprite textureAtlasSprite, CallbackInfo ci) {
         if(ConfigHandler.general_pixelConsistentTerrainParticles) {
             this.uo = (float) MathHelpers.randomBetween(0, this.sprite.contents().width()) / this.sprite.contents().width();
             this.vo = (float) MathHelpers.randomBetween(0, this.sprite.contents().height()) / this.sprite.contents().height();

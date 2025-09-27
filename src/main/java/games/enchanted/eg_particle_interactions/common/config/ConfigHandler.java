@@ -492,7 +492,18 @@ public class ConfigHandler {
     public static int maxChainSnap_onBreak = maxChainSnap_onBreak_DEFAULT;
 
     public static final List<BlockOrTagLocation> chainSnap_Blocks_DEFAULT = List.of(
-        RegistryHelpers.getBlockLocationFromBlock(Blocks.CHAIN),
+        //? if minecraft: <= 1.21.8 {
+        /*RegistryHelpers.getBlockLocationFromBlock(Blocks.CHAIN),
+        *///?} else {
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.IRON_CHAIN),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.COPPER_CHAIN.unaffected()),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.COPPER_CHAIN.exposed()),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.COPPER_CHAIN.waxedExposed()),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.COPPER_CHAIN.weathered()),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.COPPER_CHAIN.waxedExposed()),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.COPPER_CHAIN.oxidized()),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.COPPER_CHAIN.waxedOxidized()),
+        //?}
         new BlockOrTagLocation(ResourceLocation.fromNamespaceAndPath("c", "chains"), true)
     );
     @SerialEntry

@@ -1,6 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.bubble;
 
 import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
+import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
@@ -8,13 +9,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class UnderwaterRisingBubble extends TextureSheetParticle {
+public class UnderwaterRisingBubble extends CustomGeometryParticle {
     protected UnderwaterRisingBubble(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed);
-        this.setSprite(spriteSet.get(this.random));
+        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet.get(level.random));
         this.gravity = -0.35F;
         this.friction = 0.85F;
         this.setSize(0.02F, 0.02F);
@@ -51,8 +52,8 @@ public class UnderwaterRisingBubble extends TextureSheetParticle {
     }
 
     @Override
-    public @NotNull ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+    protected ParticleLayer getParticleLayer() {
+        return ParticleLayer.OPAQUE;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
@@ -62,9 +63,20 @@ public class UnderwaterRisingBubble extends TextureSheetParticle {
             this.spriteSet = spriteSet;
         }
 
-        @Nullable
         @Override
-        public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public @Nullable Particle createParticle(
+            SimpleParticleType options,
+            ClientLevel level,
+            double x,
+            double y,
+            double z,
+            double xSpeed,
+            double ySpeed,
+            double zSpeed
+            //? if minecraft: > 1.21.8 {
+            , RandomSource random
+            //?}
+        ) {
             return new UnderwaterRisingBubble(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
         }
     }
@@ -76,9 +88,20 @@ public class UnderwaterRisingBubble extends TextureSheetParticle {
             this.spriteSet = spriteSet;
         }
 
-        @Nullable
         @Override
-        public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public @Nullable Particle createParticle(
+            SimpleParticleType options,
+            ClientLevel level,
+            double x,
+            double y,
+            double z,
+            double xSpeed,
+            double ySpeed,
+            double zSpeed
+            //? if minecraft: > 1.21.8 {
+            , RandomSource random
+            //?}
+        ) {
             UnderwaterRisingBubble particle = new UnderwaterRisingBubble(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
             particle.quadSize = MathHelpers.randomBetween(0.02f, 0.05f);
             return particle;

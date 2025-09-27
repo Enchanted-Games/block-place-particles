@@ -1,16 +1,21 @@
 package games.enchanted.eg_particle_interactions.common.particle.drip;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
+import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
 import games.enchanted.eg_particle_interactions.common.particle.option.DripParticleOption;
-import games.enchanted.eg_particle_interactions.common.util.RenderingUtil;
+import games.enchanted.eg_particle_interactions.common.util.render.RenderingUtil;
+import games.enchanted.eg_particle_interactions.common.util.render.StateAndLayer;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 
-public class DripAndLandParticle extends TextureSheetParticle {
+//? if minecraft: > 1.21.8 {
+import net.minecraft.client.renderer.state.QuadParticleRenderState;
+//?}
+
+public class DripAndLandParticle extends CustomGeometryParticle {
     protected boolean hasLanded = false;
     protected final int startFallingAtTicks;
     protected final boolean translucent;
@@ -21,8 +26,7 @@ public class DripAndLandParticle extends TextureSheetParticle {
     protected float v1;
 
     DripAndLandParticle(ClientLevel level, double x, double y, double z, SpriteSet sprites, DripParticleOption dripParticleOption, boolean translucent) {
-        super(level, x, y, z);
-        this.pickSprite(sprites);
+        super(level, x, y, z, sprites.get(level.random));
         this.translucent = translucent;
 
         this.setSize(0.01F, 0.01F);
@@ -88,24 +92,56 @@ public class DripAndLandParticle extends TextureSheetParticle {
     }
 
     @Override
-    public @NotNull ParticleRenderType getRenderType() {
-        return this.translucent ? ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT : ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+    protected ParticleLayer getParticleLayer() {
+        return this.translucent ? ParticleLayer.TRANSLUCENT : ParticleLayer.OPAQUE;
     }
 
+    //? if minecraft: <= 1.21.8 {
+    /*@Override
+    protected void renderRotatedQuad(@NotNull VertexConsumer consumer, @NotNull Quaternionf quaternion, float x, float y, float z, float partialTicks) {
+    *///?} else {
     @Override
-    protected void renderRotatedQuad(@NotNull VertexConsumer buffer, @NotNull Quaternionf quaternion, float x, float y, float z, float partialTicks) {
+    protected void extractRotatedQuad(QuadParticleRenderState consumer, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
+    //?}
         float scale = this.getQuadSize(partialTicks);
         int packedLight = this.getLightColor(partialTicks);
-        this.renderVertex(buffer, quaternion, x, y, z, 1.0F, -1.0F, scale, this.u1, this.v1, packedLight);
-        this.renderVertex(buffer, quaternion, x, y, z, 1.0F, 1.0F, scale, this.u1, this.v0, packedLight);
-        this.renderVertex(buffer, quaternion, x, y, z, -1.0F, 1.0F, scale, this.uo, this.v0, packedLight);
-        this.renderVertex(buffer, quaternion, x, y, z, -1.0F, -1.0F, scale, this.uo, this.v1, packedLight);
+        this.addVertex(consumer, quaternion, x, y, z, 1.0F, -1.0F, scale, this.u1, this.v1, packedLight);
+        this.addVertex(consumer, quaternion, x, y, z, 1.0F, 1.0F, scale, this.u1, this.v0, packedLight);
+        this.addVertex(consumer, quaternion, x, y, z, -1.0F, 1.0F, scale, this.uo, this.v0, packedLight);
+        this.addVertex(consumer, quaternion, x, y, z, -1.0F, -1.0F, scale, this.uo, this.v1, packedLight);
     }
 
-    private void renderVertex(VertexConsumer buffer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, int packedLight) {
+    private void addVertex(
+        //? if minecraft: <= 1.21.8 {
+        /*VertexConsumer consumer,
+        *///?} else {
+        QuadParticleRenderState state,
+        //?}
+        Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, int packedLight) {
         yOffset += hasLanded ? 1f : 0f;
-        RenderingUtil.addVertexToConsumer(buffer, quaternion, x, y, z, xOffset, yOffset, scale, u, v, packedLight, this.rCol, this.gCol, this.bCol, this.alpha);
+        RenderingUtil.addVertexToConsumer(
+            //? if minecraft: <= 1.21.8 {
+            /*consumer,
+            *///?} else {
+            new StateAndLayer(state, getLayer()),
+            //?}
+            quaternion,
+            x,
+            y,
+            z,
+            xOffset,
+            yOffset,
+            scale,
+            u,
+            v,
+            packedLight,
+            this.rCol,
+            this.gCol,
+            this.bCol,
+            this.alpha
+        );
     }
+
 
     public static class UntintedDropProvider implements ParticleProvider<DripParticleOption> {
         SpriteSet sprites;
@@ -115,7 +151,19 @@ public class DripAndLandParticle extends TextureSheetParticle {
         }
 
         @Override
-        public @Nullable Particle createParticle(DripParticleOption options, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public @Nullable Particle createParticle(
+            DripParticleOption options,
+            ClientLevel level,
+            double x,
+            double y,
+            double z,
+            double xSpeed,
+            double ySpeed,
+            double zSpeed
+            //? if minecraft: > 1.21.8 {
+            , RandomSource random
+            //?}
+        ) {
             return new DripAndLandParticle(level, x, y, z, sprites, options, true);
         }
     }

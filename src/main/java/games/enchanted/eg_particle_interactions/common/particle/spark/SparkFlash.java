@@ -1,23 +1,25 @@
 package games.enchanted.eg_particle_interactions.common.particle.spark;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class SparkFlash extends TextureSheetParticle {
+public class SparkFlash extends CustomGeometryParticle {
     private final SpriteSet sprites;
     private final float originalQuadSize;
     protected int prevAge;
     protected final boolean useRandomAnimation;
 
     SparkFlash(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet sprites, boolean useRandomAnimation) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed);
+        super(level, x, y, z, xSpeed, ySpeed, zSpeed, sprites.first());
         this.speedUpWhenYMotionIsBlocked = true;
         this.friction = 0.96F;
 
@@ -46,7 +48,11 @@ public class SparkFlash extends TextureSheetParticle {
         prevAge = age;
         super.tick();
         if(useRandomAnimation) {
-            this.pickSprite(this.sprites);
+            //? if minecraft: <= 1.21.8 {
+            /*this.pickSprite(this.sprites);
+            *///?} else {
+            this.setSprite(this.sprites.get(this.random));
+            //?}
         } else {
             this.setSpriteFromAge(this.sprites);
         }
@@ -57,15 +63,15 @@ public class SparkFlash extends TextureSheetParticle {
         return 240;
     }
 
-    @Override
-    public void render(@NotNull VertexConsumer buffer, @NotNull Camera renderInfo, float partialTicks) {
-        this.quadSize = this.originalQuadSize * (0.5f + (Math.abs(1 - Mth.lerp(partialTicks, this.prevAge, this.age) / this.lifetime) * 0.5f));
-        super.render(buffer, renderInfo, partialTicks);
-    }
+//    @Override
+//    public void render(@NotNull VertexConsumer buffer, @NotNull Camera renderInfo, float partialTicks) {
+//        this.quadSize = this.originalQuadSize * (0.5f + (Math.abs(1 - Mth.lerp(partialTicks, this.prevAge, this.age) / this.lifetime) * 0.5f));
+//        super.render(buffer, renderInfo, partialTicks);
+//    }
 
     @Override
-    public @NotNull ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+    protected ParticleLayer getParticleLayer() {
+        return ParticleLayer.OPAQUE;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
@@ -75,9 +81,20 @@ public class SparkFlash extends TextureSheetParticle {
             this.spriteSet = spriteSet;
         }
 
-        @Nullable
         @Override
-        public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public @Nullable Particle createParticle(
+            SimpleParticleType options,
+            ClientLevel level,
+            double x,
+            double y,
+            double z,
+            double xSpeed,
+            double ySpeed,
+            double zSpeed
+            //? if minecraft: > 1.21.8 {
+            , RandomSource random
+            //?}
+        ) {
             return new SparkFlash(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, false);
         }
     }
@@ -89,9 +106,20 @@ public class SparkFlash extends TextureSheetParticle {
             this.spriteSet = spriteSet;
         }
 
-        @Nullable
         @Override
-        public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public @Nullable Particle createParticle(
+            SimpleParticleType options,
+            ClientLevel level,
+            double x,
+            double y,
+            double z,
+            double xSpeed,
+            double ySpeed,
+            double zSpeed
+            //? if minecraft: > 1.21.8 {
+            , RandomSource random
+            //?}
+        ) {
             return new SparkFlash(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, true);
         }
     }
