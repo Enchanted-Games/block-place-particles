@@ -65,6 +65,7 @@ public class SpawnParticles {
 
         if (!placedBlockState.isAir() && placedBlockState.shouldSpawnTerrainParticles()) {
             VoxelShape blockShape = placedBlockState.getShape(level, blockPos);
+            if(blockShape.isEmpty()) return;
             Vec3 blockCenter = blockShape.bounds().getCenter();
             double verticalAxisOffset = level.getBlockState(blockPos.offset(0, -1, 0)).isSolid() ? 0.01 : 0; // move particles up out the block below them if it is solid
             blockShape.forAllEdges((x1, y1, z1, x2, y2, z2) -> {
@@ -129,6 +130,7 @@ public class SpawnParticles {
 
         if (!brokenBlockState.isAir() && brokenBlockState.shouldSpawnTerrainParticles()) {
             VoxelShape blockShape = brokenBlockState.getShape(level, brokenBlockPos);
+            if(blockShape.isEmpty()) return;
             Vec3 blockCenter = blockShape.bounds().getCenter();
             blockShape.forAllBoxes((x1, y1, z1, x2, y2, z2) -> {
                 double width = Math.abs(x1 - x2);
