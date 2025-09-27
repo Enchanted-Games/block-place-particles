@@ -1,3 +1,7 @@
+# 0.8.1
+
+- Fixed a crash when placing or breaking blocks with no shape, such as light blocks
+
 # 0.8
 
 v0.8 comes with a couple new particle effects, some fixes and tweaks, and a new feature for resourcepacks
