@@ -42,3 +42,7 @@ Added a way for resourcepacks to provide alternative particle palettes for block
  The mod will attempt to use these palette textures for dynamically coloured particles, otherwise it will fallback to the block model's particle texture.
 
 As a result of this, the colours for grass black particles on grass blocks are no longer hardcoded to the `grass_block_top` texture. Dirt paths, grass blocks, bamboo, and sugar cane have builtin palettes
+
+## Other
+
+- Switched to a stonecutter + arch loom build setup, shouldn't cause any issues but please report them if you spot any!
