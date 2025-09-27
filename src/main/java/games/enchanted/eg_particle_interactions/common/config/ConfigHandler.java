@@ -323,6 +323,7 @@ public class ConfigHandler {
         RegistryHelpers.getBlockLocationFromBlock(Blocks.SEAGRASS),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.TALL_SEAGRASS),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.HAY_BLOCK),
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.DIRT_PATH),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.GRASS_BLOCK),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.GLOW_LICHEN),
         RegistryHelpers.getBlockLocationFromBlock(Blocks.SHORT_DRY_GRASS),
@@ -491,7 +492,8 @@ public class ConfigHandler {
     public static int maxChainSnap_onBreak = maxChainSnap_onBreak_DEFAULT;
 
     public static final List<BlockOrTagLocation> chainSnap_Blocks_DEFAULT = List.of(
-        RegistryHelpers.getBlockLocationFromBlock(Blocks.CHAIN)
+        RegistryHelpers.getBlockLocationFromBlock(Blocks.CHAIN),
+        new BlockOrTagLocation(ResourceLocation.fromNamespaceAndPath("c", "chains"), true)
     );
     @SerialEntry
     public static List<BlockOrTagLocation> chainSnap_Blocks = chainSnap_Blocks_DEFAULT;

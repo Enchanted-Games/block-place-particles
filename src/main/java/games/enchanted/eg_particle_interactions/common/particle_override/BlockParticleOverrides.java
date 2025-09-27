@@ -174,7 +174,7 @@ public abstract class BlockParticleOverrides {
                     level.random.nextFloat() > (overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_BROKEN || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_PLACED ? 0.9f : 0.6f);
 
             if(
-                blockState.getBlock() == Blocks.GRASS_BLOCK &&
+                (blockState.getBlock() == Blocks.GRASS_BLOCK || blockState.getBlock() == Blocks.DIRT_PATH) &&
                 (overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_CRACK || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_PLACED || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_BROKEN || overrideOrigin == BlockParticleOverride.ORIGIN_ITEM_PARTICLE_OVERRIDDEN)
             ) {
                 // occasionally spawn dirt particles if a grass block is placed or broken
