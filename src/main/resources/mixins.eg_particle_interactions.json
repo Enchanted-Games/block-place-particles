@@ -53,6 +53,7 @@
     "particles.TerrainParticle",
     "resource.RegisterAtlasConfig_AtlasManagerMixin",
     "resource.RegisterTextureAtlases_MinecraftMixin",
+    "screen.OptionsScreenMixin",
     "yacl.StringControllerElement"
   ],
   "injectors": {
