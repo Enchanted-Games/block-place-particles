@@ -1,0 +1,73 @@
+package games.enchanted.eg_particle_interactions.common.mixin.particles;
+
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
+import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverride;
+import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+
+@Mixin(ClientLevel.class)
+public class BlockBreakAndCrackingParticle_ClientLevelMixin {
+    //? if minecraft: > 1.21.8 {
+    @Inject(
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/shapes/VoxelShape;"),
+        method = "addDestroyBlockEffect"
+    )
+    public void useParticleInteractionsDestroyParticleLogic(BlockPos brokenBlockPos, BlockState brokenBlockState, CallbackInfo ci) {
+        BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(brokenBlockState, BlockParticleOverride.ORIGIN_BLOCK_BROKEN);
+        SpawnParticles.spawnBlockBreakParticle((ClientLevel) (Object) this, brokenBlockState, brokenBlockPos, particleOverride);
+    }
+
+    @WrapOperation(
+        method = "addDestroyBlockEffect",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/shapes/VoxelShape;forAllBoxes(Lnet/minecraft/world/phys/shapes/Shapes$DoubleLineConsumer;)V")
+    )
+    public void skipSpawningVanillaDestroyParticles(VoxelShape instance, Shapes.DoubleLineConsumer action, Operation<Void> original) {
+    }
+
+
+    // block cracking particles
+    @Inject(
+        method = "addBreakingBlockEffect",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/ParticleEngine;add(Lnet/minecraft/client/particle/Particle;)V"),
+        locals = LocalCapture.CAPTURE_FAILSOFT,
+        cancellable = true
+    )
+    public void replaceCrackingParticlesConditionally(BlockPos blockPos, Direction side, CallbackInfo ci, @Local(ordinal = 0) double xPos, @Local(ordinal = 1) double yPos, @Local(ordinal = 2) double zPos) {
+        ClientLevel level = (ClientLevel) (Object) this;
+        BlockState blockstate = level.getBlockState(blockPos);
+
+        int overrideOrigin = BlockParticleOverride.ORIGIN_BLOCK_CRACK;
+        BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockstate, overrideOrigin);
+
+        if(override == BlockParticleOverride.VANILLA) return;
+
+        if(override != BlockParticleOverride.NONE) {
+            ParticleOptions newParticleOption = override.getParticleOptionForState(blockstate, level, blockPos, overrideOrigin);
+            if (newParticleOption == null) return;
+            level.addParticle(
+                newParticleOption,
+                xPos,
+                yPos,
+                zPos,
+                0,
+                0,
+                0
+            );
+        }
+        ci.cancel();
+    }
+    //?}
+}

@@ -45,12 +45,14 @@
     "items.FlintAndSteelItem",
     "items.HoeItem",
     "items.ShovelItem",
+    "particles.BlockBreakAndCrackingParticle_ClientLevelMixin",
     "particles.BreakingItemParticle",
     "particles.FireflyParticleMixin",
     "particles.ParticleEngineMixin",
     "particles.ParticleMixin",
     "particles.TerrainParticle",
-    "resource.RegisterTextureAtlases",
+    "resource.RegisterAtlasConfig_AtlasManagerMixin",
+    "resource.RegisterTextureAtlases_MinecraftMixin",
     "yacl.StringControllerElement"
   ],
   "injectors": {

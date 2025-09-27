@@ -14,7 +14,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LevelEventHandler.class)
 public abstract class LevelEventHandlerMixin {
-    @Shadow @Final private Level level;
+    //? if minecraft: <= 1.21.8 {
+    /*@Shadow @Final private Level level;
+    *///?} else {
+    @Shadow @Final private ClientLevel level;
+    //?}
 
     @Inject(
         at = @At("HEAD"),

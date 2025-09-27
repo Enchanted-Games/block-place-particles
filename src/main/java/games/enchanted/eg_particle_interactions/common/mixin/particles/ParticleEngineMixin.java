@@ -37,8 +37,9 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
     @Shadow
     protected ClientLevel level;
 
-    // block breaking logic
-    @Inject(
+    // block cracking and breaking particles (moved to ClientLevel in 1.21.9)
+    //? if minecraft: <= 1.21.8 {
+    /*@Inject(
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/shapes/VoxelShape;"),
         method = "destroy"
     )
@@ -53,6 +54,37 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
     )
     public void skipSpawningVanillaDestroyParticles(VoxelShape instance, Shapes.DoubleLineConsumer action, Operation<Void> original) {
     }
+
+    @Inject(
+        method = "crack(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;)V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/ParticleEngine;add(Lnet/minecraft/client/particle/Particle;)V"),
+        locals = LocalCapture.CAPTURE_FAILSOFT,
+        cancellable = true
+    )
+    public void replaceCrackingParticlesConditionally(BlockPos blockPos, Direction side, CallbackInfo ci, @Local(ordinal = 0) double xPos, @Local(ordinal = 1) double yPos, @Local(ordinal = 2) double zPos) {
+        BlockState blockstate = this.level.getBlockState(blockPos);
+
+        int overrideOrigin = BlockParticleOverride.ORIGIN_BLOCK_CRACK;
+        BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockstate, overrideOrigin);
+
+        if(override == BlockParticleOverride.VANILLA) return;
+
+        if(override != BlockParticleOverride.NONE) {
+            ParticleOptions newParticleOption = override.getParticleOptionForState(blockstate, level, blockPos, overrideOrigin);
+            if (newParticleOption == null) return;
+            this.level.addParticle(
+                newParticleOption,
+                xPos,
+                yPos,
+                zPos,
+                0,
+                0,
+                0
+            );
+        }
+        ci.cancel();
+    }
+    *///?}
 
     // override item and block particles if they have a particle override
     @WrapOperation(
@@ -131,37 +163,6 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
             isDustPillarParticle ? (ySpeed * 2) + 0.45 : newYSpeed,
             zSpeed * (Math.random() * 0.75 + 0.6) * particleOverride.getParticleVelocityMultiplier()
         );
-    }
-
-    // block cracking particles
-    @Inject(
-        method = "crack(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;)V",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/ParticleEngine;add(Lnet/minecraft/client/particle/Particle;)V"),
-        locals = LocalCapture.CAPTURE_FAILSOFT,
-        cancellable = true
-    )
-    public void replaceCrackingParticlesConditionally(BlockPos blockPos, Direction side, CallbackInfo ci, @Local(ordinal = 0) double xPos, @Local(ordinal = 1) double yPos, @Local(ordinal = 2) double zPos) {
-        BlockState blockstate = this.level.getBlockState(blockPos);
-
-        int overrideOrigin = BlockParticleOverride.ORIGIN_BLOCK_CRACK;
-        BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockstate, overrideOrigin);
-
-        if(override == BlockParticleOverride.VANILLA) return;
-
-        if(override != BlockParticleOverride.NONE) {
-            ParticleOptions newParticleOption = override.getParticleOptionForState(blockstate, level, blockPos, overrideOrigin);
-            if (newParticleOption == null) return;
-            this.level.addParticle(
-                newParticleOption,
-                xPos,
-                yPos,
-                zPos,
-                0,
-                0,
-                0
-            );
-        }
-        ci.cancel();
     }
 
     //? if minecraft: > 1.21.8 {

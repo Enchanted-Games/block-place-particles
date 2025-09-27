@@ -15,6 +15,9 @@ import java.util.List;
  * This is the entry point for your mod's common side, called by each modloader specific side.
  */
 public class ParticleInteractionsMod {
+    //? if minecraft: > 1.21.8 {
+    @Deprecated
+    //?}
     public static ParticlePaletteAtlasManager particlePaletteAtlas;
 
     public static void startOfModLoading() {

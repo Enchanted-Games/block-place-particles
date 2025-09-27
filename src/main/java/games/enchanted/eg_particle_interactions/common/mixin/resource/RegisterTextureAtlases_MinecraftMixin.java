@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Minecraft.class)
-public class RegisterTextureAtlases {
+public class RegisterTextureAtlases_MinecraftMixin {
     @Shadow @Final private ReloadableResourceManager resourceManager;
     @Shadow @Final private TextureManager textureManager;
 
