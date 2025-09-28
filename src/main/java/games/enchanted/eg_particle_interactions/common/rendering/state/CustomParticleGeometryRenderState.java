@@ -71,9 +71,9 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
             storage.forEachVertex((x, y, z, u, v, packedLight, argb) -> vertexBuffer.addVertex(x, y, z).setUv(u, v).setColor(argb).setLight(packedLight));
 
             if (storage.vertexAmount() > 0) {
-                layerToPreparedMap.put(entry.getKey(), new QuadParticleRenderState.PreparedLayer(vertexOffset, storage.vertexAmount() * 6));
+                layerToPreparedMap.put(entry.getKey(), new QuadParticleRenderState.PreparedLayer(vertexOffset, (int) (storage.vertexAmount() * 1.5)));
             }
-            vertexOffset += storage.vertexAmount() * 4;
+            vertexOffset += storage.vertexAmount();
         }
         return layerToPreparedMap;
     }
