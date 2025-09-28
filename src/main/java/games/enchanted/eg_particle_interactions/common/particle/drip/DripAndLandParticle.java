@@ -112,14 +112,14 @@ public class DripAndLandParticle extends CustomGeometryParticle {
         //? if minecraft: > 1.21.8 {
         SingleQuadParticle.Layer layer = this.getLayer();
         consumer.startQuad(layer);
-        //? }
+        //?}
         this.addVertex(consumer, quaternion, x, y, z,  1.0F, -1.0F, scale, this.u1, this.v1, packedLight);
         this.addVertex(consumer, quaternion, x, y, z,  1.0F,  1.0F, scale, this.u1, this.v0, packedLight);
         this.addVertex(consumer, quaternion, x, y, z, -1.0F,  1.0F, scale, this.uo, this.v0, packedLight);
         this.addVertex(consumer, quaternion, x, y, z, -1.0F, -1.0F, scale, this.uo, this.v1, packedLight);
         //? if minecraft: > 1.21.8 {
         consumer.finishQuad(layer);
-        //? }
+        //?}
     }
 
     private void addVertex(

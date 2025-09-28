@@ -32,6 +32,9 @@ public abstract class CustomGeometryParticle
     
     /*protected CustomGeometryParticle(ClientLevel clientLevel, double x, double y, double z, TextureAtlasSprite textureAtlasSprite) {
         this(clientLevel, x, y, z, 0, 0, 0, textureAtlasSprite);
+        this.xd = 0;
+        this.yd = 0;
+        this.zd = 0;
     }
 
     protected CustomGeometryParticle(ClientLevel clientLevel, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, TextureAtlasSprite textureAtlasSprite) {
@@ -68,6 +71,9 @@ public abstract class CustomGeometryParticle
 
     protected CustomGeometryParticle(ClientLevel clientLevel, double x, double y, double z, TextureAtlasSprite textureAtlasSprite) {
         this(clientLevel, x, y, z, 0, 0, 0, textureAtlasSprite);
+        this.xd = 0;
+        this.yd = 0;
+        this.zd = 0;
     }
 
     protected CustomGeometryParticle(ClientLevel clientLevel, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, TextureAtlasSprite textureAtlasSprite) {
