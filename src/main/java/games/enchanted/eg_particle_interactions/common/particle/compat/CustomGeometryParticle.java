@@ -1,24 +1,24 @@
 package games.enchanted.eg_particle_interactions.common.particle.compat;
 
-import games.enchanted.eg_particle_interactions.common.particle.ModParticleRenderTypes;
-import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.multiplayer.ClientLevel;
 
-import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Quaternionf;
+import net.minecraft.client.Camera;
 
 //? if minecraft: <= 1.21.8 {
 /*import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
 *///?} else {
 import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
-import net.minecraft.client.Camera;
 import net.minecraft.client.particle.SingleQuadParticle;
-import org.joml.Quaternionf;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
+import games.enchanted.eg_particle_interactions.common.particle.ModParticleRenderTypes;
+import net.minecraft.client.particle.Particle;
 //?}
 
 public abstract class CustomGeometryParticle
@@ -59,7 +59,7 @@ public abstract class CustomGeometryParticle
 
     protected float scale;
     protected float roll;
-    protected float prevRoll;
+    protected float oRoll;
     protected TextureAtlasSprite sprite;
     protected float rCol = 1.0F;
     protected float gCol = 1.0F;
@@ -95,7 +95,7 @@ public abstract class CustomGeometryParticle
         Quaternionf quaternionf = new Quaternionf();
         this.getBillboardMode().rotate(quaternionf, camera, partialTicks);
         if (this.roll != 0.0F) {
-            quaternionf.rotateZ(Mth.lerp(partialTicks, this.prevRoll, this.roll));
+            quaternionf.rotateZ(Mth.lerp(partialTicks, this.oRoll, this.roll));
         }
 
         this.extractGeometry(state, camera, quaternionf, partialTicks);
@@ -163,7 +163,19 @@ public abstract class CustomGeometryParticle
     }
 
     public float getScale() {
+        //? if minecraft: > 1.21.8 {
         return this.scale;
+        //?} else {
+        /*return this.quadSize;
+        *///?}
+    }
+
+    public void setScale(float scale) {
+        //? if minecraft: > 1.21.8 {
+        this.scale = scale;
+         //?} else {
+        /*this.quadSize = scale;
+        *///?}
     }
 
     protected abstract ParticleLayer getParticleLayer();

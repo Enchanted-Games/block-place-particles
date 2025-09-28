@@ -1,7 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.constant_motion;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import games.enchanted.eg_particle_interactions.common.util.render.RenderingUtil;
 import net.minecraft.client.Camera;
@@ -14,6 +13,10 @@ import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
+
+//? if minecraft: > 1.21.8 {
+import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
+//?}
 
 public class LavaPop extends ConstantMotionAnimatedParticle {
     protected LavaPop(ClientLevel level, double x, double y, double z, SpriteSet spriteSet, int lifetime, float quadSize, boolean transparency) {

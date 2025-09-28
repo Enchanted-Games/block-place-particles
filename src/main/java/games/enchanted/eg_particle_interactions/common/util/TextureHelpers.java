@@ -6,9 +6,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.data.AtlasIds;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
+//? if minecraft: > 1.21.8 {
+import net.minecraft.data.AtlasIds;
+//?}
 
 public class TextureHelpers {
     public static @NotNull TextureAtlas getTextureAtlas(ResourceLocation atlasLocation) {

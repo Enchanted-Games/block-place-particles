@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.rendering.state;
 
+//? if minecraft: > 1.21.8 {
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -107,6 +108,25 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
         this.quadStoragePerLayer.computeIfAbsent(layer, (l) -> new QuadStorage()).finishQuad();
     }
 
+    public void addVertex(SingleQuadParticle.Layer layer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, int packedLight) {
+        this.addVertex(
+            layer,
+            quaternion,
+            x,
+            y,
+            z,
+            xOffset,
+            yOffset,
+            scale,
+            u,
+            v,
+            packedLight,
+            1.0f,
+            1.0f,
+            1.0f,
+            1.0f
+        );
+    }
     public void addVertex(SingleQuadParticle.Layer layer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, int packedLight, float rCol, float gCol, float bCol, float alpha) {
         this.quadStoragePerLayer.computeIfAbsent(layer, (l) -> new QuadStorage()).addVertex(
             quaternion,
@@ -205,3 +225,4 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
         void consume(float x, float y, float z, float u, float v, int packedLight, int argb);
     }
 }
+//?}

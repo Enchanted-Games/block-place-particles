@@ -26,7 +26,7 @@ public class Ember extends SwirlingParticle {
         this.swirlStrength = MathHelpers.randomBetween(0.7f, 0.9f) * (level.random.nextBoolean() ? -1 : 1);
         this.swirlPeriod = MathHelpers.randomBetween(708, 720);
 
-        this.scale = 2.5f/32f;
+        this.setScale(2.5f/32f);
         this.setSize(1/32f, 1/32f);
 
         ((ParticleAccess) this).eg_particle_interactions$setBypassMovementCollisionCheck(true);

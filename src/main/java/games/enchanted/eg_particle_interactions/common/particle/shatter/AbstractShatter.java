@@ -37,7 +37,7 @@ public abstract class AbstractShatter extends CustomGeometryParticle {
 
         this.inverseSlicePositions = level.random.nextBoolean();
         this.roll = (float) Math.toRadians(MathHelpers.randomBetween(0, 3) * 90);
-        this.prevRoll = this.roll;
+        this.oRoll = this.roll;
 
         setInitialVelocity(xSpeed, ySpeed, zSpeed, 0.1f);
 

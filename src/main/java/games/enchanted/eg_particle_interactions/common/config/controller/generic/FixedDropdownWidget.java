@@ -4,8 +4,10 @@ import dev.isxander.yacl3.api.utils.Dimension;
 import dev.isxander.yacl3.gui.YACLScreen;
 import dev.isxander.yacl3.gui.controllers.dropdown.AbstractDropdownController;
 import dev.isxander.yacl3.gui.controllers.dropdown.DropdownWidget;
+//? if minecraft: > 1.21.8 {
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
+//?}
 
 public class FixedDropdownWidget<T> extends DropdownWidget<T> {
     private final GenericListControllerElement<T, ?> genericListControllerElement;

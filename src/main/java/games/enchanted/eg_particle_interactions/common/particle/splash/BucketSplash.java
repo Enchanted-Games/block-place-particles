@@ -20,7 +20,7 @@ public class BucketSplash extends CustomGeometryParticle {
         this.lifetime = (int)(16.0 / (Math.random() * 0.8 + 0.2));
 
         float particleSize = (float) 0.1355 - (this.random.nextBoolean() ? 0.01f : 0.0f);
-        this.scale = particleSize;
+        this.setScale(particleSize);
         this.setSize(particleSize, particleSize);
     }
 
@@ -62,7 +62,7 @@ public class BucketSplash extends CustomGeometryParticle {
             , RandomSource random
             //?}
         ) {
-            return new BucketSplash(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet.get(random));
+            return new BucketSplash(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet.get(level.random));
         }
     }
 }

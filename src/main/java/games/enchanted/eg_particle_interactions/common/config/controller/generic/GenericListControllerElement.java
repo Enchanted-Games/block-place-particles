@@ -77,12 +77,20 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
     }
 
     @Override
+    //? if minecraft: > 1.21.8 {
     public boolean onCharTyped(char chr, String cpStr, int modifiers) {
+    //?} else {
+    /*public boolean charTyped(char chr, int modifiers) {
+    *///?}
         if(this.dropdownWidget != null) {
             ((DropdownWidgetAccessor) this.dropdownWidget).block_place_particle$setFirstVisibleIndex(0);
             this.dropdownWidget.scrollUp();
         }
+        //? if minecraft: > 1.21.8 {
         return super.onCharTyped(chr, cpStr, modifiers);
+        //?} else {
+        /*return super.charTyped(chr, modifiers);
+        *///?}
     }
 
     @Override
@@ -105,10 +113,17 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
         return super.getControlWidth() + getDecorationPadding();
     }
 
+    //? if minecraft: > 1.21.8 {
     @Override
     public boolean onMouseClicked(double mouseX, double mouseY, int button) {
         return super.onMouseClicked(mouseX + this.getDecorationPadding(), mouseY, button);
     }
+    //?} else {
+    /*@Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        return super.mouseClicked(mouseX + this.getDecorationPadding(), mouseY, button);
+    }
+    *///?}
 
     public void setLastSelectedDropdownIndex(int index) {
         this.lastKnownSelectedDropdownIndex = index;

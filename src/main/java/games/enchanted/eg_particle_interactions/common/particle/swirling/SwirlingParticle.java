@@ -1,12 +1,16 @@
 package games.enchanted.eg_particle_interactions.common.particle.swirling;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
-import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.SpriteSet;
 import org.jetbrains.annotations.NotNull;
+
+//? if minecraft: > 1.21.8 {
+import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
+//?}
 
 public class SwirlingParticle extends CustomGeometryParticle {
     protected float rotSpeed;
@@ -25,7 +29,7 @@ public class SwirlingParticle extends CustomGeometryParticle {
         this.sprite = spriteSet.get(level.random);
 
         this.lifetime = 100;
-        this.scale = 3/16f;
+        this.setScale(3/16f);
 
         this.shouldSwirl = shouldSwirl;
         this.rotSpeed = 0f;
@@ -92,7 +96,7 @@ public class SwirlingParticle extends CustomGeometryParticle {
         this.move(this.xd, this.yd, this.zd);
 
         this.rotSpeed += this.spinAcceleration / 20.0f;
-        this.prevRoll = this.roll;
+        this.oRoll = this.roll;
         this.roll += this.rotSpeed / 20.0f;
 
         this.xd *= this.friction;

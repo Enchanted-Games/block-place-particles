@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.metadata.MetadataSectionType;
 
 //? if minecraft: <= 1.21.8 {
-/*eimport net.minecraft.client.resources.TextureAtlasHolder;
+/*import net.minecraft.client.resources.TextureAtlasHolder;
  *///?}
 
 import java.util.Set;

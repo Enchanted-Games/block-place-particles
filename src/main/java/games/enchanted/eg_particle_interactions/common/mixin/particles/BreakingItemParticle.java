@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 //? if minecraft: <= 1.21.8 {
 /*import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
  *///?} else {
 import net.minecraft.client.particle.SingleQuadParticle;
 //?}
@@ -58,14 +59,14 @@ public abstract class BreakingItemParticle
         at = @At("TAIL"),
         method = "<init>(Lnet/minecraft/client/multiplayer/ClientLevel;DDDDDDLnet/minecraft/client/renderer/item/ItemStackRenderState;)V"
     )
-    protected void block_place_particle$terrainParticleInit(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, ItemStackRenderState stackRenderState, CallbackInfo ci) {
+    protected void block_place_particle$terrainParticleInit(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, ItemStackRenderState renderState, CallbackInfo ci) {
     *///?} else {
     @Inject(
         at = @At("TAIL"),
         method = "<init>(Lnet/minecraft/client/multiplayer/ClientLevel;DDDLnet/minecraft/client/renderer/texture/TextureAtlasSprite;)V"
     )
-    //?}
     protected void block_place_particle$terrainParticleInit(ClientLevel level, double x, double y, double z, TextureAtlasSprite textureAtlasSprite, CallbackInfo ci) {
+    //?}
         if(ConfigHandler.general_pixelConsistentTerrainParticles) {
             this.uo = (float) MathHelpers.randomBetween(0, this.sprite.contents().width()) / this.sprite.contents().width();
             this.vo = (float) MathHelpers.randomBetween(0, this.sprite.contents().height()) / this.sprite.contents().height();

@@ -49,12 +49,11 @@ public abstract class AbstractEmitterParticle extends Particle {
      */
     protected abstract @Nullable ParticleOptions getParticleToEmit(ClientLevel level, double x, double y, double z);
 
-    // TODO: Rendering
-//    @Override
-//    public void render(@NotNull VertexConsumer vertexConsumer, @NotNull Camera camera, float v) {}
-
     //? if minecraft: <= 1.21.8 {
     /*@Override
+    public void render(@NotNull VertexConsumer vertexConsumer, @NotNull Camera camera, float v) {}
+
+    @Override
     public @NotNull ParticleRenderType getRenderType() {
         return ParticleRenderType.NO_RENDER;
     }

@@ -41,7 +41,7 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
 
         float particleSize = (this.random.nextBoolean() ? 0.025F : 0.03F);
         this.setSize(particleSize, particleSize);
-        this.scale = particleSize;
+        this.setScale(particleSize);
 
         this.sprites = spriteSet;
         this.setSpriteFromAge(this.sprites);

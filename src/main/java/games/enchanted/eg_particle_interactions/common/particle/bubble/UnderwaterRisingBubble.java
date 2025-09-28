@@ -18,7 +18,7 @@ public class UnderwaterRisingBubble extends CustomGeometryParticle {
         this.gravity = -0.35F;
         this.friction = 0.85F;
         this.setSize(0.02F, 0.02F);
-        this.scale = this.scale * (this.random.nextFloat() * 0.6F + 0.2F);
+        this.setScale(this.getScale() * (this.random.nextFloat() * 0.6F + 0.2F));
         this.xd = xSpeed * 0.2F + (Math.random() * 2.0 - 1.0) * 0.02F;
         this.yd = ySpeed * 0.2F + (Math.random() * 2.0 - 1.0) * 0.02F;
         this.zd = zSpeed * 0.2F + (Math.random() * 2.0 - 1.0) * 0.02F;
@@ -102,7 +102,7 @@ public class UnderwaterRisingBubble extends CustomGeometryParticle {
             //?}
         ) {
             UnderwaterRisingBubble particle = new UnderwaterRisingBubble(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
-            particle.scale = MathHelpers.randomBetween(0.02f, 0.05f);
+            particle.setScale(MathHelpers.randomBetween(0.02f, 0.05f));
             return particle;
         }
     }

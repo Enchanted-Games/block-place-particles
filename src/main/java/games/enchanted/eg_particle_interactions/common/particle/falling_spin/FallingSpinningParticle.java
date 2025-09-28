@@ -27,10 +27,10 @@ public class FallingSpinningParticle extends CustomGeometryParticle {
         this.lifetime = (int)(16.0 / ((double)this.random.nextFloat() * 0.8 + 0.2)) + 2;
         this.spinAcceleration = (float)Math.toRadians(this.random.nextBoolean() ? -5.0 : 5.0);
         this.roll = (float) Math.toRadians(this.random.nextIntBetweenInclusive(0, 360));
-        this.prevRoll = this.roll;
+        this.oRoll = this.roll;
 
         float particleSize = this.random.nextBoolean() ? 0.07F : 0.08F;
-        this.scale = particleSize;
+        this.setScale(particleSize);
         this.setSize(particleSize, particleSize);
         this.gravity *= gravityMultiplier;
 
@@ -48,7 +48,7 @@ public class FallingSpinningParticle extends CustomGeometryParticle {
         this.rotSpeed += this.rotSpeed >= this.maxSpinSpeed ? 0 : (this.spinAcceleration / 2.0f);
         if(this.rotSpeed > this.maxSpinSpeed) this.rotSpeed = this.maxSpinSpeed;
 
-        this.prevRoll = this.roll;
+        this.oRoll = this.roll;
         if( !this.onGround && !((ParticleAccessor) this).block_place_particle$getStoppedByCollision() ) {
             this.roll += this.rotSpeed / 6.5f;
         }
@@ -118,12 +118,12 @@ public class FallingSpinningParticle extends CustomGeometryParticle {
         ) {
             FallingSpinningParticle particle = new FallingSpinningParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, 0.4f, true);
             float particleSize = level.random.nextBoolean() ? 0.10F : 0.12F;
-            particle.scale = particleSize;
+            particle.setScale(particleSize);
             particle.setSize(particleSize, particleSize);
             particle.spinAcceleration = 0;
             particle.maxSpinSpeed = 0;
             particle.roll = 0;
-            particle.prevRoll = 0;
+            particle.oRoll = 0;
             return particle;
         }
     }
@@ -151,7 +151,7 @@ public class FallingSpinningParticle extends CustomGeometryParticle {
         ) {
             FallingSpinningParticle particle = new FallingSpinningParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, 2f);
             float particleSize = MathHelpers.randomBetween(0.08f, 0.12f);
-            particle.scale = particleSize;
+            particle.setScale(particleSize);
             particle.setSize(particleSize, particleSize);
             return particle;
         }
@@ -180,7 +180,7 @@ public class FallingSpinningParticle extends CustomGeometryParticle {
         ) {
             FallingSpinningParticle particle = new FallingSpinningParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, 0.6f);
             float particleSize = level.random.nextBoolean() ? 0.1f : 0.15f;
-            particle.scale = particleSize;
+            particle.setScale(particleSize);
             particle.setSize(particleSize, particleSize);
             particle.maxSpinSpeed = 0.1f;
             particle.spinAcceleration = (float)Math.toRadians(level.random.nextBoolean() ? -1.0 : 1.0);

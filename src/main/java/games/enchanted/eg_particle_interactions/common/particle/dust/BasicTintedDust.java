@@ -45,7 +45,7 @@ public class BasicTintedDust extends BasicDust {
         ) {
             BasicTintedDust particle = new BasicTintedDust(level, x, y, z, xSpeed, MathHelpers.randomBetween(0.06f, 0.13f), zSpeed, this.spriteSet, -0.0f, type, false, true, () -> null);
             particle.roll = 0;
-            particle.prevRoll = 0;
+            particle.oRoll = 0;
             particle.lifetime = (int)(particle.lifetime * 0.6f);
             return particle;
         }

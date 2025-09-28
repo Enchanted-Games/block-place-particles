@@ -3,18 +3,21 @@ package games.enchanted.eg_particle_interactions.common.particle.drip;
 import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
 import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
 import games.enchanted.eg_particle_interactions.common.particle.option.DripParticleOption;
-import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
 import games.enchanted.eg_particle_interactions.common.util.render.RenderingUtil;
-import games.enchanted.eg_particle_interactions.common.util.render.StateAndLayer;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 
 //? if minecraft: > 1.21.8 {
 import net.minecraft.client.renderer.state.QuadParticleRenderState;
-//?}
+import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
+import net.minecraft.util.ARGB;
+import net.minecraft.util.RandomSource;
+//?} else {
+/*import org.jetbrains.annotations.NotNull;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+*///?}
 
 public class DripAndLandParticle extends CustomGeometryParticle {
     protected boolean hasLanded = false;
@@ -31,7 +34,7 @@ public class DripAndLandParticle extends CustomGeometryParticle {
         this.translucent = translucent;
 
         this.setSize(0.01F, 0.01F);
-        this.scale = 0.15f;
+        this.setScale(0.15f);
         this.gravity = dripParticleOption.getGravity() + (level.random.nextFloat() * dripParticleOption.getGravityRandomness());
 
         this.startFallingAtTicks = dripParticleOption.getStartFallingTicks();
@@ -106,10 +109,17 @@ public class DripAndLandParticle extends CustomGeometryParticle {
     //?}
         float scale = this.getScale();
         int packedLight = this.getLightColor(partialTicks);
-        this.addVertex(consumer, quaternion, x, y, z, 1.0F, -1.0F, scale, this.u1, this.v1, packedLight);
-        this.addVertex(consumer, quaternion, x, y, z, 1.0F, 1.0F, scale, this.u1, this.v0, packedLight);
-        this.addVertex(consumer, quaternion, x, y, z, -1.0F, 1.0F, scale, this.uo, this.v0, packedLight);
+        //? if minecraft: > 1.21.8 {
+        SingleQuadParticle.Layer layer = this.getLayer();
+        consumer.startQuad(layer);
+        //? }
+        this.addVertex(consumer, quaternion, x, y, z,  1.0F, -1.0F, scale, this.u1, this.v1, packedLight);
+        this.addVertex(consumer, quaternion, x, y, z,  1.0F,  1.0F, scale, this.u1, this.v0, packedLight);
+        this.addVertex(consumer, quaternion, x, y, z, -1.0F,  1.0F, scale, this.uo, this.v0, packedLight);
         this.addVertex(consumer, quaternion, x, y, z, -1.0F, -1.0F, scale, this.uo, this.v1, packedLight);
+        //? if minecraft: > 1.21.8 {
+        consumer.finishQuad(layer);
+        //? }
     }
 
     private void addVertex(
@@ -120,12 +130,9 @@ public class DripAndLandParticle extends CustomGeometryParticle {
         //?}
         Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, int packedLight) {
         yOffset += hasLanded ? 1f : 0f;
-        RenderingUtil.addVertexToConsumer(
-            //? if minecraft: <= 1.21.8 {
-            /*consumer,
-            *///?} else {
-            new StateAndLayer(state, getLayer()),
-            //?}
+        //? if minecraft: <= 1.21.8 {
+        /*RenderingUtil.addVertexToConsumer(
+            consumer,
             quaternion,
             x,
             y,
@@ -141,6 +148,9 @@ public class DripAndLandParticle extends CustomGeometryParticle {
             this.bCol,
             this.alpha
         );
+        *///?} else {
+        state.addVertex(this.getLayer(), quaternion, x, y, z, xOffset, yOffset, scale, u, v, packedLight);
+        //?}
     }
 
 

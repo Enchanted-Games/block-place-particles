@@ -1,17 +1,24 @@
 package games.enchanted.eg_particle_interactions.common.mixin.resource;
 
+import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
+import org.spongepowered.asm.mixin.Mixin;
+
+//? if minecraft: > 1.21.8 {
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteAtlasManager;
 import net.minecraft.client.resources.model.AtlasManager;
-import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(AtlasManager.class)
+//?} else {
+/*@Mixin(ParticleInteractionsMod.class)
+*///?}
 public class RegisterAtlasConfig_AtlasManagerMixin {
+//? if minecraft: > 1.21.8 {
 
     @WrapOperation(
         at = @At(value = "INVOKE", target = "Ljava/util/List;of([Ljava/lang/Object;)Ljava/util/List;"),
@@ -23,4 +30,5 @@ public class RegisterAtlasConfig_AtlasManagerMixin {
         newConfigs.add(new AtlasManager.AtlasConfig(ParticlePaletteAtlasManager.ATLAS_LOCATION, ParticlePaletteAtlasManager.ATLAS_ID, false, ParticlePaletteAtlasManager.METADATA_SECTIONS));
         return newConfigs;
     }
+//?}
 }

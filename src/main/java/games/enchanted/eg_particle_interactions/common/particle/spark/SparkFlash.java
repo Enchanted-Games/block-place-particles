@@ -14,7 +14,7 @@ public class SparkFlash extends CustomGeometryParticle {
     protected final boolean useRandomAnimation;
 
     SparkFlash(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet sprites, boolean useRandomAnimation) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, sprites.first());
+        super(level, x, y, z, xSpeed, ySpeed, zSpeed, sprites.get(0, 1));
         this.speedUpWhenYMotionIsBlocked = true;
         this.friction = 0.96F;
 
@@ -25,7 +25,7 @@ public class SparkFlash extends CustomGeometryParticle {
         if(useRandomAnimation) {
             int rot = this.random.nextIntBetweenInclusive(0, 3);
             this.roll = rot * 90;
-            this.prevRoll = roll;
+            this.oRoll = roll;
         }
 
         this.lifetime = this.random.nextInt(4) + 3;
@@ -33,8 +33,8 @@ public class SparkFlash extends CustomGeometryParticle {
         this.sprites = sprites;
         this.setSpriteFromAge(sprites);
 
-        this.scale = 2/16f;
-        originalQuadSize = scale;
+        this.setScale(2/16f);
+        originalQuadSize = this.getScale();
         prevAge = age;
     }
 
