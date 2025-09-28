@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.mixin.particles;
 
+import com.google.common.collect.Maps;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -7,11 +8,14 @@ import games.enchanted.eg_particle_interactions.common.particle.ModParticleRende
 import games.enchanted.eg_particle_interactions.common.particle_group.CustomGeometryParticleGroup;
 import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverride;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
+import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleGroup;
 import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.renderer.culling.Frustum;
+import net.minecraft.client.renderer.state.ParticlesRenderState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -24,6 +28,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -31,6 +36,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+
+import java.util.Map;
+import java.util.Queue;
 
 @Mixin(value = ParticleEngine.class, priority = 3000)
 public abstract class ParticleEngineMixin implements PreparableReloadListener {
@@ -166,6 +174,8 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
     }
 
     //? if minecraft: > 1.21.8 {
+    @Shadow @Final private Map<ParticleRenderType, ParticleGroup<?>> particles = Maps.newIdentityHashMap();;
+
     @Inject(
         at = @At("HEAD"),
         method = "createParticleGroup",
@@ -174,6 +184,17 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
     private void block_place_particle$createCustomParticleGroup(ParticleRenderType particleRenderType, CallbackInfoReturnable<ParticleGroup<?>> cir) {
         if(particleRenderType == ModParticleRenderTypes.CUSTOM_GEOMETRY) {
             cir.setReturnValue(new CustomGeometryParticleGroup((ParticleEngine) (Object) this));
+        }
+    }
+
+    @Inject(
+        at = @At("TAIL"),
+        method = "extract"
+    )
+    private void block_place_particle$extractCustomParticles(ParticlesRenderState state, Frustum frustum, Camera camera, float f, CallbackInfo ci) {
+        ParticleGroup<?> group = this.particles.get(ModParticleRenderTypes.CUSTOM_GEOMETRY);
+        if (group != null && !group.isEmpty()) {
+            state.add(group.extractRenderState(frustum, camera, f));
         }
     }
     //?}

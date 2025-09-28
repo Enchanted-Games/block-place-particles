@@ -1,15 +1,10 @@
 package games.enchanted.eg_particle_interactions.common.particle.spark;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
-import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
-import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class SparkFlash extends CustomGeometryParticle {
@@ -30,7 +25,7 @@ public class SparkFlash extends CustomGeometryParticle {
         if(useRandomAnimation) {
             int rot = this.random.nextIntBetweenInclusive(0, 3);
             this.roll = rot * 90;
-            this.oRoll = roll;
+            this.prevRoll = roll;
         }
 
         this.lifetime = this.random.nextInt(4) + 3;
@@ -38,8 +33,8 @@ public class SparkFlash extends CustomGeometryParticle {
         this.sprites = sprites;
         this.setSpriteFromAge(sprites);
 
-        this.quadSize = 2/16f;
-        originalQuadSize = quadSize;
+        this.scale = 2/16f;
+        originalQuadSize = scale;
         prevAge = age;
     }
 

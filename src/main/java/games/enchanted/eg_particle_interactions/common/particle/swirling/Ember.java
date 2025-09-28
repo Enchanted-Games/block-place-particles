@@ -5,13 +5,11 @@ import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class Ember extends SwirlingParticle {
@@ -28,7 +26,7 @@ public class Ember extends SwirlingParticle {
         this.swirlStrength = MathHelpers.randomBetween(0.7f, 0.9f) * (level.random.nextBoolean() ? -1 : 1);
         this.swirlPeriod = MathHelpers.randomBetween(708, 720);
 
-        this.quadSize = 2.5f/32f;
+        this.scale = 2.5f/32f;
         this.setSize(1/32f, 1/32f);
 
         ((ParticleAccess) this).eg_particle_interactions$setBypassMovementCollisionCheck(true);

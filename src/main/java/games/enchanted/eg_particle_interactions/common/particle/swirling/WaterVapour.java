@@ -7,7 +7,6 @@ import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.RandomSource;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class WaterVapour extends SwirlingParticle {
@@ -28,7 +27,7 @@ public class WaterVapour extends SwirlingParticle {
         this.swirlStrength = MathHelpers.randomBetween(3f, 6f) * (level.random.nextBoolean() ? -1 : 1);
         this.swirlPeriod = MathHelpers.randomBetween(1, 4);
 
-        this.quadSize = 2f/32f;
+        this.scale = 2f/32f;
         this.setSize(1f/32f, 1f/32f);
     }
 

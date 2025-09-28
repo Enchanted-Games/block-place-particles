@@ -1,8 +1,10 @@
 package games.enchanted.eg_particle_interactions.common.particle.constant_motion;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import games.enchanted.eg_particle_interactions.common.util.render.RenderingUtil;
+import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -19,24 +21,33 @@ public class LavaPop extends ConstantMotionAnimatedParticle {
     }
 
     // TODO: Rendering
-//    @Override
-//    protected void renderRotatedQuad(@NotNull VertexConsumer buffer, @NotNull Quaternionf quaternion, float x, float y, float z, float partialTicks) {
-//        float scale = this.getQuadSize(partialTicks);
-//        float uo = this.getU0();
-//        float u1 = this.getU1();
-//        float v0 = this.getV0();
-//        float v1 = this.getV1();
-//        int packedLight = this.getLightColor(partialTicks);
-//        this.renderVertex(buffer, quaternion, x, y, z, 1.0F, -1.0F, scale, u1, v1, packedLight);
-//        this.renderVertex(buffer, quaternion, x, y, z, 1.0F, 1.0F, scale, u1, v0, packedLight);
-//        this.renderVertex(buffer, quaternion, x, y, z, -1.0F, 1.0F, scale, uo, v0, packedLight);
-//        this.renderVertex(buffer, quaternion, x, y, z, -1.0F, -1.0F, scale, uo, v1, packedLight);
-//    }
+    //? if minecraft: <= 1.21.8 {
+    /*@Override
+    protected void renderRotatedQuad(@NotNull VertexConsumer buffer, @NotNull Quaternionf quaternion, float x, float y, float z, float partialTicks) {
+        float scale = this.getQuadSize(partialTicks);
+        float uo = this.getU0();
+        float u1 = this.getU1();
+        float v0 = this.getV0();
+        float v1 = this.getV1();
+        int packedLight = this.getLightColor(partialTicks);
+        this.renderVertex(buffer, quaternion, x, y, z, 1.0F, -1.0F, scale, u1, v1, packedLight);
+        this.renderVertex(buffer, quaternion, x, y, z, 1.0F, 1.0F, scale, u1, v0, packedLight);
+        this.renderVertex(buffer, quaternion, x, y, z, -1.0F, 1.0F, scale, uo, v0, packedLight);
+        this.renderVertex(buffer, quaternion, x, y, z, -1.0F, -1.0F, scale, uo, v1, packedLight);
+    }
 
-//    private void renderVertex(VertexConsumer buffer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, int packedLight) {
-//        yOffset += 1f;
-//        RenderingUtil.addVertexToConsumer(buffer, quaternion, x, y, z, xOffset, yOffset, scale, u, v, packedLight, this.rCol, this.gCol, this.bCol, this.alpha);
-//    }
+    private void renderVertex(VertexConsumer buffer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, int packedLight) {
+        yOffset += 1f;
+        RenderingUtil.addVertexToConsumer(buffer, quaternion, x, y, z, xOffset, yOffset, scale, u, v, packedLight, this.rCol, this.gCol, this.bCol, this.alpha);
+    }
+    *///?} else {
+
+    @Override
+    public void extract(CustomParticleGeometryRenderState state, Camera camera, float partialTicks) {
+        super.extract(state, camera, partialTicks);
+    }
+
+    //?}
 
     public static class LavaPopProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;

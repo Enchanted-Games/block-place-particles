@@ -72,10 +72,11 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
     }
 
     @Override
-    public @NotNull FacingCameraMode getFacingCameraMode() {
-        return (quaternionf, camera, d) -> quaternionf.set(0.0f, 0.0f, 0.0f, camera.rotation().w);
+    public @NotNull BillboardMode getBillboardMode() {
+        return BillboardMode.FIXED;
     }
 
+    // TODO: rendering
 //    @Override
 //    protected void renderRotatedQuad(@NotNull VertexConsumer consumer, @NotNull Camera camera, @NotNull Quaternionf quaternionf, float d) {
 //        Vector3f cameraPosition = camera.getPosition().toVector3f();
@@ -92,35 +93,35 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
 //        this.renderCubeGeometry(consumer, pos, prevPos, d);
 //    }
 
-    private void renderCubeGeometry(@NotNull VertexConsumer consumer, Vector3f pos, Vector3f prevPos, float d) {
-        float cuboidSize = this.getQuadSize(d);
-        float u0 = this.getU0();
-        float u1 = this.getU1();
-        float v0 = this.getV0();
-        float v1 = this.getV1();
-        int lightColor = this.getLightColor(d);
-
-        Vector3f normalisedMovementDir = new Vector3f(pos).sub(prevPos).normalize();
-        float pitch = (float) Math.toDegrees(Math.asin(normalisedMovementDir.y));
-        if(!Float.isFinite(pitch)) pitch = prevPitch;
-        prevPitch = pitch;
-
-        float yaw = (float) Math.toDegrees(Math.atan2(normalisedMovementDir.x, normalisedMovementDir.z));
-        if(!Float.isFinite(yaw)) yaw = prevYaw;
-        prevYaw = yaw;
-
-        Vector3f shapePos = MathHelpers.getPosBetween3DPoints(pos, prevPos);
-        Vector3f shapeScale = new Vector3f(1, Math.max(Math.abs(MathHelpers.getDistanceBetweenVectors(pos, prevPos) * 40), 1), 1).mul(this.particleShapeScale);
-        Vector3f shapeRotation = new Vector3f(-(pitch - 90), yaw, 0);
-        this.particleShape.renderShapeWithRotation(
-            consumer,
-            new Vector2f[]{new Vector2f(u0, v0), new Vector2f(u1, v1)},
-            shapePos,
-            shapeScale,
-            shapeRotation,
-            cuboidSize,
-            lightColor,
-            ColourUtil.ARGBfloats_to_ARGB(this.alpha, this.rCol, this.gCol, this.bCol)
-        );
-    }
+//    private void renderCubeGeometry(@NotNull VertexConsumer consumer, Vector3f pos, Vector3f prevPos, float d) {
+//        float cuboidSize = this.getScale();
+//        float u0 = this.getU0();
+//        float u1 = this.getU1();
+//        float v0 = this.getV0();
+//        float v1 = this.getV1();
+//        int lightColor = this.getLightColor(d);
+//
+//        Vector3f normalisedMovementDir = new Vector3f(pos).sub(prevPos).normalize();
+//        float pitch = (float) Math.toDegrees(Math.asin(normalisedMovementDir.y));
+//        if(!Float.isFinite(pitch)) pitch = prevPitch;
+//        prevPitch = pitch;
+//
+//        float yaw = (float) Math.toDegrees(Math.atan2(normalisedMovementDir.x, normalisedMovementDir.z));
+//        if(!Float.isFinite(yaw)) yaw = prevYaw;
+//        prevYaw = yaw;
+//
+//        Vector3f shapePos = MathHelpers.getPosBetween3DPoints(pos, prevPos);
+//        Vector3f shapeScale = new Vector3f(1, Math.max(Math.abs(MathHelpers.getDistanceBetweenVectors(pos, prevPos) * 40), 1), 1).mul(this.particleShapeScale);
+//        Vector3f shapeRotation = new Vector3f(-(pitch - 90), yaw, 0);
+//        this.particleShape.renderShapeWithRotation(
+//            consumer,
+//            new Vector2f[]{new Vector2f(u0, v0), new Vector2f(u1, v1)},
+//            shapePos,
+//            shapeScale,
+//            shapeRotation,
+//            cuboidSize,
+//            lightColor,
+//            ColourUtil.ARGBfloats_to_ARGB(this.alpha, this.rCol, this.gCol, this.bCol)
+//        );
+//    }
 }

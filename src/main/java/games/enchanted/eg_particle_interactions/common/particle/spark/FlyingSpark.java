@@ -7,11 +7,9 @@ import games.enchanted.eg_particle_interactions.common.shapes.ShapeDefinitions;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -43,7 +41,7 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
 
         float particleSize = (this.random.nextBoolean() ? 0.025F : 0.03F);
         this.setSize(particleSize, particleSize);
-        this.quadSize = particleSize;
+        this.scale = particleSize;
 
         this.sprites = spriteSet;
         this.setSpriteFromAge(this.sprites);

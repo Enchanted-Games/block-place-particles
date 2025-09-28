@@ -4,15 +4,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class BlockSplash extends BucketSplash {
@@ -32,7 +29,7 @@ public class BlockSplash extends BucketSplash {
         this.bCol *= (float)(tintColour & 0xFF) / 255.0F;
 
         float particleSize = (float) 0.1255 - (this.random.nextBoolean() ? 0.01f : 0.02f);
-        this.quadSize = particleSize;
+        this.scale = particleSize;
         this.setSize(particleSize, particleSize);
     }
 

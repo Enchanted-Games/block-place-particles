@@ -1,17 +1,13 @@
 package games.enchanted.eg_particle_interactions.common.particle.dust;
 
-import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
 import games.enchanted.eg_particle_interactions.common.particle.option.TintedParticleOption;
-import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.RandomSource;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
@@ -49,7 +45,7 @@ public class BasicTintedDust extends BasicDust {
         ) {
             BasicTintedDust particle = new BasicTintedDust(level, x, y, z, xSpeed, MathHelpers.randomBetween(0.06f, 0.13f), zSpeed, this.spriteSet, -0.0f, type, false, true, () -> null);
             particle.roll = 0;
-            particle.oRoll = 0;
+            particle.prevRoll = 0;
             particle.lifetime = (int)(particle.lifetime * 0.6f);
             return particle;
         }

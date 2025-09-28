@@ -18,7 +18,7 @@ public class ConstantMotionAnimatedParticle extends CustomGeometryParticle {
 
         this.translucent = translucent;
         this.lifetime = lifetime;
-        this.quadSize = quadSize;
+        this.scale = quadSize;
     }
     protected ConstantMotionAnimatedParticle(ClientLevel level, double x, double y, double z, double constantXSpeed, double constantYSpeed, double constantZSpeed, SpriteSet spriteSet, int lifetime, float quadSize, boolean translucent) {
         this(level, x, y, z, spriteSet, lifetime, quadSize, translucent);

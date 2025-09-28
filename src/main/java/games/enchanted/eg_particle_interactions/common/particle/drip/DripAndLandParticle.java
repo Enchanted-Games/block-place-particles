@@ -3,6 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.drip;
 import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
 import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
 import games.enchanted.eg_particle_interactions.common.particle.option.DripParticleOption;
+import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
 import games.enchanted.eg_particle_interactions.common.util.render.RenderingUtil;
 import games.enchanted.eg_particle_interactions.common.util.render.StateAndLayer;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -30,7 +31,7 @@ public class DripAndLandParticle extends CustomGeometryParticle {
         this.translucent = translucent;
 
         this.setSize(0.01F, 0.01F);
-        this.quadSize = 0.15f;
+        this.scale = 0.15f;
         this.gravity = dripParticleOption.getGravity() + (level.random.nextFloat() * dripParticleOption.getGravityRandomness());
 
         this.startFallingAtTicks = dripParticleOption.getStartFallingTicks();
@@ -101,9 +102,9 @@ public class DripAndLandParticle extends CustomGeometryParticle {
     protected void renderRotatedQuad(@NotNull VertexConsumer consumer, @NotNull Quaternionf quaternion, float x, float y, float z, float partialTicks) {
     *///?} else {
     @Override
-    protected void extractRotatedQuad(QuadParticleRenderState consumer, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
+    protected void extractRotatedQuad(CustomParticleGeometryRenderState consumer, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
     //?}
-        float scale = this.getQuadSize(partialTicks);
+        float scale = this.getScale();
         int packedLight = this.getLightColor(partialTicks);
         this.addVertex(consumer, quaternion, x, y, z, 1.0F, -1.0F, scale, this.u1, this.v1, packedLight);
         this.addVertex(consumer, quaternion, x, y, z, 1.0F, 1.0F, scale, this.u1, this.v0, packedLight);
@@ -115,7 +116,7 @@ public class DripAndLandParticle extends CustomGeometryParticle {
         //? if minecraft: <= 1.21.8 {
         /*VertexConsumer consumer,
         *///?} else {
-        QuadParticleRenderState state,
+        CustomParticleGeometryRenderState state,
         //?}
         Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, int packedLight) {
         yOffset += hasLanded ? 1f : 0f;

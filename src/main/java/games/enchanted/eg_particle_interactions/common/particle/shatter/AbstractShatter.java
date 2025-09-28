@@ -1,21 +1,15 @@
 package games.enchanted.eg_particle_interactions.common.particle.shatter;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import games.enchanted.eg_particle_interactions.common.particle.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
-import games.enchanted.eg_particle_interactions.common.util.render.RenderingUtil;
 import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SingleQuadParticle;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 
@@ -43,7 +37,7 @@ public abstract class AbstractShatter extends CustomGeometryParticle {
 
         this.inverseSlicePositions = level.random.nextBoolean();
         this.roll = (float) Math.toRadians(MathHelpers.randomBetween(0, 3) * 90);
-        this.oRoll = this.roll;
+        this.prevRoll = this.roll;
 
         setInitialVelocity(xSpeed, ySpeed, zSpeed, 0.1f);
 
