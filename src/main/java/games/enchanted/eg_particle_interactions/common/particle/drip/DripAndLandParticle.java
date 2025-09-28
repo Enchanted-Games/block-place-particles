@@ -102,7 +102,7 @@ public class DripAndLandParticle extends CustomGeometryParticle {
     protected void renderRotatedQuad(@NotNull VertexConsumer consumer, @NotNull Quaternionf quaternion, float x, float y, float z, float partialTicks) {
     *///?} else {
     @Override
-    protected void extractRotatedQuad(CustomParticleGeometryRenderState consumer, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
+    protected void extractGeometry(CustomParticleGeometryRenderState consumer, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
     //?}
         float scale = this.getScale();
         int packedLight = this.getLightColor(partialTicks);

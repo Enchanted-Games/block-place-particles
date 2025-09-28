@@ -98,18 +98,18 @@ public abstract class CustomGeometryParticle
             quaternionf.rotateZ(Mth.lerp(partialTicks, this.prevRoll, this.roll));
         }
 
-        this.extractRotatedQuad(state, camera, quaternionf, partialTicks);
+        this.extractGeometry(state, camera, quaternionf, partialTicks);
     }
 
-    protected void extractRotatedQuad(CustomParticleGeometryRenderState state, Camera camera, Quaternionf quaternionf, float partialTicks) {
+    protected void extractGeometry(CustomParticleGeometryRenderState state, Camera camera, Quaternionf quaternionf, float partialTicks) {
         Vec3 cameraPosition = camera.getPosition();
         float x = (float)(Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x());
         float y = (float)(Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y());
         float z = (float)(Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z());
-        this.extractRotatedQuad(state, quaternionf, x, y, z, partialTicks);
+        this.extractGeometry(state, quaternionf, x, y, z, partialTicks);
     }
 
-    protected void extractRotatedQuad(CustomParticleGeometryRenderState state, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
+    protected void extractGeometry(CustomParticleGeometryRenderState state, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
         SingleQuadParticle.Layer layer = getLayer();
         int light = getLightColor(partialTicks);
         state.startQuad(layer);
