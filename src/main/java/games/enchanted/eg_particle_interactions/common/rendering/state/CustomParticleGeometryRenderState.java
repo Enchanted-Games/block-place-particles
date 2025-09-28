@@ -27,21 +27,21 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
     private static final int INTS_PER_QUAD = 2;
     private static final int FLOATS_PER_QUAD = 5;
     private final Map<SingleQuadParticle.Layer, QuadStorage> quadStoragePerLayer = new HashMap<>();
-    private int quadAmount = 0;
+    private int vertexAmount = 0;
 
     @Override
     public void clear() {
-        this.quadAmount = 0;
         this.quadStoragePerLayer.values().forEach(QuadStorage::clear);
+        this.vertexAmount = 0;
     }
 
     @Override
     public @Nullable QuadParticleRenderState.PreparedBuffers prepare(ParticleFeatureRenderer.ParticleBufferCache particleBufferCache) {
-        int amountOfVertices = this.quadAmount * 4;
-
-        try (ByteBufferBuilder byteBufferBuilder = ByteBufferBuilder.exactlySized(amountOfVertices * DefaultVertexFormat.PARTICLE.getVertexSize())){
+        try (ByteBufferBuilder byteBufferBuilder = ByteBufferBuilder.exactlySized(this.vertexAmount * DefaultVertexFormat.PARTICLE.getVertexSize())){
             BufferBuilder vertexBuffer = new BufferBuilder(byteBufferBuilder, VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+
             HashMap<SingleQuadParticle.Layer, QuadParticleRenderState.PreparedLayer> layerToPreparedMap = prepareLayers(vertexBuffer);
+
             MeshData meshData = vertexBuffer.build();
 
             if (meshData != null) {
@@ -54,7 +54,6 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
                     RenderSystem.getTextureMatrix(),
                     RenderSystem.getShaderLineWidth()
                 );
-                meshData.close();
                 return new QuadParticleRenderState.PreparedBuffers(meshData.drawState().indexCount(), dynamicTransforms, layerToPreparedMap);
             }
 
@@ -71,10 +70,10 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
 
             storage.forEachVertex((x, y, z, u, v, packedLight, argb) -> vertexBuffer.addVertex(x, y, z).setUv(u, v).setColor(argb).setLight(packedLight));
 
-            if (storage.quadAmount() > 0) {
-                layerToPreparedMap.put(entry.getKey(), new QuadParticleRenderState.PreparedLayer(vertexOffset, storage.quadAmount() * 6));
+            if (storage.vertexAmount() > 0) {
+                layerToPreparedMap.put(entry.getKey(), new QuadParticleRenderState.PreparedLayer(vertexOffset, storage.vertexAmount() * 6));
             }
-            vertexOffset += storage.quadAmount() * 4;
+            vertexOffset += storage.vertexAmount() * 4;
         }
         return layerToPreparedMap;
     }
@@ -96,7 +95,7 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
 
     @Override
     public void submit(SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
-        if (this.quadAmount > 0) {
+        if (this.vertexAmount > 0) {
             submitNodeCollector.submitParticleGroup(this);
         }
     }
@@ -106,7 +105,6 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
     }
     public void finishQuad(SingleQuadParticle.Layer layer) {
         this.quadStoragePerLayer.computeIfAbsent(layer, (l) -> new QuadStorage()).finishQuad();
-        this.quadAmount++;
     }
 
     public void addVertex(SingleQuadParticle.Layer layer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, int packedLight, float rCol, float gCol, float bCol, float alpha) {
@@ -121,11 +119,12 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
             u,
             v,
             packedLight,
-            alpha,
             rCol,
+            gCol,
             bCol,
-            gCol
+            alpha
         );
+        this.vertexAmount++;
     }
 
     static class QuadStorage {
@@ -133,7 +132,7 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
         private float[] floats = new float[capacity * FLOATS_PER_QUAD];
         private int[] ints = new int[capacity * INTS_PER_QUAD];
 
-        private int currentQuadIndex = 0;
+        private int currentVertexIndex = 0;
         private int currentQuadVertCount = -1;
 
         public void startQuad() {
@@ -164,20 +163,20 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
 
         private void putData(float x, float y, float z, float u, float v, int packedLight, int argb) {
             this.currentQuadVertCount++;
-            int i = this.currentQuadIndex * FLOATS_PER_QUAD;
+            int i = this.currentVertexIndex * FLOATS_PER_QUAD;
             this.floats[i++] = x;
             this.floats[i++] = y;
             this.floats[i++] = z;
             this.floats[i++] = u;
             this.floats[i] = v;
-            i = this.currentQuadIndex * INTS_PER_QUAD;
+            i = this.currentVertexIndex * INTS_PER_QUAD;
             this.ints[i++] = packedLight;
             this.ints[i] = argb;
-            this.currentQuadIndex++;
+            this.currentVertexIndex++;
         }
 
         public void forEachVertex(QuadConsumer consumer) {
-            for (int i = 0; i < this.currentQuadIndex; i++) {
+            for (int i = 0; i < this.currentVertexIndex; i++) {
                 int floatsIndex = i * FLOATS_PER_QUAD;
                 int intsIndex = i * INTS_PER_QUAD;
                 consumer.consume(
@@ -192,13 +191,13 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
             }
         }
 
-        public int quadAmount() {
-            return this.currentQuadIndex;
+        public int vertexAmount() {
+            return this.currentVertexIndex;
         }
 
         public void clear() {
             this.currentQuadVertCount = -1;
-            this.currentQuadIndex = 0;
+            this.currentVertexIndex = 0;
         }
     }
 

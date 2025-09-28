@@ -80,17 +80,17 @@ public abstract class CustomGeometryParticle
     }
 
     protected @NotNull SingleQuadParticle.Layer getLayer() {
-//        switch (getParticleLayer()) {
-//            case OPAQUE -> {
-//                return SingleQuadParticle.Layer.OPAQUE;
-//            }
-//            case TERRAIN -> {
-//                return SingleQuadParticle.Layer.TERRAIN;
-//            }
-//            case TRANSLUCENT -> {
-//                return SingleQuadParticle.Layer.TRANSLUCENT;
-//            }
-//        }
+        switch (getParticleLayer()) {
+            case OPAQUE -> {
+                return SingleQuadParticle.Layer.OPAQUE;
+            }
+            case TERRAIN -> {
+                return SingleQuadParticle.Layer.TERRAIN;
+            }
+            case TRANSLUCENT -> {
+                return SingleQuadParticle.Layer.TRANSLUCENT;
+            }
+        }
         return SingleQuadParticle.Layer.OPAQUE;
     }
 
@@ -115,10 +115,11 @@ public abstract class CustomGeometryParticle
     protected void extractRotatedQuad(CustomParticleGeometryRenderState state, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
         SingleQuadParticle.Layer layer = getLayer();
         state.startQuad(layer);
-        state.addVertex(layer, quaternion, x, y, z, 1.0F, -1.0F, 1, getU1(), getV1(), LightTexture.FULL_BRIGHT, 1, 1, 1, 1);
-        state.addVertex(layer, quaternion, x, y, z, 1.0F, 1.0F, 1, getU1(), getV0(), LightTexture.FULL_BRIGHT, 1, 1, 1, 1);
-        state.addVertex(layer, quaternion, x, y, z, -1.0F, 1.0F, 1, getU0(), getV0(), LightTexture.FULL_BRIGHT, 1, 1, 1, 1);
-        state.addVertex(layer, quaternion, x, y, z, -1.0F, -1.0F, 1, getU0(), getV1(), LightTexture.FULL_BRIGHT, 1, 1, 1, 1);
+        int light = getLightColor(partialTicks);
+        state.addVertex(layer, quaternion, x, y, z,  1.0F, -1.0F, 1, getU1(), getV1(), light, this.rCol, this.gCol, this.bCol, this.alpha);
+        state.addVertex(layer, quaternion, x, y, z,  1.0F,  1.0F, 1, getU1(), getV0(), light, this.rCol, this.gCol, this.bCol, this.alpha);
+        state.addVertex(layer, quaternion, x, y, z, -1.0F,  1.0F, 1, getU0(), getV0(), light, this.rCol, this.gCol, this.bCol, this.alpha);
+        state.addVertex(layer, quaternion, x, y, z, -1.0F, -1.0F, 1, getU0(), getV1(), light, this.rCol, this.gCol, this.bCol, this.alpha);
         state.finishQuad(layer);
 //        state.add(this.getLayer(), f, g, h, quaternionf.x, quaternionf.y, quaternionf.z, quaternionf.w, this.getQuadSize(i), this.getU0(), this.getU1(), this.getV0(), this.getV1(), ARGB.colorFromFloat(this.alpha, this.rCol, this.gCol, this.bCol), this.getLightColor(i));
     }
