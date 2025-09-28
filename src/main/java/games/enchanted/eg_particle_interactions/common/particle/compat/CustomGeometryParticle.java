@@ -4,12 +4,9 @@ import games.enchanted.eg_particle_interactions.common.particle.ModParticleRende
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.state.QuadParticleRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.multiplayer.ClientLevel;
 
-import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -114,14 +111,13 @@ public abstract class CustomGeometryParticle
 
     protected void extractRotatedQuad(CustomParticleGeometryRenderState state, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
         SingleQuadParticle.Layer layer = getLayer();
-        state.startQuad(layer);
         int light = getLightColor(partialTicks);
-        state.addVertex(layer, quaternion, x, y, z,  1.0F, -1.0F, 1, getU1(), getV1(), light, this.rCol, this.gCol, this.bCol, this.alpha);
-        state.addVertex(layer, quaternion, x, y, z,  1.0F,  1.0F, 1, getU1(), getV0(), light, this.rCol, this.gCol, this.bCol, this.alpha);
-        state.addVertex(layer, quaternion, x, y, z, -1.0F,  1.0F, 1, getU0(), getV0(), light, this.rCol, this.gCol, this.bCol, this.alpha);
-        state.addVertex(layer, quaternion, x, y, z, -1.0F, -1.0F, 1, getU0(), getV1(), light, this.rCol, this.gCol, this.bCol, this.alpha);
+        state.startQuad(layer);
+        state.addVertex(layer, quaternion, x, y, z,  1.0F, -1.0F, this.scale, getU1(), getV1(), light, this.rCol, this.gCol, this.bCol, this.alpha);
+        state.addVertex(layer, quaternion, x, y, z,  1.0F,  1.0F, this.scale, getU1(), getV0(), light, this.rCol, this.gCol, this.bCol, this.alpha);
+        state.addVertex(layer, quaternion, x, y, z, -1.0F,  1.0F, this.scale, getU0(), getV0(), light, this.rCol, this.gCol, this.bCol, this.alpha);
+        state.addVertex(layer, quaternion, x, y, z, -1.0F, -1.0F, this.scale, getU0(), getV1(), light, this.rCol, this.gCol, this.bCol, this.alpha);
         state.finishQuad(layer);
-//        state.add(this.getLayer(), f, g, h, quaternionf.x, quaternionf.y, quaternionf.z, quaternionf.w, this.getQuadSize(i), this.getU0(), this.getU1(), this.getV0(), this.getV1(), ARGB.colorFromFloat(this.alpha, this.rCol, this.gCol, this.bCol), this.getLightColor(i));
     }
 
     @Override
