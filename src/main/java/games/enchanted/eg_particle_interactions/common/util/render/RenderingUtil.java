@@ -18,4 +18,30 @@ public class RenderingUtil {
         Vector3f vertexPos = (new Vector3f(xOffset, yOffset, 0.0F)).mul(scale).add(x, y, z);
         consumer.addVertex(vertexPos.x(), vertexPos.y(), vertexPos.z()).setUv(u, v).setColor(rCol, gCol, bCol, alpha).setLight(packedLight);
     }
+
+    public static void addVertex(
+        //? if minecraft: <= 1.21.8 {
+        /*VertexConsumer consumer,
+         *///?} else {
+        StateAndLayer stateAndLayer,
+        //?}
+        Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, int packedLight) {
+        //? if minecraft: <= 1.21.8 {
+        /*RenderingUtil.addVertexToConsumer(
+            consumer,
+            quaternion,
+            x,
+            y,
+            z,
+            xOffset,
+            yOffset,
+            scale,
+            u,
+            v,
+            packedLight
+        );
+        *///?} else {
+        stateAndLayer.state().addVertex(stateAndLayer.layer(), quaternion, x, y, z, xOffset, yOffset, scale, u, v, packedLight);
+        //?}
+    }
 }

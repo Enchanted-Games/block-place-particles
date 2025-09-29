@@ -673,7 +673,7 @@ public class SpawnParticles {
         if (!ConfigHandler.lavaBubblePop_enabled) return;
         if (level.random.nextFloat() < (float) ConfigHandler.lavaBubblePop_spawnChance / 2500) {
             double d0 = (double) fluidPos.getX() + level.random.nextDouble();
-            double d1 = (double) fluidPos.getY() + 0.95;
+            double d1 = (double) fluidPos.getY() + 0.9;
             double d2 = (double) fluidPos.getZ() + level.random.nextDouble();
             level.addParticle(ModParticleTypes.LAVA_POP, d0, d1, d2, 0.0f, 0.0f, 0.0f);
         }

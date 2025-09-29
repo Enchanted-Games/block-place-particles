@@ -12,6 +12,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -202,4 +203,20 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
         }
     }
     //?}
+
+    //? if minecraft: <= 1.21.8 && fabric {
+    /*@Shadow @Final private Map<ParticleRenderType, Queue<Particle>> particles;
+    @Shadow private static void renderParticleType(Camera p_382847_, float p_383032_, MultiBufferSource.BufferSource p_383105_, ParticleRenderType p_383179_, Queue<Particle> p_383046_) {}
+
+    @Inject(
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;endBatch()V"),
+        method = "render(Lnet/minecraft/client/Camera;FLnet/minecraft/client/renderer/MultiBufferSource$BufferSource;)V"
+    )
+    public void render(Camera camera, float f, MultiBufferSource.BufferSource bufferSource, CallbackInfo ci) {
+        Queue<Particle> queue = this.particles.get(ModParticleRenderTypes.BACKFACE_TERRAIN_PARTICLE);
+        if (queue != null && !queue.isEmpty()) {
+            renderParticleType(camera, f, bufferSource, ModParticleRenderTypes.BACKFACE_TERRAIN_PARTICLE, queue);
+        }
+    }
+    *///?}
 }

@@ -1,7 +1,10 @@
 package games.enchanted.eg_particle_interactions.common.particle.compat;
 
+import games.enchanted.eg_particle_interactions.common.particle.ModParticleRenderTypes;
+import games.enchanted.eg_particle_interactions.common.rendering.ModRenderPipelines;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.multiplayer.ClientLevel;
 
@@ -17,7 +20,6 @@ import games.enchanted.eg_particle_interactions.common.rendering.state.CustomPar
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-import games.enchanted.eg_particle_interactions.common.particle.ModParticleRenderTypes;
 import net.minecraft.client.particle.Particle;
 //?}
 
@@ -54,6 +56,9 @@ public abstract class CustomGeometryParticle
             case TRANSLUCENT -> {
                 return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
             }
+            case BACKFACE_TERRAIN -> {
+                return ModParticleRenderTypes.BACKFACE_TERRAIN_PARTICLE;
+            }
         }
         return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
     }
@@ -68,6 +73,8 @@ public abstract class CustomGeometryParticle
     protected float gCol = 1.0F;
     protected float bCol = 1.0F;
     protected float alpha = 1.0F;
+
+    public static final SingleQuadParticle.Layer BACKFACE_TERRAIN_LAYER = new SingleQuadParticle.Layer(true, TextureAtlas.LOCATION_BLOCKS, ModRenderPipelines.BACKFACE_TRANSLUCENT_PARTICLE);
 
     protected CustomGeometryParticle(ClientLevel clientLevel, double x, double y, double z, TextureAtlasSprite textureAtlasSprite) {
         this(clientLevel, x, y, z, 0, 0, 0, textureAtlasSprite);
@@ -93,6 +100,9 @@ public abstract class CustomGeometryParticle
             case TRANSLUCENT -> {
                 return SingleQuadParticle.Layer.TRANSLUCENT;
             }
+            case BACKFACE_TERRAIN -> {
+                return BACKFACE_TERRAIN_LAYER;
+            }
         }
         return SingleQuadParticle.Layer.OPAQUE;
     }
@@ -104,10 +114,10 @@ public abstract class CustomGeometryParticle
             quaternionf.rotateZ(Mth.lerp(partialTicks, this.oRoll, this.roll));
         }
 
-        this.extractGeometry(state, camera, quaternionf, partialTicks);
+        this.adjustPositionBeforeExtraction(state, camera, quaternionf, partialTicks);
     }
 
-    protected void extractGeometry(CustomParticleGeometryRenderState state, Camera camera, Quaternionf quaternionf, float partialTicks) {
+    protected void adjustPositionBeforeExtraction(CustomParticleGeometryRenderState state, Camera camera, Quaternionf quaternionf, float partialTicks) {
         Vec3 cameraPosition = camera.getPosition();
         float x = (float)(Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x());
         float y = (float)(Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y());

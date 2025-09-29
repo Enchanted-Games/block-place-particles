@@ -10,9 +10,8 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 
 //? if minecraft: > 1.21.8 {
-import net.minecraft.client.renderer.state.QuadParticleRenderState;
 import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
-import net.minecraft.util.ARGB;
+import games.enchanted.eg_particle_interactions.common.util.render.StateAndLayer;
 import net.minecraft.util.RandomSource;
 //?} else {
 /*import org.jetbrains.annotations.NotNull;
@@ -105,54 +104,24 @@ public class DripAndLandParticle extends CustomGeometryParticle {
     protected void renderRotatedQuad(@NotNull VertexConsumer consumer, @NotNull Quaternionf quaternion, float x, float y, float z, float partialTicks) {
     *///?} else {
     @Override
-    protected void extractGeometry(CustomParticleGeometryRenderState consumer, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
+    protected void extractGeometry(CustomParticleGeometryRenderState state, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
     //?}
-        float scale = this.getScale();
-        int packedLight = this.getLightColor(partialTicks);
         //? if minecraft: > 1.21.8 {
         SingleQuadParticle.Layer layer = this.getLayer();
-        consumer.startQuad(layer);
+        state.startQuad(layer);
+        StateAndLayer consumer = new StateAndLayer(state, layer);
         //?}
-        this.addVertex(consumer, quaternion, x, y, z,  1.0F, -1.0F, scale, this.u1, this.v1, packedLight);
-        this.addVertex(consumer, quaternion, x, y, z,  1.0F,  1.0F, scale, this.u1, this.v0, packedLight);
-        this.addVertex(consumer, quaternion, x, y, z, -1.0F,  1.0F, scale, this.uo, this.v0, packedLight);
-        this.addVertex(consumer, quaternion, x, y, z, -1.0F, -1.0F, scale, this.uo, this.v1, packedLight);
+        float scale = this.getScale();
+        int packedLight = this.getLightColor(partialTicks);
+        float yOffset = hasLanded ? 1f : 0f;
+        RenderingUtil.addVertex(consumer, quaternion, x, y, z,  1.0F, -1.0F + yOffset, scale, this.u1, this.v1, packedLight);
+        RenderingUtil.addVertex(consumer, quaternion, x, y, z,  1.0F,  1.0F + yOffset, scale, this.u1, this.v0, packedLight);
+        RenderingUtil.addVertex(consumer, quaternion, x, y, z, -1.0F,  1.0F + yOffset, scale, this.uo, this.v0, packedLight);
+        RenderingUtil.addVertex(consumer, quaternion, x, y, z, -1.0F, -1.0F + yOffset, scale, this.uo, this.v1, packedLight);
         //? if minecraft: > 1.21.8 {
-        consumer.finishQuad(layer);
+        state.finishQuad(layer);
         //?}
     }
-
-    private void addVertex(
-        //? if minecraft: <= 1.21.8 {
-        /*VertexConsumer consumer,
-        *///?} else {
-        CustomParticleGeometryRenderState state,
-        //?}
-        Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, int packedLight) {
-        yOffset += hasLanded ? 1f : 0f;
-        //? if minecraft: <= 1.21.8 {
-        /*RenderingUtil.addVertexToConsumer(
-            consumer,
-            quaternion,
-            x,
-            y,
-            z,
-            xOffset,
-            yOffset,
-            scale,
-            u,
-            v,
-            packedLight,
-            this.rCol,
-            this.gCol,
-            this.bCol,
-            this.alpha
-        );
-        *///?} else {
-        state.addVertex(this.getLayer(), quaternion, x, y, z, xOffset, yOffset, scale, u, v, packedLight);
-        //?}
-    }
-
 
     public static class UntintedDropProvider implements ParticleProvider<DripParticleOption> {
         SpriteSet sprites;
