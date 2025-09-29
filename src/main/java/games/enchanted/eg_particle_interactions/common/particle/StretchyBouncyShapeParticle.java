@@ -7,10 +7,16 @@ import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.joml.*;
+
+//? if minecraft: > 1.21.8 {
+import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
+import games.enchanted.eg_particle_interactions.common.util.render.StateAndLayer;
+//?}
 
 import java.lang.Math;
 
@@ -76,52 +82,68 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
         return BillboardMode.FIXED;
     }
 
-    // TODO: rendering
-//    @Override
-//    protected void renderRotatedQuad(@NotNull VertexConsumer consumer, @NotNull Camera camera, @NotNull Quaternionf quaternionf, float d) {
-//        Vector3f cameraPosition = camera.getPosition().toVector3f();
-//
-//        float xPos = (float) Mth.lerp(d, this.xo, this.x);
-//        float yPos = (float) Mth.lerp(d, this.yo, this.y);
-//        float zPos = (float) Mth.lerp(d, this.zo, this.z);
-//        Vector3f pos = new Vector3f(xPos, yPos, zPos).sub(cameraPosition);
-//        float prevXPos = (float) Mth.lerp(d, this.prevPrevX, this.xo);
-//        float prevYPos = (float) Mth.lerp(d, this.prevPrevY, this.yo);
-//        float prevZPos = (float) Mth.lerp(d, this.prevPrevZ, this.zo);
-//        Vector3f prevPos = new Vector3f(prevXPos, prevYPos, prevZPos).sub(cameraPosition);
-//
-//        this.renderCubeGeometry(consumer, pos, prevPos, d);
-//    }
+    @Override
+    protected void adjustPositionBeforeExtraction(
+        //? if minecraft: <= 1.21.8 {
+        /*VertexConsumer consumer,
+        *///?} else {
+        CustomParticleGeometryRenderState state,
+         //?}
+        Camera camera, Quaternionf quaternionf, float partialTicks
+    ) {
+        Vector3f cameraPosition = camera.getPosition().toVector3f();
 
-//    private void renderCubeGeometry(@NotNull VertexConsumer consumer, Vector3f pos, Vector3f prevPos, float d) {
-//        float cuboidSize = this.getScale();
-//        float u0 = this.getU0();
-//        float u1 = this.getU1();
-//        float v0 = this.getV0();
-//        float v1 = this.getV1();
-//        int lightColor = this.getLightColor(d);
-//
-//        Vector3f normalisedMovementDir = new Vector3f(pos).sub(prevPos).normalize();
-//        float pitch = (float) Math.toDegrees(Math.asin(normalisedMovementDir.y));
-//        if(!Float.isFinite(pitch)) pitch = prevPitch;
-//        prevPitch = pitch;
-//
-//        float yaw = (float) Math.toDegrees(Math.atan2(normalisedMovementDir.x, normalisedMovementDir.z));
-//        if(!Float.isFinite(yaw)) yaw = prevYaw;
-//        prevYaw = yaw;
-//
-//        Vector3f shapePos = MathHelpers.getPosBetween3DPoints(pos, prevPos);
-//        Vector3f shapeScale = new Vector3f(1, Math.max(Math.abs(MathHelpers.getDistanceBetweenVectors(pos, prevPos) * 40), 1), 1).mul(this.particleShapeScale);
-//        Vector3f shapeRotation = new Vector3f(-(pitch - 90), yaw, 0);
-//        this.particleShape.renderShapeWithRotation(
-//            consumer,
-//            new Vector2f[]{new Vector2f(u0, v0), new Vector2f(u1, v1)},
-//            shapePos,
-//            shapeScale,
-//            shapeRotation,
-//            cuboidSize,
-//            lightColor,
-//            ColourUtil.ARGBfloats_to_ARGB(this.alpha, this.rCol, this.gCol, this.bCol)
-//        );
-//    }
+        float xPos = (float) Mth.lerp(partialTicks, this.xo, this.x);
+        float yPos = (float) Mth.lerp(partialTicks, this.yo, this.y);
+        float zPos = (float) Mth.lerp(partialTicks, this.zo, this.z);
+        Vector3f pos = new Vector3f(xPos, yPos, zPos).sub(cameraPosition);
+        float prevXPos = (float) Mth.lerp(partialTicks, this.prevPrevX, this.xo);
+        float prevYPos = (float) Mth.lerp(partialTicks, this.prevPrevY, this.yo);
+        float prevZPos = (float) Mth.lerp(partialTicks, this.prevPrevZ, this.zo);
+        Vector3f prevPos = new Vector3f(prevXPos, prevYPos, prevZPos).sub(cameraPosition);
+
+        //? if minecraft: > 1.21.8 {
+        StateAndLayer consumer = new StateAndLayer(state, this.getLayer());
+        //?}
+        this.extractShapeGeometry(consumer, pos, prevPos, partialTicks);
+    }
+
+    private void extractShapeGeometry(
+        //? if minecraft: <= 1.21.8 {
+        /*VertexConsumer consumer,
+        *///?} else {
+        StateAndLayer consumer,
+         //?}
+        Vector3f pos, Vector3f prevPos, float partialTicks
+    ) {
+        float cuboidSize = this.getScale();
+        float u0 = this.getU0();
+        float u1 = this.getU1();
+        float v0 = this.getV0();
+        float v1 = this.getV1();
+        int lightColor = this.getLightColor(partialTicks);
+
+        Vector3f normalisedMovementDir = new Vector3f(pos).sub(prevPos).normalize();
+        float pitch = (float) Math.toDegrees(Math.asin(normalisedMovementDir.y));
+        if(!Float.isFinite(pitch)) pitch = prevPitch;
+        prevPitch = pitch;
+
+        float yaw = (float) Math.toDegrees(Math.atan2(normalisedMovementDir.x, normalisedMovementDir.z));
+        if(!Float.isFinite(yaw)) yaw = prevYaw;
+        prevYaw = yaw;
+
+        Vector3f shapePos = MathHelpers.getPosBetween3DPoints(pos, prevPos);
+        Vector3f shapeScale = new Vector3f(1, Math.max(Math.abs(MathHelpers.getDistanceBetweenVectors(pos, prevPos) * 40), 1), 1).mul(this.particleShapeScale);
+        Vector3f shapeRotation = new Vector3f(-(pitch - 90), yaw, 0);
+        this.particleShape.extractShape(
+            consumer,
+            new Vector2f[]{new Vector2f(u0, v0), new Vector2f(u1, v1)},
+            shapePos,
+            shapeScale,
+            shapeRotation,
+            cuboidSize,
+            lightColor,
+            ColourUtil.ARGBfloats_to_ARGB(this.alpha, this.rCol, this.gCol, this.bCol)
+        );
+    }
 }
