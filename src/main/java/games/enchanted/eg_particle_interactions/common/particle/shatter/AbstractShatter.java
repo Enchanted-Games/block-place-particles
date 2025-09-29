@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.shatter;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
@@ -9,6 +10,7 @@ import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 
@@ -119,13 +121,15 @@ public abstract class AbstractShatter extends CustomGeometryParticle {
         return uv * this.uvScale + this.uvOffset;
     }
 
-    //? if minecraft: <= 1.21.8 {
-    /*@Override
-    protected void renderRotatedQuad(@NotNull VertexConsumer consumer, @NotNull Quaternionf quaternion, float x, float y, float z, float partialTicks) {
-    *///?} else {
     @Override
-    protected void extractGeometry(CustomParticleGeometryRenderState state, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
-    //?}
+    protected void extractGeometry(
+        //? if minecraft: <= 1.21.8 {
+        /*VertexConsumer consumer,
+        *///?} else {
+        CustomParticleGeometryRenderState state,
+         //?}
+        Quaternionf quaternion, float x, float y, float z, float partialTicks
+    ) {
         //? if minecraft: > 1.21.8 {
         SingleQuadParticle.Layer layer = this.getLayer();
         StateAndLayer consumer = new StateAndLayer(state, layer);

@@ -3,12 +3,15 @@ package games.enchanted.eg_particle_interactions.common.particle.compat;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.rendering.ModRenderPipelines;
+import games.enchanted.eg_particle_interactions.common.util.render.RenderingUtil;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.multiplayer.ClientLevel;
 
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import net.minecraft.client.Camera;
@@ -18,6 +21,7 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.particle.TextureSheetParticle;
 *///?} else {
 import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
+import games.enchanted.eg_particle_interactions.common.util.render.StateAndLayer;
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
@@ -65,9 +69,11 @@ public abstract class CustomGeometryParticle
     }
 
     @Override
-    public void render(VertexConsumer buffer, Camera camera, float partialTicks) {
-        this.renderTick(partialTicks);
-        super.render(buffer, camera, partialTicks);
+    protected final void renderRotatedQuad(VertexConsumer buffer, Camera camera, Quaternionf quaternion, float partialTicks) {
+    }
+
+    @Override
+    protected final void renderRotatedQuad(VertexConsumer buffer, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
     }
 
     *///?} else {
@@ -114,7 +120,18 @@ public abstract class CustomGeometryParticle
         return SingleQuadParticle.Layer.OPAQUE;
     }
 
-    public void extract(CustomParticleGeometryRenderState state, Camera camera, float partialTicks) {
+    @Override
+    public @NotNull ParticleRenderType getGroup() {
+        return ModParticleRenderTypes.CUSTOM_GEOMETRY;
+    }
+    //?}
+
+    //? if minecraft: <= 1.21.8 {
+    /*@Override
+    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
+    *///?} else {
+    public void extract(CustomParticleGeometryRenderState consumer, Camera camera, float partialTicks) {
+    //?}
         this.renderTick(partialTicks);
         Quaternionf quaternionf = new Quaternionf();
         this.getBillboardMode().rotate(quaternionf, camera, partialTicks);
@@ -122,33 +139,46 @@ public abstract class CustomGeometryParticle
             quaternionf.rotateZ(Mth.lerp(partialTicks, this.oRoll, this.roll));
         }
 
-        this.adjustPositionBeforeExtraction(state, camera, quaternionf, partialTicks);
+        this.adjustPositionBeforeExtraction(consumer, camera, quaternionf, partialTicks);
     }
 
-    protected void adjustPositionBeforeExtraction(CustomParticleGeometryRenderState state, Camera camera, Quaternionf quaternionf, float partialTicks) {
+    protected void adjustPositionBeforeExtraction(
+        //? if minecraft: <= 1.21.8 {
+        /*VertexConsumer consumer,
+        *///?} else {
+        CustomParticleGeometryRenderState consumer,
+        //?}
+        Camera camera, Quaternionf quaternionf, float partialTicks
+    ) {
         Vec3 cameraPosition = camera.getPosition();
         float x = (float)(Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x());
         float y = (float)(Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y());
         float z = (float)(Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z());
-        this.extractGeometry(state, quaternionf, x, y, z, partialTicks);
+        this.extractGeometry(consumer, quaternionf, x, y, z, partialTicks);
     }
 
-    protected void extractGeometry(CustomParticleGeometryRenderState state, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
-        SingleQuadParticle.Layer layer = getLayer();
+    protected void extractGeometry(
+        //? if minecraft: <= 1.21.8 {
+        /*VertexConsumer consumer,
+        *///?} else {
+        CustomParticleGeometryRenderState state,
+         //?}
+        Quaternionf quaternion, float x, float y, float z, float partialTicks
+    ) {
         int light = getLightColor(partialTicks);
+        //? if minecraft: > 1.21.8 {
+        SingleQuadParticle.Layer layer = getLayer();
+        StateAndLayer consumer = new StateAndLayer(state, layer);
         state.startQuad(layer);
-        state.addVertex(layer, quaternion, x, y, z,  1.0F, -1.0F, this.scale, getU1(), getV1(), light, this.rCol, this.gCol, this.bCol, this.alpha);
-        state.addVertex(layer, quaternion, x, y, z,  1.0F,  1.0F, this.scale, getU1(), getV0(), light, this.rCol, this.gCol, this.bCol, this.alpha);
-        state.addVertex(layer, quaternion, x, y, z, -1.0F,  1.0F, this.scale, getU0(), getV0(), light, this.rCol, this.gCol, this.bCol, this.alpha);
-        state.addVertex(layer, quaternion, x, y, z, -1.0F, -1.0F, this.scale, getU0(), getV1(), light, this.rCol, this.gCol, this.bCol, this.alpha);
+        //?}
+        RenderingUtil.addVertex(consumer, quaternion, x, y, z,  1.0F, -1.0F, this.getScale(), getU1(), getV1(), light, this.rCol, this.gCol, this.bCol, this.alpha);
+        RenderingUtil.addVertex(consumer, quaternion, x, y, z,  1.0F,  1.0F, this.getScale(), getU1(), getV0(), light, this.rCol, this.gCol, this.bCol, this.alpha);
+        RenderingUtil.addVertex(consumer, quaternion, x, y, z, -1.0F,  1.0F, this.getScale(), getU0(), getV0(), light, this.rCol, this.gCol, this.bCol, this.alpha);
+        RenderingUtil.addVertex(consumer, quaternion, x, y, z, -1.0F, -1.0F, this.getScale(), getU0(), getV1(), light, this.rCol, this.gCol, this.bCol, this.alpha);
+        //? if minecraft: > 1.21.8 {
         state.finishQuad(layer);
+        //?}
     }
-
-    @Override
-    public @NotNull ParticleRenderType getGroup() {
-        return ModParticleRenderTypes.CUSTOM_GEOMETRY;
-    }
-    //?}
 
     public BillboardMode getBillboardMode() {
         return BillboardMode.XYZ;

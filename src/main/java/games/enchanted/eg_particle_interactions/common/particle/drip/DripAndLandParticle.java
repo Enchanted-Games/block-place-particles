@@ -99,13 +99,15 @@ public class DripAndLandParticle extends CustomGeometryParticle {
         return this.translucent ? ParticleLayer.TRANSLUCENT : ParticleLayer.OPAQUE;
     }
 
-    //? if minecraft: <= 1.21.8 {
-    /*@Override
-    protected void renderRotatedQuad(@NotNull VertexConsumer consumer, @NotNull Quaternionf quaternion, float x, float y, float z, float partialTicks) {
-    *///?} else {
     @Override
-    protected void extractGeometry(CustomParticleGeometryRenderState state, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
-    //?}
+    protected void extractGeometry(
+        //? if minecraft: <= 1.21.8 {
+        /*VertexConsumer consumer,
+        *///?} else {
+        CustomParticleGeometryRenderState state,
+         //?}
+        Quaternionf quaternion, float x, float y, float z, float partialTicks
+    ) {
         //? if minecraft: > 1.21.8 {
         SingleQuadParticle.Layer layer = this.getLayer();
         state.startQuad(layer);

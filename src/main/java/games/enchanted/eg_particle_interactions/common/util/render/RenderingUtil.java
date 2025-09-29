@@ -41,7 +41,64 @@ public class RenderingUtil {
             packedLight
         );
         *///?} else {
-        stateAndLayer.state().addVertex(stateAndLayer.layer(), quaternion, x, y, z, xOffset, yOffset, scale, u, v, packedLight);
+        stateAndLayer.state().addVertex(stateAndLayer.layer(),
+            quaternion,
+            x,
+            y,
+            z,
+            xOffset,
+            yOffset,
+            scale,
+            u,
+            v,
+            packedLight
+        );
+        //?}
+    }
+
+    public static void addVertex(
+        //? if minecraft: <= 1.21.8 {
+        /*VertexConsumer consumer,
+         *///?} else {
+        StateAndLayer stateAndLayer,
+        //?}
+        Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, int packedLight, float rCol, float gCol, float bCol, float alpha) {
+        //? if minecraft: <= 1.21.8 {
+        /*RenderingUtil.addVertexToConsumer(
+            consumer,
+            quaternion,
+            x,
+            y,
+            z,
+            xOffset,
+            yOffset,
+            scale,
+            u,
+            v,
+            packedLight,
+            rCol,
+            gCol,
+            bCol,
+            alpha
+        );
+        *///?} else {
+        stateAndLayer.state().addVertex(
+            stateAndLayer.layer(),
+            quaternion,
+            x,
+            y,
+            z,
+            xOffset,
+            yOffset,
+            scale,
+            u,
+            v,
+            packedLight,
+            rCol,
+            gCol,
+            bCol,
+            alpha
+        );
         //?}
     }
 }
