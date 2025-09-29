@@ -48,26 +48,10 @@ public class SwirlingParticle extends CustomGeometryParticle {
         this.yd -= (0.04f * this.gravity);
     }
 
-    protected void renderTick(float partialTicks) {}
-
     @Override
     protected ParticleLayer getParticleLayer() {
         return ParticleLayer.OPAQUE;
     }
-
-    //? if minecraft: <= 1.21.8 {
-    /*@Override
-    public void render(@NotNull VertexConsumer buffer, @NotNull Camera renderInfo, float partialTicks) {
-        this.renderTick(partialTicks);
-        super.render(buffer, renderInfo, partialTicks);
-    }
-    *///?} else {
-    @Override
-    public void extract(@NotNull CustomParticleGeometryRenderState state, @NotNull Camera renderInfo, float partialTicks) {
-        this.renderTick(partialTicks);
-        super.extract(state, renderInfo, partialTicks);
-    }
-    //?}
 
     @Override
     public void tick() {

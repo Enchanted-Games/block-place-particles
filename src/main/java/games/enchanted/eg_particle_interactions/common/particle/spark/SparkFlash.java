@@ -2,8 +2,11 @@ package games.enchanted.eg_particle_interactions.common.particle.spark;
 
 import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.*;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 
@@ -58,12 +61,10 @@ public class SparkFlash extends CustomGeometryParticle {
         return 240;
     }
 
-// TODO: rendering
-//    @Override
-//    public void render(@NotNull VertexConsumer buffer, @NotNull Camera renderInfo, float partialTicks) {
-//        this.quadSize = this.originalQuadSize * (0.5f + (Math.abs(1 - Mth.lerp(partialTicks, this.prevAge, this.age) / this.lifetime) * 0.5f));
-//        super.render(buffer, renderInfo, partialTicks);
-//    }
+    @Override
+    protected void renderTick(float partialTicks) {
+        this.setScale(this.originalQuadSize * (0.5f + (Math.abs(1 - Mth.lerp(partialTicks, this.prevAge, this.age) / this.lifetime) * 0.5f)));
+    }
 
     @Override
     protected ParticleLayer getParticleLayer() {

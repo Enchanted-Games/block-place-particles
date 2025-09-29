@@ -66,6 +66,7 @@ public abstract class AbstractShatter extends CustomGeometryParticle {
         super.tick();
     }
 
+    @Override
     protected void renderTick(float partialTicks) {
         float percentageAge = (float) this.age / this.lifetime;
         if(percentageAge > 0.8) {
@@ -130,7 +131,6 @@ public abstract class AbstractShatter extends CustomGeometryParticle {
         StateAndLayer consumer = new StateAndLayer(state, layer);
         //?}
 
-        this.renderTick(partialTicks);
         float scale = this.getParticleScale(partialTicks);
         int lightColour = LightTexture.FULL_BRIGHT;
 

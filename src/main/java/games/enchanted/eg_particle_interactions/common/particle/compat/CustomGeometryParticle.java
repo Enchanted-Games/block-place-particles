@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.compat;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.rendering.ModRenderPipelines;
 import net.minecraft.client.particle.ParticleRenderType;
@@ -63,6 +64,12 @@ public abstract class CustomGeometryParticle
         return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
     }
 
+    @Override
+    public void render(VertexConsumer buffer, Camera camera, float partialTicks) {
+        this.renderTick(partialTicks);
+        super.render(buffer, camera, partialTicks);
+    }
+
     *///?} else {
 
     protected float scale;
@@ -108,6 +115,7 @@ public abstract class CustomGeometryParticle
     }
 
     public void extract(CustomParticleGeometryRenderState state, Camera camera, float partialTicks) {
+        this.renderTick(partialTicks);
         Quaternionf quaternionf = new Quaternionf();
         this.getBillboardMode().rotate(quaternionf, camera, partialTicks);
         if (this.roll != 0.0F) {
@@ -192,6 +200,9 @@ public abstract class CustomGeometryParticle
          //?} else {
         /*this.quadSize = scale;
         *///?}
+    }
+
+    protected void renderTick(float partialTicks) {
     }
 
     protected abstract ParticleLayer getParticleLayer();
