@@ -35,6 +35,7 @@ public abstract class CustomGeometryParticle
     extends Particle
     //?}
 {
+    // TODO: implement bounding box for 1.21.9, and neo 1.21.8
     //? if minecraft: <= 1.21.8 {
     
     /*protected CustomGeometryParticle(ClientLevel clientLevel, double x, double y, double z, TextureAtlasSprite textureAtlasSprite) {

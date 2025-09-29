@@ -148,6 +148,7 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
     }
 
     static class QuadStorage {
+        // TODO: implement expanding capacity when full
         private int capacity = INITIAL_CAPACITY * VERTS_PER_QUAD;
         private float[] floats = new float[capacity * FLOATS_PER_QUAD];
         private int[] ints = new int[capacity * INTS_PER_QUAD];
