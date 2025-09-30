@@ -17,8 +17,8 @@ import org.joml.Quaternionf;
 import net.minecraft.client.Camera;
 
 //? if minecraft: <= 1.21.8 {
-/*import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.TextureSheetParticle;
+/*import net.minecraft.client.particle.TextureSheetParticle;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 *///?} else {
 import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
 import games.enchanted.eg_particle_interactions.common.util.render.StateAndLayer;
@@ -33,7 +33,6 @@ public abstract class CustomGeometryParticle
     extends Particle
     //?}
 {
-    // TODO: implement bounding box for 1.21.9, and neo 1.21.8
     //? if minecraft: <= 1.21.8 {
     
     /*protected CustomGeometryParticle(ClientLevel clientLevel, double x, double y, double z, TextureAtlasSprite textureAtlasSprite) {
