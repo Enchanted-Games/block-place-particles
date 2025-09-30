@@ -48,9 +48,7 @@ public class BasicDust extends AbstractDust {
             , RandomSource random
             //?}
         ) {
-            BasicDust particle = new BasicDust(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet, 1.1f, true, true, () -> ModParticleTypes.SNOWFLAKE_SPECK);
-            particle.emissive = true;
-            return particle;
+            return new BasicDust(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet, 1.1f, true, true, () -> ModParticleTypes.SNOWFLAKE_SPECK);
         }
     }
     public static class SnowflakeSpeckProvider implements ParticleProvider<SimpleParticleType>  {
@@ -74,9 +72,7 @@ public class BasicDust extends AbstractDust {
             , RandomSource random
             //?}
         ) {
-            BasicDust particle = new BasicDust(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet, 0.7f, false, false, () -> null);
-            particle.emissive = true;
-            return particle;
+            return new BasicDust(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet, 0.7f, false, false, () -> null);
         }
     }
 }
