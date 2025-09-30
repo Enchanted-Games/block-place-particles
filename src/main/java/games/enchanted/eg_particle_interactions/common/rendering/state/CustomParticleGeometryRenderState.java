@@ -5,6 +5,7 @@ import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
+import games.enchanted.eg_particle_interactions.common.Logging;
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.feature.ParticleFeatureRenderer;
@@ -19,11 +20,13 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CustomParticleGeometryRenderState implements SubmitNodeCollector.ParticleGroupRenderer, ParticleGroupRenderState {
-    private static final int INITIAL_CAPACITY = 1024;
+    private static final int INITIAL_CAPACITY = 512;
+    private static final int ADDITION_CAPACITY = 128;
     private static final int VERTS_PER_QUAD = 4;
     private static final int INTS_PER_QUAD = 2;
     private static final int FLOATS_PER_QUAD = 5;
@@ -148,7 +151,6 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
     }
 
     static class QuadStorage {
-        // TODO: implement expanding capacity when full
         private int capacity = INITIAL_CAPACITY * VERTS_PER_QUAD;
         private float[] floats = new float[capacity * FLOATS_PER_QUAD];
         private int[] ints = new int[capacity * INTS_PER_QUAD];
@@ -183,6 +185,9 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
         }
 
         private void putData(float x, float y, float z, float u, float v, int packedLight, int argb) {
+            if(this.currentVertexIndex + 1 > this.capacity) {
+                expandCapacity();
+            }
             this.currentQuadVertCount++;
             int i = this.currentVertexIndex * FLOATS_PER_QUAD;
             this.floats[i++] = x;
@@ -219,6 +224,14 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
         public void clear() {
             this.currentQuadVertCount = -1;
             this.currentVertexIndex = 0;
+        }
+
+        private void expandCapacity() {
+            int oldCapacity = this.capacity;
+            this.capacity += ADDITION_CAPACITY * VERTS_PER_QUAD;
+            this.floats = Arrays.copyOf(this.floats, capacity * FLOATS_PER_QUAD);
+            this.ints = Arrays.copyOf(this.ints, capacity * INTS_PER_QUAD);
+            Logging.info("Expanding QuadStorage: old capacity [{} verts], new capacity: [{} verts]", oldCapacity, this.capacity);
         }
     }
 

@@ -136,7 +136,7 @@ public abstract class AbstractShatter extends CustomGeometryParticle {
         //?}
 
         float scale = this.getParticleScale(partialTicks);
-        int lightColour = LightTexture.FULL_BRIGHT;
+        int lightColour = getLightColor(partialTicks);
 
         float u0 = this.sprite.getU(this.getScaledUVCoord(0));
         float u1 = this.sprite.getU(this.getScaledUVCoord(this.slice0X));
