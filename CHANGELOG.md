@@ -1,7 +1,7 @@
-# 0.8.2-beta.1
+# 0.8.2
 
-- Fixed rendering issues in v0.8.2-alpha\
-- Fixed sparks rendering as a single quad\
-- Fixed portal shatter particles not rendering at all\
-- Fixed some particles having incorrect billboarding\
-- Not tested extensively, expect bugs! Report any if you find them
+- Ported to 1.21.9
+- Fixed remaining issues from v0.8.2-beta.1
+- Spark particles no longer disappear near the edge of the screen
+- Snowflake particles are no longer emissive
+- No longer crashes if too many particles try to render in a single frame
