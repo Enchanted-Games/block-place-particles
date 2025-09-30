@@ -23,7 +23,7 @@ public class CustomGeometryParticleGroup extends ParticleGroup<CustomGeometryPar
     @Override
     public @NotNull ParticleGroupRenderState extractRenderState(Frustum frustum, Camera camera, float partialTicks) {
         for (CustomGeometryParticle particle : this.particles) {
-            if (!frustum.pointInFrustum(particle.getX(), particle.getY(), particle.getZ())) continue;
+            if (!frustum.isVisible(particle.getCullingBox(partialTicks))) continue;
             try {
                 particle.extract(this.state, camera, partialTicks);
             }

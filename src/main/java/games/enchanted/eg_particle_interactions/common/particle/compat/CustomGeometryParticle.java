@@ -1,6 +1,5 @@
 package games.enchanted.eg_particle_interactions.common.particle.compat;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.rendering.ModRenderPipelines;
 import games.enchanted.eg_particle_interactions.common.util.render.RenderingUtil;
@@ -11,6 +10,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.multiplayer.ClientLevel;
 
 import net.minecraft.util.Mth;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
@@ -23,8 +23,6 @@ import net.minecraft.client.particle.TextureSheetParticle;
 import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
 import games.enchanted.eg_particle_interactions.common.util.render.StateAndLayer;
 import net.minecraft.client.particle.SingleQuadParticle;
-import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.client.particle.Particle;
 //?}
 
@@ -194,14 +192,8 @@ public abstract class CustomGeometryParticle
         this.sprite = sprite;
     }
 
-    public double getX() {
-        return this.x;
-    }
-    public double getY() {
-        return this.y;
-    }
-    public double getZ() {
-        return this.z;
+    public AABB getCullingBox(float partialTicks) {
+        return this.getBoundingBox();
     }
 
     protected float getU0() {

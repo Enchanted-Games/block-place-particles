@@ -7,9 +7,10 @@ import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.Mth;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.joml.*;
 
@@ -146,4 +147,26 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
             ColourUtil.ARGBfloats_to_ARGB(this.alpha, this.rCol, this.gCol, this.bCol)
         );
     }
+
+    @Override
+    public @NotNull AABB getCullingBox(float partialTicks) {
+        // expand the culling box by the size of the particle and move it to the middle of the current pos and previous pos
+        double diffX = this.x - this.xo;
+        double diffY = this.y - this.yo;
+        double diffZ = this.z - this.zo;
+        return this.getBoundingBox()
+            .move(-diffX / 2, -diffY / 2, -diffZ / 2)
+            .inflate(Math.abs(new Vec3(this.x, this.y, this.z).distanceTo(new Vec3(this.xo, this.yo, this.zo)) / 2 ));
+    }
+
+    //? if neoforge {
+    /*@Override
+    public @NotNull AABB getRenderBoundingBox(float partialTicks) {
+        // expand the culling box by the size of the particle and move it to the middle of the current pos and previous pos
+        double diffX = this.x - this.xo;
+        double diffY = this.y - this.yo;
+        double diffZ = this.z - this.zo;
+        return super.getRenderBoundingBox(partialTicks).move(-diffX / 2, -diffY / 2, -diffZ / 2).inflate( Math.abs(new Vec3(this.x, this.y, this.z).distanceTo(new Vec3(this.xo, this.yo, this.zo)) / 2 ));
+    }
+    *///?}
 }
