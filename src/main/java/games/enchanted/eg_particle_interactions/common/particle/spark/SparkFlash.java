@@ -46,11 +46,7 @@ public class SparkFlash extends CustomGeometryParticle {
         prevAge = age;
         super.tick();
         if(useRandomAnimation) {
-            //? if minecraft: <= 1.21.8 {
-            /*this.pickSprite(this.sprites);
-            *///?} else {
             this.setSprite(this.sprites.get(this.random));
-            //?}
         } else {
             this.setSpriteFromAge(this.sprites);
         }
