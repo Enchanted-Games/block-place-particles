@@ -1,8 +1,8 @@
-package games.enchanted.eg_particle_interactions.common.particle_group;
+package games.enchanted.eg_particle_interactions.common.particle.group;
 
 //? if minecraft: > 1.21.8 {
 import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
-import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
+import games.enchanted.eg_particle_interactions.common.rendering.particle.state.CustomParticleGeometryRenderState;
 import net.minecraft.CrashReport;
 import net.minecraft.CrashReportCategory;
 import net.minecraft.ReportedException;

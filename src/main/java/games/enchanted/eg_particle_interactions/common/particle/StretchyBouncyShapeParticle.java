@@ -1,6 +1,5 @@
 package games.enchanted.eg_particle_interactions.common.particle;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.eg_particle_interactions.common.shapes.QuadFaceShape;
 import games.enchanted.eg_particle_interactions.common.shapes.ShapeDefinitions;
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
@@ -15,9 +14,11 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.*;
 
 //? if minecraft: > 1.21.8 {
-import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
+import games.enchanted.eg_particle_interactions.common.rendering.particle.state.CustomParticleGeometryRenderState;
 import games.enchanted.eg_particle_interactions.common.util.render.StateAndLayer;
-//?}
+//?} else {
+/*import com.mojang.blaze3d.vertex.VertexConsumer;
+*///?}
 
 import java.lang.Math;
 

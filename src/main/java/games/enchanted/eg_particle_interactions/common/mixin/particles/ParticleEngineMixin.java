@@ -1,21 +1,15 @@
 package games.enchanted.eg_particle_interactions.common.mixin.particles;
 
-import com.google.common.collect.Maps;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
-import games.enchanted.eg_particle_interactions.common.particle.ModParticleRenderTypes;
+import games.enchanted.eg_particle_interactions.common.rendering.particle.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverride;
-import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
@@ -24,23 +18,29 @@ import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 //? if minecraft: > 1.21.8 {
-
-import games.enchanted.eg_particle_interactions.common.particle_group.CustomGeometryParticleGroup;
+import com.google.common.collect.Maps;
+import net.minecraft.client.renderer.culling.Frustum;
+import games.enchanted.eg_particle_interactions.common.particle.group.CustomGeometryParticleGroup;
 import net.minecraft.client.particle.ParticleGroup;
 import net.minecraft.client.renderer.state.ParticlesRenderState;
-//?}
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+//?} else {
+/*import com.llamalad7.mixinextras.sugar.Local;
+import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+*///?}
 
 import java.util.Map;
 import java.util.Queue;
@@ -65,7 +65,7 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
         method = "destroy",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/shapes/VoxelShape;forAllBoxes(Lnet/minecraft/world/phys/shapes/Shapes$DoubleLineConsumer;)V")
     )
-    public void skipSpawningVanillaDestroyParticles(VoxelShape instance, Shapes.DoubleLineConsumer action, Operation<Void> original) {
+    public void skipSpawningVanillaDestroyParticles(VoxelShape instance, Shapes.DoubleLineConsumer doublelist, Operation<Void> original) {
     }
 
     @Inject(

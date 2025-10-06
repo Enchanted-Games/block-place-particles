@@ -1,15 +1,12 @@
 package games.enchanted.eg_particle_interactions.common.particle.swirling;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
-import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.SpriteSet;
-import org.jetbrains.annotations.NotNull;
 
 //? if minecraft: > 1.21.8 {
-import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
+
 //?}
 
 public class SwirlingParticle extends CustomGeometryParticle {

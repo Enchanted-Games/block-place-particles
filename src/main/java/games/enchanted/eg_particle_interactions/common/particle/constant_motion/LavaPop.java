@@ -1,24 +1,23 @@
 package games.enchanted.eg_particle_interactions.common.particle.constant_motion;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import games.enchanted.eg_particle_interactions.common.util.render.RenderingUtil;
-import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.util.RandomSource;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 
 //? if minecraft: > 1.21.8 {
-import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
+import games.enchanted.eg_particle_interactions.common.rendering.particle.state.CustomParticleGeometryRenderState;
 import games.enchanted.eg_particle_interactions.common.util.render.StateAndLayer;
-//?}
+import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.util.RandomSource;
+//?} else {
+/*import com.mojang.blaze3d.vertex.VertexConsumer;
+*///?}
 
 public class LavaPop extends ConstantMotionAnimatedParticle {
     protected LavaPop(ClientLevel level, double x, double y, double z, SpriteSet spriteSet, int lifetime, float quadSize, boolean transparency) {

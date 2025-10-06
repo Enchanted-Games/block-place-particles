@@ -1,23 +1,22 @@
 package games.enchanted.eg_particle_interactions.common.particle.shatter;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
 import games.enchanted.eg_particle_interactions.common.util.render.RenderingUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.SingleQuadParticle;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 
 //? if minecraft: > 1.21.8 {
-import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
+import games.enchanted.eg_particle_interactions.common.rendering.particle.state.CustomParticleGeometryRenderState;
 import games.enchanted.eg_particle_interactions.common.util.render.StateAndLayer;
-//?}
+import net.minecraft.client.particle.SingleQuadParticle;
+//?} else {
+/*import com.mojang.blaze3d.vertex.VertexConsumer;
+*///?}
 
 public abstract class AbstractShatter extends CustomGeometryParticle {
     protected final float slice0X;

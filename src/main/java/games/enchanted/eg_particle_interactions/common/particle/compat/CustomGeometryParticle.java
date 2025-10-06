@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.compat;
 
-import games.enchanted.eg_particle_interactions.common.particle.ModParticleRenderTypes;
+import games.enchanted.eg_particle_interactions.common.rendering.particle.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.util.render.RenderingUtil;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleRenderType;
@@ -18,7 +18,7 @@ import net.minecraft.client.Camera;
 //? if minecraft: <= 1.21.8 {
 /*import com.mojang.blaze3d.vertex.VertexConsumer;
 *///?} else {
-import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
+import games.enchanted.eg_particle_interactions.common.rendering.particle.state.CustomParticleGeometryRenderState;
 import games.enchanted.eg_particle_interactions.common.util.render.StateAndLayer;
 import net.minecraft.client.particle.SingleQuadParticle;
 import games.enchanted.eg_particle_interactions.common.rendering.ModRenderPipelines;
@@ -55,7 +55,6 @@ public abstract class CustomGeometryParticle extends Particle {
         if(layer == null) return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
         return layer.layer;
     }
-
     *///?} else {
     public static final SingleQuadParticle.Layer BACKFACE_TERRAIN_LAYER = new SingleQuadParticle.Layer(true, TextureAtlas.LOCATION_BLOCKS, ModRenderPipelines.BACKFACE_TRANSLUCENT_PARTICLE);
 
@@ -70,9 +69,6 @@ public abstract class CustomGeometryParticle extends Particle {
         return ModParticleRenderTypes.CUSTOM_GEOMETRY;
     }
     //?}
-
-    protected void renderTick(float partialTicks) {
-    }
 
     //? if minecraft: <= 1.21.8 {
     /*@Override
@@ -131,6 +127,10 @@ public abstract class CustomGeometryParticle extends Particle {
     public BillboardMode getBillboardMode() {
         return BillboardMode.XYZ;
     }
+
+    protected void renderTick(float partialTicks) {
+    }
+
 
     public void setSpriteFromAge(SpriteSet sprites) {
         if (this.removed) return;

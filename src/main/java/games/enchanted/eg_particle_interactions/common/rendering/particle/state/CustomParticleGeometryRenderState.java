@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.rendering.state;
+package games.enchanted.eg_particle_interactions.common.rendering.particle.state;
 
 //? if minecraft: > 1.21.8 {
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
