@@ -1,11 +1,10 @@
 package games.enchanted.eg_particle_interactions.common.particle.compat;
 
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleRenderTypes;
-import games.enchanted.eg_particle_interactions.common.rendering.ModRenderPipelines;
 import games.enchanted.eg_particle_interactions.common.util.render.RenderingUtil;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.multiplayer.ClientLevel;
 
@@ -17,65 +16,16 @@ import org.joml.Quaternionf;
 import net.minecraft.client.Camera;
 
 //? if minecraft: <= 1.21.8 {
-/*import net.minecraft.client.particle.TextureSheetParticle;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+/*import com.mojang.blaze3d.vertex.VertexConsumer;
 *///?} else {
 import games.enchanted.eg_particle_interactions.common.rendering.state.CustomParticleGeometryRenderState;
 import games.enchanted.eg_particle_interactions.common.util.render.StateAndLayer;
 import net.minecraft.client.particle.SingleQuadParticle;
-import net.minecraft.client.particle.Particle;
+import games.enchanted.eg_particle_interactions.common.rendering.ModRenderPipelines;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 //?}
 
-public abstract class CustomGeometryParticle
-    //? if minecraft: <= 1.21.8 {
-    /*extends TextureSheetParticle
-     *///?} else {
-    extends Particle
-    //?}
-{
-    //? if minecraft: <= 1.21.8 {
-    
-    /*protected CustomGeometryParticle(ClientLevel clientLevel, double x, double y, double z, TextureAtlasSprite textureAtlasSprite) {
-        this(clientLevel, x, y, z, 0, 0, 0, textureAtlasSprite);
-        this.xd = 0;
-        this.yd = 0;
-        this.zd = 0;
-    }
-
-    protected CustomGeometryParticle(ClientLevel clientLevel, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, TextureAtlasSprite textureAtlasSprite) {
-        super(clientLevel, x, y, z, xSpeed, ySpeed, zSpeed);
-        this.setSprite(textureAtlasSprite);
-    }
-
-    @Override
-    public @NotNull ParticleRenderType getRenderType() {
-        switch (getParticleLayer()) {
-            case OPAQUE -> {
-                return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
-            }
-            case TERRAIN -> {
-                return ParticleRenderType.TERRAIN_SHEET;
-            }
-            case TRANSLUCENT -> {
-                return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
-            }
-            case BACKFACE_TERRAIN -> {
-                return ModParticleRenderTypes.BACKFACE_TERRAIN_PARTICLE;
-            }
-        }
-        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
-    }
-
-    @Override
-    protected final void renderRotatedQuad(VertexConsumer buffer, Camera camera, Quaternionf quaternion, float partialTicks) {
-    }
-
-    @Override
-    protected final void renderRotatedQuad(VertexConsumer buffer, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
-    }
-
-    *///?} else {
-
+public abstract class CustomGeometryParticle extends Particle {
     protected float scale;
     protected float roll;
     protected float oRoll;
@@ -84,8 +34,6 @@ public abstract class CustomGeometryParticle
     protected float gCol = 1.0F;
     protected float bCol = 1.0F;
     protected float alpha = 1.0F;
-
-    public static final SingleQuadParticle.Layer BACKFACE_TERRAIN_LAYER = new SingleQuadParticle.Layer(true, TextureAtlas.LOCATION_BLOCKS, ModRenderPipelines.BACKFACE_TRANSLUCENT_PARTICLE);
 
     protected CustomGeometryParticle(ClientLevel clientLevel, double x, double y, double z, TextureAtlasSprite textureAtlasSprite) {
         this(clientLevel, x, y, z, 0, 0, 0, textureAtlasSprite);
@@ -100,22 +48,21 @@ public abstract class CustomGeometryParticle
         this.scale = 0.1F * (this.random.nextFloat() * 0.5F + 0.5F) * 2.0F;
     }
 
+    //? if minecraft: <= 1.21.8 {
+    /*@Override
+    public @NotNull ParticleRenderType getRenderType() {
+        ParticleLayer layer = getParticleLayer();
+        if(layer == null) return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+        return layer.layer;
+    }
+
+    *///?} else {
+    public static final SingleQuadParticle.Layer BACKFACE_TERRAIN_LAYER = new SingleQuadParticle.Layer(true, TextureAtlas.LOCATION_BLOCKS, ModRenderPipelines.BACKFACE_TRANSLUCENT_PARTICLE);
+
     protected @NotNull SingleQuadParticle.Layer getLayer() {
-        switch (getParticleLayer()) {
-            case OPAQUE -> {
-                return SingleQuadParticle.Layer.OPAQUE;
-            }
-            case TERRAIN -> {
-                return SingleQuadParticle.Layer.TERRAIN;
-            }
-            case TRANSLUCENT -> {
-                return SingleQuadParticle.Layer.TRANSLUCENT;
-            }
-            case BACKFACE_TERRAIN -> {
-                return BACKFACE_TERRAIN_LAYER;
-            }
-        }
-        return SingleQuadParticle.Layer.OPAQUE;
+        ParticleLayer layer = getParticleLayer();
+        if(layer == null) return SingleQuadParticle.Layer.OPAQUE;
+        return layer.layer;
     }
 
     @Override
@@ -123,6 +70,9 @@ public abstract class CustomGeometryParticle
         return ModParticleRenderTypes.CUSTOM_GEOMETRY;
     }
     //?}
+
+    protected void renderTick(float partialTicks) {
+    }
 
     //? if minecraft: <= 1.21.8 {
     /*@Override
@@ -209,31 +159,60 @@ public abstract class CustomGeometryParticle
     }
 
     public float getScale() {
-        //? if minecraft: > 1.21.8 {
         return this.scale;
-        //?} else {
-        /*return this.quadSize;
-        *///?}
     }
 
     public void setScale(float scale) {
-        //? if minecraft: > 1.21.8 {
         this.scale = scale;
-         //?} else {
-        /*this.quadSize = scale;
-        *///?}
-    }
-
-    protected void renderTick(float partialTicks) {
     }
 
     protected abstract ParticleLayer getParticleLayer();
 
     public enum ParticleLayer {
-        OPAQUE,
-        TERRAIN,
-        TRANSLUCENT,
-        BACKFACE_TERRAIN
+        OPAQUE(
+            //? if minecraft: <= 1.21.8 {
+            /*ParticleRenderType.PARTICLE_SHEET_OPAQUE
+             *///?} else {
+            SingleQuadParticle.Layer.OPAQUE
+            //?}
+        ),
+        TERRAIN(
+            //? if minecraft: <= 1.21.8 {
+            /*ParticleRenderType.TERRAIN_SHEET
+             *///?} else {
+            SingleQuadParticle.Layer.TERRAIN
+            //?}
+        ),
+        TRANSLUCENT(
+            //? if minecraft: <= 1.21.8 {
+            /*ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT
+             *///?} else {
+            SingleQuadParticle.Layer.TRANSLUCENT
+            //?}
+        ),
+        BACKFACE_TERRAIN(
+            //? if minecraft: <= 1.21.8 {
+            /*ModParticleRenderTypes.BACKFACE_TERRAIN_PARTICLE
+             *///?} else {
+            BACKFACE_TERRAIN_LAYER
+            //?}
+        );
+
+        //? if minecraft: <= 1.21.8 {
+        /*public final ParticleRenderType layer;
+         *///?} else {
+        public final SingleQuadParticle.Layer layer;
+        //?}
+
+        ParticleLayer(
+            //? if minecraft: <= 1.21.8 {
+            /*ParticleRenderType layer
+            *///?} else {
+            SingleQuadParticle.Layer layer
+            //?}
+        ) {
+            this.layer = layer;
+        }
     }
 
     public interface BillboardMode {
