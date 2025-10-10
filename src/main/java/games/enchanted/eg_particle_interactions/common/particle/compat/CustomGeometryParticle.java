@@ -1,7 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.compat;
 
 import games.enchanted.eg_particle_interactions.common.rendering.particle.ModParticleRenderTypes;
-import games.enchanted.eg_particle_interactions.common.util.render.RenderingUtil;
+import games.enchanted.eg_particle_interactions.common.rendering.particle.geometry.QuadConsumer;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
@@ -17,9 +17,10 @@ import net.minecraft.client.Camera;
 
 //? if minecraft: <= 1.21.8 {
 /*import com.mojang.blaze3d.vertex.VertexConsumer;
+import games.enchanted.eg_particle_interactions.common.rendering.particle.geometry.VertexQuadConsumer;
 *///?} else {
+import games.enchanted.eg_particle_interactions.common.rendering.particle.geometry.StateQuadConsumer;
 import games.enchanted.eg_particle_interactions.common.rendering.particle.state.CustomParticleGeometryRenderState;
-import games.enchanted.eg_particle_interactions.common.util.render.StateAndLayer;
 import net.minecraft.client.particle.SingleQuadParticle;
 import games.enchanted.eg_particle_interactions.common.rendering.ModRenderPipelines;
 import net.minecraft.client.renderer.texture.TextureAtlas;
@@ -72,9 +73,9 @@ public abstract class CustomGeometryParticle extends Particle {
 
     //? if minecraft: <= 1.21.8 {
     /*@Override
-    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
+    public void render(VertexConsumer vertexConsumer, Camera camera, float partialTicks) {
     *///?} else {
-    public void extract(CustomParticleGeometryRenderState consumer, Camera camera, float partialTicks) {
+    public void extract(CustomParticleGeometryRenderState state, Camera camera, float partialTicks) {
     //?}
         this.renderTick(partialTicks);
         Quaternionf quaternionf = new Quaternionf();
@@ -83,17 +84,15 @@ public abstract class CustomGeometryParticle extends Particle {
             quaternionf.rotateZ(Mth.lerp(partialTicks, this.oRoll, this.roll));
         }
 
+        //? if minecraft: <= 1.21.8 {
+        /*VertexQuadConsumer consumer = new VertexQuadConsumer(vertexConsumer);
+        *///?} else {
+        StateQuadConsumer consumer = new StateQuadConsumer(state, this.getLayer());
+        //?}
         this.adjustPositionBeforeExtraction(consumer, camera, quaternionf, partialTicks);
     }
 
-    protected void adjustPositionBeforeExtraction(
-        //? if minecraft: <= 1.21.8 {
-        /*VertexConsumer consumer,
-        *///?} else {
-        CustomParticleGeometryRenderState consumer,
-        //?}
-        Camera camera, Quaternionf quaternionf, float partialTicks
-    ) {
+    protected void adjustPositionBeforeExtraction(QuadConsumer consumer, Camera camera, Quaternionf quaternionf, float partialTicks) {
         Vec3 cameraPosition = camera.getPosition();
         float x = (float)(Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x());
         float y = (float)(Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y());
@@ -101,27 +100,14 @@ public abstract class CustomGeometryParticle extends Particle {
         this.extractGeometry(consumer, quaternionf, x, y, z, partialTicks);
     }
 
-    protected void extractGeometry(
-        //? if minecraft: <= 1.21.8 {
-        /*VertexConsumer consumer,
-        *///?} else {
-        CustomParticleGeometryRenderState state,
-         //?}
-        Quaternionf quaternion, float x, float y, float z, float partialTicks
-    ) {
+    protected void extractGeometry(QuadConsumer consumer, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
         int light = getLightColor(partialTicks);
-        //? if minecraft: > 1.21.8 {
-        SingleQuadParticle.Layer layer = getLayer();
-        StateAndLayer consumer = new StateAndLayer(state, layer);
-        state.startQuad(layer);
-        //?}
-        RenderingUtil.addVertex(consumer, quaternion, x, y, z,  1.0F, -1.0F, this.getScale(), getU1(), getV1(), light, this.rCol, this.gCol, this.bCol, this.alpha);
-        RenderingUtil.addVertex(consumer, quaternion, x, y, z,  1.0F,  1.0F, this.getScale(), getU1(), getV0(), light, this.rCol, this.gCol, this.bCol, this.alpha);
-        RenderingUtil.addVertex(consumer, quaternion, x, y, z, -1.0F,  1.0F, this.getScale(), getU0(), getV0(), light, this.rCol, this.gCol, this.bCol, this.alpha);
-        RenderingUtil.addVertex(consumer, quaternion, x, y, z, -1.0F, -1.0F, this.getScale(), getU0(), getV1(), light, this.rCol, this.gCol, this.bCol, this.alpha);
-        //? if minecraft: > 1.21.8 {
-        state.finishQuad(layer);
-        //?}
+        consumer.startQuad();
+        consumer.addVertex(quaternion, x, y, z,  1.0F, -1.0F, this.getScale(), getU1(), getV1(), light, this.rCol, this.gCol, this.bCol, this.alpha);
+        consumer.addVertex(quaternion, x, y, z,  1.0F,  1.0F, this.getScale(), getU1(), getV0(), light, this.rCol, this.gCol, this.bCol, this.alpha);
+        consumer.addVertex(quaternion, x, y, z, -1.0F,  1.0F, this.getScale(), getU0(), getV0(), light, this.rCol, this.gCol, this.bCol, this.alpha);
+        consumer.addVertex(quaternion, x, y, z, -1.0F, -1.0F, this.getScale(), getU0(), getV1(), light, this.rCol, this.gCol, this.bCol, this.alpha);
+        consumer.finishQuad();
     }
 
     public BillboardMode getBillboardMode() {

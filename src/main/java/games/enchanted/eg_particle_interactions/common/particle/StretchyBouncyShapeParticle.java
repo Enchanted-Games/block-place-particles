@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle;
 
+import games.enchanted.eg_particle_interactions.common.rendering.particle.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.shapes.QuadFaceShape;
 import games.enchanted.eg_particle_interactions.common.shapes.ShapeDefinitions;
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
@@ -85,14 +86,7 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
     }
 
     @Override
-    protected void adjustPositionBeforeExtraction(
-        //? if minecraft: <= 1.21.8 {
-        /*VertexConsumer consumer,
-        *///?} else {
-        CustomParticleGeometryRenderState state,
-         //?}
-        Camera camera, Quaternionf quaternionf, float partialTicks
-    ) {
+    protected void adjustPositionBeforeExtraction(QuadConsumer consumer, Camera camera, Quaternionf quaternionf, float partialTicks) {
         Vector3f cameraPosition = camera.getPosition().toVector3f();
 
         float xPos = (float) Mth.lerp(partialTicks, this.xo, this.x);
@@ -104,20 +98,10 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
         float prevZPos = (float) Mth.lerp(partialTicks, this.prevPrevZ, this.zo);
         Vector3f prevPos = new Vector3f(prevXPos, prevYPos, prevZPos).sub(cameraPosition);
 
-        //? if minecraft: > 1.21.8 {
-        StateAndLayer consumer = new StateAndLayer(state, this.getLayer());
-        //?}
         this.extractShapeGeometry(consumer, pos, prevPos, partialTicks);
     }
 
-    private void extractShapeGeometry(
-        //? if minecraft: <= 1.21.8 {
-        /*VertexConsumer consumer,
-        *///?} else {
-        StateAndLayer consumer,
-         //?}
-        Vector3f pos, Vector3f prevPos, float partialTicks
-    ) {
+    private void extractShapeGeometry(QuadConsumer consumer, Vector3f pos, Vector3f prevPos, float partialTicks) {
         float cuboidSize = this.getScale();
         float u0 = this.getU0();
         float u1 = this.getU1();

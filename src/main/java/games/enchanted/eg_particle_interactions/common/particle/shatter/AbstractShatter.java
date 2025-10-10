@@ -1,22 +1,14 @@
 package games.enchanted.eg_particle_interactions.common.particle.shatter;
 
 import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
+import games.enchanted.eg_particle_interactions.common.rendering.particle.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
-import games.enchanted.eg_particle_interactions.common.util.render.RenderingUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
-
-//? if minecraft: > 1.21.8 {
-import games.enchanted.eg_particle_interactions.common.rendering.particle.state.CustomParticleGeometryRenderState;
-import games.enchanted.eg_particle_interactions.common.util.render.StateAndLayer;
-import net.minecraft.client.particle.SingleQuadParticle;
-//?} else {
-/*import com.mojang.blaze3d.vertex.VertexConsumer;
-*///?}
 
 public abstract class AbstractShatter extends CustomGeometryParticle {
     protected final float slice0X;
@@ -121,19 +113,7 @@ public abstract class AbstractShatter extends CustomGeometryParticle {
     }
 
     @Override
-    protected void extractGeometry(
-        //? if minecraft: <= 1.21.8 {
-        /*VertexConsumer consumer,
-        *///?} else {
-        CustomParticleGeometryRenderState state,
-         //?}
-        Quaternionf quaternion, float x, float y, float z, float partialTicks
-    ) {
-        //? if minecraft: > 1.21.8 {
-        SingleQuadParticle.Layer layer = this.getLayer();
-        StateAndLayer consumer = new StateAndLayer(state, layer);
-        //?}
-
+    protected void extractGeometry(QuadConsumer consumer, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
         float scale = this.getParticleScale(partialTicks);
         int lightColour = getLightColor(partialTicks);
 
@@ -142,50 +122,38 @@ public abstract class AbstractShatter extends CustomGeometryParticle {
         float v0 = this.sprite.getV(this.getScaledUVCoord(this.inverseSlicePositions ? 1 - this.slice0Y : 0));
         float v1 = this.sprite.getV(this.getScaledUVCoord(this.inverseSlicePositions ? 1 : this.slice0Y));
 
-        //? if minecraft: > 1.21.8 {
-        state.startQuad(layer);
-        //?}
-        RenderingUtil.addVertex(consumer, quaternion, x, y, z, this.slice0X, this.inverseSlicePositions ? 0 : 1 - this.slice0Y, scale, u1, v1, lightColour);
-        RenderingUtil.addVertex(consumer, quaternion, x, y, z, this.slice0X, this.inverseSlicePositions ? this.slice0Y : 1,     scale, u1, v0, lightColour);
-        RenderingUtil.addVertex(consumer, quaternion, x, y, z,            0, this.inverseSlicePositions ? this.slice0Y : 1,     scale, u0, v0, lightColour);
-        RenderingUtil.addVertex(consumer, quaternion, x, y, z,            0, this.inverseSlicePositions ? 0 : 1 - this.slice0Y, scale, u0, v1, lightColour);
-        //? if minecraft: > 1.21.8 {
-        state.finishQuad(layer);
-        //?}
+        consumer.startQuad();
+        consumer.addVertex(quaternion, x, y, z, this.slice0X, this.inverseSlicePositions ? 0 : 1 - this.slice0Y, scale, u1, v1, lightColour);
+        consumer.addVertex(quaternion, x, y, z, this.slice0X, this.inverseSlicePositions ? this.slice0Y : 1,     scale, u1, v0, lightColour);
+        consumer.addVertex(quaternion, x, y, z,            0, this.inverseSlicePositions ? this.slice0Y : 1,     scale, u0, v0, lightColour);
+        consumer.addVertex(quaternion, x, y, z,            0, this.inverseSlicePositions ? 0 : 1 - this.slice0Y, scale, u0, v1, lightColour);
+        consumer.finishQuad();
 
         scale = this.getParticleScale(partialTicks);
         u0 = this.sprite.getU(this.getScaledUVCoord(this.slice0X));
         u1 = this.sprite.getU(this.getScaledUVCoord(this.slice1X));
         v0 = this.sprite.getV(this.getScaledUVCoord(0));
         v1 = this.sprite.getV(this.getScaledUVCoord(1));
-
-        //? if minecraft: > 1.21.8 {
-        state.startQuad(layer);
-        //?}
-        RenderingUtil.addVertex(consumer, quaternion, x, y, z, this.slice1X, 0, scale, u1, v1, lightColour);
-        RenderingUtil.addVertex(consumer, quaternion, x, y, z, this.slice1X, 1, scale, u1, v0, lightColour);
-        RenderingUtil.addVertex(consumer, quaternion, x, y, z, this.slice0X, 1, scale, u0, v0, lightColour);
-        RenderingUtil.addVertex(consumer, quaternion, x, y, z, this.slice0X, 0, scale, u0, v1, lightColour);
-        //? if minecraft: > 1.21.8 {
-        state.finishQuad(layer);
-        //?}
-
+        
+        consumer.startQuad();
+        consumer.addVertex(quaternion, x, y, z, this.slice1X, 0, scale, u1, v1, lightColour);
+        consumer.addVertex(quaternion, x, y, z, this.slice1X, 1, scale, u1, v0, lightColour);
+        consumer.addVertex(quaternion, x, y, z, this.slice0X, 1, scale, u0, v0, lightColour);
+        consumer.addVertex(quaternion, x, y, z, this.slice0X, 0, scale, u0, v1, lightColour);
+        consumer.finishQuad();
+        
         scale = this.getParticleScale(partialTicks);
         u0 = this.sprite.getU(this.getScaledUVCoord(this.slice1X));
         u1 = this.sprite.getU(this.getScaledUVCoord(1));
         v0 = this.sprite.getV(this.getScaledUVCoord(this.inverseSlicePositions ? 0 : this.slice1Y));
         v1 = this.sprite.getV(this.getScaledUVCoord(this.inverseSlicePositions ? 1 - this.slice1Y : 1));
 
-        //? if minecraft: > 1.21.8 {
-        state.startQuad(layer);
-        //?}
-        RenderingUtil.addVertex(consumer, quaternion, x, y, z,            1, this.inverseSlicePositions ? this.slice1Y : 0,     scale, u1, v1, lightColour);
-        RenderingUtil.addVertex(consumer, quaternion, x, y, z,            1, this.inverseSlicePositions ? 1 : 1 - this.slice1Y, scale, u1, v0, lightColour);
-        RenderingUtil.addVertex(consumer, quaternion, x, y, z, this.slice1X, this.inverseSlicePositions ? 1 : 1 - this.slice1Y, scale, u0, v0, lightColour);
-        RenderingUtil.addVertex(consumer, quaternion, x, y, z, this.slice1X, this.inverseSlicePositions ? this.slice1Y : 0,     scale, u0, v1, lightColour);
-        //? if minecraft: > 1.21.8 {
-        state.finishQuad(layer);
-        //?}
+        consumer.startQuad();
+        consumer.addVertex(quaternion, x, y, z,            1, this.inverseSlicePositions ? this.slice1Y : 0,     scale, u1, v1, lightColour);
+        consumer.addVertex(quaternion, x, y, z,            1, this.inverseSlicePositions ? 1 : 1 - this.slice1Y, scale, u1, v0, lightColour);
+        consumer.addVertex(quaternion, x, y, z, this.slice1X, this.inverseSlicePositions ? 1 : 1 - this.slice1Y, scale, u0, v0, lightColour);
+        consumer.addVertex(quaternion, x, y, z, this.slice1X, this.inverseSlicePositions ? this.slice1Y : 0,     scale, u0, v1, lightColour);
+        consumer.finishQuad();
     }
 
     @Override

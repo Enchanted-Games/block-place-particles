@@ -1,14 +1,8 @@
 package games.enchanted.eg_particle_interactions.common.shapes;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
+import games.enchanted.eg_particle_interactions.common.rendering.particle.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
-import games.enchanted.eg_particle_interactions.common.util.render.RenderingUtil;
 import org.joml.*;
-
-//? if minecraft: > 1.21.8 {
-import games.enchanted.eg_particle_interactions.common.util.render.StateAndLayer;
-//?}
 
 import java.lang.Math;
 
@@ -36,14 +30,7 @@ public class QuadFaceShape {
      * @param lightColour            light colour
      * @param argb                   a colour to tint the shape with, in array of int in argb format
      */
-    public void extractShape(
-        //? if minecraft: <= 1.21.8 {
-        /*VertexConsumer consumer,
-         *///?} else {
-        StateAndLayer consumer,
-        //?}
-        Vector2f[] uvCoordinates, Vector3f pos, Vector3f scale, Vector3f rotation, float size, int lightColour, int[] argb
-    ) {
+    public void extractShape(QuadConsumer consumer, Vector2f[] uvCoordinates, Vector3f pos, Vector3f scale, Vector3f rotation, float size, int lightColour, int[] argb) {
         if(uvCoordinates.length > 2) throw new IllegalArgumentException("VertexShape#renderShape requires exactly 2 elements in uvCoordinates specifying the top left and top right uv coordinates");
         float pitchRad = (float) Math.toRadians(rotation.x);
         float yawRad   = (float) Math.toRadians(rotation.y);
@@ -55,14 +42,10 @@ public class QuadFaceShape {
         float alpha = argb[0] / 255f;
 
         for (int i = 0; i < this.vertices.length; i += 4) {
-            //? if minecraft: > 1.21.8 {
-            consumer.state().startQuad(consumer.layer());
-            //?}
+            consumer.startQuad();
 
             Vector3d vertex1 = MathHelpers.rotate3DPoint(new Vector3d(this.vertices[i]).mul(scale), pitchRad, yawRad, rollRad).mul(size).add(pos.x, pos.y, pos.z);
-//            Vector3d vertex1 = new Vector3d().mul(scale).add(pos.x, pos.y, pos.z);
-            RenderingUtil.addVertex(
-                consumer,
+            consumer.addVertex(
                 new Quaternionf(),
                 (float) vertex1.x(),
                 (float) vertex1.y(),
@@ -80,8 +63,7 @@ public class QuadFaceShape {
             );
 
             Vector3d vertex2 = MathHelpers.rotate3DPoint(new Vector3d(this.vertices[i + 1]).mul(scale), pitchRad, yawRad, rollRad).mul(size).add(pos.x, pos.y, pos.z);
-            RenderingUtil.addVertex(
-                consumer,
+            consumer.addVertex(
                 new Quaternionf(),
                 (float) vertex2.x(),
                 (float) vertex2.y(),
@@ -99,8 +81,7 @@ public class QuadFaceShape {
             );
 
             Vector3d vertex3 = MathHelpers.rotate3DPoint(new Vector3d(this.vertices[i + 2]).mul(scale), pitchRad, yawRad, rollRad).mul(size).add(pos.x, pos.y, pos.z);
-            RenderingUtil.addVertex(
-                consumer,
+            consumer.addVertex(
                 new Quaternionf(),
                 (float) vertex3.x(),
                 (float) vertex3.y(),
@@ -118,8 +99,7 @@ public class QuadFaceShape {
             );
 
             Vector3d vertex4 = MathHelpers.rotate3DPoint(new Vector3d(this.vertices[i + 3]).mul(scale), pitchRad, yawRad, rollRad).mul(size).add(pos.x, pos.y, pos.z);
-            RenderingUtil.addVertex(
-                consumer,
+            consumer.addVertex(
                 new Quaternionf(),
                 (float) vertex4.x(),
                 (float) vertex4.y(),
@@ -136,20 +116,11 @@ public class QuadFaceShape {
                 alpha
             );
 
-            //? if minecraft: > 1.21.8 {
-            consumer.state().finishQuad(consumer.layer());
-            //?}
+            consumer.finishQuad();
         }
     }
 
-    public void extractShape(
-        //? if minecraft: <= 1.21.8 {
-        /*VertexConsumer consumer,
-         *///?} else {
-        StateAndLayer consumer,
-        //?}
-        Vector2f[] uvCoordinates, Vector3f pos, Vector3f scale, float size, int lightColour, int[] argb
-    ) {
+    public void extractShape(QuadConsumer consumer, Vector2f[] uvCoordinates, Vector3f pos, Vector3f scale, float size, int lightColour, int[] argb) {
         this.extractShape(consumer, uvCoordinates, pos, scale, new Vector3f(0), size, lightColour, argb);
     }
 
