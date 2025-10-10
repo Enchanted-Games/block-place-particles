@@ -1,3 +1,4 @@
+//? if minecraft: > 1.21.8 {
 package games.enchanted.eg_particle_interactions.common.rendering.particle.geometry;
 
 import games.enchanted.eg_particle_interactions.common.rendering.particle.state.CustomParticleGeometryRenderState;
@@ -44,3 +45,4 @@ public class StateQuadConsumer implements QuadConsumer {
         this.state.finishQuad(this.layer);
     }
 }
+//?}
