@@ -30,11 +30,36 @@ public abstract class LocalPlayer_EntityMixin {
     @Unique private int block_place_particle$ticksUntilNextBlockDisturbance = 0;
 
     @WrapOperation(
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;entityInside(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/InsideBlockEffectApplier;)V"),
+        at = @At(value = "INVOKE",
+            //? if minecraft: <= 1.21.8 {
+            /*target = "Lnet/minecraft/world/level/block/state/BlockState;entityInside(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/InsideBlockEffectApplier;)V"
+            *///?} else {
+            target = "Lnet/minecraft/world/level/block/state/BlockState;entityInside(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/InsideBlockEffectApplier;Z)V"
+            //?}
+        ),
         method = {"lambda$checkInsideBlocks$0", "method_67632"}
     )
-    protected void trySpawnParticlesWhenPlayerInsideBlock(BlockState insideBlockState, Level level, BlockPos insideBlockPos, Entity entity, InsideBlockEffectApplier insideBlockEffectApplier, Operation<Void> original) {
-        original.call(insideBlockState, level, insideBlockPos, entity, insideBlockEffectApplier);
+    protected void trySpawnParticlesWhenPlayerInsideBlock(
+        BlockState insideBlockState,
+        Level level,
+        BlockPos insideBlockPos,
+        Entity entity,
+        InsideBlockEffectApplier insideBlockEffectApplier,
+        //? if minecraft: > 1.21.8 {
+        boolean b,
+        //?}
+        Operation<Void> original
+    ) {
+        original.call(
+            insideBlockState,
+            level,
+            insideBlockPos,
+            entity,
+            insideBlockEffectApplier
+            //? if minecraft: > 1.21.8 {
+            , b
+            //?}
+        );
 
         if(
             block_place_particle$ticksUntilNextBlockDisturbance > 0
