@@ -13,7 +13,7 @@ public class VertexQuadConsumer implements QuadConsumer {
 
     @Override
     public void addVertex(Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, int packedLight, float rCol, float gCol, float bCol, float alpha) {
-        Vector3f vertexPos = (new Vector3f(xOffset, yOffset, 0.0F)).mul(scale).add(x, y, z);
+        Vector3f vertexPos = (new Vector3f(xOffset, yOffset, 0.0F)).rotate(quaternion).mul(scale).add(x, y, z);
         consumer.addVertex(vertexPos.x(), vertexPos.y(), vertexPos.z()).setUv(u, v).setColor(rCol, gCol, bCol, alpha).setLight(packedLight);
     }
 
