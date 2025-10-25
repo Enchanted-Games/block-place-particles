@@ -2,90 +2,24 @@ package games.enchanted.eg_particle_interactions.common.util;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import games.enchanted.eg_particle_interactions.common.Logging;
+import games.enchanted.eg_particle_interactions.common.mixin.accessor.client.NativeImageAccessor;
 import games.enchanted.eg_particle_interactions.common.mixin.accessor.client.SpriteContentsAccessor;
+import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteAtlasManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
 public class ColourUtil {
-    /**
-     * Stores the average colour for a sprite resource location
-     */
-    private static final HashMap<ResourceLocation, Integer> AVERAGE_SPRITE_COLOUR_CACHE = new HashMap<>();
-
     private static final int OPAQUE_PIXELS_THRESHOLD = 20;
-    /**
-     * Stores a list of non-transparent pixel coordinates for a sprite resource location.
-     * If the length of the list is 1 and at least 1 coordinate is negative, assume the sprite contains entirely non-transparent pixels
-     */
-    private static final HashMap<ResourceLocation, ImageCoordinate[]> SPRITE_OPAQUE_PIXELS_CACHE = new HashMap<>();
-    private static final HashMap<BlockState, TextureAtlasSprite> BLOCKSTATE_PARTICLE_SPRITE_CACHE = new HashMap<>();
-
-    /**
-     * Calculates and caches the average colour from a {@link BlockState}'s pixel texture
-     *
-     * @param blockState the block state
-     * @return the average colour in an array of a, r, g, b
-     */
-    public static int[] getAverageBlockColour(BlockState blockState) {
-        TextureAtlasSprite particleSprite = Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState).particleIcon();
-        try (SpriteContents contents = particleSprite.contents()) {
-            ResourceLocation particleSpriteLocation = contents.name();
-            if(AVERAGE_SPRITE_COLOUR_CACHE.containsKey(particleSpriteLocation)) {
-                return ARGBint_to_ARGB(AVERAGE_SPRITE_COLOUR_CACHE.get(particleSpriteLocation));
-            }
-            int average = calculateAverageSpriteColour(particleSprite);
-            AVERAGE_SPRITE_COLOUR_CACHE.put(particleSpriteLocation, average);
-            return ARGBint_to_ARGB(average);
-        }
-    }
-
-    /**
-     * Calculates the average from a {@link TextureAtlasSprite}
-     *
-     * @param sprite a sprite to calculate the average colour of
-     * @return the average colour as an argb int
-     */
-    public static int calculateAverageSpriteColour(TextureAtlasSprite sprite) {
-        if (sprite == null) return -1;
-        try (SpriteContents spriteContents = sprite.contents()) {
-            if (spriteContents.getUniqueFrames().findAny().isEmpty()) return -1;
-            float total = 0, red = 0, blue = 0, green = 0, alpha = 0;
-            for (int x = 0; x < spriteContents.width(); x++) {
-                for (int y = 0; y < spriteContents.height(); y++) {
-                    int color = ((SpriteContentsAccessor) spriteContents).block_place_particle$getOriginalImage().getPixel(x, y);
-                    int[] argb = ARGBint_to_ARGB(color);
-                    int pixelAlpha = argb[0];
-                    if (pixelAlpha <= 10) continue;
-                    total++;
-                    alpha += pixelAlpha;
-                    red += argb[1];
-                    green += argb[2];
-                    blue += argb[3];
-                }
-            }
-
-            float[] hsb = Color.RGBtoHSB((int) (red / total), (int) (green / total), (int) (blue / total), null);
-            hsb[2] *= 1.05f;
-            int[] rgb = RGBint_to_RGB(
-                Color.HSBtoRGB(
-                    Math.clamp(hsb[0], 0, 1),
-                    Math.clamp(hsb[1], 0, 1),
-                    Math.clamp(hsb[2], 0, 1)
-                )
-            );
-
-            return ARGB_to_ARGBint((int) (alpha / total), rgb[0], rgb[1], rgb[2]);
-        }
-    }
+    private static final HashMap<BlockState, Palette> BLOCKSTATE_TO_PALETTE_CACHE = new HashMap<>();
 
     /**
      * Gets a random pixel's colour from a {@link BlockState}'s particle texture
@@ -96,105 +30,90 @@ public class ColourUtil {
     public static int[] getRandomBlockColour(BlockState blockState, int[] tintColour) {
         TextureAtlasSprite paletteSprite;
 
-        if(BLOCKSTATE_PARTICLE_SPRITE_CACHE.containsKey(blockState)) {
-            paletteSprite = BLOCKSTATE_PARTICLE_SPRITE_CACHE.get(blockState);
-        } else {
-            TextureAtlasSprite particleSprite = Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState).particleIcon();
-            ResourceLocation particleSpriteLocation = particleSprite.contents().name();
-            paletteSprite = TextureHelpers.getParticlePaletteOrBlockSprite(blockState.getBlock().builtInRegistryHolder().key().location(), particleSpriteLocation);
-            BLOCKSTATE_PARTICLE_SPRITE_CACHE.put(blockState, paletteSprite);
-            Logging.textureDebugInfo("Palette sprite for blockstate: {} has been cached", blockState);
+        if(BLOCKSTATE_TO_PALETTE_CACHE.containsKey(blockState)) {
+            Palette palette = BLOCKSTATE_TO_PALETTE_CACHE.get(blockState);
+            return getRandomColourFromPalette(palette, tintColour);
         }
 
-        ParticlePaletteAtlasManager.ParticlePaletteSettingsMetadataSection paletteMetadata = ParticlePaletteAtlasManager.getMetadataFromSprite(paletteSprite);
+        TextureAtlasSprite particleSprite = Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState).particleIcon();
+        ResourceLocation particleSpriteLocation = particleSprite.contents().name();
+        paletteSprite = TextureHelpers.getParticlePaletteOrBlockSprite(RegistryHelpers.getLocationFromBlock(blockState.getBlock()), particleSpriteLocation);
 
         SpriteContents spriteContents = paletteSprite.contents();
-        ResourceLocation paletteSpriteLocation = spriteContents.name();
-
-        ImageCoordinate[] pixelCoordinatesList;
-
-        if(SPRITE_OPAQUE_PIXELS_CACHE.containsKey(paletteSpriteLocation)) {
-            pixelCoordinatesList = SPRITE_OPAQUE_PIXELS_CACHE.get(paletteSpriteLocation);
-        } else {
-            // calculate valid coordinates
-            pixelCoordinatesList = findOutWhereOpaquePixelCoordinatesAre(spriteContents);
-            SPRITE_OPAQUE_PIXELS_CACHE.put(paletteSpriteLocation, pixelCoordinatesList);
-            Logging.textureDebugInfo("Opaque pixels list for sprite: {} has been cached", spriteContents.name());
+        ParticlePaletteAtlasManager.ParticlePaletteSettingsMetadataSection paletteMetadata = ParticlePaletteAtlasManager.getMetadataFromSprite(paletteSprite);
+        Palette palette = collectValidPalettePixels(spriteContents, paletteMetadata.useBiomeTint());
+        if(palette.cacheable()) {
+            BLOCKSTATE_TO_PALETTE_CACHE.put(blockState, palette);
         }
 
-        ImageCoordinate randomPixelCoordinate;
-
-        if(pixelCoordinatesList.length == 0) {
-            // no valid pixels, so just return transparent white
-            return new int[]{0, 255, 255, 255};
-        }
-        else if(pixelCoordinatesList.length == 1 && (pixelCoordinatesList[0].x() < 0 || pixelCoordinatesList[0].y() < 0) ) {
-            // assume all pixels in the sprite are opaque
-            randomPixelCoordinate = new ImageCoordinate(
-                MathHelpers.randomBetween(0, spriteContents.width() - 1),
-                MathHelpers.randomBetween(0, spriteContents.height() - 1)
-            );
-        }
-        else {
-            // otherwise get a random coordinate from the list
-            randomPixelCoordinate = pixelCoordinatesList[MathHelpers.randomBetween(0, pixelCoordinatesList.length - 1)];
-        }
-
-        NativeImage particleImage = ((SpriteContentsAccessor) spriteContents).block_place_particle$getOriginalImage();
-        if (randomPixelCoordinate.x() > particleImage.getWidth() - 1 || randomPixelCoordinate.y() > particleImage.getHeight() - 1) {
-            return new int[]{255, 255, 255, 255};
-        }
-
-        int sampledColour = particleImage.getPixel(randomPixelCoordinate.x(), randomPixelCoordinate.y());
-        int[] sampledARGB = ARGBint_to_ARGB(sampledColour);
-
-        if(paletteMetadata.useBiomeTint()) {
-            return ColourUtil.multiplyColours(sampledARGB, tintColour);
-        }
-        return sampledARGB;
+        return getRandomColourFromPalette(palette, tintColour);
     }
 
-    private static ImageCoordinate[] findOutWhereOpaquePixelCoordinatesAre(SpriteContents spriteContents) {
-        ArrayList<ImageCoordinate> coordinatesList = new ArrayList<>();
-        int totalOpaquePixels = 0;
+    private static int[] getRandomColourFromPalette(Palette palette, int[] tintColour) {
+        if(palette.hasTint()) {
+            return ColourUtil.multiplyColours(palette.getRandomEntry().argbAsArray(), tintColour);
+        }
+        return palette.getRandomEntry().argbAsArray();
+    }
 
-        for (int x = 0; x < spriteContents.width(); x++) {
-            for (int y = 0; y < spriteContents.height(); y++) {
-                NativeImage image = ((SpriteContentsAccessor) spriteContents).block_place_particle$getOriginalImage();
+    private static Palette collectValidPalettePixels(SpriteContents paletteSprite, boolean hasTint) {
+        ArrayList<Integer> colours = new ArrayList<>();
+        NativeImage image = ((SpriteContentsAccessor) paletteSprite).block_place_particle$getOriginalImage();
+
+        if(((NativeImageAccessor) (Object) image).eg_particle_interactions$getPixels() == 0L) {
+            // if image is somehow not allocated, return white as fallback
+            Logging.textureDebugInfo("Sprite {} is not allocated", paletteSprite.name());
+            return Palette.BLANK;
+        }
+
+        for (int x = 0; x < paletteSprite.width(); x++) {
+            for (int y = 0; y < paletteSprite.height(); y++) {
                 int sampledColour = image.getPixel(x, y);
-                int[] argb = ARGBint_to_ARGB(sampledColour);
+                int alpha = ARGB.alpha(sampledColour);
 
-                if(argb[0] <= OPAQUE_PIXELS_THRESHOLD) continue;
-
-                ImageCoordinate coordinate = new ImageCoordinate(x, y);
-                if(!coordinatesList.contains(coordinate)) coordinatesList.add(coordinate);
-                totalOpaquePixels++;
+                if(alpha <= OPAQUE_PIXELS_THRESHOLD) continue;
+                colours.add(sampledColour);
             }
         }
 
-        if(totalOpaquePixels >= (spriteContents.width() - 1) * (spriteContents.height() - 1)) {
-            // image is entirely opaque pixels
-            Logging.textureDebugInfo("Sprite {} contains entirely opaque pixels", spriteContents.name());
-            return new ImageCoordinate[]{new ImageCoordinate(-1, -1)};
+        if(colours.isEmpty()) {
+            // image has no valid palette colours
+            Logging.textureDebugInfo("Sprite {} contains no valid pixels for palette", paletteSprite.name());
+            return Palette.BLANK;
         }
 
-        ImageCoordinate[] coordinatesArray = new ImageCoordinate[coordinatesList.size()];
-        coordinatesArray = coordinatesList.toArray(coordinatesArray);
+        Logging.textureDebugInfo("Sprite {} has {} valid palette pixels", paletteSprite.name(), colours.size());
 
-        Logging.textureDebugInfo("Sprite {} has {} opaque pixels", spriteContents.name(), totalOpaquePixels);
-
-        return coordinatesArray;
+        PaletteEntry[] paletteEntries = new PaletteEntry[colours.size()];
+        for (int i = 0; i < colours.size(); i++) {
+            paletteEntries[i] = new PaletteEntry(colours.get(i));
+        }
+        return new Palette(paletteEntries, true, hasTint);
     }
 
-    private record ImageCoordinate(int x, int y) {}
+    private record PaletteEntry(int argb) {
+        int[] argbAsArray() {
+            return ColourUtil.ARGBint_to_ARGB(argb());
+        }
+    }
+
+    private record Palette(PaletteEntry[] entries, boolean cacheable, boolean hasTint) {
+        static final Palette BLANK = new Palette(new PaletteEntry[]{new PaletteEntry(-1)}, false);
+
+        Palette(PaletteEntry[] entries, boolean cacheable) {
+            this(entries, cacheable, false);
+        }
+
+        PaletteEntry getRandomEntry() {
+            return entries()[MathHelpers.randomBetween(0, entries().length - 1)];
+        }
+    }
 
     /**
      * Clears all calculated average colours
      */
     public static void invalidateCaches() {
-        ColourUtil.AVERAGE_SPRITE_COLOUR_CACHE.clear();
-        ColourUtil.SPRITE_OPAQUE_PIXELS_CACHE.clear();
-        ColourUtil.BLOCKSTATE_PARTICLE_SPRITE_CACHE.clear();
+        ColourUtil.BLOCKSTATE_TO_PALETTE_CACHE.clear();
     }
 
     /**

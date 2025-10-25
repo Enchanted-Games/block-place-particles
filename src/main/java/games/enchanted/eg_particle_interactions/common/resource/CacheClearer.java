@@ -4,9 +4,9 @@ import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
 import net.minecraft.server.packs.resources.ResourceManager;
 
-public class ClientResourceReload {
-    public static void onReload(ResourceManager resourceManager) {
+public class CacheClearer {
+    public static void clear() {
         ColourUtil.invalidateCaches();
-        Logging.info("Cleared average texture colour cache and opaque pixels cache");
+        Logging.info("Cleared particle palette cache");
     }
 }

@@ -1,6 +1,5 @@
 package games.enchanted.eg_particle_interactions.common.util;
 
-import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteAtlasManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
