@@ -24,14 +24,14 @@ extensions.configure<StonecutterSettings> {
     kotlinController = true
     centralScript = "build.gradle.kts"
 
-    // The versions listed here, commented out or otherwise, all have pre-made gradle.properties.
     shared {
 //        vers("1.21.1-fabric","1.21.1")
 //        vers("1.21.1-neoforge","1.21.1")
         vers("1.21.8-fabric","1.21.8")
         vers("1.21.8-neoforge","1.21.8")
-        vers("1.21.9-fabric","1.21.9-rc1")
-        vcsVersion="1.21.9-fabric"
+        vers("1.21.10-fabric","1.21.10")
+//        vers("1.21.10-neoforge","1.21.10")
+        vcsVersion="1.21.10-fabric"
     }
     create(rootProject)
 }

@@ -144,7 +144,8 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
             .inflate(Math.abs(new Vec3(this.x, this.y, this.z).distanceTo(new Vec3(this.xo, this.yo, this.zo)) / 2 ));
     }
 
-    //? if neoforge {
+
+    //? if neoforge && minecraft: <= 1.21.8 {
     /*@Override
     public @NotNull AABB getRenderBoundingBox(float partialTicks) {
         // expand the culling box by the size of the particle and move it to the middle of the current pos and previous pos
