@@ -6,10 +6,22 @@ import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteA
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
-import net.minecraft.server.packs.resources.ReloadableResourceManager;
+
+//? if minecraft: > 1.21.8 && fabric {
+import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
+//?}
+//? if minecraft: <= 1.21.8 && fabric {
+/*import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.minecraft.server.packs.resources.ResourceManager;
+import org.jetbrains.annotations.NotNull;
+*///?}
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 /**
  * This is the entry point for your mod's common side, called by each modloader specific side.
@@ -31,11 +43,25 @@ public class ParticleInteractionsMod {
         Logging.info("Loaded Successfully!");
     }
 
-    public static void registerAtlases(ReloadableResourceManager resourceManager, TextureManager textureManager) {
+    public static void registerAtlases(TextureManager textureManager) {
         List<Pair<ResourceLocation, PreparableReloadListener>> reloadListeners = createReloadListeners(textureManager);
         //? if fabric {
         reloadListeners.forEach(resourceLocationAndReloadListenerPair -> {
-            resourceManager.registerReloadListener(resourceLocationAndReloadListenerPair.value());
+            //? if minecraft: > 1.21.8 {
+            ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloader(resourceLocationAndReloadListenerPair.key(), resourceLocationAndReloadListenerPair.value());
+            //?} else {
+            /*ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new IdentifiableResourceReloadListener() {
+                @Override
+                public @NotNull CompletableFuture<Void> reload(PreparationBarrier barrier, ResourceManager manager, Executor backgroundExecutor, Executor gameExecutor) {
+                    return resourceLocationAndReloadListenerPair.value().reload(barrier, manager, backgroundExecutor, gameExecutor);
+                }
+
+                @Override
+                public ResourceLocation getFabricId() {
+                    return resourceLocationAndReloadListenerPair.key();
+                }
+            });
+            *///?}
         });
         //?}
     }

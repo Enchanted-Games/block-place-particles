@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Minecraft.class)
 public class RegisterTextureAtlases_MinecraftMixin {
-    @Shadow @Final private ReloadableResourceManager resourceManager;
     @Shadow @Final private TextureManager textureManager;
 
     @Inject(
@@ -22,7 +21,7 @@ public class RegisterTextureAtlases_MinecraftMixin {
     )
     private void eg_particle_interactions$registerTextureAtlases(CallbackInfo ci) {
         //? if fabric {
-        ParticleInteractionsMod.registerAtlases(resourceManager, textureManager);
+        ParticleInteractionsMod.registerAtlases(textureManager);
         //?}
     }
 }
