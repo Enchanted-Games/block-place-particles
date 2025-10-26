@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.util;
 
-import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteAtlasManager;
+import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlas;
@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 //? if minecraft: > 1.21.8 {
 import net.minecraft.data.AtlasIds;
+import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteAtlasManager;
 //?}
 
 public class TextureHelpers {
