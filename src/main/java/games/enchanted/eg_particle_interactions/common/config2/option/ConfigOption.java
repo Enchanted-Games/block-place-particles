@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.config2.option;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dev.isxander.yacl3.api.Binding;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -81,5 +82,9 @@ public abstract class ConfigOption<T> {
 
     public boolean isDirty() {
         return this.pendingValue != null;
+    }
+
+    public Binding<T> createBinding() {
+        return Binding.generic(this.getDefaultValue(), this::getPendingOrCurrentValue, this::setPendingValue);
     }
 }

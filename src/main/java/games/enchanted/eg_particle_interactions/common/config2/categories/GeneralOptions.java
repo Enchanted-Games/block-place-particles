@@ -1,0 +1,65 @@
+package games.enchanted.eg_particle_interactions.common.config2.categories;
+
+import games.enchanted.eg_particle_interactions.common.config2.ConfigCategory;
+import games.enchanted.eg_particle_interactions.common.config2.ConfigOptions;
+import games.enchanted.eg_particle_interactions.common.config2.option.BoolOption;
+import games.enchanted.eg_particle_interactions.common.config2.option.ConfigOption;
+import games.enchanted.eg_particle_interactions.common.config2.option.IntOption;
+
+public class GeneralOptions {
+    public static final ConfigOption<Boolean> PIXEL_CONSISTENT_TERRAIN_PARTICLES = registerOption(
+        new BoolOption(true, "pixel_consistent_terrain_particles")
+    );
+    public static final ConfigOption<Boolean> PARTICLE_Z_FIGHTING_FIX = registerOption(
+        new BoolOption(true, "particle_z_fighting_fixes")
+    );
+    public static final ConfigOption<Boolean> PROJECTILE_BREAKING_PARTICLE_VELOCITY_FIX = registerOption(
+        new BoolOption(true, "projectile_breaking_particle_velocity_fix")
+    );
+    public static final ConfigOption<Boolean> AUTO_COLLAPSE_CONFIG_LISTS = registerOption(
+        new BoolOption(true, "auto_collapse_config_lists")
+    );
+    public static final ConfigOption<Boolean> FIREFLY_FIXES = registerOption(
+        new BoolOption(true, "firefly_fixes")
+    );
+
+    // - performance
+    public static final ConfigOption<Integer> INTERACTION_RENDER_DISTANCE = registerOption(
+        new IntOption(6, "interaction_render_distance")
+    );
+    public static final ConfigOption<Integer> BLOCK_RENDER_DISTANCE = registerOption(
+        new IntOption(6, "block_render_distance")
+    );
+    public static final ConfigOption<Integer> AMBIENT_RENDER_DISTANCE = registerOption(
+        new IntOption(3, "ambient_render_distance")
+    );
+    public static final ConfigOption<Boolean> ADVANCED_PARTICLE_PHYSICS = registerOption(
+        new BoolOption(true, "advanced_particle_physics")
+    );
+    public static final ConfigOption<Boolean> ADDITIONAL_SPARK_FLASH_EFFECT = registerOption(
+        new BoolOption(true, "additional_spark_flash_effect")
+    );
+    public static final ConfigOption<Boolean> WATER_EVAPORATION = registerOption(
+        new BoolOption(true, "water_evaporation")
+    );
+    public static final ConfigOption<Boolean> DUST_SPECKS = registerOption(
+        new BoolOption(true, "dust_specks")
+    );
+
+    // - debug
+    public static final ConfigOption<Boolean> DEBUG_EMITTER_BOUNDS = registerOption(
+        new BoolOption(false, false)
+    );
+    public static final ConfigOption<Boolean> DEBUG_TEXTURE_LOGGING = registerOption(
+        new BoolOption(false, false)
+    );
+    public static final ConfigOption<Boolean> DEBUG_INTERACTION_LOGGING = registerOption(
+        new BoolOption(false, false)
+    );
+
+    private static <T> ConfigOption<T> registerOption(ConfigOption<T> option) {
+        return ConfigOptions.registerOption(ConfigCategory.GENERAL, option);
+    }
+
+    public static void init() {}
+}

@@ -4,14 +4,9 @@ import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.Logging;
-import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
-import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
-import games.enchanted.eg_particle_interactions.common.config2.option.BlockOrTagLocationListOption;
-import games.enchanted.eg_particle_interactions.common.config2.option.BoolOption;
+import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.config2.option.ConfigOption;
-import games.enchanted.eg_particle_interactions.common.config2.option.enums.BrushParticleBehaviourOption;
 import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
-import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -20,30 +15,13 @@ import java.util.List;
 import java.util.Map;
 
 public class ConfigOptions {
-    public static final ConfigOption<Boolean> TEST_BOOLEAN;
-    public static final ConfigOption<BrushParticleBehaviour> TEST_BRUSH_BEHAVIOUR;
-    public static final ConfigOption<List<BlockOrTagLocation>> TEST_LOCATIONS;
-
     private static final Map<ConfigCategory, List<ConfigOption<?>>> OPTIONS = new HashMap<>();
 
     static {
-        TEST_BOOLEAN = registerOption(ConfigCategory.TEST, new BoolOption(
-            true,
-            "test_boolean"
-        ));
-
-        TEST_BRUSH_BEHAVIOUR = registerOption(ConfigCategory.TEST, new BrushParticleBehaviourOption(
-            BrushParticleBehaviour.BLOCK_OVERRIDE_OR_DUST,
-            "test_brush_behaviour"
-        ));
-
-        TEST_LOCATIONS = registerOption(ConfigCategory.TEST_2, new BlockOrTagLocationListOption(
-            ConfigHandler.azaleaLeaf_Blocks_DEFAULT,
-            "test_locations"
-        ));
+        GeneralOptions.init();
     }
 
-    private static <T> ConfigOption<T> registerOption(ConfigCategory category, ConfigOption<T> option) {
+    public static <T> ConfigOption<T> registerOption(ConfigCategory category, ConfigOption<T> option) {
         OPTIONS.computeIfAbsent(category, c -> new ArrayList<>());
         OPTIONS.get(category).add(option);
         return option;
@@ -55,7 +33,10 @@ public class ConfigOptions {
         return PlatformHelper.getConfigPath().resolve(FILE_NAME).toFile();
     }
 
-    public static void saveIfAnyDirtyOptions() {
+    /**
+     * Applies any pending options and saves the config. If no options are pending config is not saved
+     */
+    public static void applyAndSaveConfig() {
         for (Map.Entry<ConfigCategory, List<ConfigOption<?>>> entry : OPTIONS.entrySet()) {
             List<ConfigOption<?>> options = entry.getValue();
             if(options.stream().noneMatch(ConfigOption::isDirty)) return;
@@ -67,6 +48,9 @@ public class ConfigOptions {
         saveConfig();
     }
 
+    /**
+     * Saves current values of the config. Pending values will not be applied before saving
+     */
     public static void saveConfig() {
         JsonObject root = new JsonObject();
 
