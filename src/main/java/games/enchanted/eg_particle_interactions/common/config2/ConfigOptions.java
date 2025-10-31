@@ -7,6 +7,7 @@ import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.config2.categories.BlockInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.config2.categories.BlockOverrideOptions;
 import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
+import games.enchanted.eg_particle_interactions.common.config2.categories.ItemInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.config2.option.ConfigOption;
 import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
 
@@ -17,17 +18,25 @@ import java.util.List;
 import java.util.Map;
 
 public class ConfigOptions {
-    private static final Map<ConfigCategory, List<ConfigOption<?>>> OPTIONS = new HashMap<>();
+    private static final Map<ConfigCategory, List<ConfigOption<?>>> OPTIONS;
+    private static Map<ConfigCategory, List<ConfigOption<?>>> TEMPORARY_REGISTRATION_MAP;
 
     static {
+        TEMPORARY_REGISTRATION_MAP = new HashMap<>();
         GeneralOptions.init();
         BlockOverrideOptions.init();
         BlockInteractionOptions.init();
+        ItemInteractionOptions.init();
+        OPTIONS = Map.copyOf(TEMPORARY_REGISTRATION_MAP);
+        TEMPORARY_REGISTRATION_MAP = null;
     }
 
     public static <T> ConfigOption<T> registerOption(ConfigCategory category, ConfigOption<T> option) {
-        OPTIONS.computeIfAbsent(category, c -> new ArrayList<>());
-        OPTIONS.get(category).add(option);
+        if(TEMPORARY_REGISTRATION_MAP == null) {
+            throw new IllegalStateException("Tried to call registerOption after config has already been initialized. Category: " + category.id() + ", Option: " + option.getJsonKey());
+        }
+        TEMPORARY_REGISTRATION_MAP.computeIfAbsent(category, c -> new ArrayList<>());
+        TEMPORARY_REGISTRATION_MAP.get(category).add(option);
         return option;
     }
 

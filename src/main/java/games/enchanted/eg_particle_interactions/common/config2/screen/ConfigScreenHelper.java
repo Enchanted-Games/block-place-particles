@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.config2.screen;
 
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
+import dev.isxander.yacl3.api.controller.EnumControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
 import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
 import games.enchanted.eg_particle_interactions.common.config.controller.BlockLocationController;
@@ -139,7 +140,24 @@ public class ConfigScreenHelper {
         );
     }
 
+    public static <T extends Enum<T>> Option<T> enumCycleOption(String optionName, ConfigOption<T> option, Class<T> enumClass) {
+        ConfigTranslation.TranslationKey translationKey = ConfigTranslation.getGlobalOption(optionName);
+        return Option.<T>createBuilder()
+            .name( translationKey.toComponent() )
+            .description(OptionDescription.of( ConfigTranslation.createDesc(translationKey) ))
+            .binding(option.createBinding())
+            .controller(
+                opt -> EnumControllerBuilder.create(opt)
+                    .enumClass(enumClass)
+            )
+            .build();
+    }
+
     // groups
+    public static OptionGroup createParticleToggleAndMaxAndIntensityConfigGroup(String particleTypeKey, String groupName, String category, ConfigOption<Boolean> particleEnabledOption, String particleEnabledTranslationOption, Option<Integer> maxParticlesOnUseOption, Option<Integer> particleIntensityOption) {
+        Option<Boolean> particleToggleOption = booleanOption(particleEnabledTranslationOption, particleTypeKey, particleEnabledOption);
+        return createMultipleOptionsConfigGroup(particleTypeKey, groupName, category, particleToggleOption, maxParticlesOnUseOption, particleIntensityOption);
+    }
     public static OptionGroup createParticleToggleAndIntSliderConfigGroup(String particleTypeKey, String groupName, String category, ConfigOption<Boolean> particleEnabledOption, String particleEnabledTranslationOption, Option<Integer> intSlider) {
         Option<Boolean> particleToggleOption = booleanOption(particleEnabledTranslationOption, particleTypeKey, particleEnabledOption);
         return createMultipleOptionsConfigGroup(particleTypeKey, groupName, category, particleToggleOption, intSlider);

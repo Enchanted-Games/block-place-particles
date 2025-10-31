@@ -1,9 +1,12 @@
 package games.enchanted.eg_particle_interactions.common.config2.screen;
 
 import dev.isxander.yacl3.api.*;
+import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
+import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
 import games.enchanted.eg_particle_interactions.common.config2.ConfigOptions;
 import games.enchanted.eg_particle_interactions.common.config2.categories.BlockInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
+import games.enchanted.eg_particle_interactions.common.config2.categories.ItemInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.localisation.ConfigTranslation;
 import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverride;
 import net.minecraft.client.gui.screens.Screen;
@@ -325,6 +328,186 @@ public class ConfigScreen {
                 ConfigScreenHelper.booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "blast_furnace_sparks", BlockInteractionOptions.BLAST_FURNACE_SPARKS_ENABLED)
             ))
         .build());
+        
+
+        // item use category
+        yaclBuilder.category( ConfigCategory.createBuilder()
+            .name(ConfigTranslation.getCategoryName(ConfigTranslation.ITEMS_CONFIG_CATEGORY).toComponent())
+            .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.ITEMS_CONFIG_CATEGORY)))
+
+            // item config info
+            .group(OptionGroup.createBuilder()
+                .name( ConfigTranslation.getGroupName(ConfigTranslation.ITEMS_CONFIG_CATEGORY, "info").toComponent() )
+                .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.ITEMS_CONFIG_CATEGORY, "info")) ))
+                .collapsed(true)
+                .option(LabelOption.createBuilder().line(Component.empty()).build())
+                .build())
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            // brushing particles
+            .group( ConfigScreenHelper.createGenericConfigGroup(
+                "brush_particles",
+                ConfigTranslation.ITEMS_CONFIG_CATEGORY,
+                false,
+                ConfigScreenHelper.enumCycleOption(ConfigTranslation.BRUSH_PARTICLE_BEHAVIOUR, ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR, BrushParticleBehaviour.class)
+            ))
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            // flint and steel spark
+            .group( ConfigScreenHelper.createParticleToggleAndMaxAndIntensityConfigGroup(
+                "flint_and_steel_sparks",
+                "flint_and_steel_sparks",
+                ConfigTranslation.ITEMS_CONFIG_CATEGORY,
+                ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_ENABLED,
+                ConfigTranslation.SPAWN_PARTICLE_ON_ITEM_USE,
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE, "flint_and_steel_sparks", ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_AMOUNT, 1, 32, 1),
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.ITEM_USE_PARTICLE_INTENSITY, "flint_and_steel_sparks", ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_INTENSITY, 1, 8, 1)
+            ))
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            // fire charge smoke
+            .group( ConfigScreenHelper.createParticleToggleAndMaxAndIntensityConfigGroup(
+                "fire_charge_smoke",
+                "fire_charge_smoke",
+                ConfigTranslation.ITEMS_CONFIG_CATEGORY,
+                ItemInteractionOptions.FIRE_CHARGE_PARTICLES_ENABLED,
+                ConfigTranslation.SPAWN_PARTICLE_ON_ITEM_USE,
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE, "fire_charge_smoke", ItemInteractionOptions.FIRE_CHARGE_PARTICLES_AMOUNT, 1, 32, 1),
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.ITEM_USE_PARTICLE_INTENSITY, "fire_charge_smoke", ItemInteractionOptions.FIRE_CHARGE_PARTICLES_INTENSITY, 1, 8, 1)
+            ))
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            // axe strip
+            .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
+                "axe_strip_particles",
+                "axe_strip_particles",
+                ConfigTranslation.ITEMS_CONFIG_CATEGORY,
+                ConfigScreenHelper.booleanOption(ConfigTranslation.SPAWN_PARTICLE_ON_ITEM_USE, "axe_strip_particles", ItemInteractionOptions.AXE_STRIP_ENABLED),
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE, "axe_strip_particles", ItemInteractionOptions.AXE_STRIP_AMOUNT, 1, 50, 1)
+            ))
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            // hoe till
+            .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
+                "hoe_till_particles",
+                "hoe_till_particles",
+                ConfigTranslation.ITEMS_CONFIG_CATEGORY,
+                ConfigScreenHelper.booleanOption(ConfigTranslation.SPAWN_PARTICLE_ON_ITEM_USE, "hoe_till_particles", ItemInteractionOptions.HOE_TILL_ENABLED),
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE, "hoe_till_particles", ItemInteractionOptions.HOE_TILL_AMOUNT, 1, 50, 1)
+            ))
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            // shovel flatten
+            .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
+                "shovel_flatten_particles",
+                "shovel_flatten_particles",
+                ConfigTranslation.ITEMS_CONFIG_CATEGORY,
+                ConfigScreenHelper.booleanOption(ConfigTranslation.SPAWN_PARTICLE_ON_ITEM_USE, "shovel_flatten_particles", ItemInteractionOptions.SHOVEL_FLATTEN_ENABLED),
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE, "shovel_flatten_particles", ItemInteractionOptions.SHOVEL_FLATTEN_AMOUNT, 1, 50, 1)
+            ))
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            // honey collection
+            .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
+                "honey_collection",
+                "honey_collection",
+                ConfigTranslation.ITEMS_CONFIG_CATEGORY,
+                ConfigScreenHelper.booleanOption(ConfigTranslation.SPAWN_ON_HONEY_COLLECTED, "honey_collection", ItemInteractionOptions.HONEY_COLLECTION_ENABLED),
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_HONEY_COLLECTED, "honey_collection", ItemInteractionOptions.HONEY_COLLECTION_AMOUNT, 1, 50, 1),
+                ConfigScreenHelper.booleanOption(ConfigTranslation.REPLACE_VANILLA_PARTICLES, "honey_collection", ItemInteractionOptions.HONEY_COLLECTION_REPLACE_VANILLA)
+            ))
+        .build());
+
+        // entity category
+//        yaclBuilder.category( ConfigCategory.createBuilder()
+//            .name(ConfigTranslation.getCategoryName(ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY).toComponent())
+//            .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY)))
+//
+//            // category info
+//            .group(OptionGroup.createBuilder()
+//                .name( ConfigTranslation.getGroupName(ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY, "info").toComponent() )
+//                .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY, "info")) ))
+//                .collapsed(true)
+//                .option(LabelOption.createBuilder().line(Component.empty()).build())
+//                .build())
+//
+//            .group(
+//                ConfigScreenHelper.createSeparator()
+//            )
+//
+//            // minecart sparks at max speed
+//            .group( createMultipleOptionsConfigGroup(
+//                "minecart_sparks",
+//                "minecart_sparks",
+//                ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY,
+//                booleanOption(ConfigTranslation.SPAWN_PARTICLE_WHEN_MINECART_AT_MAX_SPEED, "minecart_sparks", Binding.generic(ConfigHandler.minecart_enabled_DEFAULT, () -> ConfigHandler.minecart_enabled, newVal -> ConfigHandler.minecart_enabled = newVal)),
+//                integerSliderOption(ConfigTranslation.MINECART_WHEEL_PARTICLE_AMOUNT, "minecart_sparks", ConfigHandler.minecart_spawnChance_DEFAULT, () -> ConfigHandler.minecart_spawnChance, newVal -> ConfigHandler.minecart_spawnChance = newVal, 1, 100, 1),
+//                booleanOption(ConfigTranslation.MINECART_ONLY_WITH_PASSENGER, "minecart_sparks", Binding.generic(ConfigHandler.minecart_onlyWithPassenger_DEFAULT, () -> ConfigHandler.minecart_onlyWithPassenger, newVal -> ConfigHandler.minecart_onlyWithPassenger = newVal))
+//            ))
+//
+//            .group(
+//                ConfigScreenHelper.createSeparator()
+//            )
+//
+//            // lightning strike effect
+//            .group( createMultipleOptionsConfigGroup(
+//                "lightning_strike",
+//                "lightning_strike",
+//                ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY,
+//                booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED, "lightning_strike", Binding.generic(ConfigHandler.lightningStrike_enabled_DEFAULT, () -> ConfigHandler.lightningStrike_enabled, newVal -> ConfigHandler.lightningStrike_enabled = newVal)),
+//                integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_LIGHTNING_STRIKE, "arcs", ConfigHandler.lightningStrike_amountOfArcs_DEFAULT, () -> ConfigHandler.lightningStrike_amountOfArcs, newVal -> ConfigHandler.lightningStrike_amountOfArcs = newVal, 0, 16, 1),
+//                integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_LIGHTNING_STRIKE, "sparks", ConfigHandler.lightningStrike_amountOfSparks_DEFAULT, () -> ConfigHandler.lightningStrike_amountOfSparks, newVal -> ConfigHandler.lightningStrike_amountOfSparks = newVal, 0, 32, 1)
+//            ))
+//
+//            .group(
+//                ConfigScreenHelper.createSeparator()
+//            )
+//
+//            // blaze sparks
+//            .group( createMultipleOptionsConfigGroup(
+//                "blaze_sparks",
+//                "blaze_sparks",
+//                ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY,
+//                integerSliderOption(ConfigTranslation.ENTITY_AMBIENT_PARTICLE_SPAWN_CHANCE, "blaze_sparks", ConfigHandler.blaze_spawnChance_DEFAULT, () -> ConfigHandler.blaze_spawnChance, newVal -> ConfigHandler.blaze_spawnChance = newVal, 1, 100, 1),
+//                booleanOption(ConfigTranslation.SPAWN_PARTICLE_ON_ENTITY_HURT, "blaze_sparks", Binding.generic(ConfigHandler.blaze_spawnOnHurt_DEFAULT, () -> ConfigHandler.blaze_spawnOnHurt, newVal -> ConfigHandler.blaze_spawnOnHurt = newVal)),
+//                integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_ENTITY_HURT, "blaze_sparks", ConfigHandler.blaze_amountToSpawnOnHurt_DEFAULT, () -> ConfigHandler.blaze_amountToSpawnOnHurt, newVal -> ConfigHandler.blaze_amountToSpawnOnHurt = newVal, 1, 32, 1)
+//            ))
+//
+//            .group(
+//                ConfigScreenHelper.createSeparator()
+//            )
+//
+//            // item frame interactions
+//            .group( createMultipleOptionsConfigGroup(
+//                "item_frame_dust",
+//                "item_frame_dust",
+//                ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY,
+//                booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "item_frame_dust", Binding.generic(ConfigHandler.itemFrame_enabled_DEFAULT, () -> ConfigHandler.itemFrame_enabled, newVal -> ConfigHandler.itemFrame_enabled = newVal)),
+//                integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_INTERACT, "item_frame_dust", ConfigHandler.itemFrame_amount_DEFAULT, () -> ConfigHandler.itemFrame_amount, newVal -> ConfigHandler.itemFrame_amount = newVal, 1, 30, 1)
+//            ))
+//
+//        .build());
 
         return yaclBuilder.build();
     }

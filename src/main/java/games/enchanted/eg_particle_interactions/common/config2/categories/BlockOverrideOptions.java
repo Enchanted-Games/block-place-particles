@@ -19,7 +19,7 @@ public class BlockOverrideOptions {
     public static final BlockParticleOptionSet VANILLA_BLOCK_PARTICLE = BlockParticleOptionSet.register(
         "vanilla_block_particles",
         2,
-        3
+        4
     );
 
     public static final BlockParticleOptionSet SNOWFLAKE_PARTICLE_OVERRIDE = BlockParticleOptionSet.register(
