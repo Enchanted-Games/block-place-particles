@@ -69,14 +69,14 @@ public abstract class FireflyParticleMixin
         if(!ConfigHandler.general_fireflyFixes) {
             return original.call(state);
         }
-        Supplier<List<BlockOrTagLocation>> fireflyOverrideBlocks = BlockParticleOverrides.FIREFLY.getSupportedBlockResourceLocations_getter();
-        Supplier<List<BlockOrTagLocation>> grassBladeOverrideBlocks = BlockParticleOverrides.GRASS_BLADE.getSupportedBlockResourceLocations_getter();
+        List<BlockOrTagLocation> fireflyOverrideBlocks = BlockParticleOverrides.FIREFLY.getSupportedBlocksAndTags();
+        List<BlockOrTagLocation> grassBladeOverrideBlocks = BlockParticleOverrides.GRASS_BLADE.getSupportedBlocksAndTags();
         if(fireflyOverrideBlocks == null || grassBladeOverrideBlocks == null) {
             return original.call(state);
         }
         if(
-            fireflyOverrideBlocks.get().contains(new BlockOrTagLocation(RegistryHelpers.getLocationFromBlock(state.getBlock()), false)) ||
-            grassBladeOverrideBlocks.get().contains(new BlockOrTagLocation(RegistryHelpers.getLocationFromBlock(state.getBlock()), false)))
+            fireflyOverrideBlocks.contains(new BlockOrTagLocation(RegistryHelpers.getLocationFromBlock(state.getBlock()), false)) ||
+            grassBladeOverrideBlocks.contains(new BlockOrTagLocation(RegistryHelpers.getLocationFromBlock(state.getBlock()), false)))
         {
             return original.call(Blocks.AIR.defaultBlockState());
         }

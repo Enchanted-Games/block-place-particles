@@ -4,6 +4,8 @@ import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.Logging;
+import games.enchanted.eg_particle_interactions.common.config2.categories.BlockInteractionOptions;
+import games.enchanted.eg_particle_interactions.common.config2.categories.BlockOverrideOptions;
 import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.config2.option.ConfigOption;
 import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
@@ -19,6 +21,8 @@ public class ConfigOptions {
 
     static {
         GeneralOptions.init();
+        BlockOverrideOptions.init();
+        BlockInteractionOptions.init();
     }
 
     public static <T> ConfigOption<T> registerOption(ConfigCategory category, ConfigOption<T> option) {
@@ -37,14 +41,20 @@ public class ConfigOptions {
      * Applies any pending options and saves the config. If no options are pending config is not saved
      */
     public static void applyAndSaveConfig() {
+        boolean anyDirty = false;
         for (Map.Entry<ConfigCategory, List<ConfigOption<?>>> entry : OPTIONS.entrySet()) {
             List<ConfigOption<?>> options = entry.getValue();
-            if(options.stream().noneMatch(ConfigOption::isDirty)) return;
+            if(options.stream().noneMatch(ConfigOption::isDirty)) {
+                anyDirty = true;
+            }
 
             for (ConfigOption<?> option : options) {
-                if(option.isDirty()) option.applyPendingValue();
+                if(option.isDirty()) {
+                    option.applyPendingValue();
+                }
             }
         }
+        if(!anyDirty) return;
         saveConfig();
     }
 
@@ -99,6 +109,7 @@ public class ConfigOptions {
 
             for (ConfigOption<?> option : options) {
                 option.fromJson(categoryRoot);
+                option.applyPendingValue();
             }
         }
     }

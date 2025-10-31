@@ -1,30 +1,35 @@
 package games.enchanted.eg_particle_interactions.common.config2.screen;
 
-import dev.isxander.yacl3.api.Binding;
-import dev.isxander.yacl3.api.Option;
-import dev.isxander.yacl3.api.OptionDescription;
-import dev.isxander.yacl3.api.OptionGroup;
+import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
+import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
+import games.enchanted.eg_particle_interactions.common.config.controller.BlockLocationController;
+import games.enchanted.eg_particle_interactions.common.config.controller.FluidLocationController;
 import games.enchanted.eg_particle_interactions.common.config2.option.ConfigOption;
 import games.enchanted.eg_particle_interactions.common.localisation.ConfigTranslation;
+import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverride;
+import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
+import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluids;
 
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.List;
+import java.util.function.Function;
 
 public class ConfigScreenHelper {
-    protected static OptionGroup createGenericConfigGroup(String groupName, String category, boolean collapseByDefault, Option<?>...options) {
-        ConfigTranslation.TranslationKey groupNameKey = ConfigTranslation.getGroupName(category, groupName);
-        OptionGroup.Builder optionGroupBuilder = OptionGroup.createBuilder()
-            .name( groupNameKey.toComponent() )
-            .description(OptionDescription.of( ConfigTranslation.createDesc(groupNameKey) ));
-        for (Option<?> option : options) {
-            optionGroupBuilder.option(option);
-        }
-        return optionGroupBuilder.collapsed(collapseByDefault).build();
+    // decoration
+    public static OptionGroup createSeparator() {
+        return OptionGroup.createBuilder()
+            .name(Component.translatable("eg_particle_interactions.config.category_separator").withColor(0xff6c6c6c))
+            .collapsed(true)
+            .option(LabelOption.createBuilder().line(Component.empty()).build())
+            .build();
     }
 
+    // options
     protected static Option<Boolean> booleanOption(String booleanOptionLabelText, String particleTypeKey, ConfigOption<Boolean> option) {
         return Option.<Boolean>createBuilder()
             .name( ConfigTranslation.createPlaceholder(ConfigTranslation.getGlobalOption(booleanOptionLabelText).toComponent(), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) )
@@ -58,4 +63,110 @@ public class ConfigScreenHelper {
             .controller(opt -> IntegerSliderControllerBuilder.create(opt).range(min, max).step(step))
             .build();
     }
+
+    public static ListOption<BlockOrTagLocation> createBlockLocationListOption(String particleTypeKey, String groupName, String category, ConfigOption<List<BlockOrTagLocation>> option) {
+        return createListOption(new BlockOrTagLocation(RegistryHelpers.getLocationFromBlock(Blocks.STONE)), BlockLocationController::new, particleTypeKey, groupName, category, ConfigHandler.general_autoCollapseConfigLists, option);
+    }
+    private static ListOption<ResourceLocation> createFluidListOption(String particleTypeKey, String groupName, String category, ConfigOption<List<ResourceLocation>> option) {
+        return createListOption(RegistryHelpers.getLocationFromFluid(Fluids.WATER), FluidLocationController::new, particleTypeKey, groupName, category, ConfigHandler.general_autoCollapseConfigLists, option);
+    }
+    private static <T> ListOption<T> createListOption(T initial, Function<ListOptionEntry<T>, Controller<T>> controller, String particleTypeKey, String groupName, String category, boolean collapsedByDefault, ConfigOption<List<T>> option) {
+        ConfigTranslation.TranslationKey groupNameKey = ConfigTranslation.getGroupName(category, groupName);
+        return ListOption.<T>createBuilder()
+            .name( ConfigTranslation.createPlaceholder(groupNameKey.toComponent(), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) )
+            .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(groupNameKey), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ))
+            .binding(option.createBinding())
+            .customController(controller)
+            .collapsed(collapsedByDefault)
+            .initial(initial)
+            .build();
+    }
+
+    public static Option<Integer> maxParticlesOnPlaceOption(String optionName, ConfigOption<Integer> option) {
+        return integerSliderOption(optionName, option, 0, 16, 1);
+    }
+    public static Option<Integer> maxParticlesOnBreakOption(String optionName, ConfigOption<Integer> option) {
+        return integerSliderOption(optionName, option, 0, 8, 1);
+    }
+
+    // particle overrides
+    public static ConfigCategory.Builder createBlockParticleOverrideConfigWidgets(ConfigCategory.Builder configCategoryBuilder) {
+        for (BlockParticleOverride override : BlockParticleOverride.getBlockParticleOverrides()) {
+            if(override == BlockParticleOverride.NONE || override == BlockParticleOverride.VANILLA) continue;
+            configCategoryBuilder.group(
+                createSeparator()
+            );
+            configCategoryBuilder.group(
+                createOptionsForBlockOverride(override)
+            );
+            configCategoryBuilder.group(createBlockListForBlockOverride(override));
+        }
+
+        return configCategoryBuilder;
+    }
+
+    public static OptionGroup createOptionsForBlockOverride(BlockParticleOverride override) {
+        String particleTypeKey = override.getName();
+
+        Option<Boolean> isEnabledOption = Option.<Boolean>createBuilder()
+            .name(ConfigTranslation.getGlobalOption(ConfigTranslation.IS_OVERRIDE_ENABLED).toComponent())
+            .description(
+                OptionDescription.of(ConfigTranslation.createPlaceholder(
+                    ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(ConfigTranslation.IS_OVERRIDE_ENABLED)),
+                    Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString()
+                ))
+            )
+            .binding(override.getEnabledOption().createBinding())
+            .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
+        .build();
+
+        Option<Integer> maxParticlesOnPlaceOption = ConfigScreenHelper.maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_PLACE_ALONG_EDGES, override.getMaxParticlesOnPlaceOption());
+        Option<Integer> maxParticlesOnBreakOption = ConfigScreenHelper.maxParticlesOnBreakOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK_ALONG_AXIS, override.getMaxParticlesOnBreakOption());
+
+        return ConfigScreenHelper.createMultipleOptionsConfigGroup(override.getName(), override.getGroupName(), ConfigTranslation.BLOCKS_CONFIG_CATEGORY, isEnabledOption, maxParticlesOnPlaceOption, maxParticlesOnBreakOption);
+    }
+
+    public static ListOption<BlockOrTagLocation> createBlockListForBlockOverride(BlockParticleOverride override) {
+        ConfigOption<List<BlockOrTagLocation>> option = override.getSupportedBlocksAndTagsOption();
+        if(option == null) {
+            throw new IllegalArgumentException("Cannot create list option for override with no supported blocks list");
+        }
+        return ConfigScreenHelper.createBlockLocationListOption(
+            override.getName(),
+            override.getGroupName() + "_blocks",
+            ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
+            option
+        );
+    }
+
+    // groups
+    public static OptionGroup createParticleToggleAndIntSliderConfigGroup(String particleTypeKey, String groupName, String category, ConfigOption<Boolean> particleEnabledOption, String particleEnabledTranslationOption, Option<Integer> intSlider) {
+        Option<Boolean> particleToggleOption = booleanOption(particleEnabledTranslationOption, particleTypeKey, particleEnabledOption);
+        return createMultipleOptionsConfigGroup(particleTypeKey, groupName, category, particleToggleOption, intSlider);
+    }
+    public static OptionGroup createMultipleOptionsConfigGroup(String particleTypeKey, String groupName, String category, Option<?> ...options) {
+        return createMultipleOptionsConfigGroup(particleTypeKey, groupName, category, false, options);
+    }
+    public static OptionGroup createMultipleOptionsConfigGroup(String particleTypeKey, String groupName, String category, boolean collapseByDefault, Option<?> ...options) {
+        ConfigTranslation.TranslationKey groupNameKey = ConfigTranslation.getGroupName(category, groupName);
+        OptionGroup.Builder optionGroupBuilder = OptionGroup.createBuilder()
+            .name( ConfigTranslation.createPlaceholder(groupNameKey.toComponent(), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) )
+            .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(groupNameKey), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ));
+        for (Option<?> option : options) {
+            optionGroupBuilder.option(option);
+        }
+        return optionGroupBuilder.collapsed(collapseByDefault).build();
+    }
+
+    protected static OptionGroup createGenericConfigGroup(String groupName, String category, boolean collapseByDefault, Option<?>...options) {
+        ConfigTranslation.TranslationKey groupNameKey = ConfigTranslation.getGroupName(category, groupName);
+        OptionGroup.Builder optionGroupBuilder = OptionGroup.createBuilder()
+            .name( groupNameKey.toComponent() )
+            .description(OptionDescription.of( ConfigTranslation.createDesc(groupNameKey) ));
+        for (Option<?> option : options) {
+            optionGroupBuilder.option(option);
+        }
+        return optionGroupBuilder.collapsed(collapseByDefault).build();
+    }
+
 }

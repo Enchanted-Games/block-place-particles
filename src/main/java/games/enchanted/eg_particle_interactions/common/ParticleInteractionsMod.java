@@ -39,8 +39,6 @@ public class ParticleInteractionsMod {
     }
 
     public static void endOfModLoading() {
-        ConfigHandler.load();
-        ConfigHandler.save();
         ConfigOptions.readConfig();
         BlockParticleOverrides.registerOverrides();
         Logging.info("Loaded Successfully!");
