@@ -10,8 +10,8 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.function.Function;
 
 public abstract class ModRenderTypes extends RenderType {
-    public ModRenderTypes(String p_173178_, int p_173181_, boolean p_173182_, boolean p_173183_, Runnable p_173184_, Runnable p_173185_) {
-        super(p_173178_, p_173181_, p_173182_, p_173183_, p_173184_, p_173185_);
+    public ModRenderTypes(String name, int bufferSize, boolean affectsCrumbling, boolean sortOnUpload, Runnable setupState, Runnable clearState) {
+        super(name, bufferSize, affectsCrumbling, sortOnUpload, setupState, clearState);
     }
 
     private static final Function<ResourceLocation, RenderType> TRANSLUCENT_PARTICLE_BACKFACE = Util.memoize(ModRenderTypes::createTranslucentParticleBackface);

@@ -5,7 +5,7 @@ import games.enchanted.eg_particle_interactions.common.config.type.BrushParticle
 import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
 import games.enchanted.eg_particle_interactions.common.config.categories.*;
 import games.enchanted.eg_particle_interactions.common.localisation.ConfigTranslation;
-import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverride;
+import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverride;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 

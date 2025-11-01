@@ -2,29 +2,30 @@ package games.enchanted.eg_particle_interactions.common.particle;
 
 import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.Constants;
-import games.enchanted.eg_particle_interactions.common.particle.bubble.UnderwaterRisingBubble;
-import games.enchanted.eg_particle_interactions.common.particle.constant_motion.LavaPop;
-import games.enchanted.eg_particle_interactions.common.particle.drip.DripAndLandParticle;
-import games.enchanted.eg_particle_interactions.common.particle.dust.BasicDust;
-import games.enchanted.eg_particle_interactions.common.particle.dust.BasicTintedDust;
-import games.enchanted.eg_particle_interactions.common.particle.dust.FloatingColouredDust;
-import games.enchanted.eg_particle_interactions.common.particle.emitter.arc.ArcEmitter;
-import games.enchanted.eg_particle_interactions.common.particle.emitter.random_distribution.UnderwaterBubbleEmitter;
-import games.enchanted.eg_particle_interactions.common.particle.option.ArcEmitterOptions;
-import games.enchanted.eg_particle_interactions.common.particle.option.DripParticleOption;
-import games.enchanted.eg_particle_interactions.common.particle.option.RandomDistributionEmitterOptions;
-import games.enchanted.eg_particle_interactions.common.particle.option.TintedParticleOption;
-import games.enchanted.eg_particle_interactions.common.particle.falling_spin.FallingSpinningColouredParticle;
-import games.enchanted.eg_particle_interactions.common.particle.falling_spin.FallingSpinningParticle;
-import games.enchanted.eg_particle_interactions.common.particle.shatter.BlockShatter;
-import games.enchanted.eg_particle_interactions.common.particle.spark.FlyingSpark;
-import games.enchanted.eg_particle_interactions.common.particle.emitter.random_distribution.SparkEmitter;
-import games.enchanted.eg_particle_interactions.common.particle.spark.SparkFlash;
-import games.enchanted.eg_particle_interactions.common.particle.splash.BlockSplash;
-import games.enchanted.eg_particle_interactions.common.particle.splash.ColouredBucketSplash;
-import games.enchanted.eg_particle_interactions.common.particle.splash.LavaSplash;
-import games.enchanted.eg_particle_interactions.common.particle.swirling.Ember;
-import games.enchanted.eg_particle_interactions.common.particle.swirling.WaterVapour;
+import games.enchanted.eg_particle_interactions.common.particle.types.CustomMovementTerrainParticle;
+import games.enchanted.eg_particle_interactions.common.particle.types.bubble.UnderwaterRisingBubble;
+import games.enchanted.eg_particle_interactions.common.particle.types.constant_motion.LavaPop;
+import games.enchanted.eg_particle_interactions.common.particle.types.drip.DripAndLandParticle;
+import games.enchanted.eg_particle_interactions.common.particle.types.dust.BasicDust;
+import games.enchanted.eg_particle_interactions.common.particle.types.dust.BasicTintedDust;
+import games.enchanted.eg_particle_interactions.common.particle.types.dust.FloatingColouredDust;
+import games.enchanted.eg_particle_interactions.common.particle.types.emitter.arc.ArcEmitter;
+import games.enchanted.eg_particle_interactions.common.particle.types.emitter.random_distribution.UnderwaterBubbleEmitter;
+import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitterOptions;
+import games.enchanted.eg_particle_interactions.common.particle.options.DripParticleOption;
+import games.enchanted.eg_particle_interactions.common.particle.options.RandomDistributionEmitterOptions;
+import games.enchanted.eg_particle_interactions.common.particle.options.TintedParticleOption;
+import games.enchanted.eg_particle_interactions.common.particle.types.falling_spin.FallingSpinningColouredParticle;
+import games.enchanted.eg_particle_interactions.common.particle.types.falling_spin.FallingSpinningParticle;
+import games.enchanted.eg_particle_interactions.common.particle.types.shatter.BlockShatter;
+import games.enchanted.eg_particle_interactions.common.particle.types.spark.FlyingSpark;
+import games.enchanted.eg_particle_interactions.common.particle.types.emitter.random_distribution.SparkEmitter;
+import games.enchanted.eg_particle_interactions.common.particle.types.spark.SparkFlash;
+import games.enchanted.eg_particle_interactions.common.particle.types.splash.BlockSplash;
+import games.enchanted.eg_particle_interactions.common.particle.types.splash.ColouredBucketSplash;
+import games.enchanted.eg_particle_interactions.common.particle.types.splash.LavaSplash;
+import games.enchanted.eg_particle_interactions.common.particle.types.swirling.Ember;
+import games.enchanted.eg_particle_interactions.common.particle.types.swirling.WaterVapour;
 import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import net.minecraft.client.particle.ParticleProvider;
@@ -43,7 +44,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
-@SuppressWarnings({"unchecked","rawtypes"})
 public class ModParticleTypes {
     public static SimpleParticleType SNOWFLAKE;
     public static SimpleParticleType SNOWFLAKE_SPECK;
@@ -105,6 +105,7 @@ public class ModParticleTypes {
     //  for Block Particle Overrides not having a way to spawn different particles at different velocities)
     public static ParticleType<BlockParticleOption> BLOCK_HIGH_VELOCITY;
 
+    @SuppressWarnings({"unchecked","rawtypes"})
     public static void registerParticles() {
         SNOWFLAKE = register((SpriteProviderReg) BasicDust.SnowflakeProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "snowflake"), false);
         SNOWFLAKE_SPECK = register((SpriteProviderReg) BasicDust.SnowflakeSpeckProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "snowflake_speck"), false);

@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.shapes;
 
-import games.enchanted.eg_particle_interactions.common.rendering.particle.geometry.QuadConsumer;
+import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import org.joml.*;
 

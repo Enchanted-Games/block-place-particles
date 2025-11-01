@@ -2,8 +2,8 @@ package games.enchanted.eg_particle_interactions.common.mixin.particles;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import games.enchanted.eg_particle_interactions.common.rendering.particle.ModParticleRenderTypes;
-import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverride;
+import games.enchanted.eg_particle_interactions.common.particle.render.ModParticleRenderTypes;
+import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverride;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
@@ -28,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 //? if minecraft: > 1.21.8 {
 import com.google.common.collect.Maps;
 import net.minecraft.client.renderer.culling.Frustum;
-import games.enchanted.eg_particle_interactions.common.particle.group.CustomGeometryParticleGroup;
+import games.enchanted.eg_particle_interactions.common.particle.render.group.CustomGeometryParticleGroup;
 import net.minecraft.client.particle.ParticleGroup;
 import net.minecraft.client.renderer.state.ParticlesRenderState;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -43,7 +43,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 *///?}
 
 import java.util.Map;
-import java.util.Queue;
 
 @Mixin(value = ParticleEngine.class, priority = 3000)
 public abstract class ParticleEngineMixin implements PreparableReloadListener {
