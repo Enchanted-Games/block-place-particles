@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.config2.option.enums;
+package games.enchanted.eg_particle_interactions.common.config.option.enums;
 
 import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
 import net.minecraft.util.StringRepresentable;

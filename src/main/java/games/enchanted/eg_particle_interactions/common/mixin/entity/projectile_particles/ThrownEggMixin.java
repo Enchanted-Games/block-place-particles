@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.entity.projectile_
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
+import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.entity.projectile.ThrownEgg;
 import net.minecraft.world.level.Level;

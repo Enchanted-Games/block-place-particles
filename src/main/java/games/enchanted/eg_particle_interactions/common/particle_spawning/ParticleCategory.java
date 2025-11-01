@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle_spawning;
 
-import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
+import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 
 import java.util.function.Supplier;
 

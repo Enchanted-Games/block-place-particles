@@ -1,10 +1,10 @@
 package games.enchanted.eg_particle_interactions.common.particle_spawning;
 
 import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
-import games.enchanted.eg_particle_interactions.common.config2.categories.BlockInteractionOptions;
-import games.enchanted.eg_particle_interactions.common.config2.categories.EntityOptions;
-import games.enchanted.eg_particle_interactions.common.config2.categories.FluidAmbientOptions;
-import games.enchanted.eg_particle_interactions.common.config2.categories.ItemInteractionOptions;
+import games.enchanted.eg_particle_interactions.common.config.categories.BlockInteractionOptions;
+import games.enchanted.eg_particle_interactions.common.config.categories.EntityOptions;
+import games.enchanted.eg_particle_interactions.common.config.categories.FluidAmbientOptions;
+import games.enchanted.eg_particle_interactions.common.config.categories.ItemInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
 import games.enchanted.eg_particle_interactions.common.particle.option.ArcEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.option.DripParticleOption;

@@ -1,12 +1,12 @@
-package games.enchanted.eg_particle_interactions.common.config2.categories;
+package games.enchanted.eg_particle_interactions.common.config.categories;
 
 import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
-import games.enchanted.eg_particle_interactions.common.config2.ConfigCategory;
-import games.enchanted.eg_particle_interactions.common.config2.ConfigOptions;
-import games.enchanted.eg_particle_interactions.common.config2.option.BoolOption;
-import games.enchanted.eg_particle_interactions.common.config2.option.ConfigOption;
-import games.enchanted.eg_particle_interactions.common.config2.option.IntOption;
-import games.enchanted.eg_particle_interactions.common.config2.option.enums.BrushParticleBehaviourOption;
+import games.enchanted.eg_particle_interactions.common.config.ConfigCategory;
+import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
+import games.enchanted.eg_particle_interactions.common.config.option.BoolOption;
+import games.enchanted.eg_particle_interactions.common.config.option.ConfigOption;
+import games.enchanted.eg_particle_interactions.common.config.option.IntOption;
+import games.enchanted.eg_particle_interactions.common.config.option.enums.BrushParticleBehaviourOption;
 
 public class ItemInteractionOptions {
     public static final ConfigOption<BrushParticleBehaviour> BRUSH_PARTICLE_BEHAVIOUR = registerOption(

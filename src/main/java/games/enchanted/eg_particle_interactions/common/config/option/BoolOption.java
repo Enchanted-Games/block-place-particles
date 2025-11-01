@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.config2.option;
+package games.enchanted.eg_particle_interactions.common.config.option;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

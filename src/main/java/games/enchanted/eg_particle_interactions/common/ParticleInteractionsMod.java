@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common;
 
-import games.enchanted.eg_particle_interactions.common.config2.ConfigOptions;
+import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
 import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteAtlasManager;
 import it.unimi.dsi.fastutil.Pair;

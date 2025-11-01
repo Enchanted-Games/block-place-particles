@@ -1,9 +1,9 @@
-package games.enchanted.eg_particle_interactions.common.config2.screen;
+package games.enchanted.eg_particle_interactions.common.config.screen;
 
 import dev.isxander.yacl3.api.*;
 import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
-import games.enchanted.eg_particle_interactions.common.config2.ConfigOptions;
-import games.enchanted.eg_particle_interactions.common.config2.categories.*;
+import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
+import games.enchanted.eg_particle_interactions.common.config.categories.*;
 import games.enchanted.eg_particle_interactions.common.localisation.ConfigTranslation;
 import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverride;
 import net.minecraft.client.gui.screens.Screen;

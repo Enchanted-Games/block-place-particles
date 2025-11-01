@@ -1,7 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.mixin.particles;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
+import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;

@@ -1,11 +1,11 @@
-package games.enchanted.eg_particle_interactions.common.config2.option.enums;
+package games.enchanted.eg_particle_interactions.common.config.option.enums;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import games.enchanted.eg_particle_interactions.common.Logging;
-import games.enchanted.eg_particle_interactions.common.config2.option.ConfigOption;
+import games.enchanted.eg_particle_interactions.common.config.option.ConfigOption;
 import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.Nullable;
 

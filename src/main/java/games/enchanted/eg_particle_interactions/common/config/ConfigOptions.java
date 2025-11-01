@@ -1,11 +1,11 @@
-package games.enchanted.eg_particle_interactions.common.config2;
+package games.enchanted.eg_particle_interactions.common.config;
 
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.Logging;
-import games.enchanted.eg_particle_interactions.common.config2.categories.*;
-import games.enchanted.eg_particle_interactions.common.config2.option.ConfigOption;
+import games.enchanted.eg_particle_interactions.common.config.categories.*;
+import games.enchanted.eg_particle_interactions.common.config.option.ConfigOption;
 import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
 
 import java.io.*;

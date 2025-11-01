@@ -1,13 +1,13 @@
-package games.enchanted.eg_particle_interactions.common.config2.screen;
+package games.enchanted.eg_particle_interactions.common.config.screen;
 
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
 import dev.isxander.yacl3.api.controller.EnumControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
-import games.enchanted.eg_particle_interactions.common.config.controller.BlockLocationController;
-import games.enchanted.eg_particle_interactions.common.config.controller.FluidLocationController;
-import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
-import games.enchanted.eg_particle_interactions.common.config2.option.ConfigOption;
+import games.enchanted.eg_particle_interactions.common.config.screen.controller.BlockLocationController;
+import games.enchanted.eg_particle_interactions.common.config.screen.controller.FluidLocationController;
+import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
+import games.enchanted.eg_particle_interactions.common.config.option.ConfigOption;
 import games.enchanted.eg_particle_interactions.common.localisation.ConfigTranslation;
 import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverride;
 import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;

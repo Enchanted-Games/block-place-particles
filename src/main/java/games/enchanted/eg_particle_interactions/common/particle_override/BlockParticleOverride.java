@@ -1,8 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle_override;
 
-import dev.isxander.yacl3.api.Binding;
-import games.enchanted.eg_particle_interactions.common.config2.categories.BlockOverrideOptions;
-import games.enchanted.eg_particle_interactions.common.config2.option.ConfigOption;
+import games.enchanted.eg_particle_interactions.common.config.categories.BlockOverrideOptions;
+import games.enchanted.eg_particle_interactions.common.config.option.ConfigOption;
 import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import games.enchanted.eg_particle_interactions.common.registry.TagUtil;

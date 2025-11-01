@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.blocks;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import games.enchanted.eg_particle_interactions.common.config2.categories.ItemInteractionOptions;
+import games.enchanted.eg_particle_interactions.common.config.categories.ItemInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.particle.option.DripParticleOption;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
 import net.minecraft.client.multiplayer.ClientLevel;

@@ -3,7 +3,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.items;
 import com.llamalad7.mixinextras.sugar.Local;
 import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
-import games.enchanted.eg_particle_interactions.common.config2.categories.ItemInteractionOptions;
+import games.enchanted.eg_particle_interactions.common.config.categories.ItemInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
 import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverride;
 import net.minecraft.client.multiplayer.ClientLevel;

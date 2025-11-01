@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle;
 
-import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
+import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;

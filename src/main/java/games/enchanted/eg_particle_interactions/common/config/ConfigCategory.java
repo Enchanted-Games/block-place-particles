@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.config2;
+package games.enchanted.eg_particle_interactions.common.config;
 
 public record ConfigCategory(String id) {
     public static ConfigCategory GENERAL = new ConfigCategory("general");

@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.particles;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
+import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
 import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;

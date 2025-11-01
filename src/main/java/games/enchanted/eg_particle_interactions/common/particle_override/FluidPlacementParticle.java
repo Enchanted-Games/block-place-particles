@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle_override;
 
-import games.enchanted.eg_particle_interactions.common.config2.categories.FluidPlacementOptions;
+import games.enchanted.eg_particle_interactions.common.config.categories.FluidPlacementOptions;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import net.minecraft.core.particles.BlockParticleOption;

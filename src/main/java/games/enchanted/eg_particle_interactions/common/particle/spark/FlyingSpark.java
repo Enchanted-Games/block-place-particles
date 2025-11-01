@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.spark;
 
-import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
+import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
 import games.enchanted.eg_particle_interactions.common.particle.StretchyBouncyShapeParticle;
 import games.enchanted.eg_particle_interactions.common.shapes.ShapeDefinitions;
