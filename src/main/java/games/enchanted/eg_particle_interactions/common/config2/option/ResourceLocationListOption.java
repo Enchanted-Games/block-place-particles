@@ -15,7 +15,7 @@ import java.util.List;
 public class ResourceLocationListOption extends ConfigOption<List<ResourceLocation>> {
     public static final Codec<List<ResourceLocation>> CODEC = ResourceLocation.CODEC.listOf();
 
-    ResourceLocationListOption(List<ResourceLocation> initialAndDefaultValue, String jsonKey) {
+    public ResourceLocationListOption(List<ResourceLocation> initialAndDefaultValue, String jsonKey) {
         super(initialAndDefaultValue, jsonKey);
     }
 

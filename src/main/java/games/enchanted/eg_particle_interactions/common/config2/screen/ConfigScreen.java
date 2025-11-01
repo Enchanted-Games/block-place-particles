@@ -4,9 +4,7 @@ import dev.isxander.yacl3.api.*;
 import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
 import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
 import games.enchanted.eg_particle_interactions.common.config2.ConfigOptions;
-import games.enchanted.eg_particle_interactions.common.config2.categories.BlockInteractionOptions;
-import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
-import games.enchanted.eg_particle_interactions.common.config2.categories.ItemInteractionOptions;
+import games.enchanted.eg_particle_interactions.common.config2.categories.*;
 import games.enchanted.eg_particle_interactions.common.localisation.ConfigTranslation;
 import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverride;
 import net.minecraft.client.gui.screens.Screen;
@@ -440,75 +438,195 @@ public class ConfigScreen {
         .build());
 
         // entity category
-//        yaclBuilder.category( ConfigCategory.createBuilder()
-//            .name(ConfigTranslation.getCategoryName(ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY).toComponent())
-//            .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY)))
-//
-//            // category info
-//            .group(OptionGroup.createBuilder()
-//                .name( ConfigTranslation.getGroupName(ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY, "info").toComponent() )
-//                .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY, "info")) ))
-//                .collapsed(true)
-//                .option(LabelOption.createBuilder().line(Component.empty()).build())
-//                .build())
-//
-//            .group(
-//                ConfigScreenHelper.createSeparator()
-//            )
-//
-//            // minecart sparks at max speed
-//            .group( createMultipleOptionsConfigGroup(
-//                "minecart_sparks",
-//                "minecart_sparks",
-//                ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY,
-//                booleanOption(ConfigTranslation.SPAWN_PARTICLE_WHEN_MINECART_AT_MAX_SPEED, "minecart_sparks", Binding.generic(ConfigHandler.minecart_enabled_DEFAULT, () -> ConfigHandler.minecart_enabled, newVal -> ConfigHandler.minecart_enabled = newVal)),
-//                integerSliderOption(ConfigTranslation.MINECART_WHEEL_PARTICLE_AMOUNT, "minecart_sparks", ConfigHandler.minecart_spawnChance_DEFAULT, () -> ConfigHandler.minecart_spawnChance, newVal -> ConfigHandler.minecart_spawnChance = newVal, 1, 100, 1),
-//                booleanOption(ConfigTranslation.MINECART_ONLY_WITH_PASSENGER, "minecart_sparks", Binding.generic(ConfigHandler.minecart_onlyWithPassenger_DEFAULT, () -> ConfigHandler.minecart_onlyWithPassenger, newVal -> ConfigHandler.minecart_onlyWithPassenger = newVal))
-//            ))
-//
-//            .group(
-//                ConfigScreenHelper.createSeparator()
-//            )
-//
-//            // lightning strike effect
-//            .group( createMultipleOptionsConfigGroup(
-//                "lightning_strike",
-//                "lightning_strike",
-//                ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY,
-//                booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED, "lightning_strike", Binding.generic(ConfigHandler.lightningStrike_enabled_DEFAULT, () -> ConfigHandler.lightningStrike_enabled, newVal -> ConfigHandler.lightningStrike_enabled = newVal)),
-//                integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_LIGHTNING_STRIKE, "arcs", ConfigHandler.lightningStrike_amountOfArcs_DEFAULT, () -> ConfigHandler.lightningStrike_amountOfArcs, newVal -> ConfigHandler.lightningStrike_amountOfArcs = newVal, 0, 16, 1),
-//                integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_LIGHTNING_STRIKE, "sparks", ConfigHandler.lightningStrike_amountOfSparks_DEFAULT, () -> ConfigHandler.lightningStrike_amountOfSparks, newVal -> ConfigHandler.lightningStrike_amountOfSparks = newVal, 0, 32, 1)
-//            ))
-//
-//            .group(
-//                ConfigScreenHelper.createSeparator()
-//            )
-//
-//            // blaze sparks
-//            .group( createMultipleOptionsConfigGroup(
-//                "blaze_sparks",
-//                "blaze_sparks",
-//                ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY,
-//                integerSliderOption(ConfigTranslation.ENTITY_AMBIENT_PARTICLE_SPAWN_CHANCE, "blaze_sparks", ConfigHandler.blaze_spawnChance_DEFAULT, () -> ConfigHandler.blaze_spawnChance, newVal -> ConfigHandler.blaze_spawnChance = newVal, 1, 100, 1),
-//                booleanOption(ConfigTranslation.SPAWN_PARTICLE_ON_ENTITY_HURT, "blaze_sparks", Binding.generic(ConfigHandler.blaze_spawnOnHurt_DEFAULT, () -> ConfigHandler.blaze_spawnOnHurt, newVal -> ConfigHandler.blaze_spawnOnHurt = newVal)),
-//                integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_ENTITY_HURT, "blaze_sparks", ConfigHandler.blaze_amountToSpawnOnHurt_DEFAULT, () -> ConfigHandler.blaze_amountToSpawnOnHurt, newVal -> ConfigHandler.blaze_amountToSpawnOnHurt = newVal, 1, 32, 1)
-//            ))
-//
-//            .group(
-//                ConfigScreenHelper.createSeparator()
-//            )
-//
-//            // item frame interactions
-//            .group( createMultipleOptionsConfigGroup(
-//                "item_frame_dust",
-//                "item_frame_dust",
-//                ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY,
-//                booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "item_frame_dust", Binding.generic(ConfigHandler.itemFrame_enabled_DEFAULT, () -> ConfigHandler.itemFrame_enabled, newVal -> ConfigHandler.itemFrame_enabled = newVal)),
-//                integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_INTERACT, "item_frame_dust", ConfigHandler.itemFrame_amount_DEFAULT, () -> ConfigHandler.itemFrame_amount, newVal -> ConfigHandler.itemFrame_amount = newVal, 1, 30, 1)
-//            ))
-//
-//        .build());
+        yaclBuilder.category( ConfigCategory.createBuilder()
+            .name(ConfigTranslation.getCategoryName(ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY).toComponent())
+            .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY)))
 
+            // category info
+            .group(OptionGroup.createBuilder()
+                .name( ConfigTranslation.getGroupName(ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY, "info").toComponent() )
+                .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY, "info")) ))
+                .collapsed(true)
+                .option(LabelOption.createBuilder().line(Component.empty()).build())
+                .build())
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            // minecart sparks at max speed
+            .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
+                "minecart_sparks",
+                "minecart_sparks",
+                ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY,
+                ConfigScreenHelper.booleanOption(ConfigTranslation.SPAWN_PARTICLE_WHEN_MINECART_AT_MAX_SPEED, "minecart_sparks", EntityOptions.MINECART_SPARKS_ENABLED),
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MINECART_WHEEL_PARTICLE_AMOUNT, "minecart_sparks", EntityOptions.MINECART_SPARKS_SPAWN_CHANCE, 1, 100, 1),
+                ConfigScreenHelper.booleanOption(ConfigTranslation.MINECART_ONLY_WITH_PASSENGER, "minecart_sparks", EntityOptions.MINECART_SPARKS_ONLY_WITH_PASSENGER)
+            ))
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            // lightning strike effect
+            .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
+                "lightning_strike",
+                "lightning_strike",
+                ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY,
+                ConfigScreenHelper.booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED, "lightning_strike", EntityOptions.LIGHTNING_STRIKE_ENABLED),
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_LIGHTNING_STRIKE, "arcs", EntityOptions.LIGHTNING_STRIKE_AMOUNT_OF_ARCS, 0, 16, 1),
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_LIGHTNING_STRIKE, "sparks", EntityOptions.LIGHTNING_STRIKE_AMOUNT_OF_SPARKS, 0, 32, 1)
+            ))
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            // blaze sparks
+            .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
+                "blaze_sparks",
+                "blaze_sparks",
+                ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY,
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.ENTITY_AMBIENT_PARTICLE_SPAWN_CHANCE, "blaze_sparks", EntityOptions.BLAZE_SPARKS_SPAWN_CHANCE, 1, 100, 1),
+                ConfigScreenHelper.booleanOption(ConfigTranslation.SPAWN_PARTICLE_ON_ENTITY_HURT, "blaze_sparks", EntityOptions.BLAZE_SPARKS_SPAWN_ON_HURT),
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_ENTITY_HURT, "blaze_sparks", EntityOptions.BLAZE_SPARKS_AMOUNT_ON_HURT, 1, 32, 1)
+            ))
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            // item frame interactions
+            .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
+                "item_frame_dust",
+                "item_frame_dust",
+                ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY,
+                ConfigScreenHelper.booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "item_frame_dust", EntityOptions.ITEM_FRAME_INTERACTION_ENABLED),
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_INTERACT, "item_frame_dust", EntityOptions.ITEM_FRAME_INTERACTION_AMOUNT, 1, 30, 1)
+            ))
+        .build());
+
+        // fluid placement config category
+        yaclBuilder.category( ConfigCategory.createBuilder()
+            .name(ConfigTranslation.getCategoryName(ConfigTranslation.FLUIDS_CONFIG_CATEGORY).toComponent())
+            .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.FLUIDS_CONFIG_CATEGORY)))
+
+            // fluid placement config info
+            .group(OptionGroup.createBuilder()
+                .name( ConfigTranslation.getGroupName(ConfigTranslation.FLUIDS_CONFIG_CATEGORY, "info").toComponent() )
+                .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.FLUIDS_CONFIG_CATEGORY, "info")) ))
+                .collapsed(true)
+                .option(LabelOption.createBuilder().line(Component.empty()).build())
+                .build())
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            // tinted water splash
+            .group( ConfigScreenHelper.createFluidParticleToggleAndMaxConfigGroup(
+                "tinted_splash",
+                "tinted_splash",
+                ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
+                FluidPlacementOptions.WATER_SPLASH_ENABLED,
+                ConfigScreenHelper.maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_FLUID_PLACE, FluidPlacementOptions.WATER_SPLASH_AMOUNT_ON_PLACE)
+            ))
+            .group( ConfigScreenHelper.createFluidListOption(
+                "tinted_splash",
+                "tinted_splash_fluids",
+                ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
+                FluidPlacementOptions.WATER_SPLASH_FLUIDS
+            ))
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            // lava splash
+            .group( ConfigScreenHelper.createFluidParticleToggleAndMaxConfigGroup(
+                "lava_splash",
+                "generic_particle_fluids",
+                ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
+                FluidPlacementOptions.LAVA_SPLASH_ENABLED,
+                ConfigScreenHelper.maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_FLUID_PLACE, FluidPlacementOptions.LAVA_SPLASH_AMOUNT_ON_PLACE)
+            ))
+            .group( ConfigScreenHelper.createFluidListOption(
+                "lava_splash",
+                "generic_particle",
+                ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
+                FluidPlacementOptions.LAVA_SPLASH_FLUIDS
+            ))
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            // generic splash
+            .group( ConfigScreenHelper.createFluidParticleToggleAndMaxConfigGroup(
+                "generic_splash",
+                "generic_splash",
+                ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
+                FluidPlacementOptions.GENERIC_SPLASH_ENABLED,
+                ConfigScreenHelper.maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_FLUID_PLACE, FluidPlacementOptions.GENERIC_SPLASH_AMOUNT_ON_PLACE)
+            ))
+            .group( ConfigScreenHelper.createFluidListOption(
+                "generic_splash",
+                "generic_splash_fluids",
+                ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
+                FluidPlacementOptions.GENERIC_SPLASH_FLUIDS
+            ))
+        .build());
+
+
+        // fluid ambient config category
+        yaclBuilder.category( ConfigCategory.createBuilder()
+            .name(ConfigTranslation.getCategoryName(ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY).toComponent())
+            .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY)))
+
+            // fluid ambient config info
+            .group(OptionGroup.createBuilder()
+                .name( ConfigTranslation.getGroupName(ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY, "info").toComponent() )
+                .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY, "info")) ))
+                .collapsed(true)
+                .option(LabelOption.createBuilder().line(Component.empty()).build())
+                .build())
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            // lava bubble pop
+            .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
+                "lava_bubble_pop",
+                "lava_bubble_pop",
+                ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY,
+                ConfigScreenHelper.booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "lava_bubble_pop", FluidAmbientOptions.LAVA_BUBBLE_POP_ENABLED),
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE_WITH_TYPE, "lava_bubble_pop", FluidAmbientOptions.LAVA_BUBBLE_POP_SPAWN_CHANCE, 1, 100, 1)
+            ))
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            // underwater bubble streams
+            .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
+                "underwater_bubble_streams",
+                "underwater_bubble_streams",
+                ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY,
+                ConfigScreenHelper.booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "underwater_bubble_streams", FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_ENABLED),
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE_WITH_TYPE, "underwater_bubble_streams", FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_SPAWN_CHANCE, 1, 100, 1)
+            ))
+            .group(
+                ConfigScreenHelper.createBlockLocationListOption(
+                    "underwater_bubble_streams",
+                    "underwater_bubble_streams_blocks",
+                    ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY,
+                    FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_BLOCKS
+                )
+            )
+
+        .build());
+        
         return yaclBuilder.build();
     }
 }

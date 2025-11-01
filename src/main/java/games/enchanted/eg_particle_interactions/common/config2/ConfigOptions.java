@@ -4,10 +4,7 @@ import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.Logging;
-import games.enchanted.eg_particle_interactions.common.config2.categories.BlockInteractionOptions;
-import games.enchanted.eg_particle_interactions.common.config2.categories.BlockOverrideOptions;
-import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
-import games.enchanted.eg_particle_interactions.common.config2.categories.ItemInteractionOptions;
+import games.enchanted.eg_particle_interactions.common.config2.categories.*;
 import games.enchanted.eg_particle_interactions.common.config2.option.ConfigOption;
 import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
 
@@ -27,6 +24,9 @@ public class ConfigOptions {
         BlockOverrideOptions.init();
         BlockInteractionOptions.init();
         ItemInteractionOptions.init();
+        EntityOptions.init();
+        FluidPlacementOptions.init();
+        FluidAmbientOptions.init();
         OPTIONS = Map.copyOf(TEMPORARY_REGISTRATION_MAP);
         TEMPORARY_REGISTRATION_MAP = null;
     }

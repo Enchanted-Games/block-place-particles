@@ -31,7 +31,7 @@ public class ConfigScreenHelper {
     }
 
     // options
-    protected static Option<Boolean> booleanOption(String booleanOptionLabelText, String particleTypeKey, ConfigOption<Boolean> option) {
+    public static Option<Boolean> booleanOption(String booleanOptionLabelText, String particleTypeKey, ConfigOption<Boolean> option) {
         return Option.<Boolean>createBuilder()
             .name( ConfigTranslation.createPlaceholder(ConfigTranslation.getGlobalOption(booleanOptionLabelText).toComponent(), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) )
             .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(booleanOptionLabelText)), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ))
@@ -39,7 +39,7 @@ public class ConfigScreenHelper {
             .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
             .build();
     }
-    protected static Option<Boolean> genericBooleanOption(String optionName, ConfigOption<Boolean> option) {
+    public static Option<Boolean> genericBooleanOption(String optionName, ConfigOption<Boolean> option) {
         ConfigTranslation.TranslationKey translationKey = ConfigTranslation.getGlobalOption(optionName);
         return Option.<Boolean>createBuilder()
             .name( translationKey.toComponent() )
@@ -49,14 +49,14 @@ public class ConfigScreenHelper {
             .build();
     }
 
-    protected static Option<Integer> integerSliderOption(String optionName, ConfigOption<Integer> option, int min, int max, int step) {
+    public static Option<Integer> integerSliderOption(String optionName, ConfigOption<Integer> option, int min, int max, int step) {
         return createIntegerOption(option, ConfigTranslation.getGlobalOption(optionName).toComponent(), ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(optionName)), min, max, step);
     }
-    protected static Option<Integer> integerSliderOption(String optionName, String particleTypeKey, ConfigOption<Integer> option, int min, int max, int step) {
+    public static Option<Integer> integerSliderOption(String optionName, String particleTypeKey, ConfigOption<Integer> option, int min, int max, int step) {
         return createIntegerOption(option, ConfigTranslation.createPlaceholder(ConfigTranslation.getGlobalOption(optionName).toComponent(), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ), ConfigTranslation.createPlaceholder( ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(optionName)), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ), min, max, step);
     }
 
-    protected static Option<Integer> createIntegerOption(ConfigOption<Integer> option, Component name, Component description, int min, int max, int step) {
+    public static Option<Integer> createIntegerOption(ConfigOption<Integer> option, Component name, Component description, int min, int max, int step) {
         return Option.<Integer>createBuilder()
             .name(name)
             .description(OptionDescription.of(description))
@@ -68,10 +68,10 @@ public class ConfigScreenHelper {
     public static ListOption<BlockOrTagLocation> createBlockLocationListOption(String particleTypeKey, String groupName, String category, ConfigOption<List<BlockOrTagLocation>> option) {
         return createListOption(new BlockOrTagLocation(RegistryHelpers.getLocationFromBlock(Blocks.STONE)), BlockLocationController::new, particleTypeKey, groupName, category, ConfigHandler.general_autoCollapseConfigLists, option);
     }
-    private static ListOption<ResourceLocation> createFluidListOption(String particleTypeKey, String groupName, String category, ConfigOption<List<ResourceLocation>> option) {
+    public static ListOption<ResourceLocation> createFluidListOption(String particleTypeKey, String groupName, String category, ConfigOption<List<ResourceLocation>> option) {
         return createListOption(RegistryHelpers.getLocationFromFluid(Fluids.WATER), FluidLocationController::new, particleTypeKey, groupName, category, ConfigHandler.general_autoCollapseConfigLists, option);
     }
-    private static <T> ListOption<T> createListOption(T initial, Function<ListOptionEntry<T>, Controller<T>> controller, String particleTypeKey, String groupName, String category, boolean collapsedByDefault, ConfigOption<List<T>> option) {
+    public static <T> ListOption<T> createListOption(T initial, Function<ListOptionEntry<T>, Controller<T>> controller, String particleTypeKey, String groupName, String category, boolean collapsedByDefault, ConfigOption<List<T>> option) {
         ConfigTranslation.TranslationKey groupNameKey = ConfigTranslation.getGroupName(category, groupName);
         return ListOption.<T>createBuilder()
             .name( ConfigTranslation.createPlaceholder(groupNameKey.toComponent(), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) )
@@ -176,7 +176,18 @@ public class ConfigScreenHelper {
         return optionGroupBuilder.collapsed(collapseByDefault).build();
     }
 
-    protected static OptionGroup createGenericConfigGroup(String groupName, String category, boolean collapseByDefault, Option<?>...options) {
+    public static OptionGroup createFluidParticleToggleAndMaxConfigGroup(String particleTypeKey, String groupName, String category, ConfigOption<Boolean> spawnOnFluidPlaceOption, Option<Integer> maxPlaceParticlesOption) {
+        Option<Boolean> onFluidPlaceOption = Option.<Boolean>createBuilder()
+            .name( ConfigTranslation.getGlobalOption(ConfigTranslation.SPAWN_FLUID_PARTICLE_ON_PLACE).toComponent() )
+            .description(OptionDescription.of( ConfigTranslation.createPlaceholder(ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(ConfigTranslation.SPAWN_FLUID_PARTICLE_ON_PLACE)), Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString() ) ))
+            .binding(spawnOnFluidPlaceOption.createBinding())
+            .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
+            .build();
+
+        return createMultipleOptionsConfigGroup(particleTypeKey, groupName, category, onFluidPlaceOption, maxPlaceParticlesOption);
+    }
+
+    public static OptionGroup createGenericConfigGroup(String groupName, String category, boolean collapseByDefault, Option<?>...options) {
         ConfigTranslation.TranslationKey groupNameKey = ConfigTranslation.getGroupName(category, groupName);
         OptionGroup.Builder optionGroupBuilder = OptionGroup.createBuilder()
             .name( groupNameKey.toComponent() )

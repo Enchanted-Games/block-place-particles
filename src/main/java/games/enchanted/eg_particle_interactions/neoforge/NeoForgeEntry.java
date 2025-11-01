@@ -2,7 +2,7 @@
 /*package games.enchanted.eg_particle_interactions.neoforge;
 
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
-import games.enchanted.eg_particle_interactions.common.config.ConfigScreen;
+import games.enchanted.eg_particle_interactions.common.config2.screen.ConfigScreen;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
 import games.enchanted.eg_particle_interactions.neoforge.registry.NeoParticleProviderRegistry;
 import net.minecraft.client.Minecraft;

@@ -1,0 +1,66 @@
+package games.enchanted.eg_particle_interactions.common.config2.categories;
+
+import games.enchanted.eg_particle_interactions.common.config2.ConfigCategory;
+import games.enchanted.eg_particle_interactions.common.config2.ConfigOptions;
+import games.enchanted.eg_particle_interactions.common.config2.option.BoolOption;
+import games.enchanted.eg_particle_interactions.common.config2.option.ConfigOption;
+import games.enchanted.eg_particle_interactions.common.config2.option.IntOption;
+import games.enchanted.eg_particle_interactions.common.config2.option.ResourceLocationListOption;
+import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.material.Fluids;
+
+import java.util.List;
+
+public class FluidPlacementOptions {
+    public static final ConfigOption<List<ResourceLocation>> WATER_SPLASH_FLUIDS = registerOption(
+        new ResourceLocationListOption(
+            List.of(
+                RegistryHelpers.getLocationFromFluid(Fluids.WATER),
+                RegistryHelpers.getLocationFromFluid(Fluids.FLOWING_WATER)
+            ),
+            "water_splash_fluids"
+        )
+    );
+    public static final ConfigOption<Boolean> WATER_SPLASH_ENABLED = registerOption(
+        new BoolOption(true, "water_splash_enabled")
+    );
+    public static final ConfigOption<Integer> WATER_SPLASH_AMOUNT_ON_PLACE = registerOption(
+        new IntOption(12, "water_splash_amount_on_place")
+    );
+
+    public static final ConfigOption<List<ResourceLocation>> LAVA_SPLASH_FLUIDS = registerOption(
+        new ResourceLocationListOption(
+            List.of(
+                RegistryHelpers.getLocationFromFluid(Fluids.LAVA),
+                RegistryHelpers.getLocationFromFluid(Fluids.FLOWING_LAVA)
+            ),
+            "lava_splash_fluids"
+        )
+    );
+    public static final ConfigOption<Boolean> LAVA_SPLASH_ENABLED = registerOption(
+        new BoolOption(true, "lava_splash_enabled")
+    );
+    public static final ConfigOption<Integer> LAVA_SPLASH_AMOUNT_ON_PLACE = registerOption(
+        new IntOption(7, "lava_splash_amount_on_place")
+    );
+
+    public static final ConfigOption<List<ResourceLocation>> GENERIC_SPLASH_FLUIDS = registerOption(
+        new ResourceLocationListOption(
+            List.of(),
+            "generic_splash_fluids"
+        )
+    );
+    public static final ConfigOption<Boolean> GENERIC_SPLASH_ENABLED = registerOption(
+        new BoolOption(true, "generic_splash_enabled")
+    );
+    public static final ConfigOption<Integer> GENERIC_SPLASH_AMOUNT_ON_PLACE = registerOption(
+        new IntOption(10, "generic_splash_amount_on_place")
+    );
+
+    private static <T> ConfigOption<T> registerOption(ConfigOption<T> option) {
+        return ConfigOptions.registerOption(ConfigCategory.FLUID_PLACEMENT, option);
+    }
+
+    public static void init() {}
+}
