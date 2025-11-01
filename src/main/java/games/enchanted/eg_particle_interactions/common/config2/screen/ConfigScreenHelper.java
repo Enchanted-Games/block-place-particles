@@ -4,9 +4,9 @@ import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
 import dev.isxander.yacl3.api.controller.EnumControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
-import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
 import games.enchanted.eg_particle_interactions.common.config.controller.BlockLocationController;
 import games.enchanted.eg_particle_interactions.common.config.controller.FluidLocationController;
+import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.config2.option.ConfigOption;
 import games.enchanted.eg_particle_interactions.common.localisation.ConfigTranslation;
 import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverride;
@@ -66,10 +66,10 @@ public class ConfigScreenHelper {
     }
 
     public static ListOption<BlockOrTagLocation> createBlockLocationListOption(String particleTypeKey, String groupName, String category, ConfigOption<List<BlockOrTagLocation>> option) {
-        return createListOption(new BlockOrTagLocation(RegistryHelpers.getLocationFromBlock(Blocks.STONE)), BlockLocationController::new, particleTypeKey, groupName, category, ConfigHandler.general_autoCollapseConfigLists, option);
+        return createListOption(new BlockOrTagLocation(RegistryHelpers.getLocationFromBlock(Blocks.STONE)), BlockLocationController::new, particleTypeKey, groupName, category, GeneralOptions.AUTO_COLLAPSE_CONFIG_LISTS.getValue(), option);
     }
     public static ListOption<ResourceLocation> createFluidListOption(String particleTypeKey, String groupName, String category, ConfigOption<List<ResourceLocation>> option) {
-        return createListOption(RegistryHelpers.getLocationFromFluid(Fluids.WATER), FluidLocationController::new, particleTypeKey, groupName, category, ConfigHandler.general_autoCollapseConfigLists, option);
+        return createListOption(RegistryHelpers.getLocationFromFluid(Fluids.WATER), FluidLocationController::new, particleTypeKey, groupName, category, GeneralOptions.AUTO_COLLAPSE_CONFIG_LISTS.getValue(), option);
     }
     public static <T> ListOption<T> createListOption(T initial, Function<ListOptionEntry<T>, Controller<T>> controller, String particleTypeKey, String groupName, String category, boolean collapsedByDefault, ConfigOption<List<T>> option) {
         ConfigTranslation.TranslationKey groupNameKey = ConfigTranslation.getGroupName(category, groupName);

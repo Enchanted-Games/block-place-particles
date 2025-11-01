@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.blocks;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
+import games.enchanted.eg_particle_interactions.common.config2.categories.ItemInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.particle.option.DripParticleOption;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -53,7 +53,7 @@ public abstract class BeehiveBlockMixin extends BaseEntityBlock {
         method = "spawnFluidParticle"
     )
     private void block_place_particles$replaceHoneyDropParticles(Level instance, ParticleOptions particleData, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, Operation<Void> original) {
-        if(!ConfigHandler.honeyCollection_replaceVanilla) {
+        if(!ItemInteractionOptions.HONEY_COLLECTION_REPLACE_VANILLA.getValue()) {
             original.call(instance, particleData, x, y, z, xSpeed, ySpeed, zSpeed);
             return;
         }

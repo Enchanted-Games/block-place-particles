@@ -1,6 +1,5 @@
 package games.enchanted.eg_particle_interactions.common.particle_override;
 
-import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
 import games.enchanted.eg_particle_interactions.common.config2.categories.BlockOverrideOptions;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
 import games.enchanted.eg_particle_interactions.common.particle.option.TintedParticleOption;

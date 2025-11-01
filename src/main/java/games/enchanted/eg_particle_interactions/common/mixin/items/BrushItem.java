@@ -2,8 +2,8 @@ package games.enchanted.eg_particle_interactions.common.mixin.items;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import games.enchanted.eg_particle_interactions.common.Logging;
-import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
 import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
+import games.enchanted.eg_particle_interactions.common.config2.categories.ItemInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
 import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverride;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -27,7 +27,7 @@ public abstract class BrushItem {
     )
     private void disableOrReplaceDustParticles(Level level, BlockHitResult hitResult, BlockState blockState, Vec3 pos, HumanoidArm arm, CallbackInfo ci, @Local(ordinal = 0) net.minecraft.world.item.BrushItem.DustParticlesDelta particlesDelta, @Local(ordinal = 0) int armDirection, @Local(ordinal = 1) int amountOfParticles) {
         if(!level.isClientSide()) return;
-        if(ConfigHandler.brushParticleBehaviour == BrushParticleBehaviour.DISABLED) {
+        if(ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.DISABLED) {
             ci.cancel();
             return;
         };
@@ -39,7 +39,7 @@ public abstract class BrushItem {
         final boolean isOverrideNoneOrVanilla = (override == BlockParticleOverride.VANILLA || override == BlockParticleOverride.NONE);
 
         // use vanilla particles if brush particle behaviour is "block override" and particle override is none or vanilla
-        if(ConfigHandler.brushParticleBehaviour == BrushParticleBehaviour.BLOCK_OVERRIDE_OR_VANILLA && isOverrideNoneOrVanilla) {
+        if(ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.BLOCK_OVERRIDE_OR_VANILLA && isOverrideNoneOrVanilla) {
             return;
         }
 

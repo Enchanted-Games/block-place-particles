@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.particles;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
+import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -67,7 +67,7 @@ public abstract class BreakingItemParticle
     )
     protected void block_place_particle$terrainParticleInit(ClientLevel level, double x, double y, double z, TextureAtlasSprite textureAtlasSprite, CallbackInfo ci) {
     //?}
-        if(ConfigHandler.general_pixelConsistentTerrainParticles) {
+        if(GeneralOptions.PIXEL_CONSISTENT_TERRAIN_PARTICLES.getValue()) {
             this.uo = (float) MathHelpers.randomBetween(0, this.sprite.contents().width()) / this.sprite.contents().width();
             this.vo = (float) MathHelpers.randomBetween(0, this.sprite.contents().height()) / this.sprite.contents().height();
 
@@ -80,7 +80,7 @@ public abstract class BreakingItemParticle
         method = "getU0"
     )
     protected float alignU0(TextureAtlasSprite instance, float u, Operation<Float> original) {
-        if(!ConfigHandler.general_pixelConsistentTerrainParticles) {
+        if(!GeneralOptions.PIXEL_CONSISTENT_TERRAIN_PARTICLES.getValue()) {
             return original.call(instance, u);
         }
         this.block_place_particle$recalculatePixelQuadSizes();
@@ -92,7 +92,7 @@ public abstract class BreakingItemParticle
         method = "getU1"
     )
     protected float alignU1(TextureAtlasSprite instance, float u, Operation<Float> original) {
-        if(!ConfigHandler.general_pixelConsistentTerrainParticles) {
+        if(!GeneralOptions.PIXEL_CONSISTENT_TERRAIN_PARTICLES.getValue()) {
             return original.call(instance, u);
         }
         this.block_place_particle$recalculatePixelQuadSizes();
@@ -104,7 +104,7 @@ public abstract class BreakingItemParticle
         method = "getV0"
     )
     protected float alignV0(TextureAtlasSprite instance, float v, Operation<Float> original) {
-        if(!ConfigHandler.general_pixelConsistentTerrainParticles) {
+        if(!GeneralOptions.PIXEL_CONSISTENT_TERRAIN_PARTICLES.getValue()) {
             return original.call(instance, v);
         }
         this.block_place_particle$recalculatePixelQuadSizes();
@@ -116,7 +116,7 @@ public abstract class BreakingItemParticle
         method = "getV1"
     )
     protected float alignV1(TextureAtlasSprite instance, float v, Operation<Float> original) {
-        if(!ConfigHandler.general_pixelConsistentTerrainParticles) {
+        if(!GeneralOptions.PIXEL_CONSISTENT_TERRAIN_PARTICLES.getValue()) {
             return original.call(instance, v);
         }
         this.block_place_particle$recalculatePixelQuadSizes();

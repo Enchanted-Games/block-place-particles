@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle_override;
 
-import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
+import games.enchanted.eg_particle_interactions.common.config2.categories.FluidPlacementOptions;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -78,11 +78,11 @@ public enum FluidPlacementParticle {
 
     public static FluidPlacementParticle getParticleForFluid(Fluid fluid, boolean isFluidBeingPlaced) {
         ResourceLocation fluidLoc = RegistryHelpers.getLocationFromFluid(fluid);
-        if (ConfigHandler.tintedWaterSplash_fluids.contains(fluidLoc) && shouldHaveParticle(isFluidBeingPlaced, ConfigHandler.tintedWaterSplash_onPlace)) {
+        if (FluidPlacementOptions.WATER_SPLASH_FLUIDS.getValue().contains(fluidLoc) && shouldHaveParticle(isFluidBeingPlaced, FluidPlacementOptions.WATER_SPLASH_ENABLED.getValue())) {
             return TINTED_WATER;
-        } else if (ConfigHandler.lavaSplash_fluids.contains(fluidLoc) && shouldHaveParticle(isFluidBeingPlaced, ConfigHandler.lavaSplash_onPlace)) {
+        } else if (FluidPlacementOptions.LAVA_SPLASH_FLUIDS.getValue().contains(fluidLoc) && shouldHaveParticle(isFluidBeingPlaced, FluidPlacementOptions.LAVA_SPLASH_ENABLED.getValue())) {
             return LAVA;
-        } else if (ConfigHandler.genericSplash_fluids.contains(fluidLoc) && shouldHaveParticle(isFluidBeingPlaced, ConfigHandler.genericSplash_onPlace)) {
+        } else if (FluidPlacementOptions.GENERIC_SPLASH_FLUIDS.getValue().contains(fluidLoc) && shouldHaveParticle(isFluidBeingPlaced, FluidPlacementOptions.GENERIC_SPLASH_ENABLED.getValue())) {
             return GENERIC;
         }
         return NONE;
@@ -98,13 +98,13 @@ public enum FluidPlacementParticle {
     public static int getParticleMultiplier(FluidPlacementParticle fluidPlacementParticle, boolean isBlockBeingPlaced) {
         switch (fluidPlacementParticle) {
             case TINTED_WATER -> {
-                return getAppropriateMultiplier(isBlockBeingPlaced, ConfigHandler.maxTintedWaterSplash_onPlace, 0);
+                return getAppropriateMultiplier(isBlockBeingPlaced, FluidPlacementOptions.WATER_SPLASH_AMOUNT_ON_PLACE.getValue(), 0);
             }
             case LAVA -> {
-                return getAppropriateMultiplier(isBlockBeingPlaced, ConfigHandler.maxLavaSplash_onPlace, 0);
+                return getAppropriateMultiplier(isBlockBeingPlaced, FluidPlacementOptions.LAVA_SPLASH_AMOUNT_ON_PLACE.getValue(), 0);
             }
             case GENERIC -> {
-                return getAppropriateMultiplier(isBlockBeingPlaced, ConfigHandler.maxGenericSplash_onPlace, 0);
+                return getAppropriateMultiplier(isBlockBeingPlaced, FluidPlacementOptions.GENERIC_SPLASH_AMOUNT_ON_PLACE.getValue(), 0);
             }
             default -> {
                 return 2;

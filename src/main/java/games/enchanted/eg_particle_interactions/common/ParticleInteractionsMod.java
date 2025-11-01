@@ -1,7 +1,5 @@
 package games.enchanted.eg_particle_interactions.common;
 
-import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
-import games.enchanted.eg_particle_interactions.common.config2.ConfigCategory;
 import games.enchanted.eg_particle_interactions.common.config2.ConfigOptions;
 import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteAtlasManager;
@@ -22,8 +20,6 @@ import org.jetbrains.annotations.NotNull;
 *///?}
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 
 /**
  * This is the entry point for your mod's common side, called by each modloader specific side.

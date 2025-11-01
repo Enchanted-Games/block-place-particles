@@ -1,8 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.mixin.entity;
 
-import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;

@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle;
 
-import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
+import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -58,7 +58,7 @@ public abstract class BouncyParticle extends CustomGeometryParticle {
                 this.yd *= this.physics_passThroughFluidSpeed;
                 this.zd *= this.physics_passThroughFluidSpeed;
             }
-            if(ConfigHandler.general_extraParticlePhysicsEnabled) {
+            if(GeneralOptions.ADVANCED_PARTICLE_PHYSICS.getValue()) {
                 double xVel = this.xd;
                 double yVel = this.yd;
                 double zVel = this.zd;

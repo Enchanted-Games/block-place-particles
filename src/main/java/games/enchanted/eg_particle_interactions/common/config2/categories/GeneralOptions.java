@@ -39,8 +39,8 @@ public class GeneralOptions {
     public static final ConfigOption<Boolean> ADDITIONAL_SPARK_FLASH_EFFECT = registerOption(
         new BoolOption(true, "additional_spark_flash_effect")
     );
-    public static final ConfigOption<Boolean> WATER_EVAPORATION = registerOption(
-        new BoolOption(true, "water_evaporation")
+    public static final ConfigOption<Boolean> SPARK_WATER_EVAPORATION = registerOption(
+        new BoolOption(true, "spark_water_evaporation")
     );
     public static final ConfigOption<Boolean> DUST_SPECKS = registerOption(
         new BoolOption(true, "dust_specks")

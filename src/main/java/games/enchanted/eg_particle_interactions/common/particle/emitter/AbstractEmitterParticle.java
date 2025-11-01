@@ -1,8 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.emitter;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
-import net.minecraft.client.Camera;
+import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleRenderType;
@@ -29,7 +27,7 @@ public abstract class AbstractEmitterParticle extends Particle {
             this.remove();
             return;
         }
-        if(ConfigHandler.debug_showEmitterBounds) {
+        if(GeneralOptions.DEBUG_EMITTER_BOUNDS.getValue()) {
             level.addParticle(new DustParticleOptions(0xFFFF0000, 0.5f), x, y, z, 0, 0, 0);
             level.addParticle(new DustParticleOptions(0xFF00FF00, 0.5f), x + this.emitterWidth, y + this.emitterHeight, z + this.emitterDepth, 0, 0, 0);
         }

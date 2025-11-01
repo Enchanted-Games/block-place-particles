@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.spark;
 
-import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
+import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
 import games.enchanted.eg_particle_interactions.common.particle.StretchyBouncyShapeParticle;
 import games.enchanted.eg_particle_interactions.common.shapes.ShapeDefinitions;
@@ -72,7 +72,7 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         // spawn random spark flashes
         if(
             (
-                ConfigHandler.particle_sparks_additionalFlashEffects &&
+                GeneralOptions.ADDITIONAL_SPARK_FLASH_EFFECT.getValue() &&
                 !this.hasEnteredWater
             )
             &&
@@ -84,7 +84,7 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
             this.level.addParticle(this.isSoul ? ModParticleTypes.SOUL_SPARK_FLASH : ModParticleTypes.SPARK_FLASH, this.prevPrevX, this.prevPrevY, this.prevPrevZ, 0, 0, 0);
         }
 
-        if(!ConfigHandler.particle_sparks_waterEvaporation) {
+        if(!GeneralOptions.SPARK_WATER_EVAPORATION.getValue()) {
             this.hasSpawnedSmokeParticle = true;
         }
         if(this.hasEnteredWater && !this.hasSpawnedSmokeParticle) {

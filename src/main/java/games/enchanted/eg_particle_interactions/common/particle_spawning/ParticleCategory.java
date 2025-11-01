@@ -1,13 +1,13 @@
 package games.enchanted.eg_particle_interactions.common.particle_spawning;
 
-import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
+import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
 
 import java.util.function.Supplier;
 
 public enum ParticleCategory {
-    INTERACTION("interaction", () -> ConfigHandler.general_interactionRenderDistance),
-    BLOCK_PLACE_OR_BREAK("block_place_or_break", () -> ConfigHandler.general_blockRenderDistance),
-    AMBIENT("ambient", () -> ConfigHandler.general_ambientRenderDistance);
+    INTERACTION("interaction", GeneralOptions.INTERACTION_RENDER_DISTANCE::getValue),
+    BLOCK_PLACE_OR_BREAK("block_place_or_break", GeneralOptions.BLOCK_RENDER_DISTANCE::getValue),
+    AMBIENT("ambient", GeneralOptions.AMBIENT_RENDER_DISTANCE::getValue);
 
     private final String name;
     private final Supplier<Integer> renderDistanceGetter;

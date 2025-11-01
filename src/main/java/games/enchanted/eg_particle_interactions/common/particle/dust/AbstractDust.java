@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.dust;
 
-import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
+import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.particle.compat.CustomGeometryParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.SpriteSet;
@@ -66,7 +66,7 @@ public abstract class AbstractDust extends CustomGeometryParticle {
         if(!this.spawnSpecks || this.removed || !this.hasPhysics || this.onGround) {
             return;
         }
-        if(!ConfigHandler.particle_dust_additionalSpecks) {
+        if(!GeneralOptions.DUST_SPECKS.getValue()) {
             return;
         }
         if((this.age < 3 && this.random.nextFloat() < 0.23f) || this.random.nextFloat() < 0.01f) {

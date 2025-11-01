@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.particles;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
+import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
 import games.enchanted.eg_particle_interactions.common.particle_override.BlockParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
@@ -24,7 +24,6 @@ import net.minecraft.client.particle.SingleQuadParticle;
 //?}
 
 import java.util.List;
-import java.util.function.Supplier;
 
 @Mixin(FireflyParticle.class)
 public abstract class FireflyParticleMixin
@@ -57,7 +56,7 @@ public abstract class FireflyParticleMixin
     )
     private void block_place_particle$makeFirefliesNotGetStuckOnStuff(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, TextureAtlasSprite textureAtlasSprite, CallbackInfo ci) {
     //?}
-        if(!ConfigHandler.general_fireflyFixes) return;
+        if(!GeneralOptions.FIREFLY_FIXES.getValue()) return;
         ((ParticleAccess) this).eg_particle_interactions$setBypassMovementCollisionCheck(true);
     }
 
@@ -66,7 +65,7 @@ public abstract class FireflyParticleMixin
         method = "tick"
     )
     public boolean block_place_particle$makeFirefliesNotDieInFireflyBushes(BlockState state, Operation<Boolean> original) {
-        if(!ConfigHandler.general_fireflyFixes) {
+        if(!GeneralOptions.FIREFLY_FIXES.getValue()) {
             return original.call(state);
         }
         List<BlockOrTagLocation> fireflyOverrideBlocks = BlockParticleOverrides.FIREFLY.getSupportedBlocksAndTags();

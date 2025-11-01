@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.entity.projectile_
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
+import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraft.world.level.Level;
@@ -16,7 +16,7 @@ public class SnowballMixin {
         method = "handleEntityEvent"
     )
     private void eg_particle_interactions$modifyParticleVelocity(Level instance, ParticleOptions particleData, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, Operation<Void> original) {
-        if(!ConfigHandler.general_projectileBreakingParticleVelocity) {
+        if(!GeneralOptions.PROJECTILE_BREAKING_PARTICLE_VELOCITY_FIX.getValue()) {
             original.call(instance, particleData, x, y, z, xSpeed, ySpeed, zSpeed);
             return;
         }

@@ -1,7 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.mixin.particles;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
+import games.enchanted.eg_particle_interactions.common.config2.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
@@ -33,7 +33,7 @@ public class ParticleMixin implements ParticleAccess {
         method = "tick()V"
     )
     public void eg_particle_interactions$adjustParticleYWhenLanded(CallbackInfo ci) {
-        if(!ConfigHandler.general_particleZFightingFix) return;
+        if(!GeneralOptions.PARTICLE_Z_FIGHTING_FIX.getValue()) return;
         if(this.hasPhysics && this.stoppedByCollision) {
             eg_particle_interactions$moveUpBecauseParticleLanded();
         }

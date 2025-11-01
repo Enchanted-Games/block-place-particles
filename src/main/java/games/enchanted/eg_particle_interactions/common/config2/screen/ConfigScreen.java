@@ -1,7 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.config2.screen;
 
 import dev.isxander.yacl3.api.*;
-import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
 import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
 import games.enchanted.eg_particle_interactions.common.config2.ConfigOptions;
 import games.enchanted.eg_particle_interactions.common.config2.categories.*;
@@ -101,7 +100,7 @@ public class ConfigScreen {
                 ),
                 ConfigScreenHelper.genericBooleanOption(
                     ConfigTranslation.SPARKS_WATER_EVAPORATION,
-                    GeneralOptions.WATER_EVAPORATION
+                    GeneralOptions.SPARK_WATER_EVAPORATION
                 ),
                 ConfigScreenHelper.genericBooleanOption(
                     ConfigTranslation.DUST_ADDITIONAL_SPECKS,

@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.blocks;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import games.enchanted.eg_particle_interactions.common.config.ConfigHandler;
+import games.enchanted.eg_particle_interactions.common.config2.categories.BlockInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -38,7 +38,7 @@ public abstract class FurnaceBlock extends AbstractFurnaceBlock {
         method = "animateTick"
     )
     private void conditionallySkipSpawningVanillaParticles(Level level, ParticleOptions particleOptions, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, Operation<Void> original) {
-        if(!ConfigHandler.furnaceVanillaParticles_enabled) return;
+        if(!BlockInteractionOptions.VANILLA_FURNACE_PARTICLES_ENABLED.getValue()) return;
         original.call(level, particleOptions, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 }
