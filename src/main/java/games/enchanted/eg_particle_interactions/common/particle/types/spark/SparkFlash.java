@@ -28,7 +28,7 @@ public class SparkFlash extends ParticleInteractionsParticle {
         if(useRandomAnimation) {
             int rot = this.random.nextIntBetweenInclusive(0, 3);
             this.roll = rot * 90;
-            this.oRoll = roll;
+            this.prevRoll = roll;
         }
 
         this.lifetime = this.random.nextInt(4) + 3;
@@ -50,16 +50,12 @@ public class SparkFlash extends ParticleInteractionsParticle {
         } else {
             this.setSpriteFromAge(this.sprites);
         }
+        this.setScale(this.originalQuadSize * (0.5f + (Math.abs(1 - (this.age / this.lifetime)) * 0.5f)), true);
     }
 
     @Override
     public int getLightColor(float f) {
         return 240;
-    }
-
-    @Override
-    protected void renderTick(float partialTicks) {
-        this.setScale(this.originalQuadSize * (0.5f + (Math.abs(1 - Mth.lerp(partialTicks, this.prevAge, this.age) / this.lifetime) * 0.5f)));
     }
 
     @Override

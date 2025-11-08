@@ -15,9 +15,11 @@ public class ColouredBucketSplash extends BucketSplash {
     protected ColouredBucketSplash(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState, SpriteSet spriteSet) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet.get(level.random));
         int tintColour = Minecraft.getInstance().getBlockColors().getColor(blockState, level, blockPos, 0);
-        this.rCol *= (float)(tintColour >> 16 & 255) / 255.0F;
-        this.gCol *= (float)(tintColour >> 8 & 255) / 255.0F;
-        this.bCol *= (float)(tintColour & 255) / 255.0F;
+        this.setRGB(
+            this.getRed() * (float)(tintColour >> 16 & 255) / 255.0F,
+            this.getGreen() * (float)(tintColour >> 8 & 255) / 255.0F,
+            this.getBlue() * (float)(tintColour & 255) / 255.0F
+        );
     }
 
     public static class Provider implements ParticleProvider<BlockParticleOption> {

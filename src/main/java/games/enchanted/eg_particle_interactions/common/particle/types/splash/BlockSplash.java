@@ -24,9 +24,11 @@ public class BlockSplash extends BucketSplash {
         this.vo = this.random.nextFloat() * 3.0F;
 
         int tintColour = Minecraft.getInstance().getBlockColors().getColor(blockState, level, blockPos, 0);
-        this.rCol *= (float)(tintColour >> 16 & 0xFF) / 255.0F;
-        this.gCol *= (float)(tintColour >> 8 & 0xFF) / 255.0F;
-        this.bCol *= (float)(tintColour & 0xFF) / 255.0F;
+        this.setRGB(
+            this.getRed() * (float)(tintColour >> 16 & 255) / 255.0F,
+            this.getGreen() * (float)(tintColour >> 8 & 255) / 255.0F,
+            this.getBlue() * (float)(tintColour & 255) / 255.0F
+        );
 
         float particleSize = (float) 0.1255 - (this.random.nextBoolean() ? 0.01f : 0.02f);
         this.setScale(particleSize);

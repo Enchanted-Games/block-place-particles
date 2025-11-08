@@ -3,11 +3,9 @@ package games.enchanted.eg_particle_interactions.common.particle.types.drip;
 import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
 import games.enchanted.eg_particle_interactions.common.particle.options.DripParticleOption;
-import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Quaternionf;
 
 //? if minecraft: > 1.21.8 {
 import net.minecraft.util.RandomSource;
@@ -18,7 +16,7 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
     protected final int startFallingAtTicks;
     protected final boolean translucent;
 
-    protected float uo;
+    protected float u0;
     protected float u1;
     protected float v0;
     protected float v1;
@@ -33,10 +31,10 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
 
         this.startFallingAtTicks = dripParticleOption.getStartFallingTicks();
 
-        this.uo = this.getU0();
-        this.u1 = this.getU1();
-        this.v0 = this.getV0();
-        float v1 = this.getV1();
+        this.u0 = this.sprite.getU0();
+        this.u1 = this.sprite.getU1();
+        this.v0 = this.sprite.getV0();
+        float v1 = this.sprite.getV1();
         float halfHeight = Math.abs(this.v0 - v1) / 2;
         this.v1 = v1 - halfHeight;
 
@@ -79,33 +77,40 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
         if(this.hasLanded) return;
         this.hasLanded = true;
 
-        float v0 = this.getV0();
-        this.v1 = this.getV1();
+        float v0 = this.sprite.getV0();
+        this.v1 = this.sprite.getV1();
         float halfHeight = Math.abs(v0 - this.v1) / 2;
         this.v0 = v0 + halfHeight;
 
         this.lifetime = this.age + level.random.nextInt(30, 60);
 
         ((ParticleAccess) this).eg_particle_interactions$moveUpBecauseParticleLanded();
+        this.billboardYOffset = 1.0f;
+    }
+
+    @Override
+    protected float getU0() {
+        return this.u0;
+    }
+
+    @Override
+    protected float getU1() {
+        return this.u1;
+    }
+
+    @Override
+    protected float getV0() {
+        return this.v0;
+    }
+
+    @Override
+    protected float getV1() {
+        return this.v1;
     }
 
     @Override
     protected ParticleLayer getParticleLayer() {
         return this.translucent ? ParticleLayer.TRANSLUCENT : ParticleLayer.OPAQUE;
-    }
-
-    @Override
-    protected void extractGeometry(QuadConsumer consumer, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
-        float scale = this.getScale();
-        int packedLight = this.getLightColor(partialTicks);
-        float yOffset = hasLanded ? 1f : 0f;
-        
-        consumer.startQuad();
-        consumer.addVertex(quaternion, x, y, z,  1.0F, -1.0F + yOffset, scale, this.u1, this.v1, packedLight);
-        consumer.addVertex(quaternion, x, y, z,  1.0F,  1.0F + yOffset, scale, this.u1, this.v0, packedLight);
-        consumer.addVertex(quaternion, x, y, z, -1.0F,  1.0F + yOffset, scale, this.uo, this.v0, packedLight);
-        consumer.addVertex(quaternion, x, y, z, -1.0F, -1.0F + yOffset, scale, this.uo, this.v1, packedLight);
-        consumer.finishQuad();
     }
 
     public static class UntintedDropProvider implements ParticleProvider<DripParticleOption> {

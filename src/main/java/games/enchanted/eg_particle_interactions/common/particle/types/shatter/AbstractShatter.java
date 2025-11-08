@@ -27,6 +27,7 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
         int randomSizeThird = randomSize / 3;
         this.uvOffset = (float) MathHelpers.randomBetween(0, spriteWidth - randomSize) / spriteWidth;
         this.uvScale = (float) randomSize / spriteWidth;
+        this.setScale(this.uvScale);
         this.slice0X = (float) MathHelpers.randomBetween(1, randomSizeThird) / randomSize;
         this.slice0Y = (float) MathHelpers.randomBetween(2, randomSizeThird) / randomSize;
         this.slice1X = (float) MathHelpers.randomBetween((randomSizeThird * 2) + 1, randomSize - 1) / randomSize;
@@ -34,15 +35,12 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
 
         this.inverseSlicePositions = level.random.nextBoolean();
         this.roll = (float) Math.toRadians(MathHelpers.randomBetween(0, 3) * 90);
-        this.oRoll = this.roll;
+        this.prevRoll = this.roll;
 
         setInitialVelocity(xSpeed, ySpeed, zSpeed, 0.1f);
 
         this.gravity = MathHelpers.randomBetween(0.75f, 0.9f);
         this.lifetime = MathHelpers.randomBetween(5, 25);
-
-//        this.gravity = MathHelpers.randomBetween(0.1f, 0.25f);
-//        this.lifetime = MathHelpers.randomBetween(5, 14);
     }
 
     protected void setInitialVelocity(double xSpeed, double ySpeed, double zSpeed, float variance) {
@@ -57,23 +55,16 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
         this.yd *= 0.95f;
         this.zd *= 0.95f;
         super.tick();
-    }
 
-    @Override
-    protected void renderTick(float partialTicks) {
         float percentageAge = (float) this.age / this.lifetime;
         if(percentageAge > 0.8) {
-            float finalA = 1 - (((Mth.lerp(partialTicks, this.age, this.age + 1f) / this.lifetime) - 0.8f) * 5f);
+            float finalA = 1 - ((percentageAge - 0.8f) * 5f);
             if(finalA < 0) {
-                this.alpha = 0f;
+                this.setAlpha(0, true);
                 return;
             }
-            this.alpha = finalA;
+            this.setAlpha(finalA, true);
         }
-    }
-
-    protected float getParticleScale(float partialTicks) {
-        return this.uvScale;
     }
 
     protected @Nullable Direction getParticleFacingDirection() {
@@ -114,7 +105,7 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
 
     @Override
     protected void extractGeometry(QuadConsumer consumer, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
-        float scale = this.getParticleScale(partialTicks);
+        float scale = this.getLerpedScale(partialTicks);
         int lightColour = getLightColor(partialTicks);
 
         float u0 = this.sprite.getU(this.getScaledUVCoord(0));
@@ -122,37 +113,42 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
         float v0 = this.sprite.getV(this.getScaledUVCoord(this.inverseSlicePositions ? 1 - this.slice0Y : 0));
         float v1 = this.sprite.getV(this.getScaledUVCoord(this.inverseSlicePositions ? 1 : this.slice0Y));
 
+        float r = this.getLerpedRed(partialTicks);
+        float g = this.getLerpedGreen(partialTicks);
+        float b = this.getLerpedBlue(partialTicks);
+        float a = this.getLerpedAlpha(partialTicks);
+
         consumer.startQuad();
-        consumer.addVertex(quaternion, x, y, z, this.slice0X, this.inverseSlicePositions ? 0 : 1 - this.slice0Y, scale, u1, v1, lightColour);
-        consumer.addVertex(quaternion, x, y, z, this.slice0X, this.inverseSlicePositions ? this.slice0Y : 1,     scale, u1, v0, lightColour);
-        consumer.addVertex(quaternion, x, y, z,            0, this.inverseSlicePositions ? this.slice0Y : 1,     scale, u0, v0, lightColour);
-        consumer.addVertex(quaternion, x, y, z,            0, this.inverseSlicePositions ? 0 : 1 - this.slice0Y, scale, u0, v1, lightColour);
+        consumer.addVertex(quaternion, x, y, z, this.slice0X, this.inverseSlicePositions ? 0 : 1 - this.slice0Y, scale, u1, v1, lightColour, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, this.slice0X, this.inverseSlicePositions ? this.slice0Y : 1,     scale, u1, v0, lightColour, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z,            0, this.inverseSlicePositions ? this.slice0Y : 1,     scale, u0, v0, lightColour, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z,            0, this.inverseSlicePositions ? 0 : 1 - this.slice0Y, scale, u0, v1, lightColour, r, g, b, a);
         consumer.finishQuad();
 
-        scale = this.getParticleScale(partialTicks);
+        scale = this.getLerpedScale(partialTicks);
         u0 = this.sprite.getU(this.getScaledUVCoord(this.slice0X));
         u1 = this.sprite.getU(this.getScaledUVCoord(this.slice1X));
         v0 = this.sprite.getV(this.getScaledUVCoord(0));
         v1 = this.sprite.getV(this.getScaledUVCoord(1));
         
         consumer.startQuad();
-        consumer.addVertex(quaternion, x, y, z, this.slice1X, 0, scale, u1, v1, lightColour);
-        consumer.addVertex(quaternion, x, y, z, this.slice1X, 1, scale, u1, v0, lightColour);
-        consumer.addVertex(quaternion, x, y, z, this.slice0X, 1, scale, u0, v0, lightColour);
-        consumer.addVertex(quaternion, x, y, z, this.slice0X, 0, scale, u0, v1, lightColour);
+        consumer.addVertex(quaternion, x, y, z, this.slice1X, 0, scale, u1, v1, lightColour, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, this.slice1X, 1, scale, u1, v0, lightColour, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, this.slice0X, 1, scale, u0, v0, lightColour, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, this.slice0X, 0, scale, u0, v1, lightColour, r, g, b, a);
         consumer.finishQuad();
         
-        scale = this.getParticleScale(partialTicks);
+        scale = this.getLerpedScale(partialTicks);
         u0 = this.sprite.getU(this.getScaledUVCoord(this.slice1X));
         u1 = this.sprite.getU(this.getScaledUVCoord(1));
         v0 = this.sprite.getV(this.getScaledUVCoord(this.inverseSlicePositions ? 0 : this.slice1Y));
         v1 = this.sprite.getV(this.getScaledUVCoord(this.inverseSlicePositions ? 1 - this.slice1Y : 1));
 
         consumer.startQuad();
-        consumer.addVertex(quaternion, x, y, z,            1, this.inverseSlicePositions ? this.slice1Y : 0,     scale, u1, v1, lightColour);
-        consumer.addVertex(quaternion, x, y, z,            1, this.inverseSlicePositions ? 1 : 1 - this.slice1Y, scale, u1, v0, lightColour);
-        consumer.addVertex(quaternion, x, y, z, this.slice1X, this.inverseSlicePositions ? 1 : 1 - this.slice1Y, scale, u0, v0, lightColour);
-        consumer.addVertex(quaternion, x, y, z, this.slice1X, this.inverseSlicePositions ? this.slice1Y : 0,     scale, u0, v1, lightColour);
+        consumer.addVertex(quaternion, x, y, z,            1, this.inverseSlicePositions ? this.slice1Y : 0,     scale, u1, v1, lightColour, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z,            1, this.inverseSlicePositions ? 1 : 1 - this.slice1Y, scale, u1, v0, lightColour, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, this.slice1X, this.inverseSlicePositions ? 1 : 1 - this.slice1Y, scale, u0, v0, lightColour, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, this.slice1X, this.inverseSlicePositions ? this.slice1Y : 0,     scale, u0, v1, lightColour, r, g, b, a);
         consumer.finishQuad();
     }
 

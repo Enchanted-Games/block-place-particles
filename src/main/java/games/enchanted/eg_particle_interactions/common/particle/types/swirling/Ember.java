@@ -33,21 +33,23 @@ public class Ember extends SwirlingParticle {
     }
 
     @Override
-    public void applyGravity() {
-        this.yd = -this.gravity;
+    public void tick() {
+        super.tick();
+
+        float percentageAge = (float) this.age / this.lifetime;
+        if(percentageAge > 0.8) {
+            float finalA = 1 - ((percentageAge - 0.8f) * 5f);
+            if(finalA < 0) {
+                this.setAlpha(0, true);
+                return;
+            }
+            this.setAlpha(finalA, true);
+        }
     }
 
     @Override
-    protected void renderTick(float partialTicks) {
-        float percentageAge = (float) this.age / this.lifetime;
-        if(percentageAge > 0.8) {
-            float finalA = 1 - (((Mth.lerp(partialTicks, this.age, this.age + 1f) / this.lifetime) - 0.8f) * 5f);
-            if(finalA < 0) {
-                this.alpha = 0f;
-                return;
-            }
-            this.alpha = finalA;
-        }
+    public void applyGravity() {
+        this.yd = -this.gravity;
     }
 
     @Override

@@ -17,9 +17,7 @@ public class BasicTintedDust extends BasicDust {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier, spawnSpecks, spriteFromAge, speckGetter);
 
         int[] rgb = tintedParticleOption.getRandomisedColour();
-        this.rCol = rgb[0] / 255f;
-        this.gCol = rgb[1] / 255f;
-        this.bCol = rgb[2] / 255f;
+        this.setRGB(rgb[0] / 255f, rgb[1] / 255f, rgb[2] / 255f);
     }
 
     public static class RedstoneProvider implements ParticleProvider<TintedParticleOption> {
@@ -45,7 +43,7 @@ public class BasicTintedDust extends BasicDust {
         ) {
             BasicTintedDust particle = new BasicTintedDust(level, x, y, z, xSpeed, MathHelpers.randomBetween(0.06f, 0.13f), zSpeed, this.spriteSet, -0.0f, type, false, true, () -> null);
             particle.roll = 0;
-            particle.oRoll = 0;
+            particle.prevRoll = 0;
             particle.lifetime = (int)(particle.lifetime * 0.6f);
             return particle;
         }

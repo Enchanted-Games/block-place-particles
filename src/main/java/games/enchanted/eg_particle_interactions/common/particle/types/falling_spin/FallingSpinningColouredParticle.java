@@ -18,15 +18,17 @@ public class FallingSpinningColouredParticle extends FallingSpinningParticle {
         int tintColour = Minecraft.getInstance().getBlockColors().getColor(blockState, level, blockPos, 0);
         int[] tintColourARGB = ColourUtil.RGBint_to_ARGB(tintColour);
         int[] averageTextureColourARGB = ColourUtil.getRandomBlockColour(blockState, tintColourARGB);
-        this.rCol = (float)averageTextureColourARGB[1] / 255f;
-        this.gCol = (float)averageTextureColourARGB[2] / 255f;
-        this.bCol = (float)averageTextureColourARGB[3] / 255f;
-        this.alpha = (float)averageTextureColourARGB[0] / 255f;
+        this.setRGBA(
+            (float)averageTextureColourARGB[1] / 255f,
+            (float)averageTextureColourARGB[2] / 255f,
+            (float)averageTextureColourARGB[3] / 255f,
+            (float)averageTextureColourARGB[0] / 255f
+        );
     }
 
     @Override
     protected ParticleLayer getParticleLayer() {
-        if(this.alpha < 0.99) return ParticleLayer.TRANSLUCENT;
+        if(this.getAlpha() < 0.99) return ParticleLayer.TRANSLUCENT;
         return super.getParticleLayer();
     }
 

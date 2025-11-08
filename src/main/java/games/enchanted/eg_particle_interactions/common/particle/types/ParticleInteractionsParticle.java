@@ -27,14 +27,23 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 //?}
 
 public abstract class ParticleInteractionsParticle extends Particle {
-    protected float scale;
+    private float scale;
+    private float prevScale;
     protected float roll;
-    protected float oRoll;
+    protected float prevRoll;
+    protected float billboardYOffset = 0.0F;
+    protected float billboardXOffset = 0.0F;
+
     protected TextureAtlasSprite sprite;
-    protected float rCol = 1.0F;
-    protected float gCol = 1.0F;
-    protected float bCol = 1.0F;
-    protected float alpha = 1.0F;
+
+    private float rCol = 1.0F;
+    private float prevRCol = 1.0F;
+    private float gCol = 1.0F;
+    private float prevGCol = 1.0F;
+    private float bCol = 1.0F;
+    private float prevBCol = 1.0F;
+    private float alpha = 1.0F;
+    private float prevAlpha = 1.0F;
 
     protected ParticleInteractionsParticle(ClientLevel clientLevel, double x, double y, double z, TextureAtlasSprite textureAtlasSprite) {
         this(clientLevel, x, y, z, 0, 0, 0, textureAtlasSprite);
@@ -77,11 +86,10 @@ public abstract class ParticleInteractionsParticle extends Particle {
     *///?} else {
     public void extract(CustomParticleGeometryRenderState state, Camera camera, float partialTicks) {
     //?}
-        this.renderTick(partialTicks);
         Quaternionf quaternionf = new Quaternionf();
         this.getBillboardMode().rotate(quaternionf, camera, partialTicks);
         if (this.roll != 0.0F) {
-            quaternionf.rotateZ(Mth.lerp(partialTicks, this.oRoll, this.roll));
+            quaternionf.rotateZ(Mth.lerp(partialTicks, this.prevRoll, this.roll));
         }
 
         //? if minecraft: <= 1.21.8 {
@@ -102,11 +110,17 @@ public abstract class ParticleInteractionsParticle extends Particle {
 
     protected void extractGeometry(QuadConsumer consumer, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
         int light = getLightColor(partialTicks);
+        float scale = getLerpedScale(partialTicks);
+        float r = this.getLerpedRed(partialTicks);
+        float g = this.getLerpedGreen(partialTicks);
+        float b = this.getLerpedBlue(partialTicks);
+        float a = this.getLerpedAlpha(partialTicks);
+
         consumer.startQuad();
-        consumer.addVertex(quaternion, x, y, z,  1.0F, -1.0F, this.getScale(), getU1(), getV1(), light, this.rCol, this.gCol, this.bCol, this.alpha);
-        consumer.addVertex(quaternion, x, y, z,  1.0F,  1.0F, this.getScale(), getU1(), getV0(), light, this.rCol, this.gCol, this.bCol, this.alpha);
-        consumer.addVertex(quaternion, x, y, z, -1.0F,  1.0F, this.getScale(), getU0(), getV0(), light, this.rCol, this.gCol, this.bCol, this.alpha);
-        consumer.addVertex(quaternion, x, y, z, -1.0F, -1.0F, this.getScale(), getU0(), getV1(), light, this.rCol, this.gCol, this.bCol, this.alpha);
+        consumer.addVertex(quaternion, x, y, z,  1.0F + this.billboardXOffset, -1.0F + this.billboardYOffset, scale, getU1(), getV1(), light, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z,  1.0F + this.billboardXOffset,  1.0F + this.billboardYOffset, scale, getU1(), getV0(), light, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, -1.0F + this.billboardXOffset,  1.0F + this.billboardYOffset, scale, getU0(), getV0(), light, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, -1.0F + this.billboardXOffset, -1.0F + this.billboardYOffset, scale, getU0(), getV1(), light, r, g, b, a);
         consumer.finishQuad();
     }
 
@@ -114,22 +128,19 @@ public abstract class ParticleInteractionsParticle extends Particle {
         return BillboardMode.XYZ;
     }
 
-    protected void renderTick(float partialTicks) {
-    }
-
-
     public void setSpriteFromAge(SpriteSet sprites) {
         if (this.removed) return;
         this.setSprite(sprites.get(this.age, this.lifetime));
     }
-
     public void setSprite(TextureAtlasSprite sprite) {
         this.sprite = sprite;
     }
 
+
     public AABB getCullingBox(float partialTicks) {
         return this.getBoundingBox();
     }
+
 
     protected float getU0() {
         return this.sprite.getU0();
@@ -144,11 +155,90 @@ public abstract class ParticleInteractionsParticle extends Particle {
         return this.sprite.getV1();
     }
 
+
+    public float getLerpedRed(float partialTicks) {
+        return Mth.lerp(partialTicks, this.prevRCol, this.rCol);
+    }
+    public float getRed() {
+        return this.rCol;
+    }
+
+    public float getLerpedGreen(float partialTicks) {
+        return Mth.lerp(partialTicks, this.prevGCol, this.gCol);
+    }
+    public float getGreen() {
+        return this.gCol;
+    }
+
+    public float getLerpedBlue(float partialTicks) {
+        return Mth.lerp(partialTicks, this.prevBCol, this.bCol);
+    }
+    public float getBlue() {
+        return this.bCol;
+    }
+
+    public float getLerpedAlpha(float partialTicks) {
+        return Mth.lerp(partialTicks, this.prevAlpha, this.alpha);
+    }
+    public float getAlpha() {
+        return this.alpha;
+    }
+
+    public void setAlpha(float a) {
+        this.setAlpha(a, false);
+    }
+    public void setAlpha(float a, boolean lerp) {
+        if(lerp) {
+            this.prevAlpha = this.alpha;
+        } else {
+            this.prevAlpha = a;
+        }
+        this.alpha = a;
+    }
+
+    public void setRGB(float r, float g, float b) {
+        this.setRGBA(r, g, b, this.getAlpha(), false);
+    }
+    public void setRGBA(float r, float g, float b, float a) {
+        this.setRGBA(r, g, b, a, false);
+    }
+    public void setRGBA(float r, float g, float b, float a, boolean lerp) {
+        if(lerp) {
+            this.prevRCol = this.rCol;
+            this.prevGCol = this.gCol;
+            this.prevBCol = this.bCol;
+            this.prevAlpha = this.alpha;
+        } else {
+            this.prevRCol = r;
+            this.prevGCol = g;
+            this.prevBCol = b;
+            this.prevAlpha = a;
+        }
+        this.rCol = r;
+        this.gCol = g;
+        this.bCol = b;
+        this.alpha = a;
+    }
+
+
+    public float getLerpedScale(float partialTicks) {
+        return Mth.lerp(partialTicks, this.prevScale, this.scale);
+    }
+
     public float getScale() {
         return this.scale;
     }
 
     public void setScale(float scale) {
+        this.setScale(scale, false);
+    }
+
+    public void setScale(float scale, boolean lerp) {
+        if(lerp) {
+            this.prevScale = this.scale;
+        } else {
+            this.prevScale = scale;
+        }
         this.scale = scale;
     }
 

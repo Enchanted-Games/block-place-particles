@@ -100,7 +100,7 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
     }
 
     private void extractShapeGeometry(QuadConsumer consumer, Vector3f pos, Vector3f prevPos, float partialTicks) {
-        float cuboidSize = this.getScale();
+        float cuboidSize = this.getLerpedScale(partialTicks);
         float u0 = this.getU0();
         float u1 = this.getU1();
         float v0 = this.getV0();
@@ -127,7 +127,12 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
             shapeRotation,
             cuboidSize,
             lightColor,
-            ColourUtil.ARGBfloats_to_ARGB(this.alpha, this.rCol, this.gCol, this.bCol)
+            ColourUtil.ARGBfloats_to_ARGB(
+                this.getLerpedAlpha(partialTicks),
+                this.getLerpedRed(partialTicks),
+                this.getLerpedGreen(partialTicks),
+                this.getLerpedBlue(partialTicks)
+            )
         );
     }
 

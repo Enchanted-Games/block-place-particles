@@ -27,7 +27,7 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
         this.lifetime = (int)(16.0 / ((double)this.random.nextFloat() * 0.8 + 0.2)) + 2;
         this.spinAcceleration = (float)Math.toRadians(this.random.nextBoolean() ? -5.0 : 5.0);
         this.roll = (float) Math.toRadians(this.random.nextIntBetweenInclusive(0, 360));
-        this.oRoll = this.roll;
+        this.prevRoll = this.roll;
 
         float particleSize = this.random.nextBoolean() ? 0.07F : 0.08F;
         this.setScale(particleSize);
@@ -48,7 +48,7 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
         this.rotSpeed += this.rotSpeed >= this.maxSpinSpeed ? 0 : (this.spinAcceleration / 2.0f);
         if(this.rotSpeed > this.maxSpinSpeed) this.rotSpeed = this.maxSpinSpeed;
 
-        this.oRoll = this.roll;
+        this.prevRoll = this.roll;
         if( !this.onGround && !((ParticleAccessor) this).block_place_particle$getStoppedByCollision() ) {
             this.roll += this.rotSpeed / 6.5f;
         }
@@ -123,7 +123,7 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
             particle.spinAcceleration = 0;
             particle.maxSpinSpeed = 0;
             particle.roll = 0;
-            particle.oRoll = 0;
+            particle.prevRoll = 0;
             return particle;
         }
     }
