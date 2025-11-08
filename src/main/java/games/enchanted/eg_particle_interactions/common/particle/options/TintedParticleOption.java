@@ -31,8 +31,6 @@ public class TintedParticleOption implements ParticleOptions {
 
     public static final int REDSTONE = 0xf70000;
     public static final int REDSTONE_UNPOWERED = 0x660000;
-    public static final TintedParticleOption REDSTONE_DUST_OPTION = new TintedParticleOption(ModParticleTypes.REDSTONE_DUST, TintedParticleOption.REDSTONE, 0.4F, true);
-    public static final TintedParticleOption REDSTONE_DUST_UNPOWERED_OPTION = new TintedParticleOption(ModParticleTypes.REDSTONE_DUST, TintedParticleOption.REDSTONE_UNPOWERED, 0.2F, true);
 
     private final ParticleType<TintedParticleOption> type;
     private final int color;

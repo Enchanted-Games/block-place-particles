@@ -149,23 +149,9 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride REDSTONE_DUST = new BlockParticleOverride(
         "redstone_dust",
         "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
-            if(blockState.hasProperty(RedstoneTorchBlock.LIT)) {
-                return blockState.getValue(RedstoneTorchBlock.LIT) ? TintedParticleOption.REDSTONE_DUST_OPTION : TintedParticleOption.REDSTONE_DUST_UNPOWERED_OPTION;
-            }
-            else if (blockState.hasProperty(ComparatorBlock.MODE)) {
-                return blockState.getValue(ComparatorBlock.MODE) == ComparatorMode.SUBTRACT ? TintedParticleOption.REDSTONE_DUST_OPTION : TintedParticleOption.REDSTONE_DUST_UNPOWERED_OPTION;
-            }
-            else if (blockState.hasProperty(RedStoneWireBlock.POWER)) {
-                return blockState.getValue(RedStoneWireBlock.POWER) > 6 ? TintedParticleOption.REDSTONE_DUST_OPTION : TintedParticleOption.REDSTONE_DUST_UNPOWERED_OPTION;
-            }
-            else if (blockState.hasProperty(RepeaterBlock.POWERED)) {
-                return blockState.getValue(RepeaterBlock.POWERED) ? TintedParticleOption.REDSTONE_DUST_OPTION : TintedParticleOption.REDSTONE_DUST_UNPOWERED_OPTION;
-            }
-            return TintedParticleOption.REDSTONE_DUST_OPTION;
-        },
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ModParticleTypes.REDSTONE_DUST, blockState),
         BlockOverrideOptions.REDSTONE_DUST_PARTICLE_OVERRIDE,
-        0.06f
+        0.1f
     );
     public static final BlockParticleOverride NETHER_PORTAL_SHATTER = new BlockParticleOverride(
         "nether_portal_shatter",

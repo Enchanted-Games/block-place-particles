@@ -20,35 +20,6 @@ public class BasicTintedDust extends BasicDust {
         this.setRGB(rgb[0] / 255f, rgb[1] / 255f, rgb[2] / 255f);
     }
 
-    public static class RedstoneProvider implements ParticleProvider<TintedParticleOption> {
-        private final SpriteSet spriteSet;
-
-        public RedstoneProvider(SpriteSet spriteSet) {
-            this.spriteSet = spriteSet;
-        }
-
-        @Override
-        public @Nullable Particle createParticle(
-            TintedParticleOption type,
-            ClientLevel level,
-            double x,
-            double y,
-            double z,
-            double xSpeed,
-            double ySpeed,
-            double zSpeed
-            //? if minecraft: > 1.21.8 {
-            , RandomSource random
-            //?}
-        ) {
-            BasicTintedDust particle = new BasicTintedDust(level, x, y, z, xSpeed, MathHelpers.randomBetween(0.06f, 0.13f), zSpeed, this.spriteSet, -0.0f, type, false, true, () -> null);
-            particle.roll = 0;
-            particle.prevRoll = 0;
-            particle.lifetime = (int)(particle.lifetime * 0.6f);
-            return particle;
-        }
-    }
-
     public static class BrushProvider implements ParticleProvider<TintedParticleOption> {
         private final SpriteSet spriteSet;
 

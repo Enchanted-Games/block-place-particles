@@ -66,7 +66,7 @@ public class ModParticleTypes {
     public static ParticleType<TintedParticleOption> GLOW_ITEM_FRAME_DUST_SPECK;
     public static ParticleType<BlockParticleOption> TINTED_DUST;
     public static ParticleType<BlockParticleOption> TINTED_DUST_SPECK;
-    public static ParticleType<TintedParticleOption> REDSTONE_DUST;
+    public static ParticleType<BlockParticleOption> REDSTONE_DUST;
     public static ParticleType<BlockParticleOption> BLOCK_SHATTER;
     public static ParticleType<BlockParticleOption> CHAIN_SNAP;
     public static ParticleType<BlockParticleOption> SUGAR_CANE;
@@ -128,7 +128,7 @@ public class ModParticleTypes {
         GLOW_ITEM_FRAME_DUST_SPECK = register((SpriteProviderReg) BasicTintedDust.GlowItemFrameSpeckProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "glow_item_frame_dust_speck"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
         TINTED_DUST = register((SpriteProviderReg) FloatingColouredDust.TintedDustProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "tinted_dust"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         TINTED_DUST_SPECK = register((SpriteProviderReg) FloatingColouredDust.TintedDustSpeckProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "tinted_dust_speck"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
-        REDSTONE_DUST = register((SpriteProviderReg) BasicTintedDust.RedstoneProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "redstone_dust"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
+        REDSTONE_DUST = register((SpriteProviderReg) FloatingColouredDust.RedstoneProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "redstone_dust"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
         BLOCK_SHATTER = register((SpriteProviderReg) BlockShatter.BlockShatterProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "block_shatter"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         CHAIN_SNAP = register((SpriteProviderReg) FallingSpinningColouredParticle.ChainSnapProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "chain_snap"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         SUGAR_CANE = register((SpriteProviderReg) FallingSpinningColouredParticle.SugarCaneProvider::new, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "sugar_cane"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);

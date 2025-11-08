@@ -1,7 +1,9 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.dust;
 
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
+import games.enchanted.eg_particle_interactions.common.particle.options.TintedParticleOption;
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
+import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
@@ -92,6 +94,36 @@ public class FloatingColouredDust extends AbstractDust {
             //?}
         ) {
             return new FloatingColouredDust(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), this.spriteSet, 0.35f, false);
+        }
+    }
+
+    public static class RedstoneProvider implements ParticleProvider<BlockParticleOption> {
+        private final SpriteSet spriteSet;
+
+        public RedstoneProvider(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        @Override
+        public @Nullable Particle createParticle(
+            BlockParticleOption type,
+            ClientLevel level,
+            double x,
+            double y,
+            double z,
+            double xSpeed,
+            double ySpeed,
+            double zSpeed
+            //? if minecraft: > 1.21.8 {
+            , RandomSource random
+            //?}
+        ) {
+            FloatingColouredDust particle = new FloatingColouredDust(level, x, y, z, xSpeed, ySpeed, zSpeed, type.getBlockPos(), type.getState(), this.spriteSet, -0.0f, false);
+            particle.roll = 0;
+            particle.prevRoll = 0;
+            particle.lifetime = (int)(particle.lifetime * 0.3f);
+            particle.friction = 0.9f;
+            return particle;
         }
     }
 }
