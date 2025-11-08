@@ -679,7 +679,7 @@ public class SpawnParticles {
         if (!FluidAmbientOptions.LAVA_BUBBLE_POP_ENABLED.getValue()) return;
         if (level.random.nextFloat() < (float) FluidAmbientOptions.LAVA_BUBBLE_POP_SPAWN_CHANCE.getValue() / 2500) {
             double d0 = (double) fluidPos.getX() + level.random.nextDouble();
-            double d1 = (double) fluidPos.getY() + 0.9;
+            double d1 = (double) fluidPos.getY() + fluidState.getOwnHeight();
             double d2 = (double) fluidPos.getZ() + level.random.nextDouble();
             level.addParticle(ModParticleTypes.LAVA_POP, d0, d1, d2, 0.0f, 0.0f, 0.0f);
         }
