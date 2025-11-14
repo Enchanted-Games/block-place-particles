@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.spongepowered.asm.mixin.Mixin;
@@ -40,12 +41,28 @@ public class BlockBreakAndCrackingParticle_ClientLevelMixin {
 
     // block cracking particles
     @Inject(
-        method = "addBreakingBlockEffect",
+        method =
+            //? if neoforge {
+            /*"addBreakingBlockEffect(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;Lnet/minecraft/world/phys/HitResult;)V"
+            *///?} else {
+            "addBreakingBlockEffect"
+            //?}
+        ,
         at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/ParticleEngine;add(Lnet/minecraft/client/particle/Particle;)V"),
         locals = LocalCapture.CAPTURE_FAILSOFT,
         cancellable = true
     )
-    public void replaceCrackingParticlesConditionally(BlockPos blockPos, Direction side, CallbackInfo ci, @Local(ordinal = 0) double xPos, @Local(ordinal = 1) double yPos, @Local(ordinal = 2) double zPos) {
+    public void replaceCrackingParticlesConditionally(
+        BlockPos blockPos,
+        Direction side,
+        //? if neoforge {
+        /*HitResult hitResult,
+        *///?}
+        CallbackInfo ci,
+        @Local(ordinal = 0) double xPos,
+        @Local(ordinal = 1) double yPos,
+        @Local(ordinal = 2) double zPos
+    ) {
         ClientLevel level = (ClientLevel) (Object) this;
         BlockState blockstate = level.getBlockState(blockPos);
 

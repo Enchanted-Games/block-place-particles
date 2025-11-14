@@ -54,7 +54,11 @@ public class PlatformHelper {
         //? if fabric {
         return FabricLoader.getInstance().isDevelopmentEnvironment();
         //?} else {
-        /*return !FMLLoader.isProduction();
+        /*//? if minecraft: <= 1.21.8 {
+        /^return !FMLLoader.isProduction();
+        ^///?} else {
+        return !FMLLoader.getCurrent().isProduction();
+        //?}
          *///?}
     }
 

@@ -4,6 +4,7 @@ import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes
 import games.enchanted.eg_particle_interactions.common.particle.options.TintedParticleOption;
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
+import games.enchanted.eg_particle_interactions.common.util.ParticleUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
@@ -118,7 +119,7 @@ public class FloatingColouredDust extends AbstractDust {
             , RandomSource random
             //?}
         ) {
-            FloatingColouredDust particle = new FloatingColouredDust(level, x, y, z, xSpeed, ySpeed, zSpeed, type.getBlockPos(), type.getState(), this.spriteSet, -0.0f, false);
+            FloatingColouredDust particle = new FloatingColouredDust(level, x, y, z, xSpeed, ySpeed, zSpeed, ParticleUtil.getPosFromBlockParticleOption(type), type.getState(), this.spriteSet, -0.0f, false);
             particle.roll = 0;
             particle.prevRoll = 0;
             particle.lifetime = (int)(particle.lifetime * 0.3f);
