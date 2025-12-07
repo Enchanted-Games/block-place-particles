@@ -1,9 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.dust;
 
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
-import games.enchanted.eg_particle_interactions.common.particle.options.TintedParticleOption;
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
-import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import games.enchanted.eg_particle_interactions.common.util.ParticleUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -14,7 +12,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.ComparatorMode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -119,7 +119,24 @@ public class FloatingColouredDust extends AbstractDust {
             , RandomSource random
             //?}
         ) {
-            FloatingColouredDust particle = new FloatingColouredDust(level, x, y, z, xSpeed, ySpeed, zSpeed, ParticleUtil.getPosFromBlockParticleOption(type), type.getState(), this.spriteSet, -0.0f, false);
+            // TODO: replace this with better particle palette system
+            BlockState state = type.getState();
+            int powerLevel = 15;
+            if(state.hasProperty(RedstoneTorchBlock.LIT)) {
+                powerLevel = state.getValue(RedstoneTorchBlock.LIT) ? 15 : 0;
+            }
+            else if (state.hasProperty(ComparatorBlock.MODE)) {
+                powerLevel = state.getValue(ComparatorBlock.MODE) == ComparatorMode.SUBTRACT ? 15 : 0;
+            }
+            else if (state.hasProperty(RedStoneWireBlock.POWER)) {
+                powerLevel = state.getValue(RedStoneWireBlock.POWER) > 6 ? 15 : 0;
+            }
+            else if (state.hasProperty(RepeaterBlock.POWERED)) {
+                powerLevel = state.getValue(RepeaterBlock.POWERED) ? 15 : 0;
+            }
+            state = Blocks.REDSTONE_WIRE.defaultBlockState().setValue(RedStoneWireBlock.POWER, powerLevel);
+
+            FloatingColouredDust particle = new FloatingColouredDust(level, x, y, z, xSpeed, ySpeed, zSpeed, ParticleUtil.getPosFromBlockParticleOption(type), state, this.spriteSet, -0.0f, false);
             particle.roll = 0;
             particle.prevRoll = 0;
             particle.lifetime = (int)(particle.lifetime * 0.3f);
