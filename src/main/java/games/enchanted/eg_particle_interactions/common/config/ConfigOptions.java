@@ -78,6 +78,7 @@ public class ConfigOptions {
             JsonObject categoryRoot = new JsonObject();
 
             for (ConfigOption<?> option : options) {
+                if(option.isDefault()) continue;
                 JsonElement encodedOption = option.toJson();
                 if(encodedOption == null) continue;
                 categoryRoot.add(option.getJsonKey(), encodedOption);

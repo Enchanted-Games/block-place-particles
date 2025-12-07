@@ -41,27 +41,27 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
 
     @Override
     public @Nullable QuadParticleRenderState.PreparedBuffers prepare(ParticleFeatureRenderer.ParticleBufferCache particleBufferCache) {
-        try (ByteBufferBuilder byteBufferBuilder = ByteBufferBuilder.exactlySized(this.vertexAmount * DefaultVertexFormat.PARTICLE.getVertexSize())){
+        try (ByteBufferBuilder byteBufferBuilder = ByteBufferBuilder.exactlySized(this.vertexAmount * DefaultVertexFormat.PARTICLE.getVertexSize())) {
             BufferBuilder vertexBuffer = new BufferBuilder(byteBufferBuilder, VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
 
             HashMap<SingleQuadParticle.Layer, QuadParticleRenderState.PreparedLayer> layerToPreparedMap = prepareLayers(vertexBuffer);
 
             MeshData meshData = vertexBuffer.build();
 
-            if (meshData != null) {
-                particleBufferCache.write(meshData.vertexBuffer());
-                RenderSystem.getSequentialBuffer(VertexFormat.Mode.QUADS).getBuffer(meshData.drawState().indexCount());
-                GpuBufferSlice dynamicTransforms = RenderSystem.getDynamicUniforms().writeTransform(
-                    RenderSystem.getModelViewMatrix(),
-                    new Vector4f(1.0f, 1.0f, 1.0f, 1.0f),
-                    new Vector3f(),
-                    RenderSystem.getTextureMatrix(),
-                    RenderSystem.getShaderLineWidth()
-                );
-                return new QuadParticleRenderState.PreparedBuffers(meshData.drawState().indexCount(), dynamicTransforms, layerToPreparedMap);
+            if (meshData == null) {
+                return null;
             }
 
-            return null;
+            particleBufferCache.write(meshData.vertexBuffer());
+            RenderSystem.getSequentialBuffer(VertexFormat.Mode.QUADS).getBuffer(meshData.drawState().indexCount());
+            GpuBufferSlice dynamicTransforms = RenderSystem.getDynamicUniforms().writeTransform(
+                RenderSystem.getModelViewMatrix(),
+                new Vector4f(1.0f, 1.0f, 1.0f, 1.0f),
+                new Vector3f(),
+                RenderSystem.getTextureMatrix(),
+                RenderSystem.getShaderLineWidth()
+            );
+            return new QuadParticleRenderState.PreparedBuffers(meshData.drawState().indexCount(), dynamicTransforms, layerToPreparedMap);
         }
     }
 

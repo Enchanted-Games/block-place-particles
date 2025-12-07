@@ -76,6 +76,10 @@ public abstract class ConfigOption<T> {
         }
     }
 
+    public boolean isDefault() {
+        return getValue().equals(getDefaultValue());
+    }
+
     public abstract @Nullable JsonElement toJson();
 
     public abstract void fromJson(JsonObject json);
