@@ -16,7 +16,6 @@
     "accessor.client.RenderTypeInvoker",
     "accessor.client.SpriteContentsAccessor",
     "accessor.client.TerrainParticleInvoker",
-    "accessor.yacl.DropdownWidgetAccessor",
     "blocks.AbstractCauldronBlock",
     "blocks.BaseFireBlock",
     "blocks.BeehiveBlockMixin",
@@ -56,8 +55,7 @@
     "resource.ClearCaches_MinecraftMixin",
     "resource.RegisterAtlasConfig_AtlasManagerMixin",
     "resource.RegisterTextureAtlases_MinecraftMixin",
-    "screen.OptionsScreenMixin",
-    "games.enchanted.eg_particle_interactions.common.mixin.mod_compat.yacl.StringControllerElement"
+    "screen.OptionsScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,9 +1,10 @@
-package games.enchanted.eg_particle_interactions.common.mixin.client.accessor.yacl;
+package games.enchanted.eg_particle_interactions.common.mixin.mod_compat.yacl.accessor;
 
+import dev.isxander.yacl3.gui.controllers.dropdown.DropdownWidget;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(dev.isxander.yacl3.gui.controllers.dropdown.DropdownWidget.class)
+@Mixin(DropdownWidget.class)
 public interface DropdownWidgetAccessor {
     @Accessor(value = "firstVisibleIndex", remap = false)
     void block_place_particle$setFirstVisibleIndex(int newIndex);

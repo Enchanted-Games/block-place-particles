@@ -5,9 +5,10 @@
   "compatibilityLevel": "JAVA_${java_ver}",
   "plugin": "games.enchanted.eg_particle_interactions.common.mixin.plugin.ModCompatPlugin",
   "mixins": [
-    "yacl.StringControllerElementMixin"
   ],
   "client": [
+    "yacl.accessor.DropdownWidgetAccessor",
+    "yacl.StringControllerElementMixin",
     "yacl.TranslatableBrushParticleBehaviour"
   ],
   "injectors": {
