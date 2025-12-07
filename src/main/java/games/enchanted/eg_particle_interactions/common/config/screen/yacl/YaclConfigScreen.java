@@ -1,6 +1,7 @@
-package games.enchanted.eg_particle_interactions.common.config.screen;
+package games.enchanted.eg_particle_interactions.common.config.screen.yacl;
 
 import dev.isxander.yacl3.api.*;
+import games.enchanted.eg_particle_interactions.common.config.compat.ConfigScreenCreator;
 import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
 import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
 import games.enchanted.eg_particle_interactions.common.config.categories.*;
@@ -9,8 +10,9 @@ import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockP
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
-public class ConfigScreen {
-    public static Screen createConfigScreen(Screen parentScreen) {
+public class YaclConfigScreen implements ConfigScreenCreator {
+    @Override
+    public Screen createScreen(Screen parentScreen) {
         YetAnotherConfigLib.Builder yaclBuilder = YetAnotherConfigLib.createBuilder()
             .save(ConfigOptions::applyAndSaveConfig)
             .title(ConfigTranslation.getConfigTitle().toComponent());

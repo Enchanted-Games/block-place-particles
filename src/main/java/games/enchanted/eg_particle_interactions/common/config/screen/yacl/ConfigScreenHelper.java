@@ -1,11 +1,11 @@
-package games.enchanted.eg_particle_interactions.common.config.screen;
+package games.enchanted.eg_particle_interactions.common.config.screen.yacl;
 
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
 import dev.isxander.yacl3.api.controller.EnumControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
-import games.enchanted.eg_particle_interactions.common.config.screen.controller.BlockLocationController;
-import games.enchanted.eg_particle_interactions.common.config.screen.controller.FluidLocationController;
+import games.enchanted.eg_particle_interactions.common.config.screen.yacl.controller.BlockLocationController;
+import games.enchanted.eg_particle_interactions.common.config.screen.yacl.controller.FluidLocationController;
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.config.option.ConfigOption;
 import games.enchanted.eg_particle_interactions.common.localisation.ConfigTranslation;
@@ -20,7 +20,7 @@ import net.minecraft.world.level.material.Fluids;
 import java.util.List;
 import java.util.function.Function;
 
-public class ConfigScreenHelper {
+class ConfigScreenHelper {
     // decoration
     public static OptionGroup createSeparator() {
         return OptionGroup.createBuilder()

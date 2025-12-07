@@ -603,8 +603,8 @@ public class SpawnParticles {
             // use dust particles if brush particle behaviour is "block override + dust" and particle override is none or vanilla,
             // otherwise spawn block override particles
             if (
-                ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.BLOCK_OVERRIDE_OR_VANILLA ||
-                (ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.BLOCK_OVERRIDE_OR_DUST && !(override == BlockParticleOverride.VANILLA || override == BlockParticleOverride.NONE))
+                ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.VANILLA_LIKE ||
+                (ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.DUST && !(override == BlockParticleOverride.VANILLA || override == BlockParticleOverride.NONE))
             ) {
                 particleOption = override.getParticleOptionForState(blockState, level, BlockPos.containing(particlePos), BlockParticleOverride.ORIGIN_BLOCK_BRUSHED);
                 velocityMultiplier = override.getParticleVelocityMultiplier();

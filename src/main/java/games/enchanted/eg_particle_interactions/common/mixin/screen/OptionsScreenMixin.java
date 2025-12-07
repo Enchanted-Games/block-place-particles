@@ -1,7 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.mixin.screen;
 
 import games.enchanted.eg_particle_interactions.common.Constants;
-import games.enchanted.eg_particle_interactions.common.config.screen.ConfigScreen;
+import games.enchanted.eg_particle_interactions.common.config.compat.ConfigScreenCreator;
 import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -29,7 +29,7 @@ public abstract class OptionsScreenMixin extends Screen {
             this.addRenderableWidget(
                 Button.builder(
                     Component.literal(Constants.MOD_NAME),
-                    (button) -> this.minecraft.setScreen(ConfigScreen.createConfigScreen(this))
+                    (button) -> this.minecraft.setScreen(ConfigScreenCreator.getScreenCreator().createScreen(this))
                 ).bounds( 2, 2, width, height).build()
             );
         }

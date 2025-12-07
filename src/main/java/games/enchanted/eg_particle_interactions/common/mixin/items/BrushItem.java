@@ -27,7 +27,7 @@ public abstract class BrushItem {
     )
     private void disableOrReplaceDustParticles(Level level, BlockHitResult hitResult, BlockState blockState, Vec3 pos, HumanoidArm arm, CallbackInfo ci, @Local(ordinal = 0) net.minecraft.world.item.BrushItem.DustParticlesDelta particlesDelta, @Local(ordinal = 0) int armDirection, @Local(ordinal = 1) int amountOfParticles) {
         if(!level.isClientSide()) return;
-        if(ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.DISABLED) {
+        if(ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.NONE) {
             ci.cancel();
             return;
         };
@@ -39,7 +39,7 @@ public abstract class BrushItem {
         final boolean isOverrideNoneOrVanilla = (override == BlockParticleOverride.VANILLA || override == BlockParticleOverride.NONE);
 
         // use vanilla particles if brush particle behaviour is "block override" and particle override is none or vanilla
-        if(ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.BLOCK_OVERRIDE_OR_VANILLA && isOverrideNoneOrVanilla) {
+        if(ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.VANILLA_LIKE && isOverrideNoneOrVanilla) {
             return;
         }
 

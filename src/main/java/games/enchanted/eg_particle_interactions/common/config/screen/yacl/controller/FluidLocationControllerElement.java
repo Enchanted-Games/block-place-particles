@@ -1,8 +1,8 @@
-package games.enchanted.eg_particle_interactions.common.config.screen.controller;
+package games.enchanted.eg_particle_interactions.common.config.screen.yacl.controller;
 
 import dev.isxander.yacl3.api.utils.Dimension;
 import dev.isxander.yacl3.gui.YACLScreen;
-import games.enchanted.eg_particle_interactions.common.config.screen.controller.generic.GenericListControllerElement;
+import games.enchanted.eg_particle_interactions.common.config.screen.yacl.controller.generic.GenericListControllerElement;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import games.enchanted.eg_particle_interactions.common.util.TextUtil;
 import net.minecraft.client.gui.GuiGraphics;

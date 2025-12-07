@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.config.screen.controller.generic;
+package games.enchanted.eg_particle_interactions.common.config.screen.yacl.controller.generic;
 
 import dev.isxander.yacl3.api.utils.Dimension;
 import dev.isxander.yacl3.gui.YACLScreen;

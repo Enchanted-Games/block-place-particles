@@ -10,7 +10,7 @@ import games.enchanted.eg_particle_interactions.common.config.option.enums.Brush
 
 public class ItemInteractionOptions {
     public static final ConfigOption<BrushParticleBehaviour> BRUSH_PARTICLE_BEHAVIOUR = registerOption(
-        new BrushParticleBehaviourOption(BrushParticleBehaviour.BLOCK_OVERRIDE_OR_DUST, "brush_particle_behaviour")
+        new BrushParticleBehaviourOption(BrushParticleBehaviour.DUST, "brush_particle_behaviour")
     );
 
     public static final ConfigOption<Boolean> FLINT_AND_STEEL_SPARKS_ENABLED = registerOption(

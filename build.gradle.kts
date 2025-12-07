@@ -200,7 +200,11 @@ enum class DepType {
     // Mod Implementation
     MOD_IMPL,
     // Implementation
-    IMPL_YACL_HACK,
+    IMPL_YACL_HACK{
+        override fun isOptional(): Boolean {
+            return true
+        }
+    },
     // Forge Runtime Library
     FRL{
         override fun includeInDepsList(): Boolean {
