@@ -16,7 +16,7 @@ public enum BrushParticleBehaviour implements StringRepresentable {
         this.id = id;
     }
 
-    public Component getDisplayName() {
+    public Component getTranslatedName() {
         return Component.translatable("eg_particle_interactions.config.enum_option." + ConfigTranslation.BRUSH_PARTICLE_BEHAVIOUR + "." + this.id);
     }
 

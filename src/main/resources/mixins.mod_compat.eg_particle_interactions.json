@@ -9,7 +9,7 @@
   "client": [
     "yacl.accessor.DropdownWidgetAccessor",
     "yacl.StringControllerElementMixin",
-    "yacl.TranslatableBrushParticleBehaviour"
+    "yacl.TranslatableBrushParticleBehaviourMixin"
   ],
   "injectors": {
     "defaultRequire": 1
