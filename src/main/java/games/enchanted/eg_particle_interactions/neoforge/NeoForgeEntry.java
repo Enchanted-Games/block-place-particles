@@ -2,7 +2,7 @@
 /*package games.enchanted.eg_particle_interactions.neoforge;
 
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
-import games.enchanted.eg_particle_interactions.common.config.screen.ConfigScreen;
+import games.enchanted.eg_particle_interactions.common.config.compat.ConfigScreenCreator;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
 import games.enchanted.eg_particle_interactions.neoforge.registry.NeoParticleProviderRegistry;
 import net.minecraft.client.Minecraft;
@@ -14,6 +14,8 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.registries.RegisterEvent;
+
+import java.util.Objects;
 
 /^*
  * This is the entry point for your mod's forge side.
@@ -43,7 +45,10 @@ public class NeoForgeEntry {
         // register particle providers
         bus.addListener(NeoParticleProviderRegistry::registerParticleProviders);
         // register config screen
-        ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () -> (client, parent) -> ConfigScreen.createConfigScreen(parent));
+        ConfigScreenCreator screenCreator = ConfigScreenCreator.getScreenCreator();
+        if(screenCreator.canCreateScreen()) {
+            ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () -> (client, parent) -> Objects.requireNonNull(screenCreator.createScreen(parent)));
+        }
 
         ParticleInteractionsMod.endOfModLoading();
     }

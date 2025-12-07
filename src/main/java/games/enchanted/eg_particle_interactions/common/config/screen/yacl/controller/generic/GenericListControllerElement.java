@@ -5,7 +5,7 @@ import dev.isxander.yacl3.gui.YACLScreen;
 import dev.isxander.yacl3.gui.controllers.dropdown.AbstractDropdownController;
 import dev.isxander.yacl3.gui.controllers.dropdown.AbstractDropdownControllerElement;
 import games.enchanted.eg_particle_interactions.common.Constants;
-import games.enchanted.eg_particle_interactions.common.mixin.accessor.yacl.DropdownWidgetAccessor;
+import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.yacl.DropdownWidgetAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;

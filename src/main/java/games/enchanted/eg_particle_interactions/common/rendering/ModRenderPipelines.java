@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common.rendering;
 
 import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-import games.enchanted.eg_particle_interactions.common.mixin.accessor.client.RenderPipelinesAccessor;
+import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.RenderPipelinesAccessor;
 
 public class ModRenderPipelines {
     public static final RenderPipeline BACKFACE_TRANSLUCENT_PARTICLE;

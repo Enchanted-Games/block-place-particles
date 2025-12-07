@@ -6,6 +6,7 @@ import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.fml.loading.LoadingModList;
 *///?} else {
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
@@ -42,6 +43,21 @@ public class PlatformHelper {
         return FabricLoader.getInstance().isModLoaded(modId);
         //?} else {
         /*return ModList.get().isLoaded(modId);
+        *///?}
+    }
+
+    /**
+     * Checks if a mod with the given id is loaded / going to be loaded. Safe for early loading such as mixin config plugins
+     *
+     * @param modId The mod to check if it is loaded.
+     * @return True if the mod is loaded, false otherwise.
+     */
+    public static boolean isModLoadedEarly(String modId) {
+        //? if fabric {
+        return FabricLoader.getInstance().isModLoaded(modId);
+        //?} else {
+        /*LoadingModList modList = FMLLoader.getCurrent().getLoadingModList();
+        return modList.getModFiles().contains(modList.getModFileById(modId));
         *///?}
     }
 

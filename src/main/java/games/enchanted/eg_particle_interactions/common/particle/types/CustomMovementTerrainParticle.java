@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.types;
 
-import games.enchanted.eg_particle_interactions.common.mixin.accessor.client.TerrainParticleInvoker;
+import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.TerrainParticleInvoker;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.BlockPos;

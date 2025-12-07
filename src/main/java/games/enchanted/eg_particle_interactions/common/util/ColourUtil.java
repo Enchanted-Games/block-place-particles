@@ -2,8 +2,8 @@ package games.enchanted.eg_particle_interactions.common.util;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import games.enchanted.eg_particle_interactions.common.Logging;
-import games.enchanted.eg_particle_interactions.common.mixin.accessor.client.NativeImageAccessor;
-import games.enchanted.eg_particle_interactions.common.mixin.accessor.client.SpriteContentsAccessor;
+import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.NativeImageAccessor;
+import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.SpriteContentsAccessor;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteAtlasManager;
 import net.minecraft.client.Minecraft;

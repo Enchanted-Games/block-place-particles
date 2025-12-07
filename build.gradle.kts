@@ -308,11 +308,11 @@ class ModFabric {
  * All environments are provided the vanilla mixin if it is enabled.
  */
 class ModMixins {
-    val enableVanillaMixin = boolProperty("mixins.vanilla.enable")
     val enableFabricMixin = boolProperty("mixins.fabric.enable")
     val enableNeoforgeMixin = boolProperty("mixins.neoforge.enable")
 
-    val vanillaMixin = "mixins.${mod.id}.json"
+    val clientMixin = "mixins.client.${mod.id}.json"
+    val modCompatMixin = "mixins.mod_compat.${mod.id}.json"
     val fabricMixin = "mixins.fabric.${mod.id}.json"
     val neoForgeMixin = "mixins.neoforge.${mod.id}.json"
     val extraMixins = listProperty("mixins.extras")
@@ -322,7 +322,8 @@ class ModMixins {
      */
     fun getMixins(env: EnvType) : List<String> {
         val out = arrayListOf<String>()
-        if(enableVanillaMixin) out.add(vanillaMixin)
+        out.add(clientMixin)
+        out.add(modCompatMixin)
         when (env) {
             EnvType.FABRIC -> if(enableFabricMixin) out.add(fabricMixin)
             EnvType.NEOFORGE -> if(enableNeoforgeMixin) out.add(neoForgeMixin)

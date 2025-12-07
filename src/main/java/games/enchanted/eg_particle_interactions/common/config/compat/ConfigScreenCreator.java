@@ -7,11 +7,24 @@ import org.jetbrains.annotations.Nullable;
 
 public interface ConfigScreenCreator {
     @Nullable Screen createScreen(Screen parent);
+    default boolean canCreateScreen() {
+        return true;
+    }
 
     static ConfigScreenCreator getScreenCreator() {
         if(PlatformHelper.isModLoaded("yet_another_config_lib_v3")) {
             return new YaclConfigScreen();
         }
-        return parent -> null;
+        return new ConfigScreenCreator() {
+            @Override
+            public @Nullable Screen createScreen(Screen parent) {
+                return null;
+            }
+
+            @Override
+            public boolean canCreateScreen() {
+                return false;
+            }
+        };
     }
 }

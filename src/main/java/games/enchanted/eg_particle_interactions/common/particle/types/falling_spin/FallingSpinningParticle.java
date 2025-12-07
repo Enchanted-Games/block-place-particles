@@ -1,7 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.falling_spin;
 
 import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
-import games.enchanted.eg_particle_interactions.common.mixin.accessor.client.ParticleAccessor;
+import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.ParticleAccessor;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;

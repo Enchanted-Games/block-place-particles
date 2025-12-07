@@ -1,7 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.rendering;
 
-import games.enchanted.eg_particle_interactions.common.mixin.accessor.client.CompositeStateBuilderInvoker;
-import games.enchanted.eg_particle_interactions.common.mixin.accessor.client.RenderTypeInvoker;
+import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.CompositeStateBuilderInvoker;
+import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.RenderTypeInvoker;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
