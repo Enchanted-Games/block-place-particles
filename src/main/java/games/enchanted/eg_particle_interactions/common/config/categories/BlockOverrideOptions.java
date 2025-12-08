@@ -39,6 +39,9 @@ public class BlockOverrideOptions {
             RegistryHelpers.getBlockLocationFromBlock(Blocks.POWDER_SNOW)
         )
     );
+    public static final ConfigOption<Boolean> SNOWFLAKE_PARTICLE_STEAM_IN_WARM_PLACES = registerOption(
+        new BoolOption(true, "snowflake_particles_steam_in_warm_places")
+    );
 
     public static final BlockParticleOptionSet FIREFLY_PARTICLE_OVERRIDE = BlockParticleOptionSet.register(
         "firefly_block_particles",
@@ -155,6 +158,12 @@ public class BlockOverrideOptions {
             RegistryHelpers.getBlockLocationFromBlock(Blocks.TALL_DRY_GRASS),
             RegistryHelpers.getBlockLocationFromBlock(Blocks.DEAD_BUSH)
         )
+    );
+    public static final ConfigOption<Boolean> GRASS_BLADE_PARTICLE_DIRT_FOR_GRASS_BLOCKS = registerOption(
+        new BoolOption(true, "grass_particles_dirt_for_grass_blocks")
+    );
+    public static final ConfigOption<Boolean> GRASS_BLADE_PARTICLE_FIREFLY_IN_SWAMPS = registerOption(
+        new BoolOption(true, "grass_particles_firedly_in_swamps")
     );
 
     public static final BlockParticleOptionSet HEAVY_GRASS_BLADE_PARTICLE_OVERRIDE = BlockParticleOptionSet.register(

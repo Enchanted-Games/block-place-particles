@@ -46,6 +46,9 @@ public class ConfigTranslation {
     public static final String AMOUNT_TO_SPAWN_ON_INTERACT = "amount_to_spawn_on_interact";
     public static final String AMOUNT_TO_SPAWN_ON_LIGHTNING_STRIKE = "amount_to_spawn_on_lightning_strike";
     public static final String ARE_VANILLA_FURNACE_PARTICLES_ENABLED = "are_vanilla_furnace_particles_enabled";
+    public static final String SPAWN_SNOWFLAKE_STEAM_PARTICLES = "spawn_snowflake_steam_particles";
+    public static final String GRASS_BLADE_SPAWN_GRASS_BLOCK_DIRT_PARTICLES = "grass_blade_spawn_grass_block_dirt_particles";
+    public static final String GRASS_BLADE_SPAWN_FIREFLY_IN_SWAMP = "grass_blade_spawn_firefly_in_swamps";
 
     public static final String BRUSH_PARTICLE_BEHAVIOUR = "brush_particle_behaviour";
 

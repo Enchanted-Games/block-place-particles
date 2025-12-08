@@ -121,10 +121,20 @@ class ConfigScreenHelper {
             .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
         .build();
 
-        Option<Integer> maxParticlesOnPlaceOption = ConfigScreenHelper.maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_PLACE_ALONG_EDGES, override.getMaxParticlesOnPlaceOption());
-        Option<Integer> maxParticlesOnBreakOption = ConfigScreenHelper.maxParticlesOnBreakOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK_ALONG_AXIS, override.getMaxParticlesOnBreakOption());
+        List<BlockParticleOverride.OptionToggle> toggles = override.getExtraToggles();
+        final int staticOptions = 3;
+        Option<?>[] options = new Option[staticOptions + toggles.size()];
 
-        return ConfigScreenHelper.createMultipleOptionsConfigGroup(override.getName(), override.getGroupName(), ConfigTranslation.BLOCKS_CONFIG_CATEGORY, isEnabledOption, maxParticlesOnPlaceOption, maxParticlesOnBreakOption);
+        options[0] = isEnabledOption;
+        options[1] = ConfigScreenHelper.maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_PLACE_ALONG_EDGES, override.getMaxParticlesOnPlaceOption());
+        options[2] = ConfigScreenHelper.maxParticlesOnBreakOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK_ALONG_AXIS, override.getMaxParticlesOnBreakOption());
+
+        for (int i = 0; i < toggles.size(); i++) {
+            BlockParticleOverride.OptionToggle toggle = toggles.get(i);
+            options[i + staticOptions] = ConfigScreenHelper.booleanOption(toggle.labelKey(), "", toggle.option());
+        }
+
+        return ConfigScreenHelper.createMultipleOptionsConfigGroup(override.getName(), override.getGroupName(), ConfigTranslation.BLOCKS_CONFIG_CATEGORY, options);
     }
 
     public static ListOption<BlockOrTagLocation> createBlockListForBlockOverride(BlockParticleOverride override) {

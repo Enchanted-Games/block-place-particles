@@ -1,6 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.overrides;
 
 import games.enchanted.eg_particle_interactions.common.config.categories.BlockOverrideOptions;
+import games.enchanted.eg_particle_interactions.common.config.option.BoolOption;
 import games.enchanted.eg_particle_interactions.common.config.option.ConfigOption;
 import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
@@ -40,7 +41,8 @@ public class BlockParticleOverride {
         "vanilla_block_override",
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ParticleTypes.BLOCK, blockState),
         BlockOverrideOptions.VANILLA_BLOCK_PARTICLE,
-        1
+        1,
+        List.of()
     );
     private static final ArrayList<BlockParticleOverride> blockParticleOverrides = new ArrayList<>();
 
@@ -52,6 +54,7 @@ public class BlockParticleOverride {
     final ConfigOption<Boolean> isEnabledOption;
     final ConfigOption<Integer> maxParticleOnPlaceOption;
     final ConfigOption<Integer> maxParticleOnBreakOption;
+    final List<OptionToggle> extraToggles;
 
     final float particleVelocityMultiplier;
 
@@ -63,15 +66,17 @@ public class BlockParticleOverride {
      * @param particleSupplier                        A {@link ParticleSupplier} that returns a {@link ParticleOptions} to spawn when this override is enabled
      * @param optionSet                               A {@link BlockOverrideOptions.BlockParticleOptionSet}
      * @param particleVelocityMultiplier              An amount to multiply the velocity by when spawning a particle for this override
+     * @param extraToggles                            Extra options that will appear next to this override in the config menu
      */
     BlockParticleOverride(
         String overrideName,
         String groupName,
         @NotNull BlockParticleOverride.ParticleSupplier particleSupplier,
         BlockOverrideOptions.BlockParticleOptionSet optionSet,
-        float particleVelocityMultiplier
+        float particleVelocityMultiplier,
+        List<OptionToggle> extraToggles
     ) {
-        this(overrideName, groupName, particleSupplier, (int overrideOrigin) -> true, optionSet, particleVelocityMultiplier);
+        this(overrideName, groupName, particleSupplier, (int overrideOrigin) -> true, optionSet, particleVelocityMultiplier, extraToggles);
     }
 
     /**
@@ -84,6 +89,7 @@ public class BlockParticleOverride {
      *                                                This acts differently from disabling the override entirely. Returning false here will use the vanilla particles, instead of particles from an override "underneath" this one (if any).
      * @param optionSet                               A {@link BlockOverrideOptions.BlockParticleOptionSet}
      * @param particleVelocityMultiplier              An amount to multiply the velocity by when spawning a particle for this override
+     * @param extraToggles                            Extra options that will appear next to this override in the config menu
      */
     BlockParticleOverride(
         String overrideName,
@@ -91,7 +97,8 @@ public class BlockParticleOverride {
         @NotNull BlockParticleOverride.ParticleSupplier particleSupplier,
         @NotNull BlockParticleOverride.ReplaceParticleFromOriginSupplier shouldReplaceParticleFromOrigin,
         BlockOverrideOptions.BlockParticleOptionSet optionSet,
-        float particleVelocityMultiplier
+        float particleVelocityMultiplier,
+        List<OptionToggle> extraToggles
     ) {
         this.name = overrideName;
         this.groupName = groupName;
@@ -102,6 +109,7 @@ public class BlockParticleOverride {
         this.maxParticleOnPlaceOption = optionSet.maxOnPlaceOption();
         this.maxParticleOnBreakOption = optionSet.maxOnBreakOption();
         this.particleVelocityMultiplier = particleVelocityMultiplier;
+        this.extraToggles = extraToggles;
     }
 
     private BlockParticleOverride(String overrideName) {
@@ -114,6 +122,7 @@ public class BlockParticleOverride {
         this.maxParticleOnPlaceOption = null;
         this.maxParticleOnBreakOption = null;
         this.particleVelocityMultiplier = 1;
+        this.extraToggles = List.of();
     }
 
     public interface ReplaceParticleFromOriginSupplier {
@@ -244,5 +253,12 @@ public class BlockParticleOverride {
 
     public ConfigOption<Integer> getMaxParticlesOnBreakOption() {
         return this.maxParticleOnBreakOption;
+    }
+
+    public List<OptionToggle> getExtraToggles() {
+        return this.extraToggles;
+    }
+
+    public record OptionToggle(String labelKey, ConfigOption<Boolean> option) {
     }
 }
