@@ -9,21 +9,26 @@ import java.util.List;
 import java.util.Set;
 
 public class ModCompatPlugin implements IMixinConfigPlugin {
-    private static final String mixinPackage = "games.enchanted.eg_particle_interactions.common.mixin.mod_compat.";
+    private static String mixinPackagePrefix;
 
-    private static String YACL_ID = "yet_another_config_lib_v3";
+    private static final ModPackage YACL_PACKAGE = new ModPackage("yet_another_config_lib_v3", "yacl");
     protected boolean isYaclLoaded = false;
 
     @Override
     public void onLoad(String mixinPackage) {
-        isYaclLoaded = PlatformHelper.isModLoadedEarly(YACL_ID);
+        isYaclLoaded = PlatformHelper.isModLoadedEarly(YACL_PACKAGE.modId());
+        mixinPackagePrefix = mixinPackage + ".";
     }
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        String modPackage = mixinClassName.replace(mixinPackage, "");
-        if(modPackage.startsWith("yacl.") && isYaclLoaded) return true;
+        if(shouldApplyPackage(mixinClassName, YACL_PACKAGE) && isYaclLoaded) return true;
         return false;
+    }
+
+    private boolean shouldApplyPackage(String mixinClassName, ModPackage modPackage) {
+        String modPackageName = mixinClassName.replace(mixinPackagePrefix, "");
+        return modPackage.packageMatches(modPackageName);
     }
 
     @Override
@@ -33,7 +38,6 @@ public class ModCompatPlugin implements IMixinConfigPlugin {
 
     @Override
     public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {
-
     }
 
     @Override
@@ -43,11 +47,15 @@ public class ModCompatPlugin implements IMixinConfigPlugin {
 
     @Override
     public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
-
     }
 
     @Override
     public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
+    }
 
+    record ModPackage(String modId, String packageName) {
+        boolean packageMatches(String packageName) {
+            return packageName.startsWith(this.packageName + ".");
+        }
     }
 }
