@@ -16,6 +16,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class BlockOverrideOptions {
+    public static final ConfigOption<Boolean> DISABLE_ALL_PLACING_PARTICLES = registerOption(
+        new BoolOption(false, "disable_all_block_placing_particles")
+    );
+    public static final ConfigOption<Boolean> DISABLE_ALL_BREAKING_PARTICLES = registerOption(
+        new BoolOption(false, "disable_all_block_breaking_particles")
+    );
+
     public static final BlockParticleOptionSet VANILLA_BLOCK_PARTICLE = BlockParticleOptionSet.register(
         "vanilla_block_particles",
         2,
@@ -220,9 +227,7 @@ public class BlockOverrideOptions {
             RegistryHelpers.getBlockLocationFromBlock(Blocks.REDSTONE_TORCH),
             RegistryHelpers.getBlockLocationFromBlock(Blocks.REDSTONE_WALL_TORCH),
             RegistryHelpers.getBlockLocationFromBlock(Blocks.REDSTONE_WIRE),
-            RegistryHelpers.getBlockLocationFromBlock(Blocks.REDSTONE_BLOCK),
-            RegistryHelpers.getBlockLocationFromBlock(Blocks.REPEATER),
-            RegistryHelpers.getBlockLocationFromBlock(Blocks.COMPARATOR)
+            RegistryHelpers.getBlockLocationFromBlock(Blocks.REDSTONE_BLOCK)
         )
     );
 

@@ -1,10 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle_spawning;
 
+import games.enchanted.eg_particle_interactions.common.config.categories.*;
 import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
-import games.enchanted.eg_particle_interactions.common.config.categories.BlockInteractionOptions;
-import games.enchanted.eg_particle_interactions.common.config.categories.EntityOptions;
-import games.enchanted.eg_particle_interactions.common.config.categories.FluidAmbientOptions;
-import games.enchanted.eg_particle_interactions.common.config.categories.ItemInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
 import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.DripParticleOption;
@@ -52,6 +49,7 @@ public class SpawnParticles {
     }
 
     public static void spawnBlockPlaceParticle(ClientLevel level, BlockPos blockPos, BlockState placedBlockState) {
+        if(BlockOverrideOptions.DISABLE_ALL_PLACING_PARTICLES.getValue()) return;
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.BLOCK_PLACE_OR_BREAK, blockPos)) return;
         if (BlockInteractionOptions.UNDERWATER_BUBBLES_ON_PLACE_ENABLED.getValue()) spawnUnderwaterBubbles(BlockInteractionOptions.UNDERWATER_BUBBLES_MAX_ON_PLACE.getValue(), level, blockPos);
 
@@ -119,6 +117,7 @@ public class SpawnParticles {
     }
 
     public static void spawnBlockBreakParticle(ClientLevel level, BlockState brokenBlockState, BlockPos brokenBlockPos, BlockParticleOverride particleOverride) {
+        if(BlockOverrideOptions.DISABLE_ALL_BREAKING_PARTICLES.getValue()) return;
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.BLOCK_PLACE_OR_BREAK, brokenBlockPos)) return;
         if (BlockInteractionOptions.UNDERWATER_BUBBLES_ON_BREAK_ENABLED.getValue()) spawnUnderwaterBubbles(BlockInteractionOptions.UNDERWATER_BUBBLES_MAX_ON_BREAK.getValue(), level, brokenBlockPos);
 

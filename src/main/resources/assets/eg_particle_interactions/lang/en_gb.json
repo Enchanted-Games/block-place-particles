@@ -28,6 +28,8 @@
   "eg_particle_interactions.config.particle_type.chain_snap": "Chain Link",
   "eg_particle_interactions.config.particle_type.sugar_cane": "Sugar Cane",
   "eg_particle_interactions.config.particle_type.vanilla_particle": "Vanilla Block",
+  "eg_particle_interactions.config.particle_type.block_placing": "Block Placing",
+  "eg_particle_interactions.config.particle_type.block_breaking": "Block Breaking",
 
   "eg_particle_interactions.config.particle_type.underwater_block_bubbles": "Underwater Bubble",
   "eg_particle_interactions.config.particle_type.block_rustle": "Block Rustling",
@@ -63,6 +65,11 @@
   "eg_particle_interactions.config.particle_type.lava_bubble_pop": "Lava Bubble Pop",
   "eg_particle_interactions.config.particle_type.underwater_bubble_streams": "Underwater Bubble Stream",
 
+
+  "eg_particle_interactions.config.global_option.disable_all_block_placing_particles": "Disable all %s particles",
+  "eg_particle_interactions.config.global_option.disable_all_block_placing_particles.desc": "Enabling this option will prevent any particles from spawning when placing blocks",
+  "eg_particle_interactions.config.global_option.disable_all_block_breaking_particles": "Disable all %s particles",
+  "eg_particle_interactions.config.global_option.disable_all_block_breaking_particles.desc": "Enabling this option will prevent any particles from spawning when breaking blocks",
 
   "eg_particle_interactions.config.global_option.spawn_block_particle_on_place": "Spawn when block placed",
   "eg_particle_interactions.config.global_option.spawn_block_particle_on_place.desc": "Should %s particles spawn when a block is placed?",
