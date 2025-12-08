@@ -18,12 +18,12 @@ public abstract class AbstractDust extends ParticleInteractionsParticle {
     protected SpriteSet spriteSet;
     protected boolean emissive;
 
-    protected AbstractDust(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, float gravityMultiplier, boolean spawnSpecks) {
+    protected AbstractDust(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, float gravityMultiplier, boolean spawnSpecks, boolean spriteFromAge) {
         super(level, x, y, z, spriteSet.get(level.random));
 
         this.spawnSpecks = spawnSpecks;
         this.spriteSet = spriteSet;
-        this.spriteFromAge = spawnSpecks;
+        this.spriteFromAge = spriteFromAge;
 
         this.gravity = Mth.randomBetween(this.random, 0.25F, 0.38F);;
         this.friction = 1.0F;

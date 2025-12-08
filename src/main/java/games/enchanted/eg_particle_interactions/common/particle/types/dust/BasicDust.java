@@ -16,8 +16,7 @@ public class BasicDust extends AbstractDust {
     private final Supplier<@Nullable ParticleOptions> speckGetter;
 
     protected BasicDust(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, float gravityMultiplier, boolean spawnSpecks, boolean spriteFromAge, Supplier<@Nullable ParticleOptions> speckGetter) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier, spawnSpecks);
-        this.spriteFromAge = spriteFromAge;
+        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier, spawnSpecks, spriteFromAge);
         this.speckGetter = speckGetter;
     }
 

@@ -21,8 +21,8 @@ import org.jetbrains.annotations.Nullable;
 public class FloatingColouredDust extends AbstractDust {
     protected final BlockState dustBlockState;
 
-    protected FloatingColouredDust(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState, SpriteSet spriteSet, float gravityMultiplier, boolean spawnSpecks) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier, spawnSpecks);
+    protected FloatingColouredDust(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState, SpriteSet spriteSet, float gravityMultiplier, boolean spawnSpecks, boolean spriteFromAge) {
+        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier, spawnSpecks, spriteFromAge);
 
         this.dustBlockState = blockState;
 
@@ -69,7 +69,7 @@ public class FloatingColouredDust extends AbstractDust {
             , RandomSource random
             //?}
         ) {
-            return new FloatingColouredDust(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), this.spriteSet, 0.7f, true);
+            return new FloatingColouredDust(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), this.spriteSet, 0.7f, true, true);
         }
     }
 
@@ -94,7 +94,7 @@ public class FloatingColouredDust extends AbstractDust {
             , RandomSource random
             //?}
         ) {
-            return new FloatingColouredDust(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), this.spriteSet, 0.35f, false);
+            return new FloatingColouredDust(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), this.spriteSet, 0.35f, false, false);
         }
     }
 
@@ -129,17 +129,17 @@ public class FloatingColouredDust extends AbstractDust {
                 powerLevel = state.getValue(ComparatorBlock.MODE) == ComparatorMode.SUBTRACT ? 15 : 0;
             }
             else if (state.hasProperty(RedStoneWireBlock.POWER)) {
-                powerLevel = state.getValue(RedStoneWireBlock.POWER) > 6 ? 15 : 0;
+                powerLevel = Math.clamp(state.getValue(RedStoneWireBlock.POWER), 0, 15);
             }
             else if (state.hasProperty(RepeaterBlock.POWERED)) {
                 powerLevel = state.getValue(RepeaterBlock.POWERED) ? 15 : 0;
             }
             state = Blocks.REDSTONE_WIRE.defaultBlockState().setValue(RedStoneWireBlock.POWER, powerLevel);
 
-            FloatingColouredDust particle = new FloatingColouredDust(level, x, y, z, xSpeed, ySpeed, zSpeed, ParticleUtil.getPosFromBlockParticleOption(type), state, this.spriteSet, -0.0f, false);
+            FloatingColouredDust particle = new FloatingColouredDust(level, x, y, z, xSpeed, ySpeed, zSpeed, ParticleUtil.getPosFromBlockParticleOption(type), state, this.spriteSet, -0.0f, false, true);
             particle.roll = 0;
             particle.prevRoll = 0;
-            particle.lifetime = (int)(particle.lifetime * 0.3f);
+            particle.lifetime = (int)(particle.lifetime * 0.4f);
             particle.friction = 0.9f;
             return particle;
         }
