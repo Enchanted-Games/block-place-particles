@@ -8,7 +8,7 @@ import games.enchanted.eg_particle_interactions.common.util.TextUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
@@ -16,17 +16,17 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FluidLocationControllerElement extends GenericListControllerElement<ResourceLocation, FluidLocationController> {
+public class FluidLocationControllerElement extends GenericListControllerElement<Identifier, FluidLocationController> {
     public FluidLocationControllerElement(FluidLocationController control, YACLScreen screen, Dimension<Integer> dim) {
         super(control, screen, dim);
     }
 
     @Override
-    public List<ResourceLocation> computeMatchingValues() {
-        List<ResourceLocation> resourceLocations = RegistryHelpers.getMatchingLocations(inputField, BuiltInRegistries.FLUID).toList();
-        ArrayList<ResourceLocation> fluidLocations = new ArrayList<>();
+    public List<Identifier> computeMatchingValues() {
+        List<Identifier> resourceLocations = RegistryHelpers.getMatchingLocations(inputField, BuiltInRegistries.FLUID).toList();
+        ArrayList<Identifier> fluidLocations = new ArrayList<>();
         currentItem = RegistryHelpers.validateFluidLocationWithFallback(inputField, null);
-        for (ResourceLocation resourceLocation : resourceLocations) {
+        for (Identifier resourceLocation : resourceLocations) {
             Fluid blockFromLocation = RegistryHelpers.getFluidFromLocation(resourceLocation);
             if (blockFromLocation.defaultFluidState().createLegacyBlock().isAir()) continue;
             matchingItems.put(resourceLocation, RegistryHelpers.getLocationFromFluid(blockFromLocation));
@@ -36,8 +36,8 @@ public class FluidLocationControllerElement extends GenericListControllerElement
     }
 
     @Override
-    protected void renderDropdownEntry(GuiGraphics graphics, Dimension<Integer> entryDimension, ResourceLocation identifier) {
-        ResourceLocation item = matchingItems.get(identifier);
+    protected void renderDropdownEntry(GuiGraphics graphics, Dimension<Integer> entryDimension, Identifier identifier) {
+        Identifier item = matchingItems.get(identifier);
         if(item == null) return;
         super.renderDropdownEntry(graphics, entryDimension, identifier);
         this.renderItemIcon(graphics, getItemToRender(item), entryDimension.xLimit() - 2, entryDimension.y() + 1);
@@ -45,11 +45,11 @@ public class FluidLocationControllerElement extends GenericListControllerElement
 
     @Override
     public @Nullable Component getHoverTooltipText() {
-        return TextUtil.formatResourceLocationToChatComponent(this.getController().option().pendingValue());
+        return TextUtil.formatIdentifierToChatComponent(this.getController().option().pendingValue());
     }
 
     @Override
-    public Item getItemToRender(ResourceLocation value) {
+    public Item getItemToRender(Identifier value) {
         return RegistryHelpers.getFluidFromLocation(value).getBucket();
     }
 

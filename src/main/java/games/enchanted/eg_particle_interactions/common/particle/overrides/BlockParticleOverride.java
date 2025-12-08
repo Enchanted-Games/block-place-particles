@@ -10,7 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -138,11 +138,11 @@ public class BlockParticleOverride {
     public static BlockParticleOverride getOverrideForBlockState(BlockState blockState, int overrideOrigin) {
         Block block = blockState.getBlock();
         if(blockState.isAir()) return NONE;
-        ResourceLocation blockResourceLocation = RegistryHelpers.getLocationFromBlock(block);
+        Identifier blockIdentifier = RegistryHelpers.getLocationFromBlock(block);
 
         BlockParticleOverride returnOverride = null;
         for (BlockParticleOverride override : BlockParticleOverride.blockParticleOverrides) {
-            if (!doesOverrideContainBlock(override, blockResourceLocation)) continue;
+            if (!doesOverrideContainBlock(override, blockIdentifier)) continue;
 
             if(override.isEnabled()) {
                 returnOverride = override;
@@ -158,9 +158,9 @@ public class BlockParticleOverride {
         return NONE;
     }
 
-    private static boolean doesOverrideContainBlock(BlockParticleOverride override, ResourceLocation blockResourceLocation) {
+    private static boolean doesOverrideContainBlock(BlockParticleOverride override, Identifier blockIdentifier) {
         if (override.getSupportedBlocksAndTags() == null) return false;
-        return TagUtil.doesListContainBlock(override.getSupportedBlocksAndTags(), blockResourceLocation);
+        return TagUtil.doesListContainBlock(override.getSupportedBlocksAndTags(), blockIdentifier);
     }
 
     public static int getParticleMultiplierForOverride(BlockParticleOverride override, boolean isBlockBeingPlaced) {

@@ -5,7 +5,7 @@ import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockP
 import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteAtlasManager;
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 
@@ -41,7 +41,7 @@ public class ParticleInteractionsMod {
     }
 
     public static void registerAtlases(TextureManager textureManager) {
-        List<Pair<ResourceLocation, PreparableReloadListener>> reloadListeners = createReloadListeners(textureManager);
+        List<Pair<Identifier, PreparableReloadListener>> reloadListeners = createReloadListeners(textureManager);
         //? if fabric {
         reloadListeners.forEach(resourceLocationAndReloadListenerPair -> {
             //? if minecraft: > 1.21.8 {
@@ -54,7 +54,7 @@ public class ParticleInteractionsMod {
                 }
 
                 @Override
-                public ResourceLocation getFabricId() {
+                public Identifier getFabricId() {
                     return resourceLocationAndReloadListenerPair.key();
                 }
             });
@@ -63,7 +63,7 @@ public class ParticleInteractionsMod {
         //?}
     }
 
-    public static List<Pair<ResourceLocation, PreparableReloadListener>> createReloadListeners(TextureManager textureManager) {
+    public static List<Pair<Identifier, PreparableReloadListener>> createReloadListeners(TextureManager textureManager) {
         //? if minecraft: <= 1.21.8 {
         /*particlePaletteAtlas = new ParticlePaletteAtlasManager(textureManager);
         return List.of(Pair.of(ParticlePaletteAtlasManager.ATLAS_LOCATION, particlePaletteAtlas));

@@ -2,21 +2,21 @@ package games.enchanted.eg_particle_interactions.common.registry;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 /**
  * A type that stores a resource location for a {@link net.minecraft.world.level.block.Block} or the resource location of a block tag
  */
-public record BlockOrTagLocation(ResourceLocation location, boolean isTag) {
+public record BlockOrTagLocation(Identifier location, boolean isTag) {
     public static Codec<BlockOrTagLocation> CODEC = Codec.STRING.comapFlatMap(
         string -> {
-            ResourceLocation parsedLocation = ResourceLocation.parse(string.replace("#", ""));
+            Identifier parsedLocation = Identifier.parse(string.replace("#", ""));
             return DataResult.success(new BlockOrTagLocation(parsedLocation, string.startsWith("#")));
         },
         BlockOrTagLocation::toString
     );
 
-    public BlockOrTagLocation(ResourceLocation location) {
+    public BlockOrTagLocation(Identifier location) {
         this(location, false);
     }
 

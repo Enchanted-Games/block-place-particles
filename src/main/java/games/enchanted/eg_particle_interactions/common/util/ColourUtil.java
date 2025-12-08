@@ -9,7 +9,7 @@ import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteA
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -36,7 +36,7 @@ public class ColourUtil {
         }
 
         TextureAtlasSprite particleSprite = Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState).particleIcon();
-        ResourceLocation particleSpriteLocation = particleSprite.contents().name();
+        Identifier particleSpriteLocation = particleSprite.contents().name();
         paletteSprite = TextureHelpers.getParticlePaletteOrBlockSprite(RegistryHelpers.getLocationFromBlock(blockState.getBlock()), particleSpriteLocation);
 
         SpriteContents spriteContents = paletteSprite.contents();

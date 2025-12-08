@@ -6,7 +6,7 @@ import games.enchanted.eg_particle_interactions.common.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.metadata.MetadataSectionType;
 
 //? if minecraft: <= 1.21.8 {
@@ -21,8 +21,8 @@ public class ParticlePaletteAtlasManager
     *///?}
 {
     private static final String ID = "particle_palettes";
-    public static final ResourceLocation ATLAS_LOCATION = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/atlas/" + ID);
-    public static final ResourceLocation ATLAS_ID = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, ID);
+    public static final Identifier ATLAS_LOCATION = Identifier.fromNamespaceAndPath(Constants.MOD_ID, "textures/atlas/" + ID);
+    public static final Identifier ATLAS_ID = Identifier.fromNamespaceAndPath(Constants.MOD_ID, ID);
     public static final Set<MetadataSectionType<?>> METADATA_SECTIONS = Set.of(ParticlePaletteSettingsMetadataSection.TYPE);
 
     public ParticlePaletteAtlasManager(TextureManager textureManager) {
@@ -36,7 +36,7 @@ public class ParticlePaletteAtlasManager
         *///?}
     }
 
-    public TextureAtlasSprite get(ResourceLocation location) {
+    public TextureAtlasSprite get(Identifier location) {
         //? if minecraft: <= 1.21.8 {
         /*return this.getSprite(location);
         *///?} else {

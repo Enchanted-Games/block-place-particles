@@ -8,7 +8,7 @@ import games.enchanted.eg_particle_interactions.common.config.screen.yacl.contro
 import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class BlockLocationController extends AbstractFixedDropdownController<BlockOrTagLocation> {
     public BlockLocationController(Option<BlockOrTagLocation> option) {
@@ -50,15 +50,15 @@ public class BlockLocationController extends AbstractFixedDropdownController<Blo
             return RegistryHelpers.getMatchingTagLocations(value, BuiltInRegistries.BLOCK)
                 .skip(offset)
                 .findFirst()
-                .map(ResourceLocation::toString)
+                .map(Identifier::toString)
                 .orElseGet(this::getString);
         }
 
         return RegistryHelpers.getMatchingLocations(value, BuiltInRegistries.BLOCK)
-            .filter((ResourceLocation location) -> !RegistryHelpers.getBlockFromLocation(location).defaultBlockState().isAir())
+            .filter((Identifier location) -> !RegistryHelpers.getBlockFromLocation(location).defaultBlockState().isAir())
             .skip(offset)
             .findFirst()
-            .map(ResourceLocation::toString)
+            .map(Identifier::toString)
             .orElseGet(this::getString);
     }
 

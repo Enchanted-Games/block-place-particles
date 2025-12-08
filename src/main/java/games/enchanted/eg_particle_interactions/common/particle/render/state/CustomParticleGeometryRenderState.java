@@ -4,6 +4,9 @@ package games.enchanted.eg_particle_interactions.common.particle.render.state;
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.textures.AddressMode;
+import com.mojang.blaze3d.textures.FilterMode;
+import com.mojang.blaze3d.textures.GpuSampler;
 import com.mojang.blaze3d.vertex.*;
 import games.enchanted.eg_particle_interactions.common.Logging;
 import net.minecraft.client.particle.SingleQuadParticle;
@@ -16,6 +19,7 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ARGB;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -58,8 +62,7 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
                 RenderSystem.getModelViewMatrix(),
                 new Vector4f(1.0f, 1.0f, 1.0f, 1.0f),
                 new Vector3f(),
-                RenderSystem.getTextureMatrix(),
-                RenderSystem.getShaderLineWidth()
+                new Matrix4f()
             );
             return new QuadParticleRenderState.PreparedBuffers(meshData.drawState().indexCount(), dynamicTransforms, layerToPreparedMap);
         }
@@ -92,7 +95,11 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
         for (Map.Entry<SingleQuadParticle.Layer, QuadParticleRenderState.PreparedLayer> entry : preparedBuffers.layers().entrySet()) {
             if (translucentOnly != entry.getKey().translucent()) continue;
             renderPass.setPipeline(entry.getKey().pipeline());
-            renderPass.bindSampler("Sampler0", textureManager.getTexture(entry.getKey().textureAtlasLocation()).getTextureView());
+            renderPass.bindTexture(
+                "Sampler0",
+                textureManager.getTexture(entry.getKey().textureAtlasLocation()).getTextureView(),
+                RenderSystem.getSamplerCache().getSampler(AddressMode.CLAMP_TO_EDGE, AddressMode.CLAMP_TO_EDGE, FilterMode.NEAREST, FilterMode.NEAREST, false)
+            );
             renderPass.drawIndexed(entry.getValue().vertexOffset(), 0, entry.getValue().indexCount(), 1);
         }
     }

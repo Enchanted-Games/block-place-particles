@@ -6,7 +6,7 @@ import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.NotNull;
@@ -77,7 +77,7 @@ public enum FluidPlacementParticle {
     }
 
     public static FluidPlacementParticle getParticleForFluid(Fluid fluid, boolean isFluidBeingPlaced) {
-        ResourceLocation fluidLoc = RegistryHelpers.getLocationFromFluid(fluid);
+        Identifier fluidLoc = RegistryHelpers.getLocationFromFluid(fluid);
         if (FluidPlacementOptions.WATER_SPLASH_FLUIDS.getValue().contains(fluidLoc) && shouldHaveParticle(isFluidBeingPlaced, FluidPlacementOptions.WATER_SPLASH_ENABLED.getValue())) {
             return TINTED_WATER;
         } else if (FluidPlacementOptions.LAVA_SPLASH_FLUIDS.getValue().contains(fluidLoc) && shouldHaveParticle(isFluidBeingPlaced, FluidPlacementOptions.LAVA_SPLASH_ENABLED.getValue())) {

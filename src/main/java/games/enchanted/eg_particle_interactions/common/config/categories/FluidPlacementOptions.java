@@ -7,13 +7,13 @@ import games.enchanted.eg_particle_interactions.common.config.option.ConfigOptio
 import games.enchanted.eg_particle_interactions.common.config.option.IntOption;
 import games.enchanted.eg_particle_interactions.common.config.option.ResourceLocationListOption;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.material.Fluids;
 
 import java.util.List;
 
 public class FluidPlacementOptions {
-    public static final ConfigOption<List<ResourceLocation>> WATER_SPLASH_FLUIDS = registerOption(
+    public static final ConfigOption<List<Identifier>> WATER_SPLASH_FLUIDS = registerOption(
         new ResourceLocationListOption(
             List.of(
                 RegistryHelpers.getLocationFromFluid(Fluids.WATER),
@@ -29,7 +29,7 @@ public class FluidPlacementOptions {
         new IntOption(12, "water_splash_amount_on_place")
     );
 
-    public static final ConfigOption<List<ResourceLocation>> LAVA_SPLASH_FLUIDS = registerOption(
+    public static final ConfigOption<List<Identifier>> LAVA_SPLASH_FLUIDS = registerOption(
         new ResourceLocationListOption(
             List.of(
                 RegistryHelpers.getLocationFromFluid(Fluids.LAVA),
@@ -45,7 +45,7 @@ public class FluidPlacementOptions {
         new IntOption(7, "lava_splash_amount_on_place")
     );
 
-    public static final ConfigOption<List<ResourceLocation>> GENERIC_SPLASH_FLUIDS = registerOption(
+    public static final ConfigOption<List<Identifier>> GENERIC_SPLASH_FLUIDS = registerOption(
         new ResourceLocationListOption(
             List.of(),
             "generic_splash_fluids"

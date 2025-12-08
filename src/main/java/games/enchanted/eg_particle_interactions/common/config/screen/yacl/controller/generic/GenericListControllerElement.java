@@ -10,7 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -20,11 +20,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class GenericListControllerElement<T, R extends AbstractDropdownController<T>> extends AbstractDropdownControllerElement<T, T> {
-    private static final ResourceLocation MISSING_ITEM_ICON_SPRITE = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "missing_item_icon");
+    private static final Identifier MISSING_ITEM_ICON_SPRITE = Identifier.fromNamespaceAndPath(Constants.MOD_ID, "missing_item_icon");
 
     private final R controller;
     protected T currentItem = null;
-    protected Map<ResourceLocation, T> matchingItems = new HashMap<>();
+    protected Map<Identifier, T> matchingItems = new HashMap<>();
     int lastKnownSelectedDropdownIndex = 0;
 
     public GenericListControllerElement(R control, YACLScreen screen, Dimension<Integer> dim) {

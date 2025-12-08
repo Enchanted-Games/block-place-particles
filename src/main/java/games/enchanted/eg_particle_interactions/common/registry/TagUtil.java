@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.registry;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public class TagUtil {
      * @param blockAndBlockTagLocationList {@link BlockOrTagLocation} list
      * @param blockLocation                block resource location to test if present the list
      */
-    public static boolean doesListContainBlock(@NotNull List<BlockOrTagLocation> blockAndBlockTagLocationList, ResourceLocation blockLocation) {
+    public static boolean doesListContainBlock(@NotNull List<BlockOrTagLocation> blockAndBlockTagLocationList, Identifier blockLocation) {
         if(blockLocation == null) return false;
 
         boolean containsBlockDirectly = blockAndBlockTagLocationList.contains(new BlockOrTagLocation(blockLocation));

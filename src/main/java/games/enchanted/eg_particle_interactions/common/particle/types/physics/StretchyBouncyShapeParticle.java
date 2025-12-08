@@ -85,7 +85,7 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
 
     @Override
     protected void adjustPositionBeforeExtraction(QuadConsumer consumer, Camera camera, Quaternionf quaternionf, float partialTicks) {
-        Vector3f cameraPosition = camera.getPosition().toVector3f();
+        Vector3f cameraPosition = camera.position().toVector3f();
 
         float xPos = (float) Mth.lerp(partialTicks, this.xo, this.x);
         float yPos = (float) Mth.lerp(partialTicks, this.yo, this.y);

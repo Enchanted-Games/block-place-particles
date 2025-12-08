@@ -7,10 +7,10 @@ import games.enchanted.eg_particle_interactions.common.config.screen.yacl.contro
 import games.enchanted.eg_particle_interactions.common.config.screen.yacl.controller.generic.GenericListControllerElement;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
-public class FluidLocationController extends AbstractFixedDropdownController<ResourceLocation> {
-    public FluidLocationController(Option<ResourceLocation> option) {
+public class FluidLocationController extends AbstractFixedDropdownController<Identifier> {
+    public FluidLocationController(Option<Identifier> option) {
         super(option);
     }
 
@@ -25,7 +25,7 @@ public class FluidLocationController extends AbstractFixedDropdownController<Res
         if(valueFromDropdown == null) {
             valueFromDropdown = value;
         }
-        ResourceLocation validatedValue = RegistryHelpers.validateFluidLocationWithFallback(
+        Identifier validatedValue = RegistryHelpers.validateFluidLocationWithFallback(
             valueFromDropdown,
             null
         );
@@ -38,22 +38,22 @@ public class FluidLocationController extends AbstractFixedDropdownController<Res
 
     @Override
     public boolean isValueValid(String value) {
-        ResourceLocation blockLocFromValue = RegistryHelpers.validateFluidLocationWithFallback(value, null);
+        Identifier blockLocFromValue = RegistryHelpers.validateFluidLocationWithFallback(value, null);
         return blockLocFromValue != null;
     }
 
     @Override
     protected String getValidValue(String value, int offset) {
         return RegistryHelpers.getMatchingLocations(value, BuiltInRegistries.FLUID)
-            .filter((ResourceLocation location) -> !RegistryHelpers.getFluidFromLocation(location).defaultFluidState().createLegacyBlock().isAir())
+            .filter((Identifier location) -> !RegistryHelpers.getFluidFromLocation(location).defaultFluidState().createLegacyBlock().isAir())
             .skip(offset)
             .findFirst()
-            .map(ResourceLocation::toString)
+            .map(Identifier::toString)
             .orElseGet(this::getString);
     }
 
     @Override
-    public GenericListControllerElement<ResourceLocation, ?> createWidget(YACLScreen screen, Dimension<Integer> widgetDimension) {
+    public GenericListControllerElement<Identifier, ?> createWidget(YACLScreen screen, Dimension<Integer> widgetDimension) {
         return new FluidLocationControllerElement(this, screen, widgetDimension);
     }
 }

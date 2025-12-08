@@ -13,7 +13,7 @@ import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockP
 import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
 
@@ -68,7 +68,7 @@ class ConfigScreenHelper {
     public static ListOption<BlockOrTagLocation> createBlockLocationListOption(String particleTypeKey, String groupName, String category, ConfigOption<List<BlockOrTagLocation>> option) {
         return createListOption(new BlockOrTagLocation(RegistryHelpers.getLocationFromBlock(Blocks.STONE)), BlockLocationController::new, particleTypeKey, groupName, category, GeneralOptions.AUTO_COLLAPSE_CONFIG_LISTS.getValue(), option);
     }
-    public static ListOption<ResourceLocation> createFluidListOption(String particleTypeKey, String groupName, String category, ConfigOption<List<ResourceLocation>> option) {
+    public static ListOption<Identifier> createFluidListOption(String particleTypeKey, String groupName, String category, ConfigOption<List<Identifier>> option) {
         return createListOption(RegistryHelpers.getLocationFromFluid(Fluids.WATER), FluidLocationController::new, particleTypeKey, groupName, category, GeneralOptions.AUTO_COLLAPSE_CONFIG_LISTS.getValue(), option);
     }
     public static <T> ListOption<T> createListOption(T initial, Function<ListOptionEntry<T>, Controller<T>> controller, String particleTypeKey, String groupName, String category, boolean collapsedByDefault, ConfigOption<List<T>> option) {

@@ -8,7 +8,7 @@ import games.enchanted.eg_particle_interactions.common.config.option.ConfigOptio
 import games.enchanted.eg_particle_interactions.common.config.option.IntOption;
 import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.Nullable;
@@ -119,9 +119,9 @@ public class BlockOverrideOptions {
             RegistryHelpers.getBlockLocationFromBlock(Blocks.BUSH),
             new BlockOrTagLocation(BlockTags.CAVE_VINES.location(), true),
             new BlockOrTagLocation(BlockTags.FLOWERS.location(), true),
-            new BlockOrTagLocation(ResourceLocation.fromNamespaceAndPath("c", "flowers"), true),
-            new BlockOrTagLocation(ResourceLocation.fromNamespaceAndPath("c", "flowers/small"), true),
-            new BlockOrTagLocation(ResourceLocation.fromNamespaceAndPath("c", "flowers/tall"), true)
+            new BlockOrTagLocation(Identifier.fromNamespaceAndPath("c", "flowers"), true),
+            new BlockOrTagLocation(Identifier.fromNamespaceAndPath("c", "flowers/small"), true),
+            new BlockOrTagLocation(Identifier.fromNamespaceAndPath("c", "flowers/tall"), true)
         )
     );
 
@@ -253,7 +253,7 @@ public class BlockOverrideOptions {
             RegistryHelpers.getBlockLocationFromBlock(Blocks.COPPER_CHAIN.oxidized()),
             RegistryHelpers.getBlockLocationFromBlock(Blocks.COPPER_CHAIN.waxedOxidized()),
             //?}
-            new BlockOrTagLocation(ResourceLocation.fromNamespaceAndPath("c", "chains"), true)
+            new BlockOrTagLocation(Identifier.fromNamespaceAndPath("c", "chains"), true)
         )
     );
 

@@ -101,7 +101,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
     }
 
     protected void adjustPositionBeforeExtraction(QuadConsumer consumer, Camera camera, Quaternionf quaternionf, float partialTicks) {
-        Vec3 cameraPosition = camera.getPosition();
+        Vec3 cameraPosition = camera.position();
         float x = (float)(Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x());
         float y = (float)(Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y());
         float z = (float)(Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z());

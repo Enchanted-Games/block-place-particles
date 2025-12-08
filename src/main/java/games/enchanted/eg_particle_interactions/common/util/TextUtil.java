@@ -1,7 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.util;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class TextUtil {
     /**
@@ -10,7 +10,7 @@ public class TextUtil {
      * @param location the tag location
      * @param prefix a string to append to the start of the namespace
      */
-    public static Component formatResourceLocationToChatComponent(ResourceLocation location, String prefix) {
+    public static Component formatIdentifierToChatComponent(Identifier location, String prefix) {
         String[] seperatedString = location.toString().split(":");
         if(seperatedString.length == 1) return Component.literal(seperatedString[0]);
 
@@ -27,7 +27,7 @@ public class TextUtil {
      *
      * @param location the tag location
      */
-    public static Component formatResourceLocationToChatComponent(ResourceLocation location) {
-        return formatResourceLocationToChatComponent(location, "");
+    public static Component formatIdentifierToChatComponent(Identifier location) {
+        return formatIdentifierToChatComponent(location, "");
     }
 }

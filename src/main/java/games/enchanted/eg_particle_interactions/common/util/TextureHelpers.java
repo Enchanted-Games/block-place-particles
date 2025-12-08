@@ -5,7 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 //? if minecraft: > 1.21.8 {
 import net.minecraft.data.AtlasIds;
@@ -13,7 +13,7 @@ import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteA
 //?}
 
 public class TextureHelpers {
-    public static @NotNull TextureAtlas getTextureAtlas(ResourceLocation atlasLocation) {
+    public static @NotNull TextureAtlas getTextureAtlas(Identifier atlasLocation) {
         return Minecraft.getInstance()
             //? if minecraft: <= 1.21.8 {
             /*.getModelManager().getAtlas(atlasLocation);
@@ -22,15 +22,15 @@ public class TextureHelpers {
             //?}
     }
 
-    public static TextureAtlasSprite getSpriteFromBlockAtlas(ResourceLocation location) {
+    public static TextureAtlasSprite getSpriteFromBlockAtlas(Identifier location) {
         return getTextureAtlas(getBlocksAtlasID()).getSprite(location);
     }
 
     public static TextureAtlasSprite getDebugSprite() {
-        return getSpriteFromBlockAtlas(ResourceLocation.withDefaultNamespace("block/debug"));
+        return getSpriteFromBlockAtlas(Identifier.withDefaultNamespace("block/debug"));
     }
 
-    public static TextureAtlasSprite getParticlePaletteSprite(ResourceLocation location) {
+    public static TextureAtlasSprite getParticlePaletteSprite(Identifier location) {
         //? if minecraft: <= 1.21.8 {
         /*return ParticleInteractionsMod.particlePaletteAtlas.get(location);
         *///?} else {
@@ -38,7 +38,7 @@ public class TextureHelpers {
         //?}
     }
 
-    public static TextureAtlasSprite getParticlePaletteOrBlockSprite(ResourceLocation blockLocation, ResourceLocation fallbackSpriteLocation) {
+    public static TextureAtlasSprite getParticlePaletteOrBlockSprite(Identifier blockLocation, Identifier fallbackSpriteLocation) {
         TextureAtlasSprite particlePaletteSprite = getParticlePaletteSprite(blockLocation);
         if(particlePaletteSprite.contents().name() == MissingTextureAtlasSprite.getLocation()) {
             return getTextureAtlas(getBlocksAtlasID()).getSprite(fallbackSpriteLocation);
@@ -46,7 +46,7 @@ public class TextureHelpers {
         return particlePaletteSprite;
     }
 
-    public static ResourceLocation getBlocksAtlasID() {
+    public static Identifier getBlocksAtlasID() {
         //? if minecraft: <= 1.21.8 {
         /*return TextureAtlas.LOCATION_BLOCKS;
          *///?} else {

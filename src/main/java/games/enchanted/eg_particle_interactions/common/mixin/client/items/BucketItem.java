@@ -2,6 +2,8 @@ package games.enchanted.eg_particle_interactions.common.mixin.client.items;
 
 import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
+import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
+import games.enchanted.eg_particle_interactions.common.util.BiomeHelpers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,8 +30,8 @@ public abstract class BucketItem {
             Fluid placedFluid = this.content;
             FluidState placedFluidState = content.defaultFluidState();
 
-            if(!(levelAccessor.dimensionType().ultraWarm() && placedFluidState.is(FluidTags.WATER))) {
-                Logging.interactionDebugInfo("Bucket of " + placedFluid.builtInRegistryHolder().key().location() + " placed at " + fluidPos.toShortString());
+            if(!(BiomeHelpers.isWarmDimension(levelAccessor.dimensionType()) && placedFluidState.is(FluidTags.WATER))) {
+                Logging.interactionDebugInfo("Bucket of " + RegistryHelpers.getLocationFromFluid(placedFluid) + " placed at " + fluidPos.toShortString());
                 SpawnParticles.spawnFluidPlacedParticle(levelAccessor, fluidPos, placedFluid);
             }
         }

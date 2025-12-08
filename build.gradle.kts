@@ -197,6 +197,12 @@ enum class DepType {
             return true
         }
     },
+    // Optional API, Compile only if disabled
+    API_OPTIONAL_COMP_ONLY_IF_DISABLED{
+        override fun isOptional(): Boolean {
+            return true
+        }
+    },
     // Mod Implementation
     MOD_IMPL,
     // Implementation
@@ -260,12 +266,16 @@ val apis = arrayListOf(
     ),
 
     APISource(
-        DepType.API_OPTIONAL,
+        DepType.API_OPTIONAL_COMP_ONLY_IF_DISABLED,
         APIModInfo("modmenu"),
         "com.terraformersmc:modmenu",
         optionalVersionProperty("deps.api.modmenu"),
         { src ->
-            src.versionRange.isPresent && env.isFabric
+            if(boolProperty("deps.api.modmenu.componly")) {
+                false
+            } else {
+                src.versionRange.isPresent && env.isFabric
+            }
         }
     ),
 
@@ -554,7 +564,16 @@ dependencies {
     }
 
     apis.forEach { src->
-        if(src.enabled) {
+        if(src.type == DepType.API_OPTIONAL_COMP_ONLY_IF_DISABLED) {
+            src.versionRange.ifPresent { ver ->
+                if(src.enabled) {
+                    modApi("${src.mavenLocation}:${ver.min}")
+                } else {
+                    modCompileOnly("${src.mavenLocation}:${ver.min}")
+                }
+            }
+        }
+        else if(src.enabled) {
             src.versionRange.ifPresent { ver ->
                 if(src.type == DepType.API || src.type == DepType.API_OPTIONAL) {
                     modApi("${src.mavenLocation}:${ver.min}")

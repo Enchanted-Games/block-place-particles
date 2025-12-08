@@ -11,6 +11,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.ExtraCodecs;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
 public class RandomDistributionEmitterOptions implements ParticleOptions {
     private final ParticleType<RandomDistributionEmitterOptions> type;
@@ -21,14 +22,14 @@ public class RandomDistributionEmitterOptions implements ParticleOptions {
     private final Vector3f dimensions;
     private final Vector3f velocityVariance;
 
-    public RandomDistributionEmitterOptions(ParticleType<RandomDistributionEmitterOptions> type, int tickIterations, int tickInvertal, int particlesPerEmission, boolean emitOnFirstTick, Vector3f dimensions, Vector3f velocityVariance) {
+    public RandomDistributionEmitterOptions(ParticleType<RandomDistributionEmitterOptions> type, int tickIterations, int tickInvertal, int particlesPerEmission, boolean emitOnFirstTick, Vector3fc dimensions, Vector3fc velocityVariance) {
         this.type = type;
         this.repeat = tickIterations;
         this.tickInterval = tickInvertal;
         this.particlesPerEmission = particlesPerEmission;
         this.emitOnFirstTick = emitOnFirstTick;
-        this.dimensions = dimensions;
-        this.velocityVariance = velocityVariance;
+        this.dimensions = new Vector3f(dimensions);
+        this.velocityVariance = new Vector3f(velocityVariance);
     }
 
     public RandomDistributionEmitterOptions(ParticleType<RandomDistributionEmitterOptions> type, int repeat, int tickInvertal, int particlesPerEmission) {
@@ -54,7 +55,7 @@ public class RandomDistributionEmitterOptions implements ParticleOptions {
                 ExtraCodecs.VECTOR3F.optionalFieldOf("velocity_variance", new Vector3f(0f, 0f, 0f)).forGetter(RandomDistributionEmitterOptions::getVelocityVariance)
             ).apply(
                 instance,
-                (Integer tickIterations, Integer tickInterval, Integer particlesPerEmission, Boolean emitOnFirstTick, Vector3f dimensions, Vector3f velocityVariance) -> new RandomDistributionEmitterOptions(type, tickIterations, tickInterval, particlesPerEmission, emitOnFirstTick, dimensions, velocityVariance)
+                (Integer tickIterations, Integer tickInterval, Integer particlesPerEmission, Boolean emitOnFirstTick, Vector3fc dimensions, Vector3fc velocityVariance) -> new RandomDistributionEmitterOptions(type, tickIterations, tickInterval, particlesPerEmission, emitOnFirstTick, dimensions, velocityVariance)
             )
         );
     }

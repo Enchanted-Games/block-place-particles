@@ -3,6 +3,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.client.blocks;
 import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.BucketItemAccessor;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
+import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -34,11 +35,11 @@ public abstract class AbstractCauldronBlock {
         if(result != InteractionResult.SUCCESS) return;
         if(usedItem instanceof BucketItem) {
             Fluid placedFluid = ((BucketItemAccessor) usedItem).block_place_particle$getContent();
-            Logging.interactionDebugInfo("Bucket of " + placedFluid.builtInRegistryHolder().key().location() + " placed in a cauldron at " + pos.toShortString());
+            Logging.interactionDebugInfo("Bucket of " + RegistryHelpers.getLocationFromFluid(placedFluid) + " placed in a cauldron at " + pos.toShortString());
             SpawnParticles.spawnFluidPlacedParticle(level, pos, placedFluid);
         } else if(usedItem instanceof BlockItem) {
             BlockState placedState = ((BlockItem) usedItem).getBlock().defaultBlockState();
-            Logging.interactionDebugInfo("Block '" + placedState.getBlock().builtInRegistryHolder().key().location() + "' placed in a cauldron at " + pos.toShortString());
+            Logging.interactionDebugInfo("Block '" + RegistryHelpers.getLocationFromBlock(placedState.getBlock()) + "' placed in a cauldron at " + pos.toShortString());
             SpawnParticles.spawnBlockPlaceParticle((ClientLevel) level, pos, placedState);
         }
     }

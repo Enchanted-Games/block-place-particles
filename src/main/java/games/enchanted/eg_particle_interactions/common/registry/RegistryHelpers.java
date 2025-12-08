@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.registry;
 
-import net.minecraft.ResourceLocationException;
+import net.minecraft.IdentifierException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.DefaultedRegistry;
 import net.minecraft.core.Holder;
@@ -9,7 +9,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -27,15 +27,15 @@ import java.util.stream.Stream;
 
 public class RegistryHelpers {
     @SuppressWarnings("unchecked")
-    public static <R, T extends R> T register(ResourceKey<? extends Registry<R>> registryKey, Supplier<T> entry, ResourceLocation key) {
+    public static <R, T extends R> T register(ResourceKey<? extends Registry<R>> registryKey, Supplier<T> entry, Identifier key) {
         Registry<R> registry = Objects.requireNonNull( BuiltInRegistries.REGISTRY.getValue((ResourceKey) registryKey));
         return Registry.register(registry, key, entry.get());
     }
 
-    public static <T> Stream<ResourceLocation> getMatchingLocations(String search, DefaultedRegistry<T> registryToSearch) {
+    public static <T> Stream<Identifier> getMatchingLocations(String search, DefaultedRegistry<T> registryToSearch) {
         int separatorIndex = search.indexOf(':');
         String unspacedSearch = search.replace(' ', '_');
-        Predicate<ResourceLocation> filterPredicate = getFilterPredicate(unspacedSearch, separatorIndex, registryToSearch);
+        Predicate<Identifier> filterPredicate = getFilterPredicate(unspacedSearch, separatorIndex, registryToSearch);
 
         return registryToSearch.keySet().stream()
             .filter(filterPredicate)
@@ -52,10 +52,10 @@ public class RegistryHelpers {
         );
     }
 
-    public static <T> Stream<ResourceLocation> getMatchingTagLocations(String search, DefaultedRegistry<T> registryToSearch) {
+    public static <T> Stream<Identifier> getMatchingTagLocations(String search, DefaultedRegistry<T> registryToSearch) {
         int separatorIndex = search.indexOf(':');
         String unspacedSearch = search.replace(' ', '_');
-        Predicate<ResourceLocation> filterPredicate = getFilterPredicate(unspacedSearch, separatorIndex, registryToSearch);
+        Predicate<Identifier> filterPredicate = getFilterPredicate(unspacedSearch, separatorIndex, registryToSearch);
 
         return registryToSearch.getTags()
             .map(tag -> tag.key().location())
@@ -73,21 +73,21 @@ public class RegistryHelpers {
             );
     }
 
-    private static @NotNull <T> Predicate<ResourceLocation> getFilterPredicate(String search, int separatorIndex, DefaultedRegistry<T> registryToSearch) {
-        Predicate<ResourceLocation> filterPredicate;
+    private static @NotNull <T> Predicate<Identifier> getFilterPredicate(String search, int separatorIndex, DefaultedRegistry<T> registryToSearch) {
+        Predicate<Identifier> filterPredicate;
         if (separatorIndex == -1) {
-            filterPredicate = (ResourceLocation location) -> location.getPath().contains(search) || (registryToSearch.get(location)).toString().toLowerCase().contains(search.toLowerCase());
+            filterPredicate = (Identifier location) -> location.getPath().contains(search) || (registryToSearch.get(location)).toString().toLowerCase().contains(search.toLowerCase());
         } else {
             String namespace = search.substring(0, separatorIndex);
             String path = search.substring(separatorIndex + 1);
-            filterPredicate = (ResourceLocation location) -> location.getNamespace().equals(namespace) && location.getPath().startsWith(path);
+            filterPredicate = (Identifier location) -> location.getNamespace().equals(namespace) && location.getPath().startsWith(path);
         }
         return filterPredicate;
     }
 
     public static Fluid getDefaultedFluid(String location, Fluid fallback) {
         try {
-            ResourceLocation fluidLocation = ResourceLocation.parse(location.toLowerCase());
+            Identifier fluidLocation = Identifier.parse(location.toLowerCase());
             Optional<Fluid> fluidFromLoc = BuiltInRegistries.FLUID.getOptional(fluidLocation);
             if(fluidFromLoc.isEmpty()) {
                 return fallback;
@@ -96,13 +96,13 @@ public class RegistryHelpers {
                 return fallback;
             }
             return fluidFromLoc.get();
-        } catch (ResourceLocationException ignored) {}
+        } catch (IdentifierException ignored) {}
         return fallback;
     }
 
-    public static ResourceLocation validateBlockLocationWithFallback(String location, ResourceLocation fallback) {
+    public static Identifier validateBlockLocationWithFallback(String location, Identifier fallback) {
         try {
-            ResourceLocation blockLocation = ResourceLocation.parse(location.toLowerCase());
+            Identifier blockLocation = Identifier.parse(location.toLowerCase());
             Optional<Block> blockFromLoc = BuiltInRegistries.BLOCK.getOptional(blockLocation);
             if(blockFromLoc.isEmpty()) {
                 return fallback;
@@ -111,17 +111,17 @@ public class RegistryHelpers {
                 return fallback;
             }
             return blockLocation;
-        } catch (ResourceLocationException ignored) {}
+        } catch (IdentifierException ignored) {}
         return fallback;
     }
 
     public static BlockOrTagLocation validateBlockOrTagLocationWithFallback(String location, BlockOrTagLocation fallback) {
         try {
             if(location.startsWith("#")) {
-                return new BlockOrTagLocation(ResourceLocation.parse(location.replace("#", "").toLowerCase()), true);
+                return new BlockOrTagLocation(Identifier.parse(location.replace("#", "").toLowerCase()), true);
             }
 
-            ResourceLocation blockLocation = ResourceLocation.parse(location.toLowerCase());
+            Identifier blockLocation = Identifier.parse(location.toLowerCase());
             Optional<Block> blockFromLoc = BuiltInRegistries.BLOCK.getOptional(blockLocation);
             if(blockFromLoc.isEmpty()) {
                 return fallback;
@@ -130,14 +130,14 @@ public class RegistryHelpers {
                 return fallback;
             }
             return new BlockOrTagLocation(blockLocation);
-        } catch (ResourceLocationException ignored) {}
+        } catch (IdentifierException ignored) {}
 
         return fallback;
     }
 
-    public static ResourceLocation validateFluidLocationWithFallback(String location, ResourceLocation fallback) {
+    public static Identifier validateFluidLocationWithFallback(String location, Identifier fallback) {
         try {
-            ResourceLocation fluidLocation = ResourceLocation.parse(location.toLowerCase());
+            Identifier fluidLocation = Identifier.parse(location.toLowerCase());
             Optional<Fluid> blockFromLoc = BuiltInRegistries.FLUID.getOptional(fluidLocation);
             if(blockFromLoc.isEmpty()) {
                 return fallback;
@@ -146,43 +146,43 @@ public class RegistryHelpers {
                 return fallback;
             }
             return fluidLocation;
-        } catch (ResourceLocationException ignored) {}
+        } catch (IdentifierException ignored) {}
         return fallback;
     }
 
 
-    public static ResourceLocation getLocationFromFluid(Fluid fluid) {
+    public static Identifier getLocationFromFluid(Fluid fluid) {
         return BuiltInRegistries.FLUID.getKey(fluid);
     }
-    public static Fluid getFluidFromLocation(ResourceLocation location) {
+    public static Fluid getFluidFromLocation(Identifier location) {
         return BuiltInRegistries.FLUID.getValue(location);
     }
 
-    public static ResourceLocation getLocationFromBlock(Block block) {
+    public static Identifier getLocationFromBlock(Block block) {
         return BuiltInRegistries.BLOCK.getKey(block);
     }
     public static BlockOrTagLocation getBlockLocationFromBlock(Block block) {
         return new BlockOrTagLocation(getLocationFromBlock(block));
     }
-    public static Block getBlockFromLocation(ResourceLocation location) {
+    public static Block getBlockFromLocation(Identifier location) {
         return BuiltInRegistries.BLOCK.getValue(location);
     }
-    public static Holder<Block> getBlockHolderFromLocation(ResourceLocation location) {
+    public static Holder<Block> getBlockHolderFromLocation(Identifier location) {
         return BuiltInRegistries.BLOCK.wrapAsHolder(getBlockFromLocation(location));
     }
 
-    public static boolean isBlockInTag(ResourceLocation blockLocation, TagKey<Block> tagKey) {
+    public static boolean isBlockInTag(Identifier blockLocation, TagKey<Block> tagKey) {
         Optional<HolderSet.Named<Block>> tagHolder = BuiltInRegistries.BLOCK.get(tagKey);
         if(tagHolder.isEmpty()) return false;
 
         Holder<Block> blockHolder = getBlockHolderFromLocation(blockLocation);
         return tagHolder.get().contains(blockHolder);
     }
-    public static TagKey<Block> getBlockTagKey(ResourceLocation tagLocation) {
+    public static TagKey<Block> getBlockTagKey(Identifier tagLocation) {
         return TagKey.create(Registries.BLOCK, tagLocation);
     }
 
-    public static List<ResourceLocation> getLoadedBlockTags() {
+    public static List<Identifier> getLoadedBlockTags() {
         return BuiltInRegistries.BLOCK.getTags().map(t -> t.key().location()).toList();
     }
 
@@ -191,23 +191,23 @@ public class RegistryHelpers {
         if(Minecraft.getInstance().level == null) return null;
         return Minecraft.getInstance().level.registryAccess().lookupOrThrow(Registries.BIOME);
     }
-    public static @Nullable Biome getBiomeFromLocation(ResourceLocation location) {
+    public static @Nullable Biome getBiomeFromLocation(Identifier location) {
         Registry<Biome> biomeReg = getBiomeRegistry();
         if(biomeReg == null) return null;
         return biomeReg.getValue(location);
     }
-    public static @Nullable ResourceLocation getLocationFromBiome(Biome biome) {
+    public static @Nullable Identifier getLocationFromBiome(Biome biome) {
         Registry<Biome> biomeReg = getBiomeRegistry();
         if(biomeReg == null) return null;
         return biomeReg.getKey(biome);
     }
-    public static @Nullable Holder<Biome> getBiomeHolderFromLocation(ResourceLocation location) {
+    public static @Nullable Holder<Biome> getBiomeHolderFromLocation(Identifier location) {
         Registry<Biome> biomeReg = getBiomeRegistry();
         Biome biome = getBiomeFromLocation(location);
         if(biomeReg == null || biome == null) return null;
         return biomeReg.wrapAsHolder(biome);
     }
-    public static boolean isBiomeInTag(ResourceLocation biomeLocation, TagKey<Biome> tagKey) {
+    public static boolean isBiomeInTag(Identifier biomeLocation, TagKey<Biome> tagKey) {
         if(Minecraft.getInstance().level == null) return false;
         Optional<HolderSet.Named<Biome>> tagHolder = Minecraft.getInstance().level.registryAccess().lookupOrThrow(Registries.BIOME).get(tagKey);
         if(tagHolder.isEmpty()) return false;
@@ -216,7 +216,7 @@ public class RegistryHelpers {
         if(biomeHolder == null) return false;
         return tagHolder.get().contains(biomeHolder);
     }
-    public static TagKey<Biome> getBiomeTagKey(ResourceLocation tagLocation) {
+    public static TagKey<Biome> getBiomeTagKey(Identifier tagLocation) {
         return TagKey.create(Registries.BIOME, tagLocation);
     }
 

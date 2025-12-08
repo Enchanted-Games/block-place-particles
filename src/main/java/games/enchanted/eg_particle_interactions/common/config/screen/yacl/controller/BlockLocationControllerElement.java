@@ -11,7 +11,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlockLocationControllerElement extends GenericListControllerElement<BlockOrTagLocation, BlockLocationController> {
-    private static final ResourceLocation BLOCK_TAG_ICON = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "block_tag_icon");
+    private static final Identifier BLOCK_TAG_ICON = Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_tag_icon");
 
     public BlockLocationControllerElement(BlockLocationController control, YACLScreen screen, Dimension<Integer> dim) {
         super(control, screen, dim);
@@ -31,7 +31,7 @@ public class BlockLocationControllerElement extends GenericListControllerElement
         if(this.inputField.startsWith("#"))  {
             // tag logic
             String value = this.inputField.replace("#", "");
-            List<ResourceLocation> tagResourceLocations = RegistryHelpers.getMatchingTagLocations(value, BuiltInRegistries.BLOCK).toList();
+            List<Identifier> tagIdentifiers = RegistryHelpers.getMatchingTagLocations(value, BuiltInRegistries.BLOCK).toList();
             ArrayList<BlockOrTagLocation> tagLocations = new ArrayList<>();
             BlockOrTagLocation validatedLoc = RegistryHelpers.validateBlockOrTagLocationWithFallback(this.inputField, null);
             this.currentItem = validatedLoc;
@@ -41,17 +41,17 @@ public class BlockLocationControllerElement extends GenericListControllerElement
                 tagLocations.add(validatedLoc);
             }
 
-            for (ResourceLocation tagResourceLocation : tagResourceLocations) {
-                this.matchingItems.put(tagResourceLocation, validatedLoc);
-                tagLocations.add(new BlockOrTagLocation(tagResourceLocation, true));
+            for (Identifier tagIdentifier : tagIdentifiers) {
+                this.matchingItems.put(tagIdentifier, validatedLoc);
+                tagLocations.add(new BlockOrTagLocation(tagIdentifier, true));
             }
             return tagLocations;
         }
-        List<ResourceLocation> blockResourceLocations = RegistryHelpers.getMatchingLocations(this.inputField, BuiltInRegistries.BLOCK).toList();
+        List<Identifier> blockIdentifiers = RegistryHelpers.getMatchingLocations(this.inputField, BuiltInRegistries.BLOCK).toList();
         ArrayList<BlockOrTagLocation> blockOrTagLocations = new ArrayList<>();
-        ResourceLocation validatedLoc = RegistryHelpers.validateBlockLocationWithFallback(this.inputField, null);
+        Identifier validatedLoc = RegistryHelpers.validateBlockLocationWithFallback(this.inputField, null);
         this.currentItem = validatedLoc == null ? null : new BlockOrTagLocation(validatedLoc);
-        for (ResourceLocation blockLocation : blockResourceLocations) {
+        for (Identifier blockLocation : blockIdentifiers) {
             Block blockFromLocation = RegistryHelpers.getBlockFromLocation(blockLocation);
             if (blockFromLocation.defaultBlockState().isAir()) continue;
             this.matchingItems.put(blockLocation, new BlockOrTagLocation(RegistryHelpers.getLocationFromBlock(blockFromLocation)));
@@ -81,7 +81,7 @@ public class BlockLocationControllerElement extends GenericListControllerElement
     public Component getRenderedValueText() {
         BlockOrTagLocation currentValue = this.getController().option().pendingValue();
         if(currentValue.isTag()) {
-            return TextUtil.formatResourceLocationToChatComponent(currentValue.location(), "#");
+            return TextUtil.formatIdentifierToChatComponent(currentValue.location(), "#");
         }
         return Component.translatable( RegistryHelpers.getBlockFromLocation(currentValue.location()).getDescriptionId() );
     }
@@ -89,7 +89,7 @@ public class BlockLocationControllerElement extends GenericListControllerElement
     @Override
     public @Nullable Component getHoverTooltipText() {
         BlockOrTagLocation value = this.getController().option().pendingValue();
-        return TextUtil.formatResourceLocationToChatComponent(value.location(), value.isTag() ? "#" : "");
+        return TextUtil.formatIdentifierToChatComponent(value.location(), value.isTag() ? "#" : "");
     }
 
     @Override

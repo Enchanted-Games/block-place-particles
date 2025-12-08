@@ -23,7 +23,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
@@ -689,7 +689,7 @@ public class SpawnParticles {
         if (!FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_ENABLED.getValue()) return;
         if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, blockPos)) return;
 
-        ResourceLocation blockLocation = RegistryHelpers.getLocationFromBlock(blockState.getBlock());
+        Identifier blockLocation = RegistryHelpers.getLocationFromBlock(blockState.getBlock());
         if(!TagUtil.doesListContainBlock(FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_BLOCKS.getValue(), blockLocation)) return;
 
         if (!FluidHelpers.probablyPlacedUnderwater(level, blockPos)) return;
@@ -714,7 +714,7 @@ public class SpawnParticles {
         double speed = deltaMovement.length();
         if(speed <= 0.1 && !isSprinting) return;
 
-        ResourceLocation blockLocation = RegistryHelpers.getLocationFromBlock(blockState.getBlock());
+        Identifier blockLocation = RegistryHelpers.getLocationFromBlock(blockState.getBlock());
         if(!TagUtil.doesListContainBlock(BlockInteractionOptions.BLOCK_RUSTLE_BLOCKS.getValue(), blockLocation)) return;
 
         int overrideOrigin = BlockParticleOverride.ORIGIN_BLOCK_WALKED_THROUGH;
