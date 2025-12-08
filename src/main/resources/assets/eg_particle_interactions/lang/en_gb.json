@@ -1,4 +1,8 @@
 {
+  "eg_particle_interactions.fallback_config.title": "Particle Interactions",
+  "eg_particle_interactions.fallback_config.body": "To configure Particle Interactions in-game, you need to \ninstall Yet Another Config Lib (YACL).\n\nWould you like to go to YACLs modrinth page?",
+  "eg_particle_interactions.button.download_yacl": "Open YACL modrinth page",
+
   "eg_particle_interactions.config.title": "Particle Interactions Config",
   "eg_particle_interactions.config.category_separator": "---------------------",
 

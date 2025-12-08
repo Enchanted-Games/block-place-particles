@@ -10,7 +10,7 @@ import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockP
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
-public class YaclConfigScreen implements ConfigScreenCreator {
+public class YaclConfigScreenCreator implements ConfigScreenCreator {
     @Override
     public Screen createScreen(Screen parentScreen) {
         YetAnotherConfigLib.Builder yaclBuilder = YetAnotherConfigLib.createBuilder()

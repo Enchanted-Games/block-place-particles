@@ -5,6 +5,7 @@ import net.minecraft.network.chat.Component;
 
 public class ConfigTranslation {
     private static final String CONFIG_KEY_PREFIX = Constants.MOD_ID + ".config";
+    private static final String FALLBACK_CONFIG_KEY_PREFIX = Constants.MOD_ID + ".fallback_config";
 
     public static final TranslationKey MOD_CREDITS_KEY = new TranslationKey(Constants.MOD_ID + ".mod_credits");
     public static final String GENERAL_CATEGORY = "general";
@@ -105,6 +106,19 @@ public class ConfigTranslation {
     public static Component createPlaceholderTranslatableComponent(String translationKey, Object... args) {
         return Component.literal(Component.translatable(translationKey).getString().formatted(args));
     }
+
+
+    public static TranslationKey getFallbackConfigTitle() {
+        return new TranslationKey(FALLBACK_CONFIG_KEY_PREFIX + ".title");
+    }
+    public static TranslationKey getFallbackConfigBody() {
+        return new TranslationKey(FALLBACK_CONFIG_KEY_PREFIX + ".body");
+    }
+
+    public static TranslationKey getDownloadYACLButtonMessage() {
+        return new TranslationKey("eg_particle_interactions.button.download_yacl");
+    }
+
 
     public static class TranslationKey {
         String key;
