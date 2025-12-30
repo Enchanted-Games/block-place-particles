@@ -164,7 +164,7 @@ class Env {
     val modmenuEnabled = optionalVersionProperty("deps.api.modmenu").isPresent;
 
     // if MC requires higher JVMs in future updates change this controller.
-    val javaVer = if(atMost("1.16.5")) 8 else if(atMost("1.20.4")) 17 else 21
+    val javaVer = 21
 
     val fabricLoaderVersion = versionProperty("deps.core.fabric.loader.version_range")
     val neoforgeVersion = versionProperty("deps.core.neoforge.version_range")
@@ -603,8 +603,7 @@ dependencies {
 
 java {
     withSourcesJar()
-    //TODO update this is newer java is ever required.
-    val java = if(env.javaVer == 8) JavaVersion.VERSION_1_8 else if(env.javaVer == 17) JavaVersion.VERSION_17 else JavaVersion.VERSION_21
+    val java = JavaVersion.VERSION_21
     targetCompatibility = java
     sourceCompatibility = java
 }
