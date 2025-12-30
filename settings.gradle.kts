@@ -25,8 +25,8 @@ extensions.configure<StonecutterSettings> {
     centralScript = "build.gradle.kts"
 
     shared {
-        vers("1.21.11-fabric","1.21.10")
-        /* vers("1.21.11-neoforge","1.21.10") */
+        vers("1.21.11-fabric","1.21.11")
+        vers("1.21.11-neoforge","1.21.11")
         vcsVersion="1.21.11-fabric"
     }
     create(rootProject)
