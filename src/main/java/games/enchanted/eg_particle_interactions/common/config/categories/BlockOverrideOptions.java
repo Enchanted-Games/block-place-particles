@@ -40,7 +40,7 @@ public class BlockOverrideOptions {
         )
     );
     public static final ConfigOption<Boolean> SNOWFLAKE_PARTICLE_STEAM_IN_WARM_PLACES = registerOption(
-        new BoolOption(true, "snowflake_particles_steam_in_warm_places")
+        new BoolOption(false, "snowflake_block_particles_steam_in_warm_places")
     );
 
     public static final BlockParticleOptionSet FIREFLY_PARTICLE_OVERRIDE = BlockParticleOptionSet.register(
@@ -160,10 +160,10 @@ public class BlockOverrideOptions {
         )
     );
     public static final ConfigOption<Boolean> GRASS_BLADE_PARTICLE_DIRT_FOR_GRASS_BLOCKS = registerOption(
-        new BoolOption(true, "grass_particles_dirt_for_grass_blocks")
+        new BoolOption(true, "grass_blade_block_particle_dirt_for_grass_blocks")
     );
     public static final ConfigOption<Boolean> GRASS_BLADE_PARTICLE_FIREFLY_IN_SWAMPS = registerOption(
-        new BoolOption(true, "grass_particles_firedly_in_swamps")
+        new BoolOption(true, "grass_blade_block_particle_firefly_in_swamps")
     );
 
     public static final BlockParticleOptionSet HEAVY_GRASS_BLADE_PARTICLE_OVERRIDE = BlockParticleOptionSet.register(
