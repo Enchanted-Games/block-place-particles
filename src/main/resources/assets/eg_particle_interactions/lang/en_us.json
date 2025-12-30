@@ -102,6 +102,15 @@
   "eg_particle_interactions.config.global_option.is_override_enabled": "Override enabled",
   "eg_particle_interactions.config.global_option.is_override_enabled.desc": "Should the %s Particle Override be enabled",
 
+  "eg_particle_interactions.config.global_option.spawn_snowflake_steam_particles": "Spawn steam particles in warm places",
+  "eg_particle_interactions.config.global_option.spawn_snowflake_steam_particles.desc": "Controls whether Steam particles have a chance of spawning in warm places such as deserts or the nether",
+
+  "eg_particle_interactions.config.global_option.grass_blade_spawn_grass_block_dirt_particles": "Spawn dirt particles for grass blocks",
+  "eg_particle_interactions.config.global_option.grass_blade_spawn_grass_block_dirt_particles.desc": "Controls whether Dirt particles have a chance of spawning for grass blocks",
+
+  "eg_particle_interactions.config.global_option.grass_blade_spawn_firefly_in_swamps": "Spawn firefly particles at night in swampy biomes",
+  "eg_particle_interactions.config.global_option.grass_blade_spawn_firefly_in_swamps.desc": "Controls whether Firefly particles have a chance of spawning at night in swampy biomes",
+
   "eg_particle_interactions.config.global_option.is_particle_enabled": "Particle enabled",
   "eg_particle_interactions.config.global_option.is_particle_enabled.desc": "Should %s particles be spawned",
 
