@@ -107,7 +107,7 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
     }
 
     @Override
-    public int getLightCoords(float partialTicks) {
+    public int getLightmapCoords(float partialTicks) {
         int adjustedAge = this.getShortenedAge();
         float percentageTimeAlive = Math.abs(1 - ((float) adjustedAge / this.lifetime));
         int sparkLight = (int) (percentageTimeAlive * 15f);

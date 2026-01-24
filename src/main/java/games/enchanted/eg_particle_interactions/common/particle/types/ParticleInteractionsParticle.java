@@ -142,11 +142,17 @@ public abstract class ParticleInteractionsParticle extends Particle {
     }
 
 
+    /**
+     * Wrapper around minecrafts light coords / light color methods for easier multi version support
+     *
+     * @param partialTick partial tick
+     * @return the lightmap coords
+     */
     protected int getLightmapCoords(float partialTick) {
         //? if minecraft: < 26.1 {
         return this.getLightColor(partialTick);
         //? } else {
-        /*return this.getLightmapCoords(partialTick);
+        /*return this.getLightCoords(partialTick);
         *///? }
     }
 

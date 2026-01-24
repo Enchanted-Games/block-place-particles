@@ -12,6 +12,7 @@ import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -54,7 +55,13 @@ public abstract class ItemFrameMixin extends HangingEntity {
         at = @At("RETURN"),
         method = "interact"
     )
-    private void spawnParticlesOnInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+    private void spawnParticlesOnInteract(
+        Player player, InteractionHand hand,
+        //? if minecraft: >= 26.1 {
+        /*Vec3 location,
+        *///? }
+        CallbackInfoReturnable<InteractionResult> cir
+    ) {
         if (!(this.level() instanceof ClientLevel clientLevel)) return;
 
         InteractionResult interactionResult = cir.getReturnValue();
