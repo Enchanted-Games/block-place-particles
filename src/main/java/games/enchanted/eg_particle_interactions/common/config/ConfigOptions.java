@@ -6,6 +6,7 @@ import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.config.categories.*;
 import games.enchanted.eg_particle_interactions.common.config.option.ConfigOption;
+import games.enchanted.eg_particle_interactions.common.config.upgrade.ConfigUpgrader;
 import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
 
 import java.io.*;
@@ -17,6 +18,9 @@ import java.util.Map;
 public class ConfigOptions {
     private static final Map<ConfigCategory, List<ConfigOption<?>>> OPTIONS;
     private static Map<ConfigCategory, List<ConfigOption<?>>> TEMPORARY_REGISTRATION_MAP;
+
+    public static final String CONFIG_VERSION_KEY = "config_version";
+    public static final int CONFIG_VERSION = 1;
 
     static {
         TEMPORARY_REGISTRATION_MAP = new HashMap<>();
@@ -73,6 +77,8 @@ public class ConfigOptions {
     public static void saveConfig() {
         JsonObject root = new JsonObject();
 
+        root.add(CONFIG_VERSION_KEY, new JsonPrimitive(CONFIG_VERSION));
+
         for (Map.Entry<ConfigCategory, List<ConfigOption<?>>> entry : OPTIONS.entrySet()) {
             List<ConfigOption<?>> options = entry.getValue();
             JsonObject categoryRoot = new JsonObject();
@@ -112,6 +118,12 @@ public class ConfigOptions {
             saveConfig();
         }
 
+        int configVer = CONFIG_VERSION;
+        try {
+            configVer = decodedConfig.getAsJsonPrimitive(CONFIG_VERSION_KEY).getAsInt();
+        } catch (ClassCastException | NumberFormatException ignored) {}
+        ConfigUpgrader.upgrade(decodedConfig, configVer);
+
         for (Map.Entry<ConfigCategory, List<ConfigOption<?>>> entry : OPTIONS.entrySet()) {
             List<ConfigOption<?>> options = entry.getValue();
             JsonObject categoryRoot = decodedConfig.getAsJsonObject(entry.getKey().id());
@@ -122,6 +134,8 @@ public class ConfigOptions {
                 option.applyPendingValue();
             }
         }
+
+        saveConfig();
     }
 
     public static void resetAndSaveAllOptions() {
