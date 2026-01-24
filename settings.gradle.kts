@@ -34,5 +34,5 @@ stonecutter {
     }
 }
 
-rootProject.name = "eg_template_mod"
+rootProject.name = "Particle Interactions"
 
