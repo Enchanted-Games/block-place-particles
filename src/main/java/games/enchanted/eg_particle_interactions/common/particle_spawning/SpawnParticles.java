@@ -42,6 +42,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
+import java.util.Random;
+
 public class SpawnParticles {
     public static void spawnBlockPlaceParticle(ClientLevel level, BlockPos blockPos) {
         BlockState placedBlockState = level.getBlockState(blockPos);
@@ -172,10 +174,11 @@ public class SpawnParticles {
 
     private static void spawnUnderwaterBubbles(int amountOfBubbles, Level level, BlockPos blockPos) {
         if (!FluidHelpers.probablyPlacedUnderwater(level, blockPos)) return;
-        for (int i = 0; i < Math.max(amountOfBubbles + level.random.nextIntBetweenInclusive(-2, 0), 1); i++) {
-            double x = level.random.nextDouble();
-            double y = level.random.nextDouble();
-            double z = level.random.nextDouble();
+        var random = level.getRandom();
+        for (int i = 0; i < Math.max(amountOfBubbles + random.nextIntBetweenInclusive(-2, 0), 1); i++) {
+            double x = random.nextDouble();
+            double y = random.nextDouble();
+            double z = random.nextDouble();
             boolean blockAboveIsWater = level.getFluidState(blockPos.above()).is(FluidTags.WATER);
             double verticalVelocity = (y - 0.5) * (blockAboveIsWater ? 2 : 0);
             double horizontalVelocityMul = !blockAboveIsWater ? 1.5 : 1;
@@ -201,14 +204,15 @@ public class SpawnParticles {
 
         if (particleOverride == BlockParticleOverride.NONE || particleOverride == BlockParticleOverride.VANILLA) return;
 
-        for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 4); i++) {
+        var random = level.getRandom();
+        for (int i = 0; i < random.nextIntBetweenInclusive(1, 4); i++) {
             ParticleOptions particleOptions = particleOverride.getParticleOptionForState(blockState, level, BlockPos.containing(x, y, z), overrideOrigin);
             if (particleOptions == null) continue;
             level.addParticle(
                 particleOptions,
-                x - 0.5 + level.random.nextFloat(),
-                y + level.random.nextFloat(),
-                z - 0.5 + level.random.nextFloat(),
+                x - 0.5 + random.nextFloat(),
+                y + random.nextFloat(),
+                z - 0.5 + random.nextFloat(),
                 (deltaMovement.x * 3) * -particleOverride.getParticleVelocityMultiplier(),
                 (deltaMovement.y * 3) * -particleOverride.getParticleVelocityMultiplier(),
                 (deltaMovement.z * 3) * -particleOverride.getParticleVelocityMultiplier()
@@ -273,19 +277,19 @@ public class SpawnParticles {
         float sparkDeltaZ = (float) Math.clamp(-deltaMovement.z / 3, -0.7, 0.7);
 
         minecartY += 0.0425;
-        if (level.random.nextFloat() < sparksChancePerWheel) {
+        if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos1 = minecartWheelPoint(rotX, rotY, 0.45f, 0.35f, 0.45f);
             level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos1.x + minecartX, wheelPos1.y + minecartY, wheelPos1.z + minecartZ, sparkDeltaX, 0.17, sparkDeltaZ);
         }
-        if (level.random.nextFloat() < sparksChancePerWheel) {
+        if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos2 = minecartWheelPoint(rotX, rotY, -0.45f, -0.35f, 0.45f);
             level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos2.x + minecartX, wheelPos2.y + minecartY, wheelPos2.z + minecartZ, sparkDeltaX, 0.17, sparkDeltaZ);
         }
-        if (level.random.nextFloat() < sparksChancePerWheel) {
+        if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos3 = minecartWheelPoint(rotX, rotY, 0.45f, 0.35f, -0.45f);
             level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos3.x + minecartX, wheelPos3.y + minecartY, wheelPos3.z + minecartZ, sparkDeltaX, 0.17, sparkDeltaZ);
         }
-        if (level.random.nextFloat() < sparksChancePerWheel) {
+        if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos4 = minecartWheelPoint(rotX, rotY, -0.45f, -0.35f, -0.45f);
             level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos4.x + minecartX, wheelPos4.y + minecartY, wheelPos4.z + minecartZ, sparkDeltaX, 0.17, sparkDeltaZ);
         }
@@ -302,10 +306,10 @@ public class SpawnParticles {
         boolean isSoulBlock = level.getBlockState(particlePos.below()).is(BlockTags.SOUL_FIRE_BASE_BLOCKS) || fireOrLitBlock.is(Blocks.SOUL_CAMPFIRE);
         double sparkIntensity = ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_INTENSITY.getValue() / 12.;
         for (int i = 0; i < ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_AMOUNT.getValue(); i++) {
-            double x = particlePos.getX() + 0.25 + (level.random.nextDouble() / 2);
-            double y = particlePos.getY() + 0.25 + (level.random.nextDouble() / 2);
-            double z = particlePos.getZ() + 0.25 + (level.random.nextDouble() / 2);
-            level.addParticle(isSoulBlock ? ModParticleTypes.FLYING_SOUL_SPARK : ModParticleTypes.FLYING_SPARK, x, y, z, (level.random.nextDouble() - 0.5) * sparkIntensity, (level.random.nextDouble() + 0.5) * sparkIntensity, (level.random.nextDouble() - 0.5) * sparkIntensity);
+            double x = particlePos.getX() + 0.25 + (level.getRandom().nextDouble() / 2);
+            double y = particlePos.getY() + 0.25 + (level.getRandom().nextDouble() / 2);
+            double z = particlePos.getZ() + 0.25 + (level.getRandom().nextDouble() / 2);
+            level.addParticle(isSoulBlock ? ModParticleTypes.FLYING_SOUL_SPARK : ModParticleTypes.FLYING_SPARK, x, y, z, (level.getRandom().nextDouble() - 0.5) * sparkIntensity, (level.getRandom().nextDouble() + 0.5) * sparkIntensity, (level.getRandom().nextDouble() - 0.5) * sparkIntensity);
         }
     }
 
@@ -313,8 +317,8 @@ public class SpawnParticles {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, particlePos)) return;
         if (BlockInteractionOptions.CAMPFIRE_SPARK_ENABLED.getValue()) {
             double sparkIntensity = 5 / 12.;
-            if (level.random.nextFloat() * 101 <= BlockInteractionOptions.CAMPFIRE_SPARK_SPAWN_CHANCE.getValue()) {
-                for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 3) + 1; i++) {
+            if (level.getRandom().nextFloat() * 101 <= BlockInteractionOptions.CAMPFIRE_SPARK_SPAWN_CHANCE.getValue()) {
+                for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 3) + 1; i++) {
                     SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
                         level,
                         campfireState.is(Blocks.SOUL_CAMPFIRE) ? ModParticleTypes.FLOATING_SOUL_SPARK : ModParticleTypes.FLOATING_SPARK,
@@ -327,13 +331,13 @@ public class SpawnParticles {
             }
         }
         if (BlockInteractionOptions.CAMPFIRE_EMBER_ENABLED.getValue()) {
-            if (level.random.nextFloat() * 101 <= BlockInteractionOptions.CAMPFIRE_EMBER_SPAWN_CHANCE.getValue()) {
-                for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 4); i++) {
+            if (level.getRandom().nextFloat() * 101 <= BlockInteractionOptions.CAMPFIRE_EMBER_SPAWN_CHANCE.getValue()) {
+                for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 4); i++) {
                     level.addParticle(
                         campfireState.is(Blocks.SOUL_CAMPFIRE) ? ModParticleTypes.FLOATING_SOUL_EMBER : ModParticleTypes.FLOATING_EMBER,
-                        (double) particlePos.getX() + (level.random.nextFloat() * 0.75) + 0.125f,
-                        (double) particlePos.getY() + (level.random.nextFloat() * 0.75) + 0.125f,
-                        (double) particlePos.getZ() + (level.random.nextFloat() * 0.75) + 0.125f,
+                        (double) particlePos.getX() + (level.getRandom().nextFloat() * 0.75) + 0.125f,
+                        (double) particlePos.getY() + (level.getRandom().nextFloat() * 0.75) + 0.125f,
+                        (double) particlePos.getZ() + (level.getRandom().nextFloat() * 0.75) + 0.125f,
                         0,
                         0,
                         0
@@ -350,27 +354,27 @@ public class SpawnParticles {
         double depth = Math.abs(minZ - maxZ);
         if (BlockInteractionOptions.FIRE_SPARK_ENABLED.getValue()) {
             double sparkIntensity = 5 / 12.;
-            if (level.random.nextFloat() * 101 <= BlockInteractionOptions.FIRE_SPARK_SPAWN_CHANCE.getValue()) {
-                for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 3) + 1; i++) {
+            if (level.getRandom().nextFloat() * 101 <= BlockInteractionOptions.FIRE_SPARK_SPAWN_CHANCE.getValue()) {
+                for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 3) + 1; i++) {
                     SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
                         level,
                         fireState.is(Blocks.SOUL_FIRE) ? ModParticleTypes.FLOATING_SOUL_SPARK : ModParticleTypes.FLOATING_SPARK,
-                        particlePos.getX() + minX + (level.random.nextFloat() * width),
-                        particlePos.getY() + minY + (level.random.nextFloat() * height),
-                        particlePos.getZ() + minZ + (level.random.nextFloat() * depth),
+                        particlePos.getX() + minX + (level.getRandom().nextFloat() * width),
+                        particlePos.getY() + minY + (level.getRandom().nextFloat() * height),
+                        particlePos.getZ() + minZ + (level.getRandom().nextFloat() * depth),
                         sparkIntensity
                     );
                 }
             }
         }
         if (BlockInteractionOptions.FIRE_EMBER_ENABLED.getValue()) {
-            if (level.random.nextFloat() * 101 <= BlockInteractionOptions.FIRE_EMBER_SPAWN_CHANCE.getValue()) {
-                for (int i = 0; i < level.random.nextIntBetweenInclusive(1, 4); i++) {
+            if (level.getRandom().nextFloat() * 101 <= BlockInteractionOptions.FIRE_EMBER_SPAWN_CHANCE.getValue()) {
+                for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 4); i++) {
                     level.addParticle(
                         fireState.is(Blocks.SOUL_FIRE) ? ModParticleTypes.FLOATING_SOUL_EMBER : ModParticleTypes.FLOATING_EMBER,
-                        particlePos.getX() + minX + (level.random.nextFloat() * width),
-                        particlePos.getY() + minY + (level.random.nextFloat() * height),
-                        particlePos.getZ() + minZ + (level.random.nextFloat() * depth),
+                        particlePos.getX() + minX + (level.getRandom().nextFloat() * width),
+                        particlePos.getY() + minY + (level.getRandom().nextFloat() * height),
+                        particlePos.getZ() + minZ + (level.getRandom().nextFloat() * depth),
                         0,
                         0,
                         0
@@ -386,14 +390,14 @@ public class SpawnParticles {
         double lavaIntensity = ItemInteractionOptions.FIRE_CHARGE_PARTICLES_INTENSITY.getValue() / 24.;
         double smokeIntensity = ItemInteractionOptions.FIRE_CHARGE_PARTICLES_INTENSITY.getValue() / 58.;
         for (int i = 0; i < ItemInteractionOptions.FIRE_CHARGE_PARTICLES_AMOUNT.getValue(); i++) {
-            double x = particlePos.getX() + 0.25 + (level.random.nextDouble() / 2);
-            double y = particlePos.getY() + 0.25 + (level.random.nextDouble() / 2);
-            double z = particlePos.getZ() + 0.25 + (level.random.nextDouble() / 2);
-            if (level.random.nextFloat() > 0.2) {
-                level.addParticle(level.random.nextFloat() > 0.3 ? ParticleTypes.SMOKE : ParticleTypes.LARGE_SMOKE, x, y, z, (level.random.nextDouble() - 0.5) * smokeIntensity, (level.random.nextDouble() + 0.5) * smokeIntensity, (level.random.nextDouble() - 0.5) * smokeIntensity);
+            double x = particlePos.getX() + 0.25 + (level.getRandom().nextDouble() / 2);
+            double y = particlePos.getY() + 0.25 + (level.getRandom().nextDouble() / 2);
+            double z = particlePos.getZ() + 0.25 + (level.getRandom().nextDouble() / 2);
+            if (level.getRandom().nextFloat() > 0.2) {
+                level.addParticle(level.getRandom().nextFloat() > 0.3 ? ParticleTypes.SMOKE : ParticleTypes.LARGE_SMOKE, x, y, z, (level.getRandom().nextDouble() - 0.5) * smokeIntensity, (level.getRandom().nextDouble() + 0.5) * smokeIntensity, (level.getRandom().nextDouble() - 0.5) * smokeIntensity);
                 continue;
             }
-            level.addParticle(ParticleTypes.LAVA, x, y, z, (level.random.nextDouble() - 0.5) * lavaIntensity, (level.random.nextDouble() + 0.5) * lavaIntensity, (level.random.nextDouble() - 0.5) * lavaIntensity);
+            level.addParticle(ParticleTypes.LAVA, x, y, z, (level.getRandom().nextDouble() - 0.5) * lavaIntensity, (level.getRandom().nextDouble() + 0.5) * lavaIntensity, (level.getRandom().nextDouble() - 0.5) * lavaIntensity);
         }
     }
 
@@ -403,18 +407,18 @@ public class SpawnParticles {
         Vec3 clickedPosition = context.getClickLocation();
         Direction clickDirection = context.getClickedFace();
         for (int i = 0; i < ItemInteractionOptions.HOE_TILL_AMOUNT.getValue(); i++) {
-            double x = (level.random.nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepX());
-            double y = (level.random.nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepY());
-            double z = (level.random.nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepZ());
+            double x = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepX());
+            double y = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepY());
+            double z = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepZ());
             ParticleOptions blockParticle = new BlockParticleOption(ParticleTypes.BLOCK, level.getBlockState(blockPos));
             level.addParticle(
                 blockParticle,
                 clickedPosition.x + x,
                 clickedPosition.y + y,
                 clickedPosition.z + z,
-                clickDirection.getStepX() + (level.random.nextDouble() - 0.5),
-                clickDirection.getStepY() + (level.random.nextDouble() - 0.5),
-                clickDirection.getStepZ() + (level.random.nextDouble() - 0.5)
+                clickDirection.getStepX() + (level.getRandom().nextDouble() - 0.5),
+                clickDirection.getStepY() + (level.getRandom().nextDouble() - 0.5),
+                clickDirection.getStepZ() + (level.getRandom().nextDouble() - 0.5)
             );
         }
     }
@@ -425,18 +429,18 @@ public class SpawnParticles {
         Vec3 clickedPosition = context.getClickLocation();
         Direction clickDirection = context.getClickedFace();
         for (int i = 0; i < ItemInteractionOptions.SHOVEL_FLATTEN_AMOUNT.getValue(); i++) {
-            double x = (level.random.nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepX());
-            double y = (level.random.nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepY());
-            double z = (level.random.nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepZ());
+            double x = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepX());
+            double y = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepY());
+            double z = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepZ());
             ParticleOptions blockParticle = new BlockParticleOption(ParticleTypes.BLOCK, level.getBlockState(blockPos));
             level.addParticle(
                 blockParticle,
                 clickedPosition.x + x,
                 clickedPosition.y + y,
                 clickedPosition.z + z,
-                clickDirection.getStepX() + (level.random.nextDouble() - 0.5),
-                clickDirection.getStepY() + (level.random.nextDouble() - 0.5),
-                clickDirection.getStepZ() + (level.random.nextDouble() - 0.5)
+                clickDirection.getStepX() + (level.getRandom().nextDouble() - 0.5),
+                clickDirection.getStepY() + (level.getRandom().nextDouble() - 0.5),
+                clickDirection.getStepZ() + (level.getRandom().nextDouble() - 0.5)
             );
         }
     }
@@ -448,18 +452,18 @@ public class SpawnParticles {
         Vec3 clickedPosition = context.getClickLocation();
         Direction clickDirection = context.getClickedFace();
         for (int i = 0; i < ItemInteractionOptions.AXE_STRIP_AMOUNT.getValue(); i++) {
-            double x = (level.random.nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepX());
-            double y = (level.random.nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepY());
-            double z = (level.random.nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepZ());
-            ParticleOptions blockParticle = level.random.nextFloat() > 0.9 ? new BlockParticleOption(ParticleTypes.BLOCK, strippedBlockState) : new BlockParticleOption(ParticleTypes.BLOCK, unstrippedBlockState);
+            double x = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepX());
+            double y = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepY());
+            double z = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepZ());
+            ParticleOptions blockParticle = level.getRandom().nextFloat() > 0.9 ? new BlockParticleOption(ParticleTypes.BLOCK, strippedBlockState) : new BlockParticleOption(ParticleTypes.BLOCK, unstrippedBlockState);
             level.addParticle(
                 blockParticle,
                 clickedPosition.x + x,
                 clickedPosition.y + y,
                 clickedPosition.z + z,
-                clickDirection.getStepX() + (level.random.nextDouble() - 0.5),
-                clickDirection.getStepY() + (level.random.nextDouble() - 0.5),
-                clickDirection.getStepZ() + (level.random.nextDouble() - 0.5)
+                clickDirection.getStepX() + (level.getRandom().nextDouble() - 0.5),
+                clickDirection.getStepY() + (level.getRandom().nextDouble() - 0.5),
+                clickDirection.getStepZ() + (level.getRandom().nextDouble() - 0.5)
             );
         }
     }
@@ -497,7 +501,7 @@ public class SpawnParticles {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, blockPos)) return;
         if (!BlockInteractionOptions.ANVIL_USE_SPARKS_ENABLED.getValue()) return;
         double x = blockPos.getX() + 0.5f;
-        double y = blockPos.getY() + 1. + (level.random.nextDouble() / 16f);
+        double y = blockPos.getY() + 1. + (level.getRandom().nextDouble() / 16f);
         double z = blockPos.getZ() + 0.5f;
         RandomDistributionEmitterOptions emitter = new RandomDistributionEmitterOptions(
             ModParticleTypes.FLYING_SPARK_EMITTER,
@@ -628,7 +632,7 @@ public class SpawnParticles {
 
     public static void spawnBlazeAmbientParticles(ClientLevel level, double x, double y, double z) {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, x, y, z)) return;
-        if (level.random.nextFloat() < (float) EntityOptions.BLAZE_SPARKS_SPAWN_CHANCE.getValue() / 100) {
+        if (level.getRandom().nextFloat() < (float) EntityOptions.BLAZE_SPARKS_SPAWN_CHANCE.getValue() / 100) {
             float xVel = MathHelpers.randomBetween(-0.2f, 0.2f);
             float yVel = MathHelpers.randomBetween(0.3f, 0.6f);
             float zVel = MathHelpers.randomBetween(-0.2f, 0.2f);
@@ -640,7 +644,7 @@ public class SpawnParticles {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, x, y, z)) return;
         if (!EntityOptions.BLAZE_SPARKS_SPAWN_ON_HURT.getValue()) return;
         int amount = EntityOptions.BLAZE_SPARKS_AMOUNT_ON_HURT.getValue();
-        for (int i = 0; i < level.random.nextIntBetweenInclusive(
+        for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(
             amount <= 1 ? 1 : amount - 1,
             amount + 2
         ); i++) {
@@ -676,10 +680,10 @@ public class SpawnParticles {
     public static void spawnLavaBubblePopParticles(ClientLevel level, BlockPos fluidPos, FluidState fluidState) {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, fluidPos)) return;
         if (!FluidAmbientOptions.LAVA_BUBBLE_POP_ENABLED.getValue()) return;
-        if (level.random.nextFloat() < (float) FluidAmbientOptions.LAVA_BUBBLE_POP_SPAWN_CHANCE.getValue() / 2500) {
-            double d0 = (double) fluidPos.getX() + level.random.nextDouble();
+        if (level.getRandom().nextFloat() < (float) FluidAmbientOptions.LAVA_BUBBLE_POP_SPAWN_CHANCE.getValue() / 2500) {
+            double d0 = (double) fluidPos.getX() + level.getRandom().nextDouble();
             double d1 = (double) fluidPos.getY() + fluidState.getOwnHeight();
-            double d2 = (double) fluidPos.getZ() + level.random.nextDouble();
+            double d2 = (double) fluidPos.getZ() + level.getRandom().nextDouble();
             level.addParticle(ModParticleTypes.LAVA_POP, d0, d1, d2, 0.0f, 0.0f, 0.0f);
         }
     }
@@ -693,10 +697,10 @@ public class SpawnParticles {
 
         if (!FluidHelpers.probablyPlacedUnderwater(level, blockPos)) return;
 
-        if (level.random.nextFloat() < (float) FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_SPAWN_CHANCE.getValue() / 2500) {
-            double x = (double) blockPos.getX() + level.random.nextDouble();
-            double y = (double) blockPos.getY() + (blockState.isSolid() ? 1.05 : level.random.nextDouble());
-            double z = (double) blockPos.getZ() + level.random.nextDouble();
+        if (level.getRandom().nextFloat() < (float) FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_SPAWN_CHANCE.getValue() / 2500) {
+            double x = (double) blockPos.getX() + level.getRandom().nextDouble();
+            double y = (double) blockPos.getY() + (blockState.isSolid() ? 1.05 : level.getRandom().nextDouble());
+            double z = (double) blockPos.getZ() + level.getRandom().nextDouble();
             RandomDistributionEmitterOptions emitter = new RandomDistributionEmitterOptions(
                 ModParticleTypes.UNDERWATER_RISING_BUBBLE_SMALL_EMITTER,
                 MathHelpers.randomBetween(9, 30),
@@ -721,9 +725,9 @@ public class SpawnParticles {
         int particlesAmount =  (speed > 0.25 || isSprinting ? 3 : 1);
 
         for (int i = 0; i < particlesAmount; i++) {
-            double particleX = entityX + ((level.random.nextFloat() * 0.5) - 0.25);
-            double particleY = entityY + 0.35 + ((level.random.nextFloat() * 0.5) - 0.25);
-            double particleZ = entityZ + ((level.random.nextFloat() * 0.5) - 0.25);
+            double particleX = entityX + ((level.getRandom().nextFloat() * 0.5) - 0.25);
+            double particleY = entityY + 0.35 + ((level.getRandom().nextFloat() * 0.5) - 0.25);
+            double particleZ = entityZ + ((level.getRandom().nextFloat() * 0.5) - 0.25);
 
             // skip spawning if the particle is out of the block bounds
             BlockPos entityBlockPos = BlockPos.containing(particleX, blockPos.getY(), particleZ);
@@ -761,9 +765,9 @@ public class SpawnParticles {
         }
 
         for (int i = 0; i < EntityOptions.ITEM_FRAME_INTERACTION_AMOUNT.getValue(); i++) {
-            double randomX = boundingBox.minX + (boundingBox.getXsize() * level.random.nextDouble());
-            double randomY = boundingBox.minY + (boundingBox.getYsize() * level.random.nextDouble());
-            double randomZ = boundingBox.minZ + (boundingBox.getZsize() * level.random.nextDouble());
+            double randomX = boundingBox.minX + (boundingBox.getXsize() * level.getRandom().nextDouble());
+            double randomY = boundingBox.minY + (boundingBox.getYsize() * level.getRandom().nextDouble());
+            double randomZ = boundingBox.minZ + (boundingBox.getZsize() * level.getRandom().nextDouble());
 
             level.addParticle(
                 particleOptionToSpawn,
@@ -788,7 +792,7 @@ public class SpawnParticles {
         if(!BlockInteractionOptions.SMOKER_SMOKE_ENABLED.getValue()) return;
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, blockPos)) return;
 
-        if(level.random.nextFloat() > 0.3) {
+        if(level.getRandom().nextFloat() > 0.3) {
             Vec3 centerPos = blockPos.getCenter();
             level.addParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, centerPos.x, blockPos.getY() + .8, centerPos.z, 0, 0.07f, 0);
         }
@@ -802,7 +806,7 @@ public class SpawnParticles {
         if( level.getBlockState(BlockPos.containing(positions[0], positions[1], positions[2])).isSuffocating(level, blockPos) ) return;
 
         Direction furnaceDirection = furnaceState.getValue(FurnaceBlock.FACING);
-        final boolean spawnSpark = level.random.nextFloat() < 0.7;
+        final boolean spawnSpark = level.getRandom().nextFloat() < 0.7;
         final float outwardVelocity = MathHelpers.randomBetween(0.01f, 0.03f) * (spawnSpark ? 1 : 5);
         level.addParticle(spawnSpark ? ModParticleTypes.FLOATING_EMBER : ModParticleTypes.FLOATING_SPARK, positions[0], positions[1], positions[2], furnaceDirection.getStepX() * outwardVelocity, 0.05f, furnaceDirection.getStepZ() * outwardVelocity);
     }
@@ -815,7 +819,7 @@ public class SpawnParticles {
         if( level.getBlockState(BlockPos.containing(positions[0], positions[1], positions[2])).isSuffocating(level, blockPos) ) return;
 
         Direction furnaceDirection = furnaceState.getValue(FurnaceBlock.FACING);
-        final boolean spawnSpark = level.random.nextFloat() < 0.2;
+        final boolean spawnSpark = level.getRandom().nextFloat() < 0.2;
         final float outwardVelocity = MathHelpers.randomBetween(0.01f, 0.03f) * (spawnSpark ? 1 : 5);
         level.addParticle(spawnSpark ? ModParticleTypes.FLOATING_EMBER : ModParticleTypes.FLOATING_SPARK, positions[0], positions[1] + 0.125, positions[2], furnaceDirection.getStepX() * outwardVelocity, 0.05f, furnaceDirection.getStepZ() * outwardVelocity);
     }
@@ -862,10 +866,10 @@ public class SpawnParticles {
     public static void spawnHoneyCollectionParticles(ClientLevel level, double x, double y, double z, Direction faceDirection) {
         if(!ItemInteractionOptions.HONEY_COLLECTION_ENABLED.getValue()) return;
         int amount = ItemInteractionOptions.HONEY_COLLECTION_AMOUNT.getValue();
-        for (int i = 0; i < level.random.nextIntBetweenInclusive(Math.max(amount - 2, 0), Math.max(amount, 1)); i++) {
-            double xOffset = (level.random.nextDouble() - 0.5) * 0.5 * (1 + Math.abs(faceDirection.getStepX()));
-            double yOffset = (level.random.nextDouble() - 0.5) * 0.5 * (1 + Math.abs(faceDirection.getStepY()));
-            double zOffset = (level.random.nextDouble() - 0.5) * 0.5 * (1 + Math.abs(faceDirection.getStepZ()));
+        for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(Math.max(amount - 2, 0), Math.max(amount, 1)); i++) {
+            double xOffset = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 + Math.abs(faceDirection.getStepX()));
+            double yOffset = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 + Math.abs(faceDirection.getStepY()));
+            double zOffset = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 + Math.abs(faceDirection.getStepZ()));
             level.addParticle(
                 DripParticleOption.FALLING_HONEY_DROP,
                 x + xOffset,
@@ -880,12 +884,12 @@ public class SpawnParticles {
     public static void spawnHoneyCollectionParticlesOnPlayer(ClientLevel level, Player player) {
         if(!ItemInteractionOptions.HONEY_COLLECTION_ENABLED.getValue()) return;
         int amount = ItemInteractionOptions.HONEY_COLLECTION_AMOUNT.getValue();
-        for (int i = 0; i < level.random.nextIntBetweenInclusive(Math.max(amount / 2, 0), Math.max(amount / 2, 1)); i++) {
+        for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(Math.max(amount / 2, 0), Math.max(amount / 2, 1)); i++) {
             level.addParticle(
                 DripParticleOption.FALLING_HONEY_DROP,
-                player.getX() - 0.25 + (level.random.nextDouble() / 2),
-                player.getY() + 0.85 + (level.random.nextDouble() / 5),
-                player.getZ() - 0.25 + (level.random.nextDouble() / 2),
+                player.getX() - 0.25 + (level.getRandom().nextDouble() / 2),
+                player.getY() + 0.85 + (level.getRandom().nextDouble() / 5),
+                player.getZ() - 0.25 + (level.getRandom().nextDouble() / 2),
                 0,
                 0,
                 0

@@ -26,9 +26,9 @@ public class ThrownEggMixin {
             x,
             y,
             z,
-            xSpeed + ((instance.random.nextFloat() - 0.5f) * 0.05f) + (instance.random.nextBoolean() ? 0.05f : -0.05f),
-            ySpeed + ((instance.random.nextFloat() - 0.5f) * 0.05f) + (instance.random.nextBoolean() ? 0.05f : -0.05f),
-            zSpeed + ((instance.random.nextFloat() - 0.5f) * 0.05f) + (instance.random.nextBoolean() ? 0.05f : -0.05f)
+            xSpeed + ((instance.getRandom().nextFloat() - 0.5f) * 0.05f) + (instance.getRandom().nextBoolean() ? 0.05f : -0.05f),
+            ySpeed + ((instance.getRandom().nextFloat() - 0.5f) * 0.05f) + (instance.getRandom().nextBoolean() ? 0.05f : -0.05f),
+            zSpeed + ((instance.getRandom().nextFloat() - 0.5f) * 0.05f) + (instance.getRandom().nextBoolean() ? 0.05f : -0.05f)
         );
     }
 }

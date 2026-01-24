@@ -24,7 +24,7 @@ public class WaterVapour extends SwirlingParticle {
 
         this.rotSpeed = 0f;
         this.spinAcceleration = 0f;
-        this.swirlStrength = MathHelpers.randomBetween(3f, 6f) * (level.random.nextBoolean() ? -1 : 1);
+        this.swirlStrength = MathHelpers.randomBetween(3f, 6f) * (level.getRandom().nextBoolean() ? -1 : 1);
         this.swirlPeriod = MathHelpers.randomBetween(1, 4);
 
         this.setScale(2f/32f);

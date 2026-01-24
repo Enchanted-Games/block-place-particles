@@ -4,11 +4,11 @@ import games.enchanted.eg_particle_interactions.common.config.categories.General
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
 import games.enchanted.eg_particle_interactions.common.particle.types.physics.StretchyBouncyShapeParticle;
 import games.enchanted.eg_particle_interactions.common.shapes.ShapeDefinitions;
+import games.enchanted.eg_particle_interactions.common.util.LightUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.sounds.SoundEvents;
@@ -26,7 +26,7 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
     private static final int SPARK_UNDERWATER_DECAY_SPEED = 3;
 
     protected FlyingSpark(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float gravity, int lifetime, SpriteSet spriteSet) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet.get(level.random));
+        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet.get(level.getRandom()));
         this.gravity = gravity;
         this.friction = 1.0F;
 
@@ -47,8 +47,8 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         this.setSpriteFromAge(this.sprites);
 
         this.setShape(ShapeDefinitions.VERTICAL_CROSS);
-        this.particleShapeScale.x = Mth.randomBetween(level.random, 0.4f, 1.1f);
-        this.particleShapeScale.z = Mth.randomBetween(level.random, 0.4f, 1.1f);
+        this.particleShapeScale.x = Mth.randomBetween(level.getRandom(), 0.4f, 1.1f);
+        this.particleShapeScale.z = Mth.randomBetween(level.getRandom(), 0.4f, 1.1f);
 
         this.isSoul = false;
     }
@@ -107,7 +107,7 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
     }
 
     @Override
-    public int getLightColor(float partialTicks) {
+    public int getLightCoords(float partialTicks) {
         int adjustedAge = this.getShortenedAge();
         float percentageTimeAlive = Math.abs(1 - ((float) adjustedAge / this.lifetime));
         int sparkLight = (int) (percentageTimeAlive * 15f);
@@ -116,7 +116,7 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         int blockLight = this.level.getBrightness(LightLayer.BLOCK, pos);
         int skyLight = this.level.getBrightness(LightLayer.SKY, pos);
 
-        return LightTexture.pack(Math.max(blockLight, sparkLight), skyLight);
+        return LightUtil.pack(Math.max(blockLight, sparkLight), skyLight);
     }
 
     @Override
@@ -145,7 +145,7 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
             , RandomSource random
             //?}
         ) {
-            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.random, 0.8F, 0.9F), Mth.randomBetweenInclusive(level.random, 20, 60), spriteSet);
+            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.getRandom(), 0.8F, 0.9F), Mth.randomBetweenInclusive(level.getRandom(), 20, 60), spriteSet);
         }
     }
 
@@ -170,7 +170,7 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
             , RandomSource random
             //?}
         ) {
-            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.random, 0.2F, 0.3F), Mth.randomBetweenInclusive(level.random, 4, 12), spriteSet);
+            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.getRandom(), 0.2F, 0.3F), Mth.randomBetweenInclusive(level.getRandom(), 4, 12), spriteSet);
         }
     }
 
@@ -195,7 +195,7 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
             , RandomSource random
             //?}
         ) {
-            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.random, 0.8F, 0.9F), Mth.randomBetweenInclusive(level.random, 20, 60), spriteSet, true);
+            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.getRandom(), 0.8F, 0.9F), Mth.randomBetweenInclusive(level.getRandom(), 20, 60), spriteSet, true);
         }
     }
 
@@ -220,7 +220,7 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
             , RandomSource random
             //?}
         ) {
-            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.random, 0.2F, 0.3F), Mth.randomBetweenInclusive(level.random, 4, 12), spriteSet, true);
+            return new FlyingSpark(level, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.getRandom(), 0.2F, 0.3F), Mth.randomBetweenInclusive(level.getRandom(), 4, 12), spriteSet, true);
         }
     }
 }

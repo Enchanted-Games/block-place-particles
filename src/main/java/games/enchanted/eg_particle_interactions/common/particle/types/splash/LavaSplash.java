@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class LavaSplash extends BucketSplash {
     public LavaSplash(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet.get(level.random));
+        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet.get(level.getRandom()));
     }
 
     @Override

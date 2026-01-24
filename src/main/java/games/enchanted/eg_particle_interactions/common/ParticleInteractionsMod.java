@@ -45,7 +45,13 @@ public class ParticleInteractionsMod {
         //? if fabric {
         reloadListeners.forEach(resourceLocationAndReloadListenerPair -> {
             //? if minecraft: > 1.21.8 {
-            ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloader(resourceLocationAndReloadListenerPair.key(), resourceLocationAndReloadListenerPair.value());
+            ResourceLoader.get(PackType.CLIENT_RESOURCES).
+                //? if minecraft: < 26.1 {
+                registerReloader
+                //? } else {
+                /*registerReloadListener
+                *///?}
+                (resourceLocationAndReloadListenerPair.key(), resourceLocationAndReloadListenerPair.value());
             //?} else {
             /*ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new IdentifiableResourceReloadListener() {
                 @Override

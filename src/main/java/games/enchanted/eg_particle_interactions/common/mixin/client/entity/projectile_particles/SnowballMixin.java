@@ -26,9 +26,9 @@ public class SnowballMixin {
             x,
             y,
             z,
-            xSpeed + ((instance.random.nextFloat() - 0.5f) * 0.1f) + (instance.random.nextBoolean() ? 0.1f : -0.1f),
-            ySpeed + ((instance.random.nextFloat() - 0.5f) * 0.1f) + (instance.random.nextBoolean() ? 0.1f : -0.1f),
-            zSpeed + ((instance.random.nextFloat() - 0.5f) * 0.1f) + (instance.random.nextBoolean() ? 0.1f : -0.1f)
+            xSpeed + ((instance.getRandom().nextFloat() - 0.5f) * 0.1f) + (instance.getRandom().nextBoolean() ? 0.1f : -0.1f),
+            ySpeed + ((instance.getRandom().nextFloat() - 0.5f) * 0.1f) + (instance.getRandom().nextBoolean() ? 0.1f : -0.1f),
+            zSpeed + ((instance.getRandom().nextFloat() - 0.5f) * 0.1f) + (instance.getRandom().nextBoolean() ? 0.1f : -0.1f)
         );
     }
 }

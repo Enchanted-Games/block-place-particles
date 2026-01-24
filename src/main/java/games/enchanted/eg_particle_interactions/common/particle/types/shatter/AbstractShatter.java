@@ -33,7 +33,7 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
         this.slice1X = (float) MathHelpers.randomBetween((randomSizeThird * 2) + 1, randomSize - 1) / randomSize;
         this.slice1Y = (float) MathHelpers.randomBetween((randomSizeThird * 2) - 1, randomSize - 1) / randomSize;
 
-        this.inverseSlicePositions = level.random.nextBoolean();
+        this.inverseSlicePositions = level.getRandom().nextBoolean();
         this.roll = (float) Math.toRadians(MathHelpers.randomBetween(0, 3) * 90);
         this.prevRoll = this.roll;
 
@@ -44,9 +44,9 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
     }
 
     protected void setInitialVelocity(double xSpeed, double ySpeed, double zSpeed, float variance) {
-        this.xd = xSpeed + ((level.random.nextFloat() * variance) - (variance / 2));
-        this.yd = ySpeed + ((level.random.nextFloat() * variance) - (variance / 2));
-        this.zd = zSpeed + ((level.random.nextFloat() * variance) - (variance / 2));
+        this.xd = xSpeed + ((level.getRandom().nextFloat() * variance) - (variance / 2));
+        this.yd = ySpeed + ((level.getRandom().nextFloat() * variance) - (variance / 2));
+        this.zd = zSpeed + ((level.getRandom().nextFloat() * variance) - (variance / 2));
     }
 
     @Override
@@ -106,7 +106,7 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
     @Override
     protected void extractGeometry(QuadConsumer consumer, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
         float scale = this.getLerpedScale(partialTicks);
-        int lightColour = getLightColor(partialTicks);
+        int lightColour = this.getLightmapCoords(partialTicks);
 
         float u0 = this.sprite.getU(this.getScaledUVCoord(0));
         float u1 = this.sprite.getU(this.getScaledUVCoord(this.slice0X));

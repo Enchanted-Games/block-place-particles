@@ -61,9 +61,12 @@ public class BlockSplash extends BucketSplash {
     }
 
     @Override
-    public int getLightColor(float f) {
-        int lightColour = super.getLightColor(f);
-        return lightColour == 0 && this.level.hasChunkAt(this.pos) ? LevelRenderer.getLightColor(this.level, this.pos) : lightColour;
+    public int getLightmapCoords(float f) {
+        int lightColour = super.getLightmapCoords(f);
+        return lightColour == 0 && this.level.hasChunkAt(this.pos) ?
+            LevelRenderer./*? if minecraft: < 26.1 {*/ getLightColor /*?} else {*/ /*getLightCoords *//*?}*/ (this.level, this.pos) :
+            lightColour
+        ;
     }
 
     public static class Provider implements ParticleProvider<BlockParticleOption> {

@@ -109,8 +109,8 @@ public abstract class ParticleInteractionsParticle extends Particle {
     }
 
     protected void extractGeometry(QuadConsumer consumer, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
-        int light = getLightColor(partialTicks);
-        float scale = getLerpedScale(partialTicks);
+        int light = this.getLightmapCoords(partialTicks);
+        float scale = this.getLerpedScale(partialTicks);
         float r = this.getLerpedRed(partialTicks);
         float g = this.getLerpedGreen(partialTicks);
         float b = this.getLerpedBlue(partialTicks);
@@ -139,6 +139,15 @@ public abstract class ParticleInteractionsParticle extends Particle {
 
     public AABB getCullingBox(float partialTicks) {
         return this.getBoundingBox();
+    }
+
+
+    protected int getLightmapCoords(float partialTick) {
+        //? if minecraft: < 26.1 {
+        return this.getLightColor(partialTick);
+        //? } else {
+        /*return this.getLightmapCoords(partialTick);
+        *///? }
     }
 
 

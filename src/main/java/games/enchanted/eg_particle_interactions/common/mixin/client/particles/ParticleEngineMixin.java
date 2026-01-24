@@ -112,7 +112,13 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
                 return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);
             }
 
-            Item originalParticleItem = ((ItemParticleOption) originalParticleOption).getItem().getItem();
+            Item originalParticleItem = ((ItemParticleOption) originalParticleOption).getItem()
+                //? if minecraft: < 26.1 {
+                .getItem()
+                //? } else {
+                /*.item().value()
+                *///? }
+            ;
 
             if(!(originalParticleItem instanceof BlockItem)) {
                 return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);

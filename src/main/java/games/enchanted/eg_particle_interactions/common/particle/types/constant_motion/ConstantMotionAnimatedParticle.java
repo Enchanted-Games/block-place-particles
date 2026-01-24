@@ -9,7 +9,7 @@ public class ConstantMotionAnimatedParticle extends ParticleInteractionsParticle
     boolean translucent;
 
     protected ConstantMotionAnimatedParticle(ClientLevel level, double x, double y, double z, SpriteSet spriteSet, int lifetime, float quadSize, boolean translucent) {
-        super(level, x, y, z, spriteSet.get(level.random));
+        super(level, x, y, z, spriteSet.get(level.getRandom()));
         this.sprites = spriteSet;
         this.setSpriteFromAge(sprites);
         this.xd = 0;

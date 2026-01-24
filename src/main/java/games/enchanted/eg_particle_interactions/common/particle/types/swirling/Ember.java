@@ -1,14 +1,13 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.swirling;
 
 import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
+import games.enchanted.eg_particle_interactions.common.util.LightUtil;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,7 +22,7 @@ public class Ember extends SwirlingParticle {
 
         this.rotSpeed = 0f;
         this.spinAcceleration = 0f;
-        this.swirlStrength = MathHelpers.randomBetween(0.7f, 0.9f) * (level.random.nextBoolean() ? -1 : 1);
+        this.swirlStrength = MathHelpers.randomBetween(0.7f, 0.9f) * (level.getRandom().nextBoolean() ? -1 : 1);
         this.swirlPeriod = MathHelpers.randomBetween(708, 720);
 
         this.setScale(2.5f/32f);
@@ -53,8 +52,8 @@ public class Ember extends SwirlingParticle {
     }
 
     @Override
-    public int getLightColor(float partialTicks) {
-        return LightTexture.FULL_BRIGHT;
+    public int getLightmapCoords(float partialTicks) {
+        return LightUtil.FULL_BRIGHT;
     }
 
     @Override

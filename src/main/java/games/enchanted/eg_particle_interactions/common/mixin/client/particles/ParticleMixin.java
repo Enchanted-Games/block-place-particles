@@ -44,7 +44,7 @@ public class ParticleMixin implements ParticleAccess {
     public void eg_particle_interactions$moveUpBecauseParticleLanded() {
         if(!block_place_particle$hasLanded) {
             this.block_place_particle$hasLanded = true;
-            this.y += Mth.randomBetween(this.level.random, 0.0001f, 0.0003f);
+            this.y += Mth.randomBetween(this.level.getRandom(), 0.0001f, 0.0003f);
         }
     }
 

@@ -17,13 +17,13 @@ public class SwirlingParticle extends ParticleInteractionsParticle {
     protected final boolean shouldSwirl;
 
     protected SwirlingParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, boolean shouldSwirl) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet.get(level.random));
+        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet.get(level.getRandom()));
         this.xd = xSpeed;
         this.yd = ySpeed;
         this.zd = zSpeed;
         this.gravity = 0.5f;
 
-        this.sprite = spriteSet.get(level.random);
+        this.sprite = spriteSet.get(level.getRandom());
 
         this.lifetime = 100;
         this.setScale(3/16f);
@@ -36,9 +36,9 @@ public class SwirlingParticle extends ParticleInteractionsParticle {
     }
 
     protected void setInitialVelocity(double xSpeed, double ySpeed, double zSpeed, float variance) {
-        this.xd = xSpeed + ((level.random.nextFloat() * variance) - (variance / 2));
-        this.yd = ySpeed + ((level.random.nextFloat() * variance) - (variance / 2));
-        this.zd = zSpeed + ((level.random.nextFloat() * variance) - (variance / 2));
+        this.xd = xSpeed + ((level.getRandom().nextFloat() * variance) - (variance / 2));
+        this.yd = ySpeed + ((level.getRandom().nextFloat() * variance) - (variance / 2));
+        this.zd = zSpeed + ((level.getRandom().nextFloat() * variance) - (variance / 2));
     }
 
     public void applyGravity() {

@@ -105,7 +105,7 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
         float u1 = this.getU1();
         float v0 = this.getV0();
         float v1 = this.getV1();
-        int lightColor = this.getLightColor(partialTicks);
+        int lightColor = this.getLightmapCoords(partialTicks);
 
         Vector3f normalisedMovementDir = new Vector3f(pos).sub(prevPos).normalize();
         float pitch = (float) Math.toDegrees(Math.asin(normalisedMovementDir.y));

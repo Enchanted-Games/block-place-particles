@@ -1,6 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.spark;
 
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
+import games.enchanted.eg_particle_interactions.common.util.LightUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -54,8 +55,8 @@ public class SparkFlash extends ParticleInteractionsParticle {
     }
 
     @Override
-    public int getLightColor(float f) {
-        return 240;
+    public int getLightmapCoords(float partialTick) {
+        return LightUtil.FULL_BRIGHT;
     }
 
     @Override

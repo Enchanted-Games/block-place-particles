@@ -44,18 +44,18 @@ public abstract class AbstractRandomDistributionEmitter extends AbstractEmitterP
                     emitPos[0],
                     emitPos[1],
                     emitPos[2],
-                    this.emittedXSpeed + ((level.random.nextFloat() * emitterVariance.x) - (emitterVariance.x / 2)),
-                    this.emittedYSpeed + ((level.random.nextFloat() * emitterVariance.y) - (emitterVariance.y / 2)),
-                    this.emittedZSpeed + ((level.random.nextFloat() * emitterVariance.z) - (emitterVariance.z / 2))
+                    this.emittedXSpeed + ((level.getRandom().nextFloat() * emitterVariance.x) - (emitterVariance.x / 2)),
+                    this.emittedYSpeed + ((level.getRandom().nextFloat() * emitterVariance.y) - (emitterVariance.y / 2)),
+                    this.emittedZSpeed + ((level.getRandom().nextFloat() * emitterVariance.z) - (emitterVariance.z / 2))
                 );
             }
         }
     }
 
     protected double[] getRandomPositionInsideBounds() {
-        double newX = x + (this.emitterWidth * this.level.random.nextFloat());
-        double newY = y + (this.emitterHeight * this.level.random.nextFloat());
-        double newZ = z + (this.emitterDepth * this.level.random.nextFloat());
+        double newX = x + (this.emitterWidth * this.level.getRandom().nextFloat());
+        double newY = y + (this.emitterHeight * this.level.getRandom().nextFloat());
+        double newZ = z + (this.emitterDepth * this.level.getRandom().nextFloat());
         return new double[]{newX, newY, newZ};
     }
 }

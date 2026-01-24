@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class UnderwaterRisingBubble extends ParticleInteractionsParticle {
     protected UnderwaterRisingBubble(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet.get(level.random));
+        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet.get(level.getRandom()));
         this.gravity = -0.35F;
         this.friction = 0.85F;
         this.setSize(0.02F, 0.02F);

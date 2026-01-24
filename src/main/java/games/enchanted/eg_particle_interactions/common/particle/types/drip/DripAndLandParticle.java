@@ -22,12 +22,12 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
     protected float v1;
 
     DripAndLandParticle(ClientLevel level, double x, double y, double z, SpriteSet sprites, DripParticleOption dripParticleOption, boolean translucent) {
-        super(level, x, y, z, sprites.get(level.random));
+        super(level, x, y, z, sprites.get(level.getRandom()));
         this.translucent = translucent;
 
         this.setSize(0.01F, 0.01F);
         this.setScale(0.15f);
-        this.gravity = dripParticleOption.getGravity() + (level.random.nextFloat() * dripParticleOption.getGravityRandomness());
+        this.gravity = dripParticleOption.getGravity() + (level.getRandom().nextFloat() * dripParticleOption.getGravityRandomness());
 
         this.startFallingAtTicks = dripParticleOption.getStartFallingTicks();
 
@@ -38,7 +38,7 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
         float halfHeight = Math.abs(this.v0 - v1) / 2;
         this.v1 = v1 - halfHeight;
 
-        this.lifetime = level.random.nextIntBetweenInclusive(350, 500);
+        this.lifetime = level.getRandom().nextIntBetweenInclusive(350, 500);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
         float halfHeight = Math.abs(v0 - this.v1) / 2;
         this.v0 = v0 + halfHeight;
 
-        this.lifetime = this.age + level.random.nextInt(30, 60);
+        this.lifetime = this.age + level.getRandom().nextInt(30, 60);
 
         ((ParticleAccess) this).eg_particle_interactions$moveUpBecauseParticleLanded();
         this.billboardYOffset = 1.0f;

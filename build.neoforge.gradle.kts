@@ -43,7 +43,11 @@ repositories {
 
 dependencies {
     // yacl
-    implementation("dev.isxander:yet-another-config-lib:${property("deps.yacl")}")
+    if(hasProperty("deps.yacl")) {
+        implementation("dev.isxander:yet-another-config-lib:${property("deps.yacl")}")
+    } else {
+        implementation("dev.isxander:yet-another-config-lib:3.8.2+1.21.11-neoforge")
+    }
 }
 
 stonecutter {

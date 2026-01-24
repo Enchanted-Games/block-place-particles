@@ -17,7 +17,7 @@ public class ArcEmitter extends AbstractArcEmitter {
 
     @Override
     protected @Nullable ParticleOptions getParticleToEmit(ClientLevel level, double x, double y, double z) {
-        return level.random.nextFloat() > ((float) this.age / this.lifetime) ? ModParticleTypes.LIGHTNING_FLASH : null;
+        return level.getRandom().nextFloat() > ((float) this.age / this.lifetime) ? ModParticleTypes.LIGHTNING_FLASH : null;
     }
 
     public static class Provider implements ParticleProvider<ArcEmitterOptions> {

@@ -54,7 +54,7 @@ public class FallingSpinningColouredParticle extends FallingSpinningParticle {
             //?}
         ) {
             FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 1f);
-            float particleSize = level.random.nextBoolean() ? 0.1f : 0.15f;
+            float particleSize = level.getRandom().nextBoolean() ? 0.1f : 0.15f;
             particle.setScale(particleSize);
             particle.maxSpinSpeed = 0.5f;
             particle.setSize(particleSize, particleSize);
@@ -111,7 +111,7 @@ public class FallingSpinningColouredParticle extends FallingSpinningParticle {
             //?}
         ) {
             FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 1f);
-            float particleSize = level.random.nextBoolean() ? 0.10F : 0.12F;
+            float particleSize = level.getRandom().nextBoolean() ? 0.10F : 0.12F;
             particle.setScale(particleSize);
             particle.setSize(particleSize, particleSize);
             return particle;
@@ -140,7 +140,7 @@ public class FallingSpinningColouredParticle extends FallingSpinningParticle {
             //?}
         ) {
             FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 2f);
-            float particleSize = level.random.nextBoolean() ? 0.10F : 0.12F;
+            float particleSize = level.getRandom().nextBoolean() ? 0.10F : 0.12F;
             particle.setScale(particleSize);
             particle.setSize(particleSize, particleSize);
             return particle;
@@ -169,11 +169,11 @@ public class FallingSpinningColouredParticle extends FallingSpinningParticle {
             //?}
         ) {
             FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 3f);
-            float particleSize = level.random.nextBoolean() ? 0.14F : 0.15F;
+            float particleSize = level.getRandom().nextBoolean() ? 0.14F : 0.15F;
             particle.setScale(particleSize);
             particle.setSize(particleSize, particleSize);
             particle.maxSpinSpeed = 0.2f;
-            particle.spinAcceleration = (float)Math.toRadians(level.random.nextBoolean() ? -1.0 : 1.0);
+            particle.spinAcceleration = (float)Math.toRadians(level.getRandom().nextBoolean() ? -1.0 : 1.0);
             return particle;
         }
     }
@@ -200,7 +200,7 @@ public class FallingSpinningColouredParticle extends FallingSpinningParticle {
             //?}
         ) {
             FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 2.5f);
-            float particleSize = level.random.nextBoolean() ? 0.11F : 0.13F;
+            float particleSize = level.getRandom().nextBoolean() ? 0.11F : 0.13F;
             particle.setScale(particleSize);
             particle.setSize(particleSize, particleSize);
             return particle;

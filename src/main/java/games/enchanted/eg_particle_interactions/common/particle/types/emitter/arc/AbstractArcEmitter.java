@@ -39,19 +39,19 @@ public abstract class AbstractArcEmitter extends AbstractEmitterParticle {
         if(options.getInitialAngleXDeg().isPresent()) {
             this.initialAngleXRad = options.getInitialAngleXDeg().get() * (float) (Math.PI / 180);
         } else {
-            this.initialAngleXRad = this.level.random.nextFloat() * 360f * (float) (Math.PI / 180);
+            this.initialAngleXRad = this.level.getRandom().nextFloat() * 360f * (float) (Math.PI / 180);
         }
         if(options.getInitialAngleYDeg().isPresent()) {
             this.initialAngleYRad = options.getInitialAngleYDeg().get() * (float) (Math.PI / 180);
         } else {
-            this.initialAngleYRad = this.level.random.nextFloat() * 360f * (float) (Math.PI / 180);
+            this.initialAngleYRad = this.level.getRandom().nextFloat() * 360f * (float) (Math.PI / 180);
         }
 
         calculateSplits();
     }
 
     private float applyRandomDirectionRotation(float startingAngleRad) {
-        float randomOffset = (this.level.random.nextFloat() - 0.5f) * angleVariance * 2;
+        float randomOffset = (this.level.getRandom().nextFloat() - 0.5f) * angleVariance * 2;
         randomOffset = randomOffset * (float) (Math.PI / 180);
         return startingAngleRad + randomOffset;
     }

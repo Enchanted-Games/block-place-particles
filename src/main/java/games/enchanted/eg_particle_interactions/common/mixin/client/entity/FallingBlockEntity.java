@@ -28,7 +28,7 @@ public abstract class FallingBlockEntity extends Entity {
         if(!(this.level() instanceof ClientLevel clientLevel)) return;
 
         float particleChance = Math.clamp((float) this.getDeltaMovement().length(), 0f, 0.98f);
-        if(clientLevel.random.nextFloat() < particleChance) {
+        if(clientLevel.getRandom().nextFloat() < particleChance) {
             SpawnParticles.spawnFallingBlockRandomFallParticles(clientLevel, this.getBlockState(), this.getX(), this.getY(), this.getZ(), this.getDeltaMovement());
         }
 

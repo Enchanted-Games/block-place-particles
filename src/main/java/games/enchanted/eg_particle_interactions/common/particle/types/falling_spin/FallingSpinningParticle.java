@@ -18,7 +18,7 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
     private boolean transparency;
 
     protected FallingSpinningParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, float gravityMultiplier) {
-        super(level, x, y, z, spriteSet.get(level.random));
+        super(level, x, y, z, spriteSet.get(level.getRandom()));
         this.gravity = Mth.randomBetween(this.random, 0.25F, 0.38F);;
         this.friction = 1.0F;
         this.xd = xSpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
@@ -117,7 +117,7 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
             //?}
         ) {
             FallingSpinningParticle particle = new FallingSpinningParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, 0.4f, true);
-            float particleSize = level.random.nextBoolean() ? 0.10F : 0.12F;
+            float particleSize = level.getRandom().nextBoolean() ? 0.10F : 0.12F;
             particle.setScale(particleSize);
             particle.setSize(particleSize, particleSize);
             particle.spinAcceleration = 0;
@@ -179,11 +179,11 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
             //?}
         ) {
             FallingSpinningParticle particle = new FallingSpinningParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, 0.6f);
-            float particleSize = level.random.nextBoolean() ? 0.1f : 0.15f;
+            float particleSize = level.getRandom().nextBoolean() ? 0.1f : 0.15f;
             particle.setScale(particleSize);
             particle.setSize(particleSize, particleSize);
             particle.maxSpinSpeed = 0.1f;
-            particle.spinAcceleration = (float)Math.toRadians(level.random.nextBoolean() ? -1.0 : 1.0);
+            particle.spinAcceleration = (float)Math.toRadians(level.getRandom().nextBoolean() ? -1.0 : 1.0);
             return particle;
         }
     }

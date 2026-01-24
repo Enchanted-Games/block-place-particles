@@ -77,9 +77,9 @@ public class SpawnParticlesUtil {
             xPos,
             yPos,
             zPos,
-            (level.random.nextDouble() - 0.5) * velocityIntensity * 0.4,
-            Math.abs((level.random.nextDouble() - 0.25) * velocityIntensity) + 0.25,
-            (level.random.nextDouble() - 0.5) * velocityIntensity * 0.4
+            (level.getRandom().nextDouble() - 0.5) * velocityIntensity * 0.4,
+            Math.abs((level.getRandom().nextDouble() - 0.25) * velocityIntensity) + 0.25,
+            (level.getRandom().nextDouble() - 0.5) * velocityIntensity * 0.4
         );
     }
 }

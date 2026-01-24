@@ -19,7 +19,7 @@ public abstract class BlockParticleOverrides {
         "generic_block_override",
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
             if(BiomeHelpers.isWarmBiomeOrDimension(level, blockPos) && BlockOverrideOptions.SNOWFLAKE_PARTICLE_STEAM_IN_WARM_PLACES.getValue()) {
-                return level.random.nextInt(5) == 0 ? ParticleTypes.POOF : ModParticleTypes.SNOWFLAKE;
+                return level.getRandom().nextInt(5) == 0 ? ParticleTypes.POOF : ModParticleTypes.SNOWFLAKE;
             }
             return ModParticleTypes.SNOWFLAKE;
         },
@@ -99,14 +99,14 @@ public abstract class BlockParticleOverrides {
             boolean spawnFirefly =
                 level.getMaxLocalRawBrightness(blockPos) <= 13 &&
                 BiomeHelpers.isSwampyBiome(level, blockPos) &&
-                level.random.nextFloat() > (overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_BROKEN || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_PLACED ? 0.9f : 0.6f);
+                level.getRandom().nextFloat() > (overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_BROKEN || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_PLACED ? 0.9f : 0.6f);
 
             if(
                 (blockState.getBlock() == Blocks.GRASS_BLOCK || blockState.getBlock() == Blocks.DIRT_PATH) &&
                 (overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_CRACK || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_PLACED || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_BROKEN || overrideOrigin == BlockParticleOverride.ORIGIN_ITEM_PARTICLE_OVERRIDDEN)
             ) {
                 // occasionally spawn dirt particles if a grass block is placed or broken
-                spawnDirt = level.random.nextFloat() > 0.7;
+                spawnDirt = level.getRandom().nextFloat() > 0.7;
             }
 
             if(spawnDirt && BlockOverrideOptions.GRASS_BLADE_PARTICLE_DIRT_FOR_GRASS_BLOCKS.getValue()) {
@@ -140,7 +140,7 @@ public abstract class BlockParticleOverrides {
         "firefly",
         "generic_block_override",
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
-            boolean firefly = level.random.nextFloat() > 0.6;
+            boolean firefly = level.getRandom().nextFloat() > 0.6;
             if(overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_WALKED_THROUGH) {
                 firefly = true;
             }
@@ -201,7 +201,7 @@ public abstract class BlockParticleOverrides {
         "tinted_or_random_pixel",
         (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> {
             if(overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_BROKEN || overrideOrigin == BlockParticleOverride.ORIGIN_BLOCK_CRACK) {
-                return level.random.nextFloat() > 0.9 ? ModParticleTypes.SPARK_FLASH : new BlockParticleOption(ModParticleTypes.CHAIN_SNAP, blockState);
+                return level.getRandom().nextFloat() > 0.9 ? ModParticleTypes.SPARK_FLASH : new BlockParticleOption(ModParticleTypes.CHAIN_SNAP, blockState);
             }
             return new BlockParticleOption(ModParticleTypes.CHAIN_SNAP, blockState);
         },

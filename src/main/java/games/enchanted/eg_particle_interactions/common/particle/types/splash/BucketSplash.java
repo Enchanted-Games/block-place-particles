@@ -62,7 +62,7 @@ public class BucketSplash extends ParticleInteractionsParticle {
             , RandomSource random
             //?}
         ) {
-            return new BucketSplash(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet.get(level.random));
+            return new BucketSplash(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet.get(level.getRandom()));
         }
     }
 }
