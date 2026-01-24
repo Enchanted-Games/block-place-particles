@@ -148,7 +148,7 @@ publishMods {
     additionalFiles.from(tasks.named<org.gradle.jvm.tasks.Jar>("sourcesJar").map { it.archiveFile.get() })
 
     // one of BETA, ALPHA, STABLE
-    type = STABLE
+    type = BETA
     displayName = "[NF] v${property("mod.version")} for mc ${stonecutter.current.version}"
     version = "${property("mod.version")}+${property("deps.minecraft")}-neoforge"
     changelog = provider { rootProject.file("CHANGELOG.md").readText() }

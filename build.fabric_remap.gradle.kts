@@ -159,7 +159,7 @@ publishMods {
     additionalFiles.from(tasks.remapSourcesJar.map { it.archiveFile.get() })
 
     // one of BETA, ALPHA, STABLE
-    type = STABLE
+    type = BETA
     displayName = "[Fabric] v${property("mod.version")} for mc ${stonecutter.current.version}"
     version = "${property("mod.version")}+${property("deps.minecraft")}-fabric"
     changelog = provider { rootProject.file("CHANGELOG.md").readText() }

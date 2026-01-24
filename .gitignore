@@ -46,3 +46,5 @@ bin/
 */run
 /run/saves
 .idea/workspace.xml
+
+.env
