@@ -1,4 +1,4 @@
-//? if fabric && modmenu {
+//? if fabric {
 package games.enchanted.eg_particle_interactions.fabric;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
@@ -10,7 +10,5 @@ public class ModMenuIntegration implements ModMenuApi {
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return parent -> ConfigScreenCreator.getScreenCreator().createScreen(parent);
     }
-
-
 }
 //?}

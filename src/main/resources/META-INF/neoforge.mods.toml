@@ -1,9 +1,5 @@
-#[[accessTransformers]]
-#file="META-INF/accesstransformer.cfg"
-# The coremods config file path is not configurable and is always loaded from META-INF/coremods.json
-
 modLoader="javafml"
-loaderVersion="${forgelike_loader_ver}"
+loaderVersion="[2,)"
 license="${license}"
 issueTrackerURL="${issue_tracker}"
 
@@ -12,12 +8,20 @@ modId="${id}"
 version="${version}"
 displayName="${name}"
 logoFile="${icon}"
-authors="${authors}"
+logoBlur=false
+authors="Enchanted_Games"
 description='''
 ${description}
 '''
 
-${mixin_field}
+[[mixins]]
+config="${id}.mixins.json"
 
-${dependencies_field}
+[[mixins]]
+config="mod_compat.${id}.mixins.json"
 
+[[dependencies.${id}]]
+modId="minecraft"
+type="required"
+versionRange="${minecraft}"
+side="CLIENT"
