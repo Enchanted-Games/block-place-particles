@@ -105,64 +105,63 @@ public class ModParticleTypes {
     //  for Block Particle Overrides not having a way to spawn different particles at different velocities)
     public static ParticleType<BlockParticleOption> BLOCK_HIGH_VELOCITY;
 
-    @SuppressWarnings({"unchecked","rawtypes"})
     public static void registerParticles() {
-        SNOWFLAKE = register((SpriteProviderReg) BasicDust.SnowflakeProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "snowflake"), false);
-        SNOWFLAKE_SPECK = register((SpriteProviderReg) BasicDust.SnowflakeSpeckProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "snowflake_speck"), false);
-        FALLING_CHERRY_PETAL = register((SpriteProviderReg) FallingSpinningParticle.GenericLeafProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_cherry_leaves"), false);
-        FALLING_TINTED_LEAF = register((SpriteProviderReg) FallingSpinningColouredParticle.TintedLeafProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_tinted_leaves"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
-        FALLING_TINTED_PINE_LEAF = register((SpriteProviderReg) FallingSpinningColouredParticle.TintedLeafProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_tinted_pine_leaves"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
-        FALLING_AZALEA_LEAF = register((SpriteProviderReg) FallingSpinningParticle.GenericLeafProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_azalea_leaves"), false);
-        FALLING_FLOWERING_AZALEA_LEAF = register((SpriteProviderReg) FallingSpinningParticle.GenericLeafProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_flowering_azalea_leaves"), false);
-        FALLING_PALE_OAK_LEAF = register((SpriteProviderReg) FallingSpinningParticle.PaleOakProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_pale_oak_leaf"), false);
-        FLOWER_PETAL = register((SpriteProviderReg) FallingSpinningColouredParticle.FlowerPetalProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "flower_petal"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
-        GRASS_BLADE = register((SpriteProviderReg) FallingSpinningColouredParticle.GrassBladeProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "grass_blade"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
-        HEAVY_GRASS_BLADE = register((SpriteProviderReg) FallingSpinningColouredParticle.HeavyGrassBladeProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "heavy_grass_blade"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
-        MOSS_CLUMP = register((SpriteProviderReg) FallingSpinningParticle.RandomisedSizeMoreGravityProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "moss_clump"), false);
-        PALE_MOSS_CLUMP = register((SpriteProviderReg) FallingSpinningParticle.RandomisedSizeMoreGravityProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "pale_moss_clump"), false);
-        BRUSH_DUST = register((SpriteProviderReg) BasicTintedDust.BrushProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "brush_dust"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
-        BRUSH_DUST_SPECK = register((SpriteProviderReg) BasicTintedDust.BrushSpeckProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "brush_dust_speck"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
-        ITEM_FRAME_DUST = register((SpriteProviderReg) BasicTintedDust.ItemFrameProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "item_frame_dust"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
-        ITEM_FRAME_DUST_SPECK = register((SpriteProviderReg) BasicTintedDust.ItemFrameSpeckProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "item_frame_dust_speck"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
-        GLOW_ITEM_FRAME_DUST = register((SpriteProviderReg) BasicTintedDust.GlowItemFrameProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glow_item_frame_dust"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
-        GLOW_ITEM_FRAME_DUST_SPECK = register((SpriteProviderReg) BasicTintedDust.GlowItemFrameSpeckProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glow_item_frame_dust_speck"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
-        TINTED_DUST = register((SpriteProviderReg) FloatingColouredDust.TintedDustProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "tinted_dust"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
-        TINTED_DUST_SPECK = register((SpriteProviderReg) FloatingColouredDust.TintedDustSpeckProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "tinted_dust_speck"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
-        REDSTONE_DUST = register((SpriteProviderReg) FloatingColouredDust.RedstoneProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "redstone_dust"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
-        BLOCK_SHATTER = register((SpriteProviderReg) BlockShatter.BlockShatterProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_shatter"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
-        CHAIN_SNAP = register((SpriteProviderReg) FallingSpinningColouredParticle.ChainSnapProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "chain_snap"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
-        SUGAR_CANE = register((SpriteProviderReg) FallingSpinningColouredParticle.SugarCaneProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "sugar_cane"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        SNOWFLAKE = register(BasicDust.SnowflakeProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "snowflake"), false);
+        SNOWFLAKE_SPECK = register(BasicDust.SnowflakeSpeckProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "snowflake_speck"), false);
+        FALLING_CHERRY_PETAL = register(FallingSpinningParticle.GenericLeafProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_cherry_leaves"), false);
+        FALLING_TINTED_LEAF = register(FallingSpinningColouredParticle.TintedLeafProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_tinted_leaves"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        FALLING_TINTED_PINE_LEAF = register(FallingSpinningColouredParticle.TintedLeafProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_tinted_pine_leaves"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        FALLING_AZALEA_LEAF = register(FallingSpinningParticle.GenericLeafProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_azalea_leaves"), false);
+        FALLING_FLOWERING_AZALEA_LEAF = register(FallingSpinningParticle.GenericLeafProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_flowering_azalea_leaves"), false);
+        FALLING_PALE_OAK_LEAF = register(FallingSpinningParticle.PaleOakProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_pale_oak_leaf"), false);
+        FLOWER_PETAL = register(FallingSpinningColouredParticle.FlowerPetalProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "flower_petal"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        GRASS_BLADE = register(FallingSpinningColouredParticle.GrassBladeProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "grass_blade"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        HEAVY_GRASS_BLADE = register(FallingSpinningColouredParticle.HeavyGrassBladeProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "heavy_grass_blade"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        MOSS_CLUMP = register(FallingSpinningParticle.RandomisedSizeMoreGravityProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "moss_clump"), false);
+        PALE_MOSS_CLUMP = register(FallingSpinningParticle.RandomisedSizeMoreGravityProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "pale_moss_clump"), false);
+        BRUSH_DUST = register(BasicTintedDust.BrushProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "brush_dust"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
+        BRUSH_DUST_SPECK = register(BasicTintedDust.BrushSpeckProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "brush_dust_speck"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
+        ITEM_FRAME_DUST = register(BasicTintedDust.ItemFrameProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "item_frame_dust"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
+        ITEM_FRAME_DUST_SPECK = register(BasicTintedDust.ItemFrameSpeckProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "item_frame_dust_speck"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
+        GLOW_ITEM_FRAME_DUST = register(BasicTintedDust.GlowItemFrameProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glow_item_frame_dust"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
+        GLOW_ITEM_FRAME_DUST_SPECK = register(BasicTintedDust.GlowItemFrameSpeckProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glow_item_frame_dust_speck"), false, TintedParticleOption::codec, TintedParticleOption::streamCodec);
+        TINTED_DUST = register(FloatingColouredDust.TintedDustProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "tinted_dust"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        TINTED_DUST_SPECK = register(FloatingColouredDust.TintedDustSpeckProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "tinted_dust_speck"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        REDSTONE_DUST = register(FloatingColouredDust.RedstoneProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "redstone_dust"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        BLOCK_SHATTER = register(BlockShatter.BlockShatterProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_shatter"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        CHAIN_SNAP = register(FallingSpinningColouredParticle.ChainSnapProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "chain_snap"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        SUGAR_CANE = register(FallingSpinningColouredParticle.SugarCaneProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "sugar_cane"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
 
-        HONEY_DROP = register((SpriteProviderReg) DripAndLandParticle.UntintedDropProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "honey_drop"), false, DripParticleOption::codec, DripParticleOption::streamCodec);
+        HONEY_DROP = register(DripAndLandParticle.UntintedDropProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "honey_drop"), false, DripParticleOption::codec, DripParticleOption::streamCodec);
 
-        WATER_BUCKET_TINTED_SPLASH = register((SpriteProviderReg) ColouredBucketSplash.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "water_bucket_tinted_splash"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
-        LAVA_BUCKET_SPLASH = register((SpriteProviderReg) LavaSplash.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "lava_bucket_splash"), false);
-        GENERIC_FLUID_BUCKET_SPLASH = register((SpriteProviderReg) BlockSplash.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "generic_fluid_bucket_splash"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        WATER_BUCKET_TINTED_SPLASH = register(ColouredBucketSplash.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "water_bucket_tinted_splash"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        LAVA_BUCKET_SPLASH = register(LavaSplash.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "lava_bucket_splash"), false);
+        GENERIC_FLUID_BUCKET_SPLASH = register(BlockSplash.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "generic_fluid_bucket_splash"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
 
-        FLYING_SPARK = register((SpriteProviderReg) FlyingSpark.FlyingSparkProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "flying_spark"), false);
-        FLOATING_SPARK = register((SpriteProviderReg) FlyingSpark.FloatingSparkProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "floating_spark"), false);
-        FLYING_SOUL_SPARK = register((SpriteProviderReg) FlyingSpark.FlyingSoulSparkProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "flying_soul_spark"), false);
-        FLOATING_SOUL_SPARK = register((SpriteProviderReg) FlyingSpark.FloatingSoulSparkProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "floating_soul_spark"), false);
+        FLYING_SPARK = register(FlyingSpark.FlyingSparkProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "flying_spark"), false);
+        FLOATING_SPARK = register(FlyingSpark.FloatingSparkProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "floating_spark"), false);
+        FLYING_SOUL_SPARK = register(FlyingSpark.FlyingSoulSparkProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "flying_soul_spark"), false);
+        FLOATING_SOUL_SPARK = register(FlyingSpark.FloatingSoulSparkProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "floating_soul_spark"), false);
 
-        SPARK_FLASH = register((SpriteProviderReg) SparkFlash.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "spark_flash"), false);
-        SOUL_SPARK_FLASH = register((SpriteProviderReg) SparkFlash.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "soul_spark_flash"), false);
-        LIGHTNING_FLASH = register((SpriteProviderReg) SparkFlash.RandomAnimationProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "lightning_flash"), false);
+        SPARK_FLASH = register(SparkFlash.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "spark_flash"), false);
+        SOUL_SPARK_FLASH = register(SparkFlash.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "soul_spark_flash"), false);
+        LIGHTNING_FLASH = register(SparkFlash.RandomAnimationProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "lightning_flash"), false);
 
-        UNDERWATER_RISING_BUBBLE = register((SpriteProviderReg) UnderwaterRisingBubble.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "underwater_rising_bubble"), false);
-        UNDERWATER_RISING_BUBBLE_SMALL = register((SpriteProviderReg) UnderwaterRisingBubble.SmallProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "underwater_rising_bubble_small"), false);
+        UNDERWATER_RISING_BUBBLE = register(UnderwaterRisingBubble.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "underwater_rising_bubble"), false);
+        UNDERWATER_RISING_BUBBLE_SMALL = register(UnderwaterRisingBubble.SmallProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "underwater_rising_bubble_small"), false);
 
-        FLOATING_EMBER = register((SpriteProviderReg) Ember.EmberProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "floating_ember"), true);
-        FLOATING_SOUL_EMBER = register((SpriteProviderReg) Ember.EmberProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "floating_soul_ember"), true);
-        WATER_VAPOUR = register((SpriteProviderReg) WaterVapour.WaterVapourProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "water_vapour"), true);
+        FLOATING_EMBER = register(Ember.EmberProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "floating_ember"), true);
+        FLOATING_SOUL_EMBER = register(Ember.EmberProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "floating_soul_ember"), true);
+        WATER_VAPOUR = register(WaterVapour.WaterVapourProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "water_vapour"), true);
 
-        LAVA_POP = register((SpriteProviderReg) LavaPop.LavaPopProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "lava_pop"), true);
+        LAVA_POP = register(LavaPop.LavaPopProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "lava_pop"), true);
 
-        FLYING_SPARK_EMITTER = register((SpriteProviderReg) SparkEmitter.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "flying_spark_emitter"), true, RandomDistributionEmitterOptions::codec, RandomDistributionEmitterOptions::streamCodec);
-        UNDERWATER_RISING_BUBBLE_SMALL_EMITTER = register((SpriteProviderReg) UnderwaterBubbleEmitter.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "underwater_rising_bubble_small_emitter"), true, RandomDistributionEmitterOptions::codec, RandomDistributionEmitterOptions::streamCodec);
-        ARC_EMITTER = register((SpriteProviderReg) ArcEmitter.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "arc_emitter"), true, ArcEmitterOptions::codec, ArcEmitterOptions::streamCodec);
+        FLYING_SPARK_EMITTER = register(SparkEmitter.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "flying_spark_emitter"), true, RandomDistributionEmitterOptions::codec, RandomDistributionEmitterOptions::streamCodec);
+        UNDERWATER_RISING_BUBBLE_SMALL_EMITTER = register(UnderwaterBubbleEmitter.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "underwater_rising_bubble_small_emitter"), true, RandomDistributionEmitterOptions::codec, RandomDistributionEmitterOptions::streamCodec);
+        ARC_EMITTER = register(ArcEmitter.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "arc_emitter"), true, ArcEmitterOptions::codec, ArcEmitterOptions::streamCodec);
 
-        BLOCK_CRACK = register((SpriteProviderReg) CustomMovementTerrainParticle.CrackingProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_crack"), true, BlockParticleOption::codec, BlockParticleOption::streamCodec);
-        BLOCK_HIGH_VELOCITY = register((SpriteProviderReg) CustomMovementTerrainParticle.UncappedMotionProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_high_velocity"), true, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        BLOCK_CRACK = register(CustomMovementTerrainParticle.CrackingProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_crack"), true, BlockParticleOption::codec, BlockParticleOption::streamCodec);
+        BLOCK_HIGH_VELOCITY = register(CustomMovementTerrainParticle.UncappedMotionProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_high_velocity"), true, BlockParticleOption::codec, BlockParticleOption::streamCodec);
     }
 
     private static SimpleParticleType register(SpriteProviderReg<SimpleParticleType> provider, Identifier particleID, boolean alwaysShow) {
