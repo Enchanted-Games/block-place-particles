@@ -7,7 +7,7 @@ plugins {
     id("me.modmuss50.mod-publish-plugin") version "0.8.+" apply false
 }
 
-stonecutter active "1.21.11-fabric" /* You may have to edit this. Make sure it matches one of the versions present in settings.gradle.kts */
+stonecutter active "26.1-fabric" /* You may have to edit this. Make sure it matches one of the versions present in settings.gradle.kts */
 
 stonecutter parameters {
     constants.match(node.metadata.project.substringAfterLast('-'), "fabric", "neoforge")

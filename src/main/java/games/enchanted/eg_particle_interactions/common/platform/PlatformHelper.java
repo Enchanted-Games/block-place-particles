@@ -9,10 +9,10 @@ import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.fml.loading.LoadingModList;
 *///?} else {
 //? if minecraft: < 26.1 {
-import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
-//? } else {
-/*import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
-*///? }
+/*import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+*///? } else {
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
+//? }
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.fabricmc.loader.api.FabricLoader;
 //?}
@@ -107,7 +107,7 @@ public class PlatformHelper {
      */
     public static <T extends ParticleOptions> void registerParticleProvider(ParticleType<T> particleType, ModParticleTypes.SpriteProviderReg<T> particleProvider) {
         //? if fabric {
-        /*? if minecraft: < 26.1 {*/ ParticleFactoryRegistry /*? } else {*/ /*ParticleProviderRegistry *//*?}*/
+        /*? if minecraft: < 26.1 {*/ /*ParticleFactoryRegistry *//*? } else {*/ ParticleProviderRegistry /*?}*/
             .getInstance().register(particleType, particleProvider::create);
         //?} else {
         /*NeoParticleProviderRegistry.registerProviderWhenReady(particleType, particleProvider);

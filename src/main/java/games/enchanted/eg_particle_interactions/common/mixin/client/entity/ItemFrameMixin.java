@@ -58,8 +58,8 @@ public abstract class ItemFrameMixin extends HangingEntity {
     private void spawnParticlesOnInteract(
         Player player, InteractionHand hand,
         //? if minecraft: >= 26.1 {
-        /*Vec3 location,
-        *///? }
+        Vec3 location,
+        //? }
         CallbackInfoReturnable<InteractionResult> cir
     ) {
         if (!(this.level() instanceof ClientLevel clientLevel)) return;

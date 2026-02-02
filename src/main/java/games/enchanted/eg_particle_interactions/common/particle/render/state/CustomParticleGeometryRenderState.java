@@ -46,8 +46,8 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
     public @Nullable QuadParticleRenderState.PreparedBuffers prepare(
         ParticleFeatureRenderer.ParticleBufferCache particleBufferCache
         //? if minecraft: >= 26.1 {
-         /*, boolean translucentOnly
-        *///? }
+         , boolean translucentOnly
+        //? }
     ) {
         try (ByteBufferBuilder byteBufferBuilder = ByteBufferBuilder.exactlySized(this.vertexAmount * DefaultVertexFormat.PARTICLE.getVertexSize())) {
             BufferBuilder vertexBuffer = new BufferBuilder(byteBufferBuilder, VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
@@ -55,8 +55,8 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
             HashMap<SingleQuadParticle.Layer, QuadParticleRenderState.PreparedLayer> layerToPreparedMap = prepareLayers(
                 vertexBuffer
                 //? if minecraft: >= 26.1 {
-                /*, translucentOnly
-                *///? }
+                , translucentOnly
+                //? }
             );
 
             MeshData meshData = vertexBuffer.build();
@@ -80,16 +80,16 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
     private @NotNull HashMap<SingleQuadParticle.Layer, QuadParticleRenderState.PreparedLayer> prepareLayers(
         BufferBuilder vertexBuffer
         //? if minecraft: >= 26.1 {
-        /*, boolean translucentOnly
-        *///? }
+        , boolean translucentOnly
+        //? }
     ) {
         HashMap<SingleQuadParticle.Layer, QuadParticleRenderState.PreparedLayer> layerToPreparedMap = new HashMap<>();
         int vertexOffset = 0;
 
         for (Map.Entry<SingleQuadParticle.Layer, QuadStorage> entry : this.quadStoragePerLayer.entrySet()) {
             //? if minecraft: >= 26.1 {
-            /*if(entry.getKey().translucent() != translucentOnly) continue;
-            *///? }
+            if(entry.getKey().translucent() != translucentOnly) continue;
+            //? }
 
             QuadStorage storage = entry.getValue();
 
@@ -107,8 +107,8 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
     public void render(
         QuadParticleRenderState.PreparedBuffers preparedBuffers, ParticleFeatureRenderer.ParticleBufferCache particleBufferCache, RenderPass renderPass, TextureManager textureManager
         //? if minecraft: < 26.1 {
-        , boolean translucentOnly
-        //? }
+        /*, boolean translucentOnly
+        *///? }
     ) {
         RenderSystem.AutoStorageIndexBuffer quadIndexBuffer = RenderSystem.getSequentialBuffer(VertexFormat.Mode.QUADS);
         renderPass.setVertexBuffer(0, particleBufferCache.get());
@@ -117,8 +117,8 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
 
         for (Map.Entry<SingleQuadParticle.Layer, QuadParticleRenderState.PreparedLayer> entry : preparedBuffers.layers().entrySet()) {
             //? if minecraft: < 26.1 {
-            if (translucentOnly != entry.getKey().translucent()) continue;
-            //? }
+            /*if (translucentOnly != entry.getKey().translucent()) continue;
+            *///? }
             
             renderPass.setPipeline(entry.getKey().pipeline());
             renderPass.bindTexture(
@@ -138,11 +138,11 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
     }
 
     //? if minecraft: >= 26.1 {
-    /*@Override
+    @Override
     public boolean isEmpty() {
         return this.vertexAmount <= 0;
     }
-    *///? }
+    //? }
 
     public void startQuad(SingleQuadParticle.Layer layer) {
         this.quadStoragePerLayer.computeIfAbsent(layer, (l) -> new QuadStorage()).startQuad();

@@ -114,10 +114,10 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
 
             Item originalParticleItem = ((ItemParticleOption) originalParticleOption).getItem()
                 //? if minecraft: < 26.1 {
-                .getItem()
-                //? } else {
-                /*.item().value()
-                *///? }
+                /*.getItem()
+                *///? } else {
+                .item().value()
+                //? }
             ;
 
             if(!(originalParticleItem instanceof BlockItem)) {

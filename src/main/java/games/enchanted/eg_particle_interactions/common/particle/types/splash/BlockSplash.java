@@ -64,7 +64,7 @@ public class BlockSplash extends BucketSplash {
     public int getLightmapCoords(float f) {
         int lightColour = super.getLightmapCoords(f);
         return lightColour == 0 && this.level.hasChunkAt(this.pos) ?
-            LevelRenderer./*? if minecraft: < 26.1 {*/ getLightColor /*?} else {*/ /*getLightCoords *//*?}*/ (this.level, this.pos) :
+            LevelRenderer./*? if minecraft: < 26.1 {*/ /*getLightColor *//*?} else {*/ getLightCoords /*?}*/ (this.level, this.pos) :
             lightColour
         ;
     }

@@ -150,10 +150,10 @@ public abstract class ParticleInteractionsParticle extends Particle {
      */
     protected int getLightmapCoords(float partialTick) {
         //? if minecraft: < 26.1 {
-        return this.getLightColor(partialTick);
-        //? } else {
-        /*return this.getLightCoords(partialTick);
-        *///? }
+        /*return this.getLightColor(partialTick);
+        *///? } else {
+        return this.getLightCoords(partialTick);
+        //? }
     }
 
 
