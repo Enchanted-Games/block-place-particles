@@ -46,11 +46,6 @@ public class SwirlingParticle extends ParticleInteractionsParticle {
     }
 
     @Override
-    protected ParticleLayer getParticleLayer() {
-        return ParticleLayer.OPAQUE;
-    }
-
-    @Override
     public void tick() {
         if (this.removed) return;
 

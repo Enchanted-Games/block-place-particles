@@ -50,11 +50,6 @@ public class UnderwaterRisingBubble extends ParticleInteractionsParticle {
         this.remove();
     }
 
-    @Override
-    protected ParticleLayer getParticleLayer() {
-        return ParticleLayer.OPAQUE;
-    }
-
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 

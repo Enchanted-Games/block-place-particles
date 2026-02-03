@@ -156,6 +156,18 @@ public abstract class ParticleInteractionsParticle extends Particle {
         //? }
     }
 
+    //? if minecraft: < 26.1 {
+    /*@Override
+    protected final int getLightColor(float a) {
+        return super.getLightColor(a);
+    }
+    *///? } else {
+    @Override
+    protected final int getLightCoords(float a) {
+        return super.getLightCoords(a);
+    }
+    //? }
+
 
     protected float getU0() {
         return this.sprite.getU0();
@@ -257,53 +269,45 @@ public abstract class ParticleInteractionsParticle extends Particle {
         this.scale = scale;
     }
 
-    protected abstract ParticleLayer getParticleLayer();
+    protected ParticleLayer getParticleLayer() {
+        return this.getAlpha() < 0.99 ? ParticleLayer.TRANSLUCENT : ParticleLayer.CUTOUT;
+    }
 
-    public enum ParticleLayer {
-        OPAQUE(
+    public record ParticleLayer(
+        //? if minecraft: <= 1.21.8 {
+        /*ParticleRenderType layer
+         *///?} else {
+        SingleQuadParticle.Layer layer
+        //?}
+    ) {
+        public static final ParticleLayer CUTOUT = new ParticleLayer(
             //? if minecraft: <= 1.21.8 {
             /*ParticleRenderType.PARTICLE_SHEET_OPAQUE
              *///?} else {
             SingleQuadParticle.Layer.OPAQUE
             //?}
-        ),
-        TERRAIN(
+        );
+        public static final ParticleLayer TERRAIN = new ParticleLayer(
             //? if minecraft: <= 1.21.8 {
             /*ParticleRenderType.TERRAIN_SHEET
              *///?} else {
             SingleQuadParticle.Layer.TERRAIN
             //?}
-        ),
-        TRANSLUCENT(
+        );
+        public static final ParticleLayer TRANSLUCENT = new ParticleLayer(
             //? if minecraft: <= 1.21.8 {
             /*ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT
              *///?} else {
             SingleQuadParticle.Layer.TRANSLUCENT
             //?}
-        ),
-        BACKFACE_TERRAIN(
+        );
+        public static final ParticleLayer BACKFACE_TERRAIN = new ParticleLayer(
             //? if minecraft: <= 1.21.8 {
             /*ModParticleRenderTypes.BACKFACE_TERRAIN_PARTICLE
              *///?} else {
             BACKFACE_TERRAIN_LAYER
             //?}
         );
-
-        //? if minecraft: <= 1.21.8 {
-        /*public final ParticleRenderType layer;
-         *///?} else {
-        public final SingleQuadParticle.Layer layer;
-        //?}
-
-        ParticleLayer(
-            //? if minecraft: <= 1.21.8 {
-            /*ParticleRenderType layer
-            *///?} else {
-            SingleQuadParticle.Layer layer
-            //?}
-        ) {
-            this.layer = layer;
-        }
     }
 
     public interface BillboardMode {

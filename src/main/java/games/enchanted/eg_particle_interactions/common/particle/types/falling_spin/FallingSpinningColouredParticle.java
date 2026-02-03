@@ -26,12 +26,6 @@ public class FallingSpinningColouredParticle extends FallingSpinningParticle {
         );
     }
 
-    @Override
-    protected ParticleLayer getParticleLayer() {
-        if(this.getAlpha() < 0.99) return ParticleLayer.TRANSLUCENT;
-        return super.getParticleLayer();
-    }
-
     public static class TintedLeafProvider implements ParticleProvider<BlockParticleOption> {
         private final SpriteSet spriteSet;
 

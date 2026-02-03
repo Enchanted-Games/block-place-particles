@@ -56,11 +56,6 @@ public class Ember extends SwirlingParticle {
         return LightUtil.FULL_BRIGHT;
     }
 
-    @Override
-    protected ParticleLayer getParticleLayer() {
-        return ParticleLayer.TRANSLUCENT;
-    }
-
     public static class EmberProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 

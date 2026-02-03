@@ -110,7 +110,7 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
 
     @Override
     protected ParticleLayer getParticleLayer() {
-        return this.translucent ? ParticleLayer.TRANSLUCENT : ParticleLayer.OPAQUE;
+        return this.translucent ? ParticleLayer.TRANSLUCENT : ParticleLayer.CUTOUT;
     }
 
     public static class UntintedDropProvider implements ParticleProvider<DripParticleOption> {

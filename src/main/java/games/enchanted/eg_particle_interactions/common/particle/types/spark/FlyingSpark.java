@@ -119,11 +119,6 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         return LightUtil.pack(Math.max(blockLight, sparkLight), skyLight);
     }
 
-    @Override
-    protected ParticleLayer getParticleLayer() {
-        return ParticleLayer.OPAQUE;
-    }
-
     public static class FlyingSparkProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 

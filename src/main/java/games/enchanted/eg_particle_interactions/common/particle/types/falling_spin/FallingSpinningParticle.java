@@ -67,7 +67,7 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
 
     @Override
     protected ParticleLayer getParticleLayer() {
-        return this.transparency ? ParticleLayer.TRANSLUCENT : ParticleLayer.OPAQUE;
+        return this.transparency ? ParticleLayer.TRANSLUCENT : ParticleLayer.CUTOUT;
     }
 
     public static class GenericLeafProvider implements ParticleProvider<SimpleParticleType> {

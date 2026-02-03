@@ -78,11 +78,6 @@ public abstract class AbstractDust extends ParticleInteractionsParticle {
     }
 
     @Override
-    protected ParticleLayer getParticleLayer() {
-        return ParticleLayer.OPAQUE;
-    }
-
-    @Override
     protected int getLightmapCoords(float partialTick) {
         return this.emissive ? LightUtil.FULL_BRIGHT : super.getLightmapCoords(partialTick);
     }

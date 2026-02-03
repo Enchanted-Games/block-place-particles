@@ -42,12 +42,6 @@ public class FloatingColouredDust extends AbstractDust {
         return new BlockParticleOption(ModParticleTypes.TINTED_DUST_SPECK, this.dustBlockState);
     }
 
-    @Override
-    protected ParticleLayer getParticleLayer() {
-        if(this.getAlpha() < 0.99) return ParticleLayer.TRANSLUCENT;
-        return super.getParticleLayer();
-    }
-
     public static class TintedDustProvider implements ParticleProvider<BlockParticleOption> {
         private final SpriteSet spriteSet;
 

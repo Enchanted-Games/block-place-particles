@@ -44,6 +44,6 @@ public class ConstantMotionAnimatedParticle extends ParticleInteractionsParticle
 
     @Override
     protected ParticleLayer getParticleLayer() {
-        return this.translucent ? ParticleLayer.TRANSLUCENT : ParticleLayer.OPAQUE;
+        return this.translucent ? ParticleLayer.TRANSLUCENT : ParticleLayer.CUTOUT;
     }
 }

@@ -7,7 +7,6 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 
@@ -57,11 +56,6 @@ public class SparkFlash extends ParticleInteractionsParticle {
     @Override
     public int getLightmapCoords(float partialTick) {
         return LightUtil.FULL_BRIGHT;
-    }
-
-    @Override
-    protected ParticleLayer getParticleLayer() {
-        return ParticleLayer.OPAQUE;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
