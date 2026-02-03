@@ -11,6 +11,8 @@ import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleGroup;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.state.ParticleGroupRenderState;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 
 public class CustomGeometryParticleGroup extends ParticleGroup<ParticleInteractionsParticle> {
@@ -23,7 +25,8 @@ public class CustomGeometryParticleGroup extends ParticleGroup<ParticleInteracti
     @Override
     public @NotNull ParticleGroupRenderState extractRenderState(Frustum frustum, Camera camera, float partialTicks) {
         for (ParticleInteractionsParticle particle : this.particles) {
-            if (!frustum.isVisible(particle.getCullingBox(partialTicks))) continue;
+            AABB bb = particle.getCullingBox(partialTicks);
+            if (!frustum.isVisible(bb)) continue;
             try {
                 particle.extract(this.state, camera, partialTicks);
             }

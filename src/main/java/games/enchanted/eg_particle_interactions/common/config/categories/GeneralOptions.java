@@ -50,10 +50,10 @@ public class GeneralOptions {
     public static final ConfigOption<Boolean> DEBUG_EMITTER_BOUNDS = registerOption(
         new BoolOption(false, false)
     );
-    public static final ConfigOption<Boolean> DEBUG_TEXTURE_LOGGING = registerOption(
+    public static final ConfigOption<Boolean> DEBUG_PARTICLE_TICK_BOUNDING_BOXES = registerOption(
         new BoolOption(false, false)
     );
-    public static final ConfigOption<Boolean> DEBUG_INTERACTION_LOGGING = registerOption(
+    public static final ConfigOption<Boolean> DEBUG_PARTICLE_RENDER_BOUNDING_BOXES = registerOption(
         new BoolOption(false, false)
     );
 

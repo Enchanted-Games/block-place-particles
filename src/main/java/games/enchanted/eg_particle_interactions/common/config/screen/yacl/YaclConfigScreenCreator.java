@@ -116,16 +116,16 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 ConfigTranslation.GENERAL_CATEGORY,
                 true,
                 ConfigScreenHelper.genericBooleanOption(
-                    ConfigTranslation.TOGGLE_INTERACTION_DEBUG_LOGS,
-                    GeneralOptions.DEBUG_INTERACTION_LOGGING
-                ),
-                ConfigScreenHelper.genericBooleanOption(
-                    ConfigTranslation.TOGGLE_TEXTURE_DEBUG_LOGS,
-                    GeneralOptions.DEBUG_TEXTURE_LOGGING
-                ),
-                ConfigScreenHelper.genericBooleanOption(
                     ConfigTranslation.DEBUG_SHOW_EMITTER_BOUNDS,
                     GeneralOptions.DEBUG_EMITTER_BOUNDS
+                ),
+                ConfigScreenHelper.genericBooleanOption(
+                    ConfigTranslation.DEBUG_PARTICLE_TICK_BOUNDING_BOXES,
+                    GeneralOptions.DEBUG_PARTICLE_TICK_BOUNDING_BOXES
+                ),
+                ConfigScreenHelper.genericBooleanOption(
+                    ConfigTranslation.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES,
+                    GeneralOptions.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES
                 )
             ))
         .build());

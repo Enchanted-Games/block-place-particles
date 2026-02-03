@@ -1,5 +1,8 @@
 package games.enchanted.eg_particle_interactions.common.particle.types;
 
+import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
+import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes;
+import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.ParticleAccessor;
 import games.enchanted.eg_particle_interactions.common.particle.render.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import net.minecraft.client.particle.Particle;
@@ -106,6 +109,20 @@ public abstract class ParticleInteractionsParticle extends Particle {
         float y = (float)(Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y());
         float z = (float)(Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z());
         this.extractGeometry(consumer, quaternionf, x, y, z, partialTicks);
+
+        if(GeneralOptions.DEBUG_PARTICLE_TICK_BOUNDING_BOXES.getValue()) {
+            ParticleDebugShapes.particlePosition(this.x, this.y, this.z, ParticleDebugShapes.PARTICLE_TICK_POSITION);
+
+            ParticleDebugShapes.box(
+                this.getBoundingBox(),
+                ((ParticleAccessor) this).block_place_particle$getStoppedByCollision() ? ParticleDebugShapes.PARTICLE_BOUNDING_BOX_STOPPED : ParticleDebugShapes.PARTICLE_BOUNDING_BOX
+            );
+        }
+        if(GeneralOptions.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES.getValue()) {
+            ParticleDebugShapes.particlePosition(x + cameraPosition.x(), y + cameraPosition.y(), z + cameraPosition.z(), ParticleDebugShapes.PARTICLE_RENDER_POSITION);
+
+            ParticleDebugShapes.box(this.getCullingBox(partialTicks), ParticleDebugShapes.PARTICLE_CULLING_BOX);
+        }
     }
 
     protected void extractGeometry(QuadConsumer consumer, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
@@ -138,7 +155,13 @@ public abstract class ParticleInteractionsParticle extends Particle {
 
 
     public AABB getCullingBox(float partialTicks) {
-        return this.getBoundingBox();
+        Vec3 pos = new Vec3(
+            Mth.lerp(partialTicks, this.xo, this.x),
+            Mth.lerp(partialTicks, this.yo, this.y),
+            Mth.lerp(partialTicks, this.zo, this.z)
+        );
+        float scale = this.getLerpedScale(partialTicks);
+        return new AABB(pos.subtract(scale), pos.add(scale));
     }
 
 
