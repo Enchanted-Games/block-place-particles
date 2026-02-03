@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverride;
+import games.enchanted.eg_particle_interactions.common.particle.overrides.ParticleOrigin;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -27,7 +28,7 @@ public class BlockBreakAndCrackingParticle_ClientLevelMixin {
         method = "addDestroyBlockEffect"
     )
     public void useParticleInteractionsDestroyParticleLogic(BlockPos brokenBlockPos, BlockState brokenBlockState, CallbackInfo ci) {
-        BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(brokenBlockState, BlockParticleOverride.ORIGIN_BLOCK_BROKEN);
+        BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(brokenBlockState, ParticleOrigin.BLOCK_BROKEN);
         SpawnParticles.spawnBlockBreakParticle((ClientLevel) (Object) this, brokenBlockState, brokenBlockPos, particleOverride);
     }
 
@@ -66,7 +67,7 @@ public class BlockBreakAndCrackingParticle_ClientLevelMixin {
         ClientLevel level = (ClientLevel) (Object) this;
         BlockState blockstate = level.getBlockState(blockPos);
 
-        int overrideOrigin = BlockParticleOverride.ORIGIN_BLOCK_CRACK;
+        ParticleOrigin overrideOrigin = ParticleOrigin.BLOCK_CRACK;
         BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockstate, overrideOrigin);
 
         if(override == BlockParticleOverride.VANILLA) return;

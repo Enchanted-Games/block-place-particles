@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
 import games.enchanted.eg_particle_interactions.common.config.categories.ItemInteractionOptions;
+import games.enchanted.eg_particle_interactions.common.particle.overrides.ParticleOrigin;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverride;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -35,7 +36,7 @@ public abstract class BrushItem {
         Vec3 particlePos = hitResult.getLocation();
         Logging.interactionDebugInfo("Blockstate brushed {} at {}", blockState, particlePos);
 
-        BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockState, BlockParticleOverride.ORIGIN_BLOCK_BRUSHED);
+        BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockState, ParticleOrigin.BLOCK_BRUSHED);
         final boolean isOverrideNoneOrVanilla = (override == BlockParticleOverride.VANILLA || override == BlockParticleOverride.NONE);
 
         // use vanilla particles if brush particle behaviour is "block override" and particle override is none or vanilla

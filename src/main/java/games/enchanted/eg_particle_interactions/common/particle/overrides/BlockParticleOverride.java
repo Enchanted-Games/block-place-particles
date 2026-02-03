@@ -24,22 +24,11 @@ import java.util.List;
 // possibly change it to each block/tag/fluid/whatever specifying the override it uses, rather than the override
 //   specifying the block/tag/fluid/whatever it applies to
 public class BlockParticleOverride {
-    public static final int ORIGIN_BLOCK_PLACED = 1;
-    public static final int ORIGIN_BLOCK_BROKEN = 2;
-    public static final int ORIGIN_BLOCK_PARTICLE_OVERRIDDEN = 3;
-    public static final int ORIGIN_ITEM_PARTICLE_OVERRIDDEN = 4;
-    public static final int ORIGIN_BLOCK_BRUSHED = 5;
-    public static final int ORIGIN_BLOCK_CRACK = 6;
-    public static final int ORIGIN_FALLING_BLOCK_LANDED = 7;
-    public static final int ORIGIN_FALLING_BLOCK_FALLING = 8;
-    public static final int ORIGIN_BLOCK_INTERACTED_WITH = 9;
-    public static final int ORIGIN_BLOCK_WALKED_THROUGH = 10;
-
     public static final BlockParticleOverride NONE = new BlockParticleOverride("none");
     public static final BlockParticleOverride VANILLA = new BlockParticleOverride(
         "vanilla_particle",
         "vanilla_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) -> new BlockParticleOption(ParticleTypes.BLOCK, blockState),
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypes.BLOCK, blockState),
         BlockOverrideOptions.VANILLA_BLOCK_PARTICLE,
         1,
         List.of()
@@ -76,7 +65,7 @@ public class BlockParticleOverride {
         float particleVelocityMultiplier,
         List<OptionToggle> extraToggles
     ) {
-        this(overrideName, groupName, particleSupplier, (int overrideOrigin) -> true, optionSet, particleVelocityMultiplier, extraToggles);
+        this(overrideName, groupName, particleSupplier, (ParticleOrigin overrideOrigin) -> true, optionSet, particleVelocityMultiplier, extraToggles);
     }
 
     /**
@@ -115,8 +104,8 @@ public class BlockParticleOverride {
     private BlockParticleOverride(String overrideName) {
         this.name = overrideName;
         this.groupName = overrideName;
-        this.shouldReplaceParticleFromOrigin = (int overrideOrigin) -> true;
-        this.particleSupplier = (BlockState state, ClientLevel level, BlockPos pos, int overrideOrigin) -> null;
+        this.shouldReplaceParticleFromOrigin = (ParticleOrigin overrideOrigin) -> true;
+        this.particleSupplier = (BlockState state, ClientLevel level, BlockPos pos, ParticleOrigin overrideOrigin) -> null;
         this.supportedBlocksOption = null;
         this.isEnabledOption = null;
         this.maxParticleOnPlaceOption = null;
@@ -126,16 +115,16 @@ public class BlockParticleOverride {
     }
 
     public interface ReplaceParticleFromOriginSupplier {
-        boolean consume(int overrideOrigin);
+        boolean consume(ParticleOrigin overrideOrigin);
     }
     public interface ParticleSupplier {
-        ParticleOptions consume(BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin);
+        ParticleOptions consume(BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin);
     }
 
     /**
      * @param blockState the {@link BlockState} to use when creating the particle options
      */
-    public @Nullable ParticleOptions getParticleOptionForState(BlockState blockState, ClientLevel level, BlockPos blockPos, int overrideOrigin) {
+    public @Nullable ParticleOptions getParticleOptionForState(BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) {
         return particleSupplier.consume(blockState, level, blockPos, overrideOrigin);
     }
 
@@ -144,7 +133,7 @@ public class BlockParticleOverride {
         return this.name;
     }
 
-    public static BlockParticleOverride getOverrideForBlockState(BlockState blockState, int overrideOrigin) {
+    public static BlockParticleOverride getOverrideForBlockState(BlockState blockState, ParticleOrigin overrideOrigin) {
         Block block = blockState.getBlock();
         if(blockState.isAir()) return NONE;
         Identifier blockIdentifier = RegistryHelpers.getLocationFromBlock(block);
@@ -235,7 +224,7 @@ public class BlockParticleOverride {
         return particleVelocityMultiplier;
     }
 
-    public boolean shouldReplaceParticleFromOrigin(int overrideOrigin) {
+    public boolean shouldReplaceParticleFromOrigin(ParticleOrigin overrideOrigin) {
         return this.shouldReplaceParticleFromOrigin.consume(overrideOrigin);
     }
 

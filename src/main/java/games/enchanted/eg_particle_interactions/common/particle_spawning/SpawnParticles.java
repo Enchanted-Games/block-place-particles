@@ -10,6 +10,7 @@ import games.enchanted.eg_particle_interactions.common.particle.options.TintedPa
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverride;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.FluidPlacementParticle;
+import games.enchanted.eg_particle_interactions.common.particle.overrides.ParticleOrigin;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import games.enchanted.eg_particle_interactions.common.registry.TagUtil;
 import games.enchanted.eg_particle_interactions.common.util.FluidHelpers;
@@ -42,8 +43,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
-import java.util.Random;
-
 public class SpawnParticles {
     public static void spawnBlockPlaceParticle(ClientLevel level, BlockPos blockPos) {
         BlockState placedBlockState = level.getBlockState(blockPos);
@@ -55,7 +54,7 @@ public class SpawnParticles {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.BLOCK_PLACE_OR_BREAK, blockPos)) return;
         if (BlockInteractionOptions.UNDERWATER_BUBBLES_ON_PLACE_ENABLED.getValue()) spawnUnderwaterBubbles(BlockInteractionOptions.UNDERWATER_BUBBLES_MAX_ON_PLACE.getValue(), level, blockPos);
 
-        int overrideOrigin = BlockParticleOverride.ORIGIN_BLOCK_PLACED;
+        ParticleOrigin overrideOrigin = ParticleOrigin.BLOCK_PLACED;
         BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(placedBlockState, overrideOrigin);
         if (particleOverride == BlockParticleOverride.NONE) {
             return;
@@ -151,7 +150,7 @@ public class SpawnParticles {
                             double particleYOffset = (((double) i_H + 0.5) / (double) amountAlongHeight);
                             double particleZOffset = (((double) i_D + 0.5) / (double) amountAlongDepth);
 
-                            ParticleOptions particleToSpawn = particleOverride.getParticleOptionForState(brokenBlockState, level, brokenBlockPos, BlockParticleOverride.ORIGIN_BLOCK_BROKEN);
+                            ParticleOptions particleToSpawn = particleOverride.getParticleOptionForState(brokenBlockState, level, brokenBlockPos, ParticleOrigin.BLOCK_BROKEN);
                             if (particleToSpawn == null) {
                                 continue;
                             }
@@ -199,7 +198,7 @@ public class SpawnParticles {
         if (!BlockInteractionOptions.BLOCK_FALLING_EFFECT_ENABLED.getValue()) return;
         if (blockState.isAir()) return;
 
-        int overrideOrigin = BlockParticleOverride.ORIGIN_FALLING_BLOCK_FALLING;
+        ParticleOrigin overrideOrigin = ParticleOrigin.FALLING_BLOCK_FALLING;
         BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(blockState, overrideOrigin);
 
         if (particleOverride == BlockParticleOverride.NONE || particleOverride == BlockParticleOverride.VANILLA) return;
@@ -224,7 +223,7 @@ public class SpawnParticles {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, x, y, z)) return;
         if (!BlockInteractionOptions.BLOCK_FALLING_EFFECT_ENABLED.getValue()) return;
 
-        int overrideOrigin = BlockParticleOverride.ORIGIN_FALLING_BLOCK_LANDED;
+        ParticleOrigin overrideOrigin = ParticleOrigin.FALLING_BLOCK_LANDED;
         BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(blockState, overrideOrigin);
 
         if (particleOverride == BlockParticleOverride.NONE) return;
@@ -609,7 +608,7 @@ public class SpawnParticles {
                 ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.VANILLA_LIKE ||
                 (ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.DUST && !(override == BlockParticleOverride.VANILLA || override == BlockParticleOverride.NONE))
             ) {
-                particleOption = override.getParticleOptionForState(blockState, level, BlockPos.containing(particlePos), BlockParticleOverride.ORIGIN_BLOCK_BRUSHED);
+                particleOption = override.getParticleOptionForState(blockState, level, BlockPos.containing(particlePos), ParticleOrigin.BLOCK_BRUSHED);
                 velocityMultiplier = override.getParticleVelocityMultiplier();
             } else {
                 particleOption = TintedParticleOption.BRUSH_OPTION;
@@ -663,7 +662,7 @@ public class SpawnParticles {
             double particleX = interactionX + MathHelpers.randomBetween(-spreadX / 2, spreadX / 2);
             double particleY = interactionY + MathHelpers.randomBetween(-spreadY / 2, spreadY / 2);
             double particleZ = interactionZ + MathHelpers.randomBetween(-spreadZ / 2, spreadZ / 2);
-            ParticleOptions particleOptions = BlockParticleOverrides.REDSTONE_DUST.getParticleOptionForState(blockState, level, pos, BlockParticleOverride.ORIGIN_BLOCK_INTERACTED_WITH);
+            ParticleOptions particleOptions = BlockParticleOverrides.REDSTONE_DUST.getParticleOptionForState(blockState, level, pos, ParticleOrigin.BLOCK_INTERACTED_WITH);
             if (particleOptions == null) continue;
             level.addParticle(
                 particleOptions,
@@ -720,7 +719,7 @@ public class SpawnParticles {
         Identifier blockLocation = RegistryHelpers.getLocationFromBlock(blockState.getBlock());
         if(!TagUtil.doesListContainBlock(BlockInteractionOptions.BLOCK_RUSTLE_BLOCKS.getValue(), blockLocation)) return;
 
-        int overrideOrigin = BlockParticleOverride.ORIGIN_BLOCK_WALKED_THROUGH;
+        ParticleOrigin overrideOrigin = ParticleOrigin.BLOCK_WALKED_THROUGH;
 
         int particlesAmount =  (speed > 0.25 || isSprinting ? 3 : 1);
 
