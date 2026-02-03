@@ -120,8 +120,11 @@ public class ConfigOptions {
 
         int configVer = CONFIG_VERSION;
         try {
-            configVer = decodedConfig.getAsJsonPrimitive(CONFIG_VERSION_KEY).getAsInt();
+            if(decodedConfig.has(CONFIG_VERSION_KEY)) {
+                configVer = decodedConfig.getAsJsonPrimitive(CONFIG_VERSION_KEY).getAsInt();
+            }
         } catch (ClassCastException | NumberFormatException ignored) {}
+        
         ConfigUpgrader.upgrade(decodedConfig, configVer);
 
         for (Map.Entry<ConfigCategory, List<ConfigOption<?>>> entry : OPTIONS.entrySet()) {
