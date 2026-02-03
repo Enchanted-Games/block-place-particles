@@ -122,6 +122,8 @@ public class ConfigOptions {
         try {
             if(decodedConfig.has(CONFIG_VERSION_KEY)) {
                 configVer = decodedConfig.getAsJsonPrimitive(CONFIG_VERSION_KEY).getAsInt();
+            } else {
+                configVer = 0;
             }
         } catch (ClassCastException | NumberFormatException ignored) {}
 
