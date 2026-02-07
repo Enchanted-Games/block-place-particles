@@ -193,7 +193,7 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
         cancellable = true
     )
     private void block_place_particle$createCustomParticleGroup(ParticleRenderType particleRenderType, CallbackInfoReturnable<ParticleGroup<?>> cir) {
-        if(particleRenderType == ModParticleRenderTypes.CUSTOM_GEOMETRY) {
+        if(particleRenderType == ModParticleRenderTypes.PARTICLE_INTERACTIONS) {
             cir.setReturnValue(new CustomGeometryParticleGroup((ParticleEngine) (Object) this));
         }
     }
@@ -203,7 +203,7 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
         method = "extract"
     )
     private void block_place_particle$extractCustomParticles(ParticlesRenderState state, Frustum frustum, Camera camera, float f, CallbackInfo ci) {
-        ParticleGroup<?> group = this.particles.get(ModParticleRenderTypes.CUSTOM_GEOMETRY);
+        ParticleGroup<?> group = this.particles.get(ModParticleRenderTypes.PARTICLE_INTERACTIONS);
         if (group != null && !group.isEmpty()) {
             state.add(group.extractRenderState(frustum, camera, f));
         }

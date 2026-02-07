@@ -79,7 +79,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
 
     @Override
     public @NotNull ParticleRenderType getGroup() {
-        return ModParticleRenderTypes.CUSTOM_GEOMETRY;
+        return ModParticleRenderTypes.PARTICLE_INTERACTIONS;
     }
     //?}
 

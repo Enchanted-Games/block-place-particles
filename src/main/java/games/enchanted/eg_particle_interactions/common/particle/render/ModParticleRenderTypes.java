@@ -11,6 +11,6 @@ public class ModParticleRenderTypes {
     //? if minecraft: <= 1.21.8 {
     /*public static ParticleRenderType BACKFACE_TERRAIN_PARTICLE = new ParticleRenderType("BACKFACE_TERRAIN_PARTICLE", ModRenderTypes.translucentParticleBackface(TextureAtlas.LOCATION_BLOCKS));
     *///?} else {
-    public static ParticleRenderType CUSTOM_GEOMETRY = new ParticleRenderType("CUSTOM_GEOMETRY");
+    public static ParticleRenderType PARTICLE_INTERACTIONS = new ParticleRenderType("PARTICLE_INTERACTIONS");
     //?}
 }
