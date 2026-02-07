@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 public class ConfigTranslation {
     private static final String CONFIG_KEY_PREFIX = Constants.MOD_ID + ".config";
     private static final String FALLBACK_CONFIG_KEY_PREFIX = Constants.MOD_ID + ".fallback_config";
+    private static final String NOT_IN_LEVEL_CONFIG_KEY_PREFIX = Constants.MOD_ID + ".not_in_level";
 
     public static final TranslationKey MOD_CREDITS_KEY = new TranslationKey(Constants.MOD_ID + ".mod_credits");
     public static final String GENERAL_CATEGORY = "general";
@@ -120,6 +121,13 @@ public class ConfigTranslation {
 
     public static TranslationKey getDownloadYACLButtonMessage() {
         return new TranslationKey("eg_particle_interactions.button.download_yacl");
+    }
+
+    public static TranslationKey getNotInLevelConfigTitle() {
+        return new TranslationKey(NOT_IN_LEVEL_CONFIG_KEY_PREFIX + ".title");
+    }
+    public static TranslationKey getNotInLevelConfigBody() {
+        return new TranslationKey(NOT_IN_LEVEL_CONFIG_KEY_PREFIX + ".body");
     }
 
 

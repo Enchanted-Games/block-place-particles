@@ -1,22 +1,33 @@
 package games.enchanted.eg_particle_interactions.common.config.screen.yacl;
 
 import dev.isxander.yacl3.api.*;
-import games.enchanted.eg_particle_interactions.common.config.compat.ConfigScreenCreator;
-import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
 import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
 import games.enchanted.eg_particle_interactions.common.config.categories.*;
+import games.enchanted.eg_particle_interactions.common.config.compat.ConfigScreenCreator;
+import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
 import games.enchanted.eg_particle_interactions.common.localisation.ConfigTranslation;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverride;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.AlertScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 
 public class YaclConfigScreenCreator implements ConfigScreenCreator {
     @Override
-    public Screen createScreen(Screen parentScreen) {
+    public Screen createScreen(Screen parent) {
+        if(Minecraft.getInstance().level == null) {
+            return new AlertScreen(
+                () -> Minecraft.getInstance().setScreen(parent),
+                ConfigTranslation.getNotInLevelConfigTitle().toComponent().copy().withStyle(Style.EMPTY.withBold(true)),
+                ConfigTranslation.getNotInLevelConfigBody().toComponent()
+            );
+        }
+
         YetAnotherConfigLib.Builder yaclBuilder = YetAnotherConfigLib.createBuilder()
             .save(ConfigOptions::applyAndSaveConfig)
             .title(ConfigTranslation.getConfigTitle().toComponent());
-        return createConfigCategories(yaclBuilder).generateScreen(parentScreen);
+        return createConfigCategories(yaclBuilder).generateScreen(parent);
     }
 
     private static YetAnotherConfigLib createConfigCategories(YetAnotherConfigLib.Builder yaclBuilder) {
@@ -31,7 +42,7 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.MOD_CREDITS_KEY) ))
                 .collapsed(true)
                 .option(LabelOption.createBuilder().line(Component.empty()).build())
-                .build())
+            .build())
 
             // general
             .group( ConfigScreenHelper.createGenericConfigGroup(
