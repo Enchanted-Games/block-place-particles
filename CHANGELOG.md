@@ -1,7 +1,4 @@
-# 0.9.3
+# 0.9.4
 
-- Ported to Fabric 26.1-snapshot.6
-- Fixed a crash on startup when loading an old config file
-- Added some debug visuals for bounding boxes
-- Removed some unused debug options
-- Some minor internal refactors
+- Fixed a crash when interacting with a block or fluid dropdown in the config menu
+- Added a warning when trying to open the config screen from the main menu
