@@ -1,5 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.splash;
 
+import games.enchanted.eg_particle_interactions.common.particle.colour.BlockTintColourSource;
+import games.enchanted.eg_particle_interactions.common.particle.colour.ParticleColourSource;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
@@ -23,11 +25,17 @@ public class BlockSplash extends BucketSplash {
         this.uo = this.random.nextFloat() * 3.0F;
         this.vo = this.random.nextFloat() * 3.0F;
 
-        int tintColour = Minecraft.getInstance().getBlockColors().getColor(blockState, level, blockPos, 0);
-        this.setRGB(
-            this.getRed() * (float)(tintColour >> 16 & 255) / 255.0F,
-            this.getGreen() * (float)(tintColour >> 8 & 255) / 255.0F,
-            this.getBlue() * (float)(tintColour & 255) / 255.0F
+        var colourSource = new BlockTintColourSource(0);
+        int[] colour = colourSource.getARGB(new ParticleColourSource.ParticleColourContext(
+            level,
+            new ParticleColourSource.BlockContext(blockState, blockPos),
+            null
+        ));
+        this.setRGBA(
+            this.getRed() * (float)colour[1] / 255f,
+            this.getGreen() * (float)colour[2] / 255f,
+            this.getBlue() * (float)colour[3] / 255f,
+            this.getAlpha() * (float)colour[0] / 255f
         );
 
         float particleSize = (float) 0.1255 - (this.random.nextBoolean() ? 0.01f : 0.02f);

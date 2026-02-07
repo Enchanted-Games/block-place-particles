@@ -1,5 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.falling_spin;
 
+import games.enchanted.eg_particle_interactions.common.particle.colour.BlockTextureColourSource;
+import games.enchanted.eg_particle_interactions.common.particle.colour.ParticleColourSource;
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -15,14 +17,18 @@ import org.jetbrains.annotations.Nullable;
 public class FallingSpinningColouredParticle extends FallingSpinningParticle {
     protected FallingSpinningColouredParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState, SpriteSet spriteSet, float gravityMultiplier) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier);
-        int tintColour = Minecraft.getInstance().getBlockColors().getColor(blockState, level, blockPos, 0);
-        int[] tintColourARGB = ColourUtil.RGBint_to_ARGB(tintColour);
-        int[] averageTextureColourARGB = ColourUtil.getRandomBlockColour(blockState, tintColourARGB);
+
+        var colourSource = new BlockTextureColourSource(0);
+        int[] colour = colourSource.getARGB(new ParticleColourSource.ParticleColourContext(
+            level,
+            new ParticleColourSource.BlockContext(blockState, blockPos),
+            null
+        ));
         this.setRGBA(
-            (float)averageTextureColourARGB[1] / 255f,
-            (float)averageTextureColourARGB[2] / 255f,
-            (float)averageTextureColourARGB[3] / 255f,
-            (float)averageTextureColourARGB[0] / 255f
+            (float)colour[1] / 255f,
+            (float)colour[2] / 255f,
+            (float)colour[3] / 255f,
+            (float)colour[0] / 255f
         );
     }
 

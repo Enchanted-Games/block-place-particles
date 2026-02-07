@@ -1,9 +1,9 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.dust;
 
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
-import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
+import games.enchanted.eg_particle_interactions.common.particle.colour.BlockTextureColourSource;
+import games.enchanted.eg_particle_interactions.common.particle.colour.ParticleColourSource;
 import games.enchanted.eg_particle_interactions.common.util.ParticleUtil;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -26,14 +26,17 @@ public class FloatingColouredDust extends AbstractDust {
 
         this.dustBlockState = blockState;
 
-        int tintColour = Minecraft.getInstance().getBlockColors().getColor(blockState, level, blockPos, 0);
-        int[] tintColourARGB = ColourUtil.RGBint_to_ARGB(tintColour);
-        int[] averageTextureColourARGB = ColourUtil.getRandomBlockColour(blockState, tintColourARGB);
+        var colourSource = new BlockTextureColourSource(0);
+        int[] colour = colourSource.getARGB(new ParticleColourSource.ParticleColourContext(
+            level,
+            new ParticleColourSource.BlockContext(blockState, blockPos),
+            null
+        ));
         this.setRGBA(
-            (float)averageTextureColourARGB[1] / 255f,
-            (float)averageTextureColourARGB[2] / 255f,
-            (float)averageTextureColourARGB[3] / 255f,
-            (float)averageTextureColourARGB[0] / 255f
+            (float)colour[1] / 255f,
+            (float)colour[2] / 255f,
+            (float)colour[3] / 255f,
+            (float)colour[0] / 255f
         );
     }
 
