@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.splash;
 
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.colour.BlockTintColourSource;
 import games.enchanted.eg_particle_interactions.common.particle.colour.ParticleColourSource;
 import net.minecraft.client.Minecraft;
@@ -26,9 +27,9 @@ public class BlockSplash extends BucketSplash {
         this.vo = this.random.nextFloat() * 3.0F;
 
         var colourSource = new BlockTintColourSource(0);
-        int[] colour = colourSource.getARGB(new ParticleColourSource.ParticleColourContext(
+        int[] colour = colourSource.getARGB(new ParticleContext(
             level,
-            new ParticleColourSource.BlockContext(blockState, blockPos),
+            new ParticleContext.BlockContext(blockState, blockPos),
             null
         ));
         this.setRGBA(

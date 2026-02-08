@@ -1,6 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.dust;
 
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.colour.BlockTextureColourSource;
 import games.enchanted.eg_particle_interactions.common.particle.colour.ParticleColourSource;
 import games.enchanted.eg_particle_interactions.common.util.ParticleUtil;
@@ -27,9 +28,9 @@ public class FloatingColouredDust extends AbstractDust {
         this.dustBlockState = blockState;
 
         var colourSource = new BlockTextureColourSource(0);
-        int[] colour = colourSource.getARGB(new ParticleColourSource.ParticleColourContext(
+        int[] colour = colourSource.getARGB(new ParticleContext(
             level,
-            new ParticleColourSource.BlockContext(blockState, blockPos),
+            new ParticleContext.BlockContext(blockState, blockPos),
             null
         ));
         this.setRGBA(

@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.falling_spin;
 
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.colour.BlockTextureColourSource;
 import games.enchanted.eg_particle_interactions.common.particle.colour.ParticleColourSource;
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
@@ -19,9 +20,9 @@ public class FallingSpinningColouredParticle extends FallingSpinningParticle {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier);
 
         var colourSource = new BlockTextureColourSource(0);
-        int[] colour = colourSource.getARGB(new ParticleColourSource.ParticleColourContext(
+        int[] colour = colourSource.getARGB(new ParticleContext(
             level,
-            new ParticleColourSource.BlockContext(blockState, blockPos),
+            new ParticleContext.BlockContext(blockState, blockPos),
             null
         ));
         this.setRGBA(

@@ -1,5 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.colour;
 
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+
 public class StaticColourSource extends ParticleColourSource {
     final int[] argb;
 
@@ -8,7 +10,7 @@ public class StaticColourSource extends ParticleColourSource {
     }
 
     @Override
-    public int[] getARGB(ParticleColourContext context) {
+    public int[] getARGB(ParticleContext context) {
         return this.argb;
     }
 }
