@@ -3,10 +3,13 @@ package games.enchanted.eg_particle_interactions.common.particle_spawning;
 import games.enchanted.eg_particle_interactions.common.config.categories.*;
 import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.DripParticleOption;
 import games.enchanted.eg_particle_interactions.common.particle.options.RandomDistributionEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.TintedParticleOption;
+import games.enchanted.eg_particle_interactions.common.particle.override.OverridePreset;
+import games.enchanted.eg_particle_interactions.common.particle.override.manager.ParticleOverrideManager;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverride;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.FluidPlacementParticle;
@@ -60,6 +63,8 @@ public class SpawnParticles {
             return;
         }
 
+        OverridePreset override = ParticleOverrideManager.getOverrideForBlock(placedBlockState);
+
         int maxParticlesPerEdge = BlockParticleOverride.getParticleMultiplierForOverride(particleOverride, true);
         if (maxParticlesPerEdge <= 0) return;
 
@@ -99,12 +104,16 @@ public class SpawnParticles {
                     double particleYOffset = (biggestEdge == Direction.Axis.Y ? particlePos : height) + y1 + verticalAxisOffset;
                     double particleZOffset = (biggestEdge == Direction.Axis.Z ? particlePos : depth) + z1;
 
-                    ParticleOptions particleToSpawn = particleOverride.getParticleOptionForState(placedBlockState, level, blockPos, overrideOrigin);
-                    if (particleToSpawn == null) {
-                        continue;
-                    }
-                    level.addParticle(
-                        particleToSpawn,
+                    override.getRandom().spawnParticle(
+                        overrideOrigin,
+                        new ParticleContext(
+                            level,
+                            new ParticleContext.BlockContext(
+                                placedBlockState,
+                                blockPos
+                            ),
+                            null
+                        ),
                         (double) blockPos.getX() + MathHelpers.expandWhenOutOfBound(particleXOffset, 0, 1),
                         (double) blockPos.getY() + MathHelpers.expandWhenOutOfBound(particleYOffset, 0, 1),
                         (double) blockPos.getZ() + MathHelpers.expandWhenOutOfBound(particleZOffset, 0, 1),
@@ -112,6 +121,20 @@ public class SpawnParticles {
                         (particleYOffset - blockCenter.y()) * particleOutwardVelocityAdjustment,
                         (particleZOffset - blockCenter.z()) * particleOutwardVelocityAdjustment
                     );
+
+//                    ParticleOptions particleToSpawn = particleOverride.getParticleOptionForState(placedBlockState, level, blockPos, overrideOrigin);
+//                    if (particleToSpawn == null) {
+//                        continue;
+//                    }
+//                    level.addParticle(
+//                        particleToSpawn,
+//                        (double) blockPos.getX() + MathHelpers.expandWhenOutOfBound(particleXOffset, 0, 1),
+//                        (double) blockPos.getY() + MathHelpers.expandWhenOutOfBound(particleYOffset, 0, 1),
+//                        (double) blockPos.getZ() + MathHelpers.expandWhenOutOfBound(particleZOffset, 0, 1),
+//                        (particleXOffset - blockCenter.x()) * particleOutwardVelocityAdjustment,
+//                        (particleYOffset - blockCenter.y()) * particleOutwardVelocityAdjustment,
+//                        (particleZOffset - blockCenter.z()) * particleOutwardVelocityAdjustment
+//                    );
                 }
             });
         }

@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.override;
 
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.ParticleOrigin;
 
 import java.util.Map;
@@ -16,5 +17,9 @@ public class ParticleOverride {
     public Emitter getEmitter(ParticleOrigin origin) {
         if(!this.emitterByOrigin.containsKey(origin)) return this.defaultEmitter;
         return this.emitterByOrigin.get(origin);
+    }
+
+    public void spawnParticle(ParticleOrigin origin, ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        this.getEmitter(origin).spawnParticle(context, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 }

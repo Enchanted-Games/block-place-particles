@@ -1,10 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.falling_spin;
 
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.particle.colour.BlockTextureColourSource;
-import games.enchanted.eg_particle_interactions.common.particle.colour.ParticleColourSource;
-import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
-import net.minecraft.client.Minecraft;
+import games.enchanted.eg_particle_interactions.common.particle.coloursource.BlockTextureColourSource;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;

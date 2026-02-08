@@ -1,6 +1,9 @@
 package games.enchanted.eg_particle_interactions.common;
 
 import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
+import games.enchanted.eg_particle_interactions.common.particle.override.OverridePreset;
+import games.enchanted.eg_particle_interactions.common.particle.override.ParticleOverrides;
+import games.enchanted.eg_particle_interactions.common.particle.override.manager.ParticleOverrideManager;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteAtlasManager;
 import it.unimi.dsi.fastutil.Pair;
@@ -37,6 +40,10 @@ public class ParticleInteractionsMod {
     public static void endOfModLoading() {
         ConfigOptions.readConfig();
         BlockParticleOverrides.registerOverrides();
+        ParticleOverrides.init();
+        ParticleOverrideManager.addBlockOverride(Identifier.withDefaultNamespace("grass_block"), OverridePreset.getOrCreate(List.of(
+            new OverridePreset.OverrideAndWeight(ParticleOverrides.SNOW_TEST, 1)
+        )));
         Logging.info("Loaded Successfully!");
     }
 
