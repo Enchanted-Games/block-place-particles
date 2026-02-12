@@ -1,8 +1,7 @@
-package games.enchanted.eg_particle_interactions.common.particle.override.manager;
+package games.enchanted.eg_particle_interactions.common.particle_overrides.manager;
 
-import games.enchanted.eg_particle_interactions.common.particle.override.OverridePreset;
-import games.enchanted.eg_particle_interactions.common.particle.override.ParticleOverride;
-import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
+import games.enchanted.eg_particle_interactions.common.particle_overrides.OverridePreset;
+import games.enchanted.eg_particle_interactions.common.particle_overrides.ParticleOverride;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.state.BlockState;
 

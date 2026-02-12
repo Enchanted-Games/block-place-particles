@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.particle.override;
+package games.enchanted.eg_particle_interactions.common.particle_overrides;
 
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.ParticleOrigin;

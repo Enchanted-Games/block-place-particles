@@ -8,8 +8,8 @@ import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitt
 import games.enchanted.eg_particle_interactions.common.particle.options.DripParticleOption;
 import games.enchanted.eg_particle_interactions.common.particle.options.RandomDistributionEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.TintedParticleOption;
-import games.enchanted.eg_particle_interactions.common.particle.override.OverridePreset;
-import games.enchanted.eg_particle_interactions.common.particle.override.manager.ParticleOverrideManager;
+import games.enchanted.eg_particle_interactions.common.particle_overrides.OverridePreset;
+import games.enchanted.eg_particle_interactions.common.particle_overrides.manager.ParticleOverrideManager;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverride;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.FluidPlacementParticle;
@@ -18,7 +18,6 @@ import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import games.enchanted.eg_particle_interactions.common.registry.TagUtil;
 import games.enchanted.eg_particle_interactions.common.util.FluidHelpers;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
