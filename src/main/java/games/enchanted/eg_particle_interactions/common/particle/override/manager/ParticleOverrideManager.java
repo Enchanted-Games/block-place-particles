@@ -12,7 +12,7 @@ import java.util.Map;
 public class ParticleOverrideManager {
     private static final Map<Identifier, ParticleOverride> IDENTIFIER_TO_OVERRIDE = new HashMap<>();
     private static final Map<Identifier, OverridePreset> OVERRIDE_PRESETS = new HashMap<>();
-    private static final Map<ParticleOverridableObject<?>, OverridePreset> OBJECT_TO_OVERRIDES = new HashMap<>();
+    private static final Map<BlockState, OverridePreset> BLOCKSTATE_OVERRIDES = new HashMap<>();
 
     public static Identifier registerOverride(Identifier id, ParticleOverride override) {
         ParticleOverrideManager.IDENTIFIER_TO_OVERRIDE.put(id, override);
@@ -32,21 +32,13 @@ public class ParticleOverrideManager {
     }
 
 
-    public static void addBlockOverride(Identifier blockID, OverridePreset override) {
-        ParticleOverrideManager.OBJECT_TO_OVERRIDES.put(
-            new ParticleOverridableObject<>(blockID),
-            override
-        );
+    public static void addBlockOverride(BlockState state, OverridePreset override) {
+        ParticleOverrideManager.BLOCKSTATE_OVERRIDES.put(state, override);
     }
 
     public static OverridePreset getOverrideForBlock(BlockState state) {
-        Identifier blockID = RegistryHelpers.getLocationFromBlock(state.getBlock());
-        OverridePreset preset = ParticleOverrideManager.OBJECT_TO_OVERRIDES.get(new ParticleOverridableObject<>(blockID));
+        OverridePreset preset = ParticleOverrideManager.BLOCKSTATE_OVERRIDES.get(state);
         if(preset == null) return OverridePreset.DEFAULT;
         return preset;
-    }
-
-
-    record ParticleOverridableObject<T>(T obj) {
     }
 }

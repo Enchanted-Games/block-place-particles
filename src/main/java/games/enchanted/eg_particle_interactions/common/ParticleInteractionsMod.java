@@ -14,6 +14,8 @@ import net.minecraft.server.packs.resources.PreparableReloadListener;
 
 //? if minecraft: > 1.21.8 && fabric {
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.GrassBlock;
 //?}
 //? if minecraft: <= 1.21.8 && fabric {
 /*import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
@@ -28,10 +30,9 @@ import java.util.List;
  * This is the entry point for your mod's common side, called by each modloader specific side.
  */
 public class ParticleInteractionsMod {
-    //? if minecraft: > 1.21.8 {
-    @Deprecated
-    //?}
-    public static ParticlePaletteAtlasManager particlePaletteAtlas;
+    //? if minecraft: <= 1.21.8 {
+    /*public static ParticlePaletteAtlasManager particlePaletteAtlas;
+    *///?}
 
     public static void startOfModLoading() {
         Logging.info("Mod is loading on a {} environment!", Constants.TARGET_PLATFORM);
@@ -41,8 +42,13 @@ public class ParticleInteractionsMod {
         ConfigOptions.readConfig();
         BlockParticleOverrides.registerOverrides();
         ParticleOverrides.init();
-        ParticleOverrideManager.addBlockOverride(Identifier.withDefaultNamespace("grass_block"), OverridePreset.getOrCreate(List.of(
-            new OverridePreset.OverrideAndWeight(ParticleOverrides.SNOW_TEST, 1)
+        ParticleOverrideManager.addBlockOverride(Blocks.GRASS_BLOCK.defaultBlockState(), OverridePreset.getOrCreate(List.of(
+            new OverridePreset.OverrideAndWeight(ParticleOverrides.SNOW_TEST, 1),
+            new OverridePreset.OverrideAndWeight(ParticleOverrides.SPARK_TEST, 20)
+        )));
+        ParticleOverrideManager.addBlockOverride(Blocks.GRASS_BLOCK.defaultBlockState().setValue(GrassBlock.SNOWY, true), OverridePreset.getOrCreate(List.of(
+            new OverridePreset.OverrideAndWeight(ParticleOverrides.SNOW_TEST, 20),
+            new OverridePreset.OverrideAndWeight(ParticleOverrides.SPARK_TEST, 1)
         )));
         Logging.info("Loaded Successfully!");
     }

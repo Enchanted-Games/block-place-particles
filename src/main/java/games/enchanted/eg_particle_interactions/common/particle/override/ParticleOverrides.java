@@ -27,7 +27,7 @@ public class ParticleOverrides {
     public static final Identifier SPARK_TEST = ParticleOverrideManager.registerOverride(
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "spark"),
         new ParticleOverride(
-            new Emitter(ModParticleTypes.FLYING_SPARK),
+            new Emitter(ModParticleTypes.SPARK_FLASH),
             Map.of()
         )
     );

@@ -18,6 +18,7 @@ import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import games.enchanted.eg_particle_interactions.common.registry.TagUtil;
 import games.enchanted.eg_particle_interactions.common.util.FluidHelpers;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -47,11 +48,6 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 public class SpawnParticles {
-    public static void spawnBlockPlaceParticle(ClientLevel level, BlockPos blockPos) {
-        BlockState placedBlockState = level.getBlockState(blockPos);
-        spawnBlockPlaceParticle(level, blockPos, placedBlockState);
-    }
-
     public static void spawnBlockPlaceParticle(ClientLevel level, BlockPos blockPos, BlockState placedBlockState) {
         if(BlockOverrideOptions.DISABLE_ALL_PLACING_PARTICLES.getValue()) return;
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.BLOCK_PLACE_OR_BREAK, blockPos)) return;
@@ -121,20 +117,6 @@ public class SpawnParticles {
                         (particleYOffset - blockCenter.y()) * particleOutwardVelocityAdjustment,
                         (particleZOffset - blockCenter.z()) * particleOutwardVelocityAdjustment
                     );
-
-//                    ParticleOptions particleToSpawn = particleOverride.getParticleOptionForState(placedBlockState, level, blockPos, overrideOrigin);
-//                    if (particleToSpawn == null) {
-//                        continue;
-//                    }
-//                    level.addParticle(
-//                        particleToSpawn,
-//                        (double) blockPos.getX() + MathHelpers.expandWhenOutOfBound(particleXOffset, 0, 1),
-//                        (double) blockPos.getY() + MathHelpers.expandWhenOutOfBound(particleYOffset, 0, 1),
-//                        (double) blockPos.getZ() + MathHelpers.expandWhenOutOfBound(particleZOffset, 0, 1),
-//                        (particleXOffset - blockCenter.x()) * particleOutwardVelocityAdjustment,
-//                        (particleYOffset - blockCenter.y()) * particleOutwardVelocityAdjustment,
-//                        (particleZOffset - blockCenter.z()) * particleOutwardVelocityAdjustment
-//                    );
                 }
             });
         }
