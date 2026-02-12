@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.particle_overrides;
+package games.enchanted.eg_particle_interactions.common.override_system;
 
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import net.minecraft.core.particles.ParticleOptions;

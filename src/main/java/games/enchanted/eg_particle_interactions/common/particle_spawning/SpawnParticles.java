@@ -8,8 +8,8 @@ import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitt
 import games.enchanted.eg_particle_interactions.common.particle.options.DripParticleOption;
 import games.enchanted.eg_particle_interactions.common.particle.options.RandomDistributionEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.TintedParticleOption;
-import games.enchanted.eg_particle_interactions.common.particle_overrides.OverridePreset;
-import games.enchanted.eg_particle_interactions.common.particle_overrides.manager.ParticleOverrideManager;
+import games.enchanted.eg_particle_interactions.common.override_system.OverridePreset;
+import games.enchanted.eg_particle_interactions.common.override_system.manager.ParticleOverrideManager;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverride;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.FluidPlacementParticle;

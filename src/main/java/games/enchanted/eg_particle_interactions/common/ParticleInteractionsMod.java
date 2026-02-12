@@ -1,9 +1,9 @@
 package games.enchanted.eg_particle_interactions.common;
 
 import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
-import games.enchanted.eg_particle_interactions.common.particle_overrides.OverridePreset;
-import games.enchanted.eg_particle_interactions.common.particle_overrides.ParticleOverrides;
-import games.enchanted.eg_particle_interactions.common.particle_overrides.manager.ParticleOverrideManager;
+import games.enchanted.eg_particle_interactions.common.override_system.OverridePreset;
+import games.enchanted.eg_particle_interactions.common.override_system.ParticleOverrides;
+import games.enchanted.eg_particle_interactions.common.override_system.manager.ParticleOverrideManager;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverrides;
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.client.renderer.texture.TextureManager;

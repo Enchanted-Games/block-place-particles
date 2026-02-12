@@ -1,8 +1,8 @@
-package games.enchanted.eg_particle_interactions.common.particle_overrides;
+package games.enchanted.eg_particle_interactions.common.override_system;
 
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
-import games.enchanted.eg_particle_interactions.common.particle_overrides.manager.ParticleOverrideManager;
+import games.enchanted.eg_particle_interactions.common.override_system.manager.ParticleOverrideManager;
 import net.minecraft.resources.Identifier;
 
 import java.util.Map;
