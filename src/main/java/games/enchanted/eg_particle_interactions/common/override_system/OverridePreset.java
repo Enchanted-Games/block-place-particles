@@ -1,6 +1,8 @@
 package games.enchanted.eg_particle_interactions.common.override_system;
 
 import games.enchanted.eg_particle_interactions.common.override_system.manager.ParticleOverrideManager;
+import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverride;
+import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
 import net.minecraft.resources.Identifier;
 
 import java.util.HashMap;
@@ -35,7 +37,7 @@ public class OverridePreset {
             rand -= randomOverride.weight();
         }
 
-        return ParticleOverrideManager.getOverrideFromId(overrideID);
+        return ParticleOverrides.getOverrideFromId(overrideID);
     }
 
     public static OverridePreset getOrCreate(List<OverrideAndWeight> overrides) {

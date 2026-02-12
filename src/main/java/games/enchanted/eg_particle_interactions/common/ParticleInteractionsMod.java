@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common;
 
 import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
 import games.enchanted.eg_particle_interactions.common.override_system.OverridePreset;
-import games.enchanted.eg_particle_interactions.common.override_system.ParticleOverrides;
+import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.override_system.manager.ParticleOverrideManager;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverrides;
 import it.unimi.dsi.fastutil.Pair;
