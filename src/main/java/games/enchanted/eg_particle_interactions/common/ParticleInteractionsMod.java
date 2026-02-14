@@ -42,14 +42,6 @@ public class ParticleInteractionsMod {
         ConfigOptions.readConfig();
         BlockParticleOverrides.registerOverrides();
         ParticleOverrides.init();
-//        ParticleOverrideManager.addBlockOverride(Blocks.GRASS_BLOCK.defaultBlockState(), OverridePreset.getOrCreate(List.of(
-//            new OverridePreset.OverrideAndWeight(ParticleOverrides.SNOW_TEST, 1),
-//            new OverridePreset.OverrideAndWeight(ParticleOverrides.SPARK_TEST, 20)
-//        )));
-//        ParticleOverrideManager.addBlockOverride(Blocks.GRASS_BLOCK.defaultBlockState().setValue(GrassBlock.SNOWY, true), OverridePreset.getOrCreate(List.of(
-//            new OverridePreset.OverrideAndWeight(ParticleOverrides.SNOW_TEST, 20),
-//            new OverridePreset.OverrideAndWeight(ParticleOverrides.SPARK_TEST, 1)
-//        )));
 
         var snowOverrideTest = new OverrideRuleFile<>(
             List.of(
@@ -87,11 +79,7 @@ public class ParticleInteractionsMod {
                 )
             ),
             List.of(
-                new OverrideRuleFile.RemovalsSection<>(
-                    List.of(
-                        new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("stone"), false))
-                    )
-                )
+                new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("stone"), false))
             )
         );
         sparkOverrideTest.setOverrideId(ParticleOverrides.SPARK_TEST);

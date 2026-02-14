@@ -16,7 +16,7 @@ public class OverrideRuleFile<T> {
             Codec.list(AdditionsSection.codec(BlockStatePredicate.CODEC, "block_predicate"))
                 .optionalFieldOf("weights", List.of())
                 .forGetter(OverrideRuleFile::getAdditions),
-            Codec.list(RemovalsSection.codec(BlockStatePredicate.CODEC, "block_predicate"))
+            Codec.list(BlockStatePredicate.CODEC)
                 .optionalFieldOf("removals", List.of())
                 .forGetter(OverrideRuleFile::getRemovals)
         )
@@ -27,10 +27,10 @@ public class OverrideRuleFile<T> {
     );
 
     private final List<AdditionsSection<T>> additions;
-    private final List<RemovalsSection<T>> removals;
+    private final List<ObjectPredicate<T>> removals;
     @Nullable private Identifier overrideId;
 
-    public OverrideRuleFile(List<AdditionsSection<T>> additions, List<RemovalsSection<T>> removals) {
+    public OverrideRuleFile(List<AdditionsSection<T>> additions, List<ObjectPredicate<T>> removals) {
         this.additions = additions;
         this.removals = removals;
     }
@@ -43,17 +43,15 @@ public class OverrideRuleFile<T> {
         return this.additions;
     }
 
-    protected List<RemovalsSection<T>> getRemovals() {
+    protected List<ObjectPredicate<T>> getRemovals() {
         return this.removals;
     }
 
     public OverridePreset.OverrideAndWeight getOverrideWeightForObject(T object) {
         int weight = 0;
 
-        for (RemovalsSection<T> removal : this.removals) {
-            for (ObjectPredicate<T> predicate : removal.predicates()) {
-                if(predicate.matches(object)) return new OverridePreset.OverrideAndWeight(this.overrideId, 0);
-            }
+        for (ObjectPredicate<T> removal : this.removals) {
+            if(removal.matches(object)) return new OverridePreset.OverrideAndWeight(this.overrideId, 0);
         }
 
         for (AdditionsSection<T> addition : this.additions) {
@@ -78,20 +76,6 @@ public class OverrideRuleFile<T> {
                 .apply(
                     instance,
                     AdditionsSection::new
-                )
-            );
-        }
-    }
-
-    public record RemovalsSection<T>(List<ObjectPredicate<T>> predicates) {
-        public static <O> Codec<RemovalsSection<O>> codec(Codec<ObjectPredicate<O>> predicateCodec, String predicateFieldName) {
-            return RecordCodecBuilder.create(instance ->
-                instance.group(
-                    ExtraCodecs.compactListCodec(predicateCodec).fieldOf(predicateFieldName).forGetter(RemovalsSection::predicates)
-                )
-                .apply(
-                    instance,
-                    RemovalsSection::new
                 )
             );
         }
