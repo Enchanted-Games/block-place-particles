@@ -6,34 +6,37 @@ import games.enchanted.eg_particle_interactions.common.override_system.preset.Ov
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jspecify.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class UnbakedPreset<T> {
-    public static final Codec<UnbakedPreset<BlockState>> BLOCKSTATE_CODEC = RecordCodecBuilder.create(
+public class OverrideRuleFile<T> {
+    public static final Codec<OverrideRuleFile<BlockState>> BLOCKSTATE_CODEC = RecordCodecBuilder.create(
         instance -> instance.group(
             Codec.list(AdditionsSection.codec(BlockStatePredicate.CODEC, "block_predicate"))
-                .optionalFieldOf("additions", List.of())
-                .forGetter(UnbakedPreset::getAdditions),
+                .optionalFieldOf("weights", List.of())
+                .forGetter(OverrideRuleFile::getAdditions),
             Codec.list(RemovalsSection.codec(BlockStatePredicate.CODEC, "block_predicate"))
                 .optionalFieldOf("removals", List.of())
-                .forGetter(UnbakedPreset::getRemovals)
+                .forGetter(OverrideRuleFile::getRemovals)
         )
         .apply(
             instance,
-            UnbakedPreset::new
+            OverrideRuleFile::new
         )
     );
 
     private final List<AdditionsSection<T>> additions;
     private final List<RemovalsSection<T>> removals;
+    @Nullable private Identifier overrideId;
 
-    public UnbakedPreset(List<AdditionsSection<T>> additions, List<RemovalsSection<T>> removals) {
+    public OverrideRuleFile(List<AdditionsSection<T>> additions, List<RemovalsSection<T>> removals) {
         this.additions = additions;
         this.removals = removals;
+    }
+
+    public void setOverrideId(Identifier overrideId) {
+        this.overrideId = overrideId;
     }
 
     protected List<AdditionsSection<T>> getAdditions() {
@@ -44,44 +47,32 @@ public class UnbakedPreset<T> {
         return this.removals;
     }
 
-    public Map<Identifier, Integer> getOverridesForObject(T object) {
-        Map<Identifier, Integer> idToWeight = new HashMap<>();
+    public OverridePreset.OverrideAndWeight getOverrideWeightForObject(T object) {
+        int weight = 0;
+
+        for (RemovalsSection<T> removal : this.removals) {
+            for (ObjectPredicate<T> predicate : removal.predicates()) {
+                if(predicate.matches(object)) return new OverridePreset.OverrideAndWeight(this.overrideId, 0);
+            }
+        }
 
         for (AdditionsSection<T> addition : this.additions) {
-            Identifier overrideId = addition.overrideId();
-            int weight = addition.weight();
+            int additionWeight = addition.weight();
 
             for (ObjectPredicate<T> predicate : addition.predicates()) {
                 if(!predicate.matches(object)) continue;
-
-                if(idToWeight.containsKey(overrideId)) {
-                    Integer oldWeight = idToWeight.get(overrideId);
-                    idToWeight.put(overrideId, oldWeight + weight);
-                } else {
-                    idToWeight.put(overrideId, weight);
-                }
+                weight += additionWeight;
             }
         }
 
-        for (RemovalsSection<T> removal : this.removals) {
-            Identifier overrideId = removal.overrideId();
-            if(!idToWeight.containsKey(overrideId)) continue;
-
-            for (ObjectPredicate<T> predicate : removal.predicates()) {
-                if(!predicate.matches(object)) continue;
-                idToWeight.remove(overrideId);
-            }
-        }
-
-        return idToWeight;
+        return new OverridePreset.OverrideAndWeight(this.overrideId, weight);
     }
 
-    public record AdditionsSection<T>(int weight, Identifier overrideId, List<ObjectPredicate<T>> predicates) {
+    public record AdditionsSection<T>(int weight, List<ObjectPredicate<T>> predicates) {
         public static <O> Codec<AdditionsSection<O>> codec(Codec<ObjectPredicate<O>> predicateCodec, String predicateFieldName) {
             return RecordCodecBuilder.create(instance ->
                 instance.group(
                     ExtraCodecs.NON_NEGATIVE_INT.optionalFieldOf("weight", 1).forGetter(AdditionsSection::weight),
-                    Identifier.CODEC.fieldOf("particle_override").forGetter(AdditionsSection::overrideId),
                     ExtraCodecs.compactListCodec(predicateCodec).fieldOf(predicateFieldName).forGetter(AdditionsSection::predicates)
                 )
                 .apply(
@@ -92,11 +83,10 @@ public class UnbakedPreset<T> {
         }
     }
 
-    public record RemovalsSection<T>(Identifier overrideId, List<ObjectPredicate<T>> predicates) {
+    public record RemovalsSection<T>(List<ObjectPredicate<T>> predicates) {
         public static <O> Codec<RemovalsSection<O>> codec(Codec<ObjectPredicate<O>> predicateCodec, String predicateFieldName) {
             return RecordCodecBuilder.create(instance ->
                 instance.group(
-                    Identifier.CODEC.fieldOf("particle_override").forGetter(RemovalsSection::overrideId),
                     ExtraCodecs.compactListCodec(predicateCodec).fieldOf(predicateFieldName).forGetter(RemovalsSection::predicates)
                 )
                 .apply(

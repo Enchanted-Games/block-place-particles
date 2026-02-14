@@ -1,11 +1,10 @@
 package games.enchanted.eg_particle_interactions.common;
 
 import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
-import games.enchanted.eg_particle_interactions.common.override_system.preset.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.override_system.manager.ParticleOverrideManager;
 import games.enchanted.eg_particle_interactions.common.override_system.preset.unbaked.BlockStatePredicate;
-import games.enchanted.eg_particle_interactions.common.override_system.preset.unbaked.UnbakedPreset;
+import games.enchanted.eg_particle_interactions.common.override_system.preset.unbaked.OverrideRuleFile;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
 import it.unimi.dsi.fastutil.Pair;
@@ -17,7 +16,6 @@ import net.minecraft.server.packs.resources.PreparableReloadListener;
 //? if minecraft: > 1.21.8 && fabric {
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.GrassBlock;
 //?}
 //? if minecraft: <= 1.21.8 && fabric {
 /*import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
@@ -53,36 +51,69 @@ public class ParticleInteractionsMod {
 //            new OverridePreset.OverrideAndWeight(ParticleOverrides.SPARK_TEST, 1)
 //        )));
 
-        ParticleOverrideManager.registerUnbakedBlockPreset(new UnbakedPreset<>(
+        var snowOverrideTest = new OverrideRuleFile<>(
             List.of(
-                new UnbakedPreset.AdditionsSection<>(
+                new OverrideRuleFile.AdditionsSection<>(
                     1,
-                    ParticleOverrides.SNOW_TEST,
-                    List.of(new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("grass_block"), false))
-                )),
-                new UnbakedPreset.AdditionsSection<>(
-                    20,
-                    ParticleOverrides.SPARK_TEST,
-                    List.of(new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("grass_block"), false))
-                )),
-                new UnbakedPreset.AdditionsSection<>(
+                    List.of(
+                        new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("grass_block"), false))
+                    )
+                ),
+                new OverrideRuleFile.AdditionsSection<>(
                     33,
-                    ParticleOverrides.SNOW_TEST,
-                    List.of(new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("stone"), false))
-                )),
-                new UnbakedPreset.AdditionsSection<>(
-                    66,
-                    ParticleOverrides.EMPTY,
-                    List.of(new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("stone"), false))
-                ))
+                    List.of(
+                        new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("stone"), false))
+                    )
+                )
             ),
             List.of()
-        ));
+        );
+        snowOverrideTest.setOverrideId(ParticleOverrides.SNOW_TEST);
+        ParticleOverrideManager.registerBlockStateOverrideRule(snowOverrideTest);
+
+        var sparkOverrideTest = new OverrideRuleFile<>(
+            List.of(
+                new OverrideRuleFile.AdditionsSection<>(
+                    20,
+                    List.of(
+                        new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("stone"), false))
+                    )
+                ),
+                new OverrideRuleFile.AdditionsSection<>(
+                    2,
+                    List.of(
+                        new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("grass_block"), false))
+                    )
+                )
+            ),
+            List.of(
+                new OverrideRuleFile.RemovalsSection<>(
+                    List.of(
+                        new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("stone"), false))
+                    )
+                )
+            )
+        );
+        sparkOverrideTest.setOverrideId(ParticleOverrides.SPARK_TEST);
+        ParticleOverrideManager.registerBlockStateOverrideRule(sparkOverrideTest);
+
+
+        var emptyOverrideTest = new OverrideRuleFile<>(
+            List.of(
+                new OverrideRuleFile.AdditionsSection<>(
+                    66,
+                    List.of(
+                        new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("stone"), false))
+                    )
+                )
+            ),
+            List.of()
+        );
+        emptyOverrideTest.setOverrideId(ParticleOverrides.EMPTY);
+        ParticleOverrideManager.registerBlockStateOverrideRule(emptyOverrideTest);
+
 
         Logging.info("Loaded Successfully!");
-
-        var t = Blocks.SANDSTONE_STAIRS.getStateDefinition();
-        t = t;
     }
 
     public static void registerAtlases(TextureManager textureManager) {

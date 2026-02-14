@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 public class OverridePreset {
-    public static final OverridePreset DEFAULT = new OverridePreset(List.of(
+    private static final Map<List<OverrideAndWeight>, OverridePreset> EXISTING_PRESETS = new HashMap<>();
+
+    public static final OverridePreset DEFAULT = OverridePreset.getOrCreate(List.of(
         new OverrideAndWeight(ParticleOverrides.VANILLA, 1)
     ));
-
-    private static final Map<List<OverrideAndWeight>, OverridePreset> EXISTING_PRESETS = new HashMap<>();
 
     private final int totalWeights;
     private final List<OverrideAndWeight> overrides;
