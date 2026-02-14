@@ -26,7 +26,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class RegistryHelpers {
-    @SuppressWarnings("unchecked")
+//    @SuppressWarnings("unchecked")
     public static <R, T extends R> T register(ResourceKey<? extends Registry<R>> registryKey, Supplier<T> entry, Identifier key) {
         Registry<R> registry = Objects.requireNonNull( BuiltInRegistries.REGISTRY.getValue((ResourceKey) registryKey));
         return Registry.register(registry, key, entry.get());

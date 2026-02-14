@@ -19,10 +19,18 @@ public class ParticleOverrides {
         )
     );
 
+    public static final Identifier EMPTY = registerOverride(
+        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "empty"),
+        new ParticleOverride(
+            Emitter.EMPTY,
+            Map.of()
+        )
+    );
+
     public static final Identifier SNOW_TEST = registerOverride(
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "snow"),
         new ParticleOverride(
-            new Emitter(ModParticleTypes.SNOWFLAKE),
+            new Emitter(ModParticleTypes.SNOWFLAKE, 0.2),
             Map.of()
         )
     );
@@ -30,7 +38,7 @@ public class ParticleOverrides {
     public static final Identifier SPARK_TEST = registerOverride(
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "spark"),
         new ParticleOverride(
-            new Emitter(ModParticleTypes.SPARK_FLASH),
+            new Emitter(ModParticleTypes.SPARK_FLASH, 0.1),
             Map.of()
         )
     );

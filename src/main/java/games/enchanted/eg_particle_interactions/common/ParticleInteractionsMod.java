@@ -1,10 +1,13 @@
 package games.enchanted.eg_particle_interactions.common;
 
 import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
-import games.enchanted.eg_particle_interactions.common.override_system.OverridePreset;
+import games.enchanted.eg_particle_interactions.common.override_system.preset.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.override_system.manager.ParticleOverrideManager;
+import games.enchanted.eg_particle_interactions.common.override_system.preset.unbaked.BlockStatePredicate;
+import games.enchanted.eg_particle_interactions.common.override_system.preset.unbaked.UnbakedPreset;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverrides;
+import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.Identifier;
@@ -41,15 +44,45 @@ public class ParticleInteractionsMod {
         ConfigOptions.readConfig();
         BlockParticleOverrides.registerOverrides();
         ParticleOverrides.init();
-        ParticleOverrideManager.addBlockOverride(Blocks.GRASS_BLOCK.defaultBlockState(), OverridePreset.getOrCreate(List.of(
-            new OverridePreset.OverrideAndWeight(ParticleOverrides.SNOW_TEST, 1),
-            new OverridePreset.OverrideAndWeight(ParticleOverrides.SPARK_TEST, 20)
-        )));
-        ParticleOverrideManager.addBlockOverride(Blocks.GRASS_BLOCK.defaultBlockState().setValue(GrassBlock.SNOWY, true), OverridePreset.getOrCreate(List.of(
-            new OverridePreset.OverrideAndWeight(ParticleOverrides.SNOW_TEST, 20),
-            new OverridePreset.OverrideAndWeight(ParticleOverrides.SPARK_TEST, 1)
-        )));
+//        ParticleOverrideManager.addBlockOverride(Blocks.GRASS_BLOCK.defaultBlockState(), OverridePreset.getOrCreate(List.of(
+//            new OverridePreset.OverrideAndWeight(ParticleOverrides.SNOW_TEST, 1),
+//            new OverridePreset.OverrideAndWeight(ParticleOverrides.SPARK_TEST, 20)
+//        )));
+//        ParticleOverrideManager.addBlockOverride(Blocks.GRASS_BLOCK.defaultBlockState().setValue(GrassBlock.SNOWY, true), OverridePreset.getOrCreate(List.of(
+//            new OverridePreset.OverrideAndWeight(ParticleOverrides.SNOW_TEST, 20),
+//            new OverridePreset.OverrideAndWeight(ParticleOverrides.SPARK_TEST, 1)
+//        )));
+
+        ParticleOverrideManager.registerUnbakedBlockPreset(new UnbakedPreset<>(
+            List.of(
+                new UnbakedPreset.AdditionsSection<>(
+                    1,
+                    ParticleOverrides.SNOW_TEST,
+                    List.of(new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("grass_block"), false))
+                )),
+                new UnbakedPreset.AdditionsSection<>(
+                    20,
+                    ParticleOverrides.SPARK_TEST,
+                    List.of(new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("grass_block"), false))
+                )),
+                new UnbakedPreset.AdditionsSection<>(
+                    33,
+                    ParticleOverrides.SNOW_TEST,
+                    List.of(new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("stone"), false))
+                )),
+                new UnbakedPreset.AdditionsSection<>(
+                    66,
+                    ParticleOverrides.EMPTY,
+                    List.of(new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("stone"), false))
+                ))
+            ),
+            List.of()
+        ));
+
         Logging.info("Loaded Successfully!");
+
+        var t = Blocks.SANDSTONE_STAIRS.getStateDefinition();
+        t = t;
     }
 
     public static void registerAtlases(TextureManager textureManager) {

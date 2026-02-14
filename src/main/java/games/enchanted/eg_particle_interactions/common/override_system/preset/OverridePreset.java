@@ -1,6 +1,5 @@
-package games.enchanted.eg_particle_interactions.common.override_system;
+package games.enchanted.eg_particle_interactions.common.override_system.preset;
 
-import games.enchanted.eg_particle_interactions.common.override_system.manager.ParticleOverrideManager;
 import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverride;
 import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
 import net.minecraft.resources.Identifier;

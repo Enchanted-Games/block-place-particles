@@ -8,7 +8,7 @@ import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitt
 import games.enchanted.eg_particle_interactions.common.particle.options.DripParticleOption;
 import games.enchanted.eg_particle_interactions.common.particle.options.RandomDistributionEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.TintedParticleOption;
-import games.enchanted.eg_particle_interactions.common.override_system.OverridePreset;
+import games.enchanted.eg_particle_interactions.common.override_system.preset.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.override_system.manager.ParticleOverrideManager;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverride;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverrides;
@@ -53,17 +53,10 @@ public class SpawnParticles {
         if (BlockInteractionOptions.UNDERWATER_BUBBLES_ON_PLACE_ENABLED.getValue()) spawnUnderwaterBubbles(BlockInteractionOptions.UNDERWATER_BUBBLES_MAX_ON_PLACE.getValue(), level, blockPos);
 
         ParticleOrigin overrideOrigin = ParticleOrigin.BLOCK_PLACED;
-        BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(placedBlockState, overrideOrigin);
-        if (particleOverride == BlockParticleOverride.NONE) {
-            return;
-        }
 
         OverridePreset override = ParticleOverrideManager.getOverrideForBlock(placedBlockState);
 
-        int maxParticlesPerEdge = BlockParticleOverride.getParticleMultiplierForOverride(particleOverride, true);
-        if (maxParticlesPerEdge <= 0) return;
-
-        double particleOutwardVelocityAdjustment = particleOverride.getParticleVelocityMultiplier();
+        int maxParticlesPerEdge = 4;
 
         if (!placedBlockState.isAir() && placedBlockState.shouldSpawnTerrainParticles()) {
             VoxelShape blockShape = placedBlockState.getShape(level, blockPos);
@@ -112,9 +105,9 @@ public class SpawnParticles {
                         (double) blockPos.getX() + MathHelpers.expandWhenOutOfBound(particleXOffset, 0, 1),
                         (double) blockPos.getY() + MathHelpers.expandWhenOutOfBound(particleYOffset, 0, 1),
                         (double) blockPos.getZ() + MathHelpers.expandWhenOutOfBound(particleZOffset, 0, 1),
-                        (particleXOffset - blockCenter.x()) * particleOutwardVelocityAdjustment,
-                        (particleYOffset - blockCenter.y()) * particleOutwardVelocityAdjustment,
-                        (particleZOffset - blockCenter.z()) * particleOutwardVelocityAdjustment
+                        (particleXOffset - blockCenter.x()),
+                        (particleYOffset - blockCenter.y()),
+                        (particleZOffset - blockCenter.z())
                     );
                 }
             });
