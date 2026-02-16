@@ -141,4 +141,8 @@ public class ParticleInteractionsMod {
         return List.of();
         //?}
     }
+
+    public static Identifier id(String path) {
+        return Identifier.fromNamespaceAndPath(Constants.MOD_ID, path);
+    }
 }
