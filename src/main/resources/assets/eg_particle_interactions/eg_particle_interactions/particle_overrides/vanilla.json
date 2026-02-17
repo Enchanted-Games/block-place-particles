@@ -1,0 +1,8 @@
+{
+  "default_emitter": {
+    "particle": {
+      "type": "eg_particle_interactions:flying_spark"
+    },
+    "velocity_multiplier": 0.2
+  }
+}

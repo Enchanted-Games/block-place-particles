@@ -3,6 +3,7 @@ package games.enchanted.eg_particle_interactions.common.platform;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
 //? if neoforge {
 /*import games.enchanted.eg_particle_interactions.neoforge.registry.NeoParticleProviderRegistry;
+import games.enchanted.eg_particle_interactions.neoforge.registry.NeoReloadListenerRegistry;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.fml.loading.FMLPaths;
@@ -14,11 +15,15 @@ import net.neoforged.fml.loading.LoadingModList;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 //? }
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
+import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.server.packs.PackType;
 //?}
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
 
 import java.nio.file.Path;
 
@@ -123,5 +128,22 @@ public class PlatformHelper {
         //?} else {
         /*return FMLPaths.CONFIGDIR.get();
          *///?}
+    }
+
+    /**
+     * Register a resource reload listener
+     */
+    public static void registerResourceReloadListener(PreparableReloadListener listener, Identifier id) {
+        //? if fabric {
+        ResourceLoader.get(PackType.CLIENT_RESOURCES).
+            //? if minecraft: < 26.1 {
+            /*registerReloader
+             *///? } else {
+            registerReloadListener
+            //?}
+            (id, listener);
+        //? } else {
+        /*NeoReloadListenerRegistry.registerListener(listener, id);
+        *///? }
     }
 }

@@ -52,7 +52,6 @@
     "particles.TerrainParticle",
     "resource.ClearCaches_MinecraftMixin",
     "resource.RegisterAtlasConfig_AtlasManagerMixin",
-    "resource.RegisterTextureAtlases_MinecraftMixin",
     "screen.OptionsScreenMixin"
   ],
   "injectors": {

@@ -1,10 +1,12 @@
 //? if neoforge {
 /*package games.enchanted.eg_particle_interactions.neoforge;
 
+import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.config.compat.ConfigScreenCreator;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
 import games.enchanted.eg_particle_interactions.neoforge.registry.NeoParticleProviderRegistry;
+import games.enchanted.eg_particle_interactions.neoforge.registry.NeoReloadListenerRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.neoforged.api.distmarker.Dist;
@@ -20,7 +22,7 @@ import java.util.Objects;
 /^*
  * This is the entry point for your mod's forge side.
  ^/
-@Mod(value = "eg_particle_interactions", dist = Dist.CLIENT)
+@Mod(value = Constants.MOD_ID, dist = Dist.CLIENT)
 public class NeoForgeEntry {
     public final IEventBus eventBus;
 
@@ -36,11 +38,7 @@ public class NeoForgeEntry {
         });
 
         // register client resource reload listener
-        bus.addListener((AddClientReloadListenersEvent event) -> {
-            ParticleInteractionsMod.createReloadListeners(Minecraft.getInstance().getTextureManager()).forEach(resourceLocationAndListenerPair -> {
-                event.addListener(resourceLocationAndListenerPair.key(), resourceLocationAndListenerPair.value());
-            });
-        });
+        bus.addListener(NeoReloadListenerRegistry::register);
 
         // register particle providers
         bus.addListener(NeoParticleProviderRegistry::registerParticleProviders);
