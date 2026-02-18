@@ -1,0 +1,23 @@
+{
+  "default_emitter": {
+    "particle": {
+      "type": "eg_particle_interactions:snowflake"
+    },
+    "velocity_multiplier": 0.2
+  },
+  "emitters": {
+    "eg_particle_interactions:block/broken": {
+      "particle": {
+        "type": "eg_particle_interactions:lava_pop"
+      },
+      "velocity_multiplier": 0.2
+    },
+
+    "eg_particle_interactions:block/brushed": {
+      "particle": {
+        "type": "eg_particle_interactions:snowflake"
+      },
+      "velocity_multiplier": 0.2
+    }
+  }
+}

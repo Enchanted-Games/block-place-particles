@@ -1,17 +1,18 @@
 package games.enchanted.eg_particle_interactions.common;
 
 import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
-import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrideManager;
+import games.enchanted.eg_particle_interactions.common.override_system.manager.ParticleOverrideManager;
+import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
+import games.enchanted.eg_particle_interactions.common.override_system.preset.unbaked.BlockStatePredicate;
+import games.enchanted.eg_particle_interactions.common.override_system.preset.unbaked.OverrideRuleFile;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
-import it.unimi.dsi.fastutil.Pair;
-import net.minecraft.client.renderer.texture.TextureManager;
+import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
 import net.minecraft.resources.Identifier;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.resources.PreparableReloadListener;
+
+import java.util.List;
 
 //? if minecraft: > 1.21.8 && fabric {
-import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 //?}
 //? if minecraft: <= 1.21.8 && fabric {
 /*import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
@@ -20,7 +21,6 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import org.jetbrains.annotations.NotNull;
 *///?}
 
-import java.util.List;
 
 /**
  * This is the entry point for your mod's common side, called by each modloader specific side.
@@ -33,32 +33,32 @@ public class ParticleInteractionsMod {
     public static void startOfModLoading() {
         Logging.info("Mod is loading on a {} environment!", Constants.TARGET_PLATFORM);
 
-        PlatformHelper.registerResourceReloadListener(ParticleOverrideManager.INSTANCE, ParticleInteractionsMod.id("particle_overrides"));
+        PlatformHelper.registerResourceReloadListener(ParticleOverrides.INSTANCE, ParticleInteractionsMod.id("particle_overrides"));
     }
 
     public static void endOfModLoading() {
         ConfigOptions.readConfig();
         BlockParticleOverrides.registerOverrides();
 
-//        var snowOverrideTest = new OverrideRuleFile<>(
-//            List.of(
-//                new OverrideRuleFile.AdditionsSection<>(
-//                    1,
-//                    List.of(
-//                        new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("grass_block"), false))
-//                    )
-//                ),
-//                new OverrideRuleFile.AdditionsSection<>(
-//                    33,
-//                    List.of(
-//                        new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("stone"), false))
-//                    )
-//                )
-//            ),
-//            List.of()
-//        );
-//        snowOverrideTest.setOverrideId(ParticleOverrides.SNOW_TEST);
-//        ParticleOverrideManager.registerBlockStateOverrideRule(snowOverrideTest);
+        var snowOverrideTest = new OverrideRuleFile<>(
+            List.of(
+                new OverrideRuleFile.AdditionsSection<>(
+                    1,
+                    List.of(
+                        new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("grass_block"), false))
+                    )
+                ),
+                new OverrideRuleFile.AdditionsSection<>(
+                    33,
+                    List.of(
+                        new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("stone"), false))
+                    )
+                )
+            ),
+            List.of()
+        );
+        snowOverrideTest.setOverrideId(id("test"));
+        ParticleOverrideManager.registerBlockStateOverrideRule(snowOverrideTest);
 //
 //        var sparkOverrideTest = new OverrideRuleFile<>(
 //            List.of(

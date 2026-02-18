@@ -28,8 +28,7 @@ public class BlockBreakAndCrackingParticle_ClientLevelMixin {
         method = "addDestroyBlockEffect"
     )
     public void useParticleInteractionsDestroyParticleLogic(BlockPos brokenBlockPos, BlockState brokenBlockState, CallbackInfo ci) {
-        BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(brokenBlockState, ParticleOrigin.BLOCK_BROKEN);
-        SpawnParticles.spawnBlockBreakParticle((ClientLevel) (Object) this, brokenBlockState, brokenBlockPos, particleOverride);
+        SpawnParticles.spawnBlockBreakParticle((ClientLevel) (Object) this, brokenBlockState, brokenBlockPos);
     }
 
     @WrapOperation(

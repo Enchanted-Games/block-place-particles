@@ -1,5 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.override_system.override;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
@@ -20,14 +22,15 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ParticleOverrideManager extends SimplePreparableReloadListener<ParticleOverrideManager.Preparation> {
+public class ParticleOverrides extends SimplePreparableReloadListener<ParticleOverrides.Preparation> {
     public static final Identifier VANILLA_OVERRIDE_ID = ParticleInteractionsMod.id("vanilla");
+    public static final Identifier EMPTY_OVERRIDE_ID = ParticleInteractionsMod.id("empty");
 
-    private static final Map<Identifier, ParticleOverride> OVERRIDE_BY_ID = new HashMap<>();
+    private static final BiMap<Identifier, ParticleOverride> OVERRIDE_BY_ID = HashBiMap.create();
 
     private static final FileToIdConverter OVERRIDE_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/particle_overrides");
 
-    public static final ParticleOverrideManager INSTANCE = new ParticleOverrideManager();
+    public static final ParticleOverrides INSTANCE = new ParticleOverrides();
 
     @Override
     protected Preparation prepare(ResourceManager manager, ProfilerFiller profiler) {
@@ -69,6 +72,14 @@ public class ParticleOverrideManager extends SimplePreparableReloadListener<Part
             throw new IllegalStateException("Tried to get non-existent particle override '" + id + "'");
         }
         return override;
+    }
+
+    public static Identifier getIdFromOverride(ParticleOverride override) {
+        Identifier id = OVERRIDE_BY_ID.inverse().get(override);
+        if(id == null) {
+            throw new IllegalStateException("Tried to get id for unregistered particle override '" + override + "'");
+        }
+        return id;
     }
 
     static void clearOverrides() {

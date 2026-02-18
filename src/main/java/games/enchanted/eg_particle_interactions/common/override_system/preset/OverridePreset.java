@@ -1,7 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.override_system.preset;
 
 import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverride;
-import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrideManager;
+import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
 import net.minecraft.resources.Identifier;
 
 import java.util.HashMap;
@@ -12,7 +12,7 @@ public class OverridePreset {
     private static final Map<List<OverrideAndWeight>, OverridePreset> EXISTING_PRESETS = new HashMap<>();
 
     public static final OverridePreset DEFAULT = OverridePreset.getOrCreate(List.of(
-        new OverrideAndWeight(ParticleOverrideManager.VANILLA_OVERRIDE_ID, 1)
+        new OverrideAndWeight(ParticleOverrides.VANILLA_OVERRIDE_ID, 1)
     ));
 
     private final int totalWeights;
@@ -36,7 +36,7 @@ public class OverridePreset {
             rand -= randomOverride.weight();
         }
 
-        return ParticleOverrideManager.getOverrideFromId(overrideID);
+        return ParticleOverrides.getOverrideFromId(overrideID);
     }
 
     public static OverridePreset getOrCreate(List<OverrideAndWeight> overrides) {

@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.particle_spawning;
 
 import games.enchanted.eg_particle_interactions.common.config.categories.*;
 import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
+import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitterOptions;
@@ -52,8 +53,6 @@ public class SpawnParticles {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.BLOCK_PLACE_OR_BREAK, blockPos)) return;
         if (BlockInteractionOptions.UNDERWATER_BUBBLES_ON_PLACE_ENABLED.getValue()) spawnUnderwaterBubbles(BlockInteractionOptions.UNDERWATER_BUBBLES_MAX_ON_PLACE.getValue(), level, blockPos);
 
-        ParticleOrigin overrideOrigin = ParticleOrigin.BLOCK_PLACED;
-
         OverridePreset override = ParticleOverrideManager.getOverrideForBlock(placedBlockState);
 
         int maxParticlesPerEdge = 4;
@@ -93,7 +92,7 @@ public class SpawnParticles {
                     double particleZOffset = (biggestEdge == Direction.Axis.Z ? particlePos : depth) + z1;
 
                     override.getRandom().spawnParticle(
-                        overrideOrigin,
+                        ParticleOrigin.BLOCK_PLACED,
                         new ParticleContext(
                             level,
                             new ParticleContext.BlockContext(
@@ -114,22 +113,17 @@ public class SpawnParticles {
         }
     }
 
-    public static void spawnBlockBreakParticle(ClientLevel level, BlockState brokenBlockState, BlockPos brokenBlockPos, BlockParticleOverride particleOverride) {
+    public static void spawnBlockBreakParticle(ClientLevel level, BlockState brokenBlockState, BlockPos blockPos) {
         if(BlockOverrideOptions.DISABLE_ALL_BREAKING_PARTICLES.getValue()) return;
-        if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.BLOCK_PLACE_OR_BREAK, brokenBlockPos)) return;
-        if (BlockInteractionOptions.UNDERWATER_BUBBLES_ON_BREAK_ENABLED.getValue()) spawnUnderwaterBubbles(BlockInteractionOptions.UNDERWATER_BUBBLES_MAX_ON_BREAK.getValue(), level, brokenBlockPos);
+        if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.BLOCK_PLACE_OR_BREAK, blockPos)) return;
+        if (BlockInteractionOptions.UNDERWATER_BUBBLES_ON_BREAK_ENABLED.getValue()) spawnUnderwaterBubbles(BlockInteractionOptions.UNDERWATER_BUBBLES_MAX_ON_BREAK.getValue(), level, blockPos);
 
-        if (particleOverride == BlockParticleOverride.NONE) {
-            return;
-        }
+        OverridePreset override = ParticleOverrideManager.getOverrideForBlock(brokenBlockState);
 
-        int maxParticlesPerLength = BlockParticleOverride.getParticleMultiplierForOverride(particleOverride, false);
-        if (maxParticlesPerLength <= 0) return;
-
-        double particleOutwardVelocityAdjustment = particleOverride.getParticleVelocityMultiplier();
+        int maxParticlesPerLength = 4;
 
         if (!brokenBlockState.isAir() && brokenBlockState.shouldSpawnTerrainParticles()) {
-            VoxelShape blockShape = brokenBlockState.getShape(level, brokenBlockPos);
+            VoxelShape blockShape = brokenBlockState.getShape(level, blockPos);
             if(blockShape.isEmpty()) return;
             Vec3 blockCenter = blockShape.bounds().getCenter();
             blockShape.forAllBoxes((x1, y1, z1, x2, y2, z2) -> {
@@ -147,19 +141,22 @@ public class SpawnParticles {
                             double particleYOffset = (((double) i_H + 0.5) / (double) amountAlongHeight);
                             double particleZOffset = (((double) i_D + 0.5) / (double) amountAlongDepth);
 
-                            ParticleOptions particleToSpawn = particleOverride.getParticleOptionForState(brokenBlockState, level, brokenBlockPos, ParticleOrigin.BLOCK_BROKEN);
-                            if (particleToSpawn == null) {
-                                continue;
-                            }
-
-                            level.addParticle(
-                                particleToSpawn,
-                                brokenBlockPos.getX() + (particleXOffset * width + x1),
-                                brokenBlockPos.getY() + (particleYOffset * height + y1),
-                                brokenBlockPos.getZ() + (particleZOffset * depth + z1),
-                                (particleXOffset - blockCenter.x()) * particleOutwardVelocityAdjustment,
-                                (particleYOffset - blockCenter.y()) * particleOutwardVelocityAdjustment,
-                                (particleZOffset - blockCenter.z()) * particleOutwardVelocityAdjustment
+                            override.getRandom().spawnParticle(
+                                ParticleOrigin.BLOCK_BROKEN,
+                                new ParticleContext(
+                                    level,
+                                    new ParticleContext.BlockContext(
+                                        brokenBlockState,
+                                        blockPos
+                                    ),
+                                    null
+                                ),
+                                blockPos.getX() + (particleXOffset * width + x1),
+                                blockPos.getY() + (particleYOffset * height + y1),
+                                blockPos.getZ() + (particleZOffset * depth + z1),
+                                (particleXOffset - blockCenter.x()),
+                                (particleYOffset - blockCenter.y()),
+                                (particleZOffset - blockCenter.z())
                             );
                         }
                     }
@@ -589,41 +586,6 @@ public class SpawnParticles {
             (int) Math.ceil((double) amount / 6),
             new Vector3f(width, height, depth)
         );
-    }
-
-    public static void spawnBrushingParticles(ClientLevel level, BlockParticleOverride override, BlockState blockState, Direction brushDirection, Vec3 particlePos, int armDirection, int amountOfParticles, double baseDeltaX, double baseDeltaY, double baseDeltaZ) {
-        if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, particlePos.x(), particlePos.y(), particlePos.z())) return;
-        final double outwardVelocity = 0.05;
-
-        for (int i = 0; i < amountOfParticles; i++) {
-            ParticleOptions particleOption;
-            float velocityMultiplier;
-
-            // use dust particles if brush particle behaviour is "block override + dust" and particle override is none or vanilla,
-            // otherwise spawn block override particles
-            if (
-                ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.VANILLA_LIKE ||
-                (ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.DUST && !(override == BlockParticleOverride.VANILLA || override == BlockParticleOverride.NONE))
-            ) {
-                particleOption = override.getParticleOptionForState(blockState, level, BlockPos.containing(particlePos), ParticleOrigin.BLOCK_BRUSHED);
-                velocityMultiplier = override.getParticleVelocityMultiplier();
-            } else {
-                particleOption = TintedParticleOption.BRUSH_OPTION;
-                velocityMultiplier = 0.1f;
-            }
-
-            if (particleOption == null) continue;
-
-            level.addParticle(
-                particleOption,
-                particlePos.x + (brushDirection.getStepX() * 0.05),
-                particlePos.y + (brushDirection.getStepY() * 0.05),
-                particlePos.z + (brushDirection.getStepZ() * 0.05),
-                (baseDeltaX * (double) armDirection * level.getRandom().nextDouble() * velocityMultiplier) + (brushDirection.getStepX() * outwardVelocity),
-                (baseDeltaY + 1) * level.getRandom().nextDouble() * velocityMultiplier * brushDirection.getStepY(),
-                (baseDeltaZ * (double) armDirection * level.getRandom().nextDouble() * velocityMultiplier) + (brushDirection.getStepZ() * outwardVelocity)
-            );
-        }
     }
 
     public static void spawnBlazeAmbientParticles(ClientLevel level, double x, double y, double z) {
