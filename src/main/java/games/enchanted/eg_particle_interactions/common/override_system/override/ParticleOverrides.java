@@ -27,18 +27,18 @@ public class ParticleOverrides extends SimplePreparableReloadListener<ParticleOv
     public static final Identifier EMPTY_OVERRIDE_ID = ParticleInteractionsMod.id("empty");
 
     private static final BiMap<Identifier, ParticleOverride> OVERRIDE_BY_ID = HashBiMap.create();
-
     private static final FileToIdConverter OVERRIDE_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/particle_overrides");
 
     public static final ParticleOverrides INSTANCE = new ParticleOverrides();
 
+    
     @Override
     protected Preparation prepare(ResourceManager manager, ProfilerFiller profiler) {
         Map<Identifier, ParticleOverride> overrideList = new HashMap<>();
 
         for (Map.Entry<Identifier, Resource> overrideResource : OVERRIDE_ID_CONVERTER.listMatchingResources(manager).entrySet()) {
-            Identifier overrideId = overrideResource.getKey();
-            parseOverride(overrideId, overrideResource.getValue(), overrideList);
+            Identifier fileId = overrideResource.getKey();
+            parseOverride(fileId, overrideResource.getValue(), overrideList);
         }
 
         return new Preparation(overrideList);
@@ -55,12 +55,13 @@ public class ParticleOverrides extends SimplePreparableReloadListener<ParticleOv
 
     @Override
     protected void apply(Preparation preparations, ResourceManager manager, ProfilerFiller profiler) {
-        clearOverrides();
+        clearRegisteredOverrides();
         Map<Identifier, ParticleOverride> preparedOverrides = preparations.overrideList();
         for (Map.Entry<Identifier, ParticleOverride> overrideEntry : preparedOverrides.entrySet()) {
             registerOverride(overrideEntry.getKey(), overrideEntry.getValue());
         }
     }
+
 
     static void registerOverride(Identifier id, ParticleOverride override) {
         OVERRIDE_BY_ID.put(id, override);
@@ -82,9 +83,10 @@ public class ParticleOverrides extends SimplePreparableReloadListener<ParticleOv
         return id;
     }
 
-    static void clearOverrides() {
+    private static void clearRegisteredOverrides() {
         OVERRIDE_BY_ID.clear();
     }
+
 
     protected record Preparation(Map<Identifier, ParticleOverride> overrideList) {
     }

@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.override_system.preset.unbaked;
+package games.enchanted.eg_particle_interactions.common.override_system.predicate;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import games.enchanted.eg_particle_interactions.common.registry.TagUtil;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jspecify.annotations.Nullable;
 
@@ -22,27 +23,27 @@ public class BlockStatePredicate implements ObjectPredicate<BlockState> {
                 placeholder -> new BlockStatePredicate()
             )
         ),
-        BlockOrTagLocation.CODEC.comapFlatMap(
+        ExtraCodecs.compactListCodec(BlockOrTagLocation.CODEC).comapFlatMap(
             identifier -> DataResult.success(new BlockStatePredicate(identifier)),
-            predicate -> Objects.requireNonNull(predicate.blockOrTagId, "Predicate could not be serialized as a block or tag id")
+            predicate -> Objects.requireNonNull(predicate.blockOrTagIds, "Predicate could not be serialized as a block or tag id")
         )
     );
 
     @Nullable
-    private final BlockOrTagLocation blockOrTagId;
+    private final List<BlockOrTagLocation> blockOrTagIds;
 
-    public BlockStatePredicate(BlockOrTagLocation blockOrTagId) {
-        this.blockOrTagId = blockOrTagId;
+    public BlockStatePredicate(List<BlockOrTagLocation> blockOrTagIds) {
+        this.blockOrTagIds = blockOrTagIds;
     }
 
     public BlockStatePredicate() {
-        this.blockOrTagId = null;
+        this.blockOrTagIds = null;
     }
 
     @Override
     public boolean matches(BlockState state) {
-        if(this.blockOrTagId != null) {
-            return TagUtil.doesListContainBlock(List.of(this.blockOrTagId), RegistryHelpers.getLocationFromBlock(state.getBlock()));
+        if(this.blockOrTagIds != null) {
+            return TagUtil.doesListContainBlock(this.blockOrTagIds, RegistryHelpers.getLocationFromBlock(state.getBlock()));
         }
         return false;
     }

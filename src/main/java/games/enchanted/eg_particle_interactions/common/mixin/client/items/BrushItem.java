@@ -5,9 +5,10 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import games.enchanted.eg_particle_interactions.common.config.categories.ItemInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
-import games.enchanted.eg_particle_interactions.common.override_system.manager.ParticleOverrideManager;
+import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
 import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverride;
 import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
+import games.enchanted.eg_particle_interactions.common.override_system.override.rule.AbstractOverrideRuleLoader;
 import games.enchanted.eg_particle_interactions.common.override_system.preset.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.options.TintedParticleOption;
@@ -60,7 +61,7 @@ public abstract class BrushItem {
         double baseDeltaY = particlesDelta.yd();
         double baseDeltaZ = particlesDelta.zd();
 
-        OverridePreset preset = ParticleOverrideManager.getOverrideForBlock(state);
+        OverridePreset preset = BlockOverrideManager.getForBlock(state);
         ParticleOverride override = preset.getRandom();
         Identifier id = ParticleOverrides.getIdFromOverride(override);
 

@@ -1,10 +1,10 @@
 package games.enchanted.eg_particle_interactions.common;
 
 import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
-import games.enchanted.eg_particle_interactions.common.override_system.manager.ParticleOverrideManager;
+import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
 import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
-import games.enchanted.eg_particle_interactions.common.override_system.preset.unbaked.BlockStatePredicate;
-import games.enchanted.eg_particle_interactions.common.override_system.preset.unbaked.OverrideRuleFile;
+import games.enchanted.eg_particle_interactions.common.override_system.predicate.BlockStatePredicate;
+import games.enchanted.eg_particle_interactions.common.override_system.override.rule.OverrideRuleFile;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
 import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
@@ -34,31 +34,32 @@ public class ParticleInteractionsMod {
         Logging.info("Mod is loading on a {} environment!", Constants.TARGET_PLATFORM);
 
         PlatformHelper.registerResourceReloadListener(ParticleOverrides.INSTANCE, ParticleInteractionsMod.id("particle_overrides"));
+        PlatformHelper.registerResourceReloadListener(BlockOverrideManager.INSTANCE, ParticleInteractionsMod.id("block_override_rules"));
     }
 
     public static void endOfModLoading() {
         ConfigOptions.readConfig();
         BlockParticleOverrides.registerOverrides();
 
-        var snowOverrideTest = new OverrideRuleFile<>(
-            List.of(
-                new OverrideRuleFile.AdditionsSection<>(
-                    1,
-                    List.of(
-                        new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("grass_block"), false))
-                    )
-                ),
-                new OverrideRuleFile.AdditionsSection<>(
-                    33,
-                    List.of(
-                        new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("stone"), false))
-                    )
-                )
-            ),
-            List.of()
-        );
-        snowOverrideTest.setOverrideId(id("test"));
-        ParticleOverrideManager.registerBlockStateOverrideRule(snowOverrideTest);
+//        var snowOverrideTest = new OverrideRuleFile<>(
+//            List.of(
+//                new OverrideRuleFile.AdditionsSection<>(
+//                    1,
+//                    List.of(
+//                        new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("grass_block"), false))
+//                    )
+//                ),
+//                new OverrideRuleFile.AdditionsSection<>(
+//                    33,
+//                    List.of(
+//                        new BlockStatePredicate(new BlockOrTagLocation(Identifier.withDefaultNamespace("stone"), false))
+//                    )
+//                )
+//            ),
+//            List.of()
+//        );
+//        snowOverrideTest.setOverrideId(id("test"));
+//        ParticleOverrides.registerBlockStateOverrideRule(snowOverrideTest);
 //
 //        var sparkOverrideTest = new OverrideRuleFile<>(
 //            List.of(
