@@ -110,10 +110,10 @@ public class PlatformHelper {
     /**
      * Registers a particle to a particle provider
      */
-    public static <T extends ParticleOptions> void registerParticleProvider(ParticleType<T> particleType, ModParticleTypes.SpriteProviderReg<T> particleProvider) {
+    public static <T extends ParticleOptions> void registerParticleProvider(ParticleType<T> particleType, ModParticleTypes.ProviderCreator<T> particleProviderCreator) {
         //? if fabric {
         /*? if minecraft: < 26.1 {*/ /*ParticleFactoryRegistry *//*? } else {*/ ParticleProviderRegistry /*?}*/
-            .getInstance().register(particleType, particleProvider::create);
+            .getInstance().register(particleType, particleProviderCreator::create);
         //?} else {
         /*NeoParticleProviderRegistry.registerProviderWhenReady(particleType, particleProvider);
          *///?}

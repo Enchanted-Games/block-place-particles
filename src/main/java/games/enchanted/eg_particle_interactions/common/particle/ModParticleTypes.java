@@ -36,7 +36,6 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
@@ -164,14 +163,14 @@ public class ModParticleTypes {
         BLOCK_HIGH_VELOCITY = register(CustomMovementTerrainParticle.UncappedMotionProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_high_velocity"), true, BlockParticleOption::codec, BlockParticleOption::streamCodec);
     }
 
-    private static SimpleParticleType register(SpriteProviderReg<SimpleParticleType> provider, Identifier particleID, boolean alwaysShow) {
+    private static SimpleParticleType register(ProviderCreator<SimpleParticleType> providerCreator, Identifier particleID, boolean alwaysShow) {
         SimpleParticleType registeredParticleType = Registry.register(BuiltInRegistries.PARTICLE_TYPE, particleID, PlatformHelper.createNewSimpleParticle(alwaysShow));
-        PlatformHelper.registerParticleProvider(registeredParticleType, provider);
+        PlatformHelper.registerParticleProvider(registeredParticleType, providerCreator);
         return registeredParticleType;
     }
 
-    private static <T extends ParticleOptions> ParticleType<T> register(SpriteProviderReg<T> provider, Identifier particleID, boolean alwaysShow, final Function<ParticleType<T>, MapCodec<T>> codecGetter, final Function<ParticleType<T>, StreamCodec<? super RegistryFriendlyByteBuf, T>> packetCodecGetter) {
-        ParticleType<T> registeredParticleType = RegistryHelpers.register(Registries.PARTICLE_TYPE, () -> new ParticleType<T>(alwaysShow) {
+    private static <T extends ParticleOptions> ParticleType<T> register(ProviderCreator<T> providerCreator, Identifier particleID, boolean alwaysShow, final Function<ParticleType<T>, MapCodec<T>> codecGetter, final Function<ParticleType<T>, StreamCodec<? super RegistryFriendlyByteBuf, T>> packetCodecGetter) {
+        ParticleType<T> registeredParticleType = RegistryHelpers.register(BuiltInRegistries.PARTICLE_TYPE, new ParticleType<T>(alwaysShow) {
             public @NotNull MapCodec<T> codec() {
                 return codecGetter.apply(this);
             }
@@ -180,12 +179,12 @@ public class ModParticleTypes {
                 return packetCodecGetter.apply(this);
             }
         }, particleID);
-        PlatformHelper.registerParticleProvider(registeredParticleType, provider);
+        PlatformHelper.registerParticleProvider(registeredParticleType, providerCreator);
         return registeredParticleType;
     }
 
     @FunctionalInterface
-    public interface SpriteProviderReg<T extends ParticleOptions> {
+    public interface ProviderCreator<T extends ParticleOptions> {
         ParticleProvider<T> create(SpriteSet spriteSet);
     }
 }
