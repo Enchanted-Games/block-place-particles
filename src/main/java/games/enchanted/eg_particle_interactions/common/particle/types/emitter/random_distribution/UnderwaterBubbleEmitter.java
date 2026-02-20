@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.emitter.random_distribution;
 
-import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
+import games.enchanted.eg_particle_interactions.common.registry.particle.ParticleTypes;
 import games.enchanted.eg_particle_interactions.common.particle.options.RandomDistributionEmitterOptions;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
@@ -17,7 +17,7 @@ public class UnderwaterBubbleEmitter extends AbstractRandomDistributionEmitter {
 
     @Override
     protected ParticleOptions getParticleToEmit(ClientLevel level, double x, double y, double z) {
-        return ModParticleTypes.UNDERWATER_RISING_BUBBLE_SMALL;
+        return ParticleTypes.UNDERWATER_RISING_BUBBLE_SMALL;
     }
 
     public static class Provider implements ParticleProvider<RandomDistributionEmitterOptions> {

@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.dust;
 
-import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
+import games.enchanted.eg_particle_interactions.common.registry.particle.ParticleTypes;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -46,7 +46,7 @@ public class BasicDust extends AbstractDust {
             , RandomSource random
             //?}
         ) {
-            return new BasicDust(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet, 1.1f, true, true, () -> ModParticleTypes.SNOWFLAKE_SPECK);
+            return new BasicDust(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet, 1.1f, true, true, () -> ParticleTypes.SNOWFLAKE_SPECK);
         }
     }
     public static class SnowflakeSpeckProvider implements ParticleProvider<SimpleParticleType>  {

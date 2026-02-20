@@ -2,9 +2,9 @@ package games.enchanted.eg_particle_interactions.common.particle_spawning;
 
 import games.enchanted.eg_particle_interactions.common.config.categories.*;
 import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
-import games.enchanted.eg_particle_interactions.common.override_system.override.rule.AbstractOverrideRuleLoader;
 import games.enchanted.eg_particle_interactions.common.override_system.preset.OverridePreset;
-import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
+import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
+import games.enchanted.eg_particle_interactions.common.registry.particle.ParticleTypes;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.DripParticleOption;
@@ -23,7 +23,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
@@ -175,7 +174,7 @@ public class SpawnParticles {
             double verticalVelocity = (y - 0.5) * (blockAboveIsWater ? 2 : 0);
             double horizontalVelocityMul = !blockAboveIsWater ? 1.5 : 1;
             level.addParticle(
-                ModParticleTypes.UNDERWATER_RISING_BUBBLE,
+                ParticleTypes.UNDERWATER_RISING_BUBBLE,
                 blockPos.getX() + x,
                 blockPos.getY() + y,
                 blockPos.getZ() + z,
@@ -271,19 +270,19 @@ public class SpawnParticles {
         minecartY += 0.0425;
         if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos1 = minecartWheelPoint(rotX, rotY, 0.45f, 0.35f, 0.45f);
-            level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos1.x + minecartX, wheelPos1.y + minecartY, wheelPos1.z + minecartZ, sparkDeltaX, 0.17, sparkDeltaZ);
+            level.addParticle(ParticleTypes.FLYING_SPARK, wheelPos1.x + minecartX, wheelPos1.y + minecartY, wheelPos1.z + minecartZ, sparkDeltaX, 0.17, sparkDeltaZ);
         }
         if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos2 = minecartWheelPoint(rotX, rotY, -0.45f, -0.35f, 0.45f);
-            level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos2.x + minecartX, wheelPos2.y + minecartY, wheelPos2.z + minecartZ, sparkDeltaX, 0.17, sparkDeltaZ);
+            level.addParticle(ParticleTypes.FLYING_SPARK, wheelPos2.x + minecartX, wheelPos2.y + minecartY, wheelPos2.z + minecartZ, sparkDeltaX, 0.17, sparkDeltaZ);
         }
         if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos3 = minecartWheelPoint(rotX, rotY, 0.45f, 0.35f, -0.45f);
-            level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos3.x + minecartX, wheelPos3.y + minecartY, wheelPos3.z + minecartZ, sparkDeltaX, 0.17, sparkDeltaZ);
+            level.addParticle(ParticleTypes.FLYING_SPARK, wheelPos3.x + minecartX, wheelPos3.y + minecartY, wheelPos3.z + minecartZ, sparkDeltaX, 0.17, sparkDeltaZ);
         }
         if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos4 = minecartWheelPoint(rotX, rotY, -0.45f, -0.35f, -0.45f);
-            level.addParticle(ModParticleTypes.FLYING_SPARK, wheelPos4.x + minecartX, wheelPos4.y + minecartY, wheelPos4.z + minecartZ, sparkDeltaX, 0.17, sparkDeltaZ);
+            level.addParticle(ParticleTypes.FLYING_SPARK, wheelPos4.x + minecartX, wheelPos4.y + minecartY, wheelPos4.z + minecartZ, sparkDeltaX, 0.17, sparkDeltaZ);
         }
     }
 
@@ -301,7 +300,7 @@ public class SpawnParticles {
             double x = particlePos.getX() + 0.25 + (level.getRandom().nextDouble() / 2);
             double y = particlePos.getY() + 0.25 + (level.getRandom().nextDouble() / 2);
             double z = particlePos.getZ() + 0.25 + (level.getRandom().nextDouble() / 2);
-            level.addParticle(isSoulBlock ? ModParticleTypes.FLYING_SOUL_SPARK : ModParticleTypes.FLYING_SPARK, x, y, z, (level.getRandom().nextDouble() - 0.5) * sparkIntensity, (level.getRandom().nextDouble() + 0.5) * sparkIntensity, (level.getRandom().nextDouble() - 0.5) * sparkIntensity);
+            level.addParticle(isSoulBlock ? ParticleTypes.FLYING_SOUL_SPARK : ParticleTypes.FLYING_SPARK, x, y, z, (level.getRandom().nextDouble() - 0.5) * sparkIntensity, (level.getRandom().nextDouble() + 0.5) * sparkIntensity, (level.getRandom().nextDouble() - 0.5) * sparkIntensity);
         }
     }
 
@@ -313,7 +312,7 @@ public class SpawnParticles {
                 for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 3) + 1; i++) {
                     SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
                         level,
-                        campfireState.is(Blocks.SOUL_CAMPFIRE) ? ModParticleTypes.FLOATING_SOUL_SPARK : ModParticleTypes.FLOATING_SPARK,
+                        campfireState.is(Blocks.SOUL_CAMPFIRE) ? ParticleTypes.FLOATING_SOUL_SPARK : ParticleTypes.FLOATING_SPARK,
                         (double) particlePos.getX() + 0.5,
                         (double) particlePos.getY() + 0.5,
                         (double) particlePos.getZ() + 0.5,
@@ -326,7 +325,7 @@ public class SpawnParticles {
             if (level.getRandom().nextFloat() * 101 <= BlockInteractionOptions.CAMPFIRE_EMBER_SPAWN_CHANCE.getValue()) {
                 for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 4); i++) {
                     level.addParticle(
-                        campfireState.is(Blocks.SOUL_CAMPFIRE) ? ModParticleTypes.FLOATING_SOUL_EMBER : ModParticleTypes.FLOATING_EMBER,
+                        campfireState.is(Blocks.SOUL_CAMPFIRE) ? ParticleTypes.FLOATING_SOUL_EMBER : ParticleTypes.FLOATING_EMBER,
                         (double) particlePos.getX() + (level.getRandom().nextFloat() * 0.75) + 0.125f,
                         (double) particlePos.getY() + (level.getRandom().nextFloat() * 0.75) + 0.125f,
                         (double) particlePos.getZ() + (level.getRandom().nextFloat() * 0.75) + 0.125f,
@@ -350,7 +349,7 @@ public class SpawnParticles {
                 for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 3) + 1; i++) {
                     SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
                         level,
-                        fireState.is(Blocks.SOUL_FIRE) ? ModParticleTypes.FLOATING_SOUL_SPARK : ModParticleTypes.FLOATING_SPARK,
+                        fireState.is(Blocks.SOUL_FIRE) ? ParticleTypes.FLOATING_SOUL_SPARK : ParticleTypes.FLOATING_SPARK,
                         particlePos.getX() + minX + (level.getRandom().nextFloat() * width),
                         particlePos.getY() + minY + (level.getRandom().nextFloat() * height),
                         particlePos.getZ() + minZ + (level.getRandom().nextFloat() * depth),
@@ -363,7 +362,7 @@ public class SpawnParticles {
             if (level.getRandom().nextFloat() * 101 <= BlockInteractionOptions.FIRE_EMBER_SPAWN_CHANCE.getValue()) {
                 for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 4); i++) {
                     level.addParticle(
-                        fireState.is(Blocks.SOUL_FIRE) ? ModParticleTypes.FLOATING_SOUL_EMBER : ModParticleTypes.FLOATING_EMBER,
+                        fireState.is(Blocks.SOUL_FIRE) ? ParticleTypes.FLOATING_SOUL_EMBER : ParticleTypes.FLOATING_EMBER,
                         particlePos.getX() + minX + (level.getRandom().nextFloat() * width),
                         particlePos.getY() + minY + (level.getRandom().nextFloat() * height),
                         particlePos.getZ() + minZ + (level.getRandom().nextFloat() * depth),
@@ -386,10 +385,10 @@ public class SpawnParticles {
             double y = particlePos.getY() + 0.25 + (level.getRandom().nextDouble() / 2);
             double z = particlePos.getZ() + 0.25 + (level.getRandom().nextDouble() / 2);
             if (level.getRandom().nextFloat() > 0.2) {
-                level.addParticle(level.getRandom().nextFloat() > 0.3 ? ParticleTypes.SMOKE : ParticleTypes.LARGE_SMOKE, x, y, z, (level.getRandom().nextDouble() - 0.5) * smokeIntensity, (level.getRandom().nextDouble() + 0.5) * smokeIntensity, (level.getRandom().nextDouble() - 0.5) * smokeIntensity);
+                level.addParticle(level.getRandom().nextFloat() > 0.3 ? net.minecraft.core.particles.ParticleTypes.SMOKE : net.minecraft.core.particles.ParticleTypes.LARGE_SMOKE, x, y, z, (level.getRandom().nextDouble() - 0.5) * smokeIntensity, (level.getRandom().nextDouble() + 0.5) * smokeIntensity, (level.getRandom().nextDouble() - 0.5) * smokeIntensity);
                 continue;
             }
-            level.addParticle(ParticleTypes.LAVA, x, y, z, (level.getRandom().nextDouble() - 0.5) * lavaIntensity, (level.getRandom().nextDouble() + 0.5) * lavaIntensity, (level.getRandom().nextDouble() - 0.5) * lavaIntensity);
+            level.addParticle(net.minecraft.core.particles.ParticleTypes.LAVA, x, y, z, (level.getRandom().nextDouble() - 0.5) * lavaIntensity, (level.getRandom().nextDouble() + 0.5) * lavaIntensity, (level.getRandom().nextDouble() - 0.5) * lavaIntensity);
         }
     }
 
@@ -402,7 +401,7 @@ public class SpawnParticles {
             double x = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepX());
             double y = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepY());
             double z = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepZ());
-            ParticleOptions blockParticle = new BlockParticleOption(ParticleTypes.BLOCK, level.getBlockState(blockPos));
+            ParticleOptions blockParticle = new BlockParticleOption(net.minecraft.core.particles.ParticleTypes.BLOCK, level.getBlockState(blockPos));
             level.addParticle(
                 blockParticle,
                 clickedPosition.x + x,
@@ -424,7 +423,7 @@ public class SpawnParticles {
             double x = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepX());
             double y = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepY());
             double z = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepZ());
-            ParticleOptions blockParticle = new BlockParticleOption(ParticleTypes.BLOCK, level.getBlockState(blockPos));
+            ParticleOptions blockParticle = new BlockParticleOption(net.minecraft.core.particles.ParticleTypes.BLOCK, level.getBlockState(blockPos));
             level.addParticle(
                 blockParticle,
                 clickedPosition.x + x,
@@ -447,7 +446,7 @@ public class SpawnParticles {
             double x = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepX());
             double y = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepY());
             double z = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepZ());
-            ParticleOptions blockParticle = level.getRandom().nextFloat() > 0.9 ? new BlockParticleOption(ParticleTypes.BLOCK, strippedBlockState) : new BlockParticleOption(ParticleTypes.BLOCK, unstrippedBlockState);
+            ParticleOptions blockParticle = level.getRandom().nextFloat() > 0.9 ? new BlockParticleOption(net.minecraft.core.particles.ParticleTypes.BLOCK, strippedBlockState) : new BlockParticleOption(net.minecraft.core.particles.ParticleTypes.BLOCK, unstrippedBlockState);
             level.addParticle(
                 blockParticle,
                 clickedPosition.x + x,
@@ -496,7 +495,7 @@ public class SpawnParticles {
         double y = blockPos.getY() + 1. + (level.getRandom().nextDouble() / 16f);
         double z = blockPos.getZ() + 0.5f;
         RandomDistributionEmitterOptions emitter = new RandomDistributionEmitterOptions(
-            ModParticleTypes.FLYING_SPARK_EMITTER,
+            ParticleTypes.FLYING_SPARK_EMITTER,
             3,
             7,
             1,
@@ -579,7 +578,7 @@ public class SpawnParticles {
 
         int amount = BlockInteractionOptions.GRINDSTONE_USE_SPARKS_MAX_ON_USE.getValue();
         return new RandomDistributionEmitterOptions(
-            ModParticleTypes.FLYING_SPARK_EMITTER,
+            ParticleTypes.FLYING_SPARK_EMITTER,
             amount < 6 ? amount : 6,
             1,
             (int) Math.ceil((double) amount / 6),
@@ -593,7 +592,7 @@ public class SpawnParticles {
             float xVel = MathHelpers.randomBetween(-0.2f, 0.2f);
             float yVel = MathHelpers.randomBetween(0.3f, 0.6f);
             float zVel = MathHelpers.randomBetween(-0.2f, 0.2f);
-            level.addParticle(ModParticleTypes.FLOATING_SPARK, x, y, z, xVel, yVel, zVel);
+            level.addParticle(ParticleTypes.FLOATING_SPARK, x, y, z, xVel, yVel, zVel);
         }
     }
 
@@ -608,7 +607,7 @@ public class SpawnParticles {
             float xVel = (float) MathHelpers.clampOutside(MathHelpers.randomBetween(-0.5f, 0.5f), -0.2, 0.2);
             float yVel = MathHelpers.randomBetween(0.4f, 0.6f);
             float zVel = (float) MathHelpers.clampOutside(MathHelpers.randomBetween(-0.5f, 0.5f), -0.2, 0.2);
-            level.addParticle(ModParticleTypes.FLYING_SPARK, x, y, z, xVel, yVel, zVel);
+            level.addParticle(ParticleTypes.FLYING_SPARK, x, y, z, xVel, yVel, zVel);
         }
     }
 
@@ -641,7 +640,7 @@ public class SpawnParticles {
             double d0 = (double) fluidPos.getX() + level.getRandom().nextDouble();
             double d1 = (double) fluidPos.getY() + fluidState.getOwnHeight();
             double d2 = (double) fluidPos.getZ() + level.getRandom().nextDouble();
-            level.addParticle(ModParticleTypes.LAVA_POP, d0, d1, d2, 0.0f, 0.0f, 0.0f);
+            level.addParticle(ParticleTypes.LAVA_POP, d0, d1, d2, 0.0f, 0.0f, 0.0f);
         }
     }
 
@@ -659,7 +658,7 @@ public class SpawnParticles {
             double y = (double) blockPos.getY() + (blockState.isSolid() ? 1.05 : level.getRandom().nextDouble());
             double z = (double) blockPos.getZ() + level.getRandom().nextDouble();
             RandomDistributionEmitterOptions emitter = new RandomDistributionEmitterOptions(
-                ModParticleTypes.UNDERWATER_RISING_BUBBLE_SMALL_EMITTER,
+                ParticleTypes.UNDERWATER_RISING_BUBBLE_SMALL_EMITTER,
                 MathHelpers.randomBetween(9, 30),
                 MathHelpers.randomBetween(2, 4),
                 1
@@ -751,7 +750,7 @@ public class SpawnParticles {
 
         if(level.getRandom().nextFloat() > 0.3) {
             Vec3 centerPos = blockPos.getCenter();
-            level.addParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, centerPos.x, blockPos.getY() + .8, centerPos.z, 0, 0.07f, 0);
+            level.addParticle(net.minecraft.core.particles.ParticleTypes.CAMPFIRE_COSY_SMOKE, centerPos.x, blockPos.getY() + .8, centerPos.z, 0, 0.07f, 0);
         }
     }
 
@@ -765,7 +764,7 @@ public class SpawnParticles {
         Direction furnaceDirection = furnaceState.getValue(FurnaceBlock.FACING);
         final boolean spawnSpark = level.getRandom().nextFloat() < 0.7;
         final float outwardVelocity = MathHelpers.randomBetween(0.01f, 0.03f) * (spawnSpark ? 1 : 5);
-        level.addParticle(spawnSpark ? ModParticleTypes.FLOATING_EMBER : ModParticleTypes.FLOATING_SPARK, positions[0], positions[1], positions[2], furnaceDirection.getStepX() * outwardVelocity, 0.05f, furnaceDirection.getStepZ() * outwardVelocity);
+        level.addParticle(spawnSpark ? ParticleTypes.FLOATING_EMBER : ParticleTypes.FLOATING_SPARK, positions[0], positions[1], positions[2], furnaceDirection.getStepX() * outwardVelocity, 0.05f, furnaceDirection.getStepZ() * outwardVelocity);
     }
 
     public static void spawnAdditionalBlastFurnaceParticles(ClientLevel level, BlockPos blockPos, BlockState furnaceState) {
@@ -778,7 +777,7 @@ public class SpawnParticles {
         Direction furnaceDirection = furnaceState.getValue(FurnaceBlock.FACING);
         final boolean spawnSpark = level.getRandom().nextFloat() < 0.2;
         final float outwardVelocity = MathHelpers.randomBetween(0.01f, 0.03f) * (spawnSpark ? 1 : 5);
-        level.addParticle(spawnSpark ? ModParticleTypes.FLOATING_EMBER : ModParticleTypes.FLOATING_SPARK, positions[0], positions[1] + 0.125, positions[2], furnaceDirection.getStepX() * outwardVelocity, 0.05f, furnaceDirection.getStepZ() * outwardVelocity);
+        level.addParticle(spawnSpark ? ParticleTypes.FLOATING_EMBER : ParticleTypes.FLOATING_SPARK, positions[0], positions[1] + 0.125, positions[2], furnaceDirection.getStepX() * outwardVelocity, 0.05f, furnaceDirection.getStepZ() * outwardVelocity);
     }
 
     public static void spawnLightningImpactSparks(ClientLevel level, double x, double y, double z) {
@@ -787,7 +786,7 @@ public class SpawnParticles {
 
         SpawnParticlesUtil.spawnParticleInCircle(
             () -> new ArcEmitterOptions(
-                ModParticleTypes.ARC_EMITTER,
+                ParticleTypes.ARC_EMITTER,
                 MathHelpers.randomBetween(7, 14),
                 MathHelpers.randomBetween(3, 5),
                 40,
@@ -808,7 +807,7 @@ public class SpawnParticles {
 
         int amountOfSparks = EntityOptions.LIGHTNING_STRIKE_AMOUNT_OF_SPARKS.getValue();
         SpawnParticlesUtil.spawnParticleInCircle(
-            ModParticleTypes.FLYING_SPARK,
+            ParticleTypes.FLYING_SPARK,
             level,
             new Vec3(x, y + 0.01, z),
             MathHelpers.randomBetween(Math.max(0, amountOfSparks - 4), amountOfSparks),
@@ -827,8 +826,9 @@ public class SpawnParticles {
             double xOffset = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 + Math.abs(faceDirection.getStepX()));
             double yOffset = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 + Math.abs(faceDirection.getStepY()));
             double zOffset = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 + Math.abs(faceDirection.getStepZ()));
-            level.addParticle(
+            ParticleSpawner.spawn(
                 DripParticleOption.FALLING_HONEY_DROP,
+                ParticleContext.plain(level),
                 x + xOffset,
                 y + yOffset,
                 z + zOffset,
@@ -842,8 +842,9 @@ public class SpawnParticles {
         if(!ItemInteractionOptions.HONEY_COLLECTION_ENABLED.getValue()) return;
         int amount = ItemInteractionOptions.HONEY_COLLECTION_AMOUNT.getValue();
         for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(Math.max(amount / 2, 0), Math.max(amount / 2, 1)); i++) {
-            level.addParticle(
+            ParticleSpawner.spawn(
                 DripParticleOption.FALLING_HONEY_DROP,
+                ParticleContext.plain(level),
                 player.getX() - 0.25 + (level.getRandom().nextDouble() / 2),
                 player.getY() + 0.85 + (level.getRandom().nextDouble() / 5),
                 player.getZ() - 0.25 + (level.getRandom().nextDouble() / 2),

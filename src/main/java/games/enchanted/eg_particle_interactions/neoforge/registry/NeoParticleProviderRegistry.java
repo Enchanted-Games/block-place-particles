@@ -1,7 +1,7 @@
 //? if neoforge {
 /*package games.enchanted.eg_particle_interactions.neoforge.registry;
 
-import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
+import games.enchanted.eg_particle_interactions.common.particle.types.ModParticleTypes;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;

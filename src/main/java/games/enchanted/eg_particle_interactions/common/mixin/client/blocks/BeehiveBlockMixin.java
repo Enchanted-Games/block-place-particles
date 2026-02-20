@@ -3,7 +3,9 @@ package games.enchanted.eg_particle_interactions.common.mixin.client.blocks;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import games.enchanted.eg_particle_interactions.common.config.categories.ItemInteractionOptions;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.options.DripParticleOption;
+import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -53,10 +55,10 @@ public abstract class BeehiveBlockMixin extends BaseEntityBlock {
         method = "spawnFluidParticle"
     )
     private void block_place_particles$replaceHoneyDropParticles(Level instance, ParticleOptions particleData, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, Operation<Void> original) {
-        if(!ItemInteractionOptions.HONEY_COLLECTION_REPLACE_VANILLA.getValue()) {
+        if(!ItemInteractionOptions.HONEY_COLLECTION_REPLACE_VANILLA.getValue() || !(instance instanceof ClientLevel clientLevel)) {
             original.call(instance, particleData, x, y, z, xSpeed, ySpeed, zSpeed);
             return;
         }
-        original.call(instance, DripParticleOption.HANGING_HONEY_DROP, x, y + 0.047, z, xSpeed, ySpeed, zSpeed);
+        ParticleSpawner.spawn(DripParticleOption.HANGING_HONEY_DROP, ParticleContext.plain(clientLevel), x, y + 0.047, z, xSpeed, ySpeed, zSpeed);
     }
 }

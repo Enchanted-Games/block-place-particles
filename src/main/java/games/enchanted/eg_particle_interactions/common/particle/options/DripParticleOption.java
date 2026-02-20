@@ -3,36 +3,35 @@ package games.enchanted.eg_particle_interactions.common.particle.options;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
+import games.enchanted.eg_particle_interactions.common.registry.particle.ParticleTypes;
+import games.enchanted.eg_particle_interactions.common.registry.particle.PIParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.ExtraCodecs;
 import org.jetbrains.annotations.NotNull;
 
-public class DripParticleOption implements ParticleOptions {
+public class DripParticleOption implements PIParticleOptions {
     public static final int DEFAULT_START_FALLING_TICKS = 5;
     public static final float DEFAULT_GRAVITY = 0.05F;
     public static final float DEFAULT_GRAVITY_RANDOMNESS = 0.0F;
 
-    public static final DripParticleOption FALLING_HONEY_DROP = new DripParticleOption(ModParticleTypes.HONEY_DROP, 0, 0.02f, 0.03f);
-    public static final DripParticleOption HANGING_HONEY_DROP = new DripParticleOption(ModParticleTypes.HONEY_DROP, 30, 0.02f, 0.03f);
+    public static final DripParticleOption FALLING_HONEY_DROP = new DripParticleOption(ParticleTypes.HONEY_DROP, 0, 0.02f, 0.03f);
+    public static final DripParticleOption HANGING_HONEY_DROP = new DripParticleOption(ParticleTypes.HONEY_DROP, 30, 0.02f, 0.03f);
 
-    private final ParticleType<DripParticleOption> type;
+    private final PIParticleType<DripParticleOption> type;
     private final int startFallingTicks;
     private final float gravity;
     private final float gravityRandomness;
 
-    public DripParticleOption(ParticleType<DripParticleOption> type, int fallTicks, float gravity, float gravityRandomness) {
+    public DripParticleOption(PIParticleType<DripParticleOption> type, int fallTicks, float gravity, float gravityRandomness) {
         this.type = type;
         this.startFallingTicks = fallTicks;
         this.gravity = gravity;
         this.gravityRandomness = gravityRandomness;
     }
 
-    private static Codec<DripParticleOption> createCodec(ParticleType<DripParticleOption> type) {
+    private static Codec<DripParticleOption> createCodec(PIParticleType<DripParticleOption> type) {
         return RecordCodecBuilder.create((RecordCodecBuilder.Instance<DripParticleOption> instance) ->
             instance.group(
                 ExtraCodecs.POSITIVE_INT.optionalFieldOf("start_falling_ticks", DEFAULT_START_FALLING_TICKS).forGetter(DripParticleOption::getStartFallingTicks),
@@ -54,16 +53,16 @@ public class DripParticleOption implements ParticleOptions {
         );
     }
 
-    public static MapCodec<DripParticleOption> codec(ParticleType<DripParticleOption> type) {
+    public static MapCodec<DripParticleOption> codec(PIParticleType<DripParticleOption> type) {
         return createCodec(type).fieldOf("drip_options");
     }
 
-    public static StreamCodec<? super RegistryFriendlyByteBuf, DripParticleOption> streamCodec(ParticleType<DripParticleOption> type) {
+    public static StreamCodec<? super RegistryFriendlyByteBuf, DripParticleOption> streamCodec(PIParticleType<DripParticleOption> type) {
         return ByteBufCodecs.fromCodec(createCodec(type));
     }
 
     @Override
-    public @NotNull ParticleType<?> getType() {
+    public @NotNull PIParticleType<?> type() {
         return type;
     }
 

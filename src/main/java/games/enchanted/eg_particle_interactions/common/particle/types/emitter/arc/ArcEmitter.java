@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.emitter.arc;
 
-import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
+import games.enchanted.eg_particle_interactions.common.registry.particle.ParticleTypes;
 import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitterOptions;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
@@ -17,7 +17,7 @@ public class ArcEmitter extends AbstractArcEmitter {
 
     @Override
     protected @Nullable ParticleOptions getParticleToEmit(ClientLevel level, double x, double y, double z) {
-        return level.getRandom().nextFloat() > ((float) this.age / this.lifetime) ? ModParticleTypes.LIGHTNING_FLASH : null;
+        return level.getRandom().nextFloat() > ((float) this.age / this.lifetime) ? ParticleTypes.LIGHTNING_FLASH : null;
     }
 
     public static class Provider implements ParticleProvider<ArcEmitterOptions> {

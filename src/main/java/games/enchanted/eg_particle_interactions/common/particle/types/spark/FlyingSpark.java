@@ -1,7 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.spark;
 
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
-import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
+import games.enchanted.eg_particle_interactions.common.registry.particle.ParticleTypes;
 import games.enchanted.eg_particle_interactions.common.particle.types.physics.StretchyBouncyShapeParticle;
 import games.enchanted.eg_particle_interactions.common.shapes.ShapeDefinitions;
 import games.enchanted.eg_particle_interactions.common.util.LightUtil;
@@ -81,14 +81,14 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
                 (this.random.nextFloat() < 0.01f && this.isParticleMoving())
             )
         ) {
-            this.level.addParticle(this.isSoul ? ModParticleTypes.SOUL_SPARK_FLASH : ModParticleTypes.SPARK_FLASH, this.prevPrevX, this.prevPrevY, this.prevPrevZ, 0, 0, 0);
+            this.level.addParticle(this.isSoul ? ParticleTypes.SOUL_SPARK_FLASH : ParticleTypes.SPARK_FLASH, this.prevPrevX, this.prevPrevY, this.prevPrevZ, 0, 0, 0);
         }
 
         if(!GeneralOptions.SPARK_WATER_EVAPORATION.getValue()) {
             this.hasSpawnedSmokeParticle = true;
         }
         if(this.hasEnteredWater && !this.hasSpawnedSmokeParticle) {
-            this.level.addParticle(ModParticleTypes.WATER_VAPOUR, this.xo, this.yo, this.zo, this.xd / 6, -this.yd / 2, this.zd / 6);
+            this.level.addParticle(ParticleTypes.WATER_VAPOUR, this.xo, this.yo, this.zo, this.xd / 6, -this.yd / 2, this.zd / 6);
             this.level.playLocalSound(this.xo, this.yo, this.zo, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.AMBIENT, 0.15f, 1.2f, false);
             this.hasSpawnedSmokeParticle = true;
         }

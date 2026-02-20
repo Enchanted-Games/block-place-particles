@@ -1,15 +1,18 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.drip;
 
 import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
-import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.options.DripParticleOption;
+import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
+import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
+import games.enchanted.eg_particle_interactions.common.resource.texture_source.TextureSource;
+import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.*;
-import org.jetbrains.annotations.Nullable;
-
-//? if minecraft: > 1.21.8 {
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.RandomSource;
-//?}
+import org.jspecify.annotations.Nullable;
 
 public class DripAndLandParticle extends ParticleInteractionsParticle {
     protected boolean hasLanded = false;
@@ -113,28 +116,29 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
         return this.translucent ? ParticleLayer.TRANSLUCENT : ParticleLayer.CUTOUT;
     }
 
-    public static class UntintedDropProvider implements ParticleProvider<DripParticleOption> {
-        SpriteSet sprites;
-
-        public UntintedDropProvider(SpriteSet sprites) {
-            this.sprites = sprites;
+    public static class UntintedDropProvider implements PIParticleProvider<DripParticleOption> {
+        public UntintedDropProvider() {
         }
 
+        // TOOD: fix this
         @Override
-        public @Nullable Particle createParticle(
-            DripParticleOption options,
-            ClientLevel level,
-            double x,
-            double y,
-            double z,
-            double xSpeed,
-            double ySpeed,
-            double zSpeed
-            //? if minecraft: > 1.21.8 {
-            , RandomSource random
-            //?}
-        ) {
-            return new DripAndLandParticle(level, x, y, z, sprites, options, true);
+        public @Nullable Particle createParticle(DripParticleOption options, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, ParticleContext context, @Nullable TextureSource textureSource) {
+            return new DripAndLandParticle(context.level(), x, y, z, new SpriteSet() {
+                @Override
+                public TextureAtlasSprite get(int index, int max) {
+                    return TextureHelpers.getSpriteFromAtlas(textureSource.sprites().sprites().get(index), textureSource.sprites().atlasId());
+                }
+
+                @Override
+                public TextureAtlasSprite get(RandomSource random) {
+                    return TextureHelpers.getSpriteFromAtlas(textureSource.sprites().sprites().get(0), textureSource.sprites().atlasId());
+                }
+
+                @Override
+                public TextureAtlasSprite first() {
+                    return TextureHelpers.getSpriteFromAtlas(textureSource.sprites().sprites().get(0), textureSource.sprites().atlasId());
+                }
+            }, options, true);
         }
     }
 }

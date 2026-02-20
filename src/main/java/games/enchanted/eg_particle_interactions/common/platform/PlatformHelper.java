@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.platform;
 
-import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
+import games.enchanted.eg_particle_interactions.common.registry.particle.ParticleTypes;
 //? if neoforge {
 /*import games.enchanted.eg_particle_interactions.neoforge.registry.NeoParticleProviderRegistry;
 import games.enchanted.eg_particle_interactions.neoforge.registry.NeoReloadListenerRegistry;
@@ -110,7 +110,7 @@ public class PlatformHelper {
     /**
      * Registers a particle to a particle provider
      */
-    public static <T extends ParticleOptions> void registerParticleProvider(ParticleType<T> particleType, ModParticleTypes.ProviderCreator<T> particleProviderCreator) {
+    public static <T extends ParticleOptions> void registerParticleProvider(ParticleType<T> particleType, ParticleTypes.ProviderCreator<T> particleProviderCreator) {
         //? if fabric {
         /*? if minecraft: < 26.1 {*/ /*ParticleFactoryRegistry *//*? } else {*/ ParticleProviderRegistry /*?}*/
             .getInstance().register(particleType, particleProviderCreator::create);

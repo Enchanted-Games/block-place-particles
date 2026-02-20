@@ -1,7 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.overrides;
 
 import games.enchanted.eg_particle_interactions.common.config.categories.FluidPlacementOptions;
-import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
+import games.enchanted.eg_particle_interactions.common.registry.particle.ParticleTypes;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
@@ -14,9 +14,9 @@ import org.jetbrains.annotations.Nullable;
 
 public enum FluidPlacementParticle {
     NONE("none"),
-    TINTED_WATER("tinted_water", ModParticleTypes.WATER_BUCKET_TINTED_SPLASH, true),
-    LAVA("lava", ModParticleTypes.LAVA_BUCKET_SPLASH, false),
-    GENERIC("generic", ModParticleTypes.GENERIC_FLUID_BUCKET_SPLASH, true);
+    TINTED_WATER("tinted_water", ParticleTypes.WATER_BUCKET_TINTED_SPLASH, true),
+    LAVA("lava", ParticleTypes.LAVA_BUCKET_SPLASH, false),
+    GENERIC("generic", ParticleTypes.GENERIC_FLUID_BUCKET_SPLASH, true);
 
     private final String name;
     @Nullable private ParticleOptions particleType;

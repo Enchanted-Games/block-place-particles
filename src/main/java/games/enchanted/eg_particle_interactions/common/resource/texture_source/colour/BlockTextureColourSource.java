@@ -1,13 +1,13 @@
-package games.enchanted.eg_particle_interactions.common.particle.coloursource;
+package games.enchanted.eg_particle_interactions.common.resource.texture_source.colour;
 
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
 import net.minecraft.client.Minecraft;
 
-public class BlockTintColourSource extends ParticleColourSource {
+public class BlockTextureColourSource implements ColourSource {
     final int tintIndex;
 
-    public BlockTintColourSource(int tintIndex) {
+    public BlockTextureColourSource(int tintIndex) {
         this.tintIndex = tintIndex;
     }
 
@@ -17,6 +17,7 @@ public class BlockTintColourSource extends ParticleColourSource {
 
         ParticleContext.BlockContext bContext = context.blockContext();
         int tintColour = Minecraft.getInstance().getBlockColors().getColor(bContext.state(), context.level(), bContext.pos(), this.tintIndex);
-        return ColourUtil.RGBint_to_ARGB(tintColour);
+        int[] tintColourARGB = ColourUtil.RGBint_to_ARGB(tintColour);
+        return ColourUtil.getRandomBlockColour(bContext.state(), tintColourARGB);
     }
 }

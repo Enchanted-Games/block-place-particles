@@ -1,7 +1,11 @@
-package games.enchanted.eg_particle_interactions.common.particle;
+package games.enchanted.eg_particle_interactions.common.registry.particle;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.Constants;
+import games.enchanted.eg_particle_interactions.common.particle.options.*;
+import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.types.CustomMovementTerrainParticle;
 import games.enchanted.eg_particle_interactions.common.particle.types.bubble.UnderwaterRisingBubble;
 import games.enchanted.eg_particle_interactions.common.particle.types.constant_motion.LavaPop;
@@ -11,10 +15,6 @@ import games.enchanted.eg_particle_interactions.common.particle.types.dust.Basic
 import games.enchanted.eg_particle_interactions.common.particle.types.dust.FloatingColouredDust;
 import games.enchanted.eg_particle_interactions.common.particle.types.emitter.arc.ArcEmitter;
 import games.enchanted.eg_particle_interactions.common.particle.types.emitter.random_distribution.UnderwaterBubbleEmitter;
-import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitterOptions;
-import games.enchanted.eg_particle_interactions.common.particle.options.DripParticleOption;
-import games.enchanted.eg_particle_interactions.common.particle.options.RandomDistributionEmitterOptions;
-import games.enchanted.eg_particle_interactions.common.particle.options.TintedParticleOption;
 import games.enchanted.eg_particle_interactions.common.particle.types.falling_spin.FallingSpinningColouredParticle;
 import games.enchanted.eg_particle_interactions.common.particle.types.falling_spin.FallingSpinningParticle;
 import games.enchanted.eg_particle_interactions.common.particle.types.shatter.BlockShatter;
@@ -41,9 +41,14 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
-public class ModParticleTypes {
+public class ParticleTypes {
+    private static final BiMap<Identifier, PIParticleType<? extends PIParticleOptions>> TYPES = HashBiMap.create();
+    private static final Map<PIParticleType<? >, PIParticleProvider<? >> PROVIDERS_BY_TYPE = new HashMap<>();
+
     public static SimpleParticleType SNOWFLAKE;
     public static SimpleParticleType SNOWFLAKE_SPECK;
     public static SimpleParticleType FALLING_CHERRY_PETAL;
@@ -70,7 +75,7 @@ public class ModParticleTypes {
     public static ParticleType<BlockParticleOption> CHAIN_SNAP;
     public static ParticleType<BlockParticleOption> SUGAR_CANE;
 
-    public static ParticleType<DripParticleOption> HONEY_DROP;
+    public static PIParticleType<DripParticleOption> HONEY_DROP;
 
     public static ParticleType<BlockParticleOption> WATER_BUCKET_TINTED_SPLASH;
     public static SimpleParticleType LAVA_BUCKET_SPLASH;
@@ -131,7 +136,7 @@ public class ModParticleTypes {
         CHAIN_SNAP = register(FallingSpinningColouredParticle.ChainSnapProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "chain_snap"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         SUGAR_CANE = register(FallingSpinningColouredParticle.SugarCaneProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "sugar_cane"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
 
-        HONEY_DROP = register(DripAndLandParticle.UntintedDropProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "honey_drop"), false, DripParticleOption::codec, DripParticleOption::streamCodec);
+        HONEY_DROP = registerPI(DripAndLandParticle.UntintedDropProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "honey_drop"), DripParticleOption::codec);
 
         WATER_BUCKET_TINTED_SPLASH = register(ColouredBucketSplash.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "water_bucket_tinted_splash"), false, BlockParticleOption::codec, BlockParticleOption::streamCodec);
         LAVA_BUCKET_SPLASH = register(LavaSplash.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "lava_bucket_splash"), false);
@@ -163,6 +168,24 @@ public class ModParticleTypes {
         BLOCK_HIGH_VELOCITY = register(CustomMovementTerrainParticle.UncappedMotionProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_high_velocity"), true, BlockParticleOption::codec, BlockParticleOption::streamCodec);
     }
 
+    private static PIParticleType.Simple registerPI(PIProviderCreator<PIParticleType.Simple> providerCreator, Identifier id) {
+        PIParticleType.Simple type = new PIParticleType.Simple();
+        TYPES.put(id, type);
+        PROVIDERS_BY_TYPE.put(type, providerCreator.create());
+        return type;
+    }
+
+    private static <T extends PIParticleOptions> PIParticleType<T> registerPI(PIProviderCreator<T> providerCreator, Identifier id, Function<PIParticleType<T>, MapCodec<T>> codecGetter) {
+        PIParticleType<T> type = new PIParticleType<>() {
+            public @NotNull MapCodec<T> codec() {
+                return codecGetter.apply(this);
+            }
+        };
+        TYPES.put(id, type);
+        PROVIDERS_BY_TYPE.put(type, providerCreator.create());
+        return type;
+    }
+
     private static SimpleParticleType register(ProviderCreator<SimpleParticleType> providerCreator, Identifier particleID, boolean alwaysShow) {
         SimpleParticleType registeredParticleType = Registry.register(BuiltInRegistries.PARTICLE_TYPE, particleID, PlatformHelper.createNewSimpleParticle(alwaysShow));
         PlatformHelper.registerParticleProvider(registeredParticleType, providerCreator);
@@ -186,5 +209,24 @@ public class ModParticleTypes {
     @FunctionalInterface
     public interface ProviderCreator<T extends ParticleOptions> {
         ParticleProvider<T> create(SpriteSet spriteSet);
+    }
+
+    @FunctionalInterface
+    public interface PIProviderCreator<T extends PIParticleOptions> {
+        PIParticleProvider<T> create();
+    }
+
+    public static <T extends PIParticleOptions> PIParticleProvider<T> getProvider(PIParticleType<T> type) {
+        if(!PROVIDERS_BY_TYPE.containsKey(type)) {
+            throw new RuntimeException("Tried to get provider for unregistered particle type");
+        }
+        return (PIParticleProvider<T>) PROVIDERS_BY_TYPE.get(type);
+    }
+
+    public static Identifier getId(PIParticleType<?> type) {
+        if(!PROVIDERS_BY_TYPE.containsKey(type)) {
+            throw new RuntimeException("Tried to get id for unregistered particle type");
+        }
+        return TYPES.inverse().get(type);
     }
 }

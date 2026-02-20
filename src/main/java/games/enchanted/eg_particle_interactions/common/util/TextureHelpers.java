@@ -26,6 +26,10 @@ public class TextureHelpers {
         return getTextureAtlas(getBlocksAtlasID()).getSprite(location);
     }
 
+    public static TextureAtlasSprite getSpriteFromAtlas(Identifier spriteId, Identifier atlasId) {
+        return getTextureAtlas(atlasId).getSprite(spriteId);
+    }
+
     public static TextureAtlasSprite getDebugSprite() {
         return getSpriteFromBlockAtlas(Identifier.withDefaultNamespace("block/debug"));
     }

@@ -3,7 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.options;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
+import games.enchanted.eg_particle_interactions.common.registry.particle.ParticleTypes;
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
@@ -16,18 +16,18 @@ import org.jetbrains.annotations.NotNull;
 public class TintedParticleOption implements ParticleOptions {
     public static final int BRUSH_COLOUR = 0xcec5d6;
     public static final float BRUSH_VARIATION = 0.23F;
-    public static final TintedParticleOption BRUSH_OPTION = new TintedParticleOption(ModParticleTypes.BRUSH_DUST, TintedParticleOption.BRUSH_COLOUR, TintedParticleOption.BRUSH_VARIATION, true);
-    public static final TintedParticleOption BRUSH_SPECK_OPTION = new TintedParticleOption(ModParticleTypes.BRUSH_DUST_SPECK, TintedParticleOption.BRUSH_COLOUR, TintedParticleOption.BRUSH_VARIATION, true);
+    public static final TintedParticleOption BRUSH_OPTION = new TintedParticleOption(ParticleTypes.BRUSH_DUST, TintedParticleOption.BRUSH_COLOUR, TintedParticleOption.BRUSH_VARIATION, true);
+    public static final TintedParticleOption BRUSH_SPECK_OPTION = new TintedParticleOption(ParticleTypes.BRUSH_DUST_SPECK, TintedParticleOption.BRUSH_COLOUR, TintedParticleOption.BRUSH_VARIATION, true);
 
     public static final int ITEM_FRAME_COLOUR = 0xfffcf7;
     public static final float ITEM_FRAME_VARIATION = 0.18F;
-    public static final TintedParticleOption ITEM_FRAME_DUST_OPTION = new TintedParticleOption(ModParticleTypes.ITEM_FRAME_DUST, TintedParticleOption.ITEM_FRAME_COLOUR, TintedParticleOption.ITEM_FRAME_VARIATION, true);
-    public static final TintedParticleOption ITEM_FRAME_DUST_SPECK_OPTION = new TintedParticleOption(ModParticleTypes.ITEM_FRAME_DUST_SPECK, TintedParticleOption.ITEM_FRAME_COLOUR, TintedParticleOption.ITEM_FRAME_VARIATION, true);
+    public static final TintedParticleOption ITEM_FRAME_DUST_OPTION = new TintedParticleOption(ParticleTypes.ITEM_FRAME_DUST, TintedParticleOption.ITEM_FRAME_COLOUR, TintedParticleOption.ITEM_FRAME_VARIATION, true);
+    public static final TintedParticleOption ITEM_FRAME_DUST_SPECK_OPTION = new TintedParticleOption(ParticleTypes.ITEM_FRAME_DUST_SPECK, TintedParticleOption.ITEM_FRAME_COLOUR, TintedParticleOption.ITEM_FRAME_VARIATION, true);
 
     public static final int GLOW_ITEM_FRAME_COLOUR = 0xffe9cf;
     public static final float GLOW_ITEM_FRAME_VARIATION = 0.18F;
-    public static final TintedParticleOption GLOW_ITEM_FRAME_DUST_OPTION = new TintedParticleOption(ModParticleTypes.GLOW_ITEM_FRAME_DUST, TintedParticleOption.GLOW_ITEM_FRAME_COLOUR, TintedParticleOption.GLOW_ITEM_FRAME_VARIATION, true);
-    public static final TintedParticleOption GLOW_ITEM_FRAME_DUST_SPECK_OPTION = new TintedParticleOption(ModParticleTypes.GLOW_ITEM_FRAME_DUST_SPECK, TintedParticleOption.GLOW_ITEM_FRAME_COLOUR, TintedParticleOption.GLOW_ITEM_FRAME_VARIATION, true);
+    public static final TintedParticleOption GLOW_ITEM_FRAME_DUST_OPTION = new TintedParticleOption(ParticleTypes.GLOW_ITEM_FRAME_DUST, TintedParticleOption.GLOW_ITEM_FRAME_COLOUR, TintedParticleOption.GLOW_ITEM_FRAME_VARIATION, true);
+    public static final TintedParticleOption GLOW_ITEM_FRAME_DUST_SPECK_OPTION = new TintedParticleOption(ParticleTypes.GLOW_ITEM_FRAME_DUST_SPECK, TintedParticleOption.GLOW_ITEM_FRAME_COLOUR, TintedParticleOption.GLOW_ITEM_FRAME_VARIATION, true);
 
     public static final int REDSTONE = 0xf70000;
     public static final int REDSTONE_UNPOWERED = 0x660000;
