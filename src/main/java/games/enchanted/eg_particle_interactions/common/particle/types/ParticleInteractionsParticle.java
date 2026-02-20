@@ -296,40 +296,22 @@ public abstract class ParticleInteractionsParticle extends Particle {
         return this.getAlpha() < 0.99 ? ParticleLayer.TRANSLUCENT : ParticleLayer.CUTOUT;
     }
 
-    public record ParticleLayer(
-        //? if minecraft: <= 1.21.8 {
-        /*ParticleRenderType layer
-         *///?} else {
-        SingleQuadParticle.Layer layer
-        //?}
-    ) {
+    public record ParticleLayer(SingleQuadParticle.Layer layer) {
+        public static final ParticleLayer TRANSLUCENT = new ParticleLayer(
+            SingleQuadParticle.Layer.TRANSLUCENT
+        );
         public static final ParticleLayer CUTOUT = new ParticleLayer(
-            //? if minecraft: <= 1.21.8 {
-            /*ParticleRenderType.PARTICLE_SHEET_OPAQUE
-             *///?} else {
             SingleQuadParticle.Layer.OPAQUE
-            //?}
         );
         public static final ParticleLayer TERRAIN = new ParticleLayer(
-            //? if minecraft: <= 1.21.8 {
-            /*ParticleRenderType.TERRAIN_SHEET
-             *///?} else {
-            SingleQuadParticle.Layer.TERRAIN
-            //?}
-        );
-        public static final ParticleLayer TRANSLUCENT = new ParticleLayer(
-            //? if minecraft: <= 1.21.8 {
-            /*ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT
-             *///?} else {
-            SingleQuadParticle.Layer.TRANSLUCENT
-            //?}
+            //? if minecraft: < 26.1 {
+            /*SingleQuadParticle.Layer.TERRAIN
+            *///? } else {
+            SingleQuadParticle.Layer.TRANSLUCENT_TERRAIN
+            //? }
         );
         public static final ParticleLayer BACKFACE_TERRAIN = new ParticleLayer(
-            //? if minecraft: <= 1.21.8 {
-            /*ModParticleRenderTypes.BACKFACE_TERRAIN_PARTICLE
-             *///?} else {
             BACKFACE_TERRAIN_LAYER
-            //?}
         );
     }
 

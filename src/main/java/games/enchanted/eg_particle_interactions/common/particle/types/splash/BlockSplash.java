@@ -20,7 +20,22 @@ public class BlockSplash extends BucketSplash {
     private final float vo;
 
     protected BlockSplash(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(blockState));
+        super(
+            level,
+            x,
+            y,
+            z,
+            xSpeed,
+            ySpeed,
+            zSpeed,
+            Minecraft.getInstance().getBlockRenderer().getBlockModelShaper()
+                //? if minecraft: < 26.1 {
+                /*.getParticleIcon(blockState)
+                 *///? } else {
+                .getParticleMaterial(blockState).sprite()
+            //? }
+        );
+
         this.pos = blockPos;
         this.uo = this.random.nextFloat() * 3.0F;
         this.vo = this.random.nextFloat() * 3.0F;
