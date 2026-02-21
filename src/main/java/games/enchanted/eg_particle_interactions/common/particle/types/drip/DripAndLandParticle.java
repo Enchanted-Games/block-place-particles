@@ -5,7 +5,7 @@ import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.options.DripParticleOption;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
-import games.enchanted.eg_particle_interactions.common.resource.texture_source.TextureSource;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
@@ -122,21 +122,21 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
 
         // TOOD: fix this
         @Override
-        public @Nullable Particle createParticle(DripParticleOption options, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, ParticleContext context, @Nullable TextureSource textureSource) {
+        public @Nullable Particle createParticle(DripParticleOption options, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, ParticleContext context, @Nullable ParticleAppearance particleAppearance) {
             return new DripAndLandParticle(context.level(), x, y, z, new SpriteSet() {
                 @Override
                 public TextureAtlasSprite get(int index, int max) {
-                    return TextureHelpers.getSpriteFromAtlas(textureSource.sprites().sprites().get(index), textureSource.sprites().atlasId());
+                    return TextureHelpers.getSpriteFromAtlas(particleAppearance.sprites().sprites().get(index), particleAppearance.sprites().atlasId());
                 }
 
                 @Override
                 public TextureAtlasSprite get(RandomSource random) {
-                    return TextureHelpers.getSpriteFromAtlas(textureSource.sprites().sprites().get(0), textureSource.sprites().atlasId());
+                    return TextureHelpers.getSpriteFromAtlas(particleAppearance.sprites().sprites().get(0), particleAppearance.sprites().atlasId());
                 }
 
                 @Override
                 public TextureAtlasSprite first() {
-                    return TextureHelpers.getSpriteFromAtlas(textureSource.sprites().sprites().get(0), textureSource.sprites().atlasId());
+                    return TextureHelpers.getSpriteFromAtlas(particleAppearance.sprites().sprites().get(0), particleAppearance.sprites().atlasId());
                 }
             }, options, true);
         }

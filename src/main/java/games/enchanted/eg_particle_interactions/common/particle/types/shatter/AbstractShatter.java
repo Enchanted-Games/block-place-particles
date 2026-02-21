@@ -6,7 +6,6 @@ import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Direction;
-import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 

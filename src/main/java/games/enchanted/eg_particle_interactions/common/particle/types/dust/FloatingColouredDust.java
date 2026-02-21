@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common.particle.types.dust;
 
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.resource.texture_source.colour.BlockTextureColourSource;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.colour.BlockTextureColourSource;
 import games.enchanted.eg_particle_interactions.common.util.ParticleUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;

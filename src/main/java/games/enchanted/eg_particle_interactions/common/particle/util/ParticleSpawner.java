@@ -5,8 +5,8 @@ import games.enchanted.eg_particle_interactions.common.particle.options.PIPartic
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
-import games.enchanted.eg_particle_interactions.common.resource.texture_source.TextureSource;
-import games.enchanted.eg_particle_interactions.common.resource.texture_source.TextureSourceManager;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearanceManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.resources.Identifier;
@@ -17,7 +17,7 @@ public class ParticleSpawner {
         spawn(options, context, null, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 
-    public static void spawn(PIParticleOptions options, ParticleContext context, TextureSource appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+    public static void spawn(PIParticleOptions options, ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         spawnParticle(options, context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 
@@ -25,7 +25,7 @@ public class ParticleSpawner {
     private static  <T extends PIParticleOptions> void spawnParticle(
         final T options,
         ParticleContext context,
-        @Nullable TextureSource appearance,
+        @Nullable ParticleAppearance appearance,
         double x,
         double y,
         double z,
@@ -46,7 +46,7 @@ public class ParticleSpawner {
             ySpeed,
             zSpeed,
             context,
-            appearance != null ? appearance : TextureSourceManager.get(particleId)
+            appearance != null ? appearance : ParticleAppearanceManager.get(particleId)
         );
         if(particle != null) {
             Minecraft.getInstance().particleEngine.add(particle);

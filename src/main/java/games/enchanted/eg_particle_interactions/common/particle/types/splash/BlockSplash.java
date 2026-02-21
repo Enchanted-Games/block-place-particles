@@ -1,7 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.splash;
 
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.resource.texture_source.colour.BlockTintColourSource;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.colour.BlockTintColourSource;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;

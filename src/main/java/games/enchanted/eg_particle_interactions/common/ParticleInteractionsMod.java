@@ -3,15 +3,10 @@ package games.enchanted.eg_particle_interactions.common;
 import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
 import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
 import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
-import games.enchanted.eg_particle_interactions.common.override_system.predicate.BlockStatePredicate;
-import games.enchanted.eg_particle_interactions.common.override_system.override.rule.OverrideRuleFile;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
-import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
-import games.enchanted.eg_particle_interactions.common.resource.texture_source.TextureSourceManager;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearanceManager;
 import net.minecraft.resources.Identifier;
-
-import java.util.List;
 
 //? if minecraft: > 1.21.8 && fabric {
 //?}
@@ -36,7 +31,7 @@ public class ParticleInteractionsMod {
 
         PlatformHelper.registerResourceReloadListener(ParticleOverrides.INSTANCE, ParticleInteractionsMod.id("particle_overrides"));
         PlatformHelper.registerResourceReloadListener(BlockOverrideManager.INSTANCE, ParticleInteractionsMod.id("block_override_rules"));
-        PlatformHelper.registerResourceReloadListener(TextureSourceManager.INSTANCE, ParticleInteractionsMod.id("texture_sources"));
+        PlatformHelper.registerResourceReloadListener(ParticleAppearanceManager.INSTANCE, ParticleInteractionsMod.id("texture_sources"));
     }
 
     public static void endOfModLoading() {

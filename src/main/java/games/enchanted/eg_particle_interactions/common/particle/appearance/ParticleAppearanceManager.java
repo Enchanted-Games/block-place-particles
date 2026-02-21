@@ -1,15 +1,12 @@
-package games.enchanted.eg_particle_interactions.common.resource.texture_source;
+package games.enchanted.eg_particle_interactions.common.particle.appearance;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.JsonOps;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.Logging;
-import games.enchanted.eg_particle_interactions.common.resource.texture_source.colour.StaticColourSource;
-import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.colour.StaticColourSource;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.data.AtlasIds;
 import net.minecraft.resources.FileToIdConverter;
@@ -26,20 +23,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TextureSourceManager extends SimplePreparableReloadListener<TextureSourceManager.Prepare> {
-    private static final TextureSource FALLBACK_SOURCE = new TextureSource(
-        new TextureSource.Sprites(List.of(MissingTextureAtlasSprite.getLocation()), AtlasIds.PARTICLES),
+public class ParticleAppearanceManager extends SimplePreparableReloadListener<ParticleAppearanceManager.Prepare> {
+    private static final ParticleAppearance FALLBACK_SOURCE = new ParticleAppearance(
+        new ParticleAppearance.Sprites(List.of(MissingTextureAtlasSprite.getLocation()), AtlasIds.PARTICLES),
         new StaticColourSource(new int[]{255, 255, 255, 255})
     );
 
-    private static final Map<Identifier, TextureSource> SOURCE_BY_ID = new HashMap<>();
+    private static final Map<Identifier, ParticleAppearance> SOURCE_BY_ID = new HashMap<>();
     private static final FileToIdConverter FILE_TO_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/appearances");
 
-    public static final TextureSourceManager INSTANCE = new TextureSourceManager();
+    public static final ParticleAppearanceManager INSTANCE = new ParticleAppearanceManager();
 
     @Override
     protected Prepare prepare(ResourceManager manager, ProfilerFiller profiler) {
-        Map<Identifier, TextureSource> textureSourceMap = new HashMap<>();
+        Map<Identifier, ParticleAppearance> textureSourceMap = new HashMap<>();
 
         for (Map.Entry<Identifier, Resource> overrideResource : FILE_TO_ID_CONVERTER.listMatchingResources(manager).entrySet()) {
             Identifier fileId = overrideResource.getKey();
@@ -49,10 +46,10 @@ public class TextureSourceManager extends SimplePreparableReloadListener<Texture
         return new Prepare(textureSourceMap);
     }
 
-    protected static void parseSource(Identifier fileId, Resource resource, Map<Identifier, TextureSource> output) {
+    protected static void parseSource(Identifier fileId, Resource resource, Map<Identifier, ParticleAppearance> output) {
         try (Reader reader = resource.openAsReader()) {
             JsonElement json = StrictJsonParser.parse(reader);
-            output.put(FILE_TO_ID_CONVERTER.fileToId(fileId), TextureSource.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
+            output.put(FILE_TO_ID_CONVERTER.fileToId(fileId), ParticleAppearance.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
         } catch (JsonParseException | IOException e) {
             Logging.error("Failed to texture source '{}'", fileId, e);
         }
@@ -64,13 +61,13 @@ public class TextureSourceManager extends SimplePreparableReloadListener<Texture
         SOURCE_BY_ID.putAll(preparations.textureSourceMap());
     }
 
-    public static TextureSource get(Identifier sourceId) {
+    public static ParticleAppearance get(Identifier sourceId) {
         if(!(SOURCE_BY_ID.containsKey(sourceId))) {
             return FALLBACK_SOURCE;
         }
         return SOURCE_BY_ID.get(sourceId);
     }
 
-    protected record Prepare(Map<Identifier, TextureSource> textureSourceMap) {
+    protected record Prepare(Map<Identifier, ParticleAppearance> textureSourceMap) {
     }
 }

@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.resource.texture_source.colour;
+package games.enchanted.eg_particle_interactions.common.particle.appearance.colour;
 
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;

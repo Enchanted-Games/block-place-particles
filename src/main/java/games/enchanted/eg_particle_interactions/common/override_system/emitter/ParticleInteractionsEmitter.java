@@ -7,7 +7,7 @@ import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
-import games.enchanted.eg_particle_interactions.common.resource.texture_source.TextureSource;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
@@ -17,7 +17,7 @@ public class ParticleInteractionsEmitter extends Emitter {
         instance.group(
             Codec.DOUBLE.optionalFieldOf(Emitter.VELOCITY_MULTIPLIER_NAME, Emitter.VELOCITY_MULTIPLIER_DEFAULT).forGetter(Emitter::getVelocityMultiplier),
             ParticleTypesRegistry.CODEC.fieldOf("particle").forGetter(ParticleInteractionsEmitter::getParticleOptions),
-            TextureSource.CODEC.optionalFieldOf("appearance").forGetter(particleInteractionsEmitter -> Optional.ofNullable(particleInteractionsEmitter.getAppearance()))
+            ParticleAppearance.CODEC.optionalFieldOf("appearance").forGetter(particleInteractionsEmitter -> Optional.ofNullable(particleInteractionsEmitter.getAppearance()))
         ).apply(
             instance,
             (
@@ -33,9 +33,9 @@ public class ParticleInteractionsEmitter extends Emitter {
     );
 
     final PIParticleOptions particleOptions;
-    final @Nullable TextureSource appearance;
+    final @Nullable ParticleAppearance appearance;
 
-    public ParticleInteractionsEmitter(double velocityMultiplier, PIParticleOptions particleOptions, @Nullable TextureSource appearance) {
+    public ParticleInteractionsEmitter(double velocityMultiplier, PIParticleOptions particleOptions, @Nullable ParticleAppearance appearance) {
         super(velocityMultiplier);
         this.particleOptions = particleOptions;
         this.appearance = appearance;
@@ -65,7 +65,7 @@ public class ParticleInteractionsEmitter extends Emitter {
         return this.particleOptions;
     }
 
-    protected @Nullable TextureSource getAppearance() {
+    protected @Nullable ParticleAppearance getAppearance() {
         return this.appearance;
     }
 }
