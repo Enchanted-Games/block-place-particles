@@ -37,7 +37,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
     protected float billboardYOffset = 0.0F;
     protected float billboardXOffset = 0.0F;
 
-    protected TextureAtlasSprite sprite;
+    protected TextureAtlasSprite currentSprite;
 
     private float rCol = 1.0F;
     private float prevRCol = 1.0F;
@@ -57,7 +57,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
 
     protected ParticleInteractionsParticle(ClientLevel clientLevel, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, TextureAtlasSprite textureAtlasSprite) {
         super(clientLevel, x, y, z, xSpeed, ySpeed, zSpeed);
-        this.sprite = textureAtlasSprite;
+        this.currentSprite = textureAtlasSprite;
         this.scale = 0.1F * (this.random.nextFloat() * 0.5F + 0.5F) * 2.0F;
     }
 
@@ -147,10 +147,10 @@ public abstract class ParticleInteractionsParticle extends Particle {
 
     public void setSpriteFromAge(SpriteSet sprites) {
         if (this.removed) return;
-        this.setSprite(sprites.get(this.age, this.lifetime));
+        this.setCurrentSprite(sprites.get(this.age, this.lifetime));
     }
-    public void setSprite(TextureAtlasSprite sprite) {
-        this.sprite = sprite;
+    public void setCurrentSprite(TextureAtlasSprite sprite) {
+        this.currentSprite = sprite;
     }
 
 
@@ -193,16 +193,16 @@ public abstract class ParticleInteractionsParticle extends Particle {
 
 
     protected float getU0() {
-        return this.sprite.getU0();
+        return this.currentSprite.getU0();
     }
     protected float getU1() {
-        return this.sprite.getU1();
+        return this.currentSprite.getU1();
     }
     protected float getV0() {
-        return this.sprite.getV0();
+        return this.currentSprite.getV0();
     }
     protected float getV1() {
-        return this.sprite.getV1();
+        return this.currentSprite.getV1();
     }
 
 

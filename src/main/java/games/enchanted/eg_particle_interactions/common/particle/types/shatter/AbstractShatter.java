@@ -21,7 +21,7 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
     protected AbstractShatter(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed, TextureHelpers.getDebugSprite());
 
-        int spriteWidth = this.sprite.contents().width();
+        int spriteWidth = this.currentSprite.contents().width();
         int randomSize = MathHelpers.randomBetween(3,5);
         int randomSizeThird = randomSize / 3;
         this.uvOffset = (float) MathHelpers.randomBetween(0, spriteWidth - randomSize) / spriteWidth;
@@ -107,10 +107,10 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
         float scale = this.getLerpedScale(partialTicks);
         int lightColour = this.getLightmapCoords(partialTicks);
 
-        float u0 = this.sprite.getU(this.getScaledUVCoord(0));
-        float u1 = this.sprite.getU(this.getScaledUVCoord(this.slice0X));
-        float v0 = this.sprite.getV(this.getScaledUVCoord(this.inverseSlicePositions ? 1 - this.slice0Y : 0));
-        float v1 = this.sprite.getV(this.getScaledUVCoord(this.inverseSlicePositions ? 1 : this.slice0Y));
+        float u0 = this.currentSprite.getU(this.getScaledUVCoord(0));
+        float u1 = this.currentSprite.getU(this.getScaledUVCoord(this.slice0X));
+        float v0 = this.currentSprite.getV(this.getScaledUVCoord(this.inverseSlicePositions ? 1 - this.slice0Y : 0));
+        float v1 = this.currentSprite.getV(this.getScaledUVCoord(this.inverseSlicePositions ? 1 : this.slice0Y));
 
         float r = this.getLerpedRed(partialTicks);
         float g = this.getLerpedGreen(partialTicks);
@@ -125,10 +125,10 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
         consumer.finishQuad();
 
         scale = this.getLerpedScale(partialTicks);
-        u0 = this.sprite.getU(this.getScaledUVCoord(this.slice0X));
-        u1 = this.sprite.getU(this.getScaledUVCoord(this.slice1X));
-        v0 = this.sprite.getV(this.getScaledUVCoord(0));
-        v1 = this.sprite.getV(this.getScaledUVCoord(1));
+        u0 = this.currentSprite.getU(this.getScaledUVCoord(this.slice0X));
+        u1 = this.currentSprite.getU(this.getScaledUVCoord(this.slice1X));
+        v0 = this.currentSprite.getV(this.getScaledUVCoord(0));
+        v1 = this.currentSprite.getV(this.getScaledUVCoord(1));
         
         consumer.startQuad();
         consumer.addVertex(quaternion, x, y, z, this.slice1X, 0, scale, u1, v1, lightColour, r, g, b, a);
@@ -138,10 +138,10 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
         consumer.finishQuad();
         
         scale = this.getLerpedScale(partialTicks);
-        u0 = this.sprite.getU(this.getScaledUVCoord(this.slice1X));
-        u1 = this.sprite.getU(this.getScaledUVCoord(1));
-        v0 = this.sprite.getV(this.getScaledUVCoord(this.inverseSlicePositions ? 0 : this.slice1Y));
-        v1 = this.sprite.getV(this.getScaledUVCoord(this.inverseSlicePositions ? 1 - this.slice1Y : 1));
+        u0 = this.currentSprite.getU(this.getScaledUVCoord(this.slice1X));
+        u1 = this.currentSprite.getU(this.getScaledUVCoord(1));
+        v0 = this.currentSprite.getV(this.getScaledUVCoord(this.inverseSlicePositions ? 0 : this.slice1Y));
+        v1 = this.currentSprite.getV(this.getScaledUVCoord(this.inverseSlicePositions ? 1 - this.slice1Y : 1));
 
         consumer.startQuad();
         consumer.addVertex(quaternion, x, y, z,            1, this.inverseSlicePositions ? this.slice1Y : 0,     scale, u1, v1, lightColour, r, g, b, a);

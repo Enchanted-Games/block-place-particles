@@ -102,7 +102,7 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
     public void setSpriteFromAge(@NotNull SpriteSet sprite) {
         if (!this.removed) {
             int adjustedAge = this.getShortenedAge();
-            this.setSprite(sprite.get(adjustedAge, this.lifetime));
+            this.setCurrentSprite(sprite.get(adjustedAge, this.lifetime));
         }
     }
 

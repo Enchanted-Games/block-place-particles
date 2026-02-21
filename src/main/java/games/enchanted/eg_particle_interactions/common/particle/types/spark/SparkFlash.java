@@ -46,7 +46,7 @@ public class SparkFlash extends ParticleInteractionsParticle {
         prevAge = age;
         super.tick();
         if(useRandomAnimation) {
-            this.setSprite(this.sprites.get(this.random));
+            this.setCurrentSprite(this.sprites.get(this.random));
         } else {
             this.setSpriteFromAge(this.sprites);
         }

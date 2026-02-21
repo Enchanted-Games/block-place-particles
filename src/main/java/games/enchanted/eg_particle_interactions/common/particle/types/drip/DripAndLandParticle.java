@@ -34,10 +34,10 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
 
         this.startFallingAtTicks = dripParticleOption.getStartFallingTicks();
 
-        this.u0 = this.sprite.getU0();
-        this.u1 = this.sprite.getU1();
-        this.v0 = this.sprite.getV0();
-        float v1 = this.sprite.getV1();
+        this.u0 = this.currentSprite.getU0();
+        this.u1 = this.currentSprite.getU1();
+        this.v0 = this.currentSprite.getV0();
+        float v1 = this.currentSprite.getV1();
         float halfHeight = Math.abs(this.v0 - v1) / 2;
         this.v1 = v1 - halfHeight;
 
@@ -80,8 +80,8 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
         if(this.hasLanded) return;
         this.hasLanded = true;
 
-        float v0 = this.sprite.getV0();
-        this.v1 = this.sprite.getV1();
+        float v0 = this.currentSprite.getV0();
+        this.v1 = this.currentSprite.getV1();
         float halfHeight = Math.abs(v0 - this.v1) / 2;
         this.v0 = v0 + halfHeight;
 

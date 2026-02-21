@@ -19,7 +19,7 @@ public class BlockShatter extends AbstractShatter {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed);
 
         this.blockState = blockState;
-        this.sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper()
+        this.currentSprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper()
             //? if minecraft: < 26.1 {
             /*.getParticleIcon(blockState);
             *///? } else {

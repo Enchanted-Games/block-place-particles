@@ -23,7 +23,7 @@ public class SwirlingParticle extends ParticleInteractionsParticle {
         this.zd = zSpeed;
         this.gravity = 0.5f;
 
-        this.sprite = spriteSet.get(level.getRandom());
+        this.currentSprite = spriteSet.get(level.getRandom());
 
         this.lifetime = 100;
         this.setScale(3/16f);

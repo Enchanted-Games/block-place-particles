@@ -42,7 +42,7 @@ public abstract class AbstractDust extends ParticleInteractionsParticle {
         if(this.spriteFromAge) {
             this.setSpriteFromAge(this.spriteSet);
         } else {
-            this.setSprite(spriteSet.get(this.random));
+            this.setCurrentSprite(spriteSet.get(this.random));
         }
 
         this.emissive = false;
