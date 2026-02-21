@@ -36,7 +36,7 @@ public class DripParticleOption implements PIParticleOptions {
             instance.group(
                 ExtraCodecs.NON_NEGATIVE_INT.optionalFieldOf("start_falling_ticks", DEFAULT_START_FALLING_TICKS).forGetter(DripParticleOption::getStartFallingTicks),
                 Codec.FLOAT.optionalFieldOf("gravity", DEFAULT_GRAVITY).forGetter(DripParticleOption::getGravity),
-                Codec.FLOAT.optionalFieldOf("gravity_randomess", DEFAULT_GRAVITY_RANDOMNESS).forGetter(DripParticleOption::getGravity)
+                Codec.FLOAT.optionalFieldOf("gravity_randomness", DEFAULT_GRAVITY_RANDOMNESS).forGetter(DripParticleOption::getGravity)
             ).apply(
                 instance,
                 (

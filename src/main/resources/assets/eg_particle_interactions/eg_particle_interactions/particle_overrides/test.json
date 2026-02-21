@@ -15,7 +15,7 @@
         "drip_options": {
           "start_falling_ticks": 0,
           "gravity": 0.02,
-          "gravity_randomess": 0.03
+          "gravity_randomness": 0.03
         }
       },
       "appearance": {
