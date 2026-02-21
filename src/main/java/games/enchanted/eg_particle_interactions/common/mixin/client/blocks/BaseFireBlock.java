@@ -1,6 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.mixin.client.blocks;
 
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
@@ -17,9 +18,9 @@ public abstract class BaseFireBlock {
         method = "animateTick"
     )
     protected void spawnSparkParticleRandomlyOnTick(BlockState blockState, Level level, BlockPos blockPos, RandomSource randomSource, CallbackInfo ci) {
-        if(!level.isClientSide()) return;
+        if(!(level instanceof ClientLevel clientLevel)) return;
         blockState.getShape(level, blockPos).forAllBoxes((x1, y1, z1, x2, y2, z2) -> {
-            SpawnParticles.spawnAmbientFireSparks(level, blockState, blockPos, x1, y1, z1, x2, y2, z2);
+            SpawnParticles.spawnAmbientFireSparks(clientLevel, blockState, blockPos, x1, y1, z1, x2, y2, z2);
         });
     }
 }

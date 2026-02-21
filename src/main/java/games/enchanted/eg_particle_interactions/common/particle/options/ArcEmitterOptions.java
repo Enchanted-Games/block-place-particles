@@ -3,6 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.options;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -14,11 +15,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class ArcEmitterOptions implements ParticleOptions {
+public class ArcEmitterOptions implements PIParticleOptions {
     public static final int TICK_INTERVAL_DEFAULT = 1;
     public static final int REPEAT_DEFAULT = 5;
 
-    private final ParticleType<ArcEmitterOptions> type;
+    private final PIParticleType<ArcEmitterOptions> type;
     private final int length;
     private final int splits;
     private final int angleVariance;
@@ -27,11 +28,11 @@ public class ArcEmitterOptions implements ParticleOptions {
     @Nullable private final Integer initialAngleXDeg;
     @Nullable private final Integer initialAngleYDeg;
 
-    public ArcEmitterOptions(ParticleType<ArcEmitterOptions> type, int length, int splits, int angleVariance) {
+    public ArcEmitterOptions(PIParticleType<ArcEmitterOptions> type, int length, int splits, int angleVariance) {
         this(type, length, splits, angleVariance, REPEAT_DEFAULT, TICK_INTERVAL_DEFAULT, null, null);
     }
 
-    public ArcEmitterOptions(ParticleType<ArcEmitterOptions> type, int length, int splits, int angleVariance, int repeat, int tickInterval, @Nullable Integer initialAngleXDeg, @Nullable Integer initialAngleYDeg) {
+    public ArcEmitterOptions(PIParticleType<ArcEmitterOptions> type, int length, int splits, int angleVariance, int repeat, int tickInterval, @Nullable Integer initialAngleXDeg, @Nullable Integer initialAngleYDeg) {
         this.type = type;
         this.length = length;
         this.splits = splits;
@@ -42,7 +43,7 @@ public class ArcEmitterOptions implements ParticleOptions {
         this.initialAngleYDeg = initialAngleYDeg;
     }
 
-    private static Codec<ArcEmitterOptions> createCodec(ParticleType<ArcEmitterOptions> type) {
+    private static Codec<ArcEmitterOptions> createCodec(PIParticleType<ArcEmitterOptions> type) {
         return RecordCodecBuilder.create((RecordCodecBuilder.Instance<ArcEmitterOptions> instance) ->
             instance.group(
                 ExtraCodecs.POSITIVE_INT.optionalFieldOf("length", 5).forGetter(ArcEmitterOptions::getLength),
@@ -76,16 +77,16 @@ public class ArcEmitterOptions implements ParticleOptions {
         );
     }
 
-    public static MapCodec<ArcEmitterOptions> codec(ParticleType<ArcEmitterOptions> type) {
+    public static MapCodec<ArcEmitterOptions> codec(PIParticleType<ArcEmitterOptions> type) {
         return createCodec(type).fieldOf("emitter_options");
     }
 
-    public static StreamCodec<? super RegistryFriendlyByteBuf, ArcEmitterOptions> streamCodec(ParticleType<ArcEmitterOptions> type) {
+    public static StreamCodec<? super RegistryFriendlyByteBuf, ArcEmitterOptions> streamCodec(PIParticleType<ArcEmitterOptions> type) {
         return ByteBufCodecs.fromCodec(createCodec(type));
     }
 
     @Override
-    public @NotNull ParticleType<ArcEmitterOptions> getType() {
+    public @NotNull PIParticleType<ArcEmitterOptions> type() {
         return this.type;
     }
 

@@ -1,49 +1,41 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.splash;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
+import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 public class ColouredBucketSplash extends BucketSplash {
-    protected ColouredBucketSplash(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState, SpriteSet spriteSet) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet.get(level.getRandom()));
-        int tintColour = Minecraft.getInstance().getBlockColors().getColor(blockState, level, blockPos, 0);
-        this.setRGB(
-            this.getRed() * (float)(tintColour >> 16 & 255) / 255.0F,
-            this.getGreen() * (float)(tintColour >> 8 & 255) / 255.0F,
-            this.getBlue() * (float)(tintColour & 255) / 255.0F
+    protected ColouredBucketSplash(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        super(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
+        int[] tintColour = appearance.colourSource().getARGB(context);
+        this.setRGBA(
+            this.getRed() * tintColour[1] / 255.0F,
+            this.getGreen() * tintColour[2] / 255.0F,
+            this.getBlue() * tintColour[3] / 255.0F,
+            this.getAlpha() * tintColour[0] / 255.0F
         );
     }
 
-    public static class Provider implements ParticleProvider<BlockParticleOption> {
-        private final SpriteSet spriteSet;
-
-        public Provider(SpriteSet spriteSet) {
-            this.spriteSet = spriteSet;
+    public static class Provider implements PIParticleProvider<PIParticleType.Simple> {
+        public Provider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            BlockParticleOption type,
-            ClientLevel level,
+            PIParticleType.Simple type,
+            ParticleContext context,
+            ParticleAppearance appearance,
             double x,
             double y,
             double z,
             double xSpeed,
             double ySpeed,
             double zSpeed
-            //? if minecraft: > 1.21.8 {
-            , RandomSource random
-            //?}
         ) {
-            return new ColouredBucketSplash(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet);
+            return new ColouredBucketSplash(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
         }
     }
 }

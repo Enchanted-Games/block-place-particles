@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ParticleAppearanceManager extends SimplePreparableReloadListener<ParticleAppearanceManager.Prepare> {
-    private static final ParticleAppearance FALLBACK_SOURCE = new ParticleAppearance(
-        new ParticleAppearance.Sprites(List.of(MissingTextureAtlasSprite.getLocation()), AtlasIds.PARTICLES),
+    public static final ParticleAppearance FALLBACK_APPEARANCE = new ParticleAppearance(
+        new ParticleAppearance.TextureConfig(List.of(MissingTextureAtlasSprite.getLocation()), AtlasIds.PARTICLES, true),
         new StaticColourSource(new int[]{255, 255, 255, 255})
     );
 
@@ -51,7 +51,7 @@ public class ParticleAppearanceManager extends SimplePreparableReloadListener<Pa
             JsonElement json = StrictJsonParser.parse(reader);
             output.put(FILE_TO_ID_CONVERTER.fileToId(fileId), ParticleAppearance.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
         } catch (JsonParseException | IOException e) {
-            Logging.error("Failed to texture source '{}'", fileId, e);
+            Logging.error("Failed to parse particle appearance '{}'", fileId, e);
         }
     }
 
@@ -63,7 +63,7 @@ public class ParticleAppearanceManager extends SimplePreparableReloadListener<Pa
 
     public static ParticleAppearance get(Identifier sourceId) {
         if(!(SOURCE_BY_ID.containsKey(sourceId))) {
-            return FALLBACK_SOURCE;
+            return FALLBACK_APPEARANCE;
         }
         return SOURCE_BY_ID.get(sourceId);
     }

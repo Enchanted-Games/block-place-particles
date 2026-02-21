@@ -1,6 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.mixin.client.blocks;
 
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
@@ -23,9 +24,11 @@ public abstract class CampfireBlock {
         method = "animateTick(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;)V"
     )
     public void animateTick(BlockState blockState, Level level, BlockPos blockPos, RandomSource random, CallbackInfo ci) {
-        if(!level.isClientSide() && !this.spawnParticles) return;
+        if(!this.spawnParticles) return;
+        if(!(level instanceof ClientLevel clientLevel)) return;
+
         if (blockState.getValue(LIT)) {
-            SpawnParticles.spawnAmbientCampfireSparks(level, blockPos, blockState);
+            SpawnParticles.spawnAmbientCampfireSparks(clientLevel, blockPos, blockState);
         }
     }
 }

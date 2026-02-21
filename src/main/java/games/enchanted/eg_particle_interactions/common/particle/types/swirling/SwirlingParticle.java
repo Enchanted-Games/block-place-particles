@@ -1,9 +1,9 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.swirling;
 
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.SpriteSet;
 
 //? if minecraft: > 1.21.8 {
 
@@ -16,17 +16,15 @@ public class SwirlingParticle extends ParticleInteractionsParticle {
     protected float swirlStrength;
     protected final boolean shouldSwirl;
 
-    protected SwirlingParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, boolean shouldSwirl) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet.get(level.getRandom()));
+    protected SwirlingParticle(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, boolean shouldSwirl) {
+        super(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
         this.xd = xSpeed;
         this.yd = ySpeed;
         this.zd = zSpeed;
         this.gravity = 0.5f;
 
-        this.currentSprite = spriteSet.get(level.getRandom());
-
         this.lifetime = 100;
-        this.setScale(3/16f);
+        this.setScale(3 / 16f);
 
         this.shouldSwirl = shouldSwirl;
         this.rotSpeed = 0f;
@@ -59,7 +57,7 @@ public class SwirlingParticle extends ParticleInteractionsParticle {
 
         double swirlX = 0.0d;
         double swirlZ = 0.0d;
-        if(shouldSwirl) {
+        if (shouldSwirl) {
             float swirlMultiplier = this.age * 0.08f;
 
             swirlX += (double) swirlMultiplier * Math.cos((double) swirlMultiplier * this.swirlPeriod) * (double) this.swirlStrength;

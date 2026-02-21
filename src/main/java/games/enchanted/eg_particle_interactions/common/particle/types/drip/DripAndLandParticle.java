@@ -2,16 +2,12 @@ package games.enchanted.eg_particle_interactions.common.particle.types.drip;
 
 import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.options.DripParticleOption;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
-import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
-import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.util.RandomSource;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 public class DripAndLandParticle extends ParticleInteractionsParticle {
@@ -24,8 +20,8 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
     protected float v0;
     protected float v1;
 
-    DripAndLandParticle(ClientLevel level, double x, double y, double z, SpriteSet sprites, DripParticleOption dripParticleOption, boolean translucent) {
-        super(level, x, y, z, sprites.get(level.getRandom()));
+    DripAndLandParticle(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, DripParticleOption dripParticleOption, boolean translucent) {
+        super(context, appearance, x, y, z);
         this.translucent = translucent;
 
         this.setSize(0.01F, 0.01F);
@@ -56,9 +52,9 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
             this.remove();
         }
 
-        if(this.startFallingAtTicks - this.age > 30) return;
+        if (this.startFallingAtTicks - this.age > 30) return;
 
-        if(this.age < this.startFallingAtTicks) {
+        if (this.age < this.startFallingAtTicks) {
             this.yd -= 0.004 / this.startFallingAtTicks;
             this.move(this.xd, this.yd, this.zd);
             return;
@@ -67,7 +63,7 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
         this.yd -= this.gravity;
         this.move(this.xd, this.yd, this.zd);
 
-        if(this.onGround) {
+        if (this.onGround) {
             land();
         }
 
@@ -77,7 +73,7 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
     }
 
     protected void land() {
-        if(this.hasLanded) return;
+        if (this.hasLanded) return;
         this.hasLanded = true;
 
         float v0 = this.currentSprite.getV0();
@@ -112,7 +108,7 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
     }
 
     @Override
-    protected ParticleLayer getParticleLayer() {
+    protected @NonNull ParticleLayer getParticleLayer() {
         return this.translucent ? ParticleLayer.TRANSLUCENT : ParticleLayer.CUTOUT;
     }
 
@@ -120,25 +116,9 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
         public UntintedDropProvider() {
         }
 
-        // TOOD: fix this
         @Override
-        public @Nullable Particle createParticle(DripParticleOption options, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, ParticleContext context, @Nullable ParticleAppearance particleAppearance) {
-            return new DripAndLandParticle(context.level(), x, y, z, new SpriteSet() {
-                @Override
-                public TextureAtlasSprite get(int index, int max) {
-                    return TextureHelpers.getSpriteFromAtlas(particleAppearance.sprites().sprites().get(index), particleAppearance.sprites().atlasId());
-                }
-
-                @Override
-                public TextureAtlasSprite get(RandomSource random) {
-                    return TextureHelpers.getSpriteFromAtlas(particleAppearance.sprites().sprites().get(0), particleAppearance.sprites().atlasId());
-                }
-
-                @Override
-                public TextureAtlasSprite first() {
-                    return TextureHelpers.getSpriteFromAtlas(particleAppearance.sprites().sprites().get(0), particleAppearance.sprites().atlasId());
-                }
-            }, options, true);
+        public @Nullable Particle createParticle(DripParticleOption options, ParticleContext context, ParticleAppearance particleAppearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new DripAndLandParticle(context, particleAppearance, x, y, z, options, true);
         }
     }
 }

@@ -1,10 +1,12 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.emitter.arc;
 
-import games.enchanted.eg_particle_interactions.common.particle.types.emitter.AbstractEmitterParticle;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitterOptions;
+import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
+import games.enchanted.eg_particle_interactions.common.particle.types.emitter.AbstractEmitterParticle;
+import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.core.particles.ParticleOptions;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
@@ -26,8 +28,8 @@ public abstract class AbstractArcEmitter extends AbstractEmitterParticle {
     protected final float initialAngleXRad;
     protected final float initialAngleYRad;
 
-    public AbstractArcEmitter(ClientLevel level, double x, double y, double z, float width, float height, float depth, ArcEmitterOptions options) {
-        super(level, x, y, z, width, height, depth);
+    public AbstractArcEmitter(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, float width, float height, float depth, ArcEmitterOptions options) {
+        super(context, appearance, x, y, z, width, height, depth);
 
         this.length = options.getLength();
         this.splitAmount = options.getSplits();
@@ -36,12 +38,12 @@ public abstract class AbstractArcEmitter extends AbstractEmitterParticle {
         this.repeat = options.getRepeat();
         this.setLifetime(repeat * tickInterval);
 
-        if(options.getInitialAngleXDeg().isPresent()) {
+        if (options.getInitialAngleXDeg().isPresent()) {
             this.initialAngleXRad = options.getInitialAngleXDeg().get() * (float) (Math.PI / 180);
         } else {
             this.initialAngleXRad = this.level.getRandom().nextFloat() * 360f * (float) (Math.PI / 180);
         }
-        if(options.getInitialAngleYDeg().isPresent()) {
+        if (options.getInitialAngleYDeg().isPresent()) {
             this.initialAngleYRad = options.getInitialAngleYDeg().get() * (float) (Math.PI / 180);
         } else {
             this.initialAngleYRad = this.level.getRandom().nextFloat() * 360f * (float) (Math.PI / 180);
@@ -74,24 +76,34 @@ public abstract class AbstractArcEmitter extends AbstractEmitterParticle {
     @Override
     protected void emitterTick() {
         for (Split split : splits) {
-            split.tick(this.level, this::getParticleToEmit);
+            split.tick(this.context, appearance, this::getParticleToEmit);
         }
-        if(this.age % tickInterval == 0) {
+        if (this.age % tickInterval == 0) {
             calculateSplits();
         }
     }
 
     @FunctionalInterface
     private interface ParticleSupplier {
-        ParticleOptions getParticle(ClientLevel level, double x, double y, double z);
+        PIParticleOptions getParticle(ParticleContext context, double x, double y, double z);
     }
 
     private record Split(double x, double y, double z, Vector3f directionVector, int length) {
-        void tick(ClientLevel level, ParticleSupplier particleSupplier) {
+        void tick(ParticleContext context, ParticleAppearance appearance, ParticleSupplier particleSupplier) {
             for (int i = 0; i < length; i++) {
-                ParticleOptions particle = particleSupplier.getParticle(level, x, y, z);
-                if(particle == null) continue;
-                level.addParticle(particle, x + (directionVector.x * i), y + (directionVector.y * i), z + (directionVector.z * i), 0, 0, 0);
+                PIParticleOptions particle = particleSupplier.getParticle(context, x, y, z);
+                if (particle == null) continue;
+                ParticleSpawner.spawn(
+                    particle,
+                    context,
+                    appearance,
+                    x + (directionVector.x * i),
+                    y + (directionVector.y * i),
+                    z + (directionVector.z * i),
+                    0,
+                    0,
+                    0
+                );
             }
         }
 

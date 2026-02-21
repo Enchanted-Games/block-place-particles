@@ -1,6 +1,6 @@
 {
   "default_emitter": {
-    "emitter_type": "eg_particle_interactions:vanilla",
+    "emitter_type": "eg_particle_interactions:particle_interactions",
     "particle": {
       "type": "eg_particle_interactions:snowflake"
     },
@@ -30,7 +30,7 @@
     },
 
     "eg_particle_interactions:block/brushed": {
-      "emitter_type": "eg_particle_interactions:vanilla",
+      "emitter_type": "eg_particle_interactions:particle_interactions",
       "particle": {
         "type": "eg_particle_interactions:snowflake"
       },

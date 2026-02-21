@@ -1,45 +1,37 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.constant_motion;
 
+import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.core.particles.SimpleParticleType;
 import org.jetbrains.annotations.Nullable;
-
-//? if minecraft: > 1.21.8 {
-import net.minecraft.util.RandomSource;
 //?}
 
 public class LavaPop extends ConstantMotionAnimatedParticle {
-    protected LavaPop(ClientLevel level, double x, double y, double z, SpriteSet spriteSet, int lifetime, float quadSize, boolean transparency) {
-        super(level, x, y, z, spriteSet, lifetime, quadSize, transparency);
+    protected LavaPop(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, int lifetime, float quadSize, boolean transparency) {
+        super(context, appearance, x, y, z, lifetime, quadSize, transparency);
         this.billboardYOffset = 1.0f;
     }
 
-    public static class LavaPopProvider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet spriteSet;
-
-        public LavaPopProvider(SpriteSet spriteSet) {
-            this.spriteSet = spriteSet;
+    public static class LavaPopProvider implements PIParticleProvider<PIParticleType.Simple> {
+        public LavaPopProvider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            SimpleParticleType type,
-            ClientLevel level,
+            PIParticleType.Simple options,
+            ParticleContext context,
+            ParticleAppearance appearance,
             double x,
             double y,
             double z,
             double xSpeed,
             double ySpeed,
             double zSpeed
-            //? if minecraft: > 1.21.8 {
-            , RandomSource random
-            //?}
         ) {
-            return new LavaPop(level, x, y, z, spriteSet, MathHelpers.randomBetween(26, 32), 2/8f, false);
+            return new LavaPop(context, appearance, x, y, z, MathHelpers.randomBetween(26, 32), 2 / 8f, false);
         }
     }
 }

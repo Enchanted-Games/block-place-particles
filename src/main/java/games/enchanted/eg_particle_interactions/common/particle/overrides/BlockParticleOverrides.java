@@ -13,230 +13,230 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.List;
 
 public abstract class BlockParticleOverrides {
-    public static final BlockParticleOverride SNOW_POWDER = new BlockParticleOverride(
-        "snowflake",
-        "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> {
-            if(BiomeHelpers.isWarmBiomeOrDimension(level, blockPos) && BlockOverrideOptions.SNOWFLAKE_PARTICLE_STEAM_IN_WARM_PLACES.getValue()) {
-                return level.getRandom().nextInt(5) == 0 ? net.minecraft.core.particles.ParticleTypes.POOF : ParticleTypesRegistry.SNOWFLAKE;
-            }
-            return ParticleTypesRegistry.SNOWFLAKE;
-        },
-        BlockOverrideOptions.SNOWFLAKE_PARTICLE_OVERRIDE,
-        0.15f,
-        List.of(new BlockParticleOverride.OptionToggle(ConfigTranslation.SPAWN_SNOWFLAKE_STEAM_PARTICLES, BlockOverrideOptions.SNOWFLAKE_PARTICLE_STEAM_IN_WARM_PLACES))
-    );
-
-    public static final BlockParticleOverride CHERRY_LEAF = new BlockParticleOverride(
-        "cherry_petal",
-        "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypesRegistry.FALLING_CHERRY_PETAL,
-        BlockOverrideOptions.CHERRY_PETAL_PARTICLE_OVERRIDE,
-        0.13f,
-        List.of()
-    );
-
-    public static final BlockParticleOverride AZALEA_LEAF = new BlockParticleOverride(
-        "azalea_leaf",
-        "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypesRegistry.FALLING_AZALEA_LEAF,
-        BlockOverrideOptions.AZALEA_LEAVES_PARTICLE_OVERRIDE,
-        0.13f,
-        List.of()
-    );
-
-    public static final BlockParticleOverride FLOWERING_AZALEA_LEAF = new BlockParticleOverride(
-        "flowering_azalea_leaf",
-        "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypesRegistry.FALLING_FLOWERING_AZALEA_LEAF,
-        BlockOverrideOptions.FLOWERING_AZALEA_LEAVES_PARTICLE_OVERRIDE,
-        0.13f,
-        List.of()
-    );
-
-    public static final BlockParticleOverride PALE_LEAF = new BlockParticleOverride(
-        "pale_leaf",
-        "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypesRegistry.FALLING_PALE_OAK_LEAF,
-        BlockOverrideOptions.PALE_LEAVES_PARTICLE_OVERRIDE,
-        0.13f,
-        List.of()
-    );
-
-    public static final BlockParticleOverride TINTED_PINE_LEAF = new BlockParticleOverride(
-        "biome_pine_leaf",
-        "tinted_or_random_pixel",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.FALLING_TINTED_PINE_LEAF, blockState),
-        BlockOverrideOptions.PINE_LEAVES_PARTICLE_OVERRIDE,
-        0.13f,
-        List.of()
-    );
-
-    public static final BlockParticleOverride TINTED_LEAF = new BlockParticleOverride(
-        "biome_leaf",
-        "tinted_or_random_pixel",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.FALLING_TINTED_LEAF, blockState),
-        BlockOverrideOptions.GENERIC_LEAVES_PARTICLE_OVERRIDE,
-        0.13f,
-        List.of()
-    );
-
-    public static final BlockParticleOverride FLOWER_PETAL = new BlockParticleOverride(
-        "flower_petal",
-        "tinted_or_random_pixel",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.FLOWER_PETAL, blockState),
-        BlockOverrideOptions.FLOWER_PETAL_PARTICLE_OVERRIDE,
-        0.18f,
-        List.of()
-    );
-
-    public static final BlockParticleOverride GRASS_BLADE = new BlockParticleOverride(
-        "grass_blade",
-        "tinted_or_random_pixel",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> {
-            boolean spawnDirt = false;
-            boolean spawnFirefly =
-                level.getMaxLocalRawBrightness(blockPos) <= 13 &&
-                BiomeHelpers.isSwampyBiome(level, blockPos) &&
-                level.getRandom().nextFloat() > (overrideOrigin == ParticleOrigin.BLOCK_BROKEN || overrideOrigin == ParticleOrigin.BLOCK_PLACED ? 0.9f : 0.6f);
-
-            if(
-                (blockState.getBlock() == Blocks.GRASS_BLOCK || blockState.getBlock() == Blocks.DIRT_PATH) &&
-                (overrideOrigin == ParticleOrigin.BLOCK_CRACK || overrideOrigin == ParticleOrigin.BLOCK_PLACED || overrideOrigin == ParticleOrigin.BLOCK_BROKEN || overrideOrigin == ParticleOrigin.ITEM_PARTICLE_OVERRIDDEN)
-            ) {
-                // occasionally spawn dirt particles if a grass block is placed or broken
-                spawnDirt = level.getRandom().nextFloat() > 0.7;
-            }
-
-            if(spawnDirt && BlockOverrideOptions.GRASS_BLADE_PARTICLE_DIRT_FOR_GRASS_BLOCKS.getValue()) {
-                return new BlockParticleOption(overrideOrigin == ParticleOrigin.BLOCK_CRACK ? ParticleTypesRegistry.BLOCK_CRACK : ParticleTypesRegistry.BLOCK_HIGH_VELOCITY, Blocks.DIRT.defaultBlockState());
-            }
-            if(spawnFirefly && BlockOverrideOptions.GRASS_BLADE_PARTICLE_FIREFLY_IN_SWAMPS.getValue()) {
-                return net.minecraft.core.particles.ParticleTypes.FIREFLY;
-            }
-            return new BlockParticleOption(ParticleTypesRegistry.GRASS_BLADE, blockState);
-        },
-        (ParticleOrigin overrideOrigin) -> overrideOrigin != ParticleOrigin.ITEM_PARTICLE_OVERRIDDEN,
-        BlockOverrideOptions.GRASS_BLADE_PARTICLE_OVERRIDE,
-        0.13f,
-        List.of(
-            new BlockParticleOverride.OptionToggle(ConfigTranslation.GRASS_BLADE_SPAWN_GRASS_BLOCK_DIRT_PARTICLES, BlockOverrideOptions.GRASS_BLADE_PARTICLE_DIRT_FOR_GRASS_BLOCKS),
-            new BlockParticleOverride.OptionToggle(ConfigTranslation.GRASS_BLADE_SPAWN_FIREFLY_IN_SWAMP, BlockOverrideOptions.GRASS_BLADE_PARTICLE_FIREFLY_IN_SWAMPS)
-        )
-    );
-
-    public static final BlockParticleOverride HEAVY_GRASS_BLADE = new BlockParticleOverride(
-        "heavy_grass_blade",
-        "tinted_or_random_pixel",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.HEAVY_GRASS_BLADE, blockState),
-        (ParticleOrigin overrideOrigin) -> overrideOrigin != ParticleOrigin.ITEM_PARTICLE_OVERRIDDEN,
-        BlockOverrideOptions.HEAVY_GRASS_BLADE_PARTICLE_OVERRIDE,
-        0.13f,
-        List.of()
-    );
-
-    public static final BlockParticleOverride FIREFLY = new BlockParticleOverride(
-        "firefly",
-        "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> {
-            boolean firefly = level.getRandom().nextFloat() > 0.6;
-            if(overrideOrigin == ParticleOrigin.BLOCK_WALKED_THROUGH) {
-                firefly = true;
-            }
-            return firefly ? net.minecraft.core.particles.ParticleTypes.FIREFLY : GRASS_BLADE.getParticleOptionForState(blockState, level, blockPos, overrideOrigin);
-        },
-        BlockOverrideOptions.FIREFLY_PARTICLE_OVERRIDE,
-        0.13f,
-        List.of()
-    );
-
-    public static final BlockParticleOverride MOSS_CLUMP = new BlockParticleOverride(
-        "moss_clump",
-        "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypesRegistry.MOSS_CLUMP,
-        BlockOverrideOptions.MOSS_CLUMP_PARTICLE_OVERRIDE,
-        0.13f,
-        List.of()
-    );
-
-    public static final BlockParticleOverride PALE_MOSS_CLUMP = new BlockParticleOverride(
-        "pale_moss_clump",
-        "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypesRegistry.PALE_MOSS_CLUMP,
-        BlockOverrideOptions.PALE_MOSS_CLUMP_PARTICLE_OVERRIDE,
-        0.13f,
-        List.of()
-    );
-
-    public static final BlockParticleOverride DUST = new BlockParticleOverride(
-        "dust",
-        "tinted_or_random_pixel",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.TINTED_DUST, blockState),
-        BlockOverrideOptions.DUST_PARTICLE_OVERRIDE,
-        0.1f,
-        List.of()
-    );
-
-    public static final BlockParticleOverride REDSTONE_DUST = new BlockParticleOverride(
-        "redstone_dust",
-        "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.REDSTONE_DUST, blockState),
-        BlockOverrideOptions.REDSTONE_DUST_PARTICLE_OVERRIDE,
-        0.1f,
-        List.of()
-    );
-
-    public static final BlockParticleOverride NETHER_PORTAL_SHATTER = new BlockParticleOverride(
-        "nether_portal_shatter",
-        "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.BLOCK_SHATTER, blockState),
-        BlockOverrideOptions.BLOCK_SHATTER_PARTICLE_OVERRIDE,
-        0.2f,
-        List.of()
-    );
-
-    public static final BlockParticleOverride CHAIN_SNAP = new BlockParticleOverride(
-        "chain_snap",
-        "tinted_or_random_pixel",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> {
-            if(overrideOrigin == ParticleOrigin.BLOCK_BROKEN || overrideOrigin == ParticleOrigin.BLOCK_CRACK) {
-                return level.getRandom().nextFloat() > 0.9 ? ParticleTypesRegistry.SPARK_FLASH : new BlockParticleOption(ParticleTypesRegistry.CHAIN_SNAP, blockState);
-            }
-            return new BlockParticleOption(ParticleTypesRegistry.CHAIN_SNAP, blockState);
-        },
-        BlockOverrideOptions.CHAIN_SNAP_PARTICLE_OVERRIDE,
-        0.22f,
-        List.of()
-    );
-
-    public static final BlockParticleOverride SUGAR_CANE = new BlockParticleOverride(
-        "sugar_cane",
-        "tinted_or_random_pixel",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.SUGAR_CANE, blockState),
-        BlockOverrideOptions.SUGAR_CANE_PARTICLE_OVERRIDE,
-        0.19f,
-        List.of()
-    );
+//    public static final BlockParticleOverride SNOW_POWDER = new BlockParticleOverride(
+//        "snowflake",
+//        "generic_block_override",
+//        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> {
+//            if(BiomeHelpers.isWarmBiomeOrDimension(level, blockPos) && BlockOverrideOptions.SNOWFLAKE_PARTICLE_STEAM_IN_WARM_PLACES.getValue()) {
+//                return level.getRandom().nextInt(5) == 0 ? net.minecraft.core.particles.ParticleTypes.POOF : ParticleTypesRegistry.SNOWFLAKE;
+//            }
+//            return ParticleTypesRegistry.SNOWFLAKE;
+//        },
+//        BlockOverrideOptions.SNOWFLAKE_PARTICLE_OVERRIDE,
+//        0.15f,
+//        List.of(new BlockParticleOverride.OptionToggle(ConfigTranslation.SPAWN_SNOWFLAKE_STEAM_PARTICLES, BlockOverrideOptions.SNOWFLAKE_PARTICLE_STEAM_IN_WARM_PLACES))
+//    );
+//
+//    public static final BlockParticleOverride CHERRY_LEAF = new BlockParticleOverride(
+//        "cherry_petal",
+//        "generic_block_override",
+//        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypesRegistry.FALLING_CHERRY_PETAL,
+//        BlockOverrideOptions.CHERRY_PETAL_PARTICLE_OVERRIDE,
+//        0.13f,
+//        List.of()
+//    );
+//
+//    public static final BlockParticleOverride AZALEA_LEAF = new BlockParticleOverride(
+//        "azalea_leaf",
+//        "generic_block_override",
+//        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypesRegistry.FALLING_AZALEA_LEAF,
+//        BlockOverrideOptions.AZALEA_LEAVES_PARTICLE_OVERRIDE,
+//        0.13f,
+//        List.of()
+//    );
+//
+//    public static final BlockParticleOverride FLOWERING_AZALEA_LEAF = new BlockParticleOverride(
+//        "flowering_azalea_leaf",
+//        "generic_block_override",
+//        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypesRegistry.FALLING_FLOWERING_AZALEA_LEAF,
+//        BlockOverrideOptions.FLOWERING_AZALEA_LEAVES_PARTICLE_OVERRIDE,
+//        0.13f,
+//        List.of()
+//    );
+//
+//    public static final BlockParticleOverride PALE_LEAF = new BlockParticleOverride(
+//        "pale_leaf",
+//        "generic_block_override",
+//        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypesRegistry.FALLING_PALE_OAK_LEAF,
+//        BlockOverrideOptions.PALE_LEAVES_PARTICLE_OVERRIDE,
+//        0.13f,
+//        List.of()
+//    );
+//
+//    public static final BlockParticleOverride TINTED_PINE_LEAF = new BlockParticleOverride(
+//        "biome_pine_leaf",
+//        "tinted_or_random_pixel",
+//        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.FALLING_TINTED_PINE_LEAF, blockState),
+//        BlockOverrideOptions.PINE_LEAVES_PARTICLE_OVERRIDE,
+//        0.13f,
+//        List.of()
+//    );
+//
+//    public static final BlockParticleOverride TINTED_LEAF = new BlockParticleOverride(
+//        "biome_leaf",
+//        "tinted_or_random_pixel",
+//        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.FALLING_TINTED_LEAF, blockState),
+//        BlockOverrideOptions.GENERIC_LEAVES_PARTICLE_OVERRIDE,
+//        0.13f,
+//        List.of()
+//    );
+//
+//    public static final BlockParticleOverride FLOWER_PETAL = new BlockParticleOverride(
+//        "flower_petal",
+//        "tinted_or_random_pixel",
+//        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.FLOWER_PETAL, blockState),
+//        BlockOverrideOptions.FLOWER_PETAL_PARTICLE_OVERRIDE,
+//        0.18f,
+//        List.of()
+//    );
+//
+//    public static final BlockParticleOverride GRASS_BLADE = new BlockParticleOverride(
+//        "grass_blade",
+//        "tinted_or_random_pixel",
+//        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> {
+//            boolean spawnDirt = false;
+//            boolean spawnFirefly =
+//                level.getMaxLocalRawBrightness(blockPos) <= 13 &&
+//                BiomeHelpers.isSwampyBiome(level, blockPos) &&
+//                level.getRandom().nextFloat() > (overrideOrigin == ParticleOrigin.BLOCK_BROKEN || overrideOrigin == ParticleOrigin.BLOCK_PLACED ? 0.9f : 0.6f);
+//
+//            if(
+//                (blockState.getBlock() == Blocks.GRASS_BLOCK || blockState.getBlock() == Blocks.DIRT_PATH) &&
+//                (overrideOrigin == ParticleOrigin.BLOCK_CRACK || overrideOrigin == ParticleOrigin.BLOCK_PLACED || overrideOrigin == ParticleOrigin.BLOCK_BROKEN || overrideOrigin == ParticleOrigin.ITEM_PARTICLE_OVERRIDDEN)
+//            ) {
+//                // occasionally spawn dirt particles if a grass block is placed or broken
+//                spawnDirt = level.getRandom().nextFloat() > 0.7;
+//            }
+//
+//            if(spawnDirt && BlockOverrideOptions.GRASS_BLADE_PARTICLE_DIRT_FOR_GRASS_BLOCKS.getValue()) {
+//                return new BlockParticleOption(overrideOrigin == ParticleOrigin.BLOCK_CRACK ? ParticleTypesRegistry.BLOCK_CRACK : ParticleTypesRegistry.BLOCK_HIGH_VELOCITY, Blocks.DIRT.defaultBlockState());
+//            }
+//            if(spawnFirefly && BlockOverrideOptions.GRASS_BLADE_PARTICLE_FIREFLY_IN_SWAMPS.getValue()) {
+//                return net.minecraft.core.particles.ParticleTypes.FIREFLY;
+//            }
+//            return new BlockParticleOption(ParticleTypesRegistry.GRASS_BLADE, blockState);
+//        },
+//        (ParticleOrigin overrideOrigin) -> overrideOrigin != ParticleOrigin.ITEM_PARTICLE_OVERRIDDEN,
+//        BlockOverrideOptions.GRASS_BLADE_PARTICLE_OVERRIDE,
+//        0.13f,
+//        List.of(
+//            new BlockParticleOverride.OptionToggle(ConfigTranslation.GRASS_BLADE_SPAWN_GRASS_BLOCK_DIRT_PARTICLES, BlockOverrideOptions.GRASS_BLADE_PARTICLE_DIRT_FOR_GRASS_BLOCKS),
+//            new BlockParticleOverride.OptionToggle(ConfigTranslation.GRASS_BLADE_SPAWN_FIREFLY_IN_SWAMP, BlockOverrideOptions.GRASS_BLADE_PARTICLE_FIREFLY_IN_SWAMPS)
+//        )
+//    );
+//
+//    public static final BlockParticleOverride HEAVY_GRASS_BLADE = new BlockParticleOverride(
+//        "heavy_grass_blade",
+//        "tinted_or_random_pixel",
+//        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.HEAVY_GRASS_BLADE, blockState),
+//        (ParticleOrigin overrideOrigin) -> overrideOrigin != ParticleOrigin.ITEM_PARTICLE_OVERRIDDEN,
+//        BlockOverrideOptions.HEAVY_GRASS_BLADE_PARTICLE_OVERRIDE,
+//        0.13f,
+//        List.of()
+//    );
+//
+//    public static final BlockParticleOverride FIREFLY = new BlockParticleOverride(
+//        "firefly",
+//        "generic_block_override",
+//        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> {
+//            boolean firefly = level.getRandom().nextFloat() > 0.6;
+//            if(overrideOrigin == ParticleOrigin.BLOCK_WALKED_THROUGH) {
+//                firefly = true;
+//            }
+//            return firefly ? net.minecraft.core.particles.ParticleTypes.FIREFLY : GRASS_BLADE.getParticleOptionForState(blockState, level, blockPos, overrideOrigin);
+//        },
+//        BlockOverrideOptions.FIREFLY_PARTICLE_OVERRIDE,
+//        0.13f,
+//        List.of()
+//    );
+//
+//    public static final BlockParticleOverride MOSS_CLUMP = new BlockParticleOverride(
+//        "moss_clump",
+//        "generic_block_override",
+//        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypesRegistry.MOSS_CLUMP,
+//        BlockOverrideOptions.MOSS_CLUMP_PARTICLE_OVERRIDE,
+//        0.13f,
+//        List.of()
+//    );
+//
+//    public static final BlockParticleOverride PALE_MOSS_CLUMP = new BlockParticleOverride(
+//        "pale_moss_clump",
+//        "generic_block_override",
+//        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypesRegistry.PALE_MOSS_CLUMP,
+//        BlockOverrideOptions.PALE_MOSS_CLUMP_PARTICLE_OVERRIDE,
+//        0.13f,
+//        List.of()
+//    );
+//
+//    public static final BlockParticleOverride DUST = new BlockParticleOverride(
+//        "dust",
+//        "tinted_or_random_pixel",
+//        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.TINTED_DUST, blockState),
+//        BlockOverrideOptions.DUST_PARTICLE_OVERRIDE,
+//        0.1f,
+//        List.of()
+//    );
+//
+//    public static final BlockParticleOverride REDSTONE_DUST = new BlockParticleOverride(
+//        "redstone_dust",
+//        "generic_block_override",
+//        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.REDSTONE_DUST, blockState),
+//        BlockOverrideOptions.REDSTONE_DUST_PARTICLE_OVERRIDE,
+//        0.1f,
+//        List.of()
+//    );
+//
+//    public static final BlockParticleOverride NETHER_PORTAL_SHATTER = new BlockParticleOverride(
+//        "nether_portal_shatter",
+//        "generic_block_override",
+//        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.BLOCK_SHATTER, blockState),
+//        BlockOverrideOptions.BLOCK_SHATTER_PARTICLE_OVERRIDE,
+//        0.2f,
+//        List.of()
+//    );
+//
+//    public static final BlockParticleOverride CHAIN_SNAP = new BlockParticleOverride(
+//        "chain_snap",
+//        "tinted_or_random_pixel",
+//        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> {
+//            if(overrideOrigin == ParticleOrigin.BLOCK_BROKEN || overrideOrigin == ParticleOrigin.BLOCK_CRACK) {
+//                return level.getRandom().nextFloat() > 0.9 ? ParticleTypesRegistry.SPARK_FLASH : new BlockParticleOption(ParticleTypesRegistry.CHAIN_SNAP, blockState);
+//            }
+//            return new BlockParticleOption(ParticleTypesRegistry.CHAIN_SNAP, blockState);
+//        },
+//        BlockOverrideOptions.CHAIN_SNAP_PARTICLE_OVERRIDE,
+//        0.22f,
+//        List.of()
+//    );
+//
+//    public static final BlockParticleOverride SUGAR_CANE = new BlockParticleOverride(
+//        "sugar_cane",
+//        "tinted_or_random_pixel",
+//        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.SUGAR_CANE, blockState),
+//        BlockOverrideOptions.SUGAR_CANE_PARTICLE_OVERRIDE,
+//        0.19f,
+//        List.of()
+//    );
 
 
     public static void registerOverrides() {
-        BlockParticleOverride.addBlockParticleOverride(SNOW_POWDER);
-        BlockParticleOverride.addBlockParticleOverride(FIREFLY);
-        BlockParticleOverride.addBlockParticleOverride(CHERRY_LEAF);
-        BlockParticleOverride.addBlockParticleOverride(AZALEA_LEAF);
-        BlockParticleOverride.addBlockParticleOverride(FLOWERING_AZALEA_LEAF);
-        BlockParticleOverride.addBlockParticleOverride(PALE_LEAF);
-        BlockParticleOverride.addBlockParticleOverride(TINTED_PINE_LEAF);
-        BlockParticleOverride.addBlockParticleOverride(TINTED_LEAF);
-        BlockParticleOverride.addBlockParticleOverride(FLOWER_PETAL);
-        BlockParticleOverride.addBlockParticleOverride(GRASS_BLADE);
-        BlockParticleOverride.addBlockParticleOverride(HEAVY_GRASS_BLADE);
-        BlockParticleOverride.addBlockParticleOverride(MOSS_CLUMP);
-        BlockParticleOverride.addBlockParticleOverride(PALE_MOSS_CLUMP);
-        BlockParticleOverride.addBlockParticleOverride(DUST);
-        BlockParticleOverride.addBlockParticleOverride(REDSTONE_DUST);
-        BlockParticleOverride.addBlockParticleOverride(NETHER_PORTAL_SHATTER);
-        BlockParticleOverride.addBlockParticleOverride(CHAIN_SNAP);
-        BlockParticleOverride.addBlockParticleOverride(SUGAR_CANE);
+//        BlockParticleOverride.addBlockParticleOverride(SNOW_POWDER);
+//        BlockParticleOverride.addBlockParticleOverride(FIREFLY);
+//        BlockParticleOverride.addBlockParticleOverride(CHERRY_LEAF);
+//        BlockParticleOverride.addBlockParticleOverride(AZALEA_LEAF);
+//        BlockParticleOverride.addBlockParticleOverride(FLOWERING_AZALEA_LEAF);
+//        BlockParticleOverride.addBlockParticleOverride(PALE_LEAF);
+//        BlockParticleOverride.addBlockParticleOverride(TINTED_PINE_LEAF);
+//        BlockParticleOverride.addBlockParticleOverride(TINTED_LEAF);
+//        BlockParticleOverride.addBlockParticleOverride(FLOWER_PETAL);
+//        BlockParticleOverride.addBlockParticleOverride(GRASS_BLADE);
+//        BlockParticleOverride.addBlockParticleOverride(HEAVY_GRASS_BLADE);
+//        BlockParticleOverride.addBlockParticleOverride(MOSS_CLUMP);
+//        BlockParticleOverride.addBlockParticleOverride(PALE_MOSS_CLUMP);
+//        BlockParticleOverride.addBlockParticleOverride(DUST);
+//        BlockParticleOverride.addBlockParticleOverride(REDSTONE_DUST);
+//        BlockParticleOverride.addBlockParticleOverride(NETHER_PORTAL_SHATTER);
+//        BlockParticleOverride.addBlockParticleOverride(CHAIN_SNAP);
+//        BlockParticleOverride.addBlockParticleOverride(SUGAR_CANE);
     }
 }

@@ -2,10 +2,16 @@ package games.enchanted.eg_particle_interactions.common.util;
 
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.block.model.Material;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStackTemplate;
 import org.jetbrains.annotations.NotNull;
 //? if minecraft: > 1.21.8 {
 import net.minecraft.data.AtlasIds;
@@ -56,5 +62,16 @@ public class TextureHelpers {
          *///?} else {
         return AtlasIds.BLOCKS;
         //?}
+    }
+
+    public static TextureAtlasSprite missingParticleSprite() {
+        return TextureHelpers.getSpriteFromAtlas(MissingTextureAtlasSprite.getLocation(), AtlasIds.PARTICLES);
+    }
+
+    public static TextureAtlasSprite getItemParticleSprite(ItemStackTemplate item, ClientLevel level, RandomSource random) {
+        final ItemStackRenderState scratchRenderState = new ItemStackRenderState();
+        Minecraft.getInstance().getItemModelResolver().updateForTopItem(scratchRenderState, item.create(), ItemDisplayContext.GROUND, level, null, 0);
+        Material.Baked material = scratchRenderState.pickParticleMaterial(random);
+        return material != null ? material.sprite() : missingParticleSprite();
     }
 }

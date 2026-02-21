@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.client.items;
 
 import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.context.UseOnContext;
@@ -23,8 +24,7 @@ public abstract class FlintAndSteelItem {
         at = @At(value = "HEAD")
     )
     private void spawnParticlesOnUse(UseOnContext useOnContext, CallbackInfoReturnable<InteractionResult> cir) {
-        Level level = useOnContext.getLevel();
-        if(level.isClientSide()) {
+        if(useOnContext.getLevel() instanceof ClientLevel level) {
             BlockPos clickedPos = useOnContext.getClickedPos();
             BlockState clickedState = level.getBlockState(clickedPos);
 

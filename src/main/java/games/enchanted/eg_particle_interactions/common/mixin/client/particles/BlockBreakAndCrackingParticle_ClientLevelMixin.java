@@ -3,6 +3,11 @@ package games.enchanted.eg_particle_interactions.common.mixin.client.particles;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
+import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverride;
+import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
+import games.enchanted.eg_particle_interactions.common.override_system.preset.OverridePreset;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverride;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.ParticleOrigin;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
@@ -10,6 +15,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -66,25 +72,29 @@ public class BlockBreakAndCrackingParticle_ClientLevelMixin {
         ClientLevel level = (ClientLevel) (Object) this;
         BlockState blockstate = level.getBlockState(blockPos);
 
-        ParticleOrigin overrideOrigin = ParticleOrigin.BLOCK_CRACK;
-        BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockstate, overrideOrigin);
+        ParticleOrigin origin = ParticleOrigin.BLOCK_CRACK;
+        OverridePreset overridePreset = BlockOverrideManager.getForBlock(blockstate);
+        ParticleOverride override = overridePreset.getRandom();
+        Identifier id = ParticleOverrides.getIdFromOverride(override);
 
-        if(override == BlockParticleOverride.VANILLA) return;
+        if(id == ParticleOverrides.VANILLA_OVERRIDE_ID) return;
 
-        if(override != BlockParticleOverride.NONE) {
-            ParticleOptions newParticleOption = override.getParticleOptionForState(blockstate, level, blockPos, overrideOrigin);
-            if (newParticleOption == null) return;
-            level.addParticle(
-                newParticleOption,
-                xPos,
-                yPos,
-                zPos,
-                0,
-                0,
-                0
-            );
-        }
         ci.cancel();
+
+        override.spawnParticle(
+            origin,
+            new ParticleContext(
+                level,
+                new ParticleContext.BlockContext(blockstate, blockPos),
+                null
+            ),
+            xPos,
+            yPos,
+            zPos,
+            0,
+            0,
+            0
+        );
     }
     //?}
 }

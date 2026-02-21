@@ -3,30 +3,27 @@ package games.enchanted.eg_particle_interactions.common.particle.types;
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.ParticleAccessor;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.render.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.multiplayer.ClientLevel;
-
-import net.minecraft.util.Mth;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
-import org.joml.Quaternionf;
-import net.minecraft.client.Camera;
-
-//? if minecraft: <= 1.21.8 {
-/*import com.mojang.blaze3d.vertex.VertexConsumer;
-import games.enchanted.eg_particle_interactions.common.particle.render.geometry.VertexQuadConsumer;
-*///?} else {
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.StateQuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.render.state.CustomParticleGeometryRenderState;
-import net.minecraft.client.particle.SingleQuadParticle;
 import games.enchanted.eg_particle_interactions.common.rendering.ModRenderPipelines;
+import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
+import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.Mth;
+import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import org.joml.Quaternionf;
 //?}
 
 public abstract class ParticleInteractionsParticle extends Particle {
@@ -37,6 +34,10 @@ public abstract class ParticleInteractionsParticle extends Particle {
     protected float billboardYOffset = 0.0F;
     protected float billboardXOffset = 0.0F;
 
+    protected ParticleContext context;
+    protected ParticleAppearance appearance;
+
+    protected boolean shouldUpdateSpriteBasedOnAge = true;
     protected TextureAtlasSprite currentSprite;
 
     private float rCol = 1.0F;
@@ -48,37 +49,42 @@ public abstract class ParticleInteractionsParticle extends Particle {
     private float alpha = 1.0F;
     private float prevAlpha = 1.0F;
 
-    protected ParticleInteractionsParticle(ClientLevel clientLevel, double x, double y, double z, TextureAtlasSprite textureAtlasSprite) {
-        this(clientLevel, x, y, z, 0, 0, 0, textureAtlasSprite);
+    protected ParticleInteractionsParticle(ParticleContext context, ParticleAppearance appearance, double x, double y, double z) {
+        this(context, appearance, x, y, z, 0, 0, 0);
         this.xd = 0;
         this.yd = 0;
         this.zd = 0;
     }
 
-    protected ParticleInteractionsParticle(ClientLevel clientLevel, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, TextureAtlasSprite textureAtlasSprite) {
-        super(clientLevel, x, y, z, xSpeed, ySpeed, zSpeed);
-        this.currentSprite = textureAtlasSprite;
+    protected ParticleInteractionsParticle(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        super(context.level(), x, y, z, xSpeed, ySpeed, zSpeed);
+        this.context = context;
+        this.appearance = appearance;
+
+        this.currentSprite = TextureHelpers.missingParticleSprite();
+        this.pickSpriteForAppearance();
+
         this.scale = 0.1F * (this.random.nextFloat() * 0.5F + 0.5F) * 2.0F;
     }
 
     //? if minecraft: <= 1.21.8 {
     /*@Override
     public @NotNull ParticleRenderType getRenderType() {
-        ParticleLayer layer = getParticleLayer();
+        ParticleLayer layer = this.getParticleLayer();
         if(layer == null) return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
         return layer.layer;
     }
     *///?} else {
     public static final SingleQuadParticle.Layer BACKFACE_TERRAIN_LAYER = new SingleQuadParticle.Layer(true, TextureAtlas.LOCATION_BLOCKS, ModRenderPipelines.BACKFACE_TRANSLUCENT_PARTICLE);
 
-    protected @NotNull SingleQuadParticle.Layer getLayer() {
-        ParticleLayer layer = getParticleLayer();
-        if(layer == null) return SingleQuadParticle.Layer.OPAQUE;
+    protected SingleQuadParticle.Layer getLayer() {
+        ParticleLayer layer = this.getParticleLayer();
+        if (layer == null) return SingleQuadParticle.Layer.OPAQUE;
         return layer.layer;
     }
 
     @Override
-    public @NotNull ParticleRenderType getGroup() {
+    public ParticleRenderType getGroup() {
         return ModParticleRenderTypes.PARTICLE_INTERACTIONS;
     }
     //?}
@@ -88,7 +94,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
     public void render(VertexConsumer vertexConsumer, Camera camera, float partialTicks) {
     *///?} else {
     public void extract(CustomParticleGeometryRenderState state, Camera camera, float partialTicks) {
-    //?}
+        //?}
         Quaternionf quaternionf = new Quaternionf();
         this.getBillboardMode().rotate(quaternionf, camera, partialTicks);
         if (this.roll != 0.0F) {
@@ -97,7 +103,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
 
         //? if minecraft: <= 1.21.8 {
         /*VertexQuadConsumer consumer = new VertexQuadConsumer(vertexConsumer);
-        *///?} else {
+         *///?} else {
         StateQuadConsumer consumer = new StateQuadConsumer(state, this.getLayer());
         //?}
         this.adjustPositionBeforeExtraction(consumer, camera, quaternionf, partialTicks);
@@ -105,12 +111,12 @@ public abstract class ParticleInteractionsParticle extends Particle {
 
     protected void adjustPositionBeforeExtraction(QuadConsumer consumer, Camera camera, Quaternionf quaternionf, float partialTicks) {
         Vec3 cameraPosition = camera.position();
-        float x = (float)(Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x());
-        float y = (float)(Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y());
-        float z = (float)(Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z());
+        float x = (float) (Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x());
+        float y = (float) (Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y());
+        float z = (float) (Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z());
         this.extractGeometry(consumer, quaternionf, x, y, z, partialTicks);
 
-        if(GeneralOptions.DEBUG_PARTICLE_TICK_BOUNDING_BOXES.getValue()) {
+        if (GeneralOptions.DEBUG_PARTICLE_TICK_BOUNDING_BOXES.getValue()) {
             ParticleDebugShapes.particlePosition(this.x, this.y, this.z, ParticleDebugShapes.PARTICLE_TICK_POSITION);
 
             ParticleDebugShapes.box(
@@ -118,7 +124,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
                 ((ParticleAccessor) this).block_place_particle$getStoppedByCollision() ? ParticleDebugShapes.PARTICLE_BOUNDING_BOX_STOPPED : ParticleDebugShapes.PARTICLE_BOUNDING_BOX
             );
         }
-        if(GeneralOptions.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES.getValue()) {
+        if (GeneralOptions.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES.getValue()) {
             ParticleDebugShapes.particlePosition(x + cameraPosition.x(), y + cameraPosition.y(), z + cameraPosition.z(), ParticleDebugShapes.PARTICLE_RENDER_POSITION);
 
             ParticleDebugShapes.box(this.getCullingBox(partialTicks), ParticleDebugShapes.PARTICLE_CULLING_BOX);
@@ -134,9 +140,9 @@ public abstract class ParticleInteractionsParticle extends Particle {
         float a = this.getLerpedAlpha(partialTicks);
 
         consumer.startQuad();
-        consumer.addVertex(quaternion, x, y, z,  1.0F + this.billboardXOffset, -1.0F + this.billboardYOffset, scale, getU1(), getV1(), light, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z,  1.0F + this.billboardXOffset,  1.0F + this.billboardYOffset, scale, getU1(), getV0(), light, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z, -1.0F + this.billboardXOffset,  1.0F + this.billboardYOffset, scale, getU0(), getV0(), light, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, 1.0F + this.billboardXOffset, -1.0F + this.billboardYOffset, scale, getU1(), getV1(), light, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, 1.0F + this.billboardXOffset, 1.0F + this.billboardYOffset, scale, getU1(), getV0(), light, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, -1.0F + this.billboardXOffset, 1.0F + this.billboardYOffset, scale, getU0(), getV0(), light, r, g, b, a);
         consumer.addVertex(quaternion, x, y, z, -1.0F + this.billboardXOffset, -1.0F + this.billboardYOffset, scale, getU0(), getV1(), light, r, g, b, a);
         consumer.finishQuad();
     }
@@ -145,10 +151,62 @@ public abstract class ParticleInteractionsParticle extends Particle {
         return BillboardMode.XYZ;
     }
 
-    public void setSpriteFromAge(SpriteSet sprites) {
-        if (this.removed) return;
-        this.setCurrentSprite(sprites.get(this.age, this.lifetime));
+
+    /**
+     * Pick sprite based on particle appearance. If no texture config is present, the block particle texture is used.
+     * If no block context is present, the item particle texture is used. If no item context is present, a missing
+     * texture is used.
+     */
+    public void pickSpriteForAppearance() {
+        if (this.appearance.textureConfig() == null) {
+            this.setSpriteForContext();
+            return;
+        }
+
+        this.setSpriteForTextureConfig();
     }
+
+    private void setSpriteForTextureConfig() {
+        if (this.removed) return;
+        if (!this.shouldUpdateSpriteBasedOnAge) return;
+
+        ParticleAppearance appearance = this.appearance;
+        if (appearance.textureConfig() == null) return;
+
+        ParticleAppearance.TextureConfig textureConfig = appearance.textureConfig();
+
+        if (textureConfig.chooseRandomSprite()) {
+            this.shouldUpdateSpriteBasedOnAge = false;
+            this.setCurrentSprite(textureConfig.getRandom(this.random));
+            return;
+        }
+
+        this.setCurrentSprite(textureConfig.getAt(this.getAgeForSprite(), this.lifetime));
+    }
+
+    protected int getAgeForSprite() {
+        return this.age;
+    }
+
+    private void setSpriteForContext() {
+        ParticleContext context = this.context;
+
+        if (context.blockContext() != null) {
+            BlockState state = context.blockContext().state();
+            this.setCurrentSprite(Minecraft.getInstance().getBlockRenderer().getBlockModelShaper()
+                    //? if minecraft: < 26.1 {
+                    /*.getParticleIcon(state)
+                     *///? } else {
+                    .getParticleMaterial(state).sprite()
+                //? }
+            );
+        } else if (context.stack() != null) {
+            this.setCurrentSprite(TextureHelpers.getItemParticleSprite(ItemStackTemplate.fromNonEmptyStack(context.stack()), this.level, this.random));
+        } else {
+            this.setCurrentSprite(TextureHelpers.missingParticleSprite());
+        }
+    }
+
     public void setCurrentSprite(TextureAtlasSprite sprite) {
         this.currentSprite = sprite;
     }
@@ -174,7 +232,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
     protected int getLightmapCoords(float partialTick) {
         //? if minecraft: < 26.1 {
         /*return this.getLightColor(partialTick);
-        *///? } else {
+         *///? } else {
         return this.getLightCoords(partialTick);
         //? }
     }
@@ -195,12 +253,15 @@ public abstract class ParticleInteractionsParticle extends Particle {
     protected float getU0() {
         return this.currentSprite.getU0();
     }
+
     protected float getU1() {
         return this.currentSprite.getU1();
     }
+
     protected float getV0() {
         return this.currentSprite.getV0();
     }
+
     protected float getV1() {
         return this.currentSprite.getV1();
     }
@@ -209,6 +270,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
     public float getLerpedRed(float partialTicks) {
         return Mth.lerp(partialTicks, this.prevRCol, this.rCol);
     }
+
     public float getRed() {
         return this.rCol;
     }
@@ -216,6 +278,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
     public float getLerpedGreen(float partialTicks) {
         return Mth.lerp(partialTicks, this.prevGCol, this.gCol);
     }
+
     public float getGreen() {
         return this.gCol;
     }
@@ -223,6 +286,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
     public float getLerpedBlue(float partialTicks) {
         return Mth.lerp(partialTicks, this.prevBCol, this.bCol);
     }
+
     public float getBlue() {
         return this.bCol;
     }
@@ -230,6 +294,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
     public float getLerpedAlpha(float partialTicks) {
         return Mth.lerp(partialTicks, this.prevAlpha, this.alpha);
     }
+
     public float getAlpha() {
         return this.alpha;
     }
@@ -237,8 +302,9 @@ public abstract class ParticleInteractionsParticle extends Particle {
     public void setAlpha(float a) {
         this.setAlpha(a, false);
     }
+
     public void setAlpha(float a, boolean lerp) {
-        if(lerp) {
+        if (lerp) {
             this.prevAlpha = this.alpha;
         } else {
             this.prevAlpha = a;
@@ -249,11 +315,13 @@ public abstract class ParticleInteractionsParticle extends Particle {
     public void setRGB(float r, float g, float b) {
         this.setRGBA(r, g, b, this.getAlpha(), false);
     }
+
     public void setRGBA(float r, float g, float b, float a) {
         this.setRGBA(r, g, b, a, false);
     }
+
     public void setRGBA(float r, float g, float b, float a, boolean lerp) {
-        if(lerp) {
+        if (lerp) {
             this.prevRCol = this.rCol;
             this.prevGCol = this.gCol;
             this.prevBCol = this.bCol;
@@ -284,7 +352,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
     }
 
     public void setScale(float scale, boolean lerp) {
-        if(lerp) {
+        if (lerp) {
             this.prevScale = this.scale;
         } else {
             this.prevScale = scale;
@@ -306,7 +374,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
         public static final ParticleLayer TERRAIN = new ParticleLayer(
             //? if minecraft: < 26.1 {
             /*SingleQuadParticle.Layer.TERRAIN
-            *///? } else {
+             *///? } else {
             SingleQuadParticle.Layer.TRANSLUCENT_TERRAIN
             //? }
         );

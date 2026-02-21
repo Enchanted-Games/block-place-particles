@@ -8,5 +8,5 @@ import org.jspecify.annotations.Nullable;
 
 public interface PIParticleProvider<T extends PIParticleOptions> {
     @Nullable
-    Particle createParticle(T options, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, ParticleContext context, @Nullable ParticleAppearance particleAppearance);
+    Particle createParticle(T options, ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed);
 }

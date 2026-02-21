@@ -1,43 +1,41 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.emitter.random_distribution;
 
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.RandomDistributionEmitterOptions;
-import net.minecraft.client.multiplayer.ClientLevel;
+import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 
 public class SparkEmitter extends AbstractRandomDistributionEmitter {
-    protected SparkEmitter(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomDistributionEmitterOptions emitterOptions) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, emitterOptions);
+    protected SparkEmitter(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomDistributionEmitterOptions emitterOptions) {
+        super(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, emitterOptions);
     }
 
     @Override
-    protected ParticleOptions getParticleToEmit(ClientLevel level, double x, double y, double z) {
+    protected PIParticleOptions getParticleToEmit(ParticleContext context, double x, double y, double z) {
         return ParticleTypesRegistry.FLYING_SPARK;
     }
 
-    public static class Provider implements ParticleProvider<RandomDistributionEmitterOptions> {
-        public Provider(SpriteSet spriteSet) {}
+    public static class Provider implements PIParticleProvider<RandomDistributionEmitterOptions> {
+        public Provider() {
+        }
 
         @Override
         public @Nullable Particle createParticle(
             RandomDistributionEmitterOptions emitterOptions,
-            ClientLevel level,
+            ParticleContext context,
+            ParticleAppearance appearance,
             double x,
             double y,
             double z,
             double xSpeed,
             double ySpeed,
             double zSpeed
-            //? if minecraft: > 1.21.8 {
-            , RandomSource random
-            //?}
         ) {
-            return new SparkEmitter(level, x, y, z, xSpeed, ySpeed, zSpeed, emitterOptions);
+            return new SparkEmitter(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, emitterOptions);
         }
     }
 }

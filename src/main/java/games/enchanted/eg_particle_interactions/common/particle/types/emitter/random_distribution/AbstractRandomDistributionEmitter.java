@@ -1,9 +1,11 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.emitter.random_distribution;
 
-import games.enchanted.eg_particle_interactions.common.particle.types.emitter.AbstractEmitterParticle;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.RandomDistributionEmitterOptions;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.core.particles.ParticleOptions;
+import games.enchanted.eg_particle_interactions.common.particle.types.emitter.AbstractEmitterParticle;
+import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
 import org.joml.Vector3f;
 
 public abstract class AbstractRandomDistributionEmitter extends AbstractEmitterParticle {
@@ -16,8 +18,8 @@ public abstract class AbstractRandomDistributionEmitter extends AbstractEmitterP
     protected Vector3f emitterVariance;
     protected boolean emitOnFirstTick;
 
-    protected AbstractRandomDistributionEmitter(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomDistributionEmitterOptions emitterOptions) {
-        super(level, x, y, z, emitterOptions.getDimensions().x, emitterOptions.getDimensions().y, emitterOptions.getDimensions().z);
+    protected AbstractRandomDistributionEmitter(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomDistributionEmitterOptions emitterOptions) {
+        super(context, appearance, x, y, z, emitterOptions.getDimensions().x, emitterOptions.getDimensions().y, emitterOptions.getDimensions().z);
         this.emittedXSpeed = xSpeed;
         this.emittedYSpeed = ySpeed;
         this.emittedZSpeed = zSpeed;
@@ -34,13 +36,15 @@ public abstract class AbstractRandomDistributionEmitter extends AbstractEmitterP
 
     @Override
     protected void emitterTick() {
-        if((this.age - (emitOnFirstTick ? 1 : 0)) % emitterInterval == 0) {
+        if ((this.age - (emitOnFirstTick ? 1 : 0)) % emitterInterval == 0) {
             for (int i = 0; i < particlesPerEmission; i++) {
                 double[] emitPos = getRandomPositionInsideBounds();
-                ParticleOptions particle = this.getParticleToEmit(level, emitPos[0], emitPos[1], emitPos[2]);
-                if(particle == null) continue;
-                level.addParticle(
+                PIParticleOptions particle = this.getParticleToEmit(context, emitPos[0], emitPos[1], emitPos[2]);
+                if (particle == null) continue;
+                ParticleSpawner.spawn(
                     particle,
+                    this.context,
+                    this.appearance,
                     emitPos[0],
                     emitPos[1],
                     emitPos[2],

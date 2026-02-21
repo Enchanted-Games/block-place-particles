@@ -1,55 +1,51 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.shatter;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
+import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class BlockShatter extends AbstractShatter {
-    protected final BlockState blockState;
+    protected final @Nullable Direction facingDirection;
 
-    protected BlockShatter(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockState blockState) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed);
+    protected BlockShatter(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        super(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
 
-        this.blockState = blockState;
-        this.currentSprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper()
-            //? if minecraft: < 26.1 {
-            /*.getParticleIcon(blockState);
-            *///? } else {
-            .getParticleMaterial(blockState).sprite();
-            //? }
+        if (context.blockContext() != null) {
+            BlockState state = context.blockContext().state();
+            this.facingDirection = state.hasProperty(NetherPortalBlock.AXIS) ? state.getValue(NetherPortalBlock.AXIS).getPositive() : null;
+        } else {
+            this.facingDirection = null;
+        }
     }
 
     @Override
-    protected Direction getParticleFacingDirection() {
-        return this.blockState.hasProperty(NetherPortalBlock.AXIS) ? this.blockState.getValue(NetherPortalBlock.AXIS).getPositive() : null;
+    protected @Nullable Direction getParticleFacingDirection() {
+        return this.facingDirection;
     }
 
-    public static class BlockShatterProvider implements ParticleProvider<BlockParticleOption> {
-        public BlockShatterProvider(SpriteSet spriteSet) {}
+    public static class BlockShatterProvider implements PIParticleProvider<PIParticleType.Simple> {
+        public BlockShatterProvider() {
+        }
 
         @Override
         public @Nullable Particle createParticle(
-            BlockParticleOption type,
-            ClientLevel level,
+            PIParticleType.Simple type,
+            ParticleContext context,
+            ParticleAppearance appearance,
             double x,
             double y,
             double z,
             double xSpeed,
             double ySpeed,
             double zSpeed
-            //? if minecraft: > 1.21.8 {
-            , RandomSource random
-            //?}
         ) {
-            return new BlockShatter(level, x, y, z, xSpeed, ySpeed, zSpeed, type.getState());
+            return new BlockShatter(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
         }
     }
 }

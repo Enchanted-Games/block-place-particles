@@ -28,7 +28,15 @@ public class VanillaEmitter extends Emitter {
     @Override
     public void spawnParticle(ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         if(this.particleOptions == null) return;
-        context.level().addParticle(this.particleOptions, x, y, z, xSpeed * this.getVelocityMultiplier(), ySpeed * this.getVelocityMultiplier(), zSpeed * this.getVelocityMultiplier());
+        context.level().addParticle(
+            this.particleOptions,
+            x,
+            y,
+            z,
+            xSpeed * this.getVelocityMultiplier(),
+            ySpeed * this.getVelocityMultiplier(),
+            zSpeed * this.getVelocityMultiplier()
+        );
     }
 
     @Override

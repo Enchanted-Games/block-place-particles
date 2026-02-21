@@ -1,9 +1,9 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.physics;
 
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
@@ -28,17 +28,9 @@ public abstract class BouncyParticle extends ParticleInteractionsParticle {
     /**
      * A single quad particle has simple bouncing physics.
      * Set {@link #physics_bounciness} or {@link #physics_passThroughFluidSpeed} in your particle constructor to adjust the particle physics
-     *
-     * @param level  level
-     * @param x      x pos
-     * @param y      y pos
-     * @param z      z pos
-     * @param xSpeed x velocity
-     * @param ySpeed y velocity
-     * @param zSpeed z velocity
      */
-    protected BouncyParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, TextureAtlasSprite sprite) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, sprite);
+    protected BouncyParticle(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        super(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 
     protected float getTotalVelocity() {
@@ -48,17 +40,17 @@ public abstract class BouncyParticle extends ParticleInteractionsParticle {
     @Override
     public void tick() {
         this.isInWater = this.level.getFluidState(BlockPos.containing(this.x, this.y, this.z)).is(FluidTags.WATER);
-        if(this.isInWater) {
+        if (this.isInWater) {
             this.hasEnteredWater = true;
         }
 
-        if(age > 0 && physics_canBounce && this.physics_bounciness > 0 && this.hasPhysics) {
-            if(this.isInWater) {
+        if (age > 0 && physics_canBounce && this.physics_bounciness > 0 && this.hasPhysics) {
+            if (this.isInWater) {
                 this.xd *= this.physics_passThroughFluidSpeed;
                 this.yd *= this.physics_passThroughFluidSpeed;
                 this.zd *= this.physics_passThroughFluidSpeed;
             }
-            if(GeneralOptions.ADVANCED_PARTICLE_PHYSICS.getValue()) {
+            if (GeneralOptions.ADVANCED_PARTICLE_PHYSICS.getValue()) {
                 double xVel = this.xd;
                 double yVel = this.yd;
                 double zVel = this.zd;

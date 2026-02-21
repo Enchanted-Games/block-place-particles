@@ -13,7 +13,6 @@
     "accessor.client.ParticleAccessor",
     "accessor.client.RenderPipelinesAccessor",
     "accessor.client.SpriteContentsAccessor",
-    "accessor.client.TerrainParticleInvoker",
     "blocks.AbstractCauldronBlock",
     "blocks.BaseFireBlock",
     "blocks.BeehiveBlockMixin",

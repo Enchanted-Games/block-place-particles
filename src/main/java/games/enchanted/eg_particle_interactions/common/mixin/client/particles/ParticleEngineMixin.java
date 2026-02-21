@@ -2,9 +2,13 @@ package games.enchanted.eg_particle_interactions.common.mixin.client.particles;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
+import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverride;
+import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
+import games.enchanted.eg_particle_interactions.common.override_system.preset.OverridePreset;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.ParticleOrigin;
 import games.enchanted.eg_particle_interactions.common.particle.render.ModParticleRenderTypes;
-import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverride;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
@@ -12,12 +16,10 @@ import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -109,42 +111,38 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
         if(
             originalParticleOption.getType() == ParticleTypes.ITEM
         ) {
-            if(!(originalParticleOption instanceof ItemParticleOption)) {
-                return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);
-            }
-
-            Item originalParticleItem = ((ItemParticleOption) originalParticleOption).getItem()
-                //? if minecraft: < 26.1 {
-                /*.getItem()
-                *///? } else {
-                .item().value()
-                //? }
-            ;
-
-            if(!(originalParticleItem instanceof BlockItem)) {
-                return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);
-            }
-
-            ParticleOrigin overrideOrigin = ParticleOrigin.ITEM_PARTICLE_OVERRIDDEN;
-
-            BlockState originalParticleBlockState = ((BlockItem) originalParticleItem).getBlock().defaultBlockState();
-            BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(originalParticleBlockState, overrideOrigin);
-
-            if(particleOverride == BlockParticleOverride.VANILLA || particleOverride == BlockParticleOverride.NONE) {
-                return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);
-            }
-
-            ParticleOptions newParticleOption = particleOverride.getParticleOptionForState(originalParticleBlockState, level, BlockPos.containing(x, y, z), overrideOrigin);
-            return (original).call(
-                instance,
-                newParticleOption,
-                x,
-                y,
-                z,
-                xSpeed * (Math.random() * 0.75 + 0.6) * particleOverride.getParticleVelocityMultiplier(),
-                (ySpeed + 0.6) * (Math.random() * 0.75 + 0.6) * particleOverride.getParticleVelocityMultiplier(),
-                zSpeed * (Math.random() * 0.75 + 0.6) * particleOverride.getParticleVelocityMultiplier()
-            );
+            // TODO: implement item override
+            return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);
+//            if(!(originalParticleOption instanceof ItemParticleOption)) {
+//            }
+//
+//            ItemStackTemplate originalParticleItem = ((ItemParticleOption) originalParticleOption).getItem();
+//
+//            ParticleOrigin origin = ParticleOrigin.ITEM_PARTICLE_OVERRIDDEN;
+//            OverridePreset overridePreset = BlockOverrideManager.getForBlock(blockState);
+//            ParticleOverride override = overridePreset.getRandom();
+//            Identifier id = ParticleOverrides.getIdFromOverride(override);
+//
+//            if(id == ParticleOverrides.VANILLA_OVERRIDE_ID) {
+//                return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);
+//            }
+//
+//             override.spawnParticle(
+//                origin,
+//                new ParticleContext(
+//                    level,
+//                    null,
+//                    originalParticleItem
+//                ),
+//                x,
+//                y,
+//                z,
+//                xSpeed * (Math.random() * 0.75 + 0.6) * particleOverride.getParticleVelocityMultiplier(),
+//                (ySpeed + 0.6) * (Math.random() * 0.75 + 0.6) * particleOverride.getParticleVelocityMultiplier(),
+//                zSpeed * (Math.random() * 0.75 + 0.6) * particleOverride.getParticleVelocityMultiplier()
+//            );
+//
+//            return null;
         }
 
         // Override block particles
@@ -160,28 +158,37 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
             return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);
         }
 
-        ParticleOrigin overrideOrigin = ParticleOrigin.BLOCK_PARTICLE_OVERRIDDEN;
+        BlockState blockState = ((BlockParticleOption) originalParticleOption).getState();
 
-        BlockState originalParticleBlockState = ((BlockParticleOption) originalParticleOption).getState();
-        BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(originalParticleBlockState, overrideOrigin);
+        ParticleOrigin origin = ParticleOrigin.BLOCK_PARTICLE_OVERRIDDEN;
+        OverridePreset overridePreset = BlockOverrideManager.getForBlock(blockState);
+        ParticleOverride override = overridePreset.getRandom();
+        Identifier id = ParticleOverrides.getIdFromOverride(override);
 
-        if(particleOverride == BlockParticleOverride.VANILLA || particleOverride == BlockParticleOverride.NONE) {
+        if(id == ParticleOverrides.VANILLA_OVERRIDE_ID) {
             return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);
         }
 
-        ParticleOptions newParticleOption = particleOverride.getParticleOptionForState(originalParticleBlockState, level, BlockPos.containing(x, y, z), overrideOrigin);
+        ParticleContext context = new ParticleContext(
+            level,
+            new ParticleContext.BlockContext(blockState, BlockPos.containing(x, y, z)),
+            null
+        );
         boolean isDustPillarParticle = originalParticleOption.getType() == ParticleTypes.DUST_PILLAR;
-        double newYSpeed = (ySpeed * particleOverride.getParticleVelocityMultiplier() * 0.5) + (ySpeed < 0.02 ? 0.08 : 0.);
-        return (original).call(
-            instance,
-            newParticleOption,
+        double newYSpeed = (ySpeed * 0.5) + (ySpeed < 0.02 ? 0.08 : 0.);
+
+        override.spawnParticle(
+            origin,
+            context,
             x,
             y,
             z,
-            xSpeed * (Math.random() * 0.75 + 0.6) * particleOverride.getParticleVelocityMultiplier(),
+            xSpeed * (Math.random() * 0.75 + 0.6),
             isDustPillarParticle ? (ySpeed * 2) + 0.45 : newYSpeed,
-            zSpeed * (Math.random() * 0.75 + 0.6) * particleOverride.getParticleVelocityMultiplier()
+            zSpeed * (Math.random() * 0.75 + 0.6)
         );
+
+        return null;
     }
 
     //? if minecraft: > 1.21.8 {

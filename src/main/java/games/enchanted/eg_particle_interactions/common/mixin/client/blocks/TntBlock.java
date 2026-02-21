@@ -1,6 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.mixin.client.blocks;
 
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -23,11 +24,11 @@ public abstract class TntBlock {
         method = "useItemOn(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/InteractionHand;Lnet/minecraft/world/phys/BlockHitResult;)Lnet/minecraft/world/InteractionResult;"
     )
     protected void useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult, CallbackInfoReturnable<InteractionResult> cir) {
-        if(level.isClientSide() && cir.getReturnValue() == InteractionResult.SUCCESS) {
+        if(level instanceof ClientLevel clientLevel && cir.getReturnValue() == InteractionResult.SUCCESS) {
             if(itemStack.getItem() instanceof FlintAndSteelItem) {
-                SpawnParticles.spawnFlintAndSteelSparkParticle(level, blockPos);
+                SpawnParticles.spawnFlintAndSteelSparkParticle(clientLevel, blockPos);
             } else if(itemStack.getItem() instanceof FireChargeItem) {
-                SpawnParticles.spawnFireChargeSmokeParticle(level, blockPos);
+                SpawnParticles.spawnFireChargeSmokeParticle(clientLevel, blockPos);
             }
         }
     }

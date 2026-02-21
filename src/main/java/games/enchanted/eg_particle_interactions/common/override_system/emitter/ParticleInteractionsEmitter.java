@@ -50,9 +50,9 @@ public class ParticleInteractionsEmitter extends Emitter {
             x,
             y,
             z,
-            xSpeed,
-            ySpeed,
-            zSpeed
+            xSpeed * this.getVelocityMultiplier(),
+            ySpeed * this.getVelocityMultiplier(),
+            zSpeed * this.getVelocityMultiplier()
         );
     }
 

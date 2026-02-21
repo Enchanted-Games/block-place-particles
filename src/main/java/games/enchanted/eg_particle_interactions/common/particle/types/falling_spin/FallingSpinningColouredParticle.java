@@ -1,58 +1,44 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.falling_spin;
 
+import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.particle.appearance.colour.BlockTextureColourSource;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 public class FallingSpinningColouredParticle extends FallingSpinningParticle {
-    protected FallingSpinningColouredParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState, SpriteSet spriteSet, float gravityMultiplier) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier);
+    protected FallingSpinningColouredParticle(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float gravityMultiplier) {
+        super(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, gravityMultiplier);
 
-        var colourSource = new BlockTextureColourSource(0);
-        int[] colour = colourSource.getARGB(new ParticleContext(
-            level,
-            new ParticleContext.BlockContext(blockState, blockPos),
-            null
-        ));
+        int[] colour = appearance.colourSource().getARGB(context);
         this.setRGBA(
-            (float)colour[1] / 255f,
-            (float)colour[2] / 255f,
-            (float)colour[3] / 255f,
-            (float)colour[0] / 255f
+            (float) colour[1] / 255f,
+            (float) colour[2] / 255f,
+            (float) colour[3] / 255f,
+            (float) colour[0] / 255f
         );
     }
 
-    public static class TintedLeafProvider implements ParticleProvider<BlockParticleOption> {
-        private final SpriteSet spriteSet;
-
-        public TintedLeafProvider(SpriteSet spriteSet) {
-            this.spriteSet = spriteSet;
+    public static class TintedLeafProvider implements PIParticleProvider<PIParticleType.Simple> {
+        public TintedLeafProvider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            BlockParticleOption type,
-            ClientLevel level,
+            PIParticleType.Simple options,
+            ParticleContext context,
+            ParticleAppearance appearance,
             double x,
             double y,
             double z,
             double xSpeed,
             double ySpeed,
             double zSpeed
-            //? if minecraft: > 1.21.8 {
-            , RandomSource random
-            //?}
         ) {
-            FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 1f);
-            float particleSize = level.getRandom().nextBoolean() ? 0.1f : 0.15f;
+            FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, 1f);
+            float particleSize = context.level().getRandom().nextBoolean() ? 0.1f : 0.15f;
             particle.setScale(particleSize);
             particle.maxSpinSpeed = 0.5f;
             particle.setSize(particleSize, particleSize);
@@ -60,145 +46,121 @@ public class FallingSpinningColouredParticle extends FallingSpinningParticle {
         }
     }
 
-    public static class FlowerPetalProvider implements ParticleProvider<BlockParticleOption> {
-        private final SpriteSet spriteSet;
-
-        public FlowerPetalProvider(SpriteSet spriteSet) {
-            this.spriteSet = spriteSet;
+    public static class FlowerPetalProvider implements PIParticleProvider<PIParticleType.Simple> {
+        public FlowerPetalProvider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            BlockParticleOption type,
-            ClientLevel level,
+            PIParticleType.Simple options,
+            ParticleContext context,
+            ParticleAppearance appearance,
             double x,
             double y,
             double z,
             double xSpeed,
             double ySpeed,
             double zSpeed
-            //? if minecraft: > 1.21.8 {
-            , RandomSource random
-            //?}
         ) {
-            FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 1f);
+            FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, 1f);
             particle.maxSpinSpeed = 0.5f;
             return particle;
         }
     }
 
-    public static class GrassBladeProvider implements ParticleProvider<BlockParticleOption> {
-        private final SpriteSet spriteSet;
-
-        public GrassBladeProvider(SpriteSet spriteSet) {
-            this.spriteSet = spriteSet;
+    public static class GrassBladeProvider implements PIParticleProvider<PIParticleType.Simple> {
+        public GrassBladeProvider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            BlockParticleOption type,
-            ClientLevel level,
+            PIParticleType.Simple options,
+            ParticleContext context,
+            ParticleAppearance appearance,
             double x,
             double y,
             double z,
             double xSpeed,
             double ySpeed,
             double zSpeed
-            //? if minecraft: > 1.21.8 {
-            , RandomSource random
-            //?}
         ) {
-            FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 1f);
-            float particleSize = level.getRandom().nextBoolean() ? 0.10F : 0.12F;
+            FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, 1f);
+            float particleSize = context.level().getRandom().nextBoolean() ? 0.10F : 0.12F;
             particle.setScale(particleSize);
             particle.setSize(particleSize, particleSize);
             return particle;
         }
     }
 
-    public static class HeavyGrassBladeProvider implements ParticleProvider<BlockParticleOption> {
-        private final SpriteSet spriteSet;
-
-        public HeavyGrassBladeProvider(SpriteSet spriteSet) {
-            this.spriteSet = spriteSet;
+    public static class HeavyGrassBladeProvider implements PIParticleProvider<PIParticleType.Simple> {
+        public HeavyGrassBladeProvider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            BlockParticleOption type,
-            ClientLevel level,
+            PIParticleType.Simple options,
+            ParticleContext context,
+            ParticleAppearance appearance,
             double x,
             double y,
             double z,
             double xSpeed,
             double ySpeed,
             double zSpeed
-            //? if minecraft: > 1.21.8 {
-            , RandomSource random
-            //?}
         ) {
-            FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 2f);
-            float particleSize = level.getRandom().nextBoolean() ? 0.10F : 0.12F;
+            FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, 2f);
+            float particleSize = context.level().getRandom().nextBoolean() ? 0.10F : 0.12F;
             particle.setScale(particleSize);
             particle.setSize(particleSize, particleSize);
             return particle;
         }
     }
 
-    public static class ChainSnapProvider implements ParticleProvider<BlockParticleOption> {
-        private final SpriteSet spriteSet;
-
-        public ChainSnapProvider(SpriteSet spriteSet) {
-            this.spriteSet = spriteSet;
+    public static class ChainSnapProvider implements PIParticleProvider<PIParticleType.Simple> {
+        public ChainSnapProvider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            BlockParticleOption type,
-            ClientLevel level,
+            PIParticleType.Simple options,
+            ParticleContext context,
+            ParticleAppearance appearance,
             double x,
             double y,
             double z,
             double xSpeed,
             double ySpeed,
             double zSpeed
-            //? if minecraft: > 1.21.8 {
-            , RandomSource random
-            //?}
         ) {
-            FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 3f);
+            FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, 3f);
+            ClientLevel level = context.level();
             float particleSize = level.getRandom().nextBoolean() ? 0.14F : 0.15F;
             particle.setScale(particleSize);
             particle.setSize(particleSize, particleSize);
             particle.maxSpinSpeed = 0.2f;
-            particle.spinAcceleration = (float)Math.toRadians(level.getRandom().nextBoolean() ? -1.0 : 1.0);
+            particle.spinAcceleration = (float) Math.toRadians(level.getRandom().nextBoolean() ? -1.0 : 1.0);
             return particle;
         }
     }
 
-    public static class SugarCaneProvider implements ParticleProvider<BlockParticleOption> {
-        private final SpriteSet spriteSet;
-
-        public SugarCaneProvider(SpriteSet spriteSet) {
-            this.spriteSet = spriteSet;
+    public static class SugarCaneProvider implements PIParticleProvider<PIParticleType.Simple> {
+        public SugarCaneProvider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            BlockParticleOption type,
-            ClientLevel level,
+            PIParticleType.Simple options,
+            ParticleContext context,
+            ParticleAppearance appearance,
             double x,
             double y,
             double z,
             double xSpeed,
             double ySpeed,
             double zSpeed
-            //? if minecraft: > 1.21.8 {
-            , RandomSource random
-            //?}
         ) {
-            FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, BlockPos.containing(x, y, z), type.getState(), spriteSet, 2.5f);
-            float particleSize = level.getRandom().nextBoolean() ? 0.11F : 0.13F;
+            FallingSpinningColouredParticle particle = new FallingSpinningColouredParticle(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, 2.5f);
+            float particleSize = context.level().getRandom().nextBoolean() ? 0.11F : 0.13F;
             particle.setScale(particleSize);
             particle.setSize(particleSize, particleSize);
             return particle;

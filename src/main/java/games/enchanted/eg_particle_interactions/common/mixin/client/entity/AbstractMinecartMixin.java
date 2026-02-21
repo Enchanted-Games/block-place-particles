@@ -1,6 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.mixin.client.entity;
 
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
@@ -46,15 +47,27 @@ public abstract class AbstractMinecartMixin extends VehicleEntity {
         method = "tick"
     )
     protected void spawnSparksWhileMovingOnRails(CallbackInfo ci) {
-        if (block_place_particle$shouldSpawnSparks() && this.level().isClientSide()) {
+        if (block_place_particle$shouldSpawnSparks() && this.level() instanceof ClientLevel clientLevel) {
             float horizontalRot = this.getYRot();
             float verticalRot = this.getXRot();
 
             BlockPos blockPos = BlockPos.containing(this.getX(), this.getY(),this.getZ());
-            BlockState blockState = this.level().getBlockState(blockPos);
+            BlockState blockState = clientLevel.getBlockState(blockPos);
             boolean hasBlock = !this.getDisplayBlockState().is(BlockTags.AIR);
 
-            SpawnParticles.spawnSparksAtMinecartWheels(this.getX(), this.getY(),this.getZ(), horizontalRot, verticalRot, BaseRailBlock.isRail(blockState), !this.getPassengers().isEmpty(), hasBlock, this.getDeltaMovement(), block_place_particle$maxSpeed(), this.level());
+            SpawnParticles.spawnSparksAtMinecartWheels(
+                this.getX(),
+                this.getY(),
+                this.getZ(),
+                horizontalRot,
+                verticalRot,
+                BaseRailBlock.isRail(blockState),
+                !this.getPassengers().isEmpty(),
+                hasBlock,
+                this.getDeltaMovement(),
+                block_place_particle$maxSpeed(),
+                clientLevel
+            );
         }
     }
 }

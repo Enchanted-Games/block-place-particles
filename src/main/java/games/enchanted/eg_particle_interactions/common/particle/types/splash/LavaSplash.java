@@ -1,17 +1,16 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.splash;
 
-import net.minecraft.client.multiplayer.ClientLevel;
+import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 
 public class LavaSplash extends BucketSplash {
-    public LavaSplash(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet.get(level.getRandom()));
+    public LavaSplash(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        super(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 
     @Override
@@ -24,35 +23,30 @@ public class LavaSplash extends BucketSplash {
             }
         }
     }
-    
+
     @Override
     public void randomOnParticleLand() {
         super.randomOnParticleLand();
         this.level.addParticle(ParticleTypes.SMOKE, x, y, z, 0, 0.03, 0);
     }
 
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet spriteSet;
-
-        public Provider(SpriteSet spriteSet) {
-            this.spriteSet = spriteSet;
+    public static class Provider implements PIParticleProvider<PIParticleType.Simple> {
+        public Provider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            SimpleParticleType type,
-            ClientLevel level,
+            PIParticleType.Simple type,
+            ParticleContext context,
+            ParticleAppearance appearance,
             double x,
             double y,
             double z,
             double xSpeed,
             double ySpeed,
             double zSpeed
-            //? if minecraft: > 1.21.8 {
-            , RandomSource random
-            //?}
         ) {
-            return new LavaSplash(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
+            return new LavaSplash(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
         }
     }
 }

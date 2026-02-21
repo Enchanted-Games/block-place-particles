@@ -3,28 +3,21 @@ package games.enchanted.eg_particle_interactions.common.particle.types.physics;
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.ParticleAccessor;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.shapes.QuadFaceShape;
 import games.enchanted.eg_particle_interactions.common.shapes.ShapeDefinitions;
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.Camera;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.gizmos.GizmoStyle;
-import net.minecraft.gizmos.Gizmos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import org.joml.*;
-
-//? if minecraft: > 1.21.8 {
-//?} else {
-/*import com.mojang.blaze3d.vertex.VertexConsumer;
-*///?}
-
-import java.lang.Math;
+import org.joml.Quaternionf;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
 
 public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
     protected double prevPrevX;
@@ -41,17 +34,9 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
     /**
      * A 3d cube particle that stretches between its current and previous position when moving, this particle also has bounce physics
      * Set {@link #physics_canBounce} to false in your particle constructor to disable bouncing
-     *
-     * @param level  level
-     * @param x      x pos
-     * @param y      y pos
-     * @param z      z pos
-     * @param xSpeed x velocity
-     * @param ySpeed y velocity
-     * @param zSpeed z velocity
      */
-    protected StretchyBouncyShapeParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, TextureAtlasSprite sprite) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, sprite);
+    protected StretchyBouncyShapeParticle(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        super(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
         this.prevPrevX = this.xo;
         this.prevPrevY = this.yo;
         this.prevPrevZ = this.zo;
@@ -103,7 +88,7 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
 
         this.extractShapeGeometry(consumer, pos, prevPos, partialTicks);
 
-        if(GeneralOptions.DEBUG_PARTICLE_TICK_BOUNDING_BOXES.getValue()) {
+        if (GeneralOptions.DEBUG_PARTICLE_TICK_BOUNDING_BOXES.getValue()) {
             ParticleDebugShapes.particlePosition(this.x, this.y, this.z, ParticleDebugShapes.PARTICLE_TICK_POSITION);
 
             ParticleDebugShapes.box(
@@ -111,7 +96,7 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
                 ((ParticleAccessor) this).block_place_particle$getStoppedByCollision() ? ParticleDebugShapes.PARTICLE_BOUNDING_BOX_STOPPED : ParticleDebugShapes.PARTICLE_BOUNDING_BOX
             );
         }
-        if(GeneralOptions.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES.getValue()) {
+        if (GeneralOptions.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES.getValue()) {
             ParticleDebugShapes.particlePosition(xPos, yPos, zPos, ParticleDebugShapes.PARTICLE_RENDER_POSITION);
             ParticleDebugShapes.particlePosition(prevXPos, prevYPos, prevZPos, ParticleDebugShapes.PARTICLE_PREV_RENDER_POSITION);
 
@@ -129,11 +114,11 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
 
         Vector3f normalisedMovementDir = new Vector3f(pos).sub(prevPos).normalize();
         float pitch = (float) Math.toDegrees(Math.asin(normalisedMovementDir.y));
-        if(!Float.isFinite(pitch)) pitch = prevPitch;
+        if (!Float.isFinite(pitch)) pitch = prevPitch;
         prevPitch = pitch;
 
         float yaw = (float) Math.toDegrees(Math.atan2(normalisedMovementDir.x, normalisedMovementDir.z));
-        if(!Float.isFinite(yaw)) yaw = prevYaw;
+        if (!Float.isFinite(yaw)) yaw = prevYaw;
         prevYaw = yaw;
 
         Vector3f shapePos = MathHelpers.getPosBetween3DPoints(pos, prevPos);

@@ -1,171 +1,140 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.dust;
 
-import games.enchanted.eg_particle_interactions.common.particle.options.TintedParticleOption;
-import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
-import net.minecraft.client.multiplayer.ClientLevel;
+import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
+import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
 public class BasicTintedDust extends BasicDust {
-    protected BasicTintedDust(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet, float gravityMultiplier, TintedParticleOption tintedParticleOption, boolean spawnSpecks, boolean spriteFromAge, Supplier<ParticleOptions> speckGetter) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier, spawnSpecks, spriteFromAge, speckGetter);
-
-        int[] rgb = tintedParticleOption.getRandomisedColour();
-        this.setRGB(rgb[0] / 255f, rgb[1] / 255f, rgb[2] / 255f);
+    protected BasicTintedDust(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float gravityMultiplier, boolean spawnSpecks, Supplier<PIParticleOptions> speckGetter) {
+        super(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, gravityMultiplier, spawnSpecks, speckGetter);
     }
 
-    public static class BrushProvider implements ParticleProvider<TintedParticleOption> {
-        private final SpriteSet spriteSet;
-
-        public BrushProvider(SpriteSet spriteSet) {
-            this.spriteSet = spriteSet;
+    public static class BrushProvider implements PIParticleProvider<PIParticleType.Simple> {
+        public BrushProvider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            TintedParticleOption type,
-            ClientLevel level,
+            PIParticleType.Simple type,
+            ParticleContext context,
+            ParticleAppearance appearance,
             double x,
             double y,
             double z,
             double xSpeed,
             double ySpeed,
             double zSpeed
-            //? if minecraft: > 1.21.8 {
-            , RandomSource random
-            //?}
         ) {
-            return new BasicTintedDust(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet, 0.7f, type, true, true, () -> TintedParticleOption.BRUSH_SPECK_OPTION);
+            return new BasicTintedDust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, 0.7f, true, () -> ParticleTypesRegistry.BRUSH_DUST_SPECK);
         }
     }
-    public static class BrushSpeckProvider implements ParticleProvider<TintedParticleOption>  {
-        private final SpriteSet spriteSet;
 
-        public BrushSpeckProvider(SpriteSet spriteSet) {
-            this.spriteSet = spriteSet;
+    public static class BrushSpeckProvider implements PIParticleProvider<PIParticleType.Simple> {
+        public BrushSpeckProvider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            TintedParticleOption type,
-            ClientLevel level,
+            PIParticleType.Simple optionstype,
+            ParticleContext context,
+            ParticleAppearance appearance,
             double x,
             double y,
             double z,
             double xSpeed,
             double ySpeed,
             double zSpeed
-            //? if minecraft: > 1.21.8 {
-            , RandomSource random
-            //?}
         ) {
-            return new BasicTintedDust(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet, 0.35f, type, false, false, () -> null);
+            return new BasicTintedDust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, 0.35f, false, () -> null);
         }
     }
 
-    public static class ItemFrameProvider implements ParticleProvider<TintedParticleOption> {
-        private final SpriteSet spriteSet;
-
-        public ItemFrameProvider(SpriteSet spriteSet) {
-            this.spriteSet = spriteSet;
+    public static class ItemFrameProvider implements PIParticleProvider<PIParticleType.Simple> {
+        public ItemFrameProvider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            TintedParticleOption type,
-            ClientLevel level,
+            PIParticleType.Simple options,
+            ParticleContext context,
+            ParticleAppearance appearance,
             double x,
             double y,
             double z,
             double xSpeed,
             double ySpeed,
             double zSpeed
-            //? if minecraft: > 1.21.8 {
-            , RandomSource random
-            //?}
         ) {
-            return new BasicTintedDust(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet, 0.7f, type, true, true, () -> TintedParticleOption.ITEM_FRAME_DUST_SPECK_OPTION);
+            return new BasicTintedDust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, 0.7f, true, () -> ParticleTypesRegistry.ITEM_FRAME_DUST_SPECK);
         }
     }
-    public static class ItemFrameSpeckProvider implements ParticleProvider<TintedParticleOption>  {
-        private final SpriteSet spriteSet;
 
-        public ItemFrameSpeckProvider(SpriteSet spriteSet) {
-            this.spriteSet = spriteSet;
+    public static class ItemFrameSpeckProvider implements PIParticleProvider<PIParticleType.Simple> {
+        public ItemFrameSpeckProvider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            TintedParticleOption type,
-            ClientLevel level,
+            PIParticleType.Simple options,
+            ParticleContext context,
+            ParticleAppearance appearance,
             double x,
             double y,
             double z,
             double xSpeed,
             double ySpeed,
             double zSpeed
-            //? if minecraft: > 1.21.8 {
-            , RandomSource random
-            //?}
         ) {
-            return new BasicTintedDust(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet, 0.35f, type, false, false, () -> null);
+            return new BasicTintedDust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, 0.35f, false, () -> null);
         }
     }
 
-    public static class GlowItemFrameProvider implements ParticleProvider<TintedParticleOption> {
-        private final SpriteSet spriteSet;
-
-        public GlowItemFrameProvider(SpriteSet spriteSet) {
-            this.spriteSet = spriteSet;
+    public static class GlowItemFrameProvider implements PIParticleProvider<PIParticleType.Simple> {
+        public GlowItemFrameProvider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            TintedParticleOption type,
-            ClientLevel level,
+            PIParticleType.Simple optionse,
+            ParticleContext context,
+            ParticleAppearance appearance,
             double x,
             double y,
             double z,
             double xSpeed,
             double ySpeed,
             double zSpeed
-            //? if minecraft: > 1.21.8 {
-            , RandomSource random
-            //?}
         ) {
-            BasicTintedDust particle = new BasicTintedDust(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet, 0.7f, type, true, true, () -> TintedParticleOption.GLOW_ITEM_FRAME_DUST_SPECK_OPTION);
+            BasicTintedDust particle = new BasicTintedDust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, 0.7f, true, () -> ParticleTypesRegistry.GLOW_ITEM_FRAME_DUST_SPECK);
             particle.emissive = true;
             return particle;
         }
     }
-    public static class GlowItemFrameSpeckProvider implements ParticleProvider<TintedParticleOption>  {
-        private final SpriteSet spriteSet;
 
-        public GlowItemFrameSpeckProvider(SpriteSet spriteSet) {
-            this.spriteSet = spriteSet;
+    public static class GlowItemFrameSpeckProvider implements PIParticleProvider<PIParticleType.Simple> {
+        public GlowItemFrameSpeckProvider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            TintedParticleOption type,
-            ClientLevel level,
+            PIParticleType.Simple options,
+            ParticleContext context,
+            ParticleAppearance appearance,
             double x,
             double y,
             double z,
             double xSpeed,
             double ySpeed,
             double zSpeed
-            //? if minecraft: > 1.21.8 {
-            , RandomSource random
-            //?}
         ) {
-            BasicTintedDust particle = new BasicTintedDust(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet, 0.35f, type, false, false, () -> null);
+            BasicTintedDust particle = new BasicTintedDust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, 0.35f, false, () -> null);
             particle.emissive = true;
             return particle;
         }

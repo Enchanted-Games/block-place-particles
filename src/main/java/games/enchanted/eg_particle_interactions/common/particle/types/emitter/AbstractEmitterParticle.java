@@ -1,26 +1,23 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.emitter;
 
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.Particle;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
+import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.core.particles.ParticleOptions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-//? if minecraft: <= 1.21.8 {
-/*import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Camera;
-*///?}
 
-public abstract class AbstractEmitterParticle extends Particle {
+public abstract class AbstractEmitterParticle extends ParticleInteractionsParticle {
     protected float emitterWidth;
     protected float emitterHeight;
     protected float emitterDepth;
 
-    public AbstractEmitterParticle(ClientLevel level, double x, double y, double z, float width, float height, float depth) {
-        super(level, x, y, z);
+    public AbstractEmitterParticle(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, float width, float height, float depth) {
+        super(context, appearance, x, y, z);
         this.emitterWidth = width;
         this.emitterHeight = height;
         this.emitterDepth = depth;
@@ -28,11 +25,11 @@ public abstract class AbstractEmitterParticle extends Particle {
 
     @Override
     public void tick() {
-        if(this.age++ >= this.lifetime) {
+        if (this.age++ >= this.lifetime) {
             this.remove();
             return;
         }
-        if(GeneralOptions.DEBUG_EMITTER_BOUNDS.getValue()) {
+        if (GeneralOptions.DEBUG_EMITTER_BOUNDS.getValue()) {
             level.addParticle(new DustParticleOptions(0xFFFF0000, 0.5f), x, y, z, 0, 0, 0);
             level.addParticle(new DustParticleOptions(0xFF00FF00, 0.5f), x + this.emitterWidth, y + this.emitterHeight, z + this.emitterDepth, 0, 0, 0);
         }
@@ -44,26 +41,12 @@ public abstract class AbstractEmitterParticle extends Particle {
     /**
      * Called every time before spawning the next particle
      *
-     * @param level the level
-     * @param x     the x
-     * @param y     the y
-     * @param z     the z
      * @return the particle to emit
      */
-    protected abstract @Nullable ParticleOptions getParticleToEmit(ClientLevel level, double x, double y, double z);
+    protected abstract @Nullable PIParticleOptions getParticleToEmit(ParticleContext context, double x, double y, double z);
 
-    //? if minecraft: <= 1.21.8 {
-    /*@Override
-    public void render(@NotNull VertexConsumer vertexConsumer, @NotNull Camera camera, float v) {}
-
-    @Override
-    public @NotNull ParticleRenderType getRenderType() {
-        return ParticleRenderType.NO_RENDER;
-    }
-    *///?} else {
     @Override
     public @NotNull ParticleRenderType getGroup() {
         return ParticleRenderType.NO_RENDER;
     }
-    //?}
 }

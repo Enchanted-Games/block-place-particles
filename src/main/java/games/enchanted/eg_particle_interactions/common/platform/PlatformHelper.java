@@ -108,18 +108,6 @@ public class PlatformHelper {
     }
 
     /**
-     * Registers a particle to a particle provider
-     */
-    public static <T extends ParticleOptions> void registerParticleProvider(ParticleType<T> particleType, ParticleTypesRegistry.ProviderCreator<T> particleProviderCreator) {
-        //? if fabric {
-        /*? if minecraft: < 26.1 {*/ /*ParticleFactoryRegistry *//*? } else {*/ ParticleProviderRegistry /*?}*/
-            .getInstance().register(particleType, particleProviderCreator::create);
-        //?} else {
-        /*NeoParticleProviderRegistry.registerProviderWhenReady(particleType, particleProviderCreator);
-         *///?}
-    }
-
-    /**
      * Returns the path where configuration files are stored within the .minecraft directory
      */
     public static Path getConfigPath() {

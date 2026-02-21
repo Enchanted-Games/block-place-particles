@@ -17,7 +17,7 @@ public class ParticleSpawner {
         spawn(options, context, null, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 
-    public static void spawn(PIParticleOptions options, ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+    public static void spawn(PIParticleOptions options, ParticleContext context, @Nullable ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         spawnParticle(options, context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 
@@ -39,14 +39,14 @@ public class ParticleSpawner {
 
         Particle particle = provider.createParticle(
             options,
+            context,
+            appearance != null ? appearance : ParticleAppearanceManager.get(particleId),
             x,
             y,
             z,
             xSpeed,
             ySpeed,
-            zSpeed,
-            context,
-            appearance != null ? appearance : ParticleAppearanceManager.get(particleId)
+            zSpeed
         );
         if(particle != null) {
             Minecraft.getInstance().particleEngine.add(particle);

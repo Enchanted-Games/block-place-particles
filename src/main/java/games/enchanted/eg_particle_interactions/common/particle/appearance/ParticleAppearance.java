@@ -4,32 +4,53 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.colour.ColourSource;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.colour.StaticColourSource;
+import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
+import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.data.AtlasIds;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.RandomSource;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
 
-public record ParticleAppearance(@Nullable Sprites sprites, ColourSource colourSource) {
+public record ParticleAppearance(@Nullable TextureConfig textureConfig, ColourSource colourSource) {
     public static final Codec<ParticleAppearance> CODEC = RecordCodecBuilder.create(
         instance -> instance.group(
-            Sprites.CODEC.optionalFieldOf("texture_config").forGetter(textureSource -> Optional.ofNullable(textureSource.sprites))
+            TextureConfig.CODEC.optionalFieldOf("texture_config").forGetter(textureSource -> Optional.ofNullable(textureSource.textureConfig))
         ).apply(
             instance,
             sprites -> new ParticleAppearance(sprites.orElse(null), new StaticColourSource(new int[]{255,255,255,255}))
         )
     );
 
-    public record Sprites(List<Identifier> sprites, Identifier atlasId) {
-        public static final Codec<Sprites> CODEC = RecordCodecBuilder.create(
-            spritesInstance -> spritesInstance.group(
+    public record TextureConfig(List<Identifier> sprites, Identifier atlasId, boolean chooseRandomSprite) {
+        public static final Codec<TextureConfig> CODEC = RecordCodecBuilder.create(
+            instance -> instance.group(
                 Codec.list(Identifier.CODEC).fieldOf("sprites").forGetter(o -> null),
-                Identifier.CODEC.optionalFieldOf("atlas", AtlasIds.PARTICLES).forGetter(Sprites::atlasId)
+                Identifier.CODEC.optionalFieldOf("atlas", AtlasIds.PARTICLES).forGetter(TextureConfig::atlasId),
+                Codec.BOOL.optionalFieldOf("choose_random_sprite", true).forGetter(TextureConfig::chooseRandomSprite)
             ).apply(
-                spritesInstance,
-                Sprites::new
+                instance,
+                TextureConfig::new
             )
         );
+
+        public TextureAtlasSprite lookupSprite(Identifier id) {
+            return TextureHelpers.getSpriteFromAtlas(id, this.atlasId());
+        }
+
+        public TextureAtlasSprite getAt(int index, int max) {
+            return this.lookupSprite(this.sprites.get(index * (this.sprites.size() - 1) / max));
+        }
+
+        public TextureAtlasSprite getRandom(RandomSource random) {
+            return this.lookupSprite(this.sprites.get(random.nextInt(this.sprites.size())));
+        }
+
+        public TextureAtlasSprite getFirst() {
+            return this.lookupSprite(this.sprites.getFirst());
+        }
     }
 }

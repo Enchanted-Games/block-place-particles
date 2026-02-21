@@ -1,23 +1,20 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.spark;
 
+import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
 import games.enchanted.eg_particle_interactions.common.util.LightUtil;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 
 public class SparkFlash extends ParticleInteractionsParticle {
-    private final SpriteSet sprites;
     private final float originalQuadSize;
-    protected int prevAge;
     protected final boolean useRandomAnimation;
 
-    SparkFlash(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet sprites, boolean useRandomAnimation) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, sprites.get(0, 1));
+    SparkFlash(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, boolean useRandomAnimation) {
+        super(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
         this.speedUpWhenYMotionIsBlocked = true;
         this.friction = 0.96F;
 
@@ -25,7 +22,7 @@ public class SparkFlash extends ParticleInteractionsParticle {
         this.yd = (ySpeed / 2) + (Math.random() * 3.0 - 1.5) * 0.07 * (this.random.nextFloat() > 0.95 ? 2 : 1);
         this.zd = (zSpeed / 2) + (Math.random() * 3.0 - 1.5) * 0.07 * (this.random.nextFloat() > 0.95 ? 2 : 1);
         this.useRandomAnimation = useRandomAnimation;
-        if(useRandomAnimation) {
+        if (useRandomAnimation) {
             int rot = this.random.nextIntBetweenInclusive(0, 3);
             this.roll = rot * 90;
             this.prevRoll = roll;
@@ -33,23 +30,19 @@ public class SparkFlash extends ParticleInteractionsParticle {
 
         this.lifetime = this.random.nextInt(4) + 3;
 
-        this.sprites = sprites;
-        this.setSpriteFromAge(sprites);
-
-        this.setScale(2/16f);
-        originalQuadSize = this.getScale();
-        prevAge = age;
+        this.setScale(2 / 16f);
+        this.originalQuadSize = this.getScale();
     }
 
     @Override
     public void tick() {
-        prevAge = age;
         super.tick();
-        if(useRandomAnimation) {
-            this.setCurrentSprite(this.sprites.get(this.random));
-        } else {
-            this.setSpriteFromAge(this.sprites);
-        }
+        // TODO: new sprite animation type in particle appearance for random per tick
+//        if(useRandomAnimation) {
+//            this.setCurrentSprite(this.sprites.get(this.random));
+//        } else {
+//            this.setSpriteForTextureConfig(this.sprites);
+//        }
         this.setScale(this.originalQuadSize * (0.5f + (Math.abs(1 - (this.age / this.lifetime)) * 0.5f)), true);
     }
 
@@ -58,53 +51,43 @@ public class SparkFlash extends ParticleInteractionsParticle {
         return LightUtil.FULL_BRIGHT;
     }
 
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet spriteSet;
-
-        public Provider(SpriteSet spriteSet) {
-            this.spriteSet = spriteSet;
+    public static class Provider implements PIParticleProvider<PIParticleType.Simple> {
+        public Provider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            SimpleParticleType options,
-            ClientLevel level,
+            PIParticleType.Simple options,
+            ParticleContext context,
+            ParticleAppearance appearance,
             double x,
             double y,
             double z,
             double xSpeed,
             double ySpeed,
             double zSpeed
-            //? if minecraft: > 1.21.8 {
-            , RandomSource random
-            //?}
         ) {
-            return new SparkFlash(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, false);
+            return new SparkFlash(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, false);
         }
     }
 
-    public static class RandomAnimationProvider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet spriteSet;
-
-        public RandomAnimationProvider(SpriteSet spriteSet) {
-            this.spriteSet = spriteSet;
+    public static class RandomAnimationProvider implements PIParticleProvider<PIParticleType.Simple> {
+        public RandomAnimationProvider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            SimpleParticleType options,
-            ClientLevel level,
+            PIParticleType.Simple options,
+            ParticleContext context,
+            ParticleAppearance appearance,
             double x,
             double y,
             double z,
             double xSpeed,
             double ySpeed,
             double zSpeed
-            //? if minecraft: > 1.21.8 {
-            , RandomSource random
-            //?}
         ) {
-            return new SparkFlash(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, true);
+            return new SparkFlash(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, true);
         }
     }
 }

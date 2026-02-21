@@ -3,16 +3,12 @@ package games.enchanted.eg_particle_interactions.common.particle_spawning;
 import games.enchanted.eg_particle_interactions.common.config.categories.*;
 import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
 import games.enchanted.eg_particle_interactions.common.override_system.preset.OverridePreset;
+import games.enchanted.eg_particle_interactions.common.particle.options.*;
 import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitterOptions;
-import games.enchanted.eg_particle_interactions.common.particle.options.DripParticleOption;
-import games.enchanted.eg_particle_interactions.common.particle.options.RandomDistributionEmitterOptions;
-import games.enchanted.eg_particle_interactions.common.particle.options.TintedParticleOption;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverride;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverrides;
-import games.enchanted.eg_particle_interactions.common.particle.overrides.FluidPlacementParticle;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.ParticleOrigin;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import games.enchanted.eg_particle_interactions.common.registry.TagUtil;
@@ -38,7 +34,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -163,7 +158,7 @@ public class SpawnParticles {
         }
     }
 
-    private static void spawnUnderwaterBubbles(int amountOfBubbles, Level level, BlockPos blockPos) {
+    private static void spawnUnderwaterBubbles(int amountOfBubbles, ClientLevel level, BlockPos blockPos) {
         if (!FluidHelpers.probablyPlacedUnderwater(level, blockPos)) return;
         var random = level.getRandom();
         for (int i = 0; i < Math.max(amountOfBubbles + random.nextIntBetweenInclusive(-2, 0), 1); i++) {
@@ -173,8 +168,9 @@ public class SpawnParticles {
             boolean blockAboveIsWater = level.getFluidState(blockPos.above()).is(FluidTags.WATER);
             double verticalVelocity = (y - 0.5) * (blockAboveIsWater ? 2 : 0);
             double horizontalVelocityMul = !blockAboveIsWater ? 1.5 : 1;
-            level.addParticle(
+            ParticleSpawner.spawn(
                 ParticleTypesRegistry.UNDERWATER_RISING_BUBBLE,
+                ParticleContext.plain(level),
                 blockPos.getX() + x,
                 blockPos.getY() + y,
                 blockPos.getZ() + z,
@@ -215,42 +211,44 @@ public class SpawnParticles {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, x, y, z)) return;
         if (!BlockInteractionOptions.BLOCK_FALLING_EFFECT_ENABLED.getValue()) return;
 
-        ParticleOrigin overrideOrigin = ParticleOrigin.FALLING_BLOCK_LANDED;
-        BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(blockState, overrideOrigin);
-
-        if (particleOverride == BlockParticleOverride.NONE) return;
+        ParticleOrigin particleOrigin = ParticleOrigin.FALLING_BLOCK_LANDED;
+        OverridePreset override = BlockOverrideManager.getForBlock(blockState);
 
         BlockPos blockPos = BlockPos.containing(x, y, z);
         double movementSpeed = deltaMovement.length();
 
         double particleY = Math.round((y + (deltaMovement.y / 2)) - 0.1) + 0.0625;
 
-        SpawnParticlesUtil.spawnParticleInCircle(
-            particleOverride == BlockParticleOverride.VANILLA ? TintedParticleOption.BRUSH_OPTION : particleOverride.getParticleOptionForState(blockState, level, blockPos, overrideOrigin),
+        ParticleContext context = new ParticleContext(
             level,
+            new ParticleContext.BlockContext(blockState, blockPos),
+            null
+        );
+
+        SpawnParticlesUtil.spawnParticleInCircle(
+            (x1, y1, z1, xSpeed, ySpeed, zSpeed) -> override.getRandom().spawnParticle(particleOrigin, context, x1, y1, z1, xSpeed, zSpeed, ySpeed),
             new Vec3(x, particleY, z),
             16,
             0.4f,
             0.9f,
-            1.7f * (float) (movementSpeed * 2) * (particleOverride == BlockParticleOverride.VANILLA ? 0.1f : particleOverride.getParticleVelocityMultiplier()),
+            1.7f * (float) (movementSpeed * 2) * 0.1f,
             0.035f,
             0
         );
 
         SpawnParticlesUtil.spawnParticleInCircle(
-            particleOverride == BlockParticleOverride.VANILLA ? TintedParticleOption.BRUSH_OPTION : particleOverride.getParticleOptionForState(blockState, level, blockPos, overrideOrigin),
-            level,
+            (x1, y1, z1, xSpeed, ySpeed, zSpeed) -> override.getRandom().spawnParticle(particleOrigin, context, x1, y1, z1, xSpeed, zSpeed, ySpeed),
             new Vec3(x, particleY + 0.7f, z),
             16,
             0.3f,
             0.95f,
             0.2f,
-            -0.4f * (float) (movementSpeed * 2) * (particleOverride == BlockParticleOverride.VANILLA ? 0.1f : particleOverride.getParticleVelocityMultiplier()),
+            -0.4f * (float) (movementSpeed * 2) *0.1f,
             0
         );
     }
 
-    public static void spawnSparksAtMinecartWheels(double minecartX, double minecartY, double minecartZ, double minecartHorizontalRot, double minecartVerticalRot, boolean isOnRails, boolean hasPassenger, boolean hasBlock, Vec3 deltaMovement, double maxSpeed, Level level) {
+    public static void spawnSparksAtMinecartWheels(double minecartX, double minecartY, double minecartZ, double minecartHorizontalRot, double minecartVerticalRot, boolean isOnRails, boolean hasPassenger, boolean hasBlock, Vec3 deltaMovement, double maxSpeed, ClientLevel level) {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, minecartX, minecartY, minecartZ)) return;
         if (!EntityOptions.MINECART_SPARKS_ENABLED.getValue()) return;
         if (!isOnRails) return;
@@ -268,21 +266,58 @@ public class SpawnParticles {
         float sparkDeltaZ = (float) Math.clamp(-deltaMovement.z / 3, -0.7, 0.7);
 
         minecartY += 0.0425;
+        ParticleContext context = ParticleContext.plain(level);
         if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos1 = minecartWheelPoint(rotX, rotY, 0.45f, 0.35f, 0.45f);
-            level.addParticle(ParticleTypesRegistry.FLYING_SPARK, wheelPos1.x + minecartX, wheelPos1.y + minecartY, wheelPos1.z + minecartZ, sparkDeltaX, 0.17, sparkDeltaZ);
+            ParticleSpawner.spawn(
+                ParticleTypesRegistry.FLYING_SPARK,
+                context,
+                wheelPos1.x + minecartX,
+                wheelPos1.y + minecartY,
+                wheelPos1.z + minecartZ,
+                sparkDeltaX,
+                0.17,
+                sparkDeltaZ
+            );
         }
         if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos2 = minecartWheelPoint(rotX, rotY, -0.45f, -0.35f, 0.45f);
-            level.addParticle(ParticleTypesRegistry.FLYING_SPARK, wheelPos2.x + minecartX, wheelPos2.y + minecartY, wheelPos2.z + minecartZ, sparkDeltaX, 0.17, sparkDeltaZ);
+            ParticleSpawner.spawn(
+                ParticleTypesRegistry.FLYING_SPARK,
+                context,
+                wheelPos2.x + minecartX,
+                wheelPos2.y + minecartY,
+                wheelPos2.z + minecartZ,
+                sparkDeltaX,
+                0.17,
+                sparkDeltaZ
+            );
         }
         if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos3 = minecartWheelPoint(rotX, rotY, 0.45f, 0.35f, -0.45f);
-            level.addParticle(ParticleTypesRegistry.FLYING_SPARK, wheelPos3.x + minecartX, wheelPos3.y + minecartY, wheelPos3.z + minecartZ, sparkDeltaX, 0.17, sparkDeltaZ);
+            ParticleSpawner.spawn(
+                ParticleTypesRegistry.FLYING_SPARK,
+                context,
+                wheelPos3.x + minecartX,
+                wheelPos3.y + minecartY,
+                wheelPos3.z + minecartZ,
+                sparkDeltaX,
+                0.17,
+                sparkDeltaZ
+            );
         }
         if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos4 = minecartWheelPoint(rotX, rotY, -0.45f, -0.35f, -0.45f);
-            level.addParticle(ParticleTypesRegistry.FLYING_SPARK, wheelPos4.x + minecartX, wheelPos4.y + minecartY, wheelPos4.z + minecartZ, sparkDeltaX, 0.17, sparkDeltaZ);
+            ParticleSpawner.spawn(
+                ParticleTypesRegistry.FLYING_SPARK,
+                context,
+                wheelPos4.x + minecartX,
+                wheelPos4.y + minecartY,
+                wheelPos4.z + minecartZ,
+                sparkDeltaX,
+                0.17,
+                sparkDeltaZ
+            );
         }
     }
 
@@ -290,28 +325,40 @@ public class SpawnParticles {
         return new Vector3f((float) (pointX * Math.cos(rotationX) - pointZ * Math.sin(rotationX)), pointY * rotationY, (float) (pointZ * Math.cos(rotationX) + pointX * Math.sin(rotationX)));
     }
 
-    public static void spawnFlintAndSteelSparkParticle(Level level, BlockPos particlePos) {
+    public static void spawnFlintAndSteelSparkParticle(ClientLevel level, BlockPos particlePos) {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, particlePos)) return;
         if (!ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_ENABLED.getValue()) return;
         BlockState fireOrLitBlock = level.getBlockState(particlePos);
         boolean isSoulBlock = level.getBlockState(particlePos.below()).is(BlockTags.SOUL_FIRE_BASE_BLOCKS) || fireOrLitBlock.is(Blocks.SOUL_CAMPFIRE);
         double sparkIntensity = ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_INTENSITY.getValue() / 12.;
+        ParticleContext context = ParticleContext.plain(level);
         for (int i = 0; i < ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_AMOUNT.getValue(); i++) {
             double x = particlePos.getX() + 0.25 + (level.getRandom().nextDouble() / 2);
             double y = particlePos.getY() + 0.25 + (level.getRandom().nextDouble() / 2);
             double z = particlePos.getZ() + 0.25 + (level.getRandom().nextDouble() / 2);
-            level.addParticle(isSoulBlock ? ParticleTypesRegistry.FLYING_SOUL_SPARK : ParticleTypesRegistry.FLYING_SPARK, x, y, z, (level.getRandom().nextDouble() - 0.5) * sparkIntensity, (level.getRandom().nextDouble() + 0.5) * sparkIntensity, (level.getRandom().nextDouble() - 0.5) * sparkIntensity);
+            ParticleSpawner.spawn(
+                isSoulBlock ? ParticleTypesRegistry.FLYING_SOUL_SPARK : ParticleTypesRegistry.FLYING_SPARK,
+                context,
+                x,
+                y,
+                z,
+                (level.getRandom().nextDouble() - 0.5) * sparkIntensity,
+                (level.getRandom().nextDouble() + 0.5) * sparkIntensity,
+                (level.getRandom().nextDouble() - 0.5) * sparkIntensity
+            );
         }
     }
 
-    public static void spawnAmbientCampfireSparks(Level level, BlockPos particlePos, BlockState campfireState) {
+    public static void spawnAmbientCampfireSparks(ClientLevel level, BlockPos particlePos, BlockState campfireState) {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, particlePos)) return;
+        ParticleContext context = ParticleContext.plain(level);
+
         if (BlockInteractionOptions.CAMPFIRE_SPARK_ENABLED.getValue()) {
             double sparkIntensity = 5 / 12.;
             if (level.getRandom().nextFloat() * 101 <= BlockInteractionOptions.CAMPFIRE_SPARK_SPAWN_CHANCE.getValue()) {
                 for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 3) + 1; i++) {
                     SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
-                        level,
+                        context,
                         campfireState.is(Blocks.SOUL_CAMPFIRE) ? ParticleTypesRegistry.FLOATING_SOUL_SPARK : ParticleTypesRegistry.FLOATING_SPARK,
                         (double) particlePos.getX() + 0.5,
                         (double) particlePos.getY() + 0.5,
@@ -324,8 +371,9 @@ public class SpawnParticles {
         if (BlockInteractionOptions.CAMPFIRE_EMBER_ENABLED.getValue()) {
             if (level.getRandom().nextFloat() * 101 <= BlockInteractionOptions.CAMPFIRE_EMBER_SPAWN_CHANCE.getValue()) {
                 for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 4); i++) {
-                    level.addParticle(
+                    ParticleSpawner.spawn(
                         campfireState.is(Blocks.SOUL_CAMPFIRE) ? ParticleTypesRegistry.FLOATING_SOUL_EMBER : ParticleTypesRegistry.FLOATING_EMBER,
+                        context,
                         (double) particlePos.getX() + (level.getRandom().nextFloat() * 0.75) + 0.125f,
                         (double) particlePos.getY() + (level.getRandom().nextFloat() * 0.75) + 0.125f,
                         (double) particlePos.getZ() + (level.getRandom().nextFloat() * 0.75) + 0.125f,
@@ -338,17 +386,19 @@ public class SpawnParticles {
         }
     }
 
-    public static void spawnAmbientFireSparks(Level level, BlockState fireState, BlockPos particlePos, double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
+    public static void spawnAmbientFireSparks(ClientLevel level, BlockState fireState, BlockPos particlePos, double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, particlePos)) return;
         double width = Math.abs(minX - maxX);
         double height = Math.abs(minY - maxY);
         double depth = Math.abs(minZ - maxZ);
+        ParticleContext context = ParticleContext.plain(level);
+
         if (BlockInteractionOptions.FIRE_SPARK_ENABLED.getValue()) {
             double sparkIntensity = 5 / 12.;
             if (level.getRandom().nextFloat() * 101 <= BlockInteractionOptions.FIRE_SPARK_SPAWN_CHANCE.getValue()) {
                 for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 3) + 1; i++) {
                     SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
-                        level,
+                        context,
                         fireState.is(Blocks.SOUL_FIRE) ? ParticleTypesRegistry.FLOATING_SOUL_SPARK : ParticleTypesRegistry.FLOATING_SPARK,
                         particlePos.getX() + minX + (level.getRandom().nextFloat() * width),
                         particlePos.getY() + minY + (level.getRandom().nextFloat() * height),
@@ -361,8 +411,9 @@ public class SpawnParticles {
         if (BlockInteractionOptions.FIRE_EMBER_ENABLED.getValue()) {
             if (level.getRandom().nextFloat() * 101 <= BlockInteractionOptions.FIRE_EMBER_SPAWN_CHANCE.getValue()) {
                 for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 4); i++) {
-                    level.addParticle(
+                    ParticleSpawner.spawn(
                         fireState.is(Blocks.SOUL_FIRE) ? ParticleTypesRegistry.FLOATING_SOUL_EMBER : ParticleTypesRegistry.FLOATING_EMBER,
+                        context,
                         particlePos.getX() + minX + (level.getRandom().nextFloat() * width),
                         particlePos.getY() + minY + (level.getRandom().nextFloat() * height),
                         particlePos.getZ() + minZ + (level.getRandom().nextFloat() * depth),
@@ -460,32 +511,33 @@ public class SpawnParticles {
     }
 
     public static void spawnFluidPlacedParticle(LevelAccessor levelAccessor, BlockPos particlePos, Fluid placedFluid) {
-        if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.BLOCK_PLACE_OR_BREAK, particlePos)) return;
-        if (placedFluid.isSame(Fluids.EMPTY)) {
-            return;
-        }
-
-        FluidPlacementParticle particleOverride = FluidPlacementParticle.getParticleForFluid(placedFluid);
-
-        ParticleOptions particleOption;
-        if (particleOverride == FluidPlacementParticle.NONE) {
-            return;
-        } else if (particleOverride.isBlockStateParticle()) {
-            particleOption = particleOverride.getBlockParticleOption(placedFluid.defaultFluidState().createLegacyBlock());
-        } else {
-            particleOption = particleOverride.getParticleOption();
-        }
-
-        if (particleOption == null) return;
-
-        int maxParticles = FluidPlacementParticle.getParticleMultiplier(particleOverride, true);
-
-        for (int i = 0; i < maxParticles; i++) {
-            double x = particlePos.getX() + levelAccessor.getRandom().nextDouble();
-            double y = particlePos.getY() + (levelAccessor.getRandom().nextDouble() / 1.5) + 0.6;
-            double z = particlePos.getZ() + levelAccessor.getRandom().nextDouble();
-            levelAccessor.addParticle(particleOption, x, y, z, 0.0, 0.21, 0.0);
-        }
+        // TODO: reimplement fluid override
+//        if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.BLOCK_PLACE_OR_BREAK, particlePos)) return;
+//        if (placedFluid.isSame(Fluids.EMPTY)) {
+//            return;
+//        }
+//
+//        FluidPlacementParticle particleOverride = FluidPlacementParticle.getParticleForFluid(placedFluid);
+//
+//        ParticleOptions particleOption;
+//        if (particleOverride == FluidPlacementParticle.NONE) {
+//            return;
+//        } else if (particleOverride.isBlockStateParticle()) {
+//            particleOption = particleOverride.getBlockParticleOption(placedFluid.defaultFluidState().createLegacyBlock());
+//        } else {
+//            particleOption = particleOverride.getParticleOption();
+//        }
+//
+//        if (particleOption == null) return;
+//
+//        int maxParticles = FluidPlacementParticle.getParticleMultiplier(particleOverride, true);
+//
+//        for (int i = 0; i < maxParticles; i++) {
+//            double x = particlePos.getX() + levelAccessor.getRandom().nextDouble();
+//            double y = particlePos.getY() + (levelAccessor.getRandom().nextDouble() / 1.5) + 0.6;
+//            double z = particlePos.getZ() + levelAccessor.getRandom().nextDouble();
+//            levelAccessor.addParticle(particleOption, x, y, z, 0.0, 0.21, 0.0);
+//        }
     }
 
     public static void spawnAnvilUseSparkParticles(ClientLevel level, BlockPos blockPos) {
@@ -503,7 +555,7 @@ public class SpawnParticles {
         );
         SpawnParticlesUtil.spawnParticleInCircle(
             emitter,
-            level,
+            ParticleContext.plain(level),
             new Vec3(x, y, z),
             BlockInteractionOptions.ANVIL_USE_SPARKS_MAX_ON_USE.getValue(),
             0.32f,
@@ -536,12 +588,15 @@ public class SpawnParticles {
         }
 
         RandomDistributionEmitterOptions emitter = getGrindstoneSparkEmitter(attachFace, facing);
+        ParticleContext context = ParticleContext.plain(level);
         final float HORIZONTAL_MIN_SPEED = 0.05f;
         final float HORIZONTAL_MAX_SPEED = 0.3f;
         final float UPWARDS_SPEED = 0.5f;
         final float DOWNWARDS_SPEED = 0.1f;
-        level.addParticle(
+
+        ParticleSpawner.spawn(
             emitter,
+            context,
             x,
             y,
             z,
@@ -549,8 +604,9 @@ public class SpawnParticles {
             attachFace == AttachFace.WALL ? UPWARDS_SPEED : 0,
             facing.getStepZ() * (attachFace == AttachFace.WALL ? HORIZONTAL_MIN_SPEED : HORIZONTAL_MAX_SPEED)
         );
-        level.addParticle(
+        ParticleSpawner.spawn(
             emitter,
+            context,
             x,
             y,
             z,
@@ -592,7 +648,7 @@ public class SpawnParticles {
             float xVel = MathHelpers.randomBetween(-0.2f, 0.2f);
             float yVel = MathHelpers.randomBetween(0.3f, 0.6f);
             float zVel = MathHelpers.randomBetween(-0.2f, 0.2f);
-            level.addParticle(ParticleTypesRegistry.FLOATING_SPARK, x, y, z, xVel, yVel, zVel);
+            ParticleSpawner.spawn(ParticleTypesRegistry.FLOATING_SPARK, ParticleContext.plain(level), x, y, z, xVel, yVel, zVel);
         }
     }
 
@@ -607,7 +663,7 @@ public class SpawnParticles {
             float xVel = (float) MathHelpers.clampOutside(MathHelpers.randomBetween(-0.5f, 0.5f), -0.2, 0.2);
             float yVel = MathHelpers.randomBetween(0.4f, 0.6f);
             float zVel = (float) MathHelpers.clampOutside(MathHelpers.randomBetween(-0.5f, 0.5f), -0.2, 0.2);
-            level.addParticle(ParticleTypesRegistry.FLYING_SPARK, x, y, z, xVel, yVel, zVel);
+            ParticleSpawner.spawn(ParticleTypesRegistry.FLYING_SPARK, ParticleContext.plain(level), x, y, z, xVel, yVel, zVel);
         }
     }
 
@@ -615,14 +671,22 @@ public class SpawnParticles {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, interactionX, interactionY, interactionZ)) return;
         if(!BlockInteractionOptions.REDSTONE_INTERACTION_DUST_ENABLED.getValue()) return;
         BlockPos pos = BlockPos.containing(interactionX, interactionY, interactionZ);
+
+        ParticleOrigin origin = ParticleOrigin.BLOCK_REDSTONE_INTERACTED_WITH;
+        OverridePreset override = BlockOverrideManager.getForBlock(blockState);
+        ParticleContext context = new ParticleContext(
+            level,
+            new ParticleContext.BlockContext(blockState, pos),
+            null
+        );
+
         for (int i = 0; i < BlockInteractionOptions.REDSTONE_INTERACTION_DUST_AMOUNT.getValue(); i++) {
             double particleX = interactionX + MathHelpers.randomBetween(-spreadX / 2, spreadX / 2);
             double particleY = interactionY + MathHelpers.randomBetween(-spreadY / 2, spreadY / 2);
             double particleZ = interactionZ + MathHelpers.randomBetween(-spreadZ / 2, spreadZ / 2);
-            ParticleOptions particleOptions = BlockParticleOverrides.REDSTONE_DUST.getParticleOptionForState(blockState, level, pos, ParticleOrigin.BLOCK_INTERACTED_WITH);
-            if (particleOptions == null) continue;
-            level.addParticle(
-                particleOptions,
+            override.getRandom().spawnParticle(
+                origin,
+                context,
                 particleX,
                 particleY,
                 particleZ,
@@ -640,7 +704,7 @@ public class SpawnParticles {
             double d0 = (double) fluidPos.getX() + level.getRandom().nextDouble();
             double d1 = (double) fluidPos.getY() + fluidState.getOwnHeight();
             double d2 = (double) fluidPos.getZ() + level.getRandom().nextDouble();
-            level.addParticle(ParticleTypesRegistry.LAVA_POP, d0, d1, d2, 0.0f, 0.0f, 0.0f);
+            ParticleSpawner.spawn(ParticleTypesRegistry.LAVA_POP, ParticleContext.plain(level), d0, d1, d2, 0.0f, 0.0f, 0.0f);
         }
     }
 
@@ -653,6 +717,8 @@ public class SpawnParticles {
 
         if (!FluidHelpers.probablyPlacedUnderwater(level, blockPos)) return;
 
+        ParticleContext context = ParticleContext.plain(level);
+
         if (level.getRandom().nextFloat() < (float) FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_SPAWN_CHANCE.getValue() / 2500) {
             double x = (double) blockPos.getX() + level.getRandom().nextDouble();
             double y = (double) blockPos.getY() + (blockState.isSolid() ? 1.05 : level.getRandom().nextDouble());
@@ -663,7 +729,7 @@ public class SpawnParticles {
                 MathHelpers.randomBetween(2, 4),
                 1
             );
-            level.addParticle(emitter, x, y, z, 0.0f, 0.0f, 0.0f);
+            ParticleSpawner.spawn(emitter, context, x, y, z, 0.0f, 0.0f, 0.0f);
         }
     }
 
@@ -712,12 +778,13 @@ public class SpawnParticles {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, x, y, z)) return;
 
         double particleSpeed = 0.2;
+        ParticleContext context = ParticleContext.plain(level);
 
-        ParticleOptions particleOptionToSpawn;
+        PIParticleOptions particleOptionToSpawn;
         if(particleOrigin == ItemFrameParticleOrigin.FRAME_KILLED) {
             return;
         } else {
-            particleOptionToSpawn = glowingItemFrame ? TintedParticleOption.GLOW_ITEM_FRAME_DUST_OPTION : TintedParticleOption.ITEM_FRAME_DUST_OPTION;
+            particleOptionToSpawn = glowingItemFrame ? ParticleTypesRegistry.GLOW_ITEM_FRAME_DUST : ParticleTypesRegistry.ITEM_FRAME_DUST;
         }
 
         for (int i = 0; i < EntityOptions.ITEM_FRAME_INTERACTION_AMOUNT.getValue(); i++) {
@@ -725,8 +792,9 @@ public class SpawnParticles {
             double randomY = boundingBox.minY + (boundingBox.getYsize() * level.getRandom().nextDouble());
             double randomZ = boundingBox.minZ + (boundingBox.getZsize() * level.getRandom().nextDouble());
 
-            level.addParticle(
+            ParticleSpawner.spawn(
                 particleOptionToSpawn,
+                context,
                 (itemFrameDirection.getStepX() * 0.15) + x,
                 (itemFrameDirection.getStepY() * 0.15) + y,
                 (itemFrameDirection.getStepZ() * 0.15) + z,
@@ -764,7 +832,16 @@ public class SpawnParticles {
         Direction furnaceDirection = furnaceState.getValue(FurnaceBlock.FACING);
         final boolean spawnSpark = level.getRandom().nextFloat() < 0.7;
         final float outwardVelocity = MathHelpers.randomBetween(0.01f, 0.03f) * (spawnSpark ? 1 : 5);
-        level.addParticle(spawnSpark ? ParticleTypesRegistry.FLOATING_EMBER : ParticleTypesRegistry.FLOATING_SPARK, positions[0], positions[1], positions[2], furnaceDirection.getStepX() * outwardVelocity, 0.05f, furnaceDirection.getStepZ() * outwardVelocity);
+        ParticleSpawner.spawn(
+            spawnSpark ? ParticleTypesRegistry.FLOATING_EMBER : ParticleTypesRegistry.FLOATING_SPARK,
+            ParticleContext.plain(level),
+            positions[0],
+            positions[1],
+            positions[2],
+            furnaceDirection.getStepX() * outwardVelocity,
+            0.05f,
+            furnaceDirection.getStepZ() * outwardVelocity
+        );
     }
 
     public static void spawnAdditionalBlastFurnaceParticles(ClientLevel level, BlockPos blockPos, BlockState furnaceState) {
@@ -777,12 +854,22 @@ public class SpawnParticles {
         Direction furnaceDirection = furnaceState.getValue(FurnaceBlock.FACING);
         final boolean spawnSpark = level.getRandom().nextFloat() < 0.2;
         final float outwardVelocity = MathHelpers.randomBetween(0.01f, 0.03f) * (spawnSpark ? 1 : 5);
-        level.addParticle(spawnSpark ? ParticleTypesRegistry.FLOATING_EMBER : ParticleTypesRegistry.FLOATING_SPARK, positions[0], positions[1] + 0.125, positions[2], furnaceDirection.getStepX() * outwardVelocity, 0.05f, furnaceDirection.getStepZ() * outwardVelocity);
+        ParticleSpawner.spawn(
+            spawnSpark ? ParticleTypesRegistry.FLOATING_EMBER : ParticleTypesRegistry.FLOATING_SPARK,
+            ParticleContext.plain(level),
+            positions[0],
+            positions[1] + 0.125,
+            positions[2],
+            furnaceDirection.getStepX() * outwardVelocity,
+            0.05f,
+            furnaceDirection.getStepZ() * outwardVelocity
+        );
     }
 
     public static void spawnLightningImpactSparks(ClientLevel level, double x, double y, double z) {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, x, y, z)) return;
         if(!EntityOptions.LIGHTNING_STRIKE_ENABLED.getValue()) return;
+        ParticleContext context = ParticleContext.plain(level);
 
         SpawnParticlesUtil.spawnParticleInCircle(
             () -> new ArcEmitterOptions(
@@ -795,7 +882,7 @@ public class SpawnParticles {
                 MathHelpers.randomBetween(160, 380),
                 null
             ),
-            level,
+            context,
             new Vec3(x, y + 0.5, z),
             EntityOptions.LIGHTNING_STRIKE_AMOUNT_OF_ARCS.getValue(),
             0.2f,
@@ -808,7 +895,7 @@ public class SpawnParticles {
         int amountOfSparks = EntityOptions.LIGHTNING_STRIKE_AMOUNT_OF_SPARKS.getValue();
         SpawnParticlesUtil.spawnParticleInCircle(
             ParticleTypesRegistry.FLYING_SPARK,
-            level,
+            context,
             new Vec3(x, y + 0.01, z),
             MathHelpers.randomBetween(Math.max(0, amountOfSparks - 4), amountOfSparks),
             0.3f,

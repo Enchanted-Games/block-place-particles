@@ -1,13 +1,14 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.shatter;
 
-import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
+import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
-import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Direction;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public abstract class AbstractShatter extends ParticleInteractionsParticle {
     protected final float slice0X;
@@ -18,11 +19,11 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
     protected final float uvOffset;
     protected final boolean inverseSlicePositions;
 
-    protected AbstractShatter(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, TextureHelpers.getDebugSprite());
+    protected AbstractShatter(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        super(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
 
         int spriteWidth = this.currentSprite.contents().width();
-        int randomSize = MathHelpers.randomBetween(3,5);
+        int randomSize = MathHelpers.randomBetween(3, 5);
         int randomSizeThird = randomSize / 3;
         this.uvOffset = (float) MathHelpers.randomBetween(0, spriteWidth - randomSize) / spriteWidth;
         this.uvScale = (float) randomSize / spriteWidth;
@@ -56,9 +57,9 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
         super.tick();
 
         float percentageAge = (float) this.age / this.lifetime;
-        if(percentageAge > 0.8) {
+        if (percentageAge > 0.8) {
             float finalA = 1 - ((percentageAge - 0.8f) * 5f);
-            if(finalA < 0) {
+            if (finalA < 0) {
                 this.setAlpha(0, true);
                 return;
             }
@@ -71,7 +72,7 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
     }
 
     @Override
-    public BillboardMode getBillboardMode() {
+    public @NonNull BillboardMode getBillboardMode() {
         Direction facingDirection = this.getParticleFacingDirection();
         switch (facingDirection) {
             case NORTH -> {
@@ -119,9 +120,9 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
 
         consumer.startQuad();
         consumer.addVertex(quaternion, x, y, z, this.slice0X, this.inverseSlicePositions ? 0 : 1 - this.slice0Y, scale, u1, v1, lightColour, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z, this.slice0X, this.inverseSlicePositions ? this.slice0Y : 1,     scale, u1, v0, lightColour, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z,            0, this.inverseSlicePositions ? this.slice0Y : 1,     scale, u0, v0, lightColour, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z,            0, this.inverseSlicePositions ? 0 : 1 - this.slice0Y, scale, u0, v1, lightColour, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, this.slice0X, this.inverseSlicePositions ? this.slice0Y : 1, scale, u1, v0, lightColour, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, 0, this.inverseSlicePositions ? this.slice0Y : 1, scale, u0, v0, lightColour, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, 0, this.inverseSlicePositions ? 0 : 1 - this.slice0Y, scale, u0, v1, lightColour, r, g, b, a);
         consumer.finishQuad();
 
         scale = this.getLerpedScale(partialTicks);
@@ -129,14 +130,14 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
         u1 = this.currentSprite.getU(this.getScaledUVCoord(this.slice1X));
         v0 = this.currentSprite.getV(this.getScaledUVCoord(0));
         v1 = this.currentSprite.getV(this.getScaledUVCoord(1));
-        
+
         consumer.startQuad();
         consumer.addVertex(quaternion, x, y, z, this.slice1X, 0, scale, u1, v1, lightColour, r, g, b, a);
         consumer.addVertex(quaternion, x, y, z, this.slice1X, 1, scale, u1, v0, lightColour, r, g, b, a);
         consumer.addVertex(quaternion, x, y, z, this.slice0X, 1, scale, u0, v0, lightColour, r, g, b, a);
         consumer.addVertex(quaternion, x, y, z, this.slice0X, 0, scale, u0, v1, lightColour, r, g, b, a);
         consumer.finishQuad();
-        
+
         scale = this.getLerpedScale(partialTicks);
         u0 = this.currentSprite.getU(this.getScaledUVCoord(this.slice1X));
         u1 = this.currentSprite.getU(this.getScaledUVCoord(1));
@@ -144,15 +145,15 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
         v1 = this.currentSprite.getV(this.getScaledUVCoord(this.inverseSlicePositions ? 1 - this.slice1Y : 1));
 
         consumer.startQuad();
-        consumer.addVertex(quaternion, x, y, z,            1, this.inverseSlicePositions ? this.slice1Y : 0,     scale, u1, v1, lightColour, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z,            1, this.inverseSlicePositions ? 1 : 1 - this.slice1Y, scale, u1, v0, lightColour, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, 1, this.inverseSlicePositions ? this.slice1Y : 0, scale, u1, v1, lightColour, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, 1, this.inverseSlicePositions ? 1 : 1 - this.slice1Y, scale, u1, v0, lightColour, r, g, b, a);
         consumer.addVertex(quaternion, x, y, z, this.slice1X, this.inverseSlicePositions ? 1 : 1 - this.slice1Y, scale, u0, v0, lightColour, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z, this.slice1X, this.inverseSlicePositions ? this.slice1Y : 0,     scale, u0, v1, lightColour, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, this.slice1X, this.inverseSlicePositions ? this.slice1Y : 0, scale, u0, v1, lightColour, r, g, b, a);
         consumer.finishQuad();
     }
 
     @Override
-    protected ParticleLayer getParticleLayer() {
+    protected @NonNull ParticleLayer getParticleLayer() {
         return ParticleLayer.BACKFACE_TERRAIN;
     }
 }

@@ -3,8 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.options;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
+import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -13,8 +12,8 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
-public class RandomDistributionEmitterOptions implements ParticleOptions {
-    private final ParticleType<RandomDistributionEmitterOptions> type;
+public class RandomDistributionEmitterOptions implements PIParticleOptions {
+    private final PIParticleType<RandomDistributionEmitterOptions> type;
     private final int repeat;
     private final int tickInterval;
     private final int particlesPerEmission;
@@ -22,7 +21,7 @@ public class RandomDistributionEmitterOptions implements ParticleOptions {
     private final Vector3f dimensions;
     private final Vector3f velocityVariance;
 
-    public RandomDistributionEmitterOptions(ParticleType<RandomDistributionEmitterOptions> type, int tickIterations, int tickInvertal, int particlesPerEmission, boolean emitOnFirstTick, Vector3fc dimensions, Vector3fc velocityVariance) {
+    public RandomDistributionEmitterOptions(PIParticleType<RandomDistributionEmitterOptions> type, int tickIterations, int tickInvertal, int particlesPerEmission, boolean emitOnFirstTick, Vector3fc dimensions, Vector3fc velocityVariance) {
         this.type = type;
         this.repeat = tickIterations;
         this.tickInterval = tickInvertal;
@@ -32,19 +31,19 @@ public class RandomDistributionEmitterOptions implements ParticleOptions {
         this.velocityVariance = new Vector3f(velocityVariance);
     }
 
-    public RandomDistributionEmitterOptions(ParticleType<RandomDistributionEmitterOptions> type, int repeat, int tickInvertal, int particlesPerEmission) {
+    public RandomDistributionEmitterOptions(PIParticleType<RandomDistributionEmitterOptions> type, int repeat, int tickInvertal, int particlesPerEmission) {
         this(type, repeat, tickInvertal, particlesPerEmission, true, new Vector3f(0, 0, 0), new Vector3f(0, 0, 0));
     }
 
-    public RandomDistributionEmitterOptions(ParticleType<RandomDistributionEmitterOptions> type, int repeat, int tickInvertal, int particlesPerEmission, Vector3f dimensions) {
+    public RandomDistributionEmitterOptions(PIParticleType<RandomDistributionEmitterOptions> type, int repeat, int tickInvertal, int particlesPerEmission, Vector3f dimensions) {
         this(type, repeat, tickInvertal, particlesPerEmission, true, dimensions, new Vector3f(0, 0, 0));
     }
 
-    public RandomDistributionEmitterOptions(ParticleType<RandomDistributionEmitterOptions> type, int repeat, int tickInvertal, int particlesPerEmission, Vector3f dimensions, Vector3f velocityVariance) {
+    public RandomDistributionEmitterOptions(PIParticleType<RandomDistributionEmitterOptions> type, int repeat, int tickInvertal, int particlesPerEmission, Vector3f dimensions, Vector3f velocityVariance) {
         this(type, repeat, tickInvertal, particlesPerEmission, true, dimensions, velocityVariance);
     }
 
-    private static Codec<RandomDistributionEmitterOptions> createCodec(ParticleType<RandomDistributionEmitterOptions> type) {
+    private static Codec<RandomDistributionEmitterOptions> createCodec(PIParticleType<RandomDistributionEmitterOptions> type) {
         return RecordCodecBuilder.create((RecordCodecBuilder.Instance<RandomDistributionEmitterOptions> instance) ->
             instance.group(
                 ExtraCodecs.POSITIVE_INT.fieldOf("repeat").forGetter(RandomDistributionEmitterOptions::getRepeat),
@@ -60,16 +59,16 @@ public class RandomDistributionEmitterOptions implements ParticleOptions {
         );
     }
 
-    public static MapCodec<RandomDistributionEmitterOptions> codec(ParticleType<RandomDistributionEmitterOptions> type) {
+    public static MapCodec<RandomDistributionEmitterOptions> codec(PIParticleType<RandomDistributionEmitterOptions> type) {
         return createCodec(type).fieldOf("emitter_options");
     }
 
-    public static StreamCodec<? super RegistryFriendlyByteBuf, RandomDistributionEmitterOptions> streamCodec(ParticleType<RandomDistributionEmitterOptions> type) {
+    public static StreamCodec<? super RegistryFriendlyByteBuf, RandomDistributionEmitterOptions> streamCodec(PIParticleType<RandomDistributionEmitterOptions> type) {
         return ByteBufCodecs.fromCodec(createCodec(type));
     }
 
     @Override
-    public @NotNull ParticleType<RandomDistributionEmitterOptions> getType() {
+    public @NotNull PIParticleType<RandomDistributionEmitterOptions> type() {
         return this.type;
     }
 
