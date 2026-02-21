@@ -1,0 +1,71 @@
+package games.enchanted.eg_particle_interactions.common.override_system.emitter;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
+import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
+import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
+import games.enchanted.eg_particle_interactions.common.resource.texture_source.TextureSource;
+import org.jspecify.annotations.Nullable;
+
+import java.util.Optional;
+
+public class ParticleInteractionsEmitter extends Emitter {
+    public static final MapCodec<ParticleInteractionsEmitter> CODEC = RecordCodecBuilder.mapCodec(instance ->
+        instance.group(
+            Codec.DOUBLE.optionalFieldOf(Emitter.VELOCITY_MULTIPLIER_NAME, Emitter.VELOCITY_MULTIPLIER_DEFAULT).forGetter(Emitter::getVelocityMultiplier),
+            ParticleTypesRegistry.CODEC.fieldOf("particle").forGetter(ParticleInteractionsEmitter::getParticleOptions),
+            TextureSource.CODEC.optionalFieldOf("appearance").forGetter(particleInteractionsEmitter -> Optional.ofNullable(particleInteractionsEmitter.getAppearance()))
+        ).apply(
+            instance,
+            (
+                velocityMultiplier,
+                particleOptions,
+                appearance
+            ) -> new ParticleInteractionsEmitter(
+                velocityMultiplier,
+                particleOptions,
+                appearance.orElse(null)
+            )
+        )
+    );
+
+    final PIParticleOptions particleOptions;
+    final @Nullable TextureSource appearance;
+
+    public ParticleInteractionsEmitter(double velocityMultiplier, PIParticleOptions particleOptions, @Nullable TextureSource appearance) {
+        super(velocityMultiplier);
+        this.particleOptions = particleOptions;
+        this.appearance = appearance;
+    }
+
+    @Override
+    public void spawnParticle(ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        ParticleSpawner.spawn(
+            this.particleOptions,
+            context,
+            this.appearance,
+            x,
+            y,
+            z,
+            xSpeed,
+            ySpeed,
+            zSpeed
+        );
+    }
+
+    @Override
+    public MapCodec<? extends Emitter> codec() {
+        return CODEC;
+    }
+
+    protected PIParticleOptions getParticleOptions() {
+        return this.particleOptions;
+    }
+
+    protected @Nullable TextureSource getAppearance() {
+        return this.appearance;
+    }
+}

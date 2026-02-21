@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.dust;
 
-import games.enchanted.eg_particle_interactions.common.registry.particle.ParticleTypes;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.resource.texture_source.colour.BlockTextureColourSource;
 import games.enchanted.eg_particle_interactions.common.util.ParticleUtil;
@@ -42,7 +42,7 @@ public class FloatingColouredDust extends AbstractDust {
 
     @Override
     public @NotNull ParticleOptions getSpeckParticle() {
-        return new BlockParticleOption(ParticleTypes.TINTED_DUST_SPECK, this.dustBlockState);
+        return new BlockParticleOption(ParticleTypesRegistry.TINTED_DUST_SPECK, this.dustBlockState);
     }
 
     public static class TintedDustProvider implements ParticleProvider<BlockParticleOption> {

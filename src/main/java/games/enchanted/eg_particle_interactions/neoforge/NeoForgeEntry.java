@@ -4,16 +4,14 @@
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.config.compat.ConfigScreenCreator;
-import games.enchanted.eg_particle_interactions.common.particle.types.ModParticleTypes;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.neoforge.registry.NeoParticleProviderRegistry;
 import games.enchanted.eg_particle_interactions.neoforge.registry.NeoReloadListenerRegistry;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
@@ -33,7 +31,7 @@ public class NeoForgeEntry {
         // register stuff
         bus.addListener((RegisterEvent event) -> {
             if(event.getRegistry().key().equals(Registries.PARTICLE_TYPE)) {
-                ModParticleTypes.registerParticles();
+                ParticleTypesRegistry.registerParticles();
             }
         });
 

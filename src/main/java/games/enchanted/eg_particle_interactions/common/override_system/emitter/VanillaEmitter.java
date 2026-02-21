@@ -11,7 +11,7 @@ public class VanillaEmitter extends Emitter {
     public static final MapCodec<VanillaEmitter> CODEC = RecordCodecBuilder.mapCodec(instance ->
         instance.group(
             Codec.DOUBLE.optionalFieldOf(Emitter.VELOCITY_MULTIPLIER_NAME, Emitter.VELOCITY_MULTIPLIER_DEFAULT).forGetter(Emitter::getVelocityMultiplier),
-            ParticleTypes.CODEC.fieldOf("particle_type").forGetter(VanillaEmitter::getParticleOptions)
+            ParticleTypes.CODEC.fieldOf("particle").forGetter(VanillaEmitter::getParticleOptions)
         ).apply(
             instance,
             (velocityMultiplier, particleOptions) -> new VanillaEmitter(particleOptions, velocityMultiplier)

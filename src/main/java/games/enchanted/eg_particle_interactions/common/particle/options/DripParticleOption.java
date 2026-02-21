@@ -3,8 +3,8 @@ package games.enchanted.eg_particle_interactions.common.particle.options;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import games.enchanted.eg_particle_interactions.common.registry.particle.ParticleTypes;
-import games.enchanted.eg_particle_interactions.common.registry.particle.PIParticleType;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
+import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -16,8 +16,8 @@ public class DripParticleOption implements PIParticleOptions {
     public static final float DEFAULT_GRAVITY = 0.05F;
     public static final float DEFAULT_GRAVITY_RANDOMNESS = 0.0F;
 
-    public static final DripParticleOption FALLING_HONEY_DROP = new DripParticleOption(ParticleTypes.HONEY_DROP, 0, 0.02f, 0.03f);
-    public static final DripParticleOption HANGING_HONEY_DROP = new DripParticleOption(ParticleTypes.HONEY_DROP, 30, 0.02f, 0.03f);
+    public static final DripParticleOption FALLING_HONEY_DROP = new DripParticleOption(ParticleTypesRegistry.HONEY_DROP, 0, 0.02f, 0.03f);
+    public static final DripParticleOption HANGING_HONEY_DROP = new DripParticleOption(ParticleTypesRegistry.HONEY_DROP, 30, 0.02f, 0.03f);
 
     private final PIParticleType<DripParticleOption> type;
     private final int startFallingTicks;
@@ -34,7 +34,7 @@ public class DripParticleOption implements PIParticleOptions {
     private static Codec<DripParticleOption> createCodec(PIParticleType<DripParticleOption> type) {
         return RecordCodecBuilder.create((RecordCodecBuilder.Instance<DripParticleOption> instance) ->
             instance.group(
-                ExtraCodecs.POSITIVE_INT.optionalFieldOf("start_falling_ticks", DEFAULT_START_FALLING_TICKS).forGetter(DripParticleOption::getStartFallingTicks),
+                ExtraCodecs.NON_NEGATIVE_INT.optionalFieldOf("start_falling_ticks", DEFAULT_START_FALLING_TICKS).forGetter(DripParticleOption::getStartFallingTicks),
                 Codec.FLOAT.optionalFieldOf("gravity", DEFAULT_GRAVITY).forGetter(DripParticleOption::getGravity),
                 Codec.FLOAT.optionalFieldOf("gravity_randomess", DEFAULT_GRAVITY_RANDOMNESS).forGetter(DripParticleOption::getGravity)
             ).apply(

@@ -1,7 +1,7 @@
 //? if neoforge {
 /*package games.enchanted.eg_particle_interactions.neoforge.registry;
 
-import games.enchanted.eg_particle_interactions.common.particle.types.ModParticleTypes;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
@@ -13,14 +13,14 @@ public class NeoParticleProviderRegistry {
 
     private static class PendingProvider<T extends ParticleOptions>  {
         ParticleType<? extends ParticleOptions> pType;
-        ModParticleTypes.SpriteProviderReg<?> pProvider;
-        public PendingProvider(ParticleType<T> particleType, ModParticleTypes.SpriteProviderReg<T> particleProvider) {
+        ParticleTypesRegistry.ProviderCreator<?> pProvider;
+        public PendingProvider(ParticleType<T> particleType, ParticleTypesRegistry.ProviderCreator<T> particleProvider) {
             this.pType = particleType;
             this.pProvider = particleProvider;
         }
     }
 
-    public static <T extends ParticleOptions> void registerProviderWhenReady(ParticleType<T> particleType, ModParticleTypes.SpriteProviderReg<T> particleProvider) {
+    public static <T extends ParticleOptions> void registerProviderWhenReady(ParticleType<T> particleType, ParticleTypesRegistry.ProviderCreator<T> particleProvider) {
         pendingProviders.addLast(new PendingProvider<>(particleType, particleProvider));
     }
 

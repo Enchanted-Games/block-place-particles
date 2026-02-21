@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common.particle.overrides;
 
 import games.enchanted.eg_particle_interactions.common.config.categories.BlockOverrideOptions;
 import games.enchanted.eg_particle_interactions.common.localisation.ConfigTranslation;
-import games.enchanted.eg_particle_interactions.common.registry.particle.ParticleTypes;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.util.BiomeHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -18,9 +18,9 @@ public abstract class BlockParticleOverrides {
         "generic_block_override",
         (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> {
             if(BiomeHelpers.isWarmBiomeOrDimension(level, blockPos) && BlockOverrideOptions.SNOWFLAKE_PARTICLE_STEAM_IN_WARM_PLACES.getValue()) {
-                return level.getRandom().nextInt(5) == 0 ? net.minecraft.core.particles.ParticleTypes.POOF : ParticleTypes.SNOWFLAKE;
+                return level.getRandom().nextInt(5) == 0 ? net.minecraft.core.particles.ParticleTypes.POOF : ParticleTypesRegistry.SNOWFLAKE;
             }
-            return ParticleTypes.SNOWFLAKE;
+            return ParticleTypesRegistry.SNOWFLAKE;
         },
         BlockOverrideOptions.SNOWFLAKE_PARTICLE_OVERRIDE,
         0.15f,
@@ -30,7 +30,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride CHERRY_LEAF = new BlockParticleOverride(
         "cherry_petal",
         "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypes.FALLING_CHERRY_PETAL,
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypesRegistry.FALLING_CHERRY_PETAL,
         BlockOverrideOptions.CHERRY_PETAL_PARTICLE_OVERRIDE,
         0.13f,
         List.of()
@@ -39,7 +39,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride AZALEA_LEAF = new BlockParticleOverride(
         "azalea_leaf",
         "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypes.FALLING_AZALEA_LEAF,
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypesRegistry.FALLING_AZALEA_LEAF,
         BlockOverrideOptions.AZALEA_LEAVES_PARTICLE_OVERRIDE,
         0.13f,
         List.of()
@@ -48,7 +48,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride FLOWERING_AZALEA_LEAF = new BlockParticleOverride(
         "flowering_azalea_leaf",
         "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypes.FALLING_FLOWERING_AZALEA_LEAF,
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypesRegistry.FALLING_FLOWERING_AZALEA_LEAF,
         BlockOverrideOptions.FLOWERING_AZALEA_LEAVES_PARTICLE_OVERRIDE,
         0.13f,
         List.of()
@@ -57,7 +57,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride PALE_LEAF = new BlockParticleOverride(
         "pale_leaf",
         "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypes.FALLING_PALE_OAK_LEAF,
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypesRegistry.FALLING_PALE_OAK_LEAF,
         BlockOverrideOptions.PALE_LEAVES_PARTICLE_OVERRIDE,
         0.13f,
         List.of()
@@ -66,7 +66,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride TINTED_PINE_LEAF = new BlockParticleOverride(
         "biome_pine_leaf",
         "tinted_or_random_pixel",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypes.FALLING_TINTED_PINE_LEAF, blockState),
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.FALLING_TINTED_PINE_LEAF, blockState),
         BlockOverrideOptions.PINE_LEAVES_PARTICLE_OVERRIDE,
         0.13f,
         List.of()
@@ -75,7 +75,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride TINTED_LEAF = new BlockParticleOverride(
         "biome_leaf",
         "tinted_or_random_pixel",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypes.FALLING_TINTED_LEAF, blockState),
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.FALLING_TINTED_LEAF, blockState),
         BlockOverrideOptions.GENERIC_LEAVES_PARTICLE_OVERRIDE,
         0.13f,
         List.of()
@@ -84,7 +84,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride FLOWER_PETAL = new BlockParticleOverride(
         "flower_petal",
         "tinted_or_random_pixel",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypes.FLOWER_PETAL, blockState),
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.FLOWER_PETAL, blockState),
         BlockOverrideOptions.FLOWER_PETAL_PARTICLE_OVERRIDE,
         0.18f,
         List.of()
@@ -109,12 +109,12 @@ public abstract class BlockParticleOverrides {
             }
 
             if(spawnDirt && BlockOverrideOptions.GRASS_BLADE_PARTICLE_DIRT_FOR_GRASS_BLOCKS.getValue()) {
-                return new BlockParticleOption(overrideOrigin == ParticleOrigin.BLOCK_CRACK ? ParticleTypes.BLOCK_CRACK : ParticleTypes.BLOCK_HIGH_VELOCITY, Blocks.DIRT.defaultBlockState());
+                return new BlockParticleOption(overrideOrigin == ParticleOrigin.BLOCK_CRACK ? ParticleTypesRegistry.BLOCK_CRACK : ParticleTypesRegistry.BLOCK_HIGH_VELOCITY, Blocks.DIRT.defaultBlockState());
             }
             if(spawnFirefly && BlockOverrideOptions.GRASS_BLADE_PARTICLE_FIREFLY_IN_SWAMPS.getValue()) {
                 return net.minecraft.core.particles.ParticleTypes.FIREFLY;
             }
-            return new BlockParticleOption(ParticleTypes.GRASS_BLADE, blockState);
+            return new BlockParticleOption(ParticleTypesRegistry.GRASS_BLADE, blockState);
         },
         (ParticleOrigin overrideOrigin) -> overrideOrigin != ParticleOrigin.ITEM_PARTICLE_OVERRIDDEN,
         BlockOverrideOptions.GRASS_BLADE_PARTICLE_OVERRIDE,
@@ -128,7 +128,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride HEAVY_GRASS_BLADE = new BlockParticleOverride(
         "heavy_grass_blade",
         "tinted_or_random_pixel",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypes.HEAVY_GRASS_BLADE, blockState),
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.HEAVY_GRASS_BLADE, blockState),
         (ParticleOrigin overrideOrigin) -> overrideOrigin != ParticleOrigin.ITEM_PARTICLE_OVERRIDDEN,
         BlockOverrideOptions.HEAVY_GRASS_BLADE_PARTICLE_OVERRIDE,
         0.13f,
@@ -153,7 +153,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride MOSS_CLUMP = new BlockParticleOverride(
         "moss_clump",
         "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypes.MOSS_CLUMP,
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypesRegistry.MOSS_CLUMP,
         BlockOverrideOptions.MOSS_CLUMP_PARTICLE_OVERRIDE,
         0.13f,
         List.of()
@@ -162,7 +162,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride PALE_MOSS_CLUMP = new BlockParticleOverride(
         "pale_moss_clump",
         "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypes.PALE_MOSS_CLUMP,
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> ParticleTypesRegistry.PALE_MOSS_CLUMP,
         BlockOverrideOptions.PALE_MOSS_CLUMP_PARTICLE_OVERRIDE,
         0.13f,
         List.of()
@@ -171,7 +171,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride DUST = new BlockParticleOverride(
         "dust",
         "tinted_or_random_pixel",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypes.TINTED_DUST, blockState),
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.TINTED_DUST, blockState),
         BlockOverrideOptions.DUST_PARTICLE_OVERRIDE,
         0.1f,
         List.of()
@@ -180,7 +180,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride REDSTONE_DUST = new BlockParticleOverride(
         "redstone_dust",
         "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypes.REDSTONE_DUST, blockState),
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.REDSTONE_DUST, blockState),
         BlockOverrideOptions.REDSTONE_DUST_PARTICLE_OVERRIDE,
         0.1f,
         List.of()
@@ -189,7 +189,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride NETHER_PORTAL_SHATTER = new BlockParticleOverride(
         "nether_portal_shatter",
         "generic_block_override",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypes.BLOCK_SHATTER, blockState),
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.BLOCK_SHATTER, blockState),
         BlockOverrideOptions.BLOCK_SHATTER_PARTICLE_OVERRIDE,
         0.2f,
         List.of()
@@ -200,9 +200,9 @@ public abstract class BlockParticleOverrides {
         "tinted_or_random_pixel",
         (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> {
             if(overrideOrigin == ParticleOrigin.BLOCK_BROKEN || overrideOrigin == ParticleOrigin.BLOCK_CRACK) {
-                return level.getRandom().nextFloat() > 0.9 ? ParticleTypes.SPARK_FLASH : new BlockParticleOption(ParticleTypes.CHAIN_SNAP, blockState);
+                return level.getRandom().nextFloat() > 0.9 ? ParticleTypesRegistry.SPARK_FLASH : new BlockParticleOption(ParticleTypesRegistry.CHAIN_SNAP, blockState);
             }
-            return new BlockParticleOption(ParticleTypes.CHAIN_SNAP, blockState);
+            return new BlockParticleOption(ParticleTypesRegistry.CHAIN_SNAP, blockState);
         },
         BlockOverrideOptions.CHAIN_SNAP_PARTICLE_OVERRIDE,
         0.22f,
@@ -212,7 +212,7 @@ public abstract class BlockParticleOverrides {
     public static final BlockParticleOverride SUGAR_CANE = new BlockParticleOverride(
         "sugar_cane",
         "tinted_or_random_pixel",
-        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypes.SUGAR_CANE, blockState),
+        (BlockState blockState, ClientLevel level, BlockPos blockPos, ParticleOrigin overrideOrigin) -> new BlockParticleOption(ParticleTypesRegistry.SUGAR_CANE, blockState),
         BlockOverrideOptions.SUGAR_CANE_PARTICLE_OVERRIDE,
         0.19f,
         List.of()

@@ -33,7 +33,7 @@ public class TextureSourceManager extends SimplePreparableReloadListener<Texture
     );
 
     private static final Map<Identifier, TextureSource> SOURCE_BY_ID = new HashMap<>();
-    private static final FileToIdConverter FILE_TO_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/texture_sources");
+    private static final FileToIdConverter FILE_TO_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/appearances");
 
     public static final TextureSourceManager INSTANCE = new TextureSourceManager();
 

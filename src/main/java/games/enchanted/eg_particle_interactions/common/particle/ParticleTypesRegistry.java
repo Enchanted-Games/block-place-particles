@@ -1,7 +1,9 @@
-package games.enchanted.eg_particle_interactions.common.registry.particle;
+package games.enchanted.eg_particle_interactions.common.particle;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.particle.options.*;
@@ -40,14 +42,29 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-public class ParticleTypes {
+public class ParticleTypesRegistry {
     private static final BiMap<Identifier, PIParticleType<? extends PIParticleOptions>> TYPES = HashBiMap.create();
     private static final Map<PIParticleType<? >, PIParticleProvider<? >> PROVIDERS_BY_TYPE = new HashMap<>();
+
+    private static final Codec<Identifier> NAME_CODEC = Identifier.CODEC.comapFlatMap(
+        identifier -> {
+            if(TYPES.containsKey(identifier)) {
+                return DataResult.success(identifier);
+            }
+            return DataResult.error(() -> "Unregistered particle type '" + identifier + "'");
+        },
+        identifier -> identifier
+    );
+    public static final Codec<PIParticleOptions> CODEC = NAME_CODEC.dispatch(
+        options -> getId(options.type()),
+        identifier -> getTypeOrThrow(identifier).codec()
+    );
 
     public static SimpleParticleType SNOWFLAKE;
     public static SimpleParticleType SNOWFLAKE_SPECK;
@@ -216,17 +233,47 @@ public class ParticleTypes {
         PIParticleProvider<T> create();
     }
 
-    public static <T extends PIParticleOptions> PIParticleProvider<T> getProvider(PIParticleType<T> type) {
+    public static <T extends PIParticleOptions> PIParticleProvider<T> getProviderOrThrow(PIParticleType<T> type) {
         if(!PROVIDERS_BY_TYPE.containsKey(type)) {
             throw new RuntimeException("Tried to get provider for unregistered particle type");
         }
         return (PIParticleProvider<T>) PROVIDERS_BY_TYPE.get(type);
     }
 
-    public static Identifier getId(PIParticleType<?> type) {
+    public static <T extends PIParticleOptions> @Nullable PIParticleProvider<T> getProvider(PIParticleType<T> type) {
         if(!PROVIDERS_BY_TYPE.containsKey(type)) {
+            return null;
+        }
+        return (PIParticleProvider<T>) PROVIDERS_BY_TYPE.get(type);
+    }
+
+
+    public static Identifier getIdOrThrow(PIParticleType<?> type) {
+        if(!TYPES.inverse().containsKey(type)) {
             throw new RuntimeException("Tried to get id for unregistered particle type");
         }
         return TYPES.inverse().get(type);
+    }
+
+    public static @Nullable Identifier getId(PIParticleType<?> type) {
+        if(!TYPES.inverse().containsKey(type)) {
+            return null;
+        }
+        return TYPES.inverse().get(type);
+    }
+
+
+    public static <T extends PIParticleOptions> @Nullable PIParticleType<T> getType(Identifier id) {
+        if(!TYPES.containsKey(id)) {
+            return null;
+        }
+        return (PIParticleType<T>) TYPES.get(id);
+    }
+
+    public static <T extends PIParticleOptions> PIParticleType<T> getTypeOrThrow(Identifier id) {
+        if(!TYPES.containsKey(id)) {
+            throw new RuntimeException("Tried to get id for unregistered particle type");
+        }
+        return (PIParticleType<T>) TYPES.get(id);
     }
 }
