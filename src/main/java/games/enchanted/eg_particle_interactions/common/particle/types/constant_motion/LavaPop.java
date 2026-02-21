@@ -6,8 +6,7 @@ import games.enchanted.eg_particle_interactions.common.particle.appearance.Parti
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.particle.Particle;
-import org.jetbrains.annotations.Nullable;
-//?}
+import org.jspecify.annotations.Nullable;
 
 public class LavaPop extends ConstantMotionAnimatedParticle {
     protected LavaPop(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, int lifetime, float quadSize, boolean transparency) {

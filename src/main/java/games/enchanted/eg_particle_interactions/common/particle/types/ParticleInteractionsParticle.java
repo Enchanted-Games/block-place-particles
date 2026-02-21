@@ -24,7 +24,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
-//?}
 
 public abstract class ParticleInteractionsParticle extends Particle {
     private float scale;
@@ -67,19 +66,10 @@ public abstract class ParticleInteractionsParticle extends Particle {
         this.scale = 0.1F * (this.random.nextFloat() * 0.5F + 0.5F) * 2.0F;
     }
 
-    //? if minecraft: <= 1.21.8 {
-    /*@Override
-    public @NotNull ParticleRenderType getRenderType() {
-        ParticleLayer layer = this.getParticleLayer();
-        if(layer == null) return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
-        return layer.layer;
-    }
-    *///?} else {
     public static final SingleQuadParticle.Layer BACKFACE_TERRAIN_LAYER = new SingleQuadParticle.Layer(true, TextureAtlas.LOCATION_BLOCKS, ModRenderPipelines.BACKFACE_TRANSLUCENT_PARTICLE);
 
     protected SingleQuadParticle.Layer getLayer() {
         ParticleLayer layer = this.getParticleLayer();
-        if (layer == null) return SingleQuadParticle.Layer.OPAQUE;
         return layer.layer;
     }
 
@@ -87,25 +77,16 @@ public abstract class ParticleInteractionsParticle extends Particle {
     public ParticleRenderType getGroup() {
         return ModParticleRenderTypes.PARTICLE_INTERACTIONS;
     }
-    //?}
 
-    //? if minecraft: <= 1.21.8 {
-    /*@Override
-    public void render(VertexConsumer vertexConsumer, Camera camera, float partialTicks) {
-    *///?} else {
+
     public void extract(CustomParticleGeometryRenderState state, Camera camera, float partialTicks) {
-        //?}
         Quaternionf quaternionf = new Quaternionf();
         this.getBillboardMode().rotate(quaternionf, camera, partialTicks);
         if (this.roll != 0.0F) {
             quaternionf.rotateZ(Mth.lerp(partialTicks, this.prevRoll, this.roll));
         }
 
-        //? if minecraft: <= 1.21.8 {
-        /*VertexQuadConsumer consumer = new VertexQuadConsumer(vertexConsumer);
-         *///?} else {
         StateQuadConsumer consumer = new StateQuadConsumer(state, this.getLayer());
-        //?}
         this.adjustPositionBeforeExtraction(consumer, camera, quaternionf, partialTicks);
     }
 
@@ -193,13 +174,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
 
         if (context.blockContext() != null) {
             BlockState state = context.blockContext().state();
-            this.setCurrentSprite(Minecraft.getInstance().getBlockRenderer().getBlockModelShaper()
-                    //? if minecraft: < 26.1 {
-                    /*.getParticleIcon(state)
-                     *///? } else {
-                    .getParticleMaterial(state).sprite()
-                //? }
-            );
+            this.setCurrentSprite(Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleMaterial(state).sprite());
         } else if (context.stack() != null) {
             this.setCurrentSprite(TextureHelpers.getItemParticleSprite(ItemStackTemplate.fromNonEmptyStack(context.stack()), this.level, this.random));
         } else {
@@ -230,24 +205,13 @@ public abstract class ParticleInteractionsParticle extends Particle {
      * @return the lightmap coords
      */
     protected int getLightmapCoords(float partialTick) {
-        //? if minecraft: < 26.1 {
-        /*return this.getLightColor(partialTick);
-         *///? } else {
         return this.getLightCoords(partialTick);
-        //? }
     }
 
-    //? if minecraft: < 26.1 {
-    /*@Override
-    protected final int getLightColor(float a) {
-        return super.getLightColor(a);
-    }
-    *///? } else {
     @Override
     protected final int getLightCoords(float a) {
         return super.getLightCoords(a);
     }
-    //? }
 
 
     protected float getU0() {
