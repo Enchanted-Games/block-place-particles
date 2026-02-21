@@ -1,3 +1,5 @@
 {
-  "default_emitter": {}
+  "default_emitter": {
+    "emitter_type": "eg_particle_interactions:empty"
+  }
 }

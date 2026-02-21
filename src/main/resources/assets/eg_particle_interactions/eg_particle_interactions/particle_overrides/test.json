@@ -1,20 +1,23 @@
 {
   "default_emitter": {
-    "particle": {
+    "emitter_type": "eg_particle_interactions:vanilla",
+    "particle_type": {
       "type": "eg_particle_interactions:snowflake"
     },
     "velocity_multiplier": 0.2
   },
   "emitters": {
     "eg_particle_interactions:block/broken": {
-      "particle": {
+      "emitter_type": "eg_particle_interactions:vanilla",
+      "particle_type": {
         "type": "eg_particle_interactions:lava_pop"
       },
       "velocity_multiplier": 0.2
     },
 
     "eg_particle_interactions:block/brushed": {
-      "particle": {
+      "emitter_type": "eg_particle_interactions:vanilla",
+      "particle_type": {
         "type": "eg_particle_interactions:snowflake"
       },
       "velocity_multiplier": 0.2
