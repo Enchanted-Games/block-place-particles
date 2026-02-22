@@ -1,0 +1,16 @@
+{
+  "texture_config": {
+    "sprites": [
+      "eg_particle_interactions:snowflake/0",
+      "eg_particle_interactions:snowflake/1",
+      "eg_particle_interactions:snowflake/2",
+      "eg_particle_interactions:snowflake/3",
+      "eg_particle_interactions:snowflake/4",
+      "eg_particle_interactions:snowflake/5",
+      "eg_particle_interactions:snowflake/6",
+      "eg_particle_interactions:snowflake/7"
+    ],
+    "sprite_cylce_mode": "age_cycle"
+  },
+  "light_emission": 15
+}

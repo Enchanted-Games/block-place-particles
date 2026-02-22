@@ -37,12 +37,6 @@ public class SparkFlash extends ParticleInteractionsParticle {
     @Override
     public void tick() {
         super.tick();
-        // TODO: new sprite animation type in particle appearance for random per tick
-//        if(useRandomAnimation) {
-//            this.setCurrentSprite(this.sprites.get(this.random));
-//        } else {
-//            this.setSpriteForTextureConfig(this.sprites);
-//        }
         this.setScale(this.originalQuadSize * (0.5f + (Math.abs(1 - (this.age / this.lifetime)) * 0.5f)), true);
     }
 

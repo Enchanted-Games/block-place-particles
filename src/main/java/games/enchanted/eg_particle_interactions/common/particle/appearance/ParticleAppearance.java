@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.data.AtlasIds;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.StringRepresentable;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public record ParticleAppearance(@Nullable TextureConfig textureConfig, ColourSo
     private static final int DEFAULT_LIGHT_EMISSION = 0;
 
     public static final ParticleAppearance FALLBACK_APPEARANCE = new ParticleAppearance(
-        new ParticleAppearance.TextureConfig(List.of(MissingTextureAtlasSprite.getLocation()), AtlasIds.PARTICLES, true),
+        new ParticleAppearance.TextureConfig(List.of(MissingTextureAtlasSprite.getLocation()), AtlasIds.PARTICLES, TextureConfig.DEFAULT_CYCLE_MODE),
         new StaticColourSource(new int[]{255, 255, 255, 255}),
         DEFAULT_LIGHT_EMISSION
     );
@@ -41,12 +42,14 @@ public record ParticleAppearance(@Nullable TextureConfig textureConfig, ColourSo
         )
     );
 
-    public record TextureConfig(List<Identifier> sprites, Identifier atlasId, boolean chooseRandomSprite) {
+    public record TextureConfig(List<Identifier> sprites, Identifier atlasId, SpriteCycleMode spriteCycleMode) {
+        public static final SpriteCycleMode DEFAULT_CYCLE_MODE = SpriteCycleMode.RANDOM_ON_SPAWN;
+
         public static final Codec<TextureConfig> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
                 Codec.list(Identifier.CODEC).fieldOf("sprites").forGetter(o -> null),
                 Identifier.CODEC.optionalFieldOf("atlas", AtlasIds.PARTICLES).forGetter(TextureConfig::atlasId),
-                Codec.BOOL.optionalFieldOf("choose_random_sprite", true).forGetter(TextureConfig::chooseRandomSprite)
+                StringRepresentable.fromEnum(SpriteCycleMode::values).optionalFieldOf("sprite_cylce_mode", DEFAULT_CYCLE_MODE).forGetter(TextureConfig::spriteCycleMode)
             ).apply(
                 instance,
                 TextureConfig::new
@@ -67,6 +70,23 @@ public record ParticleAppearance(@Nullable TextureConfig textureConfig, ColourSo
 
         public TextureAtlasSprite getFirst() {
             return this.lookupSprite(this.sprites.getFirst());
+        }
+    }
+
+    public enum SpriteCycleMode implements StringRepresentable {
+        RANDOM_ON_SPAWN("random_on_spawn"),
+        RANDOM_PER_TICK("random_per_tick"),
+        AGE_CYCLE("age_cycle");
+
+        final String name;
+
+        SpriteCycleMode(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return name;
         }
     }
 }

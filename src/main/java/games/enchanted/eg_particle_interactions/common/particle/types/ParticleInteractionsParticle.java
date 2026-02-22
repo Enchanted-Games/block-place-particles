@@ -38,7 +38,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
     protected ParticleContext context;
     protected ParticleAppearance appearance;
 
-    protected boolean shouldUpdateSpriteBasedOnAge = true;
+    protected boolean updateSpritesAfterFirstCall = true;
     protected TextureAtlasSprite currentSprite;
 
     private float rCol = 1.0F;
@@ -144,6 +144,11 @@ public abstract class ParticleInteractionsParticle extends Particle {
         return BillboardMode.XYZ;
     }
 
+    @Override
+    public void tick() {
+        this.pickSpriteForAppearance();
+        super.tick();
+    }
 
     /**
      * Pick sprite based on particle appearance. If no texture config is present, the block particle texture is used.
@@ -161,15 +166,21 @@ public abstract class ParticleInteractionsParticle extends Particle {
 
     private void setSpriteForTextureConfig() {
         if (this.removed) return;
-        if (!this.shouldUpdateSpriteBasedOnAge) return;
+        if (!this.updateSpritesAfterFirstCall) return;
 
         ParticleAppearance appearance = this.appearance;
         if (appearance.textureConfig() == null) return;
 
         ParticleAppearance.TextureConfig textureConfig = appearance.textureConfig();
+        ParticleAppearance.SpriteCycleMode cycleMode = textureConfig.spriteCycleMode();
 
-        if (textureConfig.chooseRandomSprite()) {
-            this.shouldUpdateSpriteBasedOnAge = false;
+        if (cycleMode == ParticleAppearance.SpriteCycleMode.RANDOM_ON_SPAWN) {
+            this.updateSpritesAfterFirstCall = false;
+            this.setCurrentSprite(textureConfig.getRandom(this.random));
+            return;
+        }
+
+        if (cycleMode == ParticleAppearance.SpriteCycleMode.RANDOM_PER_TICK) {
             this.setCurrentSprite(textureConfig.getRandom(this.random));
             return;
         }

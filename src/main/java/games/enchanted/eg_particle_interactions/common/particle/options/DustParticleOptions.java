@@ -95,7 +95,7 @@ public class DustParticleOptions implements PIParticleOptions {
         return RecordCodecBuilder.create((RecordCodecBuilder.Instance<DustParticleOptions> instance) ->
             instance.group(
                 Codec.FLOAT.optionalFieldOf("gravity", DEFAULT_GRAVITY).forGetter(DustParticleOptions::getGravity),
-                Emitters.CODEC.optionalFieldOf("gravity_randomness").forGetter(dustParticleOptions -> Optional.ofNullable(dustParticleOptions.getSpeckEmitter()))
+                Emitters.CODEC.optionalFieldOf("speck_emitter").forGetter(dustParticleOptions -> Optional.ofNullable(dustParticleOptions.getSpeckEmitter()))
             ).apply(
                 instance,
                 (

@@ -2,7 +2,19 @@
   "default_emitter": {
     "emitter_type": "eg_particle_interactions:particle_interactions",
     "particle": {
-      "type": "eg_particle_interactions:snowflake"
+      "type": "eg_particle_interactions:snowflake",
+      "dust_options": {
+        "gravity": 1.1,
+        "speck_emitter": {
+          "emitter_type": "eg_particle_interactions:particle_interactions",
+          "particle": {
+            "type": "eg_particle_interactions:snowflake_speck",
+            "dust_options": {
+              "gravity": 0.7
+            }
+          }
+        }
+      }
     },
     "velocity_multiplier": 0.2
   },
@@ -26,14 +38,6 @@
         }
       },
 
-      "velocity_multiplier": 0.2
-    },
-
-    "eg_particle_interactions:block/brushed": {
-      "emitter_type": "eg_particle_interactions:particle_interactions",
-      "particle": {
-        "type": "eg_particle_interactions:snowflake"
-      },
       "velocity_multiplier": 0.2
     }
   }
