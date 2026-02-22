@@ -18,6 +18,7 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.block.state.BlockState;
@@ -32,6 +33,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
     protected float prevRoll;
     protected float billboardYOffset = 0.0F;
     protected float billboardXOffset = 0.0F;
+    protected final int minLightEmission;
 
     protected ParticleContext context;
     protected ParticleAppearance appearance;
@@ -72,6 +74,8 @@ public abstract class ParticleInteractionsParticle extends Particle {
             (float) colour[3] / 255f,
             (float) colour[0] / 255f
         );
+
+        this.minLightEmission = appearance.lightEmission();
     }
 
     public static final SingleQuadParticle.Layer BACKFACE_TERRAIN_LAYER = new SingleQuadParticle.Layer(true, TextureAtlas.LOCATION_BLOCKS, ModRenderPipelines.BACKFACE_TRANSLUCENT_PARTICLE);
@@ -213,7 +217,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
      * @return the lightmap coords
      */
     protected int getLightmapCoords(float partialTick) {
-        return this.getLightCoords(partialTick);
+        return LightCoordsUtil.lightCoordsWithEmission(this.getLightCoords(partialTick), this.minLightEmission);
     }
 
     @Override

@@ -46,11 +46,6 @@ public class SparkFlash extends ParticleInteractionsParticle {
         this.setScale(this.originalQuadSize * (0.5f + (Math.abs(1 - (this.age / this.lifetime)) * 0.5f)), true);
     }
 
-    @Override
-    public int getLightmapCoords(float partialTick) {
-        return LightUtil.FULL_BRIGHT;
-    }
-
     public static class Provider implements PIParticleProvider<PIParticleType.Simple> {
         public Provider() {
         }

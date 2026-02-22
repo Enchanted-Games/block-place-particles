@@ -18,7 +18,6 @@ public class Dust extends ParticleInteractionsParticle {
 
     protected @Nullable Emitter speckEmitter;
     protected boolean spawnSpecks;
-    protected boolean emissive;
 
     protected Dust(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, DustParticleOptions dustParticleOptions) {
         super(context, appearance, x, y, z);
@@ -40,8 +39,6 @@ public class Dust extends ParticleInteractionsParticle {
         this.setScale(particleSize);
         this.setSize(particleSize, particleSize);
         this.gravity *= dustParticleOptions.getGravity();
-
-        this.emissive = false;
     }
 
     @Override
@@ -69,11 +66,6 @@ public class Dust extends ParticleInteractionsParticle {
                 speckEmitter.spawnParticle(this.context, this.x, this.y, this.z, this.xd / 2, (this.yd / 2) + 0.05, this.zd / 2);
             }
         }
-    }
-
-    @Override
-    protected int getLightmapCoords(float partialTick) {
-        return this.emissive ? LightUtil.FULL_BRIGHT : super.getLightmapCoords(partialTick);
     }
 
     protected @Nullable Emitter speckEmitter() {
@@ -300,9 +292,7 @@ public class Dust extends ParticleInteractionsParticle {
             double ySpeed,
             double zSpeed
         ) {
-            Dust particle = new Dust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, options);
-            particle.emissive = true;
-            return particle;
+            return new Dust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, options);
         }
     }
 
@@ -322,9 +312,7 @@ public class Dust extends ParticleInteractionsParticle {
             double ySpeed,
             double zSpeed
         ) {
-            Dust particle = new Dust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, options);
-            particle.emissive = true;
-            return particle;
+            return new Dust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, options);
         }
     }
 }

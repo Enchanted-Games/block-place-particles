@@ -15,13 +15,29 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-public record ParticleAppearance(@Nullable TextureConfig textureConfig, ColourSource colourSource) {
+public record ParticleAppearance(@Nullable TextureConfig textureConfig, ColourSource colourSource, int lightEmission) {
+    private static final int DEFAULT_LIGHT_EMISSION = 0;
+
+    public static final ParticleAppearance FALLBACK_APPEARANCE = new ParticleAppearance(
+        new ParticleAppearance.TextureConfig(List.of(MissingTextureAtlasSprite.getLocation()), AtlasIds.PARTICLES, true),
+        new StaticColourSource(new int[]{255, 255, 255, 255}),
+        DEFAULT_LIGHT_EMISSION
+    );
+
     public static final Codec<ParticleAppearance> CODEC = RecordCodecBuilder.create(
         instance -> instance.group(
-            TextureConfig.CODEC.optionalFieldOf("texture_config").forGetter(textureSource -> Optional.ofNullable(textureSource.textureConfig))
+            TextureConfig.CODEC.optionalFieldOf("texture_config").forGetter(textureSource -> Optional.ofNullable(textureSource.textureConfig)),
+            Codec.intRange(0, 15).optionalFieldOf("light_emission").forGetter(appearance -> Optional.of(appearance.lightEmission()))
         ).apply(
             instance,
-            sprites -> new ParticleAppearance(sprites.orElse(null), new StaticColourSource(new int[]{255,255,255,255}))
+            (
+                sprites,
+                lightEmission
+            ) -> new ParticleAppearance(
+                sprites.orElse(null),
+                new StaticColourSource(new int[]{255, 255, 255, 255}),
+                lightEmission.orElse(DEFAULT_LIGHT_EMISSION)
+            )
         )
     );
 

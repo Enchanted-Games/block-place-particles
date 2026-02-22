@@ -6,9 +6,6 @@ import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.JsonOps;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.Logging;
-import games.enchanted.eg_particle_interactions.common.particle.appearance.colour.StaticColourSource;
-import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
-import net.minecraft.data.AtlasIds;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
@@ -20,15 +17,9 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ParticleAppearanceManager extends SimplePreparableReloadListener<ParticleAppearanceManager.Prepare> {
-    public static final ParticleAppearance FALLBACK_APPEARANCE = new ParticleAppearance(
-        new ParticleAppearance.TextureConfig(List.of(MissingTextureAtlasSprite.getLocation()), AtlasIds.PARTICLES, true),
-        new StaticColourSource(new int[]{255, 255, 255, 255})
-    );
-
     private static final Map<Identifier, ParticleAppearance> SOURCE_BY_ID = new HashMap<>();
     private static final FileToIdConverter FILE_TO_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/appearances");
 
@@ -63,7 +54,7 @@ public class ParticleAppearanceManager extends SimplePreparableReloadListener<Pa
 
     public static ParticleAppearance get(Identifier sourceId) {
         if(!(SOURCE_BY_ID.containsKey(sourceId))) {
-            return FALLBACK_APPEARANCE;
+            return ParticleAppearance.FALLBACK_APPEARANCE;
         }
         return SOURCE_BY_ID.get(sourceId);
     }

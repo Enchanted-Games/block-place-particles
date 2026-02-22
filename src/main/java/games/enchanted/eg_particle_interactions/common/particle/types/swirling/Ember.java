@@ -50,11 +50,6 @@ public class Ember extends SwirlingParticle {
         this.yd = -this.gravity;
     }
 
-    @Override
-    public int getLightmapCoords(float partialTicks) {
-        return LightUtil.FULL_BRIGHT;
-    }
-
     public static class EmberProvider implements PIParticleProvider<PIParticleType.Simple> {
         public EmberProvider() {
         }
