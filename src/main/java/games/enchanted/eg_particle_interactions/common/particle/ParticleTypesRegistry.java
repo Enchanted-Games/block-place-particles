@@ -91,10 +91,10 @@ public class ParticleTypesRegistry {
     public static PIParticleType.Simple LAVA_BUCKET_SPLASH;
     public static PIParticleType.Simple GENERIC_FLUID_BUCKET_SPLASH;
 
-    public static PIParticleType.Simple FLYING_SPARK;
-    public static PIParticleType.Simple FLOATING_SPARK;
-    public static PIParticleType.Simple FLYING_SOUL_SPARK;
-    public static PIParticleType.Simple FLOATING_SOUL_SPARK;
+    public static PIParticleType<SparkParticleOptions> FLYING_SPARK;
+    public static PIParticleType<SparkParticleOptions> FLOATING_SPARK;
+    public static PIParticleType<SparkParticleOptions> FLYING_SOUL_SPARK;
+    public static PIParticleType<SparkParticleOptions> FLOATING_SOUL_SPARK;
 
     public static PIParticleType.Simple SPARK_FLASH;
     public static PIParticleType.Simple SOUL_SPARK_FLASH;
@@ -152,10 +152,10 @@ public class ParticleTypesRegistry {
         LAVA_BUCKET_SPLASH = register(LavaSplash.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "lava_bucket_splash"));
         GENERIC_FLUID_BUCKET_SPLASH = register(BlockSplash.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "generic_fluid_bucket_splash"));
 
-        FLYING_SPARK = register(FlyingSpark.FlyingSparkProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "flying_spark"));
-        FLOATING_SPARK = register(FlyingSpark.FloatingSparkProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "floating_spark"));
-        FLYING_SOUL_SPARK = register(FlyingSpark.FlyingSoulSparkProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "flying_soul_spark"));
-        FLOATING_SOUL_SPARK = register(FlyingSpark.FloatingSoulSparkProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "floating_soul_spark"));
+        FLYING_SPARK = register(FlyingSpark.FlyingSparkProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "flying_spark"), SparkParticleOptions::codec, SparkParticleOptions::streamCodec);
+        FLOATING_SPARK = register(FlyingSpark.FloatingSparkProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "floating_spark"), SparkParticleOptions::codec, SparkParticleOptions::streamCodec);
+        FLYING_SOUL_SPARK = register(FlyingSpark.FlyingSparkProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "flying_soul_spark"), SparkParticleOptions::codec, SparkParticleOptions::streamCodec);
+        FLOATING_SOUL_SPARK = register(FlyingSpark.FloatingSparkProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "floating_soul_spark"), SparkParticleOptions::codec, SparkParticleOptions::streamCodec);
 
         SPARK_FLASH = register(SparkFlash.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "spark_flash"));
         SOUL_SPARK_FLASH = register(SparkFlash.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "soul_spark_flash"));

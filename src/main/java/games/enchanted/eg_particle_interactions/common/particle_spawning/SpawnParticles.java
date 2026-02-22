@@ -270,7 +270,7 @@ public class SpawnParticles {
         if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos1 = minecartWheelPoint(rotX, rotY, 0.45f, 0.35f, 0.45f);
             ParticleSpawner.spawn(
-                ParticleTypesRegistry.FLYING_SPARK,
+                SparkParticleOptions.FLYING_SPARK,
                 context,
                 wheelPos1.x + minecartX,
                 wheelPos1.y + minecartY,
@@ -283,7 +283,7 @@ public class SpawnParticles {
         if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos2 = minecartWheelPoint(rotX, rotY, -0.45f, -0.35f, 0.45f);
             ParticleSpawner.spawn(
-                ParticleTypesRegistry.FLYING_SPARK,
+                SparkParticleOptions.FLYING_SPARK,
                 context,
                 wheelPos2.x + minecartX,
                 wheelPos2.y + minecartY,
@@ -296,7 +296,7 @@ public class SpawnParticles {
         if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos3 = minecartWheelPoint(rotX, rotY, 0.45f, 0.35f, -0.45f);
             ParticleSpawner.spawn(
-                ParticleTypesRegistry.FLYING_SPARK,
+                SparkParticleOptions.FLYING_SPARK,
                 context,
                 wheelPos3.x + minecartX,
                 wheelPos3.y + minecartY,
@@ -309,7 +309,7 @@ public class SpawnParticles {
         if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos4 = minecartWheelPoint(rotX, rotY, -0.45f, -0.35f, -0.45f);
             ParticleSpawner.spawn(
-                ParticleTypesRegistry.FLYING_SPARK,
+                SparkParticleOptions.FLYING_SPARK,
                 context,
                 wheelPos4.x + minecartX,
                 wheelPos4.y + minecartY,
@@ -337,7 +337,7 @@ public class SpawnParticles {
             double y = particlePos.getY() + 0.25 + (level.getRandom().nextDouble() / 2);
             double z = particlePos.getZ() + 0.25 + (level.getRandom().nextDouble() / 2);
             ParticleSpawner.spawn(
-                isSoulBlock ? ParticleTypesRegistry.FLYING_SOUL_SPARK : ParticleTypesRegistry.FLYING_SPARK,
+                isSoulBlock ? SparkParticleOptions.FLYING_SOUL_SPARK : SparkParticleOptions.FLYING_SPARK,
                 context,
                 x,
                 y,
@@ -359,7 +359,7 @@ public class SpawnParticles {
                 for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 3) + 1; i++) {
                     SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
                         context,
-                        campfireState.is(Blocks.SOUL_CAMPFIRE) ? ParticleTypesRegistry.FLOATING_SOUL_SPARK : ParticleTypesRegistry.FLOATING_SPARK,
+                        campfireState.is(Blocks.SOUL_CAMPFIRE) ? SparkParticleOptions.FLOATING_SOUL_SPARK : SparkParticleOptions.FLOATING_SPARK,
                         (double) particlePos.getX() + 0.5,
                         (double) particlePos.getY() + 0.5,
                         (double) particlePos.getZ() + 0.5,
@@ -399,7 +399,7 @@ public class SpawnParticles {
                 for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 3) + 1; i++) {
                     SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
                         context,
-                        fireState.is(Blocks.SOUL_FIRE) ? ParticleTypesRegistry.FLOATING_SOUL_SPARK : ParticleTypesRegistry.FLOATING_SPARK,
+                        fireState.is(Blocks.SOUL_FIRE) ? SparkParticleOptions.FLOATING_SOUL_SPARK : SparkParticleOptions.FLOATING_SPARK,
                         particlePos.getX() + minX + (level.getRandom().nextFloat() * width),
                         particlePos.getY() + minY + (level.getRandom().nextFloat() * height),
                         particlePos.getZ() + minZ + (level.getRandom().nextFloat() * depth),
@@ -648,7 +648,7 @@ public class SpawnParticles {
             float xVel = MathHelpers.randomBetween(-0.2f, 0.2f);
             float yVel = MathHelpers.randomBetween(0.3f, 0.6f);
             float zVel = MathHelpers.randomBetween(-0.2f, 0.2f);
-            ParticleSpawner.spawn(ParticleTypesRegistry.FLOATING_SPARK, ParticleContext.plain(level), x, y, z, xVel, yVel, zVel);
+            ParticleSpawner.spawn(SparkParticleOptions.FLOATING_SPARK, ParticleContext.plain(level), x, y, z, xVel, yVel, zVel);
         }
     }
 
@@ -663,7 +663,7 @@ public class SpawnParticles {
             float xVel = (float) MathHelpers.clampOutside(MathHelpers.randomBetween(-0.5f, 0.5f), -0.2, 0.2);
             float yVel = MathHelpers.randomBetween(0.4f, 0.6f);
             float zVel = (float) MathHelpers.clampOutside(MathHelpers.randomBetween(-0.5f, 0.5f), -0.2, 0.2);
-            ParticleSpawner.spawn(ParticleTypesRegistry.FLYING_SPARK, ParticleContext.plain(level), x, y, z, xVel, yVel, zVel);
+            ParticleSpawner.spawn(SparkParticleOptions.FLYING_SPARK, ParticleContext.plain(level), x, y, z, xVel, yVel, zVel);
         }
     }
 
@@ -833,7 +833,7 @@ public class SpawnParticles {
         final boolean spawnSpark = level.getRandom().nextFloat() < 0.7;
         final float outwardVelocity = MathHelpers.randomBetween(0.01f, 0.03f) * (spawnSpark ? 1 : 5);
         ParticleSpawner.spawn(
-            spawnSpark ? ParticleTypesRegistry.FLOATING_EMBER : ParticleTypesRegistry.FLOATING_SPARK,
+            spawnSpark ? ParticleTypesRegistry.FLOATING_EMBER : SparkParticleOptions.FLOATING_SPARK,
             ParticleContext.plain(level),
             positions[0],
             positions[1],
@@ -855,7 +855,7 @@ public class SpawnParticles {
         final boolean spawnSpark = level.getRandom().nextFloat() < 0.2;
         final float outwardVelocity = MathHelpers.randomBetween(0.01f, 0.03f) * (spawnSpark ? 1 : 5);
         ParticleSpawner.spawn(
-            spawnSpark ? ParticleTypesRegistry.FLOATING_EMBER : ParticleTypesRegistry.FLOATING_SPARK,
+            spawnSpark ? ParticleTypesRegistry.FLOATING_EMBER : SparkParticleOptions.FLOATING_SPARK,
             ParticleContext.plain(level),
             positions[0],
             positions[1] + 0.125,
@@ -894,7 +894,7 @@ public class SpawnParticles {
 
         int amountOfSparks = EntityOptions.LIGHTNING_STRIKE_AMOUNT_OF_SPARKS.getValue();
         SpawnParticlesUtil.spawnParticleInCircle(
-            ParticleTypesRegistry.FLYING_SPARK,
+            SparkParticleOptions.FLYING_SPARK,
             context,
             new Vec3(x, y + 0.01, z),
             MathHelpers.randomBetween(Math.max(0, amountOfSparks - 4), amountOfSparks),

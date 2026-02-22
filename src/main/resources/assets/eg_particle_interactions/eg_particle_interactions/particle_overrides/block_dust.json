@@ -2,13 +2,13 @@
   "default_emitter": {
     "emitter_type": "eg_particle_interactions:particle_interactions",
     "particle": {
-      "type": "eg_particle_interactions:tinted_dust",
+      "type": "eg_particle_interactions:block_dust",
       "dust_options": {
         "gravity": 0.7,
         "speck_emitter": {
           "emitter_type": "eg_particle_interactions:particle_interactions",
           "particle": {
-            "type": "eg_particle_interactions:tinted_dust_speck",
+            "type": "eg_particle_interactions:block_dust_speck",
             "dust_options": {
               "gravity": 0.35
             }
