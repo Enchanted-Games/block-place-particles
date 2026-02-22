@@ -64,6 +64,14 @@ public abstract class ParticleInteractionsParticle extends Particle {
         this.pickSpriteForAppearance();
 
         this.scale = 0.1F * (this.random.nextFloat() * 0.5F + 0.5F) * 2.0F;
+
+        int[] colour = appearance.colourSource().getARGB(context);
+        this.setRGBA(
+            (float) colour[1] / 255f,
+            (float) colour[2] / 255f,
+            (float) colour[3] / 255f,
+            (float) colour[0] / 255f
+        );
     }
 
     public static final SingleQuadParticle.Layer BACKFACE_TERRAIN_LAYER = new SingleQuadParticle.Layer(true, TextureAtlas.LOCATION_BLOCKS, ModRenderPipelines.BACKFACE_TRANSLUCENT_PARTICLE);

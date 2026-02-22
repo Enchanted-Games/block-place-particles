@@ -13,16 +13,14 @@ import org.jspecify.annotations.Nullable;
 public class DripAndLandParticle extends ParticleInteractionsParticle {
     protected boolean hasLanded = false;
     protected final int startFallingAtTicks;
-    protected final boolean translucent;
 
     protected float u0;
     protected float u1;
     protected float v0;
     protected float v1;
 
-    DripAndLandParticle(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, DripParticleOption dripParticleOption, boolean translucent) {
+    DripAndLandParticle(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, DripParticleOption dripParticleOption) {
         super(context, appearance, x, y, z);
-        this.translucent = translucent;
 
         this.setSize(0.01F, 0.01F);
         this.setScale(0.15f);
@@ -64,7 +62,7 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
         this.move(this.xd, this.yd, this.zd);
 
         if (this.onGround) {
-            land();
+            this.land();
         }
 
         this.xd *= 0.98F;
@@ -109,7 +107,7 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
 
     @Override
     protected @NonNull ParticleLayer getParticleLayer() {
-        return this.translucent ? ParticleLayer.TRANSLUCENT : ParticleLayer.CUTOUT;
+        return ParticleLayer.TRANSLUCENT;
     }
 
     public static class UntintedDropProvider implements PIParticleProvider<DripParticleOption> {
@@ -118,7 +116,7 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
 
         @Override
         public @Nullable Particle createParticle(DripParticleOption options, ParticleContext context, ParticleAppearance particleAppearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new DripAndLandParticle(context, particleAppearance, x, y, z, options, true);
+            return new DripAndLandParticle(context, particleAppearance, x, y, z, options);
         }
     }
 }

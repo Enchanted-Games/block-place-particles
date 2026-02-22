@@ -41,6 +41,10 @@ public class ParticleInteractionsEmitter extends Emitter {
         this.appearance = appearance;
     }
 
+    public static Emitter defaultAppearance(double velocityMultiplier, PIParticleOptions options) {
+        return new ParticleInteractionsEmitter(velocityMultiplier, options, null);
+    }
+
     @Override
     public void spawnParticle(ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         ParticleSpawner.spawn(

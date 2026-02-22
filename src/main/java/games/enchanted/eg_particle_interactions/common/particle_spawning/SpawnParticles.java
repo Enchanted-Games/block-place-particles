@@ -784,7 +784,7 @@ public class SpawnParticles {
         if(particleOrigin == ItemFrameParticleOrigin.FRAME_KILLED) {
             return;
         } else {
-            particleOptionToSpawn = glowingItemFrame ? ParticleTypesRegistry.GLOW_ITEM_FRAME_DUST : ParticleTypesRegistry.ITEM_FRAME_DUST;
+            particleOptionToSpawn = glowingItemFrame ? DustParticleOptions.GLOW_ITEM_FRAME_DUST : DustParticleOptions.ITEM_FRAME_DUST;
         }
 
         for (int i = 0; i < EntityOptions.ITEM_FRAME_INTERACTION_AMOUNT.getValue(); i++) {

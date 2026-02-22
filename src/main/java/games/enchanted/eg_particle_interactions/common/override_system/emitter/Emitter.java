@@ -7,7 +7,7 @@ public abstract class Emitter {
     static final MapCodec<? extends Emitter> EMPTY_CODEC = MapCodec.unit(new EmptyEmitter());
 
     static final String VELOCITY_MULTIPLIER_NAME = "velocity_multiplier";
-    static final double VELOCITY_MULTIPLIER_DEFAULT = 1.0;
+    public static final double VELOCITY_MULTIPLIER_DEFAULT = 1.0;
 
     private final double velocityMultiplier;
 

@@ -12,6 +12,7 @@ import games.enchanted.eg_particle_interactions.common.override_system.override.
 import games.enchanted.eg_particle_interactions.common.override_system.preset.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
+import games.enchanted.eg_particle_interactions.common.particle.options.DustParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.TintedParticleOption;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.ParticleOrigin;
 import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
@@ -94,7 +95,7 @@ public abstract class BrushItem {
         } else if(ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.DUST) {
             double velocityMultiplier = 0.1f;
             ParticleSpawner.spawn(
-                ParticleTypesRegistry.BRUSH_DUST,
+                DustParticleOptions.BRUSH_DUST,
                 ParticleContext.plain(clientLevel),
                 particlePos.x + (brushDirection.getStepX() * outwardVelocity),
                 particlePos.y + (brushDirection.getStepY() * outwardVelocity),
