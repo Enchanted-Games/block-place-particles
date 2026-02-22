@@ -76,7 +76,7 @@ public abstract class AbstractArcEmitter extends AbstractEmitterParticle {
     @Override
     protected void emitterTick() {
         for (Split split : splits) {
-            split.tick(this.context, appearance, this::getParticleToEmit);
+            split.tick(this.context, this::getParticleToEmit);
         }
         if (this.age % tickInterval == 0) {
             calculateSplits();
@@ -89,14 +89,13 @@ public abstract class AbstractArcEmitter extends AbstractEmitterParticle {
     }
 
     private record Split(double x, double y, double z, Vector3f directionVector, int length) {
-        void tick(ParticleContext context, ParticleAppearance appearance, ParticleSupplier particleSupplier) {
+        void tick(ParticleContext context, ParticleSupplier particleSupplier) {
             for (int i = 0; i < length; i++) {
                 PIParticleOptions particle = particleSupplier.getParticle(context, x, y, z);
                 if (particle == null) continue;
                 ParticleSpawner.spawn(
                     particle,
                     context,
-                    appearance,
                     x + (directionVector.x * i),
                     y + (directionVector.y * i),
                     z + (directionVector.z * i),

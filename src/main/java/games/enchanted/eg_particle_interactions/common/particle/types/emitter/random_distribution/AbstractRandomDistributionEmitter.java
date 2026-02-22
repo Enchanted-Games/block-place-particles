@@ -44,7 +44,6 @@ public abstract class AbstractRandomDistributionEmitter extends AbstractEmitterP
                 ParticleSpawner.spawn(
                     particle,
                     this.context,
-                    this.appearance,
                     emitPos[0],
                     emitPos[1],
                     emitPos[2],

@@ -10,7 +10,6 @@
       "eg_particle_interactions:snowflake/6",
       "eg_particle_interactions:snowflake/7"
     ],
-    "sprite_cylce_mode": "age_cycle"
-  },
-  "light_emission": 15
+    "sprite_cycle_mode": "age_cycle"
+  }
 }

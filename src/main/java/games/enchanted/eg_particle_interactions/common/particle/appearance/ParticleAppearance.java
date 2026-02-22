@@ -49,7 +49,7 @@ public record ParticleAppearance(@Nullable TextureConfig textureConfig, ColourSo
             instance -> instance.group(
                 Codec.list(Identifier.CODEC).fieldOf("sprites").forGetter(o -> null),
                 Identifier.CODEC.optionalFieldOf("atlas", AtlasIds.PARTICLES).forGetter(TextureConfig::atlasId),
-                StringRepresentable.fromEnum(SpriteCycleMode::values).optionalFieldOf("sprite_cylce_mode", DEFAULT_CYCLE_MODE).forGetter(TextureConfig::spriteCycleMode)
+                StringRepresentable.fromEnum(SpriteCycleMode::values).optionalFieldOf("sprite_cycle_mode", DEFAULT_CYCLE_MODE).forGetter(TextureConfig::spriteCycleMode)
             ).apply(
                 instance,
                 TextureConfig::new

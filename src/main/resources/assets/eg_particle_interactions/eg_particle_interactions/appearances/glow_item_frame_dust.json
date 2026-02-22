@@ -11,5 +11,6 @@
       "eg_particle_interactions:tinted_dust/7"
     ],
     "sprite_cycle_mode": "age_cycle"
-  }
+  },
+  "light_emission": 15
 }

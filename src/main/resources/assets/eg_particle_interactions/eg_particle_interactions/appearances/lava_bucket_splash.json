@@ -1,0 +1,8 @@
+{
+  "texture_config": {
+    "sprites": [
+      "minecraft:lava"
+    ]
+  },
+  "light_emission": 15
+}
