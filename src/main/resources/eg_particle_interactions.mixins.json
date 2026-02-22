@@ -4,7 +4,6 @@
   "package": "games.enchanted.eg_particle_interactions.common.mixin.client",
   "compatibilityLevel": "JAVA_${java_ver}",
   "mixins": [
-    "items.AxeItemMixin"
   ],
   "client": [
     "ClientBoundPacketListenerMixin",
@@ -37,6 +36,7 @@
     "entity.projectile_particles.SnowballMixin",
     "entity.projectile_particles.ThrownEggMixin",
     "fluids.LavaFluid",
+    "items.AxeItemMixin",
     "items.BlockItem",
     "items.BrushItem",
     "items.BucketItem",

@@ -443,18 +443,29 @@ public class SpawnParticles {
         }
     }
 
-    public static void spawnHoeTillParticle(Level level, BlockPos blockPos, UseOnContext context) {
+    public static void spawnHoeTillParticle(ClientLevel level, BlockPos blockPos, UseOnContext useOnContext) {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, blockPos)) return;
         if (!ItemInteractionOptions.HOE_TILL_ENABLED.getValue()) return;
-        Vec3 clickedPosition = context.getClickLocation();
-        Direction clickDirection = context.getClickedFace();
+        Vec3 clickedPosition = useOnContext.getClickLocation();
+        Direction clickDirection = useOnContext.getClickedFace();
+        BlockState state = level.getBlockState(blockPos);
+
+        ParticleOrigin origin = ParticleOrigin.BLOCK_TILLED;
+
+        OverridePreset override = BlockOverrideManager.getForBlock(state);
+        ParticleContext context = new ParticleContext(
+            level,
+            new ParticleContext.BlockContext(state, blockPos),
+            null
+        );
+
         for (int i = 0; i < ItemInteractionOptions.HOE_TILL_AMOUNT.getValue(); i++) {
             double x = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepX());
             double y = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepY());
             double z = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepZ());
-            ParticleOptions blockParticle = new BlockParticleOption(net.minecraft.core.particles.ParticleTypes.BLOCK, level.getBlockState(blockPos));
-            level.addParticle(
-                blockParticle,
+            override.getRandom().spawnParticle(
+                origin,
+                context,
                 clickedPosition.x + x,
                 clickedPosition.y + y,
                 clickedPosition.z + z,
@@ -465,18 +476,30 @@ public class SpawnParticles {
         }
     }
 
-    public static void spawnShovelFlattenParticle(Level level, BlockPos blockPos, UseOnContext context) {
+    public static void spawnShovelFlattenParticle(ClientLevel level, BlockPos blockPos, UseOnContext useOnContext) {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, blockPos)) return;
         if (!ItemInteractionOptions.SHOVEL_FLATTEN_ENABLED.getValue()) return;
-        Vec3 clickedPosition = context.getClickLocation();
-        Direction clickDirection = context.getClickedFace();
+        Vec3 clickedPosition = useOnContext.getClickLocation();
+        Direction clickDirection = useOnContext.getClickedFace();
+
+        BlockState state = level.getBlockState(blockPos);
+
+        ParticleOrigin origin = ParticleOrigin.BLOCK_FLATTENED;
+
+        OverridePreset override = BlockOverrideManager.getForBlock(state);
+        ParticleContext context = new ParticleContext(
+            level,
+            new ParticleContext.BlockContext(state, blockPos),
+            null
+        );
+
         for (int i = 0; i < ItemInteractionOptions.SHOVEL_FLATTEN_AMOUNT.getValue(); i++) {
             double x = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepX());
             double y = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepY());
             double z = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepZ());
-            ParticleOptions blockParticle = new BlockParticleOption(net.minecraft.core.particles.ParticleTypes.BLOCK, level.getBlockState(blockPos));
-            level.addParticle(
-                blockParticle,
+            override.getRandom().spawnParticle(
+                origin,
+                context,
                 clickedPosition.x + x,
                 clickedPosition.y + y,
                 clickedPosition.z + z,

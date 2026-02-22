@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.client.items;
 
 import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.context.UseOnContext;
@@ -20,12 +21,12 @@ public abstract class HoeItem {
     )
     private void spawnParticlesOnTill(UseOnContext useOnContext, CallbackInfoReturnable<InteractionResult> cir) {
         Level level = useOnContext.getLevel();
-        if(level.isClientSide()) {
+        if(level instanceof ClientLevel clientLevel) {
             BlockPos tilledBlockPos = useOnContext.getClickedPos();
-            BlockState blockState = level.getBlockState(tilledBlockPos);
+            BlockState blockState = clientLevel.getBlockState(tilledBlockPos);
 
             Logging.interactionDebugInfo("Hoe used (" + this + ") at " + tilledBlockPos.toShortString() + " on " + blockState.getBlock());
-            SpawnParticles.spawnHoeTillParticle(level, tilledBlockPos, useOnContext);
+            SpawnParticles.spawnHoeTillParticle(clientLevel, tilledBlockPos, useOnContext);
         }
     }
 }

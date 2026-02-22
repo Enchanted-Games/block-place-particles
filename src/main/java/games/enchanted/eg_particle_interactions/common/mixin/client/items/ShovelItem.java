@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.client.items;
 
 import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.context.UseOnContext;
@@ -20,12 +21,12 @@ public abstract class ShovelItem {
     )
     private void spawnParticlesOnBlockFlatten(UseOnContext useOnContext, CallbackInfoReturnable<InteractionResult> cir) {
         Level level = useOnContext.getLevel();
-        if(level.isClientSide()) {
+        if(level instanceof ClientLevel clientLevel) {
             BlockPos flattenedBlockPos = useOnContext.getClickedPos();
-            BlockState blockState = level.getBlockState(flattenedBlockPos);
+            BlockState blockState = clientLevel.getBlockState(flattenedBlockPos);
 
             Logging.interactionDebugInfo("Shovel used (" + this + ") at " + flattenedBlockPos.toShortString() + " to flatten " + blockState.getBlock());
-            SpawnParticles.spawnShovelFlattenParticle(level, flattenedBlockPos, useOnContext);
+            SpawnParticles.spawnShovelFlattenParticle(clientLevel, flattenedBlockPos, useOnContext);
         }
     }
 }
