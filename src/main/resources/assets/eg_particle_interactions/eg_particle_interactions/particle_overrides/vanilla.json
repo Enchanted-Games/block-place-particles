@@ -5,5 +5,14 @@
       "type": "eg_particle_interactions:block"
     },
     "velocity_multiplier": 4
+  },
+  "emitters": {
+    "eg_particle_interactions:block/crack": {
+      "emitter_type": "eg_particle_interactions:particle_interactions",
+      "particle": {
+        "type": "eg_particle_interactions:block_crack"
+      },
+      "velocity_multiplier": 4
+    }
   }
 }
