@@ -20,6 +20,7 @@ public record ParticleOrigin(Identifier id) {
     public static final ParticleOrigin BLOCK_PLACED = register(ParticleInteractionsMod.id("block/placed"), ParticleOrigin::new);
     public static final ParticleOrigin BLOCK_BROKEN = register(ParticleInteractionsMod.id("block/broken"), ParticleOrigin::new);
     public static final ParticleOrigin BLOCK_BRUSHED = register(ParticleInteractionsMod.id("block/brushed"), ParticleOrigin::new);
+    public static final ParticleOrigin BLOCK_STRIPPED = register(ParticleInteractionsMod.id("block/stripped"), ParticleOrigin::new);
     public static final ParticleOrigin BLOCK_CRACK = register(ParticleInteractionsMod.id("block/crack"), ParticleOrigin::new);
     public static final ParticleOrigin FALLING_BLOCK_LANDED = register(ParticleInteractionsMod.id("block/falling_block_landed"), ParticleOrigin::new);
     public static final ParticleOrigin FALLING_BLOCK_FALLING = register(ParticleInteractionsMod.id("block/falling_block_falling"), ParticleOrigin::new);

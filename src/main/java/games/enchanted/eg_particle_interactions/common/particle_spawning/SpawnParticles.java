@@ -487,19 +487,36 @@ public class SpawnParticles {
         }
     }
 
-    public static void spawnAxeStripParticle(Level level, BlockPos blockPos, BlockState unstrippedBlockState, BlockState strippedBlockState, UseOnContext context) {
-        // TODO: reimplement this
+    public static void spawnAxeStripParticle(ClientLevel level, BlockPos blockPos, BlockState unstrippedBlockState, BlockState strippedBlockState, UseOnContext context) {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, blockPos)) return;
         if (!ItemInteractionOptions.AXE_STRIP_ENABLED.getValue()) return;
         Vec3 clickedPosition = context.getClickLocation();
         Direction clickDirection = context.getClickedFace();
+
+        ParticleOrigin origin = ParticleOrigin.BLOCK_STRIPPED;
+
+        OverridePreset strippedOverride = BlockOverrideManager.getForBlock(strippedBlockState);
+        ParticleContext strippedContext = new ParticleContext(
+            level,
+            new ParticleContext.BlockContext(strippedBlockState, blockPos),
+            null
+        );
+
+        OverridePreset unstrippedOverride = BlockOverrideManager.getForBlock(unstrippedBlockState);
+        ParticleContext unstrippedContext = new ParticleContext(
+            level,
+            new ParticleContext.BlockContext(unstrippedBlockState, blockPos),
+            null
+        );
+
         for (int i = 0; i < ItemInteractionOptions.AXE_STRIP_AMOUNT.getValue(); i++) {
             double x = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepX());
             double y = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepY());
             double z = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepZ());
-            ParticleOptions blockParticle = level.getRandom().nextFloat() > 0.9 ? new BlockParticleOption(net.minecraft.core.particles.ParticleTypes.BLOCK, strippedBlockState) : new BlockParticleOption(net.minecraft.core.particles.ParticleTypes.BLOCK, unstrippedBlockState);
-            level.addParticle(
-                blockParticle,
+            boolean useStripped = level.getRandom().nextFloat() > 0.9;
+            (useStripped ? strippedOverride: unstrippedOverride).getRandom().spawnParticle(
+                origin,
+                useStripped ? strippedContext: unstrippedContext,
                 clickedPosition.x + x,
                 clickedPosition.y + y,
                 clickedPosition.z + z,
