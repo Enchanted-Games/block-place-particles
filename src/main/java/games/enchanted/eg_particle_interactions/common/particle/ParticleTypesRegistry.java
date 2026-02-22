@@ -13,7 +13,6 @@ import games.enchanted.eg_particle_interactions.common.particle.types.bubble.Und
 import games.enchanted.eg_particle_interactions.common.particle.types.constant_motion.LavaPop;
 import games.enchanted.eg_particle_interactions.common.particle.types.drip.DripAndLandParticle;
 import games.enchanted.eg_particle_interactions.common.particle.types.dust.Dust;
-import games.enchanted.eg_particle_interactions.common.particle.types.dust.Dust;
 import games.enchanted.eg_particle_interactions.common.particle.types.emitter.arc.ArcEmitter;
 import games.enchanted.eg_particle_interactions.common.particle.types.emitter.random_distribution.SparkEmitter;
 import games.enchanted.eg_particle_interactions.common.particle.types.emitter.random_distribution.UnderwaterBubbleEmitter;
@@ -79,8 +78,8 @@ public class ParticleTypesRegistry {
     public static PIParticleType<DustParticleOptions> ITEM_FRAME_DUST_SPECK;
     public static PIParticleType<DustParticleOptions> GLOW_ITEM_FRAME_DUST;
     public static PIParticleType<DustParticleOptions> GLOW_ITEM_FRAME_DUST_SPECK;
-    public static PIParticleType<DustParticleOptions> TINTED_DUST;
-    public static PIParticleType<DustParticleOptions> TINTED_DUST_SPECK;
+    public static PIParticleType<DustParticleOptions> BLOCK_DUST;
+    public static PIParticleType<DustParticleOptions> BLOCK_DUST_SPECK;
     public static PIParticleType<DustParticleOptions> REDSTONE_DUST;
     public static PIParticleType.Simple BLOCK_SHATTER;
     public static PIParticleType.Simple CHAIN_SNAP;
@@ -140,8 +139,8 @@ public class ParticleTypesRegistry {
         ITEM_FRAME_DUST_SPECK = register(Dust.ItemFrameSpeckProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "item_frame_dust_speck"), DustParticleOptions::codec, DustParticleOptions::streamCodec);
         GLOW_ITEM_FRAME_DUST = register(Dust.GlowItemFrameProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glow_item_frame_dust"), DustParticleOptions::codec, DustParticleOptions::streamCodec);
         GLOW_ITEM_FRAME_DUST_SPECK = register(Dust.GlowItemFrameSpeckProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glow_item_frame_dust_speck"), DustParticleOptions::codec, DustParticleOptions::streamCodec);
-        TINTED_DUST = register(Dust.TintedDustProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "tinted_dust"), DustParticleOptions::codec, DustParticleOptions::streamCodec);
-        TINTED_DUST_SPECK = register(Dust.TintedDustSpeckProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "tinted_dust_speck"), DustParticleOptions::codec, DustParticleOptions::streamCodec);
+        BLOCK_DUST = register(Dust.TintedDustProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_dust"), DustParticleOptions::codec, DustParticleOptions::streamCodec);
+        BLOCK_DUST_SPECK = register(Dust.TintedDustSpeckProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_dust_speck"), DustParticleOptions::codec, DustParticleOptions::streamCodec);
         REDSTONE_DUST = register(Dust.RedstoneProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "redstone_dust"), DustParticleOptions::codec, DustParticleOptions::streamCodec);
         BLOCK_SHATTER = register(BlockShatter.BlockShatterProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_shatter"));
         CHAIN_SNAP = register(FallingSpinningParticle.ChainSnapProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "chain_snap"));
@@ -176,6 +175,7 @@ public class ParticleTypesRegistry {
         ARC_EMITTER = register(ArcEmitter.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "arc_emitter"), ArcEmitterOptions::codec, ArcEmitterOptions::streamCodec);
 
         BLOCK_CRACK = register(CustomMovementTerrainParticle.CrackingProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_crack"));
+        BLOCK_CRACK = register(CustomMovementTerrainParticle.BlockProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block"));
     }
 
     private static PIParticleType.Simple register(PIProviderCreator<PIParticleType.Simple> providerCreator, Identifier id) {

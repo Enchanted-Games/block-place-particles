@@ -2,8 +2,8 @@
   "default_emitter": {
     "emitter_type": "eg_particle_interactions:particle_interactions",
     "particle": {
-      "type": "eg_particle_interactions:flying_spark"
+      "type": "eg_particle_interactions:block"
     },
-    "velocity_multiplier": 0.2
+    "velocity_multiplier": 4
   }
 }

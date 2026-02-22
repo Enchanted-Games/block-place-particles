@@ -48,7 +48,7 @@ public class SpawnParticles {
 
         OverridePreset override = BlockOverrideManager.getForBlock(placedBlockState);
 
-        int maxParticlesPerEdge = 4;
+        int maxParticlesPerEdge = BlockOverrideOptions.VANILLA_BLOCK_PARTICLE.maxOnPlaceOption().getValue();
 
         if (!placedBlockState.isAir() && placedBlockState.shouldSpawnTerrainParticles()) {
             VoxelShape blockShape = placedBlockState.getShape(level, blockPos);
@@ -113,7 +113,7 @@ public class SpawnParticles {
 
         OverridePreset override = BlockOverrideManager.getForBlock(brokenBlockState);
 
-        int maxParticlesPerLength = 4;
+        int maxParticlesPerLength = BlockOverrideOptions.VANILLA_BLOCK_PARTICLE.maxOnBreakOption().getValue();
 
         if (!brokenBlockState.isAir() && brokenBlockState.shouldSpawnTerrainParticles()) {
             VoxelShape blockShape = brokenBlockState.getShape(level, blockPos);

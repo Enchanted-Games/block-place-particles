@@ -1,0 +1,8 @@
+{
+  "weights": [
+    {
+      "weight": 3,
+      "block_predicate": ["#sand"]
+    }
+  ]
+}

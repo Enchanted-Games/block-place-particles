@@ -11,7 +11,6 @@ import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesReg
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.util.ExtraCodecs;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 
@@ -31,15 +30,15 @@ public class DustParticleOptions implements PIParticleOptions {
         ParticleInteractionsEmitter.defaultAppearance(Emitter.VELOCITY_MULTIPLIER_DEFAULT, SNOWFLAKE_SPECK)
     );
 
-    public static final DustParticleOptions TINTED_DUST_SPECK = new DustParticleOptions(
-        ParticleTypesRegistry.TINTED_DUST_SPECK,
+    public static final DustParticleOptions BLOCK_DUST_SPECK = new DustParticleOptions(
+        ParticleTypesRegistry.BLOCK_DUST_SPECK,
         0.35f,
         null
     );
-    public static final DustParticleOptions TINTED_DUST = new DustParticleOptions(
-        ParticleTypesRegistry.TINTED_DUST,
+    public static final DustParticleOptions BLOCK_DUST = new DustParticleOptions(
+        ParticleTypesRegistry.BLOCK_DUST,
         0.7f,
-        ParticleInteractionsEmitter.defaultAppearance(Emitter.VELOCITY_MULTIPLIER_DEFAULT, TINTED_DUST_SPECK)
+        ParticleInteractionsEmitter.defaultAppearance(Emitter.VELOCITY_MULTIPLIER_DEFAULT, BLOCK_DUST_SPECK)
     );
 
     public static final DustParticleOptions REDSTONE = new DustParticleOptions(
