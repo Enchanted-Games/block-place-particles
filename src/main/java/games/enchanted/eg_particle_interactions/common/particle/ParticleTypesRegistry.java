@@ -114,10 +114,9 @@ public class ParticleTypesRegistry {
     public static PIParticleType<ArcEmitterOptions> ARC_EMITTER;
 
     // this only exists because the vanilla block cracking particles are created inside the particle engine
+    // wrappers around vanilla block particles to support particle appearances
     public static PIParticleType.Simple BLOCK_CRACK;
-    // this exists so block particles can be spawned with low velocities and still move correctly (hacky workaround
-    //  for Block Particle Overrides not having a way to spawn different particles at different velocities)
-    public static PIParticleType.Simple BLOCK_HIGH_VELOCITY;
+    public static PIParticleType.Simple BLOCK;
 
     public static void registerParticles() {
         SNOWFLAKE = register(Dust.SnowflakeProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "snowflake"), DustParticleOptions::codec, DustParticleOptions::streamCodec);
@@ -175,7 +174,7 @@ public class ParticleTypesRegistry {
         ARC_EMITTER = register(ArcEmitter.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "arc_emitter"), ArcEmitterOptions::codec, ArcEmitterOptions::streamCodec);
 
         BLOCK_CRACK = register(CustomMovementTerrainParticle.CrackingProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_crack"));
-        BLOCK_CRACK = register(CustomMovementTerrainParticle.BlockProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block"));
+        BLOCK = register(CustomMovementTerrainParticle.BlockProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block"));
     }
 
     private static PIParticleType.Simple register(PIProviderCreator<PIParticleType.Simple> providerCreator, Identifier id) {
