@@ -49,9 +49,18 @@ public class OverrideRule<T> {
             }
         }
 
-        effectiveOrigin = this.additions.containsKey(origin) ? origin : ParticleOrigin.DEFAULT;
-        if(!this.additions.isEmpty() && this.additions.containsKey(effectiveOrigin)) {
-            for (OverrideRuleFile.WeightsSection<T> addition : this.additions.get(effectiveOrigin)) {
+        if(!origin.equals(ParticleOrigin.DEFAULT)) {
+            weight += tryGetWeight(object, ParticleOrigin.DEFAULT);
+        }
+        weight += tryGetWeight(object, origin);
+
+        return new OverridePreset.OverrideAndWeight(this.overrideId, weight);
+    }
+
+    private int tryGetWeight(T object, ParticleOrigin origin) {
+        int weight = 0;
+        if(!this.additions.isEmpty() && this.additions.containsKey(origin)) {
+            for (OverrideRuleFile.WeightsSection<T> addition : this.additions.get(origin)) {
                 int additionWeight = addition.weight();
 
                 for (ObjectPredicate<T> predicate : addition.predicates()) {
@@ -60,7 +69,6 @@ public class OverrideRule<T> {
                 }
             }
         }
-
-        return new OverridePreset.OverrideAndWeight(this.overrideId, weight);
+        return weight;
     }
 }
