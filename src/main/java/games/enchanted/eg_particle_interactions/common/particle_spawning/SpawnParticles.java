@@ -3,13 +3,11 @@ package games.enchanted.eg_particle_interactions.common.particle_spawning;
 import games.enchanted.eg_particle_interactions.common.config.categories.*;
 import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
 import games.enchanted.eg_particle_interactions.common.override_system.preset.OverridePreset;
-import games.enchanted.eg_particle_interactions.common.particle.options.*;
-import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
-import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverride;
-import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverrides;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
+import games.enchanted.eg_particle_interactions.common.particle.options.*;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.ParticleOrigin;
+import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import games.enchanted.eg_particle_interactions.common.registry.TagUtil;
 import games.enchanted.eg_particle_interactions.common.util.FluidHelpers;
@@ -17,8 +15,6 @@ import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
@@ -188,23 +184,25 @@ public class SpawnParticles {
         if (!BlockInteractionOptions.BLOCK_FALLING_EFFECT_ENABLED.getValue()) return;
         if (blockState.isAir()) return;
 
-        ParticleOrigin overrideOrigin = ParticleOrigin.FALLING_BLOCK_FALLING;
-        BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(blockState, overrideOrigin);
-
-        if (particleOverride == BlockParticleOverride.NONE || particleOverride == BlockParticleOverride.VANILLA) return;
+        ParticleOrigin origin = ParticleOrigin.FALLING_BLOCK_FALLING;
+        OverridePreset override = BlockOverrideManager.getForBlock(blockState, origin);
+        ParticleContext context = new ParticleContext(
+            level,
+            new ParticleContext.BlockContext(blockState, BlockPos.containing(x, y, z)),
+            null
+        );
 
         var random = level.getRandom();
         for (int i = 0; i < random.nextIntBetweenInclusive(1, 4); i++) {
-            ParticleOptions particleOptions = particleOverride.getParticleOptionForState(blockState, level, BlockPos.containing(x, y, z), overrideOrigin);
-            if (particleOptions == null) continue;
-            level.addParticle(
-                particleOptions,
+            override.getRandom().spawnParticle(
+                origin,
+                context,
                 x - 0.5 + random.nextFloat(),
                 y + random.nextFloat(),
                 z - 0.5 + random.nextFloat(),
-                (deltaMovement.x * 3) * -particleOverride.getParticleVelocityMultiplier(),
-                (deltaMovement.y * 3) * -particleOverride.getParticleVelocityMultiplier(),
-                (deltaMovement.z * 3) * -particleOverride.getParticleVelocityMultiplier()
+                deltaMovement.x * -3,
+                deltaMovement.y * -3,
+                deltaMovement.z * -3
             );
         }
     }
@@ -228,7 +226,7 @@ public class SpawnParticles {
         );
 
         SpawnParticlesUtil.spawnParticleInCircle(
-            (x1, y1, z1, xSpeed, ySpeed, zSpeed) -> override.getRandom().spawnParticle(origin, context, x1, y1, z1, xSpeed, zSpeed, ySpeed),
+            (x1, y1, z1, xSpeed, ySpeed, zSpeed) -> override.getRandom().spawnParticle(origin, context, x1, y1, z1, xSpeed, ySpeed, zSpeed),
             new Vec3(x, particleY, z),
             16,
             0.4f,
@@ -239,13 +237,13 @@ public class SpawnParticles {
         );
 
         SpawnParticlesUtil.spawnParticleInCircle(
-            (x1, y1, z1, xSpeed, ySpeed, zSpeed) -> override.getRandom().spawnParticle(origin, context, x1, y1, z1, xSpeed, zSpeed, ySpeed),
+            (x1, y1, z1, xSpeed, ySpeed, zSpeed) -> override.getRandom().spawnParticle(origin, context, x1, y1, z1, xSpeed, ySpeed, zSpeed),
             new Vec3(x, particleY + 0.7f, z),
             16,
             0.3f,
             0.95f,
-            0.2f,
-            -0.4f * (float) (movementSpeed * 2) *0.1f,
+            1.9f,
+            -0.4f * (float) (movementSpeed * 2) * 0.3f,
             0
         );
     }
@@ -797,20 +795,23 @@ public class SpawnParticles {
             BlockPos entityBlockPos = BlockPos.containing(particleX, blockPos.getY(), particleZ);
             if(level.getBlockState(entityBlockPos).isAir()) continue;
 
-            BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(blockState, overrideOrigin);
-            if (particleOverride == BlockParticleOverride.NONE) continue;
+            ParticleOrigin origin = ParticleOrigin.BLOCK_WALKED_THROUGH;
+            OverridePreset override = BlockOverrideManager.getForBlock(blockState, origin);
+            ParticleContext context = new ParticleContext(
+                level,
+                new ParticleContext.BlockContext(blockState, blockPos),
+                null
+            );
 
-            ParticleOptions particleToSpawn = particleOverride.getParticleOptionForState(blockState, level, blockPos, overrideOrigin);
-            if(particleToSpawn == null) continue;
-
-            level.addParticle(
-                particleToSpawn,
+            override.getRandom().spawnParticle(
+                origin,
+                context,
                 particleX,
                 particleY,
                 particleZ,
-                deltaMovement.x * 3 * particleOverride.getParticleVelocityMultiplier(),
-                Math.min(deltaMovement.y, 0.1) * 3 * particleOverride.getParticleVelocityMultiplier() + 0.1,
-                deltaMovement.z * 3 * particleOverride.getParticleVelocityMultiplier()
+                deltaMovement.x * 3,
+                Math.min(deltaMovement.y, 0.1) * 3 + 0.1,
+                deltaMovement.z * 3
             );
         }
     }
