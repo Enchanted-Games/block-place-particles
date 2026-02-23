@@ -1,8 +1,12 @@
 {
-  "weights": [
-    {
-      "weight": 1,
-      "block_predicate": ["#sand"]
-    }
-  ]
+  "weights": {
+    "eg_particle_interactions:default": [
+      {
+        "weight": 1,
+        "block_predicate": [
+          "#sand"
+        ]
+      }
+    ]
+  }
 }

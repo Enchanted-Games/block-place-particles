@@ -7,6 +7,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.override_system.preset.OverridePreset;
+import games.enchanted.eg_particle_interactions.common.particle.overrides.ParticleOrigin;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
@@ -24,7 +25,7 @@ import java.util.Map;
 
 public abstract class AbstractOverrideRuleLoader<T> extends SimplePreparableReloadListener<AbstractOverrideRuleLoader.Preparation<T>> {
     private final List<OverrideRule<T>> OVERRIDE_RULES = new ArrayList<>();
-    private final Map<T, OverridePreset> OBJECT_TO_OVERRIDE = new HashMap<>();
+    private final Map<ObjectAndOrigin<T>, OverridePreset> OBJECT_TO_OVERRIDE = new HashMap<>();
 
     private final FileToIdConverter fileToIdConverter;
 
@@ -55,7 +56,7 @@ public abstract class AbstractOverrideRuleLoader<T> extends SimplePreparableRelo
                 JsonElement json = StrictJsonParser.parse(reader);
                 output.add(this.fileCodec().parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
             } catch (JsonParseException | IOException e) {
-                Logging.error("Failed to parse particle override '{}'", fileId, e);
+                Logging.error("Failed to parse override rule '{}'", fileId, e);
             }
         }
     }
@@ -76,20 +77,21 @@ public abstract class AbstractOverrideRuleLoader<T> extends SimplePreparableRelo
     protected abstract Codec<OverrideRuleFile<T>> fileCodec();
 
 
-    public OverridePreset getOverrideFor(T state) {
-        if(this.OBJECT_TO_OVERRIDE.containsKey(state)) {
-            return this.OBJECT_TO_OVERRIDE.get(state);
+    public OverridePreset getOverrideFor(T object, ParticleOrigin origin) {
+        ObjectAndOrigin<T> objectAndOrigin = new ObjectAndOrigin<>(object, origin);
+        if(this.OBJECT_TO_OVERRIDE.containsKey(objectAndOrigin)) {
+            return this.OBJECT_TO_OVERRIDE.get(objectAndOrigin);
         }
-        OverridePreset preset = buildPresetForObject(state, this.OVERRIDE_RULES);
-        this.OBJECT_TO_OVERRIDE.put(state, preset);
+        OverridePreset preset = buildPresetForObject(object, origin, this.OVERRIDE_RULES);
+        this.OBJECT_TO_OVERRIDE.put(objectAndOrigin, preset);
         return preset;
     }
 
 
-    private OverridePreset buildPresetForObject(T object, List<OverrideRule<T>> rulesList) {
+    private OverridePreset buildPresetForObject(T object, ParticleOrigin origin, List<OverrideRule<T>> rulesList) {
         List<OverridePreset.OverrideAndWeight> weights = new ArrayList<>();
         for (OverrideRule<T> overrideRule : rulesList) {
-            OverridePreset.OverrideAndWeight overrideAndWeight = overrideRule.getOverrideWeightForObject(object);
+            OverridePreset.OverrideAndWeight overrideAndWeight = overrideRule.getOverrideWeightForObject(object, origin);
             if(overrideAndWeight.weight() == 0) continue;
             weights.add(overrideAndWeight);
         }
@@ -102,5 +104,8 @@ public abstract class AbstractOverrideRuleLoader<T> extends SimplePreparableRelo
     }
 
     protected record Preparation<T>(Map<Identifier, List<OverrideRuleFile<T>>> ruleFilesByOverrideId) {
+    }
+
+    protected record ObjectAndOrigin<T>(T object, ParticleOrigin origin) {
     }
 }

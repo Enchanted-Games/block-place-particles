@@ -64,7 +64,8 @@ public abstract class BrushItem {
         double baseDeltaY = particlesDelta.yd();
         double baseDeltaZ = particlesDelta.zd();
 
-        OverridePreset preset = BlockOverrideManager.getForBlock(state);
+        ParticleOrigin origin = ParticleOrigin.BLOCK_BRUSHED;
+        OverridePreset preset = BlockOverrideManager.getForBlock(state, origin);
         ParticleOverride override = preset.getRandom();
         Identifier id = ParticleOverrides.getIdFromOverride(override);
 
@@ -75,7 +76,7 @@ public abstract class BrushItem {
             (ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.DUST && !isVanillaOrEmptyOverride)
         ) {
             override.spawnParticle(
-                ParticleOrigin.BLOCK_BRUSHED,
+                origin,
                 new ParticleContext(
                     clientLevel,
                     new ParticleContext.BlockContext(

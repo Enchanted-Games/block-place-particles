@@ -17,6 +17,8 @@ public record ParticleOrigin(Identifier id) {
         origin -> Objects.requireNonNull(ORIGIN_BY_ID.inverse().get(origin), "Tried to serialise unregistered particle origin")
     );
 
+    public static final ParticleOrigin DEFAULT = register(ParticleInteractionsMod.id("default"), ParticleOrigin::new);
+
     public static final ParticleOrigin BLOCK_PLACED = register(ParticleInteractionsMod.id("block/placed"), ParticleOrigin::new);
     public static final ParticleOrigin BLOCK_BROKEN = register(ParticleInteractionsMod.id("block/broken"), ParticleOrigin::new);
     public static final ParticleOrigin BLOCK_BRUSHED = register(ParticleInteractionsMod.id("block/brushed"), ParticleOrigin::new);

@@ -4,10 +4,12 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.override_system.predicate.BlockStatePredicate;
 import games.enchanted.eg_particle_interactions.common.override_system.predicate.ObjectPredicate;
+import games.enchanted.eg_particle_interactions.common.particle.overrides.ParticleOrigin;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
+import java.util.Map;
 
 public class OverrideRuleFile<T> {
     private static final String WEIGHTS_FIELD = "weights";
@@ -15,11 +17,11 @@ public class OverrideRuleFile<T> {
 
     public static final Codec<OverrideRuleFile<BlockState>> BLOCKSTATE_CODEC = RecordCodecBuilder.create(
         instance -> instance.group(
-            Codec.list(AdditionsSection.codec(BlockStatePredicate.CODEC, "block_predicate"))
-                .optionalFieldOf(WEIGHTS_FIELD, List.of())
+            Codec.unboundedMap(ParticleOrigin.CODEC, Codec.list(WeightsSection.codec(BlockStatePredicate.CODEC, "block_predicate")))
+                .optionalFieldOf(WEIGHTS_FIELD, Map.of())
                 .forGetter(OverrideRuleFile::getAdditions),
-            Codec.list(BlockStatePredicate.CODEC)
-                .optionalFieldOf(EXCLUSIONS_FIELD, List.of())
+            Codec.unboundedMap(ParticleOrigin.CODEC, Codec.list(BlockStatePredicate.CODEC))
+                .optionalFieldOf(EXCLUSIONS_FIELD, Map.of())
                 .forGetter(OverrideRuleFile::getExclusions)
         )
         .apply(
@@ -28,33 +30,33 @@ public class OverrideRuleFile<T> {
         )
     );
 
-    private final List<AdditionsSection<T>> additions;
-    private final List<ObjectPredicate<T>> exclusions;
+    private final Map<ParticleOrigin, List<WeightsSection<T>>> additions;
+    private final Map<ParticleOrigin, List<ObjectPredicate<T>>> exclusions;
 
-    public OverrideRuleFile(List<AdditionsSection<T>> additions, List<ObjectPredicate<T>> exclusions) {
+    public OverrideRuleFile(Map<ParticleOrigin, List<WeightsSection<T>>> additions, Map<ParticleOrigin, List<ObjectPredicate<T>>> exclusions) {
         this.additions = additions;
         this.exclusions = exclusions;
     }
 
-    List<AdditionsSection<T>> getAdditions() {
+    Map<ParticleOrigin, List<WeightsSection<T>>> getAdditions() {
         return this.additions;
     }
 
-    List<ObjectPredicate<T>> getExclusions() {
+    Map<ParticleOrigin, List<ObjectPredicate<T>>> getExclusions() {
         return this.exclusions;
     }
 
 
-    public record AdditionsSection<T>(int weight, List<ObjectPredicate<T>> predicates) {
-        public static <O> Codec<AdditionsSection<O>> codec(Codec<ObjectPredicate<O>> predicateCodec, String predicateFieldName) {
+    public record WeightsSection<T>(int weight, List<ObjectPredicate<T>> predicates) {
+        public static <O> Codec<WeightsSection<O>> codec(Codec<ObjectPredicate<O>> predicateCodec, String predicateFieldName) {
             return RecordCodecBuilder.create(instance ->
                 instance.group(
-                    ExtraCodecs.NON_NEGATIVE_INT.optionalFieldOf("weight", 1).forGetter(AdditionsSection::weight),
-                    ExtraCodecs.compactListCodec(predicateCodec).fieldOf(predicateFieldName).forGetter(AdditionsSection::predicates)
+                    ExtraCodecs.NON_NEGATIVE_INT.optionalFieldOf("weight", 1).forGetter(WeightsSection::weight),
+                    ExtraCodecs.compactListCodec(predicateCodec).fieldOf(predicateFieldName).forGetter(WeightsSection::predicates)
                 )
                 .apply(
                     instance,
-                    AdditionsSection::new
+                    WeightsSection::new
                 )
             );
         }

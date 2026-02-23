@@ -46,7 +46,8 @@ public class SpawnParticles {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.BLOCK_PLACE_OR_BREAK, blockPos)) return;
         if (BlockInteractionOptions.UNDERWATER_BUBBLES_ON_PLACE_ENABLED.getValue()) spawnUnderwaterBubbles(BlockInteractionOptions.UNDERWATER_BUBBLES_MAX_ON_PLACE.getValue(), level, blockPos);
 
-        OverridePreset override = BlockOverrideManager.getForBlock(placedBlockState);
+        ParticleOrigin origin = ParticleOrigin.BLOCK_PLACED;
+        OverridePreset override = BlockOverrideManager.getForBlock(placedBlockState, origin);
 
         int maxParticlesPerEdge = BlockOverrideOptions.VANILLA_BLOCK_PARTICLE.maxOnPlaceOption().getValue();
 
@@ -85,7 +86,7 @@ public class SpawnParticles {
                     double particleZOffset = (biggestEdge == Direction.Axis.Z ? particlePos : depth) + z1;
 
                     override.getRandom().spawnParticle(
-                        ParticleOrigin.BLOCK_PLACED,
+                        origin,
                         new ParticleContext(
                             level,
                             new ParticleContext.BlockContext(
@@ -111,7 +112,8 @@ public class SpawnParticles {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.BLOCK_PLACE_OR_BREAK, blockPos)) return;
         if (BlockInteractionOptions.UNDERWATER_BUBBLES_ON_BREAK_ENABLED.getValue()) spawnUnderwaterBubbles(BlockInteractionOptions.UNDERWATER_BUBBLES_MAX_ON_BREAK.getValue(), level, blockPos);
 
-        OverridePreset override = BlockOverrideManager.getForBlock(brokenBlockState);
+        ParticleOrigin origin = ParticleOrigin.BLOCK_BROKEN;
+        OverridePreset override = BlockOverrideManager.getForBlock(brokenBlockState, origin);
 
         int maxParticlesPerLength = BlockOverrideOptions.VANILLA_BLOCK_PARTICLE.maxOnBreakOption().getValue();
 
@@ -135,7 +137,7 @@ public class SpawnParticles {
                             double particleZOffset = (((double) i_D + 0.5) / (double) amountAlongDepth);
 
                             override.getRandom().spawnParticle(
-                                ParticleOrigin.BLOCK_BROKEN,
+                                origin,
                                 new ParticleContext(
                                     level,
                                     new ParticleContext.BlockContext(
@@ -211,8 +213,8 @@ public class SpawnParticles {
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, x, y, z)) return;
         if (!BlockInteractionOptions.BLOCK_FALLING_EFFECT_ENABLED.getValue()) return;
 
-        ParticleOrigin particleOrigin = ParticleOrigin.FALLING_BLOCK_LANDED;
-        OverridePreset override = BlockOverrideManager.getForBlock(blockState);
+        ParticleOrigin origin = ParticleOrigin.FALLING_BLOCK_LANDED;
+        OverridePreset override = BlockOverrideManager.getForBlock(blockState, origin);
 
         BlockPos blockPos = BlockPos.containing(x, y, z);
         double movementSpeed = deltaMovement.length();
@@ -226,7 +228,7 @@ public class SpawnParticles {
         );
 
         SpawnParticlesUtil.spawnParticleInCircle(
-            (x1, y1, z1, xSpeed, ySpeed, zSpeed) -> override.getRandom().spawnParticle(particleOrigin, context, x1, y1, z1, xSpeed, zSpeed, ySpeed),
+            (x1, y1, z1, xSpeed, ySpeed, zSpeed) -> override.getRandom().spawnParticle(origin, context, x1, y1, z1, xSpeed, zSpeed, ySpeed),
             new Vec3(x, particleY, z),
             16,
             0.4f,
@@ -237,7 +239,7 @@ public class SpawnParticles {
         );
 
         SpawnParticlesUtil.spawnParticleInCircle(
-            (x1, y1, z1, xSpeed, ySpeed, zSpeed) -> override.getRandom().spawnParticle(particleOrigin, context, x1, y1, z1, xSpeed, zSpeed, ySpeed),
+            (x1, y1, z1, xSpeed, ySpeed, zSpeed) -> override.getRandom().spawnParticle(origin, context, x1, y1, z1, xSpeed, zSpeed, ySpeed),
             new Vec3(x, particleY + 0.7f, z),
             16,
             0.3f,
@@ -452,7 +454,7 @@ public class SpawnParticles {
 
         ParticleOrigin origin = ParticleOrigin.BLOCK_TILLED;
 
-        OverridePreset override = BlockOverrideManager.getForBlock(state);
+        OverridePreset override = BlockOverrideManager.getForBlock(state, origin);
         ParticleContext context = new ParticleContext(
             level,
             new ParticleContext.BlockContext(state, blockPos),
@@ -486,7 +488,7 @@ public class SpawnParticles {
 
         ParticleOrigin origin = ParticleOrigin.BLOCK_FLATTENED;
 
-        OverridePreset override = BlockOverrideManager.getForBlock(state);
+        OverridePreset override = BlockOverrideManager.getForBlock(state, origin);
         ParticleContext context = new ParticleContext(
             level,
             new ParticleContext.BlockContext(state, blockPos),
@@ -518,14 +520,14 @@ public class SpawnParticles {
 
         ParticleOrigin origin = ParticleOrigin.BLOCK_STRIPPED;
 
-        OverridePreset strippedOverride = BlockOverrideManager.getForBlock(strippedBlockState);
+        OverridePreset strippedOverride = BlockOverrideManager.getForBlock(strippedBlockState, origin);
         ParticleContext strippedContext = new ParticleContext(
             level,
             new ParticleContext.BlockContext(strippedBlockState, blockPos),
             null
         );
 
-        OverridePreset unstrippedOverride = BlockOverrideManager.getForBlock(unstrippedBlockState);
+        OverridePreset unstrippedOverride = BlockOverrideManager.getForBlock(unstrippedBlockState, origin);
         ParticleContext unstrippedContext = new ParticleContext(
             level,
             new ParticleContext.BlockContext(unstrippedBlockState, blockPos),
@@ -713,7 +715,7 @@ public class SpawnParticles {
         BlockPos pos = BlockPos.containing(interactionX, interactionY, interactionZ);
 
         ParticleOrigin origin = ParticleOrigin.BLOCK_REDSTONE_INTERACTED_WITH;
-        OverridePreset override = BlockOverrideManager.getForBlock(blockState);
+        OverridePreset override = BlockOverrideManager.getForBlock(blockState, origin);
         ParticleContext context = new ParticleContext(
             level,
             new ParticleContext.BlockContext(blockState, pos),
