@@ -9,7 +9,6 @@ import games.enchanted.eg_particle_interactions.common.config.screen.yacl.contro
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.config.option.ConfigOption;
 import games.enchanted.eg_particle_interactions.common.localisation.ConfigTranslation;
-import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverride;
 import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import net.minecraft.network.chat.Component;
@@ -90,65 +89,6 @@ class ConfigScreenHelper {
         return integerSliderOption(optionName, option, 0, 8, 1);
     }
 
-    // particle overrides
-    public static ConfigCategory.Builder createBlockParticleOverrideConfigWidgets(ConfigCategory.Builder configCategoryBuilder) {
-        for (BlockParticleOverride override : BlockParticleOverride.getBlockParticleOverrides()) {
-            if(override == BlockParticleOverride.NONE || override == BlockParticleOverride.VANILLA) continue;
-            configCategoryBuilder.group(
-                createSeparator()
-            );
-            configCategoryBuilder.group(
-                createOptionsForBlockOverride(override)
-            );
-            configCategoryBuilder.group(createBlockListForBlockOverride(override));
-        }
-
-        return configCategoryBuilder;
-    }
-
-    public static OptionGroup createOptionsForBlockOverride(BlockParticleOverride override) {
-        String particleTypeKey = override.getName();
-
-        Option<Boolean> isEnabledOption = Option.<Boolean>createBuilder()
-            .name(ConfigTranslation.getGlobalOption(ConfigTranslation.IS_OVERRIDE_ENABLED).toComponent())
-            .description(
-                OptionDescription.of(ConfigTranslation.createPlaceholder(
-                    ConfigTranslation.createDesc(ConfigTranslation.getGlobalOption(ConfigTranslation.IS_OVERRIDE_ENABLED)),
-                    Component.translatable(ConfigTranslation.getParticleType(particleTypeKey).toString()).getString()
-                ))
-            )
-            .binding(override.getEnabledOption().createBinding())
-            .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter().coloured(true))
-        .build();
-
-        List<BlockParticleOverride.OptionToggle> toggles = override.getExtraToggles();
-        final int staticOptions = 3;
-        Option<?>[] options = new Option[staticOptions + toggles.size()];
-
-        options[0] = isEnabledOption;
-        options[1] = ConfigScreenHelper.maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_PLACE_ALONG_EDGES, override.getMaxParticlesOnPlaceOption());
-        options[2] = ConfigScreenHelper.maxParticlesOnBreakOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK_ALONG_AXIS, override.getMaxParticlesOnBreakOption());
-
-        for (int i = 0; i < toggles.size(); i++) {
-            BlockParticleOverride.OptionToggle toggle = toggles.get(i);
-            options[i + staticOptions] = ConfigScreenHelper.booleanOption(toggle.labelKey(), "", toggle.option());
-        }
-
-        return ConfigScreenHelper.createMultipleOptionsConfigGroup(override.getName(), override.getGroupName(), ConfigTranslation.BLOCKS_CONFIG_CATEGORY, options);
-    }
-
-    public static ListOption<BlockOrTagLocation> createBlockListForBlockOverride(BlockParticleOverride override) {
-        ConfigOption<List<BlockOrTagLocation>> option = override.getSupportedBlocksAndTagsOption();
-        if(option == null) {
-            throw new IllegalArgumentException("Cannot create list option for override with no supported blocks list");
-        }
-        return ConfigScreenHelper.createBlockLocationListOption(
-            override.getName(),
-            override.getGroupName() + "_blocks",
-            ConfigTranslation.BLOCKS_CONFIG_CATEGORY,
-            option
-        );
-    }
 
     public static <T extends Enum<T>> Option<T> enumCycleOption(String optionName, ConfigOption<T> option, Class<T> enumClass) {
         ConfigTranslation.TranslationKey translationKey = ConfigTranslation.getGlobalOption(optionName);

@@ -6,7 +6,7 @@ import games.enchanted.eg_particle_interactions.common.override_system.emitter.E
 import games.enchanted.eg_particle_interactions.common.override_system.emitter.Emitters;
 import games.enchanted.eg_particle_interactions.common.override_system.emitter.EmptyEmitter;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.particle.overrides.ParticleOrigin;
+import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
 
 import java.util.Map;
 

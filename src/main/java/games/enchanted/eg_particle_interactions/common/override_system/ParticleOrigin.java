@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.particle.overrides;
+package games.enchanted.eg_particle_interactions.common.override_system;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;

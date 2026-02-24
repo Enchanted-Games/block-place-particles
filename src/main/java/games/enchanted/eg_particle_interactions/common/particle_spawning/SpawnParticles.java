@@ -6,7 +6,7 @@ import games.enchanted.eg_particle_interactions.common.override_system.preset.Ov
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.options.*;
-import games.enchanted.eg_particle_interactions.common.particle.overrides.ParticleOrigin;
+import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
 import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import games.enchanted.eg_particle_interactions.common.registry.TagUtil;

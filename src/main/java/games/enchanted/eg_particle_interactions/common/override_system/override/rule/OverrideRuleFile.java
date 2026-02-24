@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.override_system.predicate.BlockStatePredicate;
 import games.enchanted.eg_particle_interactions.common.override_system.predicate.ObjectPredicate;
-import games.enchanted.eg_particle_interactions.common.particle.overrides.ParticleOrigin;
+import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.block.state.BlockState;
 

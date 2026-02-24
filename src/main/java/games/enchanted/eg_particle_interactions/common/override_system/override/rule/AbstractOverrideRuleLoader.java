@@ -7,7 +7,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.override_system.preset.OverridePreset;
-import games.enchanted.eg_particle_interactions.common.particle.overrides.ParticleOrigin;
+import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;

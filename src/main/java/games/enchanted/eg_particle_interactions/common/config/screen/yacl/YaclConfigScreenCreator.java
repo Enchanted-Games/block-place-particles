@@ -6,7 +6,6 @@ import games.enchanted.eg_particle_interactions.common.config.type.BrushParticle
 import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
 import games.enchanted.eg_particle_interactions.common.config.categories.*;
 import games.enchanted.eg_particle_interactions.common.localisation.ConfigTranslation;
-import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverride;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -132,44 +131,26 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
 
 
         // block override category
-        yaclBuilder.category(ConfigScreenHelper.createBlockParticleOverrideConfigWidgets(
-            ConfigCategory.createBuilder()
-                .name(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY).toComponent())
-                .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY)))
+        yaclBuilder.category(ConfigCategory.createBuilder()
+            .name(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY).toComponent())
+            .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY)))
 
-                .group(
-                    OptionGroup.createBuilder()
-                        .option(ConfigScreenHelper.booleanOption(
-                            "disable_all_block_placing_particles",
-                            "block_placing",
-                            BlockOverrideOptions.DISABLE_ALL_PLACING_PARTICLES
-                        ))
-                        .option(ConfigScreenHelper.booleanOption(
-                            "disable_all_block_breaking_particles",
-                            "block_breaking",
-                            BlockOverrideOptions.DISABLE_ALL_BREAKING_PARTICLES
-                        ))
-                    .build()
-                )
-                .group(
-                    ConfigScreenHelper.createSeparator()
-                )
-
-                // vanilla block particles
-                .group(
-                    ConfigScreenHelper.createOptionsForBlockOverride(BlockParticleOverride.VANILLA)
-                )
-                .group(
-                    ConfigScreenHelper.createSeparator()
-                )
-
-                // block config info
-                .group(OptionGroup.createBuilder()
-                    .name( ConfigTranslation.getGroupName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY, "info").toComponent() )
-                    .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY, "info")) ))
-                    .collapsed(true)
-                    .option(LabelOption.createBuilder().line(Component.empty()).build())
-                .build())
+            .group(
+                OptionGroup.createBuilder()
+                    .option(ConfigScreenHelper.booleanOption(
+                        "disable_all_block_placing_particles",
+                        "block_placing",
+                        BlockOverrideOptions.DISABLE_ALL_PLACING_PARTICLES
+                    ))
+                    .option(ConfigScreenHelper.booleanOption(
+                        "disable_all_block_breaking_particles",
+                        "block_breaking",
+                        BlockOverrideOptions.DISABLE_ALL_BREAKING_PARTICLES
+                    ))
+                .build()
+            )
+            .group(
+                ConfigScreenHelper.createSeparator()
             )
         .build());
 
