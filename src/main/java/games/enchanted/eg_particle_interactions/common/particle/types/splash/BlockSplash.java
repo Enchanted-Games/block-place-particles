@@ -18,14 +18,6 @@ public class BlockSplash extends BucketSplash {
         this.uo = this.random.nextFloat() * 3.0F;
         this.vo = this.random.nextFloat() * 3.0F;
 
-        int[] colour = appearance.colourSource().getARGB(context);
-        this.setRGBA(
-            this.getRed() * (float) colour[1] / 255f,
-            this.getGreen() * (float) colour[2] / 255f,
-            this.getBlue() * (float) colour[3] / 255f,
-            this.getAlpha() * (float) colour[0] / 255f
-        );
-
         float particleSize = (float) 0.1255 - (this.random.nextBoolean() ? 0.01f : 0.02f);
         this.setScale(particleSize);
         this.setSize(particleSize, particleSize);

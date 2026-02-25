@@ -21,7 +21,7 @@ import games.enchanted.eg_particle_interactions.common.particle.types.shatter.Bl
 import games.enchanted.eg_particle_interactions.common.particle.types.spark.FlyingSpark;
 import games.enchanted.eg_particle_interactions.common.particle.types.spark.SparkFlash;
 import games.enchanted.eg_particle_interactions.common.particle.types.splash.BlockSplash;
-import games.enchanted.eg_particle_interactions.common.particle.types.splash.ColouredBucketSplash;
+import games.enchanted.eg_particle_interactions.common.particle.types.splash.BucketSplash;
 import games.enchanted.eg_particle_interactions.common.particle.types.splash.LavaSplash;
 import games.enchanted.eg_particle_interactions.common.particle.types.swirling.Ember;
 import games.enchanted.eg_particle_interactions.common.particle.types.swirling.WaterVapour;
@@ -147,7 +147,7 @@ public class ParticleTypesRegistry {
 
         HONEY_DROP = register(DripAndLandParticle.UntintedDropProvider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "honey_drop"), DripParticleOption::codec, DripParticleOption::streamCodec);
 
-        WATER_BUCKET_TINTED_SPLASH = register(ColouredBucketSplash.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "water_bucket_tinted_splash"));
+        WATER_BUCKET_TINTED_SPLASH = register(BucketSplash.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "water_bucket_tinted_splash"));
         LAVA_BUCKET_SPLASH = register(LavaSplash.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "lava_bucket_splash"));
         GENERIC_FLUID_BUCKET_SPLASH = register(BlockSplash.Provider::new, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "generic_fluid_bucket_splash"));
 

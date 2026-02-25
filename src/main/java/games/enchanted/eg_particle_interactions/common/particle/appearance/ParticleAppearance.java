@@ -3,7 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.appearance;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.colour.ColourSource;
-import games.enchanted.eg_particle_interactions.common.particle.appearance.colour.StaticColourSource;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.colour.ColourSources;
 import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -21,22 +21,24 @@ public record ParticleAppearance(@Nullable TextureConfig textureConfig, ColourSo
 
     public static final ParticleAppearance FALLBACK_APPEARANCE = new ParticleAppearance(
         new ParticleAppearance.TextureConfig(List.of(MissingTextureAtlasSprite.getLocation()), AtlasIds.PARTICLES, TextureConfig.DEFAULT_CYCLE_MODE),
-        new StaticColourSource(new int[]{255, 255, 255, 255}),
+        ColourSources.WHITE,
         DEFAULT_LIGHT_EMISSION
     );
 
     public static final Codec<ParticleAppearance> CODEC = RecordCodecBuilder.create(
         instance -> instance.group(
-            TextureConfig.CODEC.optionalFieldOf("texture_config").forGetter(textureSource -> Optional.ofNullable(textureSource.textureConfig)),
+            TextureConfig.CODEC.optionalFieldOf("texture_config").forGetter(appearance -> Optional.ofNullable(appearance.textureConfig)),
+            ColourSources.CODEC.optionalFieldOf("colour").forGetter(appearance -> Optional.of(appearance.colourSource())),
             Codec.intRange(0, 15).optionalFieldOf("light_emission").forGetter(appearance -> Optional.of(appearance.lightEmission()))
         ).apply(
             instance,
             (
                 sprites,
+                colourSource,
                 lightEmission
             ) -> new ParticleAppearance(
                 sprites.orElse(null),
-                new StaticColourSource(new int[]{255, 255, 255, 255}),
+                colourSource.orElse(ColourSources.WHITE),
                 lightEmission.orElse(DEFAULT_LIGHT_EMISSION)
             )
         )

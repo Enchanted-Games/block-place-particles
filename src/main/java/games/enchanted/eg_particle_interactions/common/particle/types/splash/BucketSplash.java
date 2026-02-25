@@ -1,8 +1,12 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.splash;
 
+import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
+import net.minecraft.client.particle.Particle;
+import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
 
 public class BucketSplash extends ParticleInteractionsParticle {
@@ -36,5 +40,25 @@ public class BucketSplash extends ParticleInteractionsParticle {
     @Override
     protected @NonNull ParticleLayer getParticleLayer() {
         return ParticleLayer.TRANSLUCENT;
+    }
+
+    public static class Provider implements PIParticleProvider<PIParticleType.Simple> {
+        public Provider() {
+        }
+
+        @Override
+        public @Nullable Particle createParticle(
+            PIParticleType.Simple type,
+            ParticleContext context,
+            ParticleAppearance appearance,
+            double x,
+            double y,
+            double z,
+            double xSpeed,
+            double ySpeed,
+            double zSpeed
+        ) {
+            return new BucketSplash(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
+        }
     }
 }

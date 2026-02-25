@@ -6,5 +6,9 @@
       "eg_particle_interactions:sugar_cane/2",
       "eg_particle_interactions:sugar_cane/3"
     ]
+  },
+  "colour": {
+    "type": "eg_particle_interactions:block_texture",
+    "tint_index": 0
   }
 }

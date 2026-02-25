@@ -6,5 +6,9 @@
       "eg_particle_interactions:water_bucket_tinted_splash/2",
       "eg_particle_interactions:water_bucket_tinted_splash/3"
     ]
+  },
+  "colour": {
+    "type": "eg_particle_interactions:block_texture",
+    "tint_index": 0
   }
 }

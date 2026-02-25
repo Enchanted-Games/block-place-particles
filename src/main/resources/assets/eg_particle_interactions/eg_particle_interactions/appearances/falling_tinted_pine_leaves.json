@@ -6,5 +6,9 @@
       "eg_particle_interactions:falling_tinted_pine_leaves/2",
       "eg_particle_interactions:falling_tinted_pine_leaves/3"
     ]
+  },
+  "colour": {
+    "type": "eg_particle_interactions:block_texture",
+    "tint_index": 0
   }
 }

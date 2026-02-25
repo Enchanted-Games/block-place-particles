@@ -13,11 +13,10 @@ public class EmptyEmitter extends Emitter {
 
     @Override
     public void spawnParticle(ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-
     }
 
     @Override
     public MapCodec<? extends Emitter> codec() {
-        return null;
+        return EMPTY_CODEC;
     }
 }

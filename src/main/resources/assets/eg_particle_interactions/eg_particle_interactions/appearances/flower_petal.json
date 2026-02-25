@@ -7,5 +7,8 @@
       "eg_particle_interactions:flower_petal/3",
       "eg_particle_interactions:flower_petal/4"
     ]
+  },
+  "colour": {
+    "type": "eg_particle_interactions:block_texture"
   }
 }
