@@ -3,7 +3,6 @@
 - defines a particle to emit per particle origin
 
 root
-    > default_emitter {emitter}
     > emitters (map particle origin to emitter)
         > {emitter}
 
@@ -13,10 +12,10 @@ emitter
 
 particle_interactions emitter
     > particle (id, or id and options if needed)
-    > texture_source (id to texture source file, defaults to particle_id)
+    > appearance (id to particle appearance file, defaults to particle id)
 
 vanilla emitter
-    > particle_type
+    > particle
 
 empty emitter
     - no extra fields
@@ -49,5 +48,5 @@ when spawning particles for the first time:
     - contains level
     - nullable block context (blockstate and position)
     - nullable item context (itemstack)
-- nullable TextureContext
+- nullable ParticleAppearance
     - if present textures should be used from this instead of block or item
