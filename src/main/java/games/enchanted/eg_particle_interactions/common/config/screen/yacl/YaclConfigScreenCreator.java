@@ -130,31 +130,6 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
         .build());
 
 
-        // block override category
-        yaclBuilder.category(ConfigCategory.createBuilder()
-            .name(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY).toComponent())
-            .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY)))
-
-            .group(
-                OptionGroup.createBuilder()
-                    .option(ConfigScreenHelper.booleanOption(
-                        "disable_all_block_placing_particles",
-                        "block_placing",
-                        BlockOverrideOptions.DISABLE_ALL_PLACING_PARTICLES
-                    ))
-                    .option(ConfigScreenHelper.booleanOption(
-                        "disable_all_block_breaking_particles",
-                        "block_breaking",
-                        BlockOverrideOptions.DISABLE_ALL_BREAKING_PARTICLES
-                    ))
-                .build()
-            )
-            .group(
-                ConfigScreenHelper.createSeparator()
-            )
-        .build());
-
-
         // block interaction/ambient category
         yaclBuilder.category( ConfigCategory.createBuilder()
             .name(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY).toComponent())
@@ -166,7 +141,19 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY, "info")) ))
                 .collapsed(true)
                 .option(LabelOption.createBuilder().line(Component.empty()).build())
-                .build())
+            .build())
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
+                "block_place_or_break",
+                "block_place_or_break",
+                ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_PLACE, "block_place", BlockInteractionOptions.BLOCK_MAX_ON_PLACE, 0, 20, 1),
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK, "block_break", BlockInteractionOptions.BLOCK_MAX_ON_BREAK, 0, 20, 1)
+            ))
 
             .group(
                 ConfigScreenHelper.createSeparator()

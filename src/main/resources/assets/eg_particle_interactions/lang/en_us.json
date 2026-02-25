@@ -9,28 +9,7 @@
   "eg_particle_interactions.mod_credits": "§b§lParticle Interactions",
   "eg_particle_interactions.mod_credits.desc": "Configure almost every feature of the mod here!",
 
-  "eg_particle_interactions.config.particle_type.snowflake": "Snowflake",
-  "eg_particle_interactions.config.particle_type.firefly": "Firefly",
-  "eg_particle_interactions.config.particle_type.cherry_petal": "Cherry Petal",
-  "eg_particle_interactions.config.particle_type.azalea_leaf": "Azalea Leaf",
-  "eg_particle_interactions.config.particle_type.flowering_azalea_leaf": "Flowering Azalea Leaf",
-  "eg_particle_interactions.config.particle_type.pale_leaf": "Pale Oak Leaf",
-  "eg_particle_interactions.config.particle_type.biome_pine_leaf": "Pine Leaf",
-  "eg_particle_interactions.config.particle_type.biome_leaf": "Generic Leaf",
-  "eg_particle_interactions.config.particle_type.flower_petal": "Flower Petal",
-  "eg_particle_interactions.config.particle_type.grass_blade": "Grass Blade",
-  "eg_particle_interactions.config.particle_type.heavy_grass_blade": "Heavy Grass Blade",
-  "eg_particle_interactions.config.particle_type.moss_clump": "Moss Clump",
-  "eg_particle_interactions.config.particle_type.pale_moss_clump": "Pale Moss Clump",
-  "eg_particle_interactions.config.particle_type.dust": "Dust",
-  "eg_particle_interactions.config.particle_type.redstone_dust": "Redstone Dust",
-  "eg_particle_interactions.config.particle_type.nether_portal_shatter": "Block Shatter",
-  "eg_particle_interactions.config.particle_type.chain_snap": "Chain Link",
-  "eg_particle_interactions.config.particle_type.sugar_cane": "Sugar Cane",
-  "eg_particle_interactions.config.particle_type.vanilla_particle": "Vanilla Block",
-  "eg_particle_interactions.config.particle_type.block_placing": "Block Placing",
-  "eg_particle_interactions.config.particle_type.block_breaking": "Block Breaking",
-
+  "eg_particle_interactions.config.particle_type.block_place_or_break": "Block Place / Break",
   "eg_particle_interactions.config.particle_type.underwater_block_bubbles": "Underwater Bubble",
   "eg_particle_interactions.config.particle_type.block_rustle": "Block Rustling",
   "eg_particle_interactions.config.particle_type.campfire_particles": "Campfire Ambient",
@@ -73,17 +52,13 @@
 
   "eg_particle_interactions.config.global_option.spawn_block_particle_on_place": "Spawn when block placed",
   "eg_particle_interactions.config.global_option.spawn_block_particle_on_place.desc": "Should %s particles spawn when a block is placed?",
-  "eg_particle_interactions.config.global_option.max_particles_block_place_along_edges": "Max particles when block placed",
-  "eg_particle_interactions.config.global_option.max_particles_block_place_along_edges.desc": "The maximum amount of particles that can spawn along each edge of the block when it is placed",
   "eg_particle_interactions.config.global_option.max_particles_block_place": "Max particles when block placed",
-  "eg_particle_interactions.config.global_option.max_particles_block_place.desc": "The maximum amount of particles that can spawn when the block is placed",
+  "eg_particle_interactions.config.global_option.max_particles_block_place.desc": "The maximum amount of particles that can spawn when a block is placed",
 
   "eg_particle_interactions.config.global_option.spawn_block_particle_on_break": "Spawn when block broken",
   "eg_particle_interactions.config.global_option.spawn_block_particle_on_break.desc": "Should %s particles spawn when a block is broken?",
-  "eg_particle_interactions.config.global_option.max_particles_block_break_along_axis": "Max particles when block broken",
-  "eg_particle_interactions.config.global_option.max_particles_block_break_along_axis.desc": "The maximum amount of particles that can spawn along each axis of the block when it is broken",
   "eg_particle_interactions.config.global_option.max_particles_block_break": "Max particles when block broken",
-  "eg_particle_interactions.config.global_option.max_particles_block_break.desc": "The maximum amount of particles that can spawn when the block is broken",
+  "eg_particle_interactions.config.global_option.max_particles_block_break.desc": "The maximum amount of particles that can spawn when a block is broken",
 
   "eg_particle_interactions.config.global_option.spawn_particle_on_item_use": "Spawn when item used",
   "eg_particle_interactions.config.global_option.spawn_particle_on_item_use.desc": "Should %s particles spawn when the item is used?",
@@ -98,18 +73,6 @@
   "eg_particle_interactions.config.global_option.amount_to_spawn_on_interact": "Amount of particles on interaction",
   "eg_particle_interactions.config.global_option.amount_to_spawn_on_interact.desc": "The amount of %s particles to spawn for each interaction",
 
-
-  "eg_particle_interactions.config.global_option.is_override_enabled": "Override enabled",
-  "eg_particle_interactions.config.global_option.is_override_enabled.desc": "Should the %s Particle Override be enabled",
-
-  "eg_particle_interactions.config.global_option.spawn_snowflake_steam_particles": "Spawn steam particles in warm places",
-  "eg_particle_interactions.config.global_option.spawn_snowflake_steam_particles.desc": "Controls whether Steam particles have a chance of spawning in warm places such as deserts or the nether",
-
-  "eg_particle_interactions.config.global_option.grass_blade_spawn_grass_block_dirt_particles": "Spawn dirt particles for grass blocks",
-  "eg_particle_interactions.config.global_option.grass_blade_spawn_grass_block_dirt_particles.desc": "Controls whether Dirt particles have a chance of spawning for grass blocks",
-
-  "eg_particle_interactions.config.global_option.grass_blade_spawn_firefly_in_swamps": "Spawn firefly particles at night in swampy biomes",
-  "eg_particle_interactions.config.global_option.grass_blade_spawn_firefly_in_swamps.desc": "Controls whether Firefly particles have a chance of spawning at night in swampy biomes",
 
   "eg_particle_interactions.config.global_option.is_particle_enabled": "Particle enabled",
   "eg_particle_interactions.config.global_option.is_particle_enabled.desc": "Should %s particles be spawned",
@@ -207,34 +170,13 @@
   "eg_particle_interactions.config.global_option.debug_show_emitter_bounds.desc": "Visualises particle emitter bounding boxes with a particle in the bottom north-west corner and top south-east corner.\n\nThis will be disabled the next time you open the game",
 
 
-  "eg_particle_interactions.config.blocks": "Block Particle Overrides",
-  "eg_particle_interactions.config.blocks.desc": "Configure particle overrides for blocks. These overrides replace the vanilla block particles",
-  "eg_particle_interactions.config.blocks.info": "Block Particle Override Information",
-  "eg_particle_interactions.config.blocks.info.desc": "The following options in this tab are applied from top to bottom. This means if a block is specified in two separate particle overrides, it will only spawn the first override that is enabled",
-
-  "eg_particle_interactions.config.blocks.generic_block_override": "%s Particle Options",
-  "eg_particle_interactions.config.blocks.generic_block_override.desc": "When should %s particles be spawned?",
-  "eg_particle_interactions.config.blocks.generic_block_override_blocks": "%s Blocks",
-  "eg_particle_interactions.config.blocks.generic_block_override_blocks.desc": "Blocks that should spawn %s particles interacted with",
-
-  "eg_particle_interactions.config.blocks.vanilla_block_override": "%s Particle Options",
-  "eg_particle_interactions.config.blocks.vanilla_block_override.desc": "When should %s particles be spawned?\n\nThe %s particles will be applied to all blocks that aren't specified in any other override. If this override is disabled, the %s particles will not spawn.\nThis only applies when placing, breaking, or mining blocks!",
-
-  "eg_particle_interactions.config.blocks.tinted_or_average": "%s Particle Options",
-  "eg_particle_interactions.config.blocks.tinted_or_average.desc": "When should %s particles be spawned?\n\nThese particles are tinted with the average colour of the block's particle texture",
-  "eg_particle_interactions.config.blocks.tinted_or_average_blocks": "%s Blocks",
-  "eg_particle_interactions.config.blocks.tinted_or_average_blocks.desc": "Blocks that should spawn %s particles interacted with",
-
-  "eg_particle_interactions.config.blocks.tinted_or_random_pixel": "%s Particle Options",
-  "eg_particle_interactions.config.blocks.tinted_or_random_pixel.desc": "When should %s particles be spawned?\n\nThese particles are tinted with a random colour from the block's particle texture",
-  "eg_particle_interactions.config.blocks.tinted_or_random_pixel_blocks": "%s Blocks",
-  "eg_particle_interactions.config.blocks.tinted_or_random_pixel_blocks.desc": "Blocks that should spawn %s particles interacted with",
-
-
   "eg_particle_interactions.config.block_ambient": "Block Interactions / Ambient",
   "eg_particle_interactions.config.block_ambient.desc": "Configure how particles are spawned from blocks in the world or when interacting with blocks",
   "eg_particle_interactions.config.block_ambient.info": "Block Interactions / Ambient Information",
   "eg_particle_interactions.config.block_ambient.info.desc": "Configure how particles are spawned from blocks in the world or when interacting with blocks",
+
+  "eg_particle_interactions.config.block_ambient.block_place_or_break": "%s Particles",
+  "eg_particle_interactions.config.block_ambient.block_place_or_break.desc": "Control how many particles should be spawned when placing or breaking blocks",
 
   "eg_particle_interactions.config.block_ambient.underwater_block_bubbles": "%s Particle Options",
   "eg_particle_interactions.config.block_ambient.underwater_block_bubbles.desc": "Control how many %s particles should be spawned and when",

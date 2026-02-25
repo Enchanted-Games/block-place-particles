@@ -23,9 +23,9 @@ public class ConfigOptions {
     public static final int CONFIG_VERSION = 1;
 
     static {
+        // TODO: upgrade config for new particle overrides system
         TEMPORARY_REGISTRATION_MAP = new HashMap<>();
         GeneralOptions.init();
-        BlockOverrideOptions.init();
         BlockInteractionOptions.init();
         ItemInteractionOptions.init();
         EntityOptions.init();

@@ -9,7 +9,6 @@ public class ConfigTranslation {
 
     public static final TranslationKey MOD_CREDITS_KEY = new TranslationKey(Constants.MOD_ID + ".mod_credits");
     public static final String GENERAL_CATEGORY = "general";
-    public static final String BLOCKS_CONFIG_CATEGORY = "blocks";
     public static final String BLOCK_AMBIENT_CONFIG_CATEGORY = "block_ambient";
     public static final String ITEMS_CONFIG_CATEGORY = "items";
     public static final String ENTITY_PARTICLES_CONFIG_CATEGORY = "entity";
@@ -18,13 +17,9 @@ public class ConfigTranslation {
 
     public static final String IS_PARTICLE_ENABLED = "is_particle_enabled";
     public static final String IS_PARTICLE_ENABLED_WITH_TYPE = "is_particle_enabled_with_type";
-    public static final String IS_OVERRIDE_ENABLED = "is_override_enabled";
-    public static final String PARTICLE_SPAWN_CHANCE = "particle_spawn_chance";
     public static final String PARTICLE_SPAWN_CHANCE_WITH_TYPE = "particle_spawn_chance_with_type";
     public static final String MAX_PARTICLES_ON_BLOCK_PLACE = "max_particles_block_place";
-    public static final String MAX_PARTICLES_ON_BLOCK_PLACE_ALONG_EDGES = "max_particles_block_place_along_edges";
     public static final String MAX_PARTICLES_ON_BLOCK_BREAK = "max_particles_block_break";
-    public static final String MAX_PARTICLES_ON_BLOCK_BREAK_ALONG_AXIS = "max_particles_block_break_along_axis";
     public static final String MAX_PARTICLES_ON_FLUID_PLACE = "max_particles_fluid_place";
     public static final String MAX_PARTICLES_ON_ITEM_USE = "max_particles_item_use";
     public static final String ITEM_USE_PARTICLE_INTENSITY = "item_use_particle_intensity";
@@ -46,9 +41,6 @@ public class ConfigTranslation {
     public static final String AMOUNT_TO_SPAWN_ON_INTERACT = "amount_to_spawn_on_interact";
     public static final String AMOUNT_TO_SPAWN_ON_LIGHTNING_STRIKE = "amount_to_spawn_on_lightning_strike";
     public static final String ARE_VANILLA_FURNACE_PARTICLES_ENABLED = "are_vanilla_furnace_particles_enabled";
-    public static final String SPAWN_SNOWFLAKE_STEAM_PARTICLES = "spawn_snowflake_steam_particles";
-    public static final String GRASS_BLADE_SPAWN_GRASS_BLOCK_DIRT_PARTICLES = "grass_blade_spawn_grass_block_dirt_particles";
-    public static final String GRASS_BLADE_SPAWN_FIREFLY_IN_SWAMP = "grass_blade_spawn_firefly_in_swamps";
 
     public static final String BRUSH_PARTICLE_BEHAVIOUR = "brush_particle_behaviour";
 

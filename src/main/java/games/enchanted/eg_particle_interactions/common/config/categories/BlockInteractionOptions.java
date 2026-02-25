@@ -15,6 +15,13 @@ import net.minecraft.world.level.block.Blocks;
 import java.util.List;
 
 public class BlockInteractionOptions {
+    public static final ConfigOption<Integer> BLOCK_MAX_ON_PLACE = registerOption(
+        new IntOption(3, "block_max_on_place")
+    );
+    public static final ConfigOption<Integer> BLOCK_MAX_ON_BREAK = registerOption(
+        new IntOption(4, "block_max_on_break")
+    );
+
     public static final ConfigOption<Boolean> UNDERWATER_BUBBLES_ON_PLACE_ENABLED = registerOption(
         new BoolOption(true, "underwater_bubbles_on_place_enabled")
     );

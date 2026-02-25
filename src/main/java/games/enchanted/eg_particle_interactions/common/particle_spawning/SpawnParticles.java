@@ -38,14 +38,14 @@ import org.joml.Vector3f;
 
 public class SpawnParticles {
     public static void spawnBlockPlaceParticle(ClientLevel level, BlockPos blockPos, BlockState placedBlockState) {
-        if(BlockOverrideOptions.DISABLE_ALL_PLACING_PARTICLES.getValue()) return;
+        int maxParticlesPerEdge = BlockInteractionOptions.BLOCK_MAX_ON_PLACE.getValue();
+
+        if(maxParticlesPerEdge <= 0) return;
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.BLOCK_PLACE_OR_BREAK, blockPos)) return;
         if (BlockInteractionOptions.UNDERWATER_BUBBLES_ON_PLACE_ENABLED.getValue()) spawnUnderwaterBubbles(BlockInteractionOptions.UNDERWATER_BUBBLES_MAX_ON_PLACE.getValue(), level, blockPos);
 
         ParticleOrigin origin = ParticleOrigin.BLOCK_PLACED;
         OverridePreset override = BlockOverrideManager.getForBlock(placedBlockState, origin);
-
-        int maxParticlesPerEdge = BlockOverrideOptions.VANILLA_BLOCK_PARTICLE.maxOnPlaceOption().getValue();
 
         if (!placedBlockState.isAir() && placedBlockState.shouldSpawnTerrainParticles()) {
             VoxelShape blockShape = placedBlockState.getShape(level, blockPos);
@@ -104,14 +104,14 @@ public class SpawnParticles {
     }
 
     public static void spawnBlockBreakParticle(ClientLevel level, BlockState brokenBlockState, BlockPos blockPos) {
-        if(BlockOverrideOptions.DISABLE_ALL_BREAKING_PARTICLES.getValue()) return;
+        int maxParticlesPerLength = BlockInteractionOptions.BLOCK_MAX_ON_BREAK.getValue();
+
+        if(maxParticlesPerLength <= 0) return;
         if(SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.BLOCK_PLACE_OR_BREAK, blockPos)) return;
         if (BlockInteractionOptions.UNDERWATER_BUBBLES_ON_BREAK_ENABLED.getValue()) spawnUnderwaterBubbles(BlockInteractionOptions.UNDERWATER_BUBBLES_MAX_ON_BREAK.getValue(), level, blockPos);
 
         ParticleOrigin origin = ParticleOrigin.BLOCK_BROKEN;
         OverridePreset override = BlockOverrideManager.getForBlock(brokenBlockState, origin);
-
-        int maxParticlesPerLength = BlockOverrideOptions.VANILLA_BLOCK_PARTICLE.maxOnBreakOption().getValue();
 
         if (!brokenBlockState.isAir() && brokenBlockState.shouldSpawnTerrainParticles()) {
             VoxelShape blockShape = brokenBlockState.getShape(level, blockPos);
