@@ -22,14 +22,8 @@ public class BlockInteractionOptions {
         new IntOption(4, "block_max_on_break")
     );
 
-    public static final ConfigOption<Boolean> UNDERWATER_BUBBLES_ON_PLACE_ENABLED = registerOption(
-        new BoolOption(true, "underwater_bubbles_on_place_enabled")
-    );
     public static final ConfigOption<Integer> UNDERWATER_BUBBLES_MAX_ON_PLACE = registerOption(
         new IntOption(12, "underwater_bubbles_max_on_place")
-    );
-    public static final ConfigOption<Boolean> UNDERWATER_BUBBLES_ON_BREAK_ENABLED = registerOption(
-        new BoolOption(true, "underwater_bubbles_on_break_enabled")
     );
     public static final ConfigOption<Integer> UNDERWATER_BUBBLES_MAX_ON_BREAK = registerOption(
         new IntOption(6, "underwater_bubbles_max_on_break")

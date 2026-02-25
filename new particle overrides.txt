@@ -1,0 +1,53 @@
+--- particle overrides ---
+- resourcepack file
+- defines a particle to emit per particle origin
+
+root
+    > default_emitter {emitter}
+    > emitters (map particle origin to emitter)
+        > {emitter}
+
+emitter
+    > emitter_type 'particle_interactions', 'vanilla', 'empty'
+    > velocity_multiplier
+
+particle_interactions emitter
+    > particle (id, or id and options if needed)
+    > texture_source (id to texture source file, defaults to particle_id)
+
+vanilla emitter
+    > particle_type
+
+empty emitter
+    - no extra fields
+
+
+--- [object] override rule ---
+- resourcepack controlled (maybe config too)
+- defines weights for [object]s for an override
+- can also remove weights from overrides
+
+root (filename corresponds to override id)
+    > weights (list)
+        > weight
+        > [object] predicate
+    > exclusions
+        > [object] predicate
+
+
+when spawning particles for the first time:
+- iterate all stored override weight configs
+- create OverridePreset from them
+- create map of [object] > override preset
+    - clear this on world load and resourcepack reload to be safe
+
+
+
+--- particle providers ---
+- particle xyz and speed
+- ParticleContext
+    - contains level
+    - nullable block context (blockstate and position)
+    - nullable item context (itemstack)
+- nullable TextureContext
+    - if present textures should be used from this instead of block or item

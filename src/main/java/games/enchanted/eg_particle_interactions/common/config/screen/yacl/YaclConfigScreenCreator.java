@@ -164,10 +164,8 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 "underwater_block_bubbles",
                 "underwater_block_bubbles",
                 ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
-                ConfigScreenHelper.booleanOption(ConfigTranslation.SPAWN_BLOCK_PARTICLE_ON_PLACE, "underwater_block_bubbles", BlockInteractionOptions.UNDERWATER_BUBBLES_ON_PLACE_ENABLED),
-                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_PLACE, "underwater_block_bubbles", BlockInteractionOptions.UNDERWATER_BUBBLES_MAX_ON_PLACE, 1, 50, 1),
-                ConfigScreenHelper.booleanOption(ConfigTranslation.SPAWN_BLOCK_PARTICLE_ON_BREAK, "underwater_block_bubbles", BlockInteractionOptions.UNDERWATER_BUBBLES_ON_BREAK_ENABLED),
-                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK, "underwater_block_bubbles", BlockInteractionOptions.UNDERWATER_BUBBLES_MAX_ON_BREAK, 1, 50, 1)
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_PLACE, "underwater_block_bubbles", BlockInteractionOptions.UNDERWATER_BUBBLES_MAX_ON_PLACE, 0, 50, 1),
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK, "underwater_block_bubbles", BlockInteractionOptions.UNDERWATER_BUBBLES_MAX_ON_BREAK, 0, 50, 1)
             ))
 
             .group(

@@ -24,6 +24,7 @@ public class ConfigOptions {
 
     static {
         // TODO: upgrade config for new particle overrides system
+        // merging the underwater bubble options (true/false and amount -> just amount)
         TEMPORARY_REGISTRATION_MAP = new HashMap<>();
         GeneralOptions.init();
         BlockInteractionOptions.init();
