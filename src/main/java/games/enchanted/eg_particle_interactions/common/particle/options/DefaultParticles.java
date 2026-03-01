@@ -16,8 +16,8 @@ public class DefaultParticles {
         new RandomFloatProvider(0.01f, 0.01f)
     );
 
-    public static final Supplier<DripParticleOption> FALLING_HONEY_DROP = () -> new DripParticleOption(ParticleTypesRegistry.HONEY_DROP, HONEY_DROP_CONFIG, 0);
-    public static final Supplier<DripParticleOption> HANGING_HONEY_DROP = () -> new DripParticleOption(ParticleTypesRegistry.HONEY_DROP, HONEY_DROP_CONFIG, 30);
+    public static final Supplier<DripParticleOption> FALLING_HONEY_DROP = () -> new DripParticleOption(ParticleTypesRegistry.HONEY_DROP, HONEY_DROP_CONFIG, new RandomIntProvider(0, 0));
+    public static final Supplier<DripParticleOption> HANGING_HONEY_DROP = () -> new DripParticleOption(ParticleTypesRegistry.HONEY_DROP, HONEY_DROP_CONFIG, new RandomIntProvider(28, 30));
 
 
     private static final RandomIntProvider DUST_LIFETIME = new RandomIntProvider(22, 82);
@@ -176,7 +176,7 @@ public class DefaultParticles {
     );
 
 
-    private static final RandomFloatProvider SWIRLING_COLLISION_SIZE = new RandomFloatProvider(0.03125f, 0.03125f);
+    private static final RandomFloatProvider SWIRLING_COLLISION_SIZE = new RandomFloatProvider(0.025f, 0.025f);
 
     public static final ParticleConfig SWIRLING_DEFAULT_CONFIG = new ParticleConfig(
         new RandomFloatProvider(0.5f, 0.5f),

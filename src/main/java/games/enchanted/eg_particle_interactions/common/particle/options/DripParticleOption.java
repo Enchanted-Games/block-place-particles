@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
+import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomIntProvider;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -12,13 +13,13 @@ import net.minecraft.util.ExtraCodecs;
 import org.jetbrains.annotations.NotNull;
 
 public class DripParticleOption implements PIParticleOptions {
-    public static final int DEFAULT_START_FALLING_TICKS = 5;
+    public static final RandomIntProvider DEFAULT_START_FALLING_TICKS = new RandomIntProvider(5, 6);
 
     private final PIParticleType<DripParticleOption> type;
     private final ParticleConfig config;
-    private final int startFallingTicks;
+    private final RandomIntProvider startFallingTicks;
 
-    public DripParticleOption(PIParticleType<DripParticleOption> type, ParticleConfig config, int fallTicks) {
+    public DripParticleOption(PIParticleType<DripParticleOption> type, ParticleConfig config, RandomIntProvider fallTicks) {
         this.type = type;
         this.config = config;
         this.startFallingTicks = fallTicks;
@@ -28,7 +29,7 @@ public class DripParticleOption implements PIParticleOptions {
         return RecordCodecBuilder.create((RecordCodecBuilder.Instance<DripParticleOption> instance) ->
             instance.group(
                 ParticleConfig.createCodec(defaultConfig).forGetter(DripParticleOption::config),
-                ExtraCodecs.NON_NEGATIVE_INT.optionalFieldOf("start_falling_ticks", DEFAULT_START_FALLING_TICKS).forGetter(DripParticleOption::getStartFallingTicks)
+                RandomIntProvider.CODEC.optionalFieldOf("start_falling_ticks", DEFAULT_START_FALLING_TICKS).forGetter(DripParticleOption::getStartFallingTicks)
             ).apply(
                 instance,
                 (
@@ -65,7 +66,7 @@ public class DripParticleOption implements PIParticleOptions {
         return "drip";
     }
 
-    public int getStartFallingTicks() {
+    public RandomIntProvider getStartFallingTicks() {
         return startFallingTicks;
     }
 }

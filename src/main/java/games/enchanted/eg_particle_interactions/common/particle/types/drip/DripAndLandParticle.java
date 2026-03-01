@@ -24,7 +24,7 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
         super(context, appearance, config, x, y, z);
         this.setScale(0.15f);
 
-        this.startFallingAtTicks = dripParticleOption.getStartFallingTicks();
+        this.startFallingAtTicks = dripParticleOption.getStartFallingTicks().getValue(context);
 
         this.u0 = this.currentSprite.getU0();
         this.u1 = this.currentSprite.getU1();
