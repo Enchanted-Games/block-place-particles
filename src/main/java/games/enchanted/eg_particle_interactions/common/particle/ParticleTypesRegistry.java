@@ -367,8 +367,8 @@ public class ParticleTypesRegistry {
         DefaultParticles.EMBER_CONFIG,
         SimpleParticleOptions::codec,
         SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix)
-    ;
+        SimpleParticleOptions::idPrefix
+    );
     public static final PIParticleType<SimpleParticleOptions> FLOATING_SOUL_EMBER = register(
         Ember.EmberProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "floating_soul_ember"),

@@ -92,7 +92,7 @@ public class DefaultParticles {
     );
 
 
-    public static final ParticleConfig LAVA_POP_CONFIG = new ParticleConfig(ParticleConfig.DEFAULT_GRAVITY, new RandomIntProvider(26, 32));
+    public static final ParticleConfig LAVA_POP_CONFIG = new ParticleConfig(ParticleConfig.DEFAULT_GRAVITY, new RandomIntProvider(30, 36));
 
     public static final Supplier<SimpleParticleOptions> LAVA_POP = () -> new SimpleParticleOptions(
         ParticleTypesRegistry.LAVA_POP,

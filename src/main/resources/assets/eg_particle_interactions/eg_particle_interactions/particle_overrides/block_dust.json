@@ -5,20 +5,11 @@
       "particle": {
         "type": "eg_particle_interactions:dust/block_dust",
         "dust_options": {
-          "gravity": {
-            "min": 0.25,
-            "max": 0.38
-          },
           "speck_emitter": {
             "emitter_type": "eg_particle_interactions:particle_interactions",
             "particle": {
               "type": "eg_particle_interactions:dust/block_dust_speck",
-              "dust_options": {
-                "gravity": {
-                  "min": 0.133,
-                  "max": 0.133
-                }
-              }
+              "dust_options": {}
             }
           }
         }

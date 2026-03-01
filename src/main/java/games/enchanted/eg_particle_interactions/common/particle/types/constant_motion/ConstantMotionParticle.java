@@ -31,8 +31,12 @@ public class ConstantMotionParticle extends ParticleInteractionsParticle {
         this.pickSpriteForAppearance();
         ++this.age;
 
-        this.x -= this.xd;
-        this.y -= this.yd;
-        this.z -= this.zd;
+        this.xo = this.x;
+        this.yo = this.y;
+        this.zo = this.z;
+
+        this.x += this.xd;
+        this.y += this.yd;
+        this.z += this.zd;
     }
 }

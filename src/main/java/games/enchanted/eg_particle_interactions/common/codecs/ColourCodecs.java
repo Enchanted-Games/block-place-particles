@@ -3,6 +3,7 @@ package games.enchanted.eg_particle_interactions.common.codecs;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
+import net.minecraft.util.ARGB;
 
 import java.util.List;
 import java.util.Locale;
@@ -10,12 +11,12 @@ import java.util.Locale;
 public class ColourCodecs {
     public static Codec<Integer> RGBA_HEX_CODEC = Codec.STRING.comapFlatMap(
         input -> {
-            if(!input.matches("^#[0-9a-fA-F]{8}$")) {
+            if(!input.matches("^#[0-9a-fA-F]{6}$")) {
                 return DataResult.error(() -> "Invalid hexadecimal colour. Value '" + input + "' is not valid");
             }
             try {
                 int parsedRgb = Integer.parseInt(input.substring(1), 16);
-                return DataResult.success(parsedRgb);
+                return DataResult.success(ARGB.color(255, parsedRgb));
             }
             catch (NumberFormatException numberFormatException) {
                 return DataResult.error(() -> "Invalid hexadecimal value '" + input + "'");

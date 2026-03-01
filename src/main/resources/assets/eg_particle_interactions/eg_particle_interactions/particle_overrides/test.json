@@ -6,8 +6,7 @@
         "type": "eg_particle_interactions:drip/honey_drop",
         "drip_options": {
           "start_falling_ticks": 0,
-          "gravity": 0.02,
-          "gravity_randomness": 0.03
+          "gravity": 0.02
         }
       },
       "appearance": {
@@ -27,8 +26,7 @@
         "type": "eg_particle_interactions:drip/honey_drop",
         "drip_options": {
           "start_falling_ticks": 0,
-          "gravity": 0.02,
-          "gravity_randomness": 0.03
+          "gravity": -0.02
         }
       },
       "appearance": {
@@ -36,6 +34,21 @@
           "sprites": [
             "eg_particle_interactions:blue_drop"
           ]
+        }
+      },
+
+      "velocity_multiplier": 0.2
+    },
+    "eg_particle_interactions:block/placed": {
+
+      "emitter_type": "eg_particle_interactions:particle_interactions",
+      "particle": {
+        "type": "eg_particle_interactions:simple/lava_pop",
+        "simple_options": {
+          "lifetime": {
+            "min": 1,
+            "max": 120
+          }
         }
       },
 

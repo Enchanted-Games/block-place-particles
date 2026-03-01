@@ -12,6 +12,7 @@ public class ColourSources {
     public static final ExtraCodecs.LateBoundIdMapper<Identifier, MapCodec<? extends ColourSource>> SOURCES = new ExtraCodecs.LateBoundIdMapper<>();
     public static final Codec<ColourSource> CODEC = SOURCES.codec(Identifier.CODEC).dispatch("type", ColourSource::codec, mapCodec -> mapCodec);
 
+    // TODO: variation
     static {
         SOURCES.put(ParticleInteractionsMod.id("constant"), StaticColourSource.CODEC);
         SOURCES.put(ParticleInteractionsMod.id("block_texture"), BlockTextureColourSource.CODEC);

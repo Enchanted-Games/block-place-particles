@@ -9,14 +9,13 @@
   },
   "exclusions": {
     "eg_particle_interactions:block/falling_block_falling": [
-      [
-        "#sand"
-      ]
+      ["#sand"]
     ],
     "eg_particle_interactions:block/falling_block_landed": [
-      [
-        "#sand"
-      ]
+      ["#sand"]
+    ],
+    "eg_particle_interactions:block/brushed": [
+      ["#sand"]
     ]
   }
 }
