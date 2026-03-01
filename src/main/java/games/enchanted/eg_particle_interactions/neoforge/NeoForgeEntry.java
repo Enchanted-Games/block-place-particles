@@ -5,7 +5,6 @@ import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.config.compat.ConfigScreenCreator;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
-import games.enchanted.eg_particle_interactions.neoforge.registry.NeoParticleProviderRegistry;
 import games.enchanted.eg_particle_interactions.neoforge.registry.NeoReloadListenerRegistry;
 import net.minecraft.core.registries.Registries;
 import net.neoforged.api.distmarker.Dist;
@@ -38,8 +37,6 @@ public class NeoForgeEntry {
         // register client resource reload listener
         bus.addListener(NeoReloadListenerRegistry::register);
 
-        // register particle providers
-        bus.addListener(NeoParticleProviderRegistry::registerParticleProviders);
         // register config screen
         ConfigScreenCreator screenCreator = ConfigScreenCreator.getScreenCreator();
         if(screenCreator.canCreateScreen()) {

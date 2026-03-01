@@ -3,7 +3,7 @@
     "eg_particle_interactions:default": {
       "emitter_type": "eg_particle_interactions:particle_interactions",
       "particle": {
-        "type": "eg_particle_interactions:honey_drop",
+        "type": "eg_particle_interactions:drip/honey_drop",
         "drip_options": {
           "start_falling_ticks": 0,
           "gravity": 0.02,
@@ -24,7 +24,7 @@
 
       "emitter_type": "eg_particle_interactions:particle_interactions",
       "particle": {
-        "type": "eg_particle_interactions:honey_drop",
+        "type": "eg_particle_interactions:drip/honey_drop",
         "drip_options": {
           "start_falling_ticks": 0,
           "gravity": 0.02,

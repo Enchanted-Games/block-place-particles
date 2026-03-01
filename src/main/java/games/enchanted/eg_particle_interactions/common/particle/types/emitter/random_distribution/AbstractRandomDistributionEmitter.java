@@ -19,7 +19,7 @@ public abstract class AbstractRandomDistributionEmitter extends AbstractEmitterP
     protected boolean emitOnFirstTick;
 
     protected AbstractRandomDistributionEmitter(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomDistributionEmitterOptions emitterOptions) {
-        super(context, appearance, x, y, z, emitterOptions.getDimensions().x, emitterOptions.getDimensions().y, emitterOptions.getDimensions().z);
+        super(context, appearance, emitterOptions.config(), x, y, z, emitterOptions.getDimensions().x, emitterOptions.getDimensions().y, emitterOptions.getDimensions().z);
         this.emittedXSpeed = xSpeed;
         this.emittedYSpeed = ySpeed;
         this.emittedZSpeed = zSpeed;

@@ -6,6 +6,7 @@ import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.options.DefaultParticles;
 import games.enchanted.eg_particle_interactions.common.particle.options.SparkParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.types.physics.StretchyBouncyShapeParticle;
@@ -27,9 +28,8 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
 
     protected final @Nullable Emitter flashEmitter;
 
-    protected FlyingSpark(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float gravity, int lifetime, SparkParticleOptions options) {
-        super(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
-        this.gravity = gravity;
+    protected FlyingSpark(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SparkParticleOptions options) {
+        super(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed);
         this.friction = 1.0f;
 
         this.xd = (xSpeed / 2) + (Math.random() * 3.0 - 1.5) * 0.05 * (this.random.nextFloat() > 0.95 ? 2 : 1);
@@ -39,10 +39,7 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         this.physics_bounciness = 0.8f;
         this.physics_passThroughFluidSpeed = 0.93f;
 
-        this.lifetime = lifetime;
-
         float particleSize = (this.random.nextBoolean() ? 0.025f : 0.03f);
-        this.setSize(particleSize, particleSize);
         this.setScale(particleSize);
 
         this.setShape(ShapeDefinitions.VERTICAL_CROSS);
@@ -84,7 +81,7 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         }
         if (this.hasEnteredWater && !this.hasSpawnedSmokeParticle) {
             ParticleSpawner.spawn(
-                ParticleTypesRegistry.WATER_VAPOUR,
+                DefaultParticles.WATER_VAPOUR.get(),
                 this.context,
                 this.xo,
                 this.yo,
@@ -132,8 +129,7 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
             double ySpeed,
             double zSpeed
         ) {
-            ClientLevel level = context.level();
-            return new FlyingSpark(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.getRandom(), 0.8F, 0.9F), Mth.randomBetweenInclusive(level.getRandom(), 20, 60), options);
+            return new FlyingSpark(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, options);
         }
     }
 
@@ -153,8 +149,7 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
             double ySpeed,
             double zSpeed
         ) {
-            ClientLevel level = context.level();
-            return new FlyingSpark(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, Mth.randomBetween(level.getRandom(), 0.2F, 0.3F), Mth.randomBetweenInclusive(level.getRandom(), 4, 12), options);
+            return new FlyingSpark(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, options);
         }
     }
 }

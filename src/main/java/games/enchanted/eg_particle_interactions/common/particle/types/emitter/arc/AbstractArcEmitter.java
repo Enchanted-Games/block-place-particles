@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.emitter.arc;
 
+import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitterOptions;
@@ -28,8 +29,8 @@ public abstract class AbstractArcEmitter extends AbstractEmitterParticle {
     protected final float initialAngleXRad;
     protected final float initialAngleYRad;
 
-    public AbstractArcEmitter(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, float width, float height, float depth, ArcEmitterOptions options) {
-        super(context, appearance, x, y, z, width, height, depth);
+    public AbstractArcEmitter(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, float width, float height, float depth, ArcEmitterOptions options) {
+        super(context, appearance, config, x, y, z, width, height, depth);
 
         this.length = options.getLength();
         this.splitAmount = options.getSplits();

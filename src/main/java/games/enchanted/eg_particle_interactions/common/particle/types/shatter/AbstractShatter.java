@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.shatter;
 
+import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
@@ -19,8 +20,8 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
     protected final float uvOffset;
     protected final boolean inverseSlicePositions;
 
-    protected AbstractShatter(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        super(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
+    protected AbstractShatter(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        super(context, appearance, config, x, y, z, xSpeed, ySpeed, zSpeed);
 
         int spriteWidth = this.currentSprite.contents().width();
         int randomSize = MathHelpers.randomBetween(3, 5);
@@ -38,9 +39,6 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
         this.prevRoll = this.roll;
 
         setInitialVelocity(xSpeed, ySpeed, zSpeed, 0.1f);
-
-        this.gravity = MathHelpers.randomBetween(0.75f, 0.9f);
-        this.lifetime = MathHelpers.randomBetween(5, 25);
     }
 
     protected void setInitialVelocity(double xSpeed, double ySpeed, double zSpeed, float variance) {

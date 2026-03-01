@@ -3,14 +3,14 @@
     "eg_particle_interactions:default": {
       "emitter_type": "eg_particle_interactions:particle_interactions",
       "particle": {
-        "type": "eg_particle_interactions:block"
+        "type": "eg_particle_interactions:simple/block"
       },
       "velocity_multiplier": 4
     },
     "eg_particle_interactions:block/crack": {
       "emitter_type": "eg_particle_interactions:particle_interactions",
       "particle": {
-        "type": "eg_particle_interactions:block_crack"
+        "type": "eg_particle_interactions:simple/block_crack"
       },
       "velocity_multiplier": 4
     }

@@ -3,9 +3,8 @@ package games.enchanted.eg_particle_interactions.common.particle.options;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -27,10 +26,6 @@ public class ArcEmitterOptions implements PIParticleOptions {
     private final int repeat;
     @Nullable private final Integer initialAngleXDeg;
     @Nullable private final Integer initialAngleYDeg;
-
-    public ArcEmitterOptions(PIParticleType<ArcEmitterOptions> type, int length, int splits, int angleVariance) {
-        this(type, length, splits, angleVariance, REPEAT_DEFAULT, TICK_INTERVAL_DEFAULT, null, null);
-    }
 
     public ArcEmitterOptions(PIParticleType<ArcEmitterOptions> type, int length, int splits, int angleVariance, int repeat, int tickInterval, @Nullable Integer initialAngleXDeg, @Nullable Integer initialAngleYDeg) {
         this.type = type;
@@ -77,17 +72,26 @@ public class ArcEmitterOptions implements PIParticleOptions {
         );
     }
 
-    public static MapCodec<ArcEmitterOptions> codec(PIParticleType<ArcEmitterOptions> type) {
+    public static MapCodec<ArcEmitterOptions> codec(PIParticleType<ArcEmitterOptions> type, ParticleConfig defaultConfig) {
         return createCodec(type).fieldOf("emitter_options");
     }
 
-    public static StreamCodec<? super RegistryFriendlyByteBuf, ArcEmitterOptions> streamCodec(PIParticleType<ArcEmitterOptions> type) {
+    public static StreamCodec<? super RegistryFriendlyByteBuf, ArcEmitterOptions> streamCodec(PIParticleType<ArcEmitterOptions> type, ParticleConfig defaultConfig) {
         return ByteBufCodecs.fromCodec(createCodec(type));
     }
 
     @Override
     public @NotNull PIParticleType<ArcEmitterOptions> type() {
         return this.type;
+    }
+
+    @Override
+    public ParticleConfig config() {
+        return ParticleConfig.DEFAULT;
+    }
+
+    public static String idPrefix() {
+        return "arc_emitter";
     }
 
     public int getLength() {

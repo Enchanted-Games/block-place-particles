@@ -1,16 +1,17 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.splash;
 
-import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.options.SimpleParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.core.particles.ParticleTypes;
 import org.jetbrains.annotations.Nullable;
 
 public class LavaSplash extends BucketSplash {
-    public LavaSplash(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        super(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
+    public LavaSplash(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        super(context, appearance, config, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 
     @Override
@@ -30,13 +31,13 @@ public class LavaSplash extends BucketSplash {
         this.level.addParticle(ParticleTypes.SMOKE, x, y, z, 0, 0.03, 0);
     }
 
-    public static class Provider implements PIParticleProvider<PIParticleType.Simple> {
+    public static class Provider implements PIParticleProvider<SimpleParticleOptions> {
         public Provider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            PIParticleType.Simple type,
+            SimpleParticleOptions options,
             ParticleContext context,
             ParticleAppearance appearance,
             double x,
@@ -46,7 +47,7 @@ public class LavaSplash extends BucketSplash {
             double ySpeed,
             double zSpeed
         ) {
-            return new LavaSplash(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
+            return new LavaSplash(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed);
         }
     }
 }

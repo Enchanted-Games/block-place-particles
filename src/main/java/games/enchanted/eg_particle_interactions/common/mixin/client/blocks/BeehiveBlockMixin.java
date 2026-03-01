@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import games.enchanted.eg_particle_interactions.common.config.categories.ItemInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.particle.options.DripParticleOption;
+import games.enchanted.eg_particle_interactions.common.particle.options.DefaultParticles;
 import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -59,6 +59,6 @@ public abstract class BeehiveBlockMixin extends BaseEntityBlock {
             original.call(instance, particleData, x, y, z, xSpeed, ySpeed, zSpeed);
             return;
         }
-        ParticleSpawner.spawn(DripParticleOption.HANGING_HONEY_DROP, ParticleContext.plain(clientLevel), x, y + 0.047, z, xSpeed, ySpeed, zSpeed);
+        ParticleSpawner.spawn(DefaultParticles.HANGING_HONEY_DROP.get(), ParticleContext.plain(clientLevel), x, y + 0.047, z, xSpeed, ySpeed, zSpeed);
     }
 }

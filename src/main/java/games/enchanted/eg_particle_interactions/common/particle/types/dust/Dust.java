@@ -7,9 +7,7 @@ import games.enchanted.eg_particle_interactions.common.particle.appearance.Parti
 import games.enchanted.eg_particle_interactions.common.particle.options.DustParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
-import games.enchanted.eg_particle_interactions.common.util.LightUtil;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.util.Mth;
 import org.jspecify.annotations.Nullable;
 
 public class Dust extends ParticleInteractionsParticle {
@@ -20,25 +18,21 @@ public class Dust extends ParticleInteractionsParticle {
     protected boolean spawnSpecks;
 
     protected Dust(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, DustParticleOptions dustParticleOptions) {
-        super(context, appearance, x, y, z);
+        super(context, appearance, dustParticleOptions.config(), x, y, z);
 
         this.speckEmitter = dustParticleOptions.getSpeckEmitter();
         this.spawnSpecks = this.speckEmitter != null;
-
-        this.gravity = Mth.randomBetween(this.random, 0.25F, 0.38F);
 
         this.friction = 1.0F;
         this.xd = xSpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
         this.yd = ySpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
         this.zd = zSpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
-        this.lifetime = (int) (16.0 / ((double) this.random.nextFloat() * 0.8 + 0.2)) + 2;
         this.roll = (float) Math.toRadians(this.random.nextIntBetweenInclusive(0, 360));
         this.prevRoll = this.roll;
 
         float particleSize = this.random.nextBoolean() ? MIN_SIZE : MAX_SIZE;
         this.setScale(particleSize);
         this.setSize(particleSize, particleSize);
-        this.gravity *= dustParticleOptions.getGravity();
     }
 
     @Override
@@ -72,7 +66,7 @@ public class Dust extends ParticleInteractionsParticle {
         return this.speckEmitter;
     }
 
-    
+
     public static class SnowflakeProvider implements PIParticleProvider<DustParticleOptions> {
         public SnowflakeProvider() {
         }

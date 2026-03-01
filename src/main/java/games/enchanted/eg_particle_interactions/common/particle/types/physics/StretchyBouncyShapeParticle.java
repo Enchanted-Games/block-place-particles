@@ -3,6 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.types.physics;
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.ParticleAccessor;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
@@ -35,8 +36,8 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
      * A 3d cube particle that stretches between its current and previous position when moving, this particle also has bounce physics
      * Set {@link #physics_canBounce} to false in your particle constructor to disable bouncing
      */
-    protected StretchyBouncyShapeParticle(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        super(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
+    protected StretchyBouncyShapeParticle(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        super(context, appearance, config, x, y, z, xSpeed, ySpeed, zSpeed);
         this.prevPrevX = this.xo;
         this.prevPrevY = this.yo;
         this.prevPrevZ = this.zo;

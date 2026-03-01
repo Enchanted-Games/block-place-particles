@@ -97,17 +97,6 @@ public class PlatformHelper {
     }
 
     /**
-     * Creates and returns a new instance of net.minecraft.core.particles.SimpleParticleType
-     */
-    public static SimpleParticleType createNewSimpleParticle(boolean alwaysShow) {
-        //? if fabric {
-        return FabricParticleTypes.simple(alwaysShow);
-        //?} else {
-        /*return new SimpleParticleType(alwaysShow);
-         *///?}
-    }
-
-    /**
      * Returns the path where configuration files are stored within the .minecraft directory
      */
     public static Path getConfigPath() {

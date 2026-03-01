@@ -9,10 +9,6 @@ public class FabricClientEntry implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ParticleInteractionsMod.startOfModLoading();
-
-        // register particles
-        ParticleTypesRegistry.registerParticles();
-
         ParticleInteractionsMod.endOfModLoading();
     }
 }

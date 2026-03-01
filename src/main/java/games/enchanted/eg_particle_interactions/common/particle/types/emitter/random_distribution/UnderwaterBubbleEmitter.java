@@ -3,6 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.types.emitter.r
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.options.DefaultParticles;
 import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.RandomDistributionEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
@@ -16,7 +17,7 @@ public class UnderwaterBubbleEmitter extends AbstractRandomDistributionEmitter {
 
     @Override
     protected PIParticleOptions getParticleToEmit(ParticleContext context, double x, double y, double z) {
-        return ParticleTypesRegistry.UNDERWATER_RISING_BUBBLE_SMALL;
+        return DefaultParticles.UNDERWATER_RISING_BUBBLE_SMALL.get();
     }
 
     public static class Provider implements PIParticleProvider<RandomDistributionEmitterOptions> {

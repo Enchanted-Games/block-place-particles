@@ -1,13 +1,10 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.swirling;
 
+import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
-
-//? if minecraft: > 1.21.8 {
-
-//?}
 
 public class SwirlingParticle extends ParticleInteractionsParticle {
     protected float rotSpeed;
@@ -16,14 +13,13 @@ public class SwirlingParticle extends ParticleInteractionsParticle {
     protected float swirlStrength;
     protected final boolean shouldSwirl;
 
-    protected SwirlingParticle(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, boolean shouldSwirl) {
-        super(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
+    // TODO: swirling particle options
+    protected SwirlingParticle(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, boolean shouldSwirl) {
+        super(context, appearance, config, x, y, z, xSpeed, ySpeed, zSpeed);
         this.xd = xSpeed;
         this.yd = ySpeed;
         this.zd = zSpeed;
-        this.gravity = 0.5f;
 
-        this.lifetime = 100;
         this.setScale(3 / 16f);
 
         this.shouldSwirl = shouldSwirl;

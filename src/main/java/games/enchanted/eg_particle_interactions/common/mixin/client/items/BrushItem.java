@@ -10,7 +10,7 @@ import games.enchanted.eg_particle_interactions.common.override_system.override.
 import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.override_system.preset.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.particle.options.DustParticleOptions;
+import games.enchanted.eg_particle_interactions.common.particle.options.DefaultParticles;
 import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
 import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -93,7 +93,7 @@ public abstract class BrushItem {
         } else if(ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.DUST) {
             double velocityMultiplier = 0.1f;
             ParticleSpawner.spawn(
-                DustParticleOptions.BRUSH_DUST,
+                DefaultParticles.BRUSH_DUST.get(),
                 ParticleContext.plain(clientLevel),
                 particlePos.x + (brushDirection.getStepX() * outwardVelocity),
                 particlePos.y + (brushDirection.getStepY() * outwardVelocity),

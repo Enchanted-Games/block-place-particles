@@ -1,11 +1,10 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.emitter.random_distribution;
 
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.options.DefaultParticles;
 import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.RandomDistributionEmitterOptions;
-import games.enchanted.eg_particle_interactions.common.particle.options.SparkParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import net.minecraft.client.particle.Particle;
 import org.jetbrains.annotations.Nullable;
@@ -17,7 +16,7 @@ public class SparkEmitter extends AbstractRandomDistributionEmitter {
 
     @Override
     protected PIParticleOptions getParticleToEmit(ParticleContext context, double x, double y, double z) {
-        return SparkParticleOptions.FLYING_SPARK;
+        return DefaultParticles.FLYING_SPARK.get();
     }
 
     public static class Provider implements PIParticleProvider<RandomDistributionEmitterOptions> {

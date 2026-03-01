@@ -3,6 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.types.drip;
 import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.options.DripParticleOption;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
@@ -19,12 +20,9 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
     protected float v0;
     protected float v1;
 
-    DripAndLandParticle(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, DripParticleOption dripParticleOption) {
-        super(context, appearance, x, y, z);
-
-        this.setSize(0.01F, 0.01F);
+    DripAndLandParticle(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, DripParticleOption dripParticleOption) {
+        super(context, appearance, config, x, y, z);
         this.setScale(0.15f);
-        this.gravity = dripParticleOption.getGravity() + (level.getRandom().nextFloat() * dripParticleOption.getGravityRandomness());
 
         this.startFallingAtTicks = dripParticleOption.getStartFallingTicks();
 
@@ -34,8 +32,6 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
         float v1 = this.currentSprite.getV1();
         float halfHeight = Math.abs(this.v0 - v1) / 2;
         this.v1 = v1 - halfHeight;
-
-        this.lifetime = level.getRandom().nextIntBetweenInclusive(350, 500);
     }
 
     @Override
@@ -116,7 +112,7 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
 
         @Override
         public @Nullable Particle createParticle(DripParticleOption options, ParticleContext context, ParticleAppearance particleAppearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new DripAndLandParticle(context, particleAppearance, x, y, z, options);
+            return new DripAndLandParticle(context, particleAppearance, options.config(), x, y, z, options);
         }
     }
 }

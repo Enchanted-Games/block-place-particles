@@ -5,6 +5,7 @@ import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.ParticleAccessor;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.render.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.StateQuadConsumer;
@@ -27,6 +28,8 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 
 public abstract class ParticleInteractionsParticle extends Particle {
+    public static final SingleQuadParticle.Layer BACKFACE_TERRAIN_LAYER = new SingleQuadParticle.Layer(true, TextureAtlas.LOCATION_BLOCKS, ModRenderPipelines.BACKFACE_TRANSLUCENT_PARTICLE);
+
     private float scale;
     private float prevScale;
     protected float roll;
@@ -50,14 +53,25 @@ public abstract class ParticleInteractionsParticle extends Particle {
     private float alpha = 1.0F;
     private float prevAlpha = 1.0F;
 
+    // TODO: temporary
     protected ParticleInteractionsParticle(ParticleContext context, ParticleAppearance appearance, double x, double y, double z) {
-        this(context, appearance, x, y, z, 0, 0, 0);
+        this(context, appearance, ParticleConfig.DEFAULT, x, y, z, 0, 0, 0);
+        this.xd = 0;
+        this.yd = 0;
+        this.zd = 0;
+    }
+    protected ParticleInteractionsParticle(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        this(context, appearance, ParticleConfig.DEFAULT, x, y, z, xSpeed, ySpeed, zSpeed);
+    }
+
+    protected ParticleInteractionsParticle(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z) {
+        this(context, appearance, config, x, y, z, 0, 0, 0);
         this.xd = 0;
         this.yd = 0;
         this.zd = 0;
     }
 
-    protected ParticleInteractionsParticle(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+    protected ParticleInteractionsParticle(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         super(context.level(), x, y, z, xSpeed, ySpeed, zSpeed);
         this.context = context;
         this.appearance = appearance;
@@ -65,6 +79,12 @@ public abstract class ParticleInteractionsParticle extends Particle {
         this.currentSprite = TextureHelpers.missingParticleSprite();
         this.pickSpriteForAppearance();
 
+        this.gravity = config.getGravityProvider().getValue(context);
+        this.lifetime = config.getLifetimeProvider().getValue(context);
+        float collisionSize = config.getCollisionSizeProvider().getValue(context);
+        this.setSize(collisionSize, collisionSize);
+
+        // 0.1 - 0.2
         this.scale = 0.1F * (this.random.nextFloat() * 0.5F + 0.5F) * 2.0F;
 
         int[] colour = appearance.colourSource().getARGB(context);
@@ -77,8 +97,6 @@ public abstract class ParticleInteractionsParticle extends Particle {
 
         this.minLightEmission = appearance.lightEmission();
     }
-
-    public static final SingleQuadParticle.Layer BACKFACE_TERRAIN_LAYER = new SingleQuadParticle.Layer(true, TextureAtlas.LOCATION_BLOCKS, ModRenderPipelines.BACKFACE_TRANSLUCENT_PARTICLE);
 
     protected SingleQuadParticle.Layer getLayer() {
         ParticleLayer layer = this.getParticleLayer();

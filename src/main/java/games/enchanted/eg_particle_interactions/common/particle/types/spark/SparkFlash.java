@@ -1,11 +1,11 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.spark;
 
-import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.options.SimpleParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
-import games.enchanted.eg_particle_interactions.common.util.LightUtil;
 import net.minecraft.client.particle.Particle;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,8 +13,8 @@ public class SparkFlash extends ParticleInteractionsParticle {
     private final float originalQuadSize;
     protected final boolean useRandomAnimation;
 
-    SparkFlash(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, boolean useRandomAnimation) {
-        super(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
+    SparkFlash(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, boolean useRandomAnimation) {
+        super(context, appearance, config, x, y, z, xSpeed, ySpeed, zSpeed);
         this.speedUpWhenYMotionIsBlocked = true;
         this.friction = 0.96F;
 
@@ -40,13 +40,13 @@ public class SparkFlash extends ParticleInteractionsParticle {
         this.setScale(this.originalQuadSize * (0.5f + (Math.abs(1 - (this.age / this.lifetime)) * 0.5f)), true);
     }
 
-    public static class Provider implements PIParticleProvider<PIParticleType.Simple> {
+    public static class Provider implements PIParticleProvider<SimpleParticleOptions> {
         public Provider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            PIParticleType.Simple options,
+            SimpleParticleOptions options,
             ParticleContext context,
             ParticleAppearance appearance,
             double x,
@@ -56,17 +56,17 @@ public class SparkFlash extends ParticleInteractionsParticle {
             double ySpeed,
             double zSpeed
         ) {
-            return new SparkFlash(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, false);
+            return new SparkFlash(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, false);
         }
     }
 
-    public static class RandomAnimationProvider implements PIParticleProvider<PIParticleType.Simple> {
+    public static class RandomAnimationProvider implements PIParticleProvider<SimpleParticleOptions> {
         public RandomAnimationProvider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            PIParticleType.Simple options,
+            SimpleParticleOptions options,
             ParticleContext context,
             ParticleAppearance appearance,
             double x,
@@ -76,7 +76,7 @@ public class SparkFlash extends ParticleInteractionsParticle {
             double ySpeed,
             double zSpeed
         ) {
-            return new SparkFlash(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, true);
+            return new SparkFlash(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, true);
         }
     }
 }

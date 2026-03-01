@@ -1,8 +1,8 @@
 package games.enchanted.eg_particle_interactions.common.particle.types;
 
-import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.options.SimpleParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
@@ -17,13 +17,13 @@ public class CustomMovementTerrainParticle extends TerrainParticle {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed, state, pos);
     }
 
-    public static class BlockProvider implements PIParticleProvider<PIParticleType.Simple> {
+    public static class BlockProvider implements PIParticleProvider<SimpleParticleOptions> {
         public BlockProvider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            PIParticleType.Simple options,
+            SimpleParticleOptions options,
             ParticleContext context,
             ParticleAppearance appearance,
             double x,
@@ -43,13 +43,13 @@ public class CustomMovementTerrainParticle extends TerrainParticle {
         }
     }
 
-    public static class CrackingProvider implements PIParticleProvider<PIParticleType.Simple> {
+    public static class CrackingProvider implements PIParticleProvider<SimpleParticleOptions> {
         public CrackingProvider() {
         }
 
         @Override
         public @Nullable Particle createParticle(
-            PIParticleType.Simple options,
+            SimpleParticleOptions options,
             ParticleContext context,
             ParticleAppearance appearance,
             double x,

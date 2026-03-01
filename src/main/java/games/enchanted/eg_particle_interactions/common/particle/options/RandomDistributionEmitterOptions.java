@@ -3,6 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.options;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -39,10 +40,6 @@ public class RandomDistributionEmitterOptions implements PIParticleOptions {
         this(type, repeat, tickInvertal, particlesPerEmission, true, dimensions, new Vector3f(0, 0, 0));
     }
 
-    public RandomDistributionEmitterOptions(PIParticleType<RandomDistributionEmitterOptions> type, int repeat, int tickInvertal, int particlesPerEmission, Vector3f dimensions, Vector3f velocityVariance) {
-        this(type, repeat, tickInvertal, particlesPerEmission, true, dimensions, velocityVariance);
-    }
-
     private static Codec<RandomDistributionEmitterOptions> createCodec(PIParticleType<RandomDistributionEmitterOptions> type) {
         return RecordCodecBuilder.create((RecordCodecBuilder.Instance<RandomDistributionEmitterOptions> instance) ->
             instance.group(
@@ -59,17 +56,26 @@ public class RandomDistributionEmitterOptions implements PIParticleOptions {
         );
     }
 
-    public static MapCodec<RandomDistributionEmitterOptions> codec(PIParticleType<RandomDistributionEmitterOptions> type) {
+    public static MapCodec<RandomDistributionEmitterOptions> codec(PIParticleType<RandomDistributionEmitterOptions> type, ParticleConfig defaultConfig) {
         return createCodec(type).fieldOf("emitter_options");
     }
 
-    public static StreamCodec<? super RegistryFriendlyByteBuf, RandomDistributionEmitterOptions> streamCodec(PIParticleType<RandomDistributionEmitterOptions> type) {
+    public static StreamCodec<? super RegistryFriendlyByteBuf, RandomDistributionEmitterOptions> streamCodec(PIParticleType<RandomDistributionEmitterOptions> type, ParticleConfig defaultConfig) {
         return ByteBufCodecs.fromCodec(createCodec(type));
     }
 
     @Override
     public @NotNull PIParticleType<RandomDistributionEmitterOptions> type() {
         return this.type;
+    }
+
+    @Override
+    public ParticleConfig config() {
+        return ParticleConfig.DEFAULT;
+    }
+
+    public static String idPrefix() {
+        return "distribution_emitter";
     }
 
     public int getRepeat() {

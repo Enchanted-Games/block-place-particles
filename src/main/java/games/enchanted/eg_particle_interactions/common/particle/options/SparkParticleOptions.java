@@ -5,9 +5,8 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.override_system.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.override_system.emitter.Emitters;
-import games.enchanted.eg_particle_interactions.common.override_system.emitter.ParticleInteractionsEmitter;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
-import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -18,58 +17,54 @@ import java.util.Optional;
 
 public class SparkParticleOptions implements PIParticleOptions {
     private final PIParticleType<SparkParticleOptions> type;
+    private final ParticleConfig config;
     private final @Nullable Emitter speckEmitter;
 
-    public static final SparkParticleOptions FLYING_SPARK = new SparkParticleOptions(
-        ParticleTypesRegistry.FLYING_SPARK,
-        ParticleInteractionsEmitter.defaultAppearance(Emitter.VELOCITY_MULTIPLIER_DEFAULT, ParticleTypesRegistry.SPARK_FLASH)
-    );
-    public static final SparkParticleOptions FLOATING_SPARK = new SparkParticleOptions(
-        ParticleTypesRegistry.FLOATING_SPARK,
-        ParticleInteractionsEmitter.defaultAppearance(Emitter.VELOCITY_MULTIPLIER_DEFAULT, ParticleTypesRegistry.SPARK_FLASH)
-    );
-
-    public static final SparkParticleOptions FLYING_SOUL_SPARK = new SparkParticleOptions(
-        ParticleTypesRegistry.FLYING_SOUL_SPARK,
-        ParticleInteractionsEmitter.defaultAppearance(Emitter.VELOCITY_MULTIPLIER_DEFAULT, ParticleTypesRegistry.SOUL_SPARK_FLASH)
-    );
-    public static final SparkParticleOptions FLOATING_SOUL_SPARK = new SparkParticleOptions(
-        ParticleTypesRegistry.FLOATING_SOUL_SPARK,
-        ParticleInteractionsEmitter.defaultAppearance(Emitter.VELOCITY_MULTIPLIER_DEFAULT, ParticleTypesRegistry.SOUL_SPARK_FLASH)
-    );
-
-    public SparkParticleOptions(PIParticleType<SparkParticleOptions> type, @Nullable Emitter flashEmitter) {
+    public SparkParticleOptions(PIParticleType<SparkParticleOptions> type, ParticleConfig config, @Nullable Emitter flashEmitter) {
         this.type = type;
+        this.config = config;
         this.speckEmitter = flashEmitter;
     }
 
-    private static Codec<SparkParticleOptions> createCodec(PIParticleType<SparkParticleOptions> type) {
+    private static Codec<SparkParticleOptions> createCodec(PIParticleType<SparkParticleOptions> type, ParticleConfig defaultConfig) {
         return RecordCodecBuilder.create((RecordCodecBuilder.Instance<SparkParticleOptions> instance) ->
             instance.group(
+                ParticleConfig.createCodec(defaultConfig).forGetter(SparkParticleOptions::config),
                 Emitters.CODEC.optionalFieldOf("flash_emitter").forGetter(dustParticleOptions -> Optional.ofNullable(dustParticleOptions.getFlashEmitter()))
             ).apply(
                 instance,
                 (
+                    config,
                     emitter
                 ) -> new SparkParticleOptions(
                     type,
+                    config,
                     emitter.orElse(null)
                 )
             )
         );
     }
 
-    public static MapCodec<SparkParticleOptions> codec(PIParticleType<SparkParticleOptions> type) {
-        return createCodec(type).fieldOf("spark_options");
+    public static MapCodec<SparkParticleOptions> codec(PIParticleType<SparkParticleOptions> type, ParticleConfig defaultConfig) {
+        return createCodec(type, defaultConfig).fieldOf("spark_options");
     }
 
-    public static StreamCodec<? super RegistryFriendlyByteBuf, SparkParticleOptions> streamCodec(PIParticleType<SparkParticleOptions> type) {
-        return ByteBufCodecs.fromCodec(createCodec(type));
+    public static StreamCodec<? super RegistryFriendlyByteBuf, SparkParticleOptions> streamCodec(PIParticleType<SparkParticleOptions> type, ParticleConfig defaultConfig) {
+        return ByteBufCodecs.fromCodec(createCodec(type, defaultConfig));
     }
 
     @Override
     public @NotNull PIParticleType<?> type() {
         return this.type;
+    }
+
+    @Override
+    public ParticleConfig config() {
+        return this.config;
+    }
+
+    public static String idPrefix() {
+        return "spark";
     }
 
     public @Nullable Emitter getFlashEmitter() {

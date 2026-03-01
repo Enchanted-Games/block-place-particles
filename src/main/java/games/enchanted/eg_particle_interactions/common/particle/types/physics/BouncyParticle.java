@@ -1,6 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.physics;
 
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
@@ -29,8 +30,8 @@ public abstract class BouncyParticle extends ParticleInteractionsParticle {
      * A single quad particle has simple bouncing physics.
      * Set {@link #physics_bounciness} or {@link #physics_passThroughFluidSpeed} in your particle constructor to adjust the particle physics
      */
-    protected BouncyParticle(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        super(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed);
+    protected BouncyParticle(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        super(context, appearance, config, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 
     protected float getTotalVelocity() {

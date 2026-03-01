@@ -22,7 +22,7 @@ public class ParticleSpawner {
     }
 
     @SuppressWarnings("unchecked")
-    private static  <T extends PIParticleOptions> void spawnParticle(
+    private static <T extends PIParticleOptions> void spawnParticle(
         final T options,
         ParticleContext context,
         @Nullable ParticleAppearance appearance,
@@ -34,6 +34,9 @@ public class ParticleSpawner {
         double zSpeed
     ) {
         PIParticleType<T> type = (PIParticleType<T>) options.type();
+        if(type == null) {
+            throw new IllegalStateException("Particle type was null, options: " + options);
+        }
         PIParticleProvider<T> provider = ParticleTypesRegistry.getProviderOrThrow(type);
         Identifier particleId = ParticleTypesRegistry.getIdOrThrow(type);
 

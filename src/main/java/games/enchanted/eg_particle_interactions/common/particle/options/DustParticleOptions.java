@@ -5,9 +5,8 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.override_system.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.override_system.emitter.Emitters;
-import games.enchanted.eg_particle_interactions.common.override_system.emitter.ParticleInteractionsEmitter;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
-import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -17,104 +16,41 @@ import org.jspecify.annotations.Nullable;
 import java.util.Optional;
 
 public class DustParticleOptions implements PIParticleOptions {
-    public static final float DEFAULT_GRAVITY = 1.0f;
-
-    public static final DustParticleOptions SNOWFLAKE_SPECK = new DustParticleOptions(
-        ParticleTypesRegistry.SNOWFLAKE_SPECK,
-        0.7f,
-        null
-    );
-    public static final DustParticleOptions SNOWFLAKE = new DustParticleOptions(
-        ParticleTypesRegistry.SNOWFLAKE,
-        1.1f,
-        ParticleInteractionsEmitter.defaultAppearance(Emitter.VELOCITY_MULTIPLIER_DEFAULT, SNOWFLAKE_SPECK)
-    );
-
-    public static final DustParticleOptions BLOCK_DUST_SPECK = new DustParticleOptions(
-        ParticleTypesRegistry.BLOCK_DUST_SPECK,
-        0.35f,
-        null
-    );
-    public static final DustParticleOptions BLOCK_DUST = new DustParticleOptions(
-        ParticleTypesRegistry.BLOCK_DUST,
-        0.7f,
-        ParticleInteractionsEmitter.defaultAppearance(Emitter.VELOCITY_MULTIPLIER_DEFAULT, BLOCK_DUST_SPECK)
-    );
-
-    public static final DustParticleOptions REDSTONE = new DustParticleOptions(
-        ParticleTypesRegistry.REDSTONE_DUST,
-        0f,
-        null
-    );
-
-    public static final DustParticleOptions BRUSH_DUST_SPECK = new DustParticleOptions(
-        ParticleTypesRegistry.BRUSH_DUST_SPECK,
-        0.35f,
-        null
-    );
-    public static final DustParticleOptions BRUSH_DUST = new DustParticleOptions(
-        ParticleTypesRegistry.BRUSH_DUST,
-        0.7f,
-        ParticleInteractionsEmitter.defaultAppearance(Emitter.VELOCITY_MULTIPLIER_DEFAULT, BRUSH_DUST_SPECK)
-    );
-
-    public static final DustParticleOptions ITEM_FRAME_DUST_SPECK = new DustParticleOptions(
-        ParticleTypesRegistry.ITEM_FRAME_DUST_SPECK,
-        0.35f,
-        null
-    );
-    public static final DustParticleOptions ITEM_FRAME_DUST = new DustParticleOptions(
-        ParticleTypesRegistry.ITEM_FRAME_DUST,
-        0.7f,
-        ParticleInteractionsEmitter.defaultAppearance(Emitter.VELOCITY_MULTIPLIER_DEFAULT, ITEM_FRAME_DUST_SPECK)
-    );
-
-    public static final DustParticleOptions GLOW_ITEM_FRAME_DUST_SPECK = new DustParticleOptions(
-        ParticleTypesRegistry.GLOW_ITEM_FRAME_DUST_SPECK,
-        0.35f,
-        null
-    );
-    public static final DustParticleOptions GLOW_ITEM_FRAME_DUST = new DustParticleOptions(
-        ParticleTypesRegistry.GLOW_ITEM_FRAME_DUST,
-        0.7f,
-        ParticleInteractionsEmitter.defaultAppearance(Emitter.VELOCITY_MULTIPLIER_DEFAULT, GLOW_ITEM_FRAME_DUST_SPECK)
-    );
-
     private final PIParticleType<DustParticleOptions> type;
-    private final float gravity;
+    private final ParticleConfig baseConfig;
     private final @Nullable Emitter speckEmitter;
 
-    public DustParticleOptions(PIParticleType<DustParticleOptions> type, float gravity, @Nullable Emitter speckEmitter) {
+    public DustParticleOptions(PIParticleType<DustParticleOptions> type, ParticleConfig baseConfig, @Nullable Emitter speckEmitter) {
         this.type = type;
-        this.gravity = gravity;
+        this.baseConfig = baseConfig;
         this.speckEmitter = speckEmitter;
     }
 
-    private static Codec<DustParticleOptions> createCodec(PIParticleType<DustParticleOptions> type) {
+    private static Codec<DustParticleOptions> createCodec(PIParticleType<DustParticleOptions> type, ParticleConfig defaultConfig) {
         return RecordCodecBuilder.create((RecordCodecBuilder.Instance<DustParticleOptions> instance) ->
             instance.group(
-                Codec.FLOAT.optionalFieldOf("gravity", DEFAULT_GRAVITY).forGetter(DustParticleOptions::getGravity),
+                ParticleConfig.createCodec(defaultConfig).forGetter(DustParticleOptions::config),
                 Emitters.CODEC.optionalFieldOf("speck_emitter").forGetter(dustParticleOptions -> Optional.ofNullable(dustParticleOptions.getSpeckEmitter()))
             ).apply(
                 instance,
                 (
-                    gravity,
+                    baseConfig,
                     emitter
                 ) -> new DustParticleOptions(
                     type,
-                    gravity,
+                    baseConfig,
                     emitter.orElse(null)
                 )
             )
         );
     }
 
-    public static MapCodec<DustParticleOptions> codec(PIParticleType<DustParticleOptions> type) {
-        return createCodec(type).fieldOf("dust_options");
+    public static MapCodec<DustParticleOptions> codec(PIParticleType<DustParticleOptions> type, ParticleConfig defaultConfig) {
+        return createCodec(type, defaultConfig).fieldOf("dust_options");
     }
 
-    public static StreamCodec<? super RegistryFriendlyByteBuf, DustParticleOptions> streamCodec(PIParticleType<DustParticleOptions> type) {
-        return ByteBufCodecs.fromCodec(createCodec(type));
+    public static StreamCodec<? super RegistryFriendlyByteBuf, DustParticleOptions> streamCodec(PIParticleType<DustParticleOptions> type, ParticleConfig defaultConfig) {
+        return ByteBufCodecs.fromCodec(createCodec(type, defaultConfig));
     }
 
     @Override
@@ -122,11 +58,16 @@ public class DustParticleOptions implements PIParticleOptions {
         return this.type;
     }
 
-    public float getGravity() {
-        return this.gravity;
-    }
-
     public @Nullable Emitter getSpeckEmitter() {
         return this.speckEmitter;
+    }
+
+    @Override
+    public ParticleConfig config() {
+        return this.baseConfig;
+    }
+
+    public static String idPrefix() {
+        return "dust";
     }
 }
