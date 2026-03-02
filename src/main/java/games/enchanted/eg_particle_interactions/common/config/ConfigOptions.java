@@ -20,11 +20,9 @@ public class ConfigOptions {
     private static Map<ConfigCategory, List<ConfigOption<?>>> TEMPORARY_REGISTRATION_MAP;
 
     public static final String CONFIG_VERSION_KEY = "config_version";
-    public static final int CONFIG_VERSION = 1;
+    public static final int CONFIG_VERSION = 2;
 
     static {
-        // TODO: upgrade config for new particle overrides system
-        // merging the underwater bubble options (true/false and amount -> just amount)
         TEMPORARY_REGISTRATION_MAP = new HashMap<>();
         GeneralOptions.init();
         BlockInteractionOptions.init();

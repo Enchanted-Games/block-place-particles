@@ -53,17 +53,6 @@ public abstract class ParticleInteractionsParticle extends Particle {
     private float alpha = 1.0F;
     private float prevAlpha = 1.0F;
 
-    // TODO: temporary
-    protected ParticleInteractionsParticle(ParticleContext context, ParticleAppearance appearance, double x, double y, double z) {
-        this(context, appearance, ParticleConfig.DEFAULT, x, y, z, 0, 0, 0);
-        this.xd = 0;
-        this.yd = 0;
-        this.zd = 0;
-    }
-    protected ParticleInteractionsParticle(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        this(context, appearance, ParticleConfig.DEFAULT, x, y, z, xSpeed, ySpeed, zSpeed);
-    }
-
     protected ParticleInteractionsParticle(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z) {
         this(context, appearance, config, x, y, z, 0, 0, 0);
         this.xd = 0;
