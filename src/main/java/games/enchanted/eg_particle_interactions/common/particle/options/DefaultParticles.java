@@ -213,7 +213,7 @@ public class DefaultParticles {
 
 
     public static final ParticleConfig UNDERWATER_RISING_BUBBLE_CONFIG = new ParticleConfig(
-        new RandomFloatProvider(0.35f, 0.35f),
+        new RandomFloatProvider(-0.35f, -0.37f),
         new RandomIntProvider(100, 600),
         new RandomFloatProvider(0.02f, 0.02f)
     );
