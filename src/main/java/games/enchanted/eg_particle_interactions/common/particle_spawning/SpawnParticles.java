@@ -1,21 +1,19 @@
 package games.enchanted.eg_particle_interactions.common.particle_spawning;
 
 import games.enchanted.eg_particle_interactions.common.config.categories.*;
-import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
+import games.enchanted.eg_particle_interactions.common.override_system.override.block.BlockOverrideManager;
 import games.enchanted.eg_particle_interactions.common.override_system.preset.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.options.*;
 import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
 import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
-import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
-import games.enchanted.eg_particle_interactions.common.registry.TagUtil;
+import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
 import games.enchanted.eg_particle_interactions.common.util.FluidHelpers;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
@@ -756,8 +754,7 @@ public class SpawnParticles {
         if (!FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_ENABLED.getValue()) return;
         if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, blockPos)) return;
 
-        Identifier blockLocation = RegistryHelpers.getLocationFromBlock(blockState.getBlock());
-        if (!TagUtil.doesListContainBlock(FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_BLOCKS.getValue(), blockLocation)) return;
+        if (!BlockOrTagLocation.doesListContainBlock(FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_BLOCKS.getValue(), blockState)) return;
 
         if (!FluidHelpers.probablyPlacedUnderwater(level, blockPos)) return;
 
@@ -783,10 +780,15 @@ public class SpawnParticles {
         double speed = deltaMovement.length();
         if (speed <= 0.1 && !isSprinting) return;
 
-        Identifier blockLocation = RegistryHelpers.getLocationFromBlock(blockState.getBlock());
-        if (!TagUtil.doesListContainBlock(BlockInteractionOptions.BLOCK_RUSTLE_BLOCKS.getValue(), blockLocation)) return;
+        if (!BlockOrTagLocation.doesListContainBlock(BlockInteractionOptions.BLOCK_RUSTLE_BLOCKS.getValue(), blockState)) return;
 
-        ParticleOrigin overrideOrigin = ParticleOrigin.BLOCK_WALKED_THROUGH;
+        ParticleOrigin origin = ParticleOrigin.BLOCK_WALKED_THROUGH;
+        OverridePreset override = BlockOverrideManager.getForBlock(blockState, origin);
+        ParticleContext context = new ParticleContext(
+            level,
+            new ParticleContext.BlockContext(blockState, blockPos),
+            null
+        );
 
         int particlesAmount =  (speed > 0.25 || isSprinting ? 3 : 1);
 
@@ -798,14 +800,6 @@ public class SpawnParticles {
             // skip spawning if the particle is out of the block bounds
             BlockPos entityBlockPos = BlockPos.containing(particleX, blockPos.getY(), particleZ);
             if (level.getBlockState(entityBlockPos).isAir()) continue;
-
-            ParticleOrigin origin = ParticleOrigin.BLOCK_WALKED_THROUGH;
-            OverridePreset override = BlockOverrideManager.getForBlock(blockState, origin);
-            ParticleContext context = new ParticleContext(
-                level,
-                new ParticleContext.BlockContext(blockState, blockPos),
-                null
-            );
 
             override.getRandom().spawnParticle(
                 origin,

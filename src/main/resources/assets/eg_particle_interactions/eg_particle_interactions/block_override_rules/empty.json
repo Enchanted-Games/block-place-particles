@@ -3,19 +3,31 @@
     "eg_particle_interactions:default": [
       {
         "weight": 1,
-        "block_predicate": ["#sand"]
+        "block_predicate": {
+          "type": "list",
+          "blocks": "block_dust"
+        }
       }
     ]
   },
   "exclusions": {
     "eg_particle_interactions:block/falling_block_falling": [
-      ["#sand"]
+      {
+        "type": "list",
+        "blocks": "block_dust"
+      }
     ],
     "eg_particle_interactions:block/falling_block_landed": [
-      ["#sand"]
+      {
+        "type": "list",
+        "blocks": "block_dust"
+      }
     ],
     "eg_particle_interactions:block/brushed": [
-      ["#sand"]
+      {
+        "type": "list",
+        "blocks": "block_dust"
+      }
     ]
   }
 }

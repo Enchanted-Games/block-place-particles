@@ -10,16 +10,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class OverrideRule<T> {
-    private final Map<ParticleOrigin, List<OverrideRuleFile.WeightsSection<T>>> additions;
-    private final Map<ParticleOrigin, List<ObjectPredicate<T>>> exclusions;
+public class OverrideRule<T, P extends ObjectPredicate<T>> {
+    private final Map<ParticleOrigin, List<OverrideRuleFile.WeightsSection<T, P>>> additions;
+    private final Map<ParticleOrigin, List<P>> exclusions;
     private final Identifier overrideId;
 
-    public OverrideRule(List<OverrideRuleFile<T>> ruleFiles, Identifier overrideId) {
-        Map<ParticleOrigin, List<OverrideRuleFile.WeightsSection<T>>> combinedAdditions = new HashMap<>();
-        Map<ParticleOrigin, List<ObjectPredicate<T>>> exclusionsList = new HashMap<>();
+    public OverrideRule(List<OverrideRuleFile<T, P>> ruleFiles, Identifier overrideId) {
+        Map<ParticleOrigin, List<OverrideRuleFile.WeightsSection<T, P>>> combinedAdditions = new HashMap<>();
+        Map<ParticleOrigin, List<P>> exclusionsList = new HashMap<>();
 
-        for (OverrideRuleFile<T> ruleFile : ruleFiles) {
+        for (OverrideRuleFile<T, P> ruleFile : ruleFiles) {
             appendRules(ruleFile.getAdditions(), combinedAdditions);
             appendRules(ruleFile.getExclusions(), exclusionsList);
         }
@@ -60,7 +60,7 @@ public class OverrideRule<T> {
     private int tryGetWeight(T object, ParticleOrigin origin) {
         int weight = 0;
         if(!this.additions.isEmpty() && this.additions.containsKey(origin)) {
-            for (OverrideRuleFile.WeightsSection<T> addition : this.additions.get(origin)) {
+            for (OverrideRuleFile.WeightsSection<T, P> addition : this.additions.get(origin)) {
                 int additionWeight = addition.weight();
 
                 for (ObjectPredicate<T> predicate : addition.predicates()) {

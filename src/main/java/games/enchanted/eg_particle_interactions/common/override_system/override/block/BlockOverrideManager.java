@@ -1,15 +1,18 @@
-package games.enchanted.eg_particle_interactions.common.override_system.override;
+package games.enchanted.eg_particle_interactions.common.override_system.override.block;
 
 import com.mojang.serialization.Codec;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.override_system.override.rule.AbstractOverrideRuleLoader;
 import games.enchanted.eg_particle_interactions.common.override_system.override.rule.OverrideRuleFile;
+import games.enchanted.eg_particle_interactions.common.override_system.predicate.block.BlockPredicate;
 import games.enchanted.eg_particle_interactions.common.override_system.preset.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
 import net.minecraft.resources.FileToIdConverter;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class BlockOverrideManager extends AbstractOverrideRuleLoader<BlockState> {
+public class BlockOverrideManager extends AbstractOverrideRuleLoader<BlockState, BlockPredicate> {
     public static final BlockOverrideManager INSTANCE = new BlockOverrideManager();
 
     protected BlockOverrideManager() {
@@ -17,7 +20,13 @@ public class BlockOverrideManager extends AbstractOverrideRuleLoader<BlockState>
     }
 
     @Override
-    protected Codec<OverrideRuleFile<BlockState>> fileCodec() {
+    protected Preparation<BlockState, BlockPredicate> prepare(ResourceManager manager, ProfilerFiller profiler) {
+        BlockListManager.INSTANCE.apply(BlockListManager.INSTANCE.prepare(manager, profiler));
+        return super.prepare(manager, profiler);
+    }
+
+    @Override
+    protected Codec<OverrideRuleFile<BlockState, BlockPredicate>> fileCodec() {
         return OverrideRuleFile.BLOCKSTATE_CODEC;
     }
 
