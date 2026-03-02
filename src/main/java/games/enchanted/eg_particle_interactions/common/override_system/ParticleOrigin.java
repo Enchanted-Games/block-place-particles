@@ -4,17 +4,27 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.mojang.serialization.Codec;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
+import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
 import net.minecraft.resources.Identifier;
 
-import java.util.Objects;
 import java.util.function.Function;
 
 public record ParticleOrigin(Identifier id) {
     private static final BiMap<Identifier, ParticleOrigin> ORIGIN_BY_ID = HashBiMap.create();
 
-    public static final Codec<ParticleOrigin> CODEC = Identifier.CODEC.xmap(
-        id -> Objects.requireNonNull(ORIGIN_BY_ID.get(id), "Invalid particle origin: '" + id + "'"),
-        origin -> Objects.requireNonNull(ORIGIN_BY_ID.inverse().get(origin), "Tried to serialise unregistered particle origin")
+    public static final Codec<ParticleOrigin> CODEC = ModCodecs.IDENTIFIER.xmap(
+        id -> {
+            if(!ORIGIN_BY_ID.containsKey(id)) {
+                throw new RuntimeException("Invalid particle origin: '" + id + "'");
+            }
+            return ORIGIN_BY_ID.get(id);
+        },
+        origin -> {
+            if(!ORIGIN_BY_ID.inverse().containsKey(origin)) {
+                throw new RuntimeException("Tried to serialise unregistered particle origin");
+            }
+            return ORIGIN_BY_ID.inverse().get(origin);
+        }
     );
 
     public static final ParticleOrigin DEFAULT = register(ParticleInteractionsMod.id("default"), ParticleOrigin::new);

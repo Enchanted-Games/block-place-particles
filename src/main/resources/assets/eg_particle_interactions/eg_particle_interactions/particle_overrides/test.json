@@ -1,9 +1,9 @@
 {
   "emitters": {
-    "eg_particle_interactions:default": {
-      "emitter_type": "eg_particle_interactions:particle_interactions",
+    "default": {
+      "emitter_type": "particle_interactions",
       "particle": {
-        "type": "eg_particle_interactions:drip/honey_drop",
+        "type": "drip/honey_drop",
         "drip_options": {
           "start_falling_ticks": 0,
           "gravity": 0.02
@@ -19,11 +19,11 @@
 
       "velocity_multiplier": 0.2
     },
-    "eg_particle_interactions:block/broken": {
+    "block/broken": {
 
-      "emitter_type": "eg_particle_interactions:particle_interactions",
+      "emitter_type": "particle_interactions",
       "particle": {
-        "type": "eg_particle_interactions:drip/honey_drop",
+        "type": "drip/honey_drop",
         "drip_options": {
           "start_falling_ticks": 0,
           "gravity": -0.02
@@ -39,11 +39,11 @@
 
       "velocity_multiplier": 0.2
     },
-    "eg_particle_interactions:block/placed": {
+    "block/placed": {
 
-      "emitter_type": "eg_particle_interactions:particle_interactions",
+      "emitter_type": "particle_interactions",
       "particle": {
-        "type": "eg_particle_interactions:simple/lava_pop",
+        "type": "simple/lava_pop",
         "simple_options": {
           "lifetime": {
             "min": 1,

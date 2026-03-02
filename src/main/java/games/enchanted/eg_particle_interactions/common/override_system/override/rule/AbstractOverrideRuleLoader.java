@@ -55,7 +55,7 @@ public abstract class AbstractOverrideRuleLoader<T> extends SimplePreparableRelo
             try (Reader reader = resource.openAsReader()) {
                 JsonElement json = StrictJsonParser.parse(reader);
                 output.add(this.fileCodec().parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
-            } catch (JsonParseException | IOException e) {
+            } catch (Exception e) {
                 Logging.error("Failed to parse override rule '{}'", fileId, e);
             }
         }

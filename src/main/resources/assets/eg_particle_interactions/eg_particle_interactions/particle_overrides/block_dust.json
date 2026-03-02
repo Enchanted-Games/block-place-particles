@@ -1,14 +1,14 @@
 {
   "emitters": {
-    "eg_particle_interactions:default": {
-      "emitter_type": "eg_particle_interactions:particle_interactions",
+    "default": {
+      "emitter_type": "particle_interactions",
       "particle": {
-        "type": "eg_particle_interactions:dust/block_dust",
+        "type": "dust/block_dust",
         "dust_options": {
           "speck_emitter": {
-            "emitter_type": "eg_particle_interactions:particle_interactions",
+            "emitter_type": "particle_interactions",
             "particle": {
-              "type": "eg_particle_interactions:dust/block_dust_speck",
+              "type": "dust/block_dust_speck",
               "dust_options": {}
             }
           }

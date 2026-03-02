@@ -48,7 +48,7 @@ public class ParticleOverrides extends SimplePreparableReloadListener<ParticleOv
         try (Reader reader = resource.openAsReader()) {
             JsonElement json = StrictJsonParser.parse(reader);
             output.put(OVERRIDE_ID_CONVERTER.fileToId(fileId), ParticleOverride.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
-        } catch (JsonParseException | IOException e) {
+        } catch (Exception e) {
             Logging.error("Failed to parse particle override '{}'", fileId, e);
         }
     }

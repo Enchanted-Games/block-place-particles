@@ -6,6 +6,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.Constants;
+import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
 import games.enchanted.eg_particle_interactions.common.particle.options.*;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.types.CustomMovementTerrainParticle;
@@ -39,7 +40,7 @@ public class ParticleTypesRegistry {
     private static final BiMap<Identifier, PIParticleType<? extends PIParticleOptions>> TYPES = HashBiMap.create();
     private static final Map<PIParticleType<? extends PIParticleOptions>, PIParticleProvider<? extends PIParticleOptions>> PROVIDERS_BY_TYPE = new HashMap<>();
 
-    private static final Codec<PIParticleType<? extends PIParticleOptions>> NAME_CODEC = Identifier.CODEC.flatXmap(
+    private static final Codec<PIParticleType<? extends PIParticleOptions>> NAME_CODEC = ModCodecs.IDENTIFIER.flatXmap(
         identifier -> {
             if(TYPES.containsKey(identifier)) {
                 return DataResult.success(TYPES.get(identifier));

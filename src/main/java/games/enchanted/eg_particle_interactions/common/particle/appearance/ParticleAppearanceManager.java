@@ -41,7 +41,7 @@ public class ParticleAppearanceManager extends SimplePreparableReloadListener<Pa
         try (Reader reader = resource.openAsReader()) {
             JsonElement json = StrictJsonParser.parse(reader);
             output.put(FILE_TO_ID_CONVERTER.fileToId(fileId), ParticleAppearance.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
-        } catch (JsonParseException | IOException e) {
+        } catch (Exception e) {
             Logging.error("Failed to parse particle appearance '{}'", fileId, e);
         }
     }

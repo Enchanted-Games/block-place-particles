@@ -3,6 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.appearance.colo
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
+import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 
@@ -10,7 +11,7 @@ public class ColourSources {
     public static final ColourSource WHITE = new StaticColourSource(0xffffffff);
 
     public static final ExtraCodecs.LateBoundIdMapper<Identifier, MapCodec<? extends ColourSource>> SOURCES = new ExtraCodecs.LateBoundIdMapper<>();
-    public static final Codec<ColourSource> CODEC = SOURCES.codec(Identifier.CODEC).dispatch("type", ColourSource::codec, mapCodec -> mapCodec);
+    public static final Codec<ColourSource> CODEC = SOURCES.codec(ModCodecs.IDENTIFIER).dispatch("type", ColourSource::codec, mapCodec -> mapCodec);
 
     // TODO: variation
     static {
