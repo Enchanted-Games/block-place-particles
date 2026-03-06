@@ -13,8 +13,9 @@
     "sprite_cycle_mode": "age_cycle"
   },
   "colour": {
-    "type": "eg_particle_interactions:constant",
-    "value": "#ffe9cf"
+    "type": "variable",
+    "base_colour": "#ffe9cf",
+    "variation": 0.18
   },
   "light_emission": 13
 }

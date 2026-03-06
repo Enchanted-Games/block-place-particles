@@ -9,7 +9,8 @@
     "sprite_cycle_mode": "random_on_spawn"
   },
   "colour": {
-    "type": "eg_particle_interactions:constant",
-    "value": "#cec5d6"
+    "type": "variable",
+    "base_colour": "#cec5d6",
+    "variation": 0.23
   }
 }

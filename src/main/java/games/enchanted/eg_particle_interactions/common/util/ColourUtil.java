@@ -183,14 +183,14 @@ public class ColourUtil {
     /**
      * Randomises the value each channel seperately. The colour is randomly decreased
      *
-     * @param colours the colour
+     * @param colourChannels the colour
      * @param amount amount to randomise by, 0 is no randomisation and 1 is full randomisation
      * @return the randomised colour
      */
-    public static int[] randomiseNegative(int[] colours, float amount) {
-        int[] randomised = new int[colours.length];
-        for (int i = 0; i < colours.length; i++) {
-            randomised[i] = variateColourComponent(colours[i], -MathHelpers.randomBetween(0, amount));
+    public static int[] randomiseNegative(int[] colourChannels, float amount) {
+        int[] randomised = new int[colourChannels.length];
+        for (int i = 0; i < colourChannels.length; i++) {
+            randomised[i] = variateColourComponent(colourChannels[i], -MathHelpers.randomBetween(0, amount));
         }
         return randomised;
     }
@@ -198,15 +198,15 @@ public class ColourUtil {
     /**
      * Randomises the value all channels by the same amount, effectively changes the brightness of the colour. The colour is randomly decreased
      *
-     * @param colours the colour
+     * @param colourChannels the colour
      * @param amount amount to randomise by, 0 is no randomisation and 1 is full randomisation
      * @return the randomised colour
      */
-    public static int[] randomiseNegativeUniform(int[] colours, float amount) {
+    public static int[] randomiseNegativeUniform(int[] colourChannels, float amount) {
         float randomAmount = -MathHelpers.randomBetween(0, amount);
-        int[] randomised = new int[colours.length];
-        for (int i = 0; i < colours.length; i++) {
-            randomised[i] = variateColourComponent(colours[i], randomAmount);
+        int[] randomised = new int[colourChannels.length];
+        for (int i = 0; i < colourChannels.length; i++) {
+            randomised[i] = variateColourComponent(colourChannels[i], randomAmount);
         }
         return randomised;
     }
