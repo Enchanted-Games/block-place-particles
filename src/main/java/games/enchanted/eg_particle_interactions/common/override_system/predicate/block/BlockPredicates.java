@@ -13,5 +13,6 @@ public class BlockPredicates {
 
     static {
         PREDICATE_TYPES.put(ParticleInteractionsMod.id("list"), BlockListPredicate.CODEC);
+        PREDICATE_TYPES.put(ParticleInteractionsMod.id("block_state"), BlockStatePredicate.CODEC);
     }
 }

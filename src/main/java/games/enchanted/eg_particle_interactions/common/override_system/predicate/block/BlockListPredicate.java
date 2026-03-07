@@ -2,9 +2,9 @@ package games.enchanted.eg_particle_interactions.common.override_system.predicat
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import games.enchanted.eg_particle_interactions.common.override_system.predicate.block.list.BlockList;
+import games.enchanted.eg_particle_interactions.common.override_system.predicate.block.list.BlockListManager;
 import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
-import games.enchanted.eg_particle_interactions.common.override_system.override.block.BlockList;
-import games.enchanted.eg_particle_interactions.common.override_system.override.block.BlockListManager;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class BlockListPredicate extends BlockPredicate {
@@ -34,6 +34,7 @@ public class BlockListPredicate extends BlockPredicate {
 
     @Override
     public boolean matches(BlockState state) {
-        return BlockOrTagLocation.doesListContainBlock(blockList.blocksAndTags(), state);
+        return BlockOrTagLocation.doesListContainBlock(blockList.blocksAndTags(), state) ||
+            blockList.statePredicates().stream().anyMatch(p -> p.matches(state));
     }
 }

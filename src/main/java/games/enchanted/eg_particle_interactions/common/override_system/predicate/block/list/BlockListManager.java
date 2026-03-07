@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.override_system.override.block;
+package games.enchanted.eg_particle_interactions.common.override_system.predicate.block.list;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -35,7 +35,7 @@ public class BlockListManager {
 
     public static final BlockListManager INSTANCE = new BlockListManager();
 
-    Preparation prepare(ResourceManager manager, ProfilerFiller profiler) {
+    public void prepareAndApply(ResourceManager manager, ProfilerFiller profiler) {
         Map<Identifier, List<BlockList.File>> blockListFiles = new HashMap<>();
 
         for (Map.Entry<Identifier, List<Resource>> ruleFiles : FILE_TO_ID_CONVERTER.listMatchingResourceStacks(manager).entrySet()) {
@@ -48,7 +48,12 @@ public class BlockListManager {
             blockListFiles.put(overrideId, parsedFiles);
         }
 
-        return new Preparation(blockListFiles);
+        LIST_BY_ID.clear();
+
+        for (Map.Entry<Identifier, List<BlockList.File>> entry : blockListFiles.entrySet()) {
+            BlockList combined = BlockList.File.combine(entry.getValue());
+            LIST_BY_ID.put(entry.getKey(), combined);
+        }
     }
 
     protected void parseListFiles(Identifier fileId, List<Resource> resources, List<BlockList.File> output) {
@@ -62,19 +67,10 @@ public class BlockListManager {
         }
     }
 
-    void apply(Preparation preparations) {
-        LIST_BY_ID.clear();
-
-        for (Map.Entry<Identifier, List<BlockList.File>> entry : preparations.blockLists().entrySet()) {
-            BlockList combined = BlockList.File.combine(entry.getValue());
-            LIST_BY_ID.put(entry.getKey(), combined);
-        }
-    }
-
     public static BlockList getOrDefault(Identifier id) {
         if(!LIST_BY_ID.containsKey(id)) {
             Logging.warn("Block list with id '{}' was not found", id);
-            return new BlockList(List.of());
+            return new BlockList(List.of(), List.of());
         }
         return LIST_BY_ID.get(id);
     }
