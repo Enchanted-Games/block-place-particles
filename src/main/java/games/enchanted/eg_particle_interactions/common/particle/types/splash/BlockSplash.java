@@ -5,6 +5,7 @@ import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.options.SimpleParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
+import games.enchanted.eg_particle_interactions.common.particle.render.layer.ParticleLayer;
 import net.minecraft.client.particle.Particle;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;

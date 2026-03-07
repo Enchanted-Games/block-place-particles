@@ -3,6 +3,8 @@ package games.enchanted.eg_particle_interactions.common.codecs;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
+import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
 
 public class ModCodecs {
@@ -21,5 +23,13 @@ public class ModCodecs {
             return DataResult.success(ParticleInteractionsMod.id(id));
         },
         Identifier::toString
+    );
+
+    public static final Codec<TextureHelpers.AtlasIdAndTexture> ATLAS = Identifier.CODEC.xmap(
+        identifier -> {
+            var atlas = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(identifier);
+            return new TextureHelpers.AtlasIdAndTexture(identifier, atlas.location());
+        },
+        TextureHelpers.AtlasIdAndTexture::id
     );
 }

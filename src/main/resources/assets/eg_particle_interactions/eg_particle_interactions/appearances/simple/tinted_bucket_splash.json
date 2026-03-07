@@ -5,7 +5,8 @@
       "eg_particle_interactions:water_bucket_tinted_splash/1",
       "eg_particle_interactions:water_bucket_tinted_splash/2",
       "eg_particle_interactions:water_bucket_tinted_splash/3"
-    ]
+    ],
+    "layer": "translucent"
   },
   "colour": {
     "type": "eg_particle_interactions:block_texture",

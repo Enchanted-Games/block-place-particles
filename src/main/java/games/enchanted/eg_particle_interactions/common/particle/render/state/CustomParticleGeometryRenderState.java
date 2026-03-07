@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.feature.ParticleFeatureRenderer;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.state.ParticleGroupRenderState;
 import net.minecraft.client.renderer.state.QuadParticleRenderState;
+import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ARGB;
 import org.jetbrains.annotations.NotNull;
@@ -121,11 +122,8 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
             *///? }
             
             renderPass.setPipeline(entry.getKey().pipeline());
-            renderPass.bindTexture(
-                "Sampler0",
-                textureManager.getTexture(entry.getKey().textureAtlasLocation()).getTextureView(),
-                RenderSystem.getSamplerCache().getSampler(AddressMode.CLAMP_TO_EDGE, AddressMode.CLAMP_TO_EDGE, FilterMode.NEAREST, FilterMode.NEAREST, false)
-            );
+            AbstractTexture atlas = textureManager.getTexture(entry.getKey().textureAtlasLocation());
+            renderPass.bindTexture("Sampler0", atlas.getTextureView(), atlas.getSampler());
             renderPass.drawIndexed(entry.getValue().vertexOffset(), 0, entry.getValue().indexCount(), 1);
         }
     }

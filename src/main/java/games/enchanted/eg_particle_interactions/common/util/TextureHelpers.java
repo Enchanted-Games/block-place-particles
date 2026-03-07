@@ -74,4 +74,7 @@ public class TextureHelpers {
         Material.Baked material = scratchRenderState.pickParticleMaterial(random);
         return material != null ? material.sprite() : missingParticleSprite();
     }
+
+    public record AtlasIdAndTexture(Identifier id, Identifier texturePath) {
+    }
 }

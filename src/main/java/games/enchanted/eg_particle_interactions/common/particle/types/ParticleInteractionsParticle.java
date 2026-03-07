@@ -1,17 +1,16 @@
 package games.enchanted.eg_particle_interactions.common.particle.types;
 
-import com.mojang.blaze3d.pipeline.BlendFunction;
-import com.mojang.blaze3d.pipeline.RenderPipeline;
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.ParticleAccessor;
-import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.RenderPipelinesAccessor;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.render.ModParticleRenderTypes;
+import games.enchanted.eg_particle_interactions.common.particle.render.ModRenderPipelines;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.StateQuadConsumer;
+import games.enchanted.eg_particle_interactions.common.particle.render.layer.ParticleLayer;
 import games.enchanted.eg_particle_interactions.common.particle.render.state.CustomParticleGeometryRenderState;
 import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
 import net.minecraft.client.Camera;
@@ -30,13 +29,8 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 
 public abstract class ParticleInteractionsParticle extends Particle {
-    public static final RenderPipeline BACKFACE_TRANSLUCENT_PARTICLE = RenderPipeline.builder(RenderPipelinesAccessor.block_place_particle$getParticleSnippet())
-        .withLocation("pipeline/translucent_particle")
-        .withBlend(BlendFunction.TRANSLUCENT)
-        .withCull(false)
-    .build();
 
-    public static final SingleQuadParticle.Layer BACKFACE_TERRAIN_LAYER = new SingleQuadParticle.Layer(true, TextureAtlas.LOCATION_BLOCKS, BACKFACE_TRANSLUCENT_PARTICLE);
+    public static final SingleQuadParticle.Layer BACKFACE_TERRAIN_LAYER = new SingleQuadParticle.Layer(true, TextureAtlas.LOCATION_BLOCKS, ModRenderPipelines.BACKFACE_CUTOUT_PARTICLE);
 
     private float scale;
     private float prevScale;
@@ -48,6 +42,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
 
     protected ParticleContext context;
     protected ParticleAppearance appearance;
+    protected ParticleLayer layer;
 
     protected boolean updateSpritesAfterFirstCall = true;
     protected TextureAtlasSprite currentSprite;
@@ -93,11 +88,13 @@ public abstract class ParticleInteractionsParticle extends Particle {
         );
 
         this.minLightEmission = appearance.lightEmission();
+
+        this.layer = ParticleLayer.fromAppearance(appearance);
     }
 
     protected SingleQuadParticle.Layer getLayer() {
         ParticleLayer layer = this.getParticleLayer();
-        return layer.layer;
+        return layer.layer();
     }
 
     @Override
@@ -363,26 +360,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
     }
 
     protected ParticleLayer getParticleLayer() {
-        return this.getAlpha() < 0.99 ? ParticleLayer.TRANSLUCENT : ParticleLayer.CUTOUT;
-    }
-
-    public record ParticleLayer(SingleQuadParticle.Layer layer) {
-        public static final ParticleLayer TRANSLUCENT = new ParticleLayer(
-            SingleQuadParticle.Layer.TRANSLUCENT
-        );
-        public static final ParticleLayer CUTOUT = new ParticleLayer(
-            SingleQuadParticle.Layer.OPAQUE
-        );
-        public static final ParticleLayer TERRAIN = new ParticleLayer(
-            //? if minecraft: < 26.1 {
-            /*SingleQuadParticle.Layer.TERRAIN
-             *///? } else {
-            SingleQuadParticle.Layer.TRANSLUCENT_TERRAIN
-            //? }
-        );
-        public static final ParticleLayer BACKFACE_TERRAIN = new ParticleLayer(
-            BACKFACE_TERRAIN_LAYER
-        );
+        return this.layer;
     }
 
     public interface BillboardMode {

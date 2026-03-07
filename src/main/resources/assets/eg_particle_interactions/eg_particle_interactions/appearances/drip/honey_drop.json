@@ -4,6 +4,7 @@
       "eg_particle_interactions:honey_drop/0",
       "eg_particle_interactions:honey_drop/1",
       "eg_particle_interactions:honey_drop/2"
-    ]
+    ],
+    "layer": "translucent"
   }
 }

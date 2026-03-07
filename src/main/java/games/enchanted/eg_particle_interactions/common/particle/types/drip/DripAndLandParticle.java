@@ -6,6 +6,7 @@ import games.enchanted.eg_particle_interactions.common.particle.appearance.Parti
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.options.DripParticleOption;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
+import games.enchanted.eg_particle_interactions.common.particle.render.layer.ParticleLayer;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
 import net.minecraft.client.particle.Particle;
 import org.jspecify.annotations.NonNull;
@@ -99,11 +100,6 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
     @Override
     protected float getV1() {
         return this.v1;
-    }
-
-    @Override
-    protected @NonNull ParticleLayer getParticleLayer() {
-        return ParticleLayer.TRANSLUCENT;
     }
 
     public static class UntintedDropProvider implements PIParticleProvider<DripParticleOption> {
