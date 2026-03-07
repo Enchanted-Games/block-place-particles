@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.mixin.client.particles;
 
+import com.google.common.collect.Maps;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
@@ -9,11 +10,15 @@ import games.enchanted.eg_particle_interactions.common.override_system.preset.Ov
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
 import games.enchanted.eg_particle_interactions.common.particle.render.ModParticleRenderTypes;
+import games.enchanted.eg_particle_interactions.common.particle.render.group.CustomGeometryParticleGroup;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.client.particle.ParticleGroup;
 import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.renderer.culling.Frustum;
+import net.minecraft.client.renderer.state.level.ParticlesRenderState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
@@ -27,23 +32,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-//? if minecraft: > 1.21.8 {
-import com.google.common.collect.Maps;
-import net.minecraft.client.renderer.culling.Frustum;
-import games.enchanted.eg_particle_interactions.common.particle.render.group.CustomGeometryParticleGroup;
-import net.minecraft.client.particle.ParticleGroup;
-import net.minecraft.client.renderer.state.ParticlesRenderState;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-//?} else {
-/*import com.llamalad7.mixinextras.sugar.Local;
-import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.core.Direction;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
-*///?}
 
 import java.util.Map;
 
@@ -51,55 +40,6 @@ import java.util.Map;
 public abstract class ParticleEngineMixin implements PreparableReloadListener {
     @Shadow
     protected ClientLevel level;
-
-    // block cracking and breaking particles (moved to ClientLevel in 1.21.9)
-    //? if minecraft: <= 1.21.8 {
-    /*@Inject(
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/shapes/VoxelShape;"),
-        method = "destroy"
-    )
-    public void useParticleInteractionsDestroyParticleLogic(BlockPos brokenBlockPos, BlockState brokenBlockState, CallbackInfo ci) {
-        BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(brokenBlockState, ParticleOrigin.BLOCK_BROKEN);
-        SpawnParticles.spawnBlockBreakParticle(this.level, brokenBlockState, brokenBlockPos, particleOverride);
-    }
-
-    @WrapOperation(
-        method = "destroy",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/shapes/VoxelShape;forAllBoxes(Lnet/minecraft/world/phys/shapes/Shapes$DoubleLineConsumer;)V")
-    )
-    public void skipSpawningVanillaDestroyParticles(VoxelShape instance, Shapes.DoubleLineConsumer doublelist, Operation<Void> original) {
-    }
-
-    @Inject(
-        method = "crack(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;)V",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/ParticleEngine;add(Lnet/minecraft/client/particle/Particle;)V"),
-        locals = LocalCapture.CAPTURE_FAILSOFT,
-        cancellable = true
-    )
-    public void replaceCrackingParticlesConditionally(BlockPos blockPos, Direction side, CallbackInfo ci, @Local(ordinal = 0) double xPos, @Local(ordinal = 1) double yPos, @Local(ordinal = 2) double zPos) {
-        BlockState blockstate = this.level.getBlockState(blockPos);
-
-        int overrideOrigin = ParticleOrigin.BLOCK_CRACK;
-        BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockstate, overrideOrigin);
-
-        if(override == BlockParticleOverride.VANILLA) return;
-
-        if(override != BlockParticleOverride.NONE) {
-            ParticleOptions newParticleOption = override.getParticleOptionForState(blockstate, level, blockPos, overrideOrigin);
-            if (newParticleOption == null) return;
-            this.level.addParticle(
-                newParticleOption,
-                xPos,
-                yPos,
-                zPos,
-                0,
-                0,
-                0
-            );
-        }
-        ci.cancel();
-    }
-    *///?}
 
     // override item and block particles if they have a particle override
     @WrapOperation(
@@ -216,20 +156,4 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
         }
     }
     //?}
-
-    //? if minecraft: <= 1.21.8 && fabric {
-    /*@Shadow @Final private Map<ParticleRenderType, Queue<Particle>> particles;
-    @Shadow private static void renderParticleType(Camera p_382847_, float p_383032_, MultiBufferSource.BufferSource p_383105_, ParticleRenderType p_383179_, Queue<Particle> p_383046_) {}
-
-    @Inject(
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;endBatch()V"),
-        method = "render(Lnet/minecraft/client/Camera;FLnet/minecraft/client/renderer/MultiBufferSource$BufferSource;)V"
-    )
-    public void render(Camera camera, float f, MultiBufferSource.BufferSource bufferSource, CallbackInfo ci) {
-        Queue<Particle> queue = this.particles.get(ModParticleRenderTypes.BACKFACE_TERRAIN_PARTICLE);
-        if (queue != null && !queue.isEmpty()) {
-            renderParticleType(camera, f, bufferSource, ModParticleRenderTypes.BACKFACE_TERRAIN_PARTICLE, queue);
-        }
-    }
-    *///?}
 }

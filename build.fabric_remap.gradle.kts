@@ -63,9 +63,10 @@ dependencies {
 
     // yacl
     if(hasProperty("deps.yacl")) {
-        modImplementation("dev.isxander:yet-another-config-lib:${property("deps.yacl")}")
+        modCompileOnly("dev.isxander:yet-another-config-lib:${property("deps.yacl")}")
+        modRuntimeOnly("dev.isxander:yet-another-config-lib:${property("deps.yacl")}")
     } else {
-        modImplementation("dev.isxander:yet-another-config-lib:3.8.2+1.21.11-fabric")
+        modCompileOnly("dev.isxander:yet-another-config-lib:3.8.2+1.21.11-fabric")
     }
 }
 

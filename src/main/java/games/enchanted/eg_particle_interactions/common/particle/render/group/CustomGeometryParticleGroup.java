@@ -10,8 +10,7 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleGroup;
 import net.minecraft.client.renderer.culling.Frustum;
-import net.minecraft.client.renderer.state.ParticleGroupRenderState;
-import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.client.renderer.state.level.ParticleGroupRenderState;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 

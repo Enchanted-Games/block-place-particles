@@ -25,11 +25,7 @@ public class ParticleLayer {
         SingleQuadParticle.Layer.OPAQUE
     );
     public static final ParticleLayer TERRAIN = new ParticleLayer(
-        //? if minecraft: < 26.1 {
-        /*SingleQuadParticle.Layer.TERRAIN
-         *///? } else {
         SingleQuadParticle.Layer.TRANSLUCENT_TERRAIN
-        //? }
     );
     public static final ParticleLayer BACKFACE_TERRAIN = new ParticleLayer(
         ParticleInteractionsParticle.BACKFACE_TERRAIN_LAYER

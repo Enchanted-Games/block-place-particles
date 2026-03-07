@@ -209,7 +209,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
 
         if (context.blockContext() != null) {
             BlockState state = context.blockContext().state();
-            this.setCurrentSprite(Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleMaterial(state).sprite());
+            this.setCurrentSprite(Minecraft.getInstance().getBlockRenderer().getBlockModel(state).particleMaterial().sprite());
         } else if (context.stack() != null) {
             this.setCurrentSprite(TextureHelpers.getItemParticleSprite(ItemStackTemplate.fromNonEmptyStack(context.stack()), this.level, this.random));
         } else {

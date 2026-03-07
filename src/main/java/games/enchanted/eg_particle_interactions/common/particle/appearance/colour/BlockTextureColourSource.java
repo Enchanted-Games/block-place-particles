@@ -42,7 +42,16 @@ public class BlockTextureColourSource implements ColourSource {
         if(context.blockContext() == null || this.tintIndex < -1) return ColourUtil.ARGBint_to_ARGB(this.fallbackARGB);
 
         ParticleContext.BlockContext bContext = context.blockContext();
-        int tintColour = this.tintIndex == -1 ? 0xffffff : Minecraft.getInstance().getBlockColors().getColor(bContext.state(), context.level(), bContext.pos(), this.tintIndex);
+        int tintColour;
+
+        if(this.tintIndex == -1) {
+            tintColour = 0xffffff;
+        } else {
+            var source = Minecraft.getInstance().getBlockColors().getTintSource(bContext.state(), this.tintIndex);
+            if(source == null) return ColourUtil.ARGBint_to_ARGB(this.fallbackARGB);
+            tintColour = source.colorInWorld(bContext.state(), context.level(), bContext.pos());
+        }
+
         int[] tintColourARGB = ColourUtil.RGBint_to_ARGB(tintColour);
         return ColourUtil.getRandomBlockColour(bContext.state(), tintColourARGB);
     }
