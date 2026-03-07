@@ -11,8 +11,8 @@ import net.minecraft.util.ExtraCodecs;
 public class BlockTintColourSource implements ColourSource {
     public static final MapCodec<BlockTintColourSource> CODEC = RecordCodecBuilder.mapCodec(instance ->
         instance.group(
-            ColourCodecs.HEX_OR_ARGB_LIST_CODEC.optionalFieldOf("fallback", 0xffffffff).forGetter(BlockTintColourSource::getFallbackARGB),
-            ExtraCodecs.NON_NEGATIVE_INT.optionalFieldOf("tint_index", 0).forGetter(BlockTintColourSource::getTintIndex)
+            ExtraCodecs.NON_NEGATIVE_INT.optionalFieldOf("tint_index", 0).forGetter(BlockTintColourSource::getTintIndex),
+            ColourCodecs.HEX_OR_ARGB_LIST_CODEC.optionalFieldOf("fallback", 0xffffffff).forGetter(BlockTintColourSource::getFallbackARGB)
         ).apply(
             instance,
             BlockTintColourSource::new

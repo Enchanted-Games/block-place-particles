@@ -13,8 +13,8 @@ import java.util.Optional;
 public class BlockTextureColourSource implements ColourSource {
     public static final MapCodec<BlockTextureColourSource> CODEC = RecordCodecBuilder.mapCodec(instance ->
         instance.group(
-            ColourCodecs.HEX_OR_ARGB_LIST_CODEC.optionalFieldOf("fallback", 0xffffffff).forGetter(BlockTextureColourSource::getFallbackARGB),
-            ExtraCodecs.NON_NEGATIVE_INT.optionalFieldOf("tint_index", -1).forGetter(BlockTextureColourSource::getTintIndex)
+            ExtraCodecs.NON_NEGATIVE_INT.optionalFieldOf("tint_index", -1).forGetter(BlockTextureColourSource::getTintIndex),
+            ColourCodecs.HEX_OR_ARGB_LIST_CODEC.optionalFieldOf("fallback", 0xffffffff).forGetter(BlockTextureColourSource::getFallbackARGB)
         ).apply(
             instance,
             BlockTextureColourSource::new
