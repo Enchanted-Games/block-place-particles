@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Map;
 
 @Mixin(AtlasManager.class)
-public class AtlasManagerMixin implements AtlasManagerAdditions {
+abstract class AtlasManagerMixin implements AtlasManagerAdditions {
     @Shadow @Final private Map<Identifier, AtlasManager.AtlasEntry> atlasByTexture;
     @Shadow @Final private Map<Identifier, AtlasManager.AtlasEntry> atlasById;
 
