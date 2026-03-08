@@ -9,6 +9,7 @@
     "ClientBoundPacketListenerMixin",
     "LevelEventHandlerMixin",
     "accessor.BucketItemAccessor",
+    "accessor.MinecraftAccessor",
     "accessor.client.NativeImageAccessor",
     "accessor.client.ParticleAccessor",
     "accessor.client.RenderPipelinesAccessor",

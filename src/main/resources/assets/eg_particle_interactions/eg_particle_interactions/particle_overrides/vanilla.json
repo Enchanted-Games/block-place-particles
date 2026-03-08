@@ -13,6 +13,12 @@
         "type": "simple/block_crack"
       },
       "velocity_multiplier": 4
+    },
+    "block/falling_block_unstable": {
+      "emitter_type": "particle_interactions",
+      "particle": {
+        "type": "simple/falling_dust"
+      }
     }
   }
 }

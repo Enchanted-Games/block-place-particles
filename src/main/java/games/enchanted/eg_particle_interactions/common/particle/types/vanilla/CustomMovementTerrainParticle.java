@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.particle.types;
+package games.enchanted.eg_particle_interactions.common.particle.types.vanilla;
 
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;

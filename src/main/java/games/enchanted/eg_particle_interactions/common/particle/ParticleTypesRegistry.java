@@ -9,7 +9,7 @@ import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
 import games.enchanted.eg_particle_interactions.common.particle.options.*;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
-import games.enchanted.eg_particle_interactions.common.particle.types.CustomMovementTerrainParticle;
+import games.enchanted.eg_particle_interactions.common.particle.types.vanilla.CustomMovementTerrainParticle;
 import games.enchanted.eg_particle_interactions.common.particle.types.bubble.UnderwaterRisingBubble;
 import games.enchanted.eg_particle_interactions.common.particle.types.constant_motion.LavaPop;
 import games.enchanted.eg_particle_interactions.common.particle.types.drip.DripAndLandParticle;
@@ -26,6 +26,8 @@ import games.enchanted.eg_particle_interactions.common.particle.types.splash.Buc
 import games.enchanted.eg_particle_interactions.common.particle.types.splash.LavaSplash;
 import games.enchanted.eg_particle_interactions.common.particle.types.swirling.Ember;
 import games.enchanted.eg_particle_interactions.common.particle.types.swirling.WaterVapour;
+import games.enchanted.eg_particle_interactions.common.particle.types.vanilla.BlockParticleOptionWrapper;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
@@ -421,8 +423,7 @@ public class ParticleTypesRegistry {
         ArcEmitterOptions::idPrefix
     );
 
-    // this only exists because the vanilla block cracking particles are created inside the particle engine
-    // wrappers around vanilla block particles to support particle appearances
+    // wrappers around various vanilla particles
     public static final PIParticleType<SimpleParticleOptions> BLOCK_CRACK = register(
         CustomMovementTerrainParticle.CrackingProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_crack"),
@@ -434,6 +435,14 @@ public class ParticleTypesRegistry {
     public static final PIParticleType<SimpleParticleOptions> BLOCK = register(
         CustomMovementTerrainParticle.BlockProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block"),
+        ParticleConfig.DEFAULT,
+        SimpleParticleOptions::codec,
+        SimpleParticleOptions::streamCodec,
+        SimpleParticleOptions::idPrefix
+    );
+    public static final PIParticleType<SimpleParticleOptions> FALLING_DUST = register(
+        () -> new BlockParticleOptionWrapper(() -> ParticleTypes.FALLING_DUST),
+        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_dust"),
         ParticleConfig.DEFAULT,
         SimpleParticleOptions::codec,
         SimpleParticleOptions::streamCodec,
