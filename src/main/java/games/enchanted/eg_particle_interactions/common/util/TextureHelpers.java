@@ -11,56 +11,53 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStackTemplate;
-import org.jetbrains.annotations.NotNull;
-//? if minecraft: > 1.21.8 {
 import net.minecraft.data.AtlasIds;
 import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteAtlasManager;
-//?}
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public class TextureHelpers {
-    public static @NotNull TextureAtlas getTextureAtlas(Identifier atlasLocation) {
-        return Minecraft.getInstance()
-            //? if minecraft: <= 1.21.8 {
-            /*.getModelManager().getAtlas(atlasLocation);
-            *///?} else {
-            .getAtlasManager().getAtlasOrThrow(atlasLocation);
-            //?}
+    public static @NonNull TextureAtlas getTextureAtlasOrThrow(Identifier atlasId) {
+        return Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(atlasId);
     }
 
-    public static TextureAtlasSprite getSpriteFromBlockAtlas(Identifier location) {
-        return getTextureAtlas(getBlocksAtlasID()).getSprite(location);
+    public static @Nullable Identifier tryGetAtlasIdFromTexturePath(Identifier atlasTexturePath) {
+        String modifiedPath = atlasTexturePath.getPath().replace("textures/atlas/", "").replace(".png", "");
+        Identifier modifiedId = Identifier.fromNamespaceAndPath(atlasTexturePath.getNamespace(), modifiedPath);
+        try {
+            getTextureAtlasOrThrow(modifiedId);
+            return modifiedId;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static AtlasIdAndTexture getAtlasIdAndTexture(Identifier atlasTexturePath, Identifier fallbackAtlasId) {
+        Identifier possibleAtlasId = tryGetAtlasIdFromTexturePath(atlasTexturePath);
+        if(possibleAtlasId == null) {
+            possibleAtlasId = fallbackAtlasId;
+        }
+        return new AtlasIdAndTexture(possibleAtlasId, getTextureAtlasOrThrow(possibleAtlasId).location());
     }
 
     public static TextureAtlasSprite getSpriteFromAtlas(Identifier spriteId, Identifier atlasId) {
-        return getTextureAtlas(atlasId).getSprite(spriteId);
+        return getTextureAtlasOrThrow(atlasId).getSprite(spriteId);
     }
 
-    public static TextureAtlasSprite getDebugSprite() {
-        return getSpriteFromBlockAtlas(Identifier.withDefaultNamespace("block/debug"));
-    }
-
-    public static TextureAtlasSprite getParticlePaletteSprite(Identifier location) {
-        //? if minecraft: <= 1.21.8 {
-        /*return ParticleInteractionsMod.particlePaletteAtlas.get(location);
-        *///?} else {
-        return getTextureAtlas(ParticlePaletteAtlasManager.ATLAS_ID).getSprite(location);
-        //?}
+    public static TextureAtlasSprite getParticlePaletteSprite(Identifier spriteId) {
+        return getTextureAtlasOrThrow(ParticlePaletteAtlasManager.ATLAS_ID).getSprite(spriteId);
     }
 
     public static TextureAtlasSprite getParticlePaletteOrBlockSprite(Identifier blockLocation, Identifier fallbackSpriteLocation) {
         TextureAtlasSprite particlePaletteSprite = getParticlePaletteSprite(blockLocation);
         if(particlePaletteSprite.contents().name() == MissingTextureAtlasSprite.getLocation()) {
-            return getTextureAtlas(getBlocksAtlasID()).getSprite(fallbackSpriteLocation);
+            return getTextureAtlasOrThrow(getBlocksAtlasID()).getSprite(fallbackSpriteLocation);
         }
         return particlePaletteSprite;
     }
 
     public static Identifier getBlocksAtlasID() {
-        //? if minecraft: <= 1.21.8 {
-        /*return TextureAtlas.LOCATION_BLOCKS;
-         *///?} else {
         return AtlasIds.BLOCKS;
-        //?}
     }
 
     public static TextureAtlasSprite missingParticleSprite() {

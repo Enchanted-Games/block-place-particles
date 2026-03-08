@@ -3,9 +3,11 @@ package games.enchanted.eg_particle_interactions.common.particle.types;
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.ParticleAccessor;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
-import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.SpriteCycleMode;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.texture.TextureConfig;
 import games.enchanted.eg_particle_interactions.common.particle.render.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.particle.render.ModRenderPipelines;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
@@ -89,7 +91,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
 
         this.minLightEmission = appearance.lightEmission();
 
-        this.layer = ParticleLayer.fromAppearance(appearance);
+        this.layer = ParticleLayer.fromAppearance(context, appearance);
     }
 
     protected SingleQuadParticle.Layer getLayer() {
@@ -180,24 +182,21 @@ public abstract class ParticleInteractionsParticle extends Particle {
         if (this.removed) return;
         if (!this.updateSpritesAfterFirstCall) return;
 
-        ParticleAppearance appearance = this.appearance;
-        if (appearance.textureConfig() == null) return;
+        TextureConfig textureConfig = this.appearance.textureConfig();
+        SpriteCycleMode cycleMode = textureConfig.getSpriteCycleMode(this.context);
 
-        ParticleAppearance.TextureConfig textureConfig = appearance.textureConfig();
-        ParticleAppearance.SpriteCycleMode cycleMode = textureConfig.spriteCycleMode();
-
-        if (cycleMode == ParticleAppearance.SpriteCycleMode.RANDOM_ON_SPAWN) {
+        if (cycleMode == SpriteCycleMode.RANDOM_ON_SPAWN) {
             this.updateSpritesAfterFirstCall = false;
-            this.setCurrentSprite(textureConfig.getRandom(this.random));
+            this.setCurrentSprite(textureConfig.getRandom(this.context, this.random));
             return;
         }
 
-        if (cycleMode == ParticleAppearance.SpriteCycleMode.RANDOM_PER_TICK) {
-            this.setCurrentSprite(textureConfig.getRandom(this.random));
+        if (cycleMode == SpriteCycleMode.RANDOM_PER_TICK) {
+            this.setCurrentSprite(textureConfig.getRandom(this.context, this.random));
             return;
         }
 
-        this.setCurrentSprite(textureConfig.getAt(this.getAgeForSprite(), this.lifetime));
+        this.setCurrentSprite(textureConfig.getAt(this.context, this.getAgeForSprite(), this.lifetime));
     }
 
     protected int getAgeForSprite() {
