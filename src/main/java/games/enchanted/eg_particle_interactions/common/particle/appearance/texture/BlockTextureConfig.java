@@ -94,9 +94,6 @@ public class BlockTextureConfig implements TextureConfig {
     @Override
     public TextureHelpers.AtlasIdAndTexture getAtlas(ParticleContext context) {
         if(context.blockContext() == null) return this.fallbackAtlas;
-        return TextureHelpers.getAtlasIdAndTexture(
-            this.getContextMaterial(context.blockContext()).sprite().atlasLocation(),
-            AtlasIds.PARTICLES
-        );
+        return TextureHelpers.getAtlasIdAndTextureFromTexturePath(this.getContextMaterial(context.blockContext()).sprite().atlasLocation());
     }
 }

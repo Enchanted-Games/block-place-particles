@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.util;
 
+import games.enchanted.eg_particle_interactions.common.duck.AtlasManagerAdditions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
@@ -14,30 +15,23 @@ import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.data.AtlasIds;
 import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteAtlasManager;
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 
 public class TextureHelpers {
     public static @NonNull TextureAtlas getTextureAtlasOrThrow(Identifier atlasId) {
         return Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(atlasId);
     }
 
-    public static @Nullable Identifier tryGetAtlasIdFromTexturePath(Identifier atlasTexturePath) {
-        String modifiedPath = atlasTexturePath.getPath().replace("textures/atlas/", "").replace(".png", "");
-        Identifier modifiedId = Identifier.fromNamespaceAndPath(atlasTexturePath.getNamespace(), modifiedPath);
-        try {
-            getTextureAtlasOrThrow(modifiedId);
-            return modifiedId;
-        } catch (Exception e) {
-            return null;
-        }
+    public static Identifier getAtlasIdFromTexturePath(Identifier atlasTexturePath) {
+        return ((AtlasManagerAdditions) Minecraft.getInstance().getAtlasManager()).eg_particle_interactions$atlasIdFromTexturePath(atlasTexturePath);
     }
 
-    public static AtlasIdAndTexture getAtlasIdAndTexture(Identifier atlasTexturePath, Identifier fallbackAtlasId) {
-        Identifier possibleAtlasId = tryGetAtlasIdFromTexturePath(atlasTexturePath);
-        if(possibleAtlasId == null) {
-            possibleAtlasId = fallbackAtlasId;
-        }
-        return new AtlasIdAndTexture(possibleAtlasId, getTextureAtlasOrThrow(possibleAtlasId).location());
+    public static Identifier getTexturePathFromAtlasId(Identifier atlasId) {
+        return ((AtlasManagerAdditions) Minecraft.getInstance().getAtlasManager()).eg_particle_interactions$texturePathFromAtlasId(atlasId);
+    }
+
+    public static AtlasIdAndTexture getAtlasIdAndTextureFromTexturePath(Identifier atlasTexturePath) {
+        Identifier atlasId = getAtlasIdFromTexturePath(atlasTexturePath);
+        return new AtlasIdAndTexture(atlasId, getTextureAtlasOrThrow(atlasId).location());
     }
 
     public static TextureAtlasSprite getSpriteFromAtlas(Identifier spriteId, Identifier atlasId) {

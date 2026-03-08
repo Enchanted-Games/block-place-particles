@@ -50,6 +50,7 @@
     "particles.ParticleEngineMixin",
     "particles.ParticleMixin",
     "particles.TerrainParticle",
+    "resource.AtlasManagerMixin",
     "resource.ClearCaches_MinecraftMixin",
     "resource.RegisterAtlasConfig_AtlasManagerMixin",
     "screen.OptionsScreenMixin"
