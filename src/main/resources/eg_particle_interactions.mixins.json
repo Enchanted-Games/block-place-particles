@@ -58,7 +58,8 @@
     "resource.AtlasManagerMixin",
     "resource.ClearCaches_MinecraftMixin",
     "resource.RegisterAtlasConfig_AtlasManagerMixin",
-    "resource.RegisterListeners_MinecraftMixin",
+    "resource.vanilla.RegisterListeners_MinecraftMixin",
+    "resource.vanilla.RegisterModAssets_BuiltinPackSourceMixin",
     "screen.OptionsScreenMixin"
   ],
   "injectors": {

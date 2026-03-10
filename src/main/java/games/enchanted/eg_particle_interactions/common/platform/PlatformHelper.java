@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.platform;
 
+import games.enchanted.eg_particle_interactions.common.Constants;
 //? if neoforge {
 /*import games.enchanted.eg_particle_interactions.neoforge.registry.NeoParticleProviderRegistry;
 import games.enchanted.eg_particle_interactions.neoforge.registry.NeoReloadListenerRegistry;
@@ -9,14 +10,17 @@ import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.fml.loading.LoadingModList;
 *///?} else {
 import games.enchanted.eg_particle_interactions.fabric.resource.FabricResourceLoaderRegisterer;
-import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.server.packs.PackType;
+import net.fabricmc.loader.api.ModContainer;
 //?}
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
+import org.jspecify.annotations.Nullable;
 
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
 
 public class PlatformHelper {
     /**
@@ -106,6 +110,22 @@ public class PlatformHelper {
         FabricResourceLoaderRegisterer.getInstance().registerResourceLoader(listener, id);
         //? } else {
         /*NeoReloadListenerRegistry.registerListener(listener, id);
+        *///? }
+    }
+
+    /**
+     * Get the path to something in the mod jar
+     */
+    public static Path getResourcePathFromModJar(String... strings) {
+        //? if fabric {
+        Optional<ModContainer> container = Objects.requireNonNull(
+            FabricLoader.getInstance().getModContainer(Constants.MOD_ID),
+            "Could not get mod container '" + Constants.MOD_ID + "'"
+        );
+        Optional<Path> path = container.flatMap(modContainer -> modContainer.findPath(String.join("/", strings)));
+        return path.orElseThrow(() -> new NullPointerException("Could not find path in particle interactions mod jar '" + Arrays.toString(strings) + "'"));
+        //? } else {
+        /*return NeoForgeEntrypoint.CONTAINER.getModInfo().getOwningFile().getFile().findResource(strings);
         *///? }
     }
 }

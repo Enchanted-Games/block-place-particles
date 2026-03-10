@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.mixin.client.resource;
+package games.enchanted.eg_particle_interactions.common.mixin.client.resource.vanilla;
 
 import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;

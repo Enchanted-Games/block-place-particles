@@ -8,6 +8,7 @@ import net.minecraft.server.packs.resources.PreparableReloadListener;
 public class VanillaResourceLoaderRegisterer implements FabricResourceLoaderRegisterer {
     @Override
     public void registerResourceLoader(PreparableReloadListener listener, Identifier id) {
+        //noinspection resource
         ((MinecraftAccessor) Minecraft.getInstance()).eg_particle_interactions$getResourceManager().registerReloadListener(listener);
     }
 }

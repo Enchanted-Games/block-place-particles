@@ -492,6 +492,7 @@ public class ParticleTypesRegistry {
         if(!PROVIDERS_BY_TYPE.containsKey(type)) {
             throw new RuntimeException("Tried to get provider for unregistered particle type");
         }
+        //noinspection unchecked mmm generics
         return (PIParticleProvider<T>) PROVIDERS_BY_TYPE.get(type);
     }
 
@@ -499,6 +500,7 @@ public class ParticleTypesRegistry {
         if(!PROVIDERS_BY_TYPE.containsKey(type)) {
             return null;
         }
+        //noinspection unchecked
         return (PIParticleProvider<T>) PROVIDERS_BY_TYPE.get(type);
     }
 
@@ -522,6 +524,7 @@ public class ParticleTypesRegistry {
         if(!TYPES.containsKey(id)) {
             return null;
         }
+        //noinspection unchecked
         return (PIParticleType<T>) TYPES.get(id);
     }
 
@@ -529,6 +532,7 @@ public class ParticleTypesRegistry {
         if(!TYPES.containsKey(id)) {
             throw new RuntimeException("Tried to get id for unregistered particle type");
         }
+        //noinspection unchecked
         return (PIParticleType<T>) TYPES.get(id);
     }
 
