@@ -43,7 +43,7 @@ public class BlockTextureConfig implements TextureConfig {
     }
 
     private Material.Baked getContextMaterial(ParticleContext.BlockContext context) {
-        return Minecraft.getInstance().getBlockRenderer().getBlockModel(context.state()).particleMaterial();
+        return Minecraft.getInstance().getModelManager().getBlockStateModelSet().get(context.state()).particleMaterial();
     }
 
     private TextureAtlasSprite lookupSprite(ParticleContext context, Identifier id) {

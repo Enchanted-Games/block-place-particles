@@ -31,7 +31,12 @@ repositories {
 dependencies {
     minecraft("com.mojang:minecraft:${property("deps.minecraft")}")
     implementation("net.fabricmc:fabric-loader:${property("deps.fabric-loader")}")
-    implementation("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric-api")}")
+
+    if (boolProperty("deps.fabric-api.compileonly")) {
+        compileOnly("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric-api")}")
+    } else {
+        implementation("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric-api")}")
+    }
 
     // Mod Menu
     if (hasProperty("deps.modmenu")) {
@@ -171,7 +176,7 @@ fun bool(str: String) : Boolean {
 }
 
 fun boolProperty(key: String) : Boolean {
-    if(!hasProperty(key)){
+    if(!hasProperty(key)) {
         return false
     }
     return bool(property(key).toString())

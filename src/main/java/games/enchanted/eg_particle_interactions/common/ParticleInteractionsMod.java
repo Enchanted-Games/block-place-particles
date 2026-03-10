@@ -14,14 +14,30 @@ public class ParticleInteractionsMod {
 
         ParticleTypesRegistry.init();
 
-        PlatformHelper.registerResourceReloadListener(ParticleOverrides.INSTANCE, ParticleInteractionsMod.id("particle_overrides"));
-        PlatformHelper.registerResourceReloadListener(BlockOverrideManager.INSTANCE, ParticleInteractionsMod.id("block_override_rules"));
-        PlatformHelper.registerResourceReloadListener(ParticleAppearanceManager.INSTANCE, ParticleInteractionsMod.id("texture_sources"));
+        // register reload listeners here if fabric api is installed or if targeting neoforge
+        // if no fabric api reload listeners are registered in Minecraft init
+        //? if fabric {
+        if (isFabricResourceLoaderPresent()) {
+            registerResourceReloadListeners();
+        }
+        //?} else {
+        /*registerResourceReloadListeners();
+        *///? }
     }
 
     public static void endOfModLoading() {
         ConfigOptions.readConfig();
         Logging.info("Loaded Successfully!");
+    }
+
+    public static void registerResourceReloadListeners() {
+        PlatformHelper.registerResourceReloadListener(ParticleOverrides.INSTANCE, ParticleInteractionsMod.id("particle_overrides"));
+        PlatformHelper.registerResourceReloadListener(BlockOverrideManager.INSTANCE, ParticleInteractionsMod.id("block_override_rules"));
+        PlatformHelper.registerResourceReloadListener(ParticleAppearanceManager.INSTANCE, ParticleInteractionsMod.id("texture_sources"));
+    }
+
+    public static boolean isFabricResourceLoaderPresent() {
+        return PlatformHelper.isModLoaded(Constants.FABRIC_RESOURCE_LOADER_ID);
     }
 
     public static Identifier id(String path) {

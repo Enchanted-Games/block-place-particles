@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.vanilla;
 
-import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.MinecraftAccessor;
+import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.MinecraftAccessor;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.options.SimpleParticleOptions;

@@ -1,6 +1,9 @@
 {
   "required": true,
   "minVersion": "0.8",
+  "mixinextras": {
+    "minVersion": "0.5.0"
+  },
   "package": "games.enchanted.eg_particle_interactions.common.mixin.client",
   "compatibilityLevel": "JAVA_${java_ver}",
   "mixins": [
@@ -9,7 +12,7 @@
     "ClientBoundPacketListenerMixin",
     "LevelEventHandlerMixin",
     "accessor.BucketItemAccessor",
-    "accessor.MinecraftAccessor",
+    "accessor.client.MinecraftAccessor",
     "accessor.client.NativeImageAccessor",
     "accessor.client.ParticleAccessor",
     "accessor.client.RenderPipelinesAccessor",
@@ -55,6 +58,7 @@
     "resource.AtlasManagerMixin",
     "resource.ClearCaches_MinecraftMixin",
     "resource.RegisterAtlasConfig_AtlasManagerMixin",
+    "resource.RegisterListeners_MinecraftMixin",
     "screen.OptionsScreenMixin"
   ],
   "injectors": {

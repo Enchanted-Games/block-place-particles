@@ -1,6 +1,5 @@
 package games.enchanted.eg_particle_interactions.common.platform;
 
-import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 //? if neoforge {
 /*import games.enchanted.eg_particle_interactions.neoforge.registry.NeoParticleProviderRegistry;
 import games.enchanted.eg_particle_interactions.neoforge.registry.NeoReloadListenerRegistry;
@@ -9,19 +8,11 @@ import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.fml.loading.LoadingModList;
 *///?} else {
-//? if minecraft: < 26.1 {
-/*import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
-*///? } else {
-import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
-//? }
-import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
+import games.enchanted.eg_particle_interactions.fabric.resource.FabricResourceLoaderRegisterer;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.packs.PackType;
 //?}
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 
@@ -112,13 +103,7 @@ public class PlatformHelper {
      */
     public static void registerResourceReloadListener(PreparableReloadListener listener, Identifier id) {
         //? if fabric {
-        ResourceLoader.get(PackType.CLIENT_RESOURCES).
-            //? if minecraft: < 26.1 {
-            /*registerReloader
-             *///? } else {
-            registerReloadListener
-            //?}
-            (id, listener);
+        FabricResourceLoaderRegisterer.getInstance().registerResourceLoader(listener, id);
         //? } else {
         /*NeoReloadListenerRegistry.registerListener(listener, id);
         *///? }

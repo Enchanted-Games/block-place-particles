@@ -166,7 +166,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
     public void tick() {
         this.pickSpriteForAppearance();
         super.tick();
-        this.applyGravityAndVelocityDecays();;
+        this.applyGravityAndVelocityDecays();
     }
 
     protected void applyGravityAndVelocityDecays() {

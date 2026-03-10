@@ -52,7 +52,12 @@ dependencies {
             mappings("dev.lambdaurora:yalmm-mojbackward:${property("deps.minecraft")}+build.${property("deps.mojbackward")}")
     })
     modImplementation("net.fabricmc:fabric-loader:${property("deps.fabric-loader")}")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric-api")}")
+
+    if (boolProperty("deps.fabric-api.compileonly")) {
+        modCompileOnly("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric-api")}")
+    } else {
+        modImplementation("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric-api")}")
+    }
 
     // Mod Menu
     if (hasProperty("deps.modmenu")) {

@@ -35,7 +35,7 @@ public class ColourUtil {
             return getRandomColourFromPalette(palette, tintColour);
         }
 
-        var model = Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState);
+        var model = Minecraft.getInstance().getModelManager().getBlockStateModelSet().get(blockState);
         TextureAtlasSprite particleSprite =
             //? if minecraft: >= 26.1 {
             model.particleMaterial().sprite();
