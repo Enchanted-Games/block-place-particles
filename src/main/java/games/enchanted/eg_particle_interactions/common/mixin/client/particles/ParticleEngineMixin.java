@@ -103,7 +103,7 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
         ParticleOrigin origin = ParticleOrigin.BLOCK_PARTICLE_OVERRIDDEN;
         OverridePreset overridePreset = BlockOverrideManager.getForBlock(blockState, origin);
         ParticleOverride override = overridePreset.getRandom();
-        Identifier id = ParticleOverrides.getIdFromOverride(override);
+        Identifier id = ParticleOverrides.getIdOrThrow(override);
 
         if(id == ParticleOverrides.VANILLA_OVERRIDE_ID) {
             return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);

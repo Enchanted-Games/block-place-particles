@@ -2,11 +2,11 @@ package games.enchanted.eg_particle_interactions.common.override_system.override
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
 import games.enchanted.eg_particle_interactions.common.override_system.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.override_system.emitter.Emitters;
 import games.enchanted.eg_particle_interactions.common.override_system.emitter.EmptyEmitter;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
 
 import java.util.Map;
 

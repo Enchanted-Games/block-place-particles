@@ -72,7 +72,7 @@ public class BlockBreakAndCrackingParticle_ClientLevelMixin {
         ParticleOrigin origin = ParticleOrigin.BLOCK_CRACK;
         OverridePreset overridePreset = BlockOverrideManager.getForBlock(blockstate, origin);
         ParticleOverride override = overridePreset.getRandom();
-        Identifier id = ParticleOverrides.getIdFromOverride(override);
+        Identifier id = ParticleOverrides.getIdOrThrow(override);
 
         if(id == ParticleOverrides.VANILLA_OVERRIDE_ID) return;
 

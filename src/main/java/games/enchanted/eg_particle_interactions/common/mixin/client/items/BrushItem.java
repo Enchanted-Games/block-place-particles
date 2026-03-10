@@ -64,7 +64,7 @@ public abstract class BrushItem {
         ParticleOrigin origin = ParticleOrigin.BLOCK_BRUSHED;
         OverridePreset preset = BlockOverrideManager.getForBlock(state, origin);
         ParticleOverride override = preset.getRandom();
-        Identifier id = ParticleOverrides.getIdFromOverride(override);
+        Identifier id = ParticleOverrides.getIdOrThrow(override);
 
         boolean isVanillaOrEmptyOverride = id.equals(ParticleOverrides.VANILLA_OVERRIDE_ID) || id.equals(ParticleOverrides.EMPTY_OVERRIDE_ID);
 
