@@ -40,6 +40,7 @@ public class Ember extends SwirlingParticle {
         }
     }
 
+    // TODO: clean this up, move to gravity / gravity decay in particleconfig
     @Override
     public void applyGravity() {
         this.yd = -this.gravity;

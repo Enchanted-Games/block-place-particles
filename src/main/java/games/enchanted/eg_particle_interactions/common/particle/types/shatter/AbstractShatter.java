@@ -50,9 +50,6 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
 
     @Override
     public void tick() {
-        this.xd *= 0.95f;
-        this.yd *= 0.95f;
-        this.zd *= 0.95f;
         super.tick();
 
         float percentageAge = (float) this.age / this.lifetime;

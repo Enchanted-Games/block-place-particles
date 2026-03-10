@@ -9,6 +9,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BrushableBlock;
@@ -26,12 +27,11 @@ public abstract class FallingBlockEntityLand_ClientLevelMixin extends Level {
         super(writableLevelData, resourceKey, registryAccess, dimensionTypeHolder, isClientSide, isDebug, p_270248_, p_270466_);
     }
 
-    @SuppressWarnings("UnreachableCode")
     @WrapOperation(
         method = "removeEntity",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/entity/LevelEntityGetter;get(I)Lnet/minecraft/world/level/entity/EntityAccess;")
     )
-    public EntityAccess removeEntity(LevelEntityGetter instance, int i, Operation<EntityAccess> original) {
+    public EntityAccess removeEntity(LevelEntityGetter<Entity> instance, int i, Operation<EntityAccess> original) {
         EntityAccess entity = original.call(instance, i);
         if(!(entity instanceof FallingBlockEntity fallingBlockEntity)) {
             // not a falling block so return early

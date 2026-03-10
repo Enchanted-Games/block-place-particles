@@ -9,38 +9,33 @@ import games.enchanted.eg_particle_interactions.common.particle.appearance.Parti
 import games.enchanted.eg_particle_interactions.common.particle.appearance.SpriteCycleMode;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.texture.TextureConfig;
 import games.enchanted.eg_particle_interactions.common.particle.render.ModParticleRenderTypes;
-import games.enchanted.eg_particle_interactions.common.particle.render.ModRenderPipelines;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.StateQuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.render.layer.ParticleLayer;
 import games.enchanted.eg_particle_interactions.common.particle.render.state.CustomParticleGeometryRenderState;
 import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
 import net.minecraft.client.Camera;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SingleQuadParticle;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.ItemStackTemplate;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 
 public abstract class ParticleInteractionsParticle extends Particle {
-
-    public static final SingleQuadParticle.Layer BACKFACE_TERRAIN_LAYER = new SingleQuadParticle.Layer(true, TextureAtlas.LOCATION_BLOCKS, ModRenderPipelines.BACKFACE_CUTOUT_PARTICLE);
-
     private float scale;
     private float prevScale;
     protected float roll;
     protected float prevRoll;
-    protected float billboardYOffset = 0.0F;
-    protected float billboardXOffset = 0.0F;
+    protected float billboardYOffset = 0.0f;
+    protected float billboardXOffset = 0.0f;
     protected final int minLightEmission;
+    protected final float gravityDecay;
+    protected final float velocityDecay;
 
     protected ParticleContext context;
     protected ParticleAppearance appearance;
@@ -49,14 +44,14 @@ public abstract class ParticleInteractionsParticle extends Particle {
     protected boolean updateSpritesAfterFirstCall = true;
     protected TextureAtlasSprite currentSprite;
 
-    private float rCol = 1.0F;
-    private float prevRCol = 1.0F;
-    private float gCol = 1.0F;
-    private float prevGCol = 1.0F;
-    private float bCol = 1.0F;
-    private float prevBCol = 1.0F;
-    private float alpha = 1.0F;
-    private float prevAlpha = 1.0F;
+    private float rCol = 1.0f;
+    private float prevRCol = 1.0f;
+    private float gCol = 1.0f;
+    private float prevGCol = 1.0f;
+    private float bCol = 1.0f;
+    private float prevBCol = 1.0f;
+    private float alpha = 1.0f;
+    private float prevAlpha = 1.0f;
 
     protected ParticleInteractionsParticle(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z) {
         this(context, appearance, config, x, y, z, 0, 0, 0);
@@ -67,6 +62,12 @@ public abstract class ParticleInteractionsParticle extends Particle {
 
     protected ParticleInteractionsParticle(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         super(context.level(), x, y, z, xSpeed, ySpeed, zSpeed);
+        ClientLevel level = context.level();
+
+        this.xd = xSpeed + ((level.getRandom().nextFloat() - 0.5f) * 2f * config.getInitialVelocityRandomness());
+        this.yd = ySpeed + ((level.getRandom().nextFloat() - 0.5f) * 2f * config.getInitialVelocityRandomness());
+        this.zd = zSpeed + ((level.getRandom().nextFloat() - 0.5f) * 2f * config.getInitialVelocityRandomness());
+
         this.context = context;
         this.appearance = appearance;
 
@@ -79,7 +80,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
         this.setSize(collisionSize, collisionSize);
 
         // 0.1 - 0.2
-        this.scale = 0.1F * (this.random.nextFloat() * 0.5F + 0.5F) * 2.0F;
+        this.scale = 0.1f * (this.random.nextFloat() * 0.5f + 0.5f) * 2.0f;
 
         int[] colour = appearance.colourSource().getARGB(context);
         this.setRGBA(
@@ -92,6 +93,9 @@ public abstract class ParticleInteractionsParticle extends Particle {
         this.minLightEmission = appearance.lightEmission();
 
         this.layer = ParticleLayer.fromAppearance(context, appearance);
+
+        this.gravityDecay = (1 - config.getGravityDecayProvider().getValue(context));
+        this.velocityDecay = (1 - config.getVelocityDecayProvider().getValue(context));
     }
 
     protected SingleQuadParticle.Layer getLayer() {
@@ -162,19 +166,21 @@ public abstract class ParticleInteractionsParticle extends Particle {
     public void tick() {
         this.pickSpriteForAppearance();
         super.tick();
+        this.applyGravityAndVelocityDecays();;
+    }
+
+    protected void applyGravityAndVelocityDecays() {
+        this.xd *= this.velocityDecay;
+        this.yd *= this.velocityDecay;
+        this.zd *= this.velocityDecay;
+
+        this.gravity *= this.gravityDecay;
     }
 
     /**
-     * Pick sprite based on particle appearance. If no texture config is present, the block particle texture is used.
-     * If no block context is present, the item particle texture is used. If no item context is present, a missing
-     * texture is used.
+     * Pick sprite based on particle appearance
      */
     public void pickSpriteForAppearance() {
-        if (this.appearance.textureConfig() == null) {
-            this.setSpriteForContext();
-            return;
-        }
-
         this.setSpriteForTextureConfig();
     }
 
@@ -201,19 +207,6 @@ public abstract class ParticleInteractionsParticle extends Particle {
 
     protected int getAgeForSprite() {
         return this.age;
-    }
-
-    private void setSpriteForContext() {
-        ParticleContext context = this.context;
-
-        if (context.blockContext() != null) {
-            BlockState state = context.blockContext().state();
-            this.setCurrentSprite(Minecraft.getInstance().getBlockRenderer().getBlockModel(state).particleMaterial().sprite());
-        } else if (context.stack() != null) {
-            this.setCurrentSprite(TextureHelpers.getItemParticleSprite(ItemStackTemplate.fromNonEmptyStack(context.stack()), this.level, this.random));
-        } else {
-            this.setCurrentSprite(TextureHelpers.missingParticleSprite());
-        }
     }
 
     public void setCurrentSprite(TextureAtlasSprite sprite) {

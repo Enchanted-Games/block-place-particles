@@ -20,12 +20,8 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
     protected float maxSpinSpeed = 1f;
 
     protected FallingSpinningParticle(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float gravityMultiplier) {
-        super(context, appearance, config, x, y, z);
+        super(context, appearance, config, x, y, z, xSpeed, ySpeed, zSpeed);
 
-        this.friction = 1.0F;
-        this.xd = xSpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
-        this.yd = ySpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
-        this.zd = zSpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
         this.spinAcceleration = (float) Math.toRadians(this.random.nextBoolean() ? -5.0 : 5.0);
         this.roll = (float) Math.toRadians(this.random.nextIntBetweenInclusive(0, 360));
         this.prevRoll = this.roll;
@@ -45,10 +41,6 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
         if (!this.onGround && !((ParticleAccessor) this).block_place_particle$getStoppedByCollision()) {
             this.roll += this.rotSpeed / 6.5f;
         }
-
-        this.xd *= 0.949999988079071;
-        this.yd *= 0.8999999761581421;
-        this.zd *= 0.949999988079071;
 
         // if moving downwards
         if (this.yd < 0 && ((ParticleAccess) this).eg_particle_interactions$getBypassMovementCollisionCheck()) {

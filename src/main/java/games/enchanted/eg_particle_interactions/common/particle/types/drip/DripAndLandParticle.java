@@ -62,9 +62,7 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
             this.land();
         }
 
-        this.xd *= 0.98F;
-        this.yd *= 0.98F;
-        this.zd *= 0.98F;
+        super.applyGravityAndVelocityDecays();
     }
 
     protected void land() {

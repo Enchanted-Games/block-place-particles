@@ -69,8 +69,6 @@ public class SwirlingParticle extends ParticleInteractionsParticle {
         this.prevRoll = this.roll;
         this.roll += this.rotSpeed / 20.0f;
 
-        this.xd *= this.friction;
-        this.yd *= this.friction;
-        this.zd *= this.friction;
+        super.applyGravityAndVelocityDecays();
     }
 }

@@ -20,9 +20,6 @@ public class UnderwaterRisingBubble extends ParticleInteractionsParticle {
         this.friction = 0.85F;
 
         this.setScale(this.getScale() * (this.random.nextFloat() * 0.6F + 0.2F));
-        this.xd = xSpeed * 0.2F + (Math.random() * 2.0 - 1.0) * 0.02F;
-        this.yd = ySpeed * 0.2F + (Math.random() * 2.0 - 1.0) * 0.02F;
-        this.zd = zSpeed * 0.2F + (Math.random() * 2.0 - 1.0) * 0.02F;
 
         ((ParticleAccess) this).eg_particle_interactions$setBypassMovementCollisionCheck(true);
     }

@@ -1,11 +1,12 @@
 package games.enchanted.eg_particle_interactions.common.particle.render.layer;
 
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.LayerDefinition;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.texture.TextureConfig;
-import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
+import games.enchanted.eg_particle_interactions.common.particle.render.ModRenderPipelines;
 import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.Identifier;
 
 import java.util.HashMap;
@@ -31,7 +32,7 @@ public class ParticleLayer {
         SingleQuadParticle.Layer.TRANSLUCENT_TERRAIN
     );
     public static final ParticleLayer BACKFACE_TERRAIN = new ParticleLayer(
-        ParticleInteractionsParticle.BACKFACE_TERRAIN_LAYER
+        new SingleQuadParticle.Layer(true, TextureAtlas.LOCATION_BLOCKS, ModRenderPipelines.BACKFACE_CUTOUT_PARTICLE)
     );
 
     public static ParticleLayer fromAppearance(ParticleContext context, ParticleAppearance appearance) {

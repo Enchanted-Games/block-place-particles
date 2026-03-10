@@ -5,6 +5,7 @@ import games.enchanted.eg_particle_interactions.common.override_system.emitter.E
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.options.DustParticleOptions;
+import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomFloatProvider;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
 import net.minecraft.client.particle.Particle;
@@ -18,15 +19,11 @@ public class Dust extends ParticleInteractionsParticle {
     protected boolean spawnSpecks;
 
     protected Dust(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, DustParticleOptions dustParticleOptions) {
-        super(context, appearance, dustParticleOptions.config(), x, y, z);
+        super(context, appearance, dustParticleOptions.config(), x, y, z, xSpeed, ySpeed, zSpeed);
 
         this.speckEmitter = dustParticleOptions.getSpeckEmitter();
         this.spawnSpecks = this.speckEmitter != null;
 
-        this.friction = 1.0F;
-        this.xd = xSpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
-        this.yd = ySpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
-        this.zd = zSpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
         this.roll = (float) Math.toRadians(this.random.nextIntBetweenInclusive(0, 360));
         this.prevRoll = this.roll;
 
@@ -38,14 +35,6 @@ public class Dust extends ParticleInteractionsParticle {
     @Override
     public void tick() {
         this.pickSpriteForAppearance();
-
-        this.xd *= 0.949999988079071;
-        this.yd *= 0.8999999761581421;
-        this.zd *= 0.949999988079071;
-
-        this.gravity = 0.98F * this.gravity;
-        this.friction = 0.995F * this.friction;
-
         super.tick();
 
         if (!this.spawnSpecks || this.removed || !this.hasPhysics || this.onGround) {

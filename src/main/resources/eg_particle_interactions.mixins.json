@@ -20,6 +20,7 @@
     "blocks.BlastFurnaceBlock",
     "blocks.CampfireBlock",
     "blocks.ComparatorBlock",
+    "blocks.FallingBlockMixin",
     "blocks.FurnaceBlock",
     "blocks.RedstoneWireBlock",
     "blocks.RepeaterBlock",
