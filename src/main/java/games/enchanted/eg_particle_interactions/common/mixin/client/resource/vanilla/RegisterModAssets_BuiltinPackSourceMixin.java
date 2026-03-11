@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.client.resource.va
 
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.resource.pack.ModPackResources;
+import net.minecraft.client.resources.ClientPackSource;
 import net.minecraft.server.packs.repository.BuiltInPackSource;
 import net.minecraft.server.packs.repository.Pack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,6 +19,7 @@ public class RegisterModAssets_BuiltinPackSourceMixin {
         method = "listBundledPacks"
     )
     private void eg_particle_interactions$registerModResources(Consumer<Pack> packConsumer, CallbackInfo ci) {
+        if(!((BuiltInPackSource) (Object) this instanceof ClientPackSource)) return;
         if(!ParticleInteractionsMod.isFabricResourceLoaderPresent()) {
             packConsumer.accept(ModPackResources.createPack());
         }

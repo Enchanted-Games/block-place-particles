@@ -1,3 +1,4 @@
+//? if fabric {
 package games.enchanted.eg_particle_interactions.fabric.resource;
 
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
@@ -11,3 +12,4 @@ public class FAPIResourceLoaderRegisterer implements FabricResourceLoaderRegiste
         ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloadListener(id, listener);
     }
 }
+//? }

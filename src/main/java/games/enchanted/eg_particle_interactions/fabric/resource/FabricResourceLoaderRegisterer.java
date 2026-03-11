@@ -6,9 +6,11 @@ import net.minecraft.server.packs.resources.PreparableReloadListener;
 
 public interface FabricResourceLoaderRegisterer {
     static FabricResourceLoaderRegisterer getInstance() {
+        //? if fabric {
         if(ParticleInteractionsMod.isFabricResourceLoaderPresent()) {
             return new FAPIResourceLoaderRegisterer();
         }
+        //? }
         return new VanillaResourceLoaderRegisterer();
     }
 

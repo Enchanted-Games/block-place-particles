@@ -9,8 +9,12 @@ import games.enchanted.eg_particle_interactions.common.particle.appearance.Parti
 import net.minecraft.resources.Identifier;
 
 public class ParticleInteractionsMod {
+    public static Identifier PARTICLE_OVERRIDES_RELOAD_LISTENER = ParticleInteractionsMod.id("particle_overrides");
+    public static Identifier BLOCK_OVERRIDE_RULE_RELOAD_LISTENER = ParticleInteractionsMod.id("block_override_rules");
+    public static Identifier PARTICLE_APPEARANCE_RELOAD_LISTENER = ParticleInteractionsMod.id("particle_appearances");
+
     public static void startOfModLoading() {
-        Logging.info("Mod is loading on a {} environment!", Constants.TARGET_PLATFORM);
+        Logging.info("Mod init started. Compiled for {}", Constants.TARGET_PLATFORM);
 
         ParticleTypesRegistry.init();
 
@@ -27,13 +31,13 @@ public class ParticleInteractionsMod {
 
     public static void endOfModLoading() {
         ConfigOptions.readConfig();
-        Logging.info("Loaded Successfully!");
+        Logging.info("Init done!");
     }
 
     public static void registerResourceReloadListeners() {
-        PlatformHelper.registerResourceReloadListener(ParticleOverrides.INSTANCE, ParticleInteractionsMod.id("particle_overrides"));
-        PlatformHelper.registerResourceReloadListener(BlockOverrideManager.INSTANCE, ParticleInteractionsMod.id("block_override_rules"));
-        PlatformHelper.registerResourceReloadListener(ParticleAppearanceManager.INSTANCE, ParticleInteractionsMod.id("texture_sources"));
+        PlatformHelper.registerResourceReloadListener(ParticleOverrides.INSTANCE, PARTICLE_OVERRIDES_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(BlockOverrideManager.INSTANCE, BLOCK_OVERRIDE_RULE_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(ParticleAppearanceManager.INSTANCE, PARTICLE_APPEARANCE_RELOAD_LISTENER);
     }
 
     public static boolean isFabricResourceLoaderPresent() {
