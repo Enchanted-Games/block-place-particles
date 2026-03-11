@@ -6,7 +6,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.CandleBlock;
@@ -23,7 +22,7 @@ public abstract class FlintAndSteelItem {
         method = "useOn",
         at = @At(value = "HEAD")
     )
-    private void spawnParticlesOnUse(UseOnContext useOnContext, CallbackInfoReturnable<InteractionResult> cir) {
+    private void eg_particle_interactions$spawnParticlesOnUse(UseOnContext useOnContext, CallbackInfoReturnable<InteractionResult> cir) {
         if(useOnContext.getLevel() instanceof ClientLevel level) {
             BlockPos clickedPos = useOnContext.getClickedPos();
             BlockState clickedState = level.getBlockState(clickedPos);

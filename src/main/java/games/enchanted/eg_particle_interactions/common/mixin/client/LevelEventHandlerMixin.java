@@ -13,24 +13,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LevelEventHandler.class)
 public abstract class LevelEventHandlerMixin {
-    //? if minecraft: <= 1.21.8 {
-    /*@Shadow @Final private Level level;
-    *///?} else {
     @Shadow @Final private ClientLevel level;
-    //?}
 
     @Inject(
         at = @At("HEAD"),
         method = "levelEvent"
     )
-    public void particleInteractionsLevelEventHandler(int type, BlockPos pos, int data, CallbackInfo ci) {
+    public void eg_particle_interactions$particleInteractionsLevelEventHandler(int type, BlockPos pos, int data, CallbackInfo ci) {
         if(level == null) return;
         switch (type) {
             case 1030:
-                SpawnParticles.spawnAnvilUseSparkParticles((ClientLevel) this.level, pos);
+                SpawnParticles.spawnAnvilUseSparkParticles(this.level, pos);
                 break;
             case 1042:
-                SpawnParticles.spawnGrindstoneUseSparkParticles((ClientLevel) this.level, pos);
+                SpawnParticles.spawnGrindstoneUseSparkParticles(this.level, pos);
                 break;
         }
     }

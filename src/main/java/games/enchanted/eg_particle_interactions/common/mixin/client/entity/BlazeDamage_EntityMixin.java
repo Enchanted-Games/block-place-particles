@@ -22,7 +22,7 @@ public abstract class BlazeDamage_EntityMixin {
         at = @At("TAIL"),
         method = "hurtClient"
     )
-    private void spawnParticlesOnHurt(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
+    private void eg_particle_interactions$spawnParticlesOnHurt(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         if(!(this.level() instanceof ClientLevel)) return;
         if((Object) this instanceof Blaze) {
             SpawnParticles.spawnBlazeHurtParticles((ClientLevel) this.level(), this.getRandomX(0.6), this.getRandomY(), this.getRandomZ(0.6));

@@ -38,7 +38,7 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
         if (this.rotSpeed > this.maxSpinSpeed) this.rotSpeed = this.maxSpinSpeed;
 
         this.prevRoll = this.roll;
-        if (!this.onGround && !((ParticleAccessor) this).block_place_particle$getStoppedByCollision()) {
+        if (!this.onGround && !((ParticleAccessor) this).eg_particle_interactions$getStoppedByCollision()) {
             this.roll += this.rotSpeed / 6.5f;
         }
 

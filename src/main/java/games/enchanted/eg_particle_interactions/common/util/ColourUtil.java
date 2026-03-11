@@ -65,7 +65,7 @@ public class ColourUtil {
 
     private static Palette collectValidPalettePixels(SpriteContents paletteSprite, boolean hasTint) {
         ArrayList<Integer> colours = new ArrayList<>();
-        NativeImage image = ((SpriteContentsAccessor) paletteSprite).block_place_particle$getOriginalImage();
+        NativeImage image = ((SpriteContentsAccessor) paletteSprite).eg_particle_interactions$getOriginalImage();
 
         if(((NativeImageAccessor) (Object) image).eg_particle_interactions$getPixels() == 0L) {
             // if image is somehow not allocated, return white as fallback

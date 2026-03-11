@@ -20,7 +20,7 @@ public abstract class Blaze extends Monster {
         at = @At("HEAD"),
         method = "aiStep"
     )
-    private void spawnExtraParticlesOnAiStep(CallbackInfo ci) {
+    private void eg_particle_interactions$spawnExtraParticlesOnAiStep(CallbackInfo ci) {
         if(!(this.level() instanceof ClientLevel)) return;
         SpawnParticles.spawnBlazeAmbientParticles((ClientLevel) this.level(), this.getRandomX(0.6), this.getRandomY(), this.getRandomZ(0.6));
     }

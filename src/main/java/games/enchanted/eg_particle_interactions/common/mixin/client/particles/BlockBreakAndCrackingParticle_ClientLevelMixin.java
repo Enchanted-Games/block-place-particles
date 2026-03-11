@@ -25,12 +25,11 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(ClientLevel.class)
 public class BlockBreakAndCrackingParticle_ClientLevelMixin {
-    //? if minecraft: > 1.21.8 {
     @Inject(
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/shapes/VoxelShape;"),
         method = "addDestroyBlockEffect"
     )
-    public void useParticleInteractionsDestroyParticleLogic(BlockPos brokenBlockPos, BlockState brokenBlockState, CallbackInfo ci) {
+    public void eg_particle_interactions$useParticleInteractionsDestroyParticleLogic(BlockPos brokenBlockPos, BlockState brokenBlockState, CallbackInfo ci) {
         SpawnParticles.spawnBlockBreakParticle((ClientLevel) (Object) this, brokenBlockState, brokenBlockPos);
     }
 
@@ -38,7 +37,7 @@ public class BlockBreakAndCrackingParticle_ClientLevelMixin {
         method = "addDestroyBlockEffect",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/shapes/VoxelShape;forAllBoxes(Lnet/minecraft/world/phys/shapes/Shapes$DoubleLineConsumer;)V")
     )
-    public void skipSpawningVanillaDestroyParticles(VoxelShape instance, Shapes.DoubleLineConsumer action, Operation<Void> original) {
+    public void eg_particle_interactions$skipSpawningVanillaDestroyParticles(VoxelShape instance, Shapes.DoubleLineConsumer action, Operation<Void> original) {
     }
 
 
@@ -55,7 +54,7 @@ public class BlockBreakAndCrackingParticle_ClientLevelMixin {
         locals = LocalCapture.CAPTURE_FAILSOFT,
         cancellable = true
     )
-    public void replaceCrackingParticlesConditionally(
+    public void eg_particle_interactions$replaceCrackingParticlesConditionally(
         BlockPos blockPos,
         Direction side,
         //? if neoforge {
@@ -93,5 +92,4 @@ public class BlockBreakAndCrackingParticle_ClientLevelMixin {
             0
         );
     }
-    //?}
 }

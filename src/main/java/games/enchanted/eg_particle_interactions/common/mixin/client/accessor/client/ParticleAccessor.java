@@ -7,5 +7,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(Particle.class)
 public interface ParticleAccessor {
     @Accessor("stoppedByCollision")
-    boolean block_place_particle$getStoppedByCollision();
+    boolean eg_particle_interactions$getStoppedByCollision();
 }

@@ -28,13 +28,13 @@ public abstract class AbstractCauldronBlock {
         at = @At("TAIL"),
         method = "useItemOn(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/InteractionHand;Lnet/minecraft/world/phys/BlockHitResult;)Lnet/minecraft/world/InteractionResult;"
     )
-    protected void spawnFluidOrBlockPlaceParticlesOnItemUse(ItemStack itemStack, BlockState blockState, Level level, BlockPos pos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult, CallbackInfoReturnable<InteractionResult> cir) {
+    protected void eg_particle_interactions$spawnPlaceParticlesOnItemUse(ItemStack itemStack, BlockState blockState, Level level, BlockPos pos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult, CallbackInfoReturnable<InteractionResult> cir) {
         if(!level.isClientSide()) return;
         InteractionResult result = cir.getReturnValue();
         Item usedItem = itemStack.getItem();
         if(result != InteractionResult.SUCCESS) return;
         if(usedItem instanceof BucketItem) {
-            Fluid placedFluid = ((BucketItemAccessor) usedItem).block_place_particle$getContent();
+            Fluid placedFluid = ((BucketItemAccessor) usedItem).eg_particle_interactions$getContent();
             Logging.interactionDebugInfo("Bucket of " + RegistryHelpers.getLocationFromFluid(placedFluid) + " placed in a cauldron at " + pos.toShortString());
             SpawnParticles.spawnFluidPlacedParticle(level, pos, placedFluid);
         } else if(usedItem instanceof BlockItem) {

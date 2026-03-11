@@ -25,15 +25,15 @@ public abstract class ItemFrameMixin extends HangingEntity {
 
     @Shadow public abstract ItemStack getItem();
 
-    protected ItemFrameMixin(EntityType<? extends HangingEntity> p_31703_, Level p_31704_) {
-        super(p_31703_, p_31704_);
+    protected ItemFrameMixin(EntityType<? extends HangingEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
     @Inject(
         at = @At("RETURN"),
         method = "hurtClient"
     )
-    private void spawnParticlesOnDamage(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
+    private void eg_particle_interactions$spawnParticlesOnDamage(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         if (!(this.level() instanceof ClientLevel clientLevel)) return;
 
         boolean wasHurtSuccessfully = cir.getReturnValue();
@@ -55,13 +55,7 @@ public abstract class ItemFrameMixin extends HangingEntity {
         at = @At("RETURN"),
         method = "interact"
     )
-    private void spawnParticlesOnInteract(
-        Player player, InteractionHand hand,
-        //? if minecraft: >= 26.1 {
-        Vec3 location,
-        //? }
-        CallbackInfoReturnable<InteractionResult> cir
-    ) {
+    private void eg_particle_interactions$spawnParticlesOnInteract(Player player, InteractionHand hand, Vec3 location, CallbackInfoReturnable<InteractionResult> cir) {
         if (!(this.level() instanceof ClientLevel clientLevel)) return;
 
         InteractionResult interactionResult = cir.getReturnValue();

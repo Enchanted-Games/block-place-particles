@@ -8,5 +8,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(BucketItem.class)
 public interface BucketItemAccessor {
     @Accessor("content")
-    Fluid block_place_particle$getContent();
+    Fluid eg_particle_interactions$getContent();
 }

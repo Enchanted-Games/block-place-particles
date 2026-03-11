@@ -17,7 +17,7 @@ public abstract class BaseFireBlock {
         at = @At("HEAD"),
         method = "animateTick"
     )
-    protected void spawnSparkParticleRandomlyOnTick(BlockState blockState, Level level, BlockPos blockPos, RandomSource randomSource, CallbackInfo ci) {
+    protected void eg_particle_interactions$spawnSparkParticlesOnTick(BlockState blockState, Level level, BlockPos blockPos, RandomSource randomSource, CallbackInfo ci) {
         if(!(level instanceof ClientLevel clientLevel)) return;
         blockState.getShape(level, blockPos).forAllBoxes((x1, y1, z1, x2, y2, z2) -> {
             SpawnParticles.spawnAmbientFireSparks(clientLevel, blockState, blockPos, x1, y1, z1, x2, y2, z2);

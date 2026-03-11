@@ -31,7 +31,7 @@ public abstract class FallingBlockEntityLand_ClientLevelMixin extends Level {
         method = "removeEntity",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/entity/LevelEntityGetter;get(I)Lnet/minecraft/world/level/entity/EntityAccess;")
     )
-    public EntityAccess removeEntity(LevelEntityGetter<Entity> instance, int i, Operation<EntityAccess> original) {
+    public EntityAccess eg_particle_interactions$onRemoveFallingBlock(LevelEntityGetter<Entity> instance, int i, Operation<EntityAccess> original) {
         EntityAccess entity = original.call(instance, i);
         if(!(entity instanceof FallingBlockEntity fallingBlockEntity)) {
             // not a falling block so return early

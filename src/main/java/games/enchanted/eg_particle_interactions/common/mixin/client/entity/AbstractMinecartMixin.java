@@ -31,14 +31,14 @@ public abstract class AbstractMinecartMixin extends VehicleEntity {
     }
 
     @Unique
-    private boolean block_place_particle$shouldSpawnSparks() {
+    private boolean eg_particle_interactions$shouldSpawnSparks() {
         BlockPos blockPos = BlockPos.containing(this.getX(), this.getY(),this.getZ());
         BlockState blockState = this.level().getBlockState(blockPos);
         return !blockState.getFluidState().is(FluidTags.WATER);
     }
 
     @Unique
-    private double block_place_particle$maxSpeed() {
+    private double eg_particle_interactions$maxSpeed() {
         return this.isInWater() ? 0.2 : 0.4;
     }
 
@@ -46,8 +46,8 @@ public abstract class AbstractMinecartMixin extends VehicleEntity {
         at = @At("HEAD"),
         method = "tick"
     )
-    protected void spawnSparksWhileMovingOnRails(CallbackInfo ci) {
-        if (block_place_particle$shouldSpawnSparks() && this.level() instanceof ClientLevel clientLevel) {
+    protected void eg_particle_interactions$spawnSparksWhileMovingOnRails(CallbackInfo ci) {
+        if (eg_particle_interactions$shouldSpawnSparks() && this.level() instanceof ClientLevel clientLevel) {
             float horizontalRot = this.getYRot();
             float verticalRot = this.getXRot();
 
@@ -65,7 +65,7 @@ public abstract class AbstractMinecartMixin extends VehicleEntity {
                 !this.getPassengers().isEmpty(),
                 hasBlock,
                 this.getDeltaMovement(),
-                block_place_particle$maxSpeed(),
+                eg_particle_interactions$maxSpeed(),
                 clientLevel
             );
         }

@@ -22,7 +22,7 @@ public class FallingBlockMixin {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/FallingBlock;isFree(Lnet/minecraft/world/level/block/state/BlockState;)Z"),
         method = "animateTick"
     )
-    private boolean modifyIsFree(BlockState state, Operation<Boolean> original, BlockState stateArg, Level level, BlockPos pos) {
+    private boolean eg_particle_interactions$modifyIsFree(BlockState state, Operation<Boolean> original, BlockState stateArg, Level level, BlockPos pos) {
         return original.call(stateArg) || !FallingBlock.canSupportRigidBlock(level, pos.below());
     }
 
@@ -30,7 +30,7 @@ public class FallingBlockMixin {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/util/ParticleUtils;spawnParticleBelow(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;Lnet/minecraft/core/particles/ParticleOptions;)V"),
         method = "animateTick"
     )
-    private void spawnParticleOverrideParticles(Level level, BlockPos pos, RandomSource random, ParticleOptions particle, Operation<Void> original, BlockState state) {
+    private void eg_particle_interactions$overrideParticles(Level level, BlockPos pos, RandomSource random, ParticleOptions particle, Operation<Void> original, BlockState state) {
         if(!(level instanceof ClientLevel clientLevel)) {
             original.call(level, pos, random, particle);
             return;

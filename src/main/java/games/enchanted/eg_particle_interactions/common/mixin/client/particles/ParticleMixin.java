@@ -22,8 +22,8 @@ public class ParticleMixin implements ParticleAccess {
     @Shadow private boolean stoppedByCollision;
 
     @Shadow @Final protected ClientLevel level;
-    @Unique protected boolean block_place_particle$hasLanded;
-    @Unique protected boolean block_place_particle$bypassMovementCollisionCheck = false;
+    @Unique protected boolean eg_particle_interactions$hasLanded = false;
+    @Unique protected boolean eg_particle_interactions$bypassMovementCollisionCheck = false;
 
     /**
      * Move particle upwards a tiny bit when it lands, hacky fix for MC-91873
@@ -42,8 +42,8 @@ public class ParticleMixin implements ParticleAccess {
     @Unique
     @Override
     public void eg_particle_interactions$moveUpBecauseParticleLanded() {
-        if(!block_place_particle$hasLanded) {
-            this.block_place_particle$hasLanded = true;
+        if(!eg_particle_interactions$hasLanded) {
+            this.eg_particle_interactions$hasLanded = true;
             this.y += Mth.randomBetween(this.level.getRandom(), 0.0001f, 0.0003f);
         }
     }
@@ -56,18 +56,18 @@ public class ParticleMixin implements ParticleAccess {
         method = "move"
     )
     private boolean eg_particle_interactions$bypassMovementCollisionCheck(boolean original) {
-        return !block_place_particle$bypassMovementCollisionCheck && original;
+        return !eg_particle_interactions$bypassMovementCollisionCheck && original;
     }
 
     @Override
     public void eg_particle_interactions$setBypassMovementCollisionCheck(boolean newValue) {
-        this.block_place_particle$bypassMovementCollisionCheck = newValue;
+        this.eg_particle_interactions$bypassMovementCollisionCheck = newValue;
         if(!newValue) stoppedByCollision = false;
     }
 
     @Override
     public boolean eg_particle_interactions$getBypassMovementCollisionCheck() {
-        return this.block_place_particle$bypassMovementCollisionCheck;
+        return this.eg_particle_interactions$bypassMovementCollisionCheck;
     }
 
     @Override

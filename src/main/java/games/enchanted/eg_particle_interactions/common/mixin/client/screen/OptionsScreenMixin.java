@@ -22,7 +22,7 @@ public abstract class OptionsScreenMixin extends Screen {
         at = @At("TAIL"),
         method = "init()V"
     )
-    private void block_place_particle$addParticleInteractionsConfigButton(CallbackInfo ci) {
+    private void eg_particle_interactions$addParticleInteractionsConfigButton(CallbackInfo ci) {
         if(PlatformHelper.isDevelopmentEnvironment()) {
             final int width = 120;
             final int height = 16;

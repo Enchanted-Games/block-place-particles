@@ -22,7 +22,7 @@ public abstract class FireChargeItem {
         method = "useOn",
         at = @At(value = "HEAD")
     )
-    private void spawnParticlesOnUse(UseOnContext useOnContext, CallbackInfoReturnable<InteractionResult> cir) {
+    private void eg_particle_interactions$spawnParticlesOnUse(UseOnContext useOnContext, CallbackInfoReturnable<InteractionResult> cir) {
         Level level = useOnContext.getLevel();
         if(level.isClientSide()) {
             BlockPos clickedPos = useOnContext.getClickedPos();

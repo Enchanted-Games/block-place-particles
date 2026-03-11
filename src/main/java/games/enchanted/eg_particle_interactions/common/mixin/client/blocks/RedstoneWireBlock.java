@@ -22,7 +22,7 @@ public abstract class RedstoneWireBlock extends Block {
         at = @At("TAIL"),
         method = "updatesOnShapeChange(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockState;)V"
     )
-    private void spawnDustParticlesOnInteraction(Level level, BlockPos pos, BlockState oldState, BlockState newState, CallbackInfo ci) {
+    private void eg_particle_interactions$spawnDustParticlesOnInteraction(Level level, BlockPos pos, BlockState oldState, BlockState newState, CallbackInfo ci) {
         if(!(level instanceof ClientLevel)) return;
         SpawnParticles.spawnRedstoneInteractionParticles(
             (ClientLevel) level,

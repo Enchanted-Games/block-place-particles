@@ -23,7 +23,7 @@ public abstract class CampfireBlock {
         at = @At("TAIL"),
         method = "animateTick(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;)V"
     )
-    public void animateTick(BlockState blockState, Level level, BlockPos blockPos, RandomSource random, CallbackInfo ci) {
+    public void eg_particle_interactions$spawnAdditionalParticles(BlockState blockState, Level level, BlockPos blockPos, RandomSource random, CallbackInfo ci) {
         if(!this.spawnParticles) return;
         if(!(level instanceof ClientLevel clientLevel)) return;
 

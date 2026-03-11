@@ -83,7 +83,7 @@
 //    /*public boolean charTyped(char chr, int modifiers) {
 //    *///?}
 //        if(this.dropdownWidget != null) {
-//            ((DropdownWidgetAccessor) this.dropdownWidget).block_place_particle$setFirstVisibleIndex(0);
+//            ((DropdownWidgetAccessor) this.dropdownWidget).eg_particle_interactions$setFirstVisibleIndex(0);
 //            this.dropdownWidget.scrollUp();
 //        }
 //        //? if minecraft: > 1.21.8 {

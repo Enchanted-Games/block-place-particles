@@ -94,7 +94,7 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
 
             ParticleDebugShapes.box(
                 this.getBoundingBox(),
-                ((ParticleAccessor) this).block_place_particle$getStoppedByCollision() ? ParticleDebugShapes.PARTICLE_BOUNDING_BOX_STOPPED : ParticleDebugShapes.PARTICLE_BOUNDING_BOX
+                ((ParticleAccessor) this).eg_particle_interactions$getStoppedByCollision() ? ParticleDebugShapes.PARTICLE_BOUNDING_BOX_STOPPED : ParticleDebugShapes.PARTICLE_BOUNDING_BOX
             );
         }
         if (GeneralOptions.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES.getValue()) {

@@ -5,19 +5,20 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import games.enchanted.eg_particle_interactions.common.config.categories.ItemInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
+import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
 import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
 import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverride;
 import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.override_system.preset.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.options.DefaultParticles;
-import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
 import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.BrushItem.DustParticlesDelta;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -31,7 +32,7 @@ public abstract class BrushItem {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addParticle(Lnet/minecraft/core/particles/ParticleOptions;DDDDDD)V"),
         method = "spawnDustParticles"
     )
-    private void replaceBrushDustParticlesConditionally(
+    private void eg_particle_interactions$replaceBrushDustParticlesConditionally(
         Level instance,
         ParticleOptions particle,
         double x,
@@ -44,7 +45,7 @@ public abstract class BrushItem {
         Level level,
         BlockHitResult hitResult,
         BlockState state,
-        @Local(ordinal = 0) net.minecraft.world.item.BrushItem.DustParticlesDelta particlesDelta,
+        @Local(ordinal = 0) DustParticlesDelta particlesDelta,
         @Local(ordinal = 0) int armDirection
     ) {
         if(!(instance instanceof ClientLevel clientLevel)) {

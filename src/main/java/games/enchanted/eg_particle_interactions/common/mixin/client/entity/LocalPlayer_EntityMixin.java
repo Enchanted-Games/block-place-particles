@@ -27,27 +27,21 @@ public abstract class LocalPlayer_EntityMixin {
 
     @Shadow public abstract double getZ();
 
-    @Unique private int block_place_particle$ticksUntilNextBlockDisturbance = 0;
+    @Unique private int eg_particle_interactions$ticksUntilNextBlockDisturbance = 0;
 
     @WrapOperation(
         at = @At(value = "INVOKE",
-            //? if minecraft: <= 1.21.8 {
-            /*target = "Lnet/minecraft/world/level/block/state/BlockState;entityInside(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/InsideBlockEffectApplier;)V"
-            *///?} else {
             target = "Lnet/minecraft/world/level/block/state/BlockState;entityInside(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/InsideBlockEffectApplier;Z)V"
-            //?}
         ),
-        method = {"lambda$checkInsideBlocks$0", "method_67632"}
+        method = {"lambda$checkInsideBlocks$0"}
     )
-    protected void trySpawnParticlesWhenPlayerInsideBlock(
+    protected void eg_particle_interactions$trySpawnParticlesWhenPlayerInsideBlock(
         BlockState insideBlockState,
         Level level,
         BlockPos insideBlockPos,
         Entity entity,
         InsideBlockEffectApplier insideBlockEffectApplier,
-        //? if minecraft: > 1.21.8 {
         boolean b,
-        //?}
         Operation<Void> original
     ) {
         original.call(
@@ -62,7 +56,7 @@ public abstract class LocalPlayer_EntityMixin {
         );
 
         if(
-            block_place_particle$ticksUntilNextBlockDisturbance > 0
+            eg_particle_interactions$ticksUntilNextBlockDisturbance > 0
             ||
             // check if entity is player
             !((Object) entity instanceof Player player)
@@ -70,11 +64,11 @@ public abstract class LocalPlayer_EntityMixin {
             // check if player's level is client side
             !(player.level() instanceof ClientLevel clientLevel)
         ) {
-            --block_place_particle$ticksUntilNextBlockDisturbance;
+            --eg_particle_interactions$ticksUntilNextBlockDisturbance;
             return;
         }
 
-        block_place_particle$ticksUntilNextBlockDisturbance = MathHelpers.randomBetween(3, 10);
+        eg_particle_interactions$ticksUntilNextBlockDisturbance = MathHelpers.randomBetween(3, 10);
         BlockPos verticalOffsetBlockPos = BlockPos.containing(insideBlockPos.getX(), this.getY() + 0.1, insideBlockPos.getZ());
         SpawnParticles.spawnBlockDisturbanceParticles(clientLevel, verticalOffsetBlockPos, level.getBlockState(verticalOffsetBlockPos), this.getX(), this.getY(), this.getZ(), this.getDeltaMovement(), player.isSprinting());
     }

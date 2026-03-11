@@ -26,7 +26,7 @@ public abstract class FireflyParticleMixin extends SingleQuadParticle {
         at = @At("TAIL"),
         method = "<init>"
     )
-    private void block_place_particle$makeFirefliesNotGetStuckOnStuff(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, TextureAtlasSprite textureAtlasSprite, CallbackInfo ci) {
+    private void eg_particle_interactions$makeFirefliesNotGetStuckOnStuff(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, TextureAtlasSprite textureAtlasSprite, CallbackInfo ci) {
         if(!GeneralOptions.FIREFLY_FIXES.getValue()) return;
         ((ParticleAccess) this).eg_particle_interactions$setBypassMovementCollisionCheck(true);
     }
@@ -35,7 +35,7 @@ public abstract class FireflyParticleMixin extends SingleQuadParticle {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;isAir()Z"),
         method = "tick"
     )
-    public boolean block_place_particle$makeFirefliesNotDieInFireflyBushes(BlockState state, Operation<Boolean> original) {
+    public boolean eg_particle_interactions$makeFirefliesNotDieInFireflyBushes(BlockState state, Operation<Boolean> original) {
         if(!GeneralOptions.FIREFLY_FIXES.getValue()) {
             return original.call(state);
         }

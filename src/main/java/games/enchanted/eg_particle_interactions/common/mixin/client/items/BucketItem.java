@@ -25,7 +25,7 @@ public abstract class BucketItem {
         method = "playEmptySound",
         at = @At(value = "HEAD")
     )
-    private void spawnFluidParticlesOnBucketEmpty(LivingEntity livingEntity, LevelAccessor levelAccessor, BlockPos fluidPos, CallbackInfo ci) {
+    private void eg_particle_interactions$spawnFluidParticlesOnBucketEmpty(LivingEntity livingEntity, LevelAccessor levelAccessor, BlockPos fluidPos, CallbackInfo ci) {
         if(levelAccessor.isClientSide()) {
             Fluid placedFluid = this.content;
             FluidState placedFluidState = content.defaultFluidState();

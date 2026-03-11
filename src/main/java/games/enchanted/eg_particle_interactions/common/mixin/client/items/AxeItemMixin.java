@@ -22,7 +22,7 @@ public class AxeItemMixin {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/AxeItem;evaluateNewBlockState(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/block/state/BlockState;)Ljava/util/Optional;"),
         method = "useOn"
     )
-    private Optional<BlockState> trySpawnAxeStripParticles(AxeItem instance, Level level, BlockPos pos, @Nullable Player player, BlockState oldState, Operation<Optional<BlockState>> original, UseOnContext context) {
+    private Optional<BlockState> eg_particle_interactions$trySpawnAxeStripParticles(AxeItem instance, Level level, BlockPos pos, @Nullable Player player, BlockState oldState, Operation<Optional<BlockState>> original, UseOnContext context) {
         Optional<BlockState> newState = original.call(instance, level, pos, player, oldState);
         if(!(level instanceof ClientLevel clientLevel)) return newState;
         if(newState.isEmpty()) return newState;
