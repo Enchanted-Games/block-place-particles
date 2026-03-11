@@ -4,6 +4,7 @@ import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnPa
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelEventHandler;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.LevelEvent;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -22,10 +23,10 @@ public abstract class LevelEventHandlerMixin {
     public void eg_particle_interactions$particleInteractionsLevelEventHandler(int type, BlockPos pos, int data, CallbackInfo ci) {
         if(level == null) return;
         switch (type) {
-            case 1030:
+            case LevelEvent.SOUND_ANVIL_USED:
                 SpawnParticles.spawnAnvilUseSparkParticles(this.level, pos);
                 break;
-            case 1042:
+            case LevelEvent.SOUND_GRINDSTONE_USED:
                 SpawnParticles.spawnGrindstoneUseSparkParticles(this.level, pos);
                 break;
         }
