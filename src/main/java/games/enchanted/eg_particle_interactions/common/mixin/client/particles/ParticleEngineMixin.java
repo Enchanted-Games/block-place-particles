@@ -1,6 +1,5 @@
 package games.enchanted.eg_particle_interactions.common.mixin.client.particles;
 
-import com.google.common.collect.Maps;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
@@ -38,15 +37,15 @@ import java.util.Map;
 
 @Mixin(value = ParticleEngine.class, priority = 3000)
 public abstract class ParticleEngineMixin implements PreparableReloadListener {
-    @Shadow
-    protected ClientLevel level;
+    @Shadow protected ClientLevel level;
+    @Shadow @Final private Map<ParticleRenderType, ParticleGroup<?>> particles;
 
     // override item and block particles if they have a particle override
     @WrapOperation(
         method = "createParticle(Lnet/minecraft/core/particles/ParticleOptions;DDDDDD)Lnet/minecraft/client/particle/Particle;",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/ParticleEngine;makeParticle(Lnet/minecraft/core/particles/ParticleOptions;DDDDDD)Lnet/minecraft/client/particle/Particle;")
     )
-    private <T extends ParticleOptions> Particle overrideParticleTypeConditionally(ParticleEngine instance, T originalParticleOption, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, Operation<Particle> original) {
+    private <T extends ParticleOptions> Particle eg_particle_interactions$overrideParticleTypeConditionally(ParticleEngine instance, T originalParticleOption, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, Operation<Particle> original) {
         // Override item particles if the item is a BlockItem
         if(
             originalParticleOption.getType() == ParticleTypes.ITEM
@@ -131,15 +130,13 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
         return null;
     }
 
-    //? if minecraft: > 1.21.8 {
-    @Shadow @Final private Map<ParticleRenderType, ParticleGroup<?>> particles = Maps.newIdentityHashMap();;
 
     @Inject(
         at = @At("HEAD"),
         method = "createParticleGroup",
         cancellable = true
     )
-    private void block_place_particle$createCustomParticleGroup(ParticleRenderType particleRenderType, CallbackInfoReturnable<ParticleGroup<?>> cir) {
+    private void eg_particle_interactions$createCustomParticleGroup(ParticleRenderType particleRenderType, CallbackInfoReturnable<ParticleGroup<?>> cir) {
         if(particleRenderType == ModParticleRenderTypes.PARTICLE_INTERACTIONS) {
             cir.setReturnValue(new CustomGeometryParticleGroup((ParticleEngine) (Object) this));
         }
@@ -149,11 +146,10 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
         at = @At("TAIL"),
         method = "extract"
     )
-    private void block_place_particle$extractCustomParticles(ParticlesRenderState state, Frustum frustum, Camera camera, float f, CallbackInfo ci) {
+    private void eg_particle_interactions$extractCustomParticles(ParticlesRenderState state, Frustum frustum, Camera camera, float f, CallbackInfo ci) {
         ParticleGroup<?> group = this.particles.get(ModParticleRenderTypes.PARTICLE_INTERACTIONS);
         if (group != null && !group.isEmpty()) {
             state.add(group.extractRenderState(frustum, camera, f));
         }
     }
-    //?}
 }
