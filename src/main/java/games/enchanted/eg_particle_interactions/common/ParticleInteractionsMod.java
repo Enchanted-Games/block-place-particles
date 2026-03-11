@@ -40,6 +40,10 @@ public class ParticleInteractionsMod {
         return PlatformHelper.isModLoaded(Constants.FABRIC_RESOURCE_LOADER_ID);
     }
 
+    public static boolean isModMenuPresent() {
+        return PlatformHelper.isModLoaded(Constants.MOD_MENU_ID);
+    }
+
     public static Identifier id(String path) {
         return Identifier.fromNamespaceAndPath(Constants.MOD_ID, path);
     }

@@ -56,6 +56,10 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 ConfigScreenHelper.genericBooleanOption(
                     ConfigTranslation.FIREFLY_FIXES,
                     GeneralOptions.FIREFLY_FIXES
+                ),
+                ConfigScreenHelper.genericBooleanOption(
+                    ConfigTranslation.SHOW_BUTTON_IN_OPTIONS_SCREEN,
+                    GeneralOptions.SHOW_BUTTON_IN_OPTIONS_SCREEN
                 )
             ))
 
@@ -125,6 +129,10 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 ConfigScreenHelper.genericBooleanOption(
                     ConfigTranslation.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES,
                     GeneralOptions.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES
+                ),
+                ConfigScreenHelper.genericBooleanOption(
+                    ConfigTranslation.DEBUG_EXTRA_INFO_ON_PARTICLE_PACKET_ERROR,
+                    GeneralOptions.DEBUG_EXTRA_INFO_ON_PARTICLE_PACKET_ERROR
                 )
             ))
         .build());

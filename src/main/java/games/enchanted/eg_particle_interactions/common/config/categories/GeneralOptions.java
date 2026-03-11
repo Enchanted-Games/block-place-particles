@@ -22,6 +22,9 @@ public class GeneralOptions {
     public static final ConfigOption<Boolean> FIREFLY_FIXES = registerOption(
         new BoolOption(true, "firefly_fixes")
     );
+    public static final ConfigOption<Boolean> SHOW_BUTTON_IN_OPTIONS_SCREEN = registerOption(
+        new BoolOption(true, "show_button_in_options_screen")
+    );
 
     // - performance
     public static final ConfigOption<Integer> INTERACTION_RENDER_DISTANCE = registerOption(
@@ -54,6 +57,9 @@ public class GeneralOptions {
         new BoolOption(false, false)
     );
     public static final ConfigOption<Boolean> DEBUG_PARTICLE_RENDER_BOUNDING_BOXES = registerOption(
+        new BoolOption(false, false)
+    );
+    public static final ConfigOption<Boolean> DEBUG_EXTRA_INFO_ON_PARTICLE_PACKET_ERROR = registerOption(
         new BoolOption(false, false)
     );
 

@@ -49,6 +49,7 @@ public class ConfigTranslation {
     public static final String PROJECTILE_PARTICLE_VELOCITY_FIX = "projectile_particle_velocity_fix";
     public static final String AUTO_COLLAPSE_CONFIG_LISTS = "auto_collapse_config_lists";
     public static final String FIREFLY_FIXES = "firefly_fixes";
+    public static final String SHOW_BUTTON_IN_OPTIONS_SCREEN = "show_button_in_options_screen";
 
     public static final String PARTICLE_PHYSICS_ENABLED = "particle_physics_enabled";
 
@@ -63,6 +64,7 @@ public class ConfigTranslation {
     public static final String DEBUG_SHOW_EMITTER_BOUNDS = "debug_show_emitter_bounds";
     public static final String DEBUG_PARTICLE_TICK_BOUNDING_BOXES = "debug_particle_tick_bounding_boxes";
     public static final String DEBUG_PARTICLE_RENDER_BOUNDING_BOXES = "debug_particle_render_bounding_boxes";
+    public static final String DEBUG_EXTRA_INFO_ON_PARTICLE_PACKET_ERROR = "debug_info_on_particle_packet_error";
 
     public static Component createDesc(TranslationKey translationKey) {
         return translationKey.copy().append(".desc").toComponent();
