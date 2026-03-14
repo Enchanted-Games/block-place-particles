@@ -334,17 +334,32 @@ public class SpawnParticles {
         return new Vector3f((float) (pointX * Math.cos(rotationX) - pointZ * Math.sin(rotationX)), pointY * rotationY, (float) (pointZ * Math.cos(rotationX) + pointX * Math.sin(rotationX)));
     }
 
-    public static void spawnFlintAndSteelSparkParticle(ClientLevel level, BlockPos particlePos) {
+    public static void spawnFlintAndSteelSparkParticle(ClientLevel level, BlockPos particlePos, boolean litSomething) {
         if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, particlePos)) return;
         if (!ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_ENABLED.getValue()) return;
-        BlockState fireOrLitBlock = level.getBlockState(particlePos);
-        boolean isSoulBlock = level.getBlockState(particlePos.below()).is(BlockTags.SOUL_FIRE_BASE_BLOCKS) || fireOrLitBlock.is(Blocks.SOUL_CAMPFIRE);
+
+        BlockState blockState = level.getBlockState(particlePos);
+        boolean isSoulBlock = level.getBlockState(particlePos.below()).is(BlockTags.SOUL_FIRE_BASE_BLOCKS) || blockState.is(Blocks.SOUL_CAMPFIRE);
         double sparkIntensity = ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_INTENSITY.getValue() / 12.;
         ParticleContext context = ParticleContext.plain(level);
-        for (int i = 0; i < ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_AMOUNT.getValue(); i++) {
-            double x = particlePos.getX() + 0.25 + (level.getRandom().nextDouble() / 2);
-            double y = particlePos.getY() + 0.25 + (level.getRandom().nextDouble() / 2);
-            double z = particlePos.getZ() + 0.25 + (level.getRandom().nextDouble() / 2);
+
+        VoxelShape shape = blockState.getCollisionShape(level, particlePos);
+        boolean spawnLess = false;
+        if(!shape.isEmpty() && litSomething) {
+            AABB bounds = shape.bounds();
+            final float smallBoxSize = 0.4f;
+            spawnLess =
+                Math.abs(bounds.minX - bounds.maxX) < smallBoxSize ||
+                Math.abs(bounds.minY - bounds.maxY) < smallBoxSize ||
+                Math.abs(bounds.minZ - bounds.maxZ) < smallBoxSize;
+        }
+
+        int amount = spawnLess ? ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_AMOUNT.getValue() / 3 : ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_AMOUNT.getValue();
+
+        for (int i = 0; i < amount + 1; i++) {
+            double x = particlePos.getX() + 0.5 + ((level.getRandom().nextFloat() - 0.5) * 0.1);
+            double y = particlePos.getY() + 0.5 + ((level.getRandom().nextFloat() - 0.5) * 0.1);
+            double z = particlePos.getZ() + 0.5 + ((level.getRandom().nextFloat() - 0.5) * 0.1);
             ParticleSpawner.spawn(
                 isSoulBlock ? DefaultParticles.FLYING_SOUL_SPARK.get() : DefaultParticles.FLYING_SPARK.get(),
                 context,
@@ -352,7 +367,7 @@ public class SpawnParticles {
                 y,
                 z,
                 (level.getRandom().nextDouble() - 0.5) * sparkIntensity,
-                (level.getRandom().nextDouble() + 0.5) * sparkIntensity,
+                (level.getRandom().nextDouble() + 0.8) * sparkIntensity * 0.8,
                 (level.getRandom().nextDouble() - 0.5) * sparkIntensity
             );
         }

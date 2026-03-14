@@ -26,7 +26,7 @@ public abstract class TntBlock {
     protected void eg_particle_interactions$spawnSparksOnLit(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult, CallbackInfoReturnable<InteractionResult> cir) {
         if(level instanceof ClientLevel clientLevel && cir.getReturnValue() == InteractionResult.SUCCESS) {
             if(itemStack.getItem() instanceof FlintAndSteelItem) {
-                SpawnParticles.spawnFlintAndSteelSparkParticle(clientLevel, blockPos);
+                SpawnParticles.spawnFlintAndSteelSparkParticle(clientLevel, blockPos, true);
             } else if(itemStack.getItem() instanceof FireChargeItem) {
                 SpawnParticles.spawnFireChargeSmokeParticle(clientLevel, blockPos);
             }
