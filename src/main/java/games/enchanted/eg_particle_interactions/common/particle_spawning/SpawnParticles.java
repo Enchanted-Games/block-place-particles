@@ -173,8 +173,8 @@ public class SpawnParticles {
             double y = random.nextDouble();
             double z = random.nextDouble();
             boolean blockAboveIsWater = level.getFluidState(blockPos.above()).is(FluidTags.WATER);
-            double verticalVelocity = (y - 0.5) * (blockAboveIsWater ? 2 : 0);
-            double horizontalVelocityMul = !blockAboveIsWater ? 1.5 : 1;
+            double verticalVelocity = (y - 0.5) * (blockAboveIsWater ? 0.2 : 0);
+            double horizontalVelocityMul = !blockAboveIsWater ? 0.35 : 0.25;
             ParticleSpawner.spawn(
                 DefaultParticles.UNDERWATER_RISING_BUBBLE.get(),
                 ParticleContext.plain(level),
