@@ -187,14 +187,14 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
                 ConfigScreenHelper.booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "block_rustle", BlockInteractionOptions.BLOCK_RUSTLE_ENABLED)
             ))
-//            .group(
-//                ConfigScreenHelper.createBlockLocationListOption(
-//                    "block_rustle",
-//                    "block_rustle_blocks",
-//                    ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
-//                    BlockInteractionOptions.BLOCK_RUSTLE_BLOCKS
-//                )
-//            )
+            .group(
+                ConfigScreenHelper.createBlockLocationListOption(
+                    "block_rustle",
+                    "block_rustle_blocks",
+                    ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
+                    BlockInteractionOptions.BLOCK_RUSTLE_BLOCKS
+                )
+            )
 
             .group(
                 ConfigScreenHelper.createSeparator()
@@ -524,12 +524,12 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 FluidPlacementOptions.WATER_SPLASH_ENABLED,
                 ConfigScreenHelper.maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_FLUID_PLACE, FluidPlacementOptions.WATER_SPLASH_AMOUNT_ON_PLACE)
             ))
-//            .group( ConfigScreenHelper.createFluidListOption(
-//                "tinted_splash",
-//                "tinted_splash_fluids",
-//                ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
-//                FluidPlacementOptions.WATER_SPLASH_FLUIDS
-//            ))
+            .group( ConfigScreenHelper.createFluidListOption(
+                "tinted_splash",
+                "tinted_splash_fluids",
+                ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
+                FluidPlacementOptions.WATER_SPLASH_FLUIDS
+            ))
 
             .group(
                 ConfigScreenHelper.createSeparator()
@@ -543,12 +543,12 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 FluidPlacementOptions.LAVA_SPLASH_ENABLED,
                 ConfigScreenHelper.maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_FLUID_PLACE, FluidPlacementOptions.LAVA_SPLASH_AMOUNT_ON_PLACE)
             ))
-//            .group( ConfigScreenHelper.createFluidListOption(
-//                "lava_splash",
-//                "generic_particle",
-//                ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
-//                FluidPlacementOptions.LAVA_SPLASH_FLUIDS
-//            ))
+            .group( ConfigScreenHelper.createFluidListOption(
+                "lava_splash",
+                "generic_particle",
+                ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
+                FluidPlacementOptions.LAVA_SPLASH_FLUIDS
+            ))
 
             .group(
                 ConfigScreenHelper.createSeparator()
@@ -562,12 +562,12 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 FluidPlacementOptions.GENERIC_SPLASH_ENABLED,
                 ConfigScreenHelper.maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_FLUID_PLACE, FluidPlacementOptions.GENERIC_SPLASH_AMOUNT_ON_PLACE)
             ))
-//            .group( ConfigScreenHelper.createFluidListOption(
-//                "generic_splash",
-//                "generic_splash_fluids",
-//                ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
-//                FluidPlacementOptions.GENERIC_SPLASH_FLUIDS
-//            ))
+            .group( ConfigScreenHelper.createFluidListOption(
+                "generic_splash",
+                "generic_splash_fluids",
+                ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
+                FluidPlacementOptions.GENERIC_SPLASH_FLUIDS
+            ))
         .build());
 
 
@@ -609,14 +609,14 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 ConfigScreenHelper.booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "underwater_bubble_streams", FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_ENABLED),
                 ConfigScreenHelper.integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE_WITH_TYPE, "underwater_bubble_streams", FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_SPAWN_CHANCE, 1, 100, 1)
             ))
-//            .group(
-//                ConfigScreenHelper.createBlockLocationListOption(
-//                    "underwater_bubble_streams",
-//                    "underwater_bubble_streams_blocks",
-//                    ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY,
-//                    FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_BLOCKS
-//                )
-//            )
+            .group(
+                ConfigScreenHelper.createBlockLocationListOption(
+                    "underwater_bubble_streams",
+                    "underwater_bubble_streams_blocks",
+                    ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY,
+                    FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_BLOCKS
+                )
+            )
 
         .build());
         

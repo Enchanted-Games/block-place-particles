@@ -1,12 +1,18 @@
 package games.enchanted.eg_particle_interactions.common.particle_spawning;
 
-import games.enchanted.eg_particle_interactions.common.config.categories.*;
+import games.enchanted.eg_particle_interactions.common.config.categories.BlockInteractionOptions;
+import games.enchanted.eg_particle_interactions.common.config.categories.EntityOptions;
+import games.enchanted.eg_particle_interactions.common.config.categories.FluidAmbientOptions;
+import games.enchanted.eg_particle_interactions.common.config.categories.ItemInteractionOptions;
+import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
 import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
 import games.enchanted.eg_particle_interactions.common.override_system.preset.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
-import games.enchanted.eg_particle_interactions.common.particle.options.*;
-import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
+import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitterOptions;
+import games.enchanted.eg_particle_interactions.common.particle.options.DefaultParticles;
+import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
+import games.enchanted.eg_particle_interactions.common.particle.options.RandomDistributionEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
 import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
 import games.enchanted.eg_particle_interactions.common.util.FluidHelpers;
@@ -914,7 +920,7 @@ public class SpawnParticles {
         ParticleContext context = ParticleContext.plain(level);
 
         SpawnParticlesUtil.spawnParticleInCircle(
-            () -> new ArcEmitterOptions(
+            new ArcEmitterOptions(
                 ParticleTypesRegistry.ARC_EMITTER,
                 MathHelpers.randomBetween(7, 14),
                 MathHelpers.randomBetween(3, 5),

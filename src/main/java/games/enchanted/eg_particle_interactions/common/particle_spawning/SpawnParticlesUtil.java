@@ -47,27 +47,10 @@ public class SpawnParticlesUtil {
      * @param verticalVelocityMultiplier multiplied by particle distance from the center
      */
     public static void spawnParticleInCircle(PIParticleOptions particleOptions, ParticleContext context, Vec3 center, int amount, float spread, float radius, float outwardVelocityMultiplier, float verticalVelocityBase, float verticalVelocityMultiplier) {
-        spawnParticleInCircle(() -> particleOptions, context, center, amount, spread, radius, outwardVelocityMultiplier, verticalVelocityBase, verticalVelocityMultiplier);
-    }
-
-    /**
-     * Spawns a particle option in a flat circular shape
-     *
-     * @param particleOptions            supplier for particle options to spawn
-     * @param context                    context
-     * @param center                     center of the circle
-     * @param amount                     amount of particles to spawn
-     * @param spread                     how far particles can deviate from the radius (in blocks)
-     * @param radius                     the distance to spawn particles from the center position (in blocks)
-     * @param outwardVelocityMultiplier  how quickly particles should fly out from the center
-     * @param verticalVelocityBase       base vertical velocity for all particles
-     * @param verticalVelocityMultiplier multiplied by particle distance from the center
-     */
-    public static void spawnParticleInCircle(Supplier<PIParticleOptions> particleOptions, ParticleContext context, Vec3 center, int amount, float spread, float radius, float outwardVelocityMultiplier, float verticalVelocityBase, float verticalVelocityMultiplier) {
         spawnParticleInCircle(
             (x, y, z, xSpeed, ySpeed, zSpeed) -> {
                 ParticleSpawner.spawn(
-                    particleOptions.get(),
+                    particleOptions,
                     context,
                     x,
                     y,
@@ -86,7 +69,6 @@ public class SpawnParticlesUtil {
             verticalVelocityMultiplier
         );
     }
-
 
     /**
      * Spawns a particle option in a flat circular shape

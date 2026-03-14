@@ -24,9 +24,8 @@
   },
   ${accesswidener_field}
   "mixins": [
-    {
-      "config": "${id}.mixins.json"
-    }
+    "${id}.mixins.json",
+    "mod_compat.${id}.mixins.json"
   ],
   "depends": {
     "minecraft": "${minecraft}",
