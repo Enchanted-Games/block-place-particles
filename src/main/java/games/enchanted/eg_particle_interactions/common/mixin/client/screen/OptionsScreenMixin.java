@@ -25,7 +25,7 @@ public abstract class OptionsScreenMixin extends Screen {
         method = "init()V"
     )
     private void eg_particle_interactions$addParticleInteractionsConfigButton(CallbackInfo ci) {
-        if(PlatformHelper.isDevelopmentEnvironment() || (Minecraft.getInstance().level != null && ParticleInteractionsMod.isModMenuPresent())) {
+        if(PlatformHelper.isDevelopmentEnvironment() || (Minecraft.getInstance().level != null && !ParticleInteractionsMod.isModMenuPresent())) {
             final int width = 120;
             final int height = 16;
             this.addRenderableWidget(
