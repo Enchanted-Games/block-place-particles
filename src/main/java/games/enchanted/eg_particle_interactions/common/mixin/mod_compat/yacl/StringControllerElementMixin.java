@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class StringControllerElementMixin {
     @WrapOperation(
         at = @At(value = "INVOKE", target = "Ldev/isxander/yacl3/gui/controllers/string/StringControllerElement;isHovered()Z", ordinal = 0),
-        method = "drawValueText(Lnet/minecraft/client/gui/GuiGraphics;IIF)V"
+        method = "extractValueText"
     )
     private boolean bypassHoverCheckForGenericListControllerElements(StringControllerElement instance, Operation<Boolean> original) {
         if((Object) this instanceof GenericListControllerElement<?,?>) return true;

@@ -26,7 +26,10 @@ public class FloatingColouredDust extends AbstractDust {
 
         this.dustBlockState = blockState;
 
-        int tintColour = Minecraft.getInstance().getBlockColors().getColor(blockState, level, blockPos, 0);
+        int tintColour = -1;
+        var source = Minecraft.getInstance().getBlockColors().getTintSource(blockState, 0);
+        if(source != null) tintColour = source.colorInWorld(blockState, level, blockPos);
+
         int[] tintColourARGB = ColourUtil.RGBint_to_ARGB(tintColour);
         int[] averageTextureColourARGB = ColourUtil.getRandomBlockColour(blockState, tintColourARGB);
         this.setRGBA(

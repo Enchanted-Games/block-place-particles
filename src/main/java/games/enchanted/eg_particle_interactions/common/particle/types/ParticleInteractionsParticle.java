@@ -314,7 +314,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
             //? if minecraft: <= 1.21.8 {
             /*ParticleRenderType.TERRAIN_SHEET
              *///?} else {
-            SingleQuadParticle.Layer.TERRAIN
+            SingleQuadParticle.Layer.TRANSLUCENT_TERRAIN
             //?}
         );
         public static final ParticleLayer TRANSLUCENT = new ParticleLayer(

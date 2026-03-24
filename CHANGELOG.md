@@ -1,4 +1,4 @@
-# 0.9.4
+# 0.9.5
 
-- Fixed a crash when interacting with a block or fluid dropdown in the config menu
-- Added a warning when trying to open the config screen from the main menu
+- Ported to 26.1
+- This port is temporary for now, I am hoping to release v0.10 for 26.1 which will have some new features and resourcepack capabilities

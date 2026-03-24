@@ -82,4 +82,8 @@ public class ParticleInteractionsMod {
     public static boolean isModMenuPresent() {
         return PlatformHelper.isModLoaded("modmenu");
     }
+
+    public static Identifier id(String path) {
+        return Identifier.fromNamespaceAndPath(Constants.MOD_ID, path);
+    }
 }

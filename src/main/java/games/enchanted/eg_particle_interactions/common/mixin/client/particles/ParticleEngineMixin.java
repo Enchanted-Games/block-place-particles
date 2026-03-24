@@ -10,6 +10,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.renderer.state.level.ParticlesRenderState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ItemParticleOption;
@@ -31,7 +32,6 @@ import com.google.common.collect.Maps;
 import net.minecraft.client.renderer.culling.Frustum;
 import games.enchanted.eg_particle_interactions.common.particle.render.group.CustomGeometryParticleGroup;
 import net.minecraft.client.particle.ParticleGroup;
-import net.minecraft.client.renderer.state.ParticlesRenderState;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 //?} else {
 /*import com.llamalad7.mixinextras.sugar.Local;

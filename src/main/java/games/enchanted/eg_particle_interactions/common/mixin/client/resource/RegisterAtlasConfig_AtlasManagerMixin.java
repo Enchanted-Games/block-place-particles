@@ -1,11 +1,11 @@
 package games.enchanted.eg_particle_interactions.common.mixin.client.resource;
 
+import net.minecraft.client.resources.model.sprite.AtlasManager;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 
 //? if minecraft: > 1.21.8 {
 import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteAtlasManager;
-import net.minecraft.client.resources.model.AtlasManager;
 import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.ArrayList;

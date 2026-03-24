@@ -5,7 +5,7 @@ import dev.isxander.yacl3.gui.YACLScreen;
 import games.enchanted.eg_particle_interactions.common.config.screen.yacl.controller.generic.GenericListControllerElement;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import games.enchanted.eg_particle_interactions.common.util.TextUtil;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -36,11 +36,11 @@ public class FluidLocationControllerElement extends GenericListControllerElement
     }
 
     @Override
-    protected void renderDropdownEntry(GuiGraphics graphics, Dimension<Integer> entryDimension, Identifier identifier) {
+    protected void extractDropdownEntry(GuiGraphicsExtractor graphics, Dimension<Integer> entryDimension, Identifier identifier) {
         Identifier item = matchingItems.get(identifier);
         if(item == null) return;
-        super.renderDropdownEntry(graphics, entryDimension, identifier);
-        this.renderItemIcon(graphics, getItemToRender(item), entryDimension.xLimit() - 2, entryDimension.y() + 1);
+        super.extractDropdownEntry(graphics, entryDimension, identifier);
+        this.extractItemIcon(graphics, getItemToRender(item), entryDimension.xLimit() - 2, entryDimension.y() + 1);
     }
 
     @Override

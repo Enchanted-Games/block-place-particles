@@ -2,12 +2,12 @@ package games.enchanted.eg_particle_interactions.common.config.screen.yacl.contr
 
 import dev.isxander.yacl3.api.utils.Dimension;
 import dev.isxander.yacl3.gui.YACLScreen;
-import games.enchanted.eg_particle_interactions.common.Constants;
+import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.config.screen.yacl.controller.generic.GenericListControllerElement;
 import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import games.enchanted.eg_particle_interactions.common.util.TextUtil;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlockLocationControllerElement extends GenericListControllerElement<BlockOrTagLocation, BlockLocationController> {
-    private static final Identifier BLOCK_TAG_ICON = Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_tag_icon");
+    private static final Identifier BLOCK_TAG_ICON = ParticleInteractionsMod.id("block_tag_icon");
 
     public BlockLocationControllerElement(BlockLocationController control, YACLScreen screen, Dimension<Integer> dim) {
         super(control, screen, dim);
@@ -67,14 +67,14 @@ public class BlockLocationControllerElement extends GenericListControllerElement
     }
 
     @Override
-    protected void renderDropdownEntry(GuiGraphics graphics, Dimension<Integer> entryDimension, BlockOrTagLocation blockOrTagLocation) {
-        super.renderDropdownEntry(graphics, entryDimension, blockOrTagLocation);
+    protected void extractDropdownEntry(GuiGraphicsExtractor graphics, Dimension<Integer> entryDimension, BlockOrTagLocation blockOrTagLocation) {
+        super.extractDropdownEntry(graphics, entryDimension, blockOrTagLocation);
         if(blockOrTagLocation.isTag()) {
             // render tag icon
-            renderTagIcon( graphics, entryDimension.xLimit() - 2, entryDimension.y() + 1);
+            renderTagIcon(graphics, entryDimension.xLimit() - 2, entryDimension.y() + 1);
             return;
         }
-        this.renderItemIcon(graphics, getItemToRender(blockOrTagLocation), entryDimension.xLimit() - 2, entryDimension.y() + 1);
+        this.extractItemIcon(graphics, getItemToRender(blockOrTagLocation), entryDimension.xLimit() - 2, entryDimension.y() + 1);
     }
 
     @Override
@@ -93,16 +93,16 @@ public class BlockLocationControllerElement extends GenericListControllerElement
     }
 
     @Override
-    protected void renderItemIcon(GuiGraphics graphics, Item item, int x, int y) {
+    protected void extractItemIcon(GuiGraphicsExtractor graphics, Item item, int x, int y) {
         if(this.getController().option().pendingValue().isTag()) {
             // render tag icon
             renderTagIcon( graphics, x, y);
             return;
         }
-        super.renderItemIcon(graphics, item, x, y);
+        super.extractItemIcon(graphics, item, x, y);
     }
 
-    protected void renderTagIcon(GuiGraphics graphics, int x, int y) {
+    protected void renderTagIcon(GuiGraphicsExtractor graphics, int x, int y) {
         graphics.blitSprite(RenderPipelines.GUI_TEXTURED, BLOCK_TAG_ICON, x, y, 16, 16);
     }
 }

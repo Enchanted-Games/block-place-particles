@@ -4,10 +4,8 @@ import dev.isxander.yacl3.api.utils.Dimension;
 import dev.isxander.yacl3.gui.YACLScreen;
 import dev.isxander.yacl3.gui.controllers.dropdown.AbstractDropdownController;
 import dev.isxander.yacl3.gui.controllers.dropdown.DropdownWidget;
-//? if minecraft: > 1.21.8 {
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
-//?}
 
 public class FixedDropdownWidget<T> extends DropdownWidget<T> {
     private final GenericListControllerElement<T, ?> genericListControllerElement;
@@ -25,19 +23,6 @@ public class FixedDropdownWidget<T> extends DropdownWidget<T> {
         this.genericListControllerElement = dropdownElement;
     }
 
-    //? if minecraft: <= 1.21.8 {
-    /*@Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        genericListControllerElement.setLastSelectedDropdownIndex(this.selectedVisibleIndex());
-        return super.mouseClicked(mouseX, mouseY, button);
-    }
-
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        genericListControllerElement.setLastSelectedDropdownIndex(this.selectedVisibleIndex());
-        return super.keyPressed(keyCode, scanCode, modifiers);
-    }
-    *///?} else {
     @Override
     public boolean mouseClicked(MouseButtonEvent mouseButtonEvent, boolean doubleClick) {
         genericListControllerElement.setLastSelectedDropdownIndex(this.selectedVisibleIndex());
@@ -49,5 +34,4 @@ public class FixedDropdownWidget<T> extends DropdownWidget<T> {
         genericListControllerElement.setLastSelectedDropdownIndex(this.selectedVisibleIndex());
         return super.keyPressed(keyEvent);
     }
-    //?}
 }

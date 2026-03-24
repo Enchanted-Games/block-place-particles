@@ -28,7 +28,7 @@
       "config": "${id}.mixins.json"
     },
     {
-    "config": "mod_compat.${id}.mixins.json"
+      "config": "mod_compat.${id}.mixins.json"
     }
   ],
   "depends": {

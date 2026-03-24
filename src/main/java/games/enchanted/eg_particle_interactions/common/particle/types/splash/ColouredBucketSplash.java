@@ -14,7 +14,9 @@ import org.jetbrains.annotations.Nullable;
 public class ColouredBucketSplash extends BucketSplash {
     protected ColouredBucketSplash(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState, SpriteSet spriteSet) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet.get(level.getRandom()));
-        int tintColour = Minecraft.getInstance().getBlockColors().getColor(blockState, level, blockPos, 0);
+        int tintColour = -1;
+        var source = Minecraft.getInstance().getBlockColors().getTintSource(blockState, 0);
+        if(source != null) tintColour = source.colorInWorld(blockState, level, blockPos);
         this.setRGB(
             this.getRed() * (float)(tintColour >> 16 & 255) / 255.0F,
             this.getGreen() * (float)(tintColour >> 8 & 255) / 255.0F,

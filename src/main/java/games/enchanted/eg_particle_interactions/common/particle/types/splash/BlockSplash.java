@@ -18,12 +18,14 @@ public class BlockSplash extends BucketSplash {
     private final float vo;
 
     protected BlockSplash(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed, Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(blockState));
+        super(level, x, y, z, xSpeed, ySpeed, zSpeed, Minecraft.getInstance().getModelManager().getBlockStateModelSet().get(blockState).particleMaterial().sprite());
         this.pos = blockPos;
         this.uo = this.random.nextFloat() * 3.0F;
         this.vo = this.random.nextFloat() * 3.0F;
 
-        int tintColour = Minecraft.getInstance().getBlockColors().getColor(blockState, level, blockPos, 0);
+        int tintColour = -1;
+        var source = Minecraft.getInstance().getBlockColors().getTintSource(blockState, 0);
+        if(source != null) tintColour = source.colorInWorld(blockState, level, blockPos);
         this.setRGB(
             this.getRed() * (float)(tintColour >> 16 & 255) / 255.0F,
             this.getGreen() * (float)(tintColour >> 8 & 255) / 255.0F,

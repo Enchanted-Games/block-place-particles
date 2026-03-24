@@ -15,7 +15,9 @@ import org.jetbrains.annotations.Nullable;
 public class FallingSpinningColouredParticle extends FallingSpinningParticle {
     protected FallingSpinningColouredParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, BlockPos blockPos, BlockState blockState, SpriteSet spriteSet, float gravityMultiplier) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, gravityMultiplier);
-        int tintColour = Minecraft.getInstance().getBlockColors().getColor(blockState, level, blockPos, 0);
+        int tintColour = -1;
+        var source = Minecraft.getInstance().getBlockColors().getTintSource(blockState, 0);
+        if(source != null) tintColour = source.colorInWorld(blockState, level, blockPos);
         int[] tintColourARGB = ColourUtil.RGBint_to_ARGB(tintColour);
         int[] averageTextureColourARGB = ColourUtil.getRandomBlockColour(blockState, tintColourARGB);
         this.setRGBA(
