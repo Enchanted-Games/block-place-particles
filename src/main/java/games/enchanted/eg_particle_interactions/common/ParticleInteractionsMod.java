@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common;
 
 import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
 import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverrides;
+import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
 import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteAtlasManager;
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -76,5 +77,9 @@ public class ParticleInteractionsMod {
         *///?} else {
         return List.of();
         //?}
+    }
+
+    public static boolean isModMenuPresent() {
+        return PlatformHelper.isModLoaded("modmenu");
     }
 }
