@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common.platform;
 
 import games.enchanted.eg_particle_interactions.common.Constants;
 //? if neoforge {
-/*import games.enchanted.eg_particle_interactions.neoforge.registry.NeoParticleProviderRegistry;
+/*import games.enchanted.eg_particle_interactions.neoforge.NeoForgeEntry;
 import games.enchanted.eg_particle_interactions.neoforge.registry.NeoReloadListenerRegistry;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
@@ -15,8 +15,10 @@ import net.fabricmc.loader.api.ModContainer;
 //?}
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
+import org.apache.commons.lang3.NotImplementedException;
 import org.jspecify.annotations.Nullable;
 
+import java.net.URI;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Objects;
@@ -125,7 +127,7 @@ public class PlatformHelper {
         Optional<Path> path = container.flatMap(modContainer -> modContainer.findPath(String.join("/", strings)));
         return path.orElseThrow(() -> new NullPointerException("Could not find path in particle interactions mod jar '" + Arrays.toString(strings) + "'"));
         //? } else {
-        /*return NeoForgeEntrypoint.CONTAINER.getModInfo().getOwningFile().getFile().findResource(strings);
+        /*throw new NotImplementedException("getResourcePathFromModJar not implemented on neoforge platform");
         *///? }
     }
 }

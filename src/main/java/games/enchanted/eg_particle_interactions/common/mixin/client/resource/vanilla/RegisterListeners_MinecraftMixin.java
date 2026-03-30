@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(Minecraft.class)
 public class RegisterListeners_MinecraftMixin {
+    //? if fabric {
     @Definition(id = "resourceManager", field = "Lnet/minecraft/client/Minecraft;resourceManager:Lnet/minecraft/server/packs/resources/ReloadableResourceManager;")
     @Definition(id = "registerReloadListener", method = "Lnet/minecraft/server/packs/resources/ReloadableResourceManager;registerReloadListener(Lnet/minecraft/server/packs/resources/PreparableReloadListener;)V")
     @Expression("this.resourceManager.registerReloadListener(?)")
@@ -26,4 +27,5 @@ public class RegisterListeners_MinecraftMixin {
             ParticleInteractionsMod.registerResourceReloadListeners();
         }
     }
+    //? }
 }

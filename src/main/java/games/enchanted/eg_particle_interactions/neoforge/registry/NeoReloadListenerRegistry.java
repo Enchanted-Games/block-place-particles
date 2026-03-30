@@ -17,7 +17,7 @@ public class NeoReloadListenerRegistry {
 
     public static void register(AddClientReloadListenersEvent event) {
         for (PendingListener listener : PENDING_LISTENERS) {
-            event.getRegistry().put(listener.id, listener.listener());
+            event.addListener(listener.id, listener.listener());
         }
     }
 

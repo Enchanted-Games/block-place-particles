@@ -9,6 +9,7 @@ import games.enchanted.eg_particle_interactions.neoforge.registry.NeoReloadListe
 import net.minecraft.core.registries.Registries;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
@@ -22,17 +23,12 @@ import java.util.Objects;
 @Mod(value = Constants.MOD_ID, dist = Dist.CLIENT)
 public class NeoForgeEntry {
     public final IEventBus eventBus;
+    public static ModContainer CONTAINER;
 
-    public NeoForgeEntry(IEventBus bus) {
+    public NeoForgeEntry(IEventBus bus, ModContainer container) {
         this.eventBus = bus;
+        CONTAINER = container;
         ParticleInteractionsMod.startOfModLoading();
-
-        // register stuff
-        bus.addListener((RegisterEvent event) -> {
-            if(event.getRegistry().key().equals(Registries.PARTICLE_TYPE)) {
-                ParticleTypesRegistry.registerParticles();
-            }
-        });
 
         // register client resource reload listener
         bus.addListener(NeoReloadListenerRegistry::register);

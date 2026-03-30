@@ -51,6 +51,8 @@ public class BlockParticleOptionWrapper implements PIParticleProvider<SimplePart
         if (blockContext == null) return null;
         BlockParticleOption option = new BlockParticleOption(this.dustType.get(), blockContext.state());
         ClientLevel level = context.level();
+        ParticleProvider<BlockParticleOption> provider = this.getProvider();
+        if (provider == null) return null;
         return this.getProvider().createParticle(option, level, x, y, z, xSpeed, ySpeed, zSpeed, level.getRandom());
     }
 }

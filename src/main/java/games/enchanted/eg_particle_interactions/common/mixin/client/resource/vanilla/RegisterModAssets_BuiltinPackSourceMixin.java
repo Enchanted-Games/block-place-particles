@@ -14,6 +14,7 @@ import java.util.function.Consumer;
 
 @Mixin(BuiltInPackSource.class)
 public class RegisterModAssets_BuiltinPackSourceMixin {
+    //? if fabric {
     @Inject(
         at = @At("TAIL"),
         method = "listBundledPacks"
@@ -24,4 +25,5 @@ public class RegisterModAssets_BuiltinPackSourceMixin {
             packConsumer.accept(ModPackResources.createPack());
         }
     }
+    //? }
 }
