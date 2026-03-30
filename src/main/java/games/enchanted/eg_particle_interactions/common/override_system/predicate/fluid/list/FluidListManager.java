@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.override_system.predicate.block.list;
+package games.enchanted.eg_particle_interactions.common.override_system.predicate.fluid.list;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -22,60 +22,60 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BlockListManager {
-    private static final BiMap<Identifier, BlockList> LIST_BY_ID = HashBiMap.create();
-    private static final FileToIdConverter FILE_TO_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/lists/blocks");
+public class FluidListManager {
+    private static final BiMap<Identifier, FluidList> LIST_BY_ID = HashBiMap.create();
+    private static final FileToIdConverter FILE_TO_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/lists/fluids");
 
-    public static final Codec<BlockList> INLINE_OR_ID_CODEC = BlockList.CODEC.withAlternative(
+    public static final Codec<FluidList> INLINE_OR_ID_CODEC = FluidList.CODEC.withAlternative(
         ModCodecs.IDENTIFIER.xmap(
-            BlockListManager::getOrDefault,
-            BlockListManager::getIdOrThrow
+            FluidListManager::getOrDefault,
+            FluidListManager::getIdOrThrow
         )
     );
 
-    public static final BlockListManager INSTANCE = new BlockListManager();
+    public static final FluidListManager INSTANCE = new FluidListManager();
 
     public void prepareAndApply(ResourceManager manager, ProfilerFiller profiler) {
-        Map<Identifier, List<BlockList.File>> blockListFiles = new HashMap<>();
+        Map<Identifier, List<FluidList.File>> FluidListFiles = new HashMap<>();
 
         for (Map.Entry<Identifier, List<Resource>> ruleFiles : FILE_TO_ID_CONVERTER.listMatchingResourceStacks(manager).entrySet()) {
             Identifier fileId = ruleFiles.getKey();
             Identifier overrideId = FILE_TO_ID_CONVERTER.fileToId(fileId);
 
-            List<BlockList.File> parsedFiles = new ArrayList<>();
+            List<FluidList.File> parsedFiles = new ArrayList<>();
             this.parseListFiles(fileId, ruleFiles.getValue(), parsedFiles);
 
-            blockListFiles.put(overrideId, parsedFiles);
+            FluidListFiles.put(overrideId, parsedFiles);
         }
 
         LIST_BY_ID.clear();
 
-        for (Map.Entry<Identifier, List<BlockList.File>> entry : blockListFiles.entrySet()) {
-            BlockList combined = BlockList.File.combine(entry.getValue());
+        for (Map.Entry<Identifier, List<FluidList.File>> entry : FluidListFiles.entrySet()) {
+            FluidList combined = FluidList.File.combine(entry.getValue());
             LIST_BY_ID.put(entry.getKey(), combined);
         }
     }
 
-    protected void parseListFiles(Identifier fileId, List<Resource> resources, List<BlockList.File> output) {
+    protected void parseListFiles(Identifier fileId, List<Resource> resources, List<FluidList.File> output) {
         for (Resource resource : resources) {
             try (Reader reader = resource.openAsReader()) {
                 JsonElement json = StrictJsonParser.parse(reader);
-                output.add(BlockList.File.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
+                output.add(FluidList.File.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
             } catch (Exception e) {
-                Logging.error("Failed to parse block list '{}', {}", fileId, e);
+                Logging.error("Failed to parse fluid list '{}', {}", fileId, e);
             }
         }
     }
 
-    public static BlockList getOrDefault(Identifier id) {
+    public static FluidList getOrDefault(Identifier id) {
         if(!LIST_BY_ID.containsKey(id)) {
-            Logging.warn("Block list with id '{}' was not found", id);
-            return new BlockList(List.of(), List.of());
+            Logging.warn("Fluid list with id '{}' was not found", id);
+            return new FluidList(List.of(), List.of());
         }
         return LIST_BY_ID.get(id);
     }
 
-    public static Identifier getIdOrThrow(BlockList list) {
+    public static Identifier getIdOrThrow(FluidList list) {
         if(!LIST_BY_ID.inverse().containsKey(list)) {
             throw new RuntimeException("Block list id not found");
         }

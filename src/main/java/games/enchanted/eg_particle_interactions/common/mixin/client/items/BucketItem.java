@@ -1,9 +1,12 @@
 package games.enchanted.eg_particle_interactions.common.mixin.client.items;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import games.enchanted.eg_particle_interactions.common.util.BiomeHelpers;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,21 +22,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(net.minecraft.world.item.BucketItem.class)
 public abstract class BucketItem {
-    @Shadow @Final private Fluid content;
+    @Shadow public abstract Fluid getContent();
 
-    @Inject(
-        method = "playEmptySound",
-        at = @At(value = "HEAD")
+    @WrapOperation(
+        method = "emptyContents",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/BucketItem;playEmptySound(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;)V")
     )
-    private void eg_particle_interactions$spawnFluidParticlesOnBucketEmpty(LivingEntity livingEntity, LevelAccessor levelAccessor, BlockPos fluidPos, CallbackInfo ci) {
-        if(levelAccessor.isClientSide()) {
-            Fluid placedFluid = this.content;
-            FluidState placedFluidState = content.defaultFluidState();
+    private void eg_particle_interactions$spawnFluidParticlesOnBucketEmpty(net.minecraft.world.item.BucketItem instance, LivingEntity user, LevelAccessor level, BlockPos pos, Operation<Void> original) {
+        original.call(instance, user, level, pos);
+        if(!(level instanceof ClientLevel clientLevel)) return;
 
-            if(!(BiomeHelpers.isWarmDimension(levelAccessor.dimensionType()) && placedFluidState.is(FluidTags.WATER))) {
-                Logging.interactionDebugInfo("Bucket of " + RegistryHelpers.getLocationFromFluid(placedFluid) + " placed at " + fluidPos.toShortString());
-                SpawnParticles.spawnFluidPlacedParticle(levelAccessor, fluidPos, placedFluid);
-            }
-        }
+        FluidState placedFluid = clientLevel.getFluidState(pos);
+        SpawnParticles.spawnFluidPlacedParticle(clientLevel, pos, placedFluid);
     }
 }

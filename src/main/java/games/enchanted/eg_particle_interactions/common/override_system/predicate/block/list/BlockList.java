@@ -4,20 +4,20 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.override_system.predicate.block.BlockStatePredicate;
-import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
+import games.enchanted.eg_particle_interactions.common.registry.ObjectOrTagLocation;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public record BlockList(List<BlockOrTagLocation> blocksAndTags, List<BlockStatePredicate> statePredicates) {
-    private static final Codec<List<BlockOrTagLocation>> BLOCKS_AND_TAGS_CODEC = Codec.list(BlockOrTagLocation.CODEC);
+public record BlockList(List<ObjectOrTagLocation> blocksAndTags, List<BlockStatePredicate> statePredicates) {
+    private static final Codec<List<ObjectOrTagLocation>> BLOCKS_AND_TAGS_CODEC = Codec.list(ObjectOrTagLocation.CODEC);
 
     public static final Codec<BlockList> CODEC = BLOCKS_AND_TAGS_CODEC.comapFlatMap(
         list -> DataResult.success(new BlockList(list, List.of())),
         BlockList::blocksAndTags
     );
 
-    public record File(List<BlockOrTagLocation> blocksAndTags, List<BlockOrTagLocation> removals, List<BlockStatePredicate> statePredicates) {
+    public record File(List<ObjectOrTagLocation> blocksAndTags, List<ObjectOrTagLocation> removals, List<BlockStatePredicate> statePredicates) {
         public static final Codec<File> CODEC = RecordCodecBuilder.create(i ->
             i.group(
                 BLOCKS_AND_TAGS_CODEC.optionalFieldOf("blocks", List.of()).forGetter(File::blocksAndTags),
@@ -30,12 +30,12 @@ public record BlockList(List<BlockOrTagLocation> blocksAndTags, List<BlockStateP
         );
 
         public static BlockList combine(List<File> files) {
-            List<BlockOrTagLocation> blocksAndTags = new ArrayList<>();
+            List<ObjectOrTagLocation> blocksAndTags = new ArrayList<>();
             List<BlockStatePredicate> statePredicates = new ArrayList<>();
 
             for (File file : files) {
                 blocksAndTags.addAll(file.blocksAndTags());
-                for (BlockOrTagLocation location : file.removals()) {
+                for (ObjectOrTagLocation location : file.removals()) {
                     blocksAndTags.remove(location);
                 }
                 statePredicates.addAll(file.statePredicates());

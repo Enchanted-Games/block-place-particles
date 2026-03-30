@@ -6,7 +6,7 @@ import games.enchanted.eg_particle_interactions.common.config.option.BlockOrTagL
 import games.enchanted.eg_particle_interactions.common.config.option.BoolOption;
 import games.enchanted.eg_particle_interactions.common.config.option.ConfigOption;
 import games.enchanted.eg_particle_interactions.common.config.option.IntOption;
-import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
+import games.enchanted.eg_particle_interactions.common.registry.ObjectOrTagLocation;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import net.minecraft.world.level.block.Blocks;
 
@@ -20,7 +20,7 @@ public class FluidAmbientOptions {
         new IntOption(20, "lava_bubble_pop_spawn_chance")
     );
 
-    public static final ConfigOption<List<BlockOrTagLocation>> UNDERWATER_BUBBLE_STREAM_BLOCKS = registerOption(
+    public static final ConfigOption<List<ObjectOrTagLocation>> UNDERWATER_BUBBLE_STREAM_BLOCKS = registerOption(
         new BlockOrTagLocationListOption(
             List.of(
                 RegistryHelpers.getBlockLocationFromBlock(Blocks.SEAGRASS),

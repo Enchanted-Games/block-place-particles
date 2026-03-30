@@ -6,15 +6,15 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import games.enchanted.eg_particle_interactions.common.Logging;
-import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
+import games.enchanted.eg_particle_interactions.common.registry.ObjectOrTagLocation;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class BlockOrTagLocationListOption extends ConfigOption<List<BlockOrTagLocation>> {
-    public static final Codec<List<BlockOrTagLocation>> CODEC = BlockOrTagLocation.CODEC.listOf();
+public class BlockOrTagLocationListOption extends ConfigOption<List<ObjectOrTagLocation>> {
+    public static final Codec<List<ObjectOrTagLocation>> CODEC = ObjectOrTagLocation.CODEC.listOf();
 
-    public BlockOrTagLocationListOption(List<BlockOrTagLocation> initialAndDefaultValue, String jsonKey) {
+    public BlockOrTagLocationListOption(List<ObjectOrTagLocation> initialAndDefaultValue, String jsonKey) {
         super(initialAndDefaultValue, jsonKey);
     }
 
@@ -31,7 +31,7 @@ public class BlockOrTagLocationListOption extends ConfigOption<List<BlockOrTagLo
     @Override
     public void fromJson(JsonObject json) {
         JsonElement jsonElement = json.getAsJsonArray(this.getJsonKey());
-        DataResult<List<BlockOrTagLocation>> parsedResult = CODEC.parse(JsonOps.INSTANCE, jsonElement);
+        DataResult<List<ObjectOrTagLocation>> parsedResult = CODEC.parse(JsonOps.INSTANCE, jsonElement);
         if(parsedResult.isError()) {
             this.resetToDefault(false);
             return;

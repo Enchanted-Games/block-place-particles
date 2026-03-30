@@ -75,14 +75,7 @@ public abstract class BrushItem {
         ) {
             override.spawnParticle(
                 origin,
-                new ParticleContext(
-                    clientLevel,
-                    new ParticleContext.BlockContext(
-                        state,
-                        blockPos
-                    ),
-                    null
-                ),
+                ParticleContext.block(clientLevel, state, blockPos),
                 particlePos.x + (brushDirection.getStepX() * outwardVelocity),
                 particlePos.y + (brushDirection.getStepY() * outwardVelocity),
                 particlePos.z + (brushDirection.getStepZ() * outwardVelocity),

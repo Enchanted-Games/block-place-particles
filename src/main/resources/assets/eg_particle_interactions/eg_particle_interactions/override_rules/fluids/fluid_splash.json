@@ -1,0 +1,16 @@
+{
+  "weights": {
+    "default": [
+      {
+        "weight": 1,
+        "fluid_predicate": {
+          "type": "list",
+          "fluids": [
+            "water",
+            "flowing_water"
+          ]
+        }
+      }
+    ]
+  }
+}

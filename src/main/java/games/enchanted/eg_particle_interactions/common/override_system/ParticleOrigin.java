@@ -44,6 +44,8 @@ public record ParticleOrigin(Identifier id) {
     public static final ParticleOrigin BLOCK_WALKED_THROUGH = register(ParticleInteractionsMod.id("block/walked_through"), ParticleOrigin::new);
     public static final ParticleOrigin BLOCK_PARTICLE_OVERRIDDEN = register(ParticleInteractionsMod.id("block/generic"), ParticleOrigin::new);
 
+    public static final ParticleOrigin FLUID_PLACED = register(ParticleInteractionsMod.id("fluid/placed"), ParticleOrigin::new);
+
     public static final ParticleOrigin ITEM_PARTICLE_OVERRIDDEN = register(ParticleInteractionsMod.id("item/generic"), ParticleOrigin::new);
 
     private static ParticleOrigin register(Identifier id, Function<Identifier, ParticleOrigin> originCreator) {

@@ -6,6 +6,7 @@ import games.enchanted.eg_particle_interactions.common.config.categories.FluidAm
 import games.enchanted.eg_particle_interactions.common.config.categories.ItemInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
 import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
+import games.enchanted.eg_particle_interactions.common.override_system.override.FluidOverrideManager;
 import games.enchanted.eg_particle_interactions.common.override_system.preset.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
@@ -14,7 +15,8 @@ import games.enchanted.eg_particle_interactions.common.particle.options.DefaultP
 import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.RandomDistributionEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
-import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
+import games.enchanted.eg_particle_interactions.common.registry.ObjectOrTagLocation;
+import games.enchanted.eg_particle_interactions.common.util.BiomeHelpers;
 import games.enchanted.eg_particle_interactions.common.util.FluidHelpers;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -34,6 +36,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -90,14 +93,7 @@ public class SpawnParticles {
 
                     override.getRandom().spawnParticle(
                         origin,
-                        new ParticleContext(
-                            level,
-                            new ParticleContext.BlockContext(
-                                placedBlockState,
-                                blockPos
-                            ),
-                            null
-                        ),
+                        ParticleContext.block(level, placedBlockState, blockPos),
                         (double) blockPos.getX() + MathHelpers.expandWhenOutOfBound(particleXOffset, 0, 1),
                         (double) blockPos.getY() + MathHelpers.expandWhenOutOfBound(particleYOffset, 0, 1),
                         (double) blockPos.getZ() + MathHelpers.expandWhenOutOfBound(particleZOffset, 0, 1),
@@ -143,14 +139,7 @@ public class SpawnParticles {
 
                             override.getRandom().spawnParticle(
                                 origin,
-                                new ParticleContext(
-                                    level,
-                                    new ParticleContext.BlockContext(
-                                        brokenBlockState,
-                                        blockPos
-                                    ),
-                                    null
-                                ),
+                                ParticleContext.block(level, brokenBlockState, blockPos),
                                 blockPos.getX() + (particleXOffset * width + x1),
                                 blockPos.getY() + (particleYOffset * height + y1),
                                 blockPos.getZ() + (particleZOffset * depth + z1),
@@ -195,11 +184,7 @@ public class SpawnParticles {
 
         ParticleOrigin origin = ParticleOrigin.FALLING_BLOCK_FALLING;
         OverridePreset override = BlockOverrideManager.getForBlock(blockState, origin);
-        ParticleContext context = new ParticleContext(
-            level,
-            new ParticleContext.BlockContext(blockState, BlockPos.containing(x, y, z)),
-            null
-        );
+        ParticleContext context = ParticleContext.block(level, blockState, BlockPos.containing(x, y, z));
 
         var random = level.getRandom();
         for (int i = 0; i < random.nextIntBetweenInclusive(1, 4); i++) {
@@ -228,11 +213,7 @@ public class SpawnParticles {
 
         double particleY = Math.round((y + (deltaMovement.y / 2)) - 0.1) + 0.0625;
 
-        ParticleContext context = new ParticleContext(
-            level,
-            new ParticleContext.BlockContext(blockState, blockPos),
-            null
-        );
+        ParticleContext context = ParticleContext.block(level, blockState, blockPos);
 
         SpawnParticlesUtil.spawnParticleInCircle(
             (x1, y1, z1, xSpeed, ySpeed, zSpeed) -> override.getRandom().spawnParticle(origin, context, x1, y1, z1, xSpeed, ySpeed, zSpeed),
@@ -477,11 +458,7 @@ public class SpawnParticles {
         ParticleOrigin origin = ParticleOrigin.BLOCK_TILLED;
 
         OverridePreset override = BlockOverrideManager.getForBlock(state, origin);
-        ParticleContext context = new ParticleContext(
-            level,
-            new ParticleContext.BlockContext(state, blockPos),
-            null
-        );
+        ParticleContext context = ParticleContext.block(level, state, blockPos);
 
         for (int i = 0; i < ItemInteractionOptions.HOE_TILL_AMOUNT.getValue(); i++) {
             double x = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepX());
@@ -511,11 +488,7 @@ public class SpawnParticles {
         ParticleOrigin origin = ParticleOrigin.BLOCK_FLATTENED;
 
         OverridePreset override = BlockOverrideManager.getForBlock(state, origin);
-        ParticleContext context = new ParticleContext(
-            level,
-            new ParticleContext.BlockContext(state, blockPos),
-            null
-        );
+        ParticleContext context = ParticleContext.block(level, state, blockPos);
 
         for (int i = 0; i < ItemInteractionOptions.SHOVEL_FLATTEN_AMOUNT.getValue(); i++) {
             double x = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepX());
@@ -543,18 +516,10 @@ public class SpawnParticles {
         ParticleOrigin origin = ParticleOrigin.BLOCK_STRIPPED;
 
         OverridePreset strippedOverride = BlockOverrideManager.getForBlock(strippedBlockState, origin);
-        ParticleContext strippedContext = new ParticleContext(
-            level,
-            new ParticleContext.BlockContext(strippedBlockState, blockPos),
-            null
-        );
+        ParticleContext strippedContext = ParticleContext.block(level, strippedBlockState, blockPos);
 
         OverridePreset unstrippedOverride = BlockOverrideManager.getForBlock(unstrippedBlockState, origin);
-        ParticleContext unstrippedContext = new ParticleContext(
-            level,
-            new ParticleContext.BlockContext(unstrippedBlockState, blockPos),
-            null
-        );
+        ParticleContext unstrippedContext = ParticleContext.block(level, unstrippedBlockState, blockPos);
 
         for (int i = 0; i < ItemInteractionOptions.AXE_STRIP_AMOUNT.getValue(); i++) {
             double x = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepX());
@@ -574,34 +539,31 @@ public class SpawnParticles {
         }
     }
 
-    public static void spawnFluidPlacedParticle(LevelAccessor levelAccessor, BlockPos particlePos, Fluid placedFluid) {
-        // TODO: reimplement fluid override
-//        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.BLOCK_PLACE_OR_BREAK, particlePos)) return;
-//        if (placedFluid.isSame(Fluids.EMPTY)) {
-//            return;
-//        }
-//
-//        FluidPlacementParticle particleOverride = FluidPlacementParticle.getParticleForFluid(placedFluid);
-//
-//        ParticleOptions particleOption;
-//        if (particleOverride == FluidPlacementParticle.NONE) {
-//            return;
-//        } else if (particleOverride.isBlockStateParticle()) {
-//            particleOption = particleOverride.getBlockParticleOption(placedFluid.defaultFluidState().createLegacyBlock());
-//        } else {
-//            particleOption = particleOverride.getParticleOption();
-//        }
-//
-//        if (particleOption == null) return;
-//
-//        int maxParticles = FluidPlacementParticle.getParticleMultiplier(particleOverride, true);
-//
-//        for (int i = 0; i < maxParticles; i++) {
-//            double x = particlePos.getX() + levelAccessor.getRandom().nextDouble();
-//            double y = particlePos.getY() + (levelAccessor.getRandom().nextDouble() / 1.5) + 0.6;
-//            double z = particlePos.getZ() + levelAccessor.getRandom().nextDouble();
-//            levelAccessor.addParticle(particleOption, x, y, z, 0.0, 0.21, 0.0);
-//        }
+    public static void spawnFluidPlacedParticle(ClientLevel level, BlockPos particlePos, FluidState placedFluid) {
+        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.BLOCK_PLACE_OR_BREAK, particlePos)) return;
+        if (BiomeHelpers.isWarmDimension(level.dimensionType()) && placedFluid.is(FluidTags.WATER)) return;
+        if (placedFluid.is(Fluids.EMPTY)) return;
+
+        ParticleOrigin origin = ParticleOrigin.FLUID_PLACED;
+        OverridePreset override = FluidOverrideManager.getForFluid(placedFluid, origin);
+        ParticleContext context = ParticleContext.fluid(level, placedFluid, particlePos);
+
+        // TODO: configurable amount
+        for (int i = 0; i < 20; i++) {
+            double x = particlePos.getX() + level.getRandom().nextDouble();
+            double y = particlePos.getY() + (level.getRandom().nextDouble() / 1.5) + 0.6;
+            double z = particlePos.getZ() + level.getRandom().nextDouble();
+            override.getRandom().spawnParticle(
+                origin,
+                context,
+                x,
+                y,
+                z,
+                0.0,
+                0.21,
+                0.0
+            );
+        }
     }
 
     public static void spawnAnvilUseSparkParticles(ClientLevel level, BlockPos blockPos) {
@@ -738,11 +700,7 @@ public class SpawnParticles {
 
         ParticleOrigin origin = ParticleOrigin.BLOCK_REDSTONE_INTERACTED_WITH;
         OverridePreset override = BlockOverrideManager.getForBlock(blockState, origin);
-        ParticleContext context = new ParticleContext(
-            level,
-            new ParticleContext.BlockContext(blockState, pos),
-            null
-        );
+        ParticleContext context = ParticleContext.block(level, blockState, pos);
 
         for (int i = 0; i < BlockInteractionOptions.REDSTONE_INTERACTION_DUST_AMOUNT.getValue(); i++) {
             double particleX = interactionX + MathHelpers.randomBetween(-spreadX / 2, spreadX / 2);
@@ -776,7 +734,7 @@ public class SpawnParticles {
         if (!FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_ENABLED.getValue()) return;
         if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, blockPos)) return;
 
-        if (!BlockOrTagLocation.doesListContainBlock(FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_BLOCKS.getValue(), blockState)) return;
+        if (!ObjectOrTagLocation.doesListContainBlock(FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_BLOCKS.getValue(), blockState)) return;
 
         if (!FluidHelpers.probablyPlacedUnderwater(level, blockPos)) return;
 
@@ -802,15 +760,11 @@ public class SpawnParticles {
         double speed = deltaMovement.length();
         if (speed <= 0.1 && !isSprinting) return;
 
-        if (!BlockOrTagLocation.doesListContainBlock(BlockInteractionOptions.BLOCK_RUSTLE_BLOCKS.getValue(), blockState)) return;
+        if (!ObjectOrTagLocation.doesListContainBlock(BlockInteractionOptions.BLOCK_RUSTLE_BLOCKS.getValue(), blockState)) return;
 
         ParticleOrigin origin = ParticleOrigin.BLOCK_WALKED_THROUGH;
         OverridePreset override = BlockOverrideManager.getForBlock(blockState, origin);
-        ParticleContext context = new ParticleContext(
-            level,
-            new ParticleContext.BlockContext(blockState, blockPos),
-            null
-        );
+        ParticleContext context = ParticleContext.block(level, blockState, blockPos);
 
         int particlesAmount =  (speed > 0.25 || isSprinting ? 3 : 1);
 

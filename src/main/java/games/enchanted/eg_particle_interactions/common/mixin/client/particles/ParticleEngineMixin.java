@@ -108,11 +108,7 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
             return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);
         }
 
-        ParticleContext context = new ParticleContext(
-            level,
-            new ParticleContext.BlockContext(blockState, BlockPos.containing(x, y, z)),
-            null
-        );
+        ParticleContext context = ParticleContext.block(level, blockState, BlockPos.containing(x, y, z));
         boolean isDustPillarParticle = originalParticleOption.getType() == ParticleTypes.DUST_PILLAR;
         double newYSpeed = (ySpeed * 0.5) + (ySpeed < 0.02 ? 0.08 : 0.);
 

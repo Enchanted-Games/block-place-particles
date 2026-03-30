@@ -11,16 +11,16 @@ import java.util.List;
 /**
  * Stores a resource location for a block or block tag
  */
-public record BlockOrTagLocation(Identifier location, boolean isTag) {
-    public static Codec<BlockOrTagLocation> CODEC = Codec.STRING.comapFlatMap(
+public record ObjectOrTagLocation(Identifier location, boolean isTag) {
+    public static Codec<ObjectOrTagLocation> CODEC = Codec.STRING.comapFlatMap(
         string -> {
             Identifier parsedLocation = Identifier.parse(string.replace("#", ""));
-            return DataResult.success(new BlockOrTagLocation(parsedLocation, string.startsWith("#")));
+            return DataResult.success(new ObjectOrTagLocation(parsedLocation, string.startsWith("#")));
         },
-        BlockOrTagLocation::toString
+        ObjectOrTagLocation::toString
     );
 
-    public BlockOrTagLocation(Identifier location) {
+    public ObjectOrTagLocation(Identifier location) {
         this(location, false);
     }
 
@@ -28,18 +28,18 @@ public record BlockOrTagLocation(Identifier location, boolean isTag) {
     /**
      * Checks if a blockstate is present in a list of block and block tags.
      *
-     * @param blocksAndTags  {@link BlockOrTagLocation} list
+     * @param blocksAndTags  {@link ObjectOrTagLocation} list
      * @param state          block to test if present the list
      */
-    public static boolean doesListContainBlock(@NonNull List<BlockOrTagLocation> blocksAndTags, @NonNull BlockState state) {
+    public static boolean doesListContainBlock(@NonNull List<ObjectOrTagLocation> blocksAndTags, @NonNull BlockState state) {
         Identifier blockLocation = RegistryHelpers.getLocationFromBlock(state.getBlock());
 
-        boolean containsBlockDirectly = blocksAndTags.contains(new BlockOrTagLocation(blockLocation));
+        boolean containsBlockDirectly = blocksAndTags.contains(new ObjectOrTagLocation(blockLocation));
         if(containsBlockDirectly) return true;
 
         // otherwise check if the block is included in any tags
-        List<BlockOrTagLocation> tagLocations = blocksAndTags.stream().filter(BlockOrTagLocation::isTag).toList();
-        for (BlockOrTagLocation tagLocation : tagLocations) {
+        List<ObjectOrTagLocation> tagLocations = blocksAndTags.stream().filter(ObjectOrTagLocation::isTag).toList();
+        for (ObjectOrTagLocation tagLocation : tagLocations) {
             if(RegistryHelpers.isBlockInTag(blockLocation, RegistryHelpers.getBlockTagKey(tagLocation.location()))) {
                 return true;
             }
@@ -54,7 +54,7 @@ public record BlockOrTagLocation(Identifier location, boolean isTag) {
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof BlockOrTagLocation castedObj)) return false;
+        if(!(obj instanceof ObjectOrTagLocation castedObj)) return false;
         return this.location.equals(castedObj.location);
     }
 }

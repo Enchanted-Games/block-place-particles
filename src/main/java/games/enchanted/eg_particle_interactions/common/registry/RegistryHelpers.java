@@ -8,7 +8,6 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
@@ -19,10 +18,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class RegistryHelpers {
@@ -113,10 +110,10 @@ public class RegistryHelpers {
         return fallback;
     }
 
-    public static BlockOrTagLocation validateBlockOrTagLocationWithFallback(String location, BlockOrTagLocation fallback) {
+    public static ObjectOrTagLocation validateBlockOrTagLocationWithFallback(String location, ObjectOrTagLocation fallback) {
         try {
             if(location.startsWith("#")) {
-                return new BlockOrTagLocation(Identifier.parse(location.replace("#", "").toLowerCase()), true);
+                return new ObjectOrTagLocation(Identifier.parse(location.replace("#", "").toLowerCase()), true);
             }
 
             Identifier blockLocation = Identifier.parse(location.toLowerCase());
@@ -127,7 +124,7 @@ public class RegistryHelpers {
             if(blockFromLoc.get().defaultBlockState().isAir()) {
                 return fallback;
             }
-            return new BlockOrTagLocation(blockLocation);
+            return new ObjectOrTagLocation(blockLocation);
         } catch (IdentifierException ignored) {}
 
         return fallback;
@@ -159,8 +156,8 @@ public class RegistryHelpers {
     public static Identifier getLocationFromBlock(Block block) {
         return BuiltInRegistries.BLOCK.getKey(block);
     }
-    public static BlockOrTagLocation getBlockLocationFromBlock(Block block) {
-        return new BlockOrTagLocation(getLocationFromBlock(block));
+    public static ObjectOrTagLocation getBlockLocationFromBlock(Block block) {
+        return new ObjectOrTagLocation(getLocationFromBlock(block));
     }
     public static Block getBlockFromLocation(Identifier location) {
         return BuiltInRegistries.BLOCK.getValue(location);

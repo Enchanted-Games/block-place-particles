@@ -5,13 +5,13 @@ import dev.isxander.yacl3.api.utils.Dimension;
 import dev.isxander.yacl3.gui.YACLScreen;
 import games.enchanted.eg_particle_interactions.common.config.screen.yacl.controller.generic.AbstractFixedDropdownController;
 import games.enchanted.eg_particle_interactions.common.config.screen.yacl.controller.generic.GenericListControllerElement;
-import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
+import games.enchanted.eg_particle_interactions.common.registry.ObjectOrTagLocation;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 
-public class BlockLocationController extends AbstractFixedDropdownController<BlockOrTagLocation> {
-    public BlockLocationController(Option<BlockOrTagLocation> option) {
+public class BlockLocationController extends AbstractFixedDropdownController<ObjectOrTagLocation> {
+    public BlockLocationController(Option<ObjectOrTagLocation> option) {
         super(option);
     }
 
@@ -26,7 +26,7 @@ public class BlockLocationController extends AbstractFixedDropdownController<Blo
         if(valueFromDropdown == null) {
             valueFromDropdown = value;
         }
-        BlockOrTagLocation validatedValue = RegistryHelpers.validateBlockOrTagLocationWithFallback(
+        ObjectOrTagLocation validatedValue = RegistryHelpers.validateBlockOrTagLocationWithFallback(
             valueFromDropdown,
             null
         );
@@ -39,7 +39,7 @@ public class BlockLocationController extends AbstractFixedDropdownController<Blo
 
     @Override
     public boolean isValueValid(String value) {
-        BlockOrTagLocation blockLocFromValue = RegistryHelpers.validateBlockOrTagLocationWithFallback(value, null);
+        ObjectOrTagLocation blockLocFromValue = RegistryHelpers.validateBlockOrTagLocationWithFallback(value, null);
         return blockLocFromValue != null;
     }
 
@@ -63,7 +63,7 @@ public class BlockLocationController extends AbstractFixedDropdownController<Blo
     }
 
     @Override
-    public GenericListControllerElement<BlockOrTagLocation, ?> createWidget(YACLScreen screen, Dimension<Integer> widgetDimension) {
+    public GenericListControllerElement<ObjectOrTagLocation, ?> createWidget(YACLScreen screen, Dimension<Integer> widgetDimension) {
         return new BlockLocationControllerElement(this, screen, widgetDimension);
     }
 }

@@ -82,11 +82,7 @@ public class BlockBreakAndCrackingParticle_ClientLevelMixin {
 
         override.spawnParticle(
             origin,
-            new ParticleContext(
-                level,
-                new ParticleContext.BlockContext(blockstate, blockPos),
-                null
-            ),
+            ParticleContext.block(level, blockstate, blockPos),
             xPos,
             yPos,
             zPos,

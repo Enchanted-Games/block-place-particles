@@ -44,6 +44,6 @@ public class BlockStatePredicate extends BlockPredicate {
 
     @Override
     public boolean matches(BlockState state) {
-        return this.propertiesPredicate.matches(state) && state.is(this.block);
+        return this.propertiesPredicate.matches(state) && state.is(this.getBlock());
     }
 }

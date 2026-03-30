@@ -45,11 +45,7 @@ public class FallingBlockMixin {
 
         override.getRandom().spawnParticle(
             origin,
-            new ParticleContext(
-                clientLevel,
-                new ParticleContext.BlockContext(state, pos),
-                null
-            ),
+            ParticleContext.block(clientLevel, state, pos),
             x,
             y,
             z,

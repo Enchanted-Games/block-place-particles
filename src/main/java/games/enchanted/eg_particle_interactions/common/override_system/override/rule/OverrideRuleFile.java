@@ -6,8 +6,11 @@ import games.enchanted.eg_particle_interactions.common.override_system.ParticleO
 import games.enchanted.eg_particle_interactions.common.override_system.predicate.ObjectPredicate;
 import games.enchanted.eg_particle_interactions.common.override_system.predicate.block.BlockPredicate;
 import games.enchanted.eg_particle_interactions.common.override_system.predicate.block.BlockPredicates;
+import games.enchanted.eg_particle_interactions.common.override_system.predicate.fluid.FluidPredicate;
+import games.enchanted.eg_particle_interactions.common.override_system.predicate.fluid.FluidPredicates;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +25,21 @@ public class OverrideRuleFile<T, P extends ObjectPredicate<T>> {
                 .optionalFieldOf(WEIGHTS_FIELD, Map.of())
                 .forGetter(OverrideRuleFile::getAdditions),
             Codec.unboundedMap(ParticleOrigin.CODEC, Codec.list(BlockPredicates.CODEC))
+                .optionalFieldOf(EXCLUSIONS_FIELD, Map.of())
+                .forGetter(OverrideRuleFile::getExclusions)
+        )
+        .apply(
+            instance,
+            OverrideRuleFile::new
+        )
+    );
+
+    public static final Codec<OverrideRuleFile<FluidState, FluidPredicate>> FLUIDSTATE_CODEC = RecordCodecBuilder.create(
+        instance -> instance.group(
+            Codec.unboundedMap(ParticleOrigin.CODEC, Codec.list(WeightsSection.codec(FluidPredicates.CODEC, "fluid_predicate")))
+                .optionalFieldOf(WEIGHTS_FIELD, Map.of())
+                .forGetter(OverrideRuleFile::getAdditions),
+            Codec.unboundedMap(ParticleOrigin.CODEC, Codec.list(FluidPredicates.CODEC))
                 .optionalFieldOf(EXCLUSIONS_FIELD, Map.of())
                 .forGetter(OverrideRuleFile::getExclusions)
         )

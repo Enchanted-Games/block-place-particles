@@ -6,7 +6,7 @@ import games.enchanted.eg_particle_interactions.common.config.option.BlockOrTagL
 import games.enchanted.eg_particle_interactions.common.config.option.BoolOption;
 import games.enchanted.eg_particle_interactions.common.config.option.ConfigOption;
 import games.enchanted.eg_particle_interactions.common.config.option.IntOption;
-import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
+import games.enchanted.eg_particle_interactions.common.registry.ObjectOrTagLocation;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
@@ -58,7 +58,7 @@ public class BlockInteractionOptions {
     public static final ConfigOption<Boolean> BLOCK_RUSTLE_ENABLED = registerOption(
         new BoolOption(true, "block_rustle_enabled")
     );
-    public static final ConfigOption<List<BlockOrTagLocation>> BLOCK_RUSTLE_BLOCKS = registerOption(
+    public static final ConfigOption<List<ObjectOrTagLocation>> BLOCK_RUSTLE_BLOCKS = registerOption(
         new BlockOrTagLocationListOption(
             List.of(
                 RegistryHelpers.getBlockLocationFromBlock(Blocks.SUGAR_CANE),
@@ -88,12 +88,12 @@ public class BlockInteractionOptions {
                 RegistryHelpers.getBlockLocationFromBlock(Blocks.COBWEB),
                 RegistryHelpers.getBlockLocationFromBlock(Blocks.SNOW),
                 RegistryHelpers.getBlockLocationFromBlock(Blocks.REDSTONE_WIRE),
-                new BlockOrTagLocation(BlockTags.CAVE_VINES.location(), true),
-                new BlockOrTagLocation(BlockTags.FLOWERS.location(), true),
-                new BlockOrTagLocation(Identifier.fromNamespaceAndPath("c", "flowers"), true),
-                new BlockOrTagLocation(Identifier.fromNamespaceAndPath("c", "flowers/small"), true),
-                new BlockOrTagLocation(Identifier.fromNamespaceAndPath("c", "flowers/tall"), true),
-                new BlockOrTagLocation(BlockTags.CROPS.location(), true)
+                new ObjectOrTagLocation(BlockTags.CAVE_VINES.location(), true),
+                new ObjectOrTagLocation(BlockTags.FLOWERS.location(), true),
+                new ObjectOrTagLocation(Identifier.fromNamespaceAndPath("c", "flowers"), true),
+                new ObjectOrTagLocation(Identifier.fromNamespaceAndPath("c", "flowers/small"), true),
+                new ObjectOrTagLocation(Identifier.fromNamespaceAndPath("c", "flowers/tall"), true),
+                new ObjectOrTagLocation(BlockTags.CROPS.location(), true)
             ),
             "block_rustle_blocks"
         )

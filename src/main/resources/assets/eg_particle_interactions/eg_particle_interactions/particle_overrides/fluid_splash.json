@@ -1,0 +1,23 @@
+{
+  "emitters": {
+    "default": {
+      "emitter_type": "particle_interactions",
+      "particle": {
+        "type": "drip/honey_drop",
+        "drip_options": {
+          "start_falling_ticks": 0,
+          "gravity": 0.02
+        }
+      },
+      "appearance": {
+        "texture_config": {
+          "sprites": [
+            "eg_particle_interactions:blue_drop"
+          ]
+        }
+      },
+
+      "velocity_multiplier": 0.2
+    }
+  }
+}
