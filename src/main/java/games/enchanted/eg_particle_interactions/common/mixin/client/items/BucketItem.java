@@ -22,10 +22,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(net.minecraft.world.item.BucketItem.class)
 public abstract class BucketItem {
-    @Shadow public abstract Fluid getContent();
-
     @WrapOperation(
-        method = "emptyContents",
+        method =
+            //? if fabric {
+            "emptyContents"
+            //? } else {
+            /*"emptyContents(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/BlockHitResult;Lnet/minecraft/world/item/ItemStack;)Z"
+            *///? }
+        ,
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/BucketItem;playEmptySound(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;)V")
     )
     private void eg_particle_interactions$spawnFluidParticlesOnBucketEmpty(net.minecraft.world.item.BucketItem instance, LivingEntity user, LevelAccessor level, BlockPos pos, Operation<Void> original) {

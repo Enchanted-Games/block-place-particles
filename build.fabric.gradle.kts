@@ -50,7 +50,7 @@ dependencies {
         compileOnly("dev.isxander:yet-another-config-lib:${property("deps.yacl")}")
         runtimeOnly("dev.isxander:yet-another-config-lib:${property("deps.yacl")}")
     } else {
-        compileOnly("dev.isxander:yet-another-config-lib:3.8.2+26.1.0-fabric")
+        compileOnly("dev.isxander:yet-another-config-lib:3.9.1+26.1-fabric")
     }
 }
 
