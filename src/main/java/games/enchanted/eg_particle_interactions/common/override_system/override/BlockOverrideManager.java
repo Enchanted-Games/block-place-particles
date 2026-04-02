@@ -6,7 +6,7 @@ import games.enchanted.eg_particle_interactions.common.override_system.override.
 import games.enchanted.eg_particle_interactions.common.override_system.override.rule.OverrideRuleFile;
 import games.enchanted.eg_particle_interactions.common.override_system.predicate.block.BlockPredicate;
 import games.enchanted.eg_particle_interactions.common.override_system.predicate.block.list.BlockListManager;
-import games.enchanted.eg_particle_interactions.common.override_system.preset.OverridePreset;
+import games.enchanted.eg_particle_interactions.common.override_system.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.server.packs.resources.ResourceManager;

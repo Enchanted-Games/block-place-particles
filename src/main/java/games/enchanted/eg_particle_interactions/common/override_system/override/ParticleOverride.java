@@ -36,6 +36,10 @@ public class ParticleOverride {
         this.getEmitter(origin).spawnParticle(context, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 
+    public boolean hasNoEmitter(ParticleOrigin origin) {
+        return this.getEmitter(origin) instanceof EmptyEmitter;
+    }
+
     protected Map<ParticleOrigin, Emitter> getEmittersByOrigin() {
         return this.emitterByOrigin;
     }

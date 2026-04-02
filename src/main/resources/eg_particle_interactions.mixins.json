@@ -34,6 +34,7 @@
     "entity.BlazeDamage_EntityMixin",
     "entity.FallingBlockEntity",
     "entity.FallingBlockEntityLand_ClientLevelMixin",
+    "entity.FluidBubbles_EntityMixin",
     "entity.ItemFrameMixin",
     "entity.LightningBoltMixin",
     "entity.LocalPlayer_EntityMixin",

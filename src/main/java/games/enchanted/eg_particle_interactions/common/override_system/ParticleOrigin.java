@@ -45,6 +45,8 @@ public record ParticleOrigin(Identifier id) {
     public static final ParticleOrigin BLOCK_PARTICLE_OVERRIDDEN = register(ParticleInteractionsMod.id("block/generic"), ParticleOrigin::new);
 
     public static final ParticleOrigin FLUID_PLACED = register(ParticleInteractionsMod.id("fluid/placed"), ParticleOrigin::new);
+    public static final ParticleOrigin FLUID_WATER_ENTITY_ENTERED = register(ParticleInteractionsMod.id("fluid/water/entity_entered"), ParticleOrigin::new);
+    public static final ParticleOrigin FLUID_WATER_ENTITY_ENTERED_BUBBLES = register(ParticleInteractionsMod.id("fluid/water/entity_entered_bubbles"), ParticleOrigin::new);
 
     public static final ParticleOrigin ITEM_PARTICLE_OVERRIDDEN = register(ParticleInteractionsMod.id("item/generic"), ParticleOrigin::new);
 

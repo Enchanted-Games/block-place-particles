@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.override_system.preset;
+package games.enchanted.eg_particle_interactions.common.override_system;
 
 import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverride;
 import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
@@ -25,8 +25,12 @@ public class OverridePreset {
         this.totalWeights = x[0];
     }
 
+    protected boolean isEmpty() {
+        return this.overrides.isEmpty();
+    }
+
     public ParticleOverride getRandom() {
-        if(this.overrides.isEmpty()) {
+        if(this.isEmpty()) {
             return ParticleOverrides.getOverrideOrFallback(ParticleOverrides.FALLBACK_OVERRIDE_ID);
         }
 
