@@ -3,9 +3,12 @@ package games.enchanted.eg_particle_interactions.common.particle.appearance;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.Logging;
+import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
+import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
@@ -24,6 +27,13 @@ public class ParticleAppearanceManager extends SimplePreparableReloadListener<Pa
     private static final FileToIdConverter FILE_TO_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/appearances");
 
     public static final ParticleAppearanceManager INSTANCE = new ParticleAppearanceManager();
+
+    public static final Codec<ParticleAppearance> INLINE_OR_ID_CODEC = ParticleAppearance.CODEC.withAlternative(
+        ModCodecs.IDENTIFIER.xmap(
+            ParticleAppearanceManager::get,
+            appearance -> ParticleInteractionsMod.id("unknown")
+        )
+    );
 
     @Override
     protected Prepare prepare(ResourceManager manager, ProfilerFiller profiler) {

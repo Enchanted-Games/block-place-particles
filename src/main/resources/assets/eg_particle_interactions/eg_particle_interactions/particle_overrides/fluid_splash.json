@@ -32,13 +32,7 @@
         "type": "simple/chain_snap",
         "simple_options": {}
       },
-      "appearance": {
-        "texture_config": {
-          "sprites": [
-            "eg_particle_interactions:blue_drop"
-          ]
-        }
-      },
+      "appearance": "drop/honey_drop",
       "velocity_multiplier": 0.2
     }
   }

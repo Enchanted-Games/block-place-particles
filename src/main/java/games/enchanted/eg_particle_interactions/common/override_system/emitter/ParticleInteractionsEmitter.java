@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearanceManager;
 import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
@@ -17,7 +18,7 @@ public class ParticleInteractionsEmitter extends Emitter {
         instance.group(
             Codec.DOUBLE.optionalFieldOf(Emitter.VELOCITY_MULTIPLIER_NAME, Emitter.VELOCITY_MULTIPLIER_DEFAULT).forGetter(Emitter::getVelocityMultiplier),
             ParticleTypesRegistry.CODEC.fieldOf("particle").forGetter(ParticleInteractionsEmitter::getParticleOptions),
-            ParticleAppearance.CODEC.optionalFieldOf("appearance").forGetter(particleInteractionsEmitter -> Optional.ofNullable(particleInteractionsEmitter.getAppearance()))
+            ParticleAppearanceManager.INLINE_OR_ID_CODEC.optionalFieldOf("appearance").forGetter(particleInteractionsEmitter -> Optional.ofNullable(particleInteractionsEmitter.getAppearance()))
         ).apply(
             instance,
             (
