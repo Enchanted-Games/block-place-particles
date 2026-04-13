@@ -2,6 +2,7 @@
   "blocks": [
     "redstone_wire",
     "redstone_torch",
-    "redstone_block"
+    "redstone_block",
+    "#c:storage_blocks/redstone"
   ]
 }
