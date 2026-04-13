@@ -5,8 +5,16 @@
         "weight": 3,
         "block_predicate": {
           "type": "list",
-          "blocks": "redstone_ores"
+          "blocks": "partial_redstone_dust"
         }
+      }
+    ]
+  },
+  "exclusions": {
+    "block/redstone_interacted_with": [
+      {
+        "type": "list",
+        "blocks": "partial_redstone_dust"
       }
     ]
   }
