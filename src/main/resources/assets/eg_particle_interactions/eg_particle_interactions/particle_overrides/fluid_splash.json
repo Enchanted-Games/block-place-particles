@@ -32,7 +32,7 @@
         "type": "simple/chain_snap",
         "simple_options": {}
       },
-      "appearance": "drop/honey_drop",
+      "appearance": "drip/honey_drop",
       "velocity_multiplier": 0.2
     }
   }

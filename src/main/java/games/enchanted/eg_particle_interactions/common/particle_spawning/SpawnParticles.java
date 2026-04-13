@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common.particle_spawning;
 
 import games.enchanted.eg_particle_interactions.common.config.categories.BlockInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.config.categories.EntityOptions;
-import games.enchanted.eg_particle_interactions.common.config.categories.FluidAmbientOptions;
+import games.enchanted.eg_particle_interactions.common.config.categories.FluidInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.config.categories.ItemInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
 import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
@@ -547,7 +547,7 @@ public class SpawnParticles {
         ParticleContext context = ParticleContext.fluid(level, placedFluid, particlePos);
 
         // TODO: configurable amount
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < FluidInteractionOptions.AMOUNT_ON_PLACE.getValue(); i++) {
             double x = particlePos.getX() + level.getRandom().nextDouble();
             double y = particlePos.getY() + (level.getRandom().nextDouble() / 1.5) + 0.6;
             double z = particlePos.getZ() + level.getRandom().nextDouble();
@@ -719,8 +719,8 @@ public class SpawnParticles {
 
     public static void spawnLavaBubblePopParticles(ClientLevel level, BlockPos fluidPos, FluidState fluidState) {
         if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, fluidPos)) return;
-        if (!FluidAmbientOptions.LAVA_BUBBLE_POP_ENABLED.getValue()) return;
-        if (level.getRandom().nextFloat() < (float) FluidAmbientOptions.LAVA_BUBBLE_POP_SPAWN_CHANCE.getValue() / 2500) {
+        if (!FluidInteractionOptions.LAVA_BUBBLE_POP_ENABLED.getValue()) return;
+        if (level.getRandom().nextFloat() < (float) FluidInteractionOptions.LAVA_BUBBLE_POP_SPAWN_CHANCE.getValue() / 2500) {
             double d0 = (double) fluidPos.getX() + level.getRandom().nextDouble();
             double d1 = (double) fluidPos.getY() + fluidState.getOwnHeight();
             double d2 = (double) fluidPos.getZ() + level.getRandom().nextDouble();
@@ -729,16 +729,16 @@ public class SpawnParticles {
     }
 
     public static void spawnRandomUnderwaterBubbleStreams(ClientLevel level, BlockPos blockPos, BlockState blockState) {
-        if (!FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_ENABLED.getValue()) return;
+        if (!FluidInteractionOptions.UNDERWATER_BUBBLE_STREAM_ENABLED.getValue()) return;
         if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, blockPos)) return;
 
-        if (!ObjectOrTagLocation.doesListContainBlock(FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_BLOCKS.getValue(), blockState)) return;
+        if (!ObjectOrTagLocation.doesListContainBlock(FluidInteractionOptions.UNDERWATER_BUBBLE_STREAM_BLOCKS.getValue(), blockState)) return;
 
         if (!FluidHelpers.probablyPlacedUnderwater(level, blockPos)) return;
 
         ParticleContext context = ParticleContext.plain(level);
 
-        if (level.getRandom().nextFloat() < (float) FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_SPAWN_CHANCE.getValue() / 2500) {
+        if (level.getRandom().nextFloat() < (float) FluidInteractionOptions.UNDERWATER_BUBBLE_STREAM_SPAWN_CHANCE.getValue() / 2500) {
             double x = (double) blockPos.getX() + level.getRandom().nextDouble();
             double y = (double) blockPos.getY() + (blockState.isSolid() ? 1.05 : level.getRandom().nextDouble());
             double z = (double) blockPos.getZ() + level.getRandom().nextDouble();

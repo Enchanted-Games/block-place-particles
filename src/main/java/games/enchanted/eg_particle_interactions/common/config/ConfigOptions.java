@@ -28,8 +28,7 @@ public class ConfigOptions {
         BlockInteractionOptions.init();
         ItemInteractionOptions.init();
         EntityOptions.init();
-        FluidPlacementOptions.init();
-        FluidAmbientOptions.init();
+        FluidInteractionOptions.init();
         OPTIONS = Map.copyOf(TEMPORARY_REGISTRATION_MAP);
         TEMPORARY_REGISTRATION_MAP = null;
     }

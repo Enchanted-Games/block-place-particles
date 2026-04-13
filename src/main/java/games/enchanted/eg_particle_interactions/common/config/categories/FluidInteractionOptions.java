@@ -12,7 +12,11 @@ import net.minecraft.world.level.block.Blocks;
 
 import java.util.List;
 
-public class FluidAmbientOptions {
+public class FluidInteractionOptions {
+    public static final ConfigOption<Integer> AMOUNT_ON_PLACE = registerOption(
+        new IntOption(15, "amount_on_place")
+    );
+
     public static final ConfigOption<Boolean> LAVA_BUBBLE_POP_ENABLED = registerOption(
         new BoolOption(true, "lava_bubble_pop_enabled")
     );
