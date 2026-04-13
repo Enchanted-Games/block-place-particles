@@ -1,0 +1,7 @@
+{
+  "blocks": [
+    "redstone_wire",
+    "repeater",
+    "comparator"
+  ]
+}

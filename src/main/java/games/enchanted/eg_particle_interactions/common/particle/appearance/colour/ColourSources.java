@@ -19,5 +19,6 @@ public class ColourSources {
         SOURCES.put(ParticleInteractionsMod.id("block_tint"), BlockTintColourSource.CODEC);
         SOURCES.put(ParticleInteractionsMod.id("multiply"), MultiplyColourSource.CODEC);
         SOURCES.put(ParticleInteractionsMod.id("variable"), VariableColourSource.CODEC);
+        SOURCES.put(ParticleInteractionsMod.id("redstone_power"), RedstonePowerLevelSource.CODEC);
     }
 }

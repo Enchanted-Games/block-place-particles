@@ -1,0 +1,12 @@
+{
+  "emitters": {
+    "block/redstone_interacted_with": {
+      "emitter_type": "particle_interactions",
+      "particle": {
+        "type": "dust/redstone_dust",
+        "dust_options": {}
+      },
+      "velocity_multiplier": 0.25
+    }
+  }
+}

@@ -13,7 +13,16 @@
     "sprite_cycle_mode": "age_cycle"
   },
   "colour": {
-    "type": "eg_particle_interactions:block_texture",
-    "tint_index": 0
+    "type": "multiply",
+    "colours": [
+      {
+        "type": "redstone_power"
+      },
+      {
+        "type": "variable",
+        "base_colour": "#ffffff",
+        "variation": 0.3
+      }
+    ]
   }
 }

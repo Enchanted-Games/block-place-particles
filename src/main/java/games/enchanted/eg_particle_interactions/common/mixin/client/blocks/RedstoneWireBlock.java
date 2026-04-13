@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(RedStoneWireBlock.class)
-public abstract class RedstoneWireBlock extends Block {
+abstract class RedstoneWireBlock extends Block {
     public RedstoneWireBlock(Properties properties) {
         super(properties);
     }

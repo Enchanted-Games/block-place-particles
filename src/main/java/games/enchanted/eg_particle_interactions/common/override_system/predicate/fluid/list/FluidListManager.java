@@ -1,7 +1,5 @@
 package games.enchanted.eg_particle_interactions.common.override_system.predicate.fluid.list;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.Codec;
@@ -23,13 +21,15 @@ import java.util.List;
 import java.util.Map;
 
 public class FluidListManager {
-    private static final BiMap<Identifier, FluidList> LIST_BY_ID = HashBiMap.create();
+    private static final Map<Identifier, FluidList> LIST_BY_ID = new HashMap<>();
     private static final FileToIdConverter FILE_TO_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/lists/fluids");
 
     public static final Codec<FluidList> INLINE_OR_ID_CODEC = FluidList.CODEC.withAlternative(
         ModCodecs.IDENTIFIER.xmap(
             FluidListManager::getOrDefault,
-            FluidListManager::getIdOrThrow
+            fluidList -> {
+                throw new IllegalStateException("Cannot serialise fluid list to id");
+            }
         )
     );
 
@@ -73,12 +73,5 @@ public class FluidListManager {
             return new FluidList(List.of(), List.of());
         }
         return LIST_BY_ID.get(id);
-    }
-
-    public static Identifier getIdOrThrow(FluidList list) {
-        if(!LIST_BY_ID.inverse().containsKey(list)) {
-            throw new RuntimeException("Block list id not found");
-        }
-        return LIST_BY_ID.inverse().get(list);
     }
 }

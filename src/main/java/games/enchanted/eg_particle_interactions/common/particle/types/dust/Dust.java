@@ -152,23 +152,6 @@ public class Dust extends ParticleInteractionsParticle {
             double ySpeed,
             double zSpeed
         ) {
-            // TODO: replace this with better particle palette system
-//            BlockState state = type.getState();
-//            int powerLevel = 15;
-//            if(state.hasProperty(RedstoneTorchBlock.LIT)) {
-//                powerLevel = state.getValue(RedstoneTorchBlock.LIT) ? 15 : 0;
-//            }
-//            else if (state.hasProperty(ComparatorBlock.MODE)) {
-//                powerLevel = state.getValue(ComparatorBlock.MODE) == ComparatorMode.SUBTRACT ? 15 : 0;
-//            }
-//            else if (state.hasProperty(RedStoneWireBlock.POWER)) {
-//                powerLevel = Math.clamp(state.getValue(RedStoneWireBlock.POWER), 0, 15);
-//            }
-//            else if (state.hasProperty(RepeaterBlock.POWERED)) {
-//                powerLevel = state.getValue(RepeaterBlock.POWERED) ? 15 : 0;
-//            }
-//            state = Blocks.REDSTONE_WIRE.defaultBlockState().setValue(RedStoneWireBlock.POWER, powerLevel);
-
             Dust particle = new Dust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, options);
             particle.roll = 0;
             particle.prevRoll = 0;
