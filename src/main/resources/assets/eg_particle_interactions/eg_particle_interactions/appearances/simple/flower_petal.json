@@ -9,6 +9,7 @@
     ]
   },
   "colour": {
-    "type": "eg_particle_interactions:block_texture"
+    "type": "eg_particle_interactions:block_texture",
+    "tint_index": 0
   }
 }

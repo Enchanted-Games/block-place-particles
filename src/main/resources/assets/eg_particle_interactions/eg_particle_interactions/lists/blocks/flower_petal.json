@@ -1,0 +1,18 @@
+{
+  "blocks": [
+    "twisting_vines_plant",
+    "twisting_vines",
+    "cave_vines_plant",
+    "cave_vines",
+    "weeping_vines_plant",
+    "weeping_vines",
+    "bush",
+    "torchflower_crop",
+    "birch_leaves",
+    "#cave_vines",
+    "#flowers",
+    "#c:flowers",
+    "#c:flowers/small",
+    "#c:flowers/tall"
+  ]
+}

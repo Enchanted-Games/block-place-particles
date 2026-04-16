@@ -11,7 +11,6 @@ import games.enchanted.eg_particle_interactions.common.particle.types.ParticleIn
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.util.Mth;
 import org.jspecify.annotations.Nullable;
 
 public class FallingSpinningParticle extends ParticleInteractionsParticle {

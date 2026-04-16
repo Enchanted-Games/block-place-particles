@@ -80,7 +80,7 @@ public class ParticleTypesRegistry {
         DustParticleOptions::idPrefix
     );
     public static final PIParticleType<SimpleParticleOptions> FALLING_CHERRY_PETAL = register(
-        FallingSpinningParticle.GenericLeafProvider::new,
+        FallingSpinningParticle.FlowerPetalProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_cherry_leaves"),
         DefaultParticles.GENERIC_LEAF_CONFIG,
         SimpleParticleOptions::codec,
@@ -104,7 +104,7 @@ public class ParticleTypesRegistry {
         SimpleParticleOptions::idPrefix
     );
     public static final PIParticleType<SimpleParticleOptions> FALLING_AZALEA_LEAF = register(
-        FallingSpinningParticle.GenericLeafProvider::new,
+        FallingSpinningParticle.FlowerPetalProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_azalea_leaves"),
         DefaultParticles.GENERIC_LEAF_CONFIG,
         SimpleParticleOptions::codec,
@@ -112,7 +112,7 @@ public class ParticleTypesRegistry {
         SimpleParticleOptions::idPrefix
     );
     public static final PIParticleType<SimpleParticleOptions> FALLING_FLOWERING_AZALEA = register(
-        FallingSpinningParticle.GenericLeafProvider::new,
+        FallingSpinningParticle.FlowerPetalProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_flowering_azalea"),
         DefaultParticles.GENERIC_LEAF_CONFIG,
         SimpleParticleOptions::codec,
