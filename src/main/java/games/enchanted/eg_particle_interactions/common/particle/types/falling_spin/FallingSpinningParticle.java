@@ -66,7 +66,10 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
             double ySpeed,
             double zSpeed
         ) {
-            return new FallingSpinningParticle(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, 1);
+            FallingSpinningParticle particle = new FallingSpinningParticle(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, 1f);
+            float particleSize = context.level().getRandom().nextBoolean() ? 0.1f : 0.12f;
+            particle.setScale(particleSize);
+            return particle;
         }
     }
 
@@ -110,7 +113,7 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
             double zSpeed
         ) {
             FallingSpinningParticle particle = new FallingSpinningParticle(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, 0.6f);
-            float particleSize = context.level().getRandom().nextBoolean() ? 0.1f : 0.15f;
+            float particleSize = context.level().getRandom().nextBoolean() ? 0.1f : 0.12f;
             particle.setScale(particleSize);
             particle.maxSpinSpeed = 0.1f;
             particle.spinAcceleration = (float) Math.toRadians(context.level().getRandom().nextBoolean() ? -1.0 : 1.0);
