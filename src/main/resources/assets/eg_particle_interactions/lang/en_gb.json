@@ -128,7 +128,7 @@
   "eg_particle_interactions.config.global_option.firefly_fixes.desc": "Fixes some annoying issues with firefly particles when enabled:\n - Fireflies won't die in any block other than air (yes, they die in flowers or grass in vanilla!)\n - Fireflies won't get stuck in place on the floor or underside of blocks (once you notice this, you cant unsee it)",
 
   "eg_particle_interactions.config.global_option.show_button_in_options_screen": "Show config button in options screen",
-  "eg_particle_interactions.config.global_option.show_button_in_options_screen.desc": "Whether or not a button to open this config menu be added to the options screen if mod menu is not installed",
+  "eg_particle_interactions.config.global_option.show_button_in_options_screen.desc": "If enabled, a button to open this config screen is added in the options screen if mod menu is not installed",
 
   "eg_particle_interactions.config.general.performance_general": "Performance: General",
   "eg_particle_interactions.config.general.performance_general.desc": "Config options that may have an impact on performance",
