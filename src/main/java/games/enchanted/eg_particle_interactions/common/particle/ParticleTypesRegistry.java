@@ -87,9 +87,9 @@ public class ParticleTypesRegistry {
         SimpleParticleOptions::streamCodec,
         SimpleParticleOptions::idPrefix
     );
-    public static final PIParticleType<SimpleParticleOptions> FALLING_TINTED_LEAF = register(
+    public static final PIParticleType<SimpleParticleOptions> FALLING_GENERIC_LEAVES = register(
         FallingSpinningParticle.GenericLeafProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_tinted_leaves"),
+        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_generic_leaves"),
         DefaultParticles.GENERIC_LEAF_CONFIG,
         SimpleParticleOptions::codec,
         SimpleParticleOptions::streamCodec,
