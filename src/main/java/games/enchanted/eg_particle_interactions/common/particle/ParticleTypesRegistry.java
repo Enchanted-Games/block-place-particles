@@ -111,9 +111,9 @@ public class ParticleTypesRegistry {
         SimpleParticleOptions::streamCodec,
         SimpleParticleOptions::idPrefix
     );
-    public static final PIParticleType<SimpleParticleOptions> FALLING_FLOWERING_AZALEA_LEAF = register(
+    public static final PIParticleType<SimpleParticleOptions> FALLING_FLOWERING_AZALEA = register(
         FallingSpinningParticle.GenericLeafProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_flowering_azalea_leaves"),
+        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_flowering_azalea"),
         DefaultParticles.GENERIC_LEAF_CONFIG,
         SimpleParticleOptions::codec,
         SimpleParticleOptions::streamCodec,

@@ -5,7 +5,7 @@
         "weight": 1,
         "block_predicate": {
           "type": "list",
-          "blocks": "block_dust"
+          "blocks": "flowering_azalea"
         }
       }
     ]

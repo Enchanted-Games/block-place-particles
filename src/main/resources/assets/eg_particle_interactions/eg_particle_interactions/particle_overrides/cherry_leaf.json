@@ -1,0 +1,12 @@
+{
+  "emitters": {
+    "default": {
+      "emitter_type": "particle_interactions",
+      "particle": {
+        "type": "simple/falling_cherry_leaves",
+        "simple_options": {}
+      },
+      "velocity_multiplier": 0.13
+    }
+  }
+}

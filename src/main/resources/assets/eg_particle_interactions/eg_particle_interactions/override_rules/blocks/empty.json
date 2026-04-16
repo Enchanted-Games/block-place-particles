@@ -1,29 +1,36 @@
 {
   "weights": {
-    "eg_particle_interactions:default": [
+    "default": [
       {
         "weight": 1,
         "block_predicate": {
           "type": "list",
           "blocks": "block_dust"
         }
+      },
+      {
+        "weight": 1,
+        "block_predicate": {
+          "type": "list",
+          "blocks": "snow_dust"
+        }
       }
     ]
   },
   "exclusions": {
-    "eg_particle_interactions:block/falling_block_falling": [
+    "block/falling_block_falling": [
       {
         "type": "list",
         "blocks": "block_dust"
       }
     ],
-    "eg_particle_interactions:block/falling_block_landed": [
+    "block/falling_block_landed": [
       {
         "type": "list",
         "blocks": "block_dust"
       }
     ],
-    "eg_particle_interactions:block/brushed": [
+    "block/brushed": [
       {
         "type": "list",
         "blocks": "block_dust"

@@ -2,10 +2,10 @@
   "weights": {
     "default": [
       {
-        "weight": 1,
+        "weight": 6,
         "block_predicate": {
           "type": "list",
-          "blocks": "block_dust"
+          "blocks": "azalea_leaf"
         }
       }
     ]
