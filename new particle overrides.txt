@@ -50,3 +50,9 @@ when spawning particles for the first time:
     - nullable item context (itemstack)
 - nullable ParticleAppearance
     - if present textures should be used from this instead of block or item
+
+
+
+
+-- needed --
+- different particles per biome, possible in emitters

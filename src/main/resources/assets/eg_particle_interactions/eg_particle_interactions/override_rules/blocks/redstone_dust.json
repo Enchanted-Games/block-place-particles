@@ -12,7 +12,7 @@
         "weight": 1,
         "block_predicate": {
           "type": "list",
-          "blocks": "partial_redstone_dust"
+          "blocks": "partial_redstone_dust_partial_vanilla"
         }
       }
     ]
