@@ -28,7 +28,7 @@
     "block/redstone_interacted_with": [
       {
         "type": "list",
-        "blocks": "partial_redstone_dust"
+        "blocks": "partial_redstone_dust_partial_vanilla"
       }
     ]
   }
