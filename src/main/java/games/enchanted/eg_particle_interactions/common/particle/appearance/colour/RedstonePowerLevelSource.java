@@ -34,13 +34,11 @@ public class RedstonePowerLevelSource implements ColourSource {
     @Override
     public int[] getARGB(ParticleContext context) {
         int effectivePower;
-        BlockPos pos;
+        BlockPos pos = context.pos();
         if(context.blockContext() != null) {
             ParticleContext.BlockContext bContext = context.blockContext();
-            pos = bContext.pos();
             effectivePower = getPowerLevelFromState(bContext.state(), this.fallbackPower);
         } else {
-            pos = BlockPos.ZERO;
             effectivePower = this.fallbackPower;
         }
 

@@ -43,7 +43,7 @@ public class BlockTintColourSource implements ColourSource {
         var source = Minecraft.getInstance().getBlockColors().getTintSource(bContext.state(), this.tintIndex);
         if(source == null) return ColourUtil.ARGBint_to_ARGB(this.fallbackARGB);
 
-        int tintColour = source.colorInWorld(bContext.state(), context.level(), bContext.pos());
+        int tintColour = source.colorInWorld(bContext.state(), context.level(), context.pos());
         return ColourUtil.RGBint_to_ARGB(tintColour);
     }
 

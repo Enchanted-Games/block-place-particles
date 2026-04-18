@@ -88,7 +88,7 @@ public abstract class BrushItem {
             double velocityMultiplier = 0.1f;
             ParticleSpawner.spawn(
                 DefaultParticles.BRUSH_DUST.get(),
-                ParticleContext.plain(clientLevel),
+                ParticleContext.plain(clientLevel, blockPos),
                 particlePos.x + (brushDirection.getStepX() * outwardVelocity),
                 particlePos.y + (brushDirection.getStepY() * outwardVelocity),
                 particlePos.z + (brushDirection.getStepZ() * outwardVelocity),

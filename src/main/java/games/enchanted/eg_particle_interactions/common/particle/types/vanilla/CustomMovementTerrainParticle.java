@@ -37,7 +37,7 @@ public class CustomMovementTerrainParticle extends TerrainParticle {
             if (blockContext == null) return null;
             BlockState state = blockContext.state();
             if (!state.isAir() && !state.is(Blocks.MOVING_PISTON) && state.shouldSpawnTerrainParticles()) {
-                return new CustomMovementTerrainParticle(context.level(), x, y, z, xSpeed, ySpeed, zSpeed, blockContext.state(), blockContext.pos());
+                return new CustomMovementTerrainParticle(context.level(), x, y, z, xSpeed, ySpeed, zSpeed, blockContext.state(), context.pos());
             }
             return null;
         }
@@ -63,7 +63,7 @@ public class CustomMovementTerrainParticle extends TerrainParticle {
             if (blockContext == null) return null;
             BlockState state = blockContext.state();
             if (!state.isAir() && !state.is(Blocks.MOVING_PISTON) && state.shouldSpawnTerrainParticles()) {
-                Particle particle = new CustomMovementTerrainParticle(context.level(), x, y, z, xSpeed, ySpeed, zSpeed, blockContext.state(), blockContext.pos());
+                Particle particle = new CustomMovementTerrainParticle(context.level(), x, y, z, xSpeed, ySpeed, zSpeed, blockContext.state(), context.pos());
                 particle.setPower(0.2F).scale(0.6F);
                 return particle;
             }

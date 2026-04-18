@@ -51,7 +51,7 @@ public class BlockTextureColourSource implements ColourSource {
             if(source == null) {
                 tintColour = 0xffffff;
             } else {
-                tintColour = source.colorInWorld(bContext.state(), context.level(), bContext.pos());
+                tintColour = source.colorInWorld(bContext.state(), context.level(), context.pos());
             }
         }
 
