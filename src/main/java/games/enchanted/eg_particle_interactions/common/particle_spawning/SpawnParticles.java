@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle_spawning;
 
+import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.config.categories.BlockInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.config.categories.EntityOptions;
 import games.enchanted.eg_particle_interactions.common.config.categories.FluidInteractionOptions;
@@ -10,6 +11,8 @@ import games.enchanted.eg_particle_interactions.common.override_system.override.
 import games.enchanted.eg_particle_interactions.common.override_system.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRule;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleManager;
 import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.DefaultParticles;
 import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
@@ -318,9 +321,9 @@ public class SpawnParticles {
         if (!ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_ENABLED.getValue()) return;
 
         BlockState blockState = level.getBlockState(particlePos);
-        boolean isSoulBlock = level.getBlockState(particlePos.below()).is(BlockTags.SOUL_FIRE_BASE_BLOCKS) || blockState.is(Blocks.SOUL_CAMPFIRE);
         double sparkIntensity = ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_INTENSITY.getValue() / 12.;
-        ParticleContext context = ParticleContext.plain(level, particlePos);
+        ParticleContext context = ParticleContext.block(level, blockState, particlePos);
+        EmitterRule emitterRule = EmitterRuleManager.getRuleById(litSomething ? EmitterRuleIds.FLINT_AND_STEEL_USE : EmitterRuleIds.FIRE_PLACED);
 
         VoxelShape shape = blockState.getCollisionShape(level, particlePos);
         boolean spawnLess = false;
@@ -339,8 +342,7 @@ public class SpawnParticles {
             double x = particlePos.getX() + 0.5 + ((level.getRandom().nextFloat() - 0.5) * 0.1);
             double y = particlePos.getY() + 0.5 + ((level.getRandom().nextFloat() - 0.5) * 0.1);
             double z = particlePos.getZ() + 0.5 + ((level.getRandom().nextFloat() - 0.5) * 0.1);
-            ParticleSpawner.spawn(
-                isSoulBlock ? DefaultParticles.FLYING_SOUL_SPARK.get() : DefaultParticles.FLYING_SPARK.get(),
+            emitterRule.getEmitter(context).spawnParticle(
                 context,
                 x,
                 y,
