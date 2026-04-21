@@ -6,6 +6,7 @@ import games.enchanted.eg_particle_interactions.common.override_system.override.
 import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearanceManager;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleManager;
 import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
 import net.minecraft.resources.Identifier;
 
@@ -14,6 +15,7 @@ public class ParticleInteractionsMod {
     public static Identifier BLOCK_OVERRIDE_RULE_RELOAD_LISTENER = ParticleInteractionsMod.id("block_override_rules");
     public static Identifier FLUID_OVERRIDE_RULE_RELOAD_LISTENER = ParticleInteractionsMod.id("fluid_override_rules");
     public static Identifier PARTICLE_APPEARANCE_RELOAD_LISTENER = ParticleInteractionsMod.id("particle_appearances");
+    public static Identifier EMITTER_RULES_RELOAD_LISTENER = ParticleInteractionsMod.id("emitter_rules");
 
     public static void startOfModLoading() {
         Logging.info("Mod init started. Compiled for {}", Constants.TARGET_PLATFORM);
@@ -41,6 +43,7 @@ public class ParticleInteractionsMod {
         PlatformHelper.registerResourceReloadListener(BlockOverrideManager.INSTANCE, BLOCK_OVERRIDE_RULE_RELOAD_LISTENER);
         PlatformHelper.registerResourceReloadListener(FluidOverrideManager.INSTANCE, FLUID_OVERRIDE_RULE_RELOAD_LISTENER);
         PlatformHelper.registerResourceReloadListener(ParticleAppearanceManager.INSTANCE, PARTICLE_APPEARANCE_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(EmitterRuleManager.INSTANCE, EMITTER_RULES_RELOAD_LISTENER);
     }
 
     public static boolean isFabricResourceLoaderPresent() {

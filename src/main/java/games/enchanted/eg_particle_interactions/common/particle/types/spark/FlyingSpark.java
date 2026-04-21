@@ -1,10 +1,8 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.spark;
 
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
-import games.enchanted.eg_particle_interactions.common.override_system.emitter.Emitter;
-import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.options.DefaultParticles;
 import games.enchanted.eg_particle_interactions.common.particle.options.SparkParticleOptions;
@@ -13,7 +11,6 @@ import games.enchanted.eg_particle_interactions.common.particle.types.physics.St
 import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
 import games.enchanted.eg_particle_interactions.common.shapes.ShapeDefinitions;
 import games.enchanted.eg_particle_interactions.common.util.LightUtil;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;

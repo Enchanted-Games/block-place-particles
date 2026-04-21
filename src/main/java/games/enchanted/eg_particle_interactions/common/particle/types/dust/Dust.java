@@ -1,11 +1,10 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.dust;
 
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
-import games.enchanted.eg_particle_interactions.common.override_system.emitter.Emitter;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.options.DustParticleOptions;
-import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomFloatProvider;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
 import net.minecraft.client.particle.Particle;

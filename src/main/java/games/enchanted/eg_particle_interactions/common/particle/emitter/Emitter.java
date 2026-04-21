@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.override_system.emitter;
+package games.enchanted.eg_particle_interactions.common.particle.emitter;
 
 import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;

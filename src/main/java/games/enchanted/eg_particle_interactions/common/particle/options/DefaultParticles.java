@@ -1,7 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.options;
 
-import games.enchanted.eg_particle_interactions.common.override_system.emitter.Emitter;
-import games.enchanted.eg_particle_interactions.common.override_system.emitter.ParticleInteractionsEmitter;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.ParticleInteractionsEmitter;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomFloatProvider;
