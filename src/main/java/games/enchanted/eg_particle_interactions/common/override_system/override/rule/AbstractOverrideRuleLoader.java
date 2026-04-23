@@ -5,7 +5,7 @@ import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import games.enchanted.eg_particle_interactions.common.Logging;
-import games.enchanted.eg_particle_interactions.common.override_system.predicate.ObjectPredicate;
+import games.enchanted.eg_particle_interactions.common.predicates.ObjectPredicate;
 import games.enchanted.eg_particle_interactions.common.override_system.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
 import net.minecraft.resources.FileToIdConverter;

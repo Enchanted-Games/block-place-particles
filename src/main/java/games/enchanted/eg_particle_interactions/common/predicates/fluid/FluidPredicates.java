@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.override_system.predicate.fluid;
+package games.enchanted.eg_particle_interactions.common.predicates.fluid;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;

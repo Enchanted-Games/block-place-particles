@@ -1,9 +1,9 @@
-package games.enchanted.eg_particle_interactions.common.override_system.predicate.block.list;
+package games.enchanted.eg_particle_interactions.common.predicates.block.list;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import games.enchanted.eg_particle_interactions.common.override_system.predicate.block.BlockStatePredicate;
+import games.enchanted.eg_particle_interactions.common.predicates.block.BlockStatePredicate;
 import games.enchanted.eg_particle_interactions.common.registry.ObjectOrTagLocation;
 
 import java.util.ArrayList;

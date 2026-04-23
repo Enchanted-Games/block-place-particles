@@ -1,7 +1,7 @@
-package games.enchanted.eg_particle_interactions.common.override_system.predicate.fluid;
+package games.enchanted.eg_particle_interactions.common.predicates.fluid;
 
 import com.mojang.serialization.MapCodec;
-import games.enchanted.eg_particle_interactions.common.override_system.predicate.ObjectPredicate;
+import games.enchanted.eg_particle_interactions.common.predicates.ObjectPredicate;
 import net.minecraft.world.level.material.FluidState;
 
 public abstract class FluidPredicate implements ObjectPredicate<FluidState> {

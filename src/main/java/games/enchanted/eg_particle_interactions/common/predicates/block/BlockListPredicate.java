@@ -1,9 +1,9 @@
-package games.enchanted.eg_particle_interactions.common.override_system.predicate.block;
+package games.enchanted.eg_particle_interactions.common.predicates.block;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import games.enchanted.eg_particle_interactions.common.override_system.predicate.block.list.BlockList;
-import games.enchanted.eg_particle_interactions.common.override_system.predicate.block.list.BlockListManager;
+import games.enchanted.eg_particle_interactions.common.predicates.block.list.BlockList;
+import games.enchanted.eg_particle_interactions.common.predicates.block.list.BlockListManager;
 import games.enchanted.eg_particle_interactions.common.registry.ObjectOrTagLocation;
 import net.minecraft.world.level.block.state.BlockState;
 

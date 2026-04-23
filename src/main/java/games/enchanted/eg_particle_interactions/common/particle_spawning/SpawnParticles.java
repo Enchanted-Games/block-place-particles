@@ -548,7 +548,6 @@ public class SpawnParticles {
         OverridePreset override = FluidOverrideManager.getForFluid(placedFluid, origin);
         ParticleContext context = ParticleContext.fluid(level, placedFluid, particlePos);
 
-        // TODO: configurable amount
         for (int i = 0; i < FluidInteractionOptions.AMOUNT_ON_PLACE.getValue(); i++) {
             double x = particlePos.getX() + level.getRandom().nextDouble();
             double y = particlePos.getY() + (level.getRandom().nextDouble() / 1.5) + 0.6;

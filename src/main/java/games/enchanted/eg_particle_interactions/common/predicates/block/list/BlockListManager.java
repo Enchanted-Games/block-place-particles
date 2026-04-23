@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.override_system.predicate.block.list;
+package games.enchanted.eg_particle_interactions.common.predicates.block.list;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
@@ -38,14 +38,14 @@ public class BlockListManager {
     public void prepareAndApply(ResourceManager manager, ProfilerFiller profiler) {
         Map<Identifier, List<BlockList.File>> blockListFiles = new HashMap<>();
 
-        for (Map.Entry<Identifier, List<Resource>> ruleFiles : FILE_TO_ID_CONVERTER.listMatchingResourceStacks(manager).entrySet()) {
-            Identifier fileId = ruleFiles.getKey();
-            Identifier overrideId = FILE_TO_ID_CONVERTER.fileToId(fileId);
+        for (Map.Entry<Identifier, List<Resource>> listResources : FILE_TO_ID_CONVERTER.listMatchingResourceStacks(manager).entrySet()) {
+            Identifier fileId = listResources.getKey();
+            Identifier listId = FILE_TO_ID_CONVERTER.fileToId(fileId);
 
             List<BlockList.File> parsedFiles = new ArrayList<>();
-            this.parseListFiles(fileId, ruleFiles.getValue(), parsedFiles);
+            this.parseListFiles(fileId, listResources.getValue(), parsedFiles);
 
-            blockListFiles.put(overrideId, parsedFiles);
+            blockListFiles.put(listId, parsedFiles);
         }
 
         LIST_BY_ID.clear();

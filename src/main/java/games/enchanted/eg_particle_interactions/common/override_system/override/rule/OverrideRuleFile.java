@@ -3,11 +3,11 @@ package games.enchanted.eg_particle_interactions.common.override_system.override
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
-import games.enchanted.eg_particle_interactions.common.override_system.predicate.ObjectPredicate;
-import games.enchanted.eg_particle_interactions.common.override_system.predicate.block.BlockPredicate;
-import games.enchanted.eg_particle_interactions.common.override_system.predicate.block.BlockPredicates;
-import games.enchanted.eg_particle_interactions.common.override_system.predicate.fluid.FluidPredicate;
-import games.enchanted.eg_particle_interactions.common.override_system.predicate.fluid.FluidPredicates;
+import games.enchanted.eg_particle_interactions.common.predicates.ObjectPredicate;
+import games.enchanted.eg_particle_interactions.common.predicates.block.BlockPredicate;
+import games.enchanted.eg_particle_interactions.common.predicates.block.BlockPredicates;
+import games.enchanted.eg_particle_interactions.common.predicates.fluid.FluidPredicate;
+import games.enchanted.eg_particle_interactions.common.predicates.fluid.FluidPredicates;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;

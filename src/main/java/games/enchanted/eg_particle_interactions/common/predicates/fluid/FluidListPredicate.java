@@ -1,9 +1,9 @@
-package games.enchanted.eg_particle_interactions.common.override_system.predicate.fluid;
+package games.enchanted.eg_particle_interactions.common.predicates.fluid;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import games.enchanted.eg_particle_interactions.common.override_system.predicate.fluid.list.FluidList;
-import games.enchanted.eg_particle_interactions.common.override_system.predicate.fluid.list.FluidListManager;
+import games.enchanted.eg_particle_interactions.common.predicates.fluid.list.FluidList;
+import games.enchanted.eg_particle_interactions.common.predicates.fluid.list.FluidListManager;
 import games.enchanted.eg_particle_interactions.common.registry.ObjectOrTagLocation;
 import net.minecraft.world.level.material.FluidState;
 
@@ -34,7 +34,7 @@ public class FluidListPredicate extends FluidPredicate {
 
     @Override
     public boolean matches(FluidState state) {
-        return ObjectOrTagLocation.doesListContainBlock(fluidList.blocksAndTags(), state.createLegacyBlock()) ||
+        return ObjectOrTagLocation.doesListContainFluid(fluidList.blocksAndTags(), state) ||
             fluidList.statePredicates().stream().anyMatch(p -> p.matches(state));
     }
 }

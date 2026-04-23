@@ -8,6 +8,7 @@ import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesReg
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearanceManager;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleManager;
 import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
+import games.enchanted.eg_particle_interactions.common.predicates.biome.list.BiomeListManager;
 import net.minecraft.resources.Identifier;
 
 public class ParticleInteractionsMod {
@@ -15,6 +16,7 @@ public class ParticleInteractionsMod {
     public static Identifier BLOCK_OVERRIDE_RULE_RELOAD_LISTENER = ParticleInteractionsMod.id("block_override_rules");
     public static Identifier FLUID_OVERRIDE_RULE_RELOAD_LISTENER = ParticleInteractionsMod.id("fluid_override_rules");
     public static Identifier PARTICLE_APPEARANCE_RELOAD_LISTENER = ParticleInteractionsMod.id("particle_appearances");
+    public static Identifier BIOME_LIST_RELOAD_LISTENER = ParticleInteractionsMod.id("biome_lists");
     public static Identifier EMITTER_RULES_RELOAD_LISTENER = ParticleInteractionsMod.id("emitter_rules");
 
     public static void startOfModLoading() {
@@ -43,6 +45,7 @@ public class ParticleInteractionsMod {
         PlatformHelper.registerResourceReloadListener(BlockOverrideManager.INSTANCE, BLOCK_OVERRIDE_RULE_RELOAD_LISTENER);
         PlatformHelper.registerResourceReloadListener(FluidOverrideManager.INSTANCE, FLUID_OVERRIDE_RULE_RELOAD_LISTENER);
         PlatformHelper.registerResourceReloadListener(ParticleAppearanceManager.INSTANCE, PARTICLE_APPEARANCE_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(BiomeListManager.INSTANCE, BIOME_LIST_RELOAD_LISTENER);
         PlatformHelper.registerResourceReloadListener(EmitterRuleManager.INSTANCE, EMITTER_RULES_RELOAD_LISTENER);
     }
 

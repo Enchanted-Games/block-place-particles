@@ -13,5 +13,7 @@ public class EmitterRuleTypes {
 
     static {
         EMITTER_RULE_TYPES.put(ParticleInteractionsMod.id("block"), BlockPredicateEmitterRuleType.CODEC);
+        EMITTER_RULE_TYPES.put(ParticleInteractionsMod.id("fluid"), FluidPredicateEmitterRuleType.CODEC);
+        EMITTER_RULE_TYPES.put(ParticleInteractionsMod.id("biome"), BiomePredicateEmitterRuleType.CODEC);
     }
 }

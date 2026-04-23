@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.override_system.predicate.fluid.list;
+package games.enchanted.eg_particle_interactions.common.predicates.fluid.list;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
@@ -36,21 +36,21 @@ public class FluidListManager {
     public static final FluidListManager INSTANCE = new FluidListManager();
 
     public void prepareAndApply(ResourceManager manager, ProfilerFiller profiler) {
-        Map<Identifier, List<FluidList.File>> FluidListFiles = new HashMap<>();
+        Map<Identifier, List<FluidList.File>> fluidListFiles = new HashMap<>();
 
-        for (Map.Entry<Identifier, List<Resource>> ruleFiles : FILE_TO_ID_CONVERTER.listMatchingResourceStacks(manager).entrySet()) {
-            Identifier fileId = ruleFiles.getKey();
-            Identifier overrideId = FILE_TO_ID_CONVERTER.fileToId(fileId);
+        for (Map.Entry<Identifier, List<Resource>> listResources : FILE_TO_ID_CONVERTER.listMatchingResourceStacks(manager).entrySet()) {
+            Identifier fileId = listResources.getKey();
+            Identifier listId = FILE_TO_ID_CONVERTER.fileToId(fileId);
 
             List<FluidList.File> parsedFiles = new ArrayList<>();
-            this.parseListFiles(fileId, ruleFiles.getValue(), parsedFiles);
+            this.parseListFiles(fileId, listResources.getValue(), parsedFiles);
 
-            FluidListFiles.put(overrideId, parsedFiles);
+            fluidListFiles.put(listId, parsedFiles);
         }
 
         LIST_BY_ID.clear();
 
-        for (Map.Entry<Identifier, List<FluidList.File>> entry : FluidListFiles.entrySet()) {
+        for (Map.Entry<Identifier, List<FluidList.File>> entry : fluidListFiles.entrySet()) {
             FluidList combined = FluidList.File.combine(entry.getValue());
             LIST_BY_ID.put(entry.getKey(), combined);
         }

@@ -1,9 +1,9 @@
-package games.enchanted.eg_particle_interactions.common.override_system.predicate.fluid.list;
+package games.enchanted.eg_particle_interactions.common.predicates.fluid.list;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import games.enchanted.eg_particle_interactions.common.override_system.predicate.fluid.FluidStatePredicate;
+import games.enchanted.eg_particle_interactions.common.predicates.fluid.FluidStatePredicate;
 import games.enchanted.eg_particle_interactions.common.registry.ObjectOrTagLocation;
 
 import java.util.ArrayList;

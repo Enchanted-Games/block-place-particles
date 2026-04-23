@@ -2,19 +2,12 @@ package games.enchanted.eg_particle_interactions.common.particle.emitter.rule.ty
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import games.enchanted.eg_particle_interactions.common.override_system.predicate.block.BlockPredicate;
-import games.enchanted.eg_particle_interactions.common.override_system.predicate.block.BlockPredicates;
-import games.enchanted.eg_particle_interactions.common.override_system.predicate.block.BlockStatePredicate;
+import games.enchanted.eg_particle_interactions.common.predicates.block.BlockPredicate;
+import games.enchanted.eg_particle_interactions.common.predicates.block.BlockPredicates;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitters;
-import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.core.Vec3i;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.util.ExtraCodecs;
-import org.joml.Vector3i;
-
-import java.util.List;
 
 public class BlockPredicateEmitterRuleType extends EmitterRuleType {
     public static final MapCodec<BlockPredicateEmitterRuleType> CODEC = RecordCodecBuilder.mapCodec(i ->
