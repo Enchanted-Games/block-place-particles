@@ -6,7 +6,7 @@ import games.enchanted.eg_particle_interactions.common.override_system.override.
 import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearanceManager;
-import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleManager;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSetManager;
 import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
 import games.enchanted.eg_particle_interactions.common.predicates.biome.list.BiomeListManager;
 import net.minecraft.resources.Identifier;
@@ -46,7 +46,7 @@ public class ParticleInteractionsMod {
         PlatformHelper.registerResourceReloadListener(FluidOverrideManager.INSTANCE, FLUID_OVERRIDE_RULE_RELOAD_LISTENER);
         PlatformHelper.registerResourceReloadListener(ParticleAppearanceManager.INSTANCE, PARTICLE_APPEARANCE_RELOAD_LISTENER);
         PlatformHelper.registerResourceReloadListener(BiomeListManager.INSTANCE, BIOME_LIST_RELOAD_LISTENER);
-        PlatformHelper.registerResourceReloadListener(EmitterRuleManager.INSTANCE, EMITTER_RULES_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(EmitterRuleSetManager.INSTANCE, EMITTER_RULES_RELOAD_LISTENER);
     }
 
     public static boolean isFabricResourceLoaderPresent() {

@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.particle.emitter.rule.types;
+package games.enchanted.eg_particle_interactions.common.particle.emitter.rule.conditions;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -9,23 +9,21 @@ import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitters;
 import net.minecraft.core.Vec3i;
 
-public class FluidPredicateEmitterRuleType extends EmitterRuleType {
-    public static final MapCodec<FluidPredicateEmitterRuleType> CODEC = RecordCodecBuilder.mapCodec(i ->
+public class FluidPredicateEmitterCondition extends EmitterCondition {
+    public static final MapCodec<FluidPredicateEmitterCondition> CODEC = RecordCodecBuilder.mapCodec(i ->
         i.group(
-            Emitters.CODEC.fieldOf(EmitterRuleType.EMITTER_FIELD).forGetter(EmitterRuleType::getEmitter),
-            Vec3i.CODEC.optionalFieldOf(EmitterRuleType.POS_OFFSET_FIELD, Vec3i.ZERO).forGetter(FluidPredicateEmitterRuleType::getPosOffset),
-            FluidPredicates.CODEC.fieldOf(EmitterRuleType.PREDICATE_FIELD).forGetter(FluidPredicateEmitterRuleType::getFluidPredicate)
+            Vec3i.CODEC.optionalFieldOf(EmitterCondition.POS_OFFSET_FIELD, Vec3i.ZERO).forGetter(FluidPredicateEmitterCondition::getPosOffset),
+            FluidPredicates.CODEC.fieldOf(EmitterCondition.PREDICATE_FIELD).forGetter(FluidPredicateEmitterCondition::getFluidPredicate)
         ).apply(
             i,
-            FluidPredicateEmitterRuleType::new
+            FluidPredicateEmitterCondition::new
         )
     );
 
     final Vec3i posOffset;
     final FluidPredicate fluidPredicate;
 
-    public FluidPredicateEmitterRuleType(Emitter emitter, Vec3i posOffset, FluidPredicate fluidPredicate) {
-        super(emitter);
+    public FluidPredicateEmitterCondition(Vec3i posOffset, FluidPredicate fluidPredicate) {
         this.posOffset = posOffset;
         this.fluidPredicate = fluidPredicate;
     }
@@ -50,7 +48,7 @@ public class FluidPredicateEmitterRuleType extends EmitterRuleType {
     }
 
     @Override
-    public MapCodec<? extends FluidPredicateEmitterRuleType> codec() {
+    public MapCodec<? extends FluidPredicateEmitterCondition> codec() {
         return CODEC;
     }
 }

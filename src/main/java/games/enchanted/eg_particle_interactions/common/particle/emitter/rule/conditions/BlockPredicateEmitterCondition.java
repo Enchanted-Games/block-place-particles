@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.particle.emitter.rule.types;
+package games.enchanted.eg_particle_interactions.common.particle.emitter.rule.conditions;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -9,23 +9,21 @@ import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitters;
 import net.minecraft.core.Vec3i;
 
-public class BlockPredicateEmitterRuleType extends EmitterRuleType {
-    public static final MapCodec<BlockPredicateEmitterRuleType> CODEC = RecordCodecBuilder.mapCodec(i ->
+public class BlockPredicateEmitterCondition extends EmitterCondition {
+    public static final MapCodec<BlockPredicateEmitterCondition> CODEC = RecordCodecBuilder.mapCodec(i ->
         i.group(
-            Emitters.CODEC.fieldOf(EmitterRuleType.EMITTER_FIELD).forGetter(EmitterRuleType::getEmitter),
-            Vec3i.CODEC.optionalFieldOf(EmitterRuleType.POS_OFFSET_FIELD, Vec3i.ZERO).forGetter(BlockPredicateEmitterRuleType::getPosOffset),
-            BlockPredicates.CODEC.fieldOf(EmitterRuleType.PREDICATE_FIELD).forGetter(BlockPredicateEmitterRuleType::getBlockPredicate)
+            Vec3i.CODEC.optionalFieldOf(EmitterCondition.POS_OFFSET_FIELD, Vec3i.ZERO).forGetter(BlockPredicateEmitterCondition::getPosOffset),
+            BlockPredicates.CODEC.fieldOf(EmitterCondition.PREDICATE_FIELD).forGetter(BlockPredicateEmitterCondition::getBlockPredicate)
         ).apply(
             i,
-            BlockPredicateEmitterRuleType::new
+            BlockPredicateEmitterCondition::new
         )
     );
 
     final Vec3i posOffset;
     final BlockPredicate blockPredicate;
 
-    public BlockPredicateEmitterRuleType(Emitter emitter, Vec3i posOffset, BlockPredicate blockPredicate) {
-        super(emitter);
+    public BlockPredicateEmitterCondition(Vec3i posOffset, BlockPredicate blockPredicate) {
         this.posOffset = posOffset;
         this.blockPredicate = blockPredicate;
     }
@@ -50,7 +48,7 @@ public class BlockPredicateEmitterRuleType extends EmitterRuleType {
     }
 
     @Override
-    public MapCodec<? extends BlockPredicateEmitterRuleType> codec() {
+    public MapCodec<? extends BlockPredicateEmitterCondition> codec() {
         return CODEC;
     }
 }

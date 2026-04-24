@@ -1,6 +1,5 @@
 package games.enchanted.eg_particle_interactions.common.particle_spawning;
 
-import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.config.categories.BlockInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.config.categories.EntityOptions;
 import games.enchanted.eg_particle_interactions.common.config.categories.FluidInteractionOptions;
@@ -11,8 +10,8 @@ import games.enchanted.eg_particle_interactions.common.override_system.override.
 import games.enchanted.eg_particle_interactions.common.override_system.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
-import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRule;
-import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleManager;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSet;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSetManager;
 import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.DefaultParticles;
 import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
@@ -25,7 +24,6 @@ import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
@@ -323,7 +321,7 @@ public class SpawnParticles {
         BlockState blockState = level.getBlockState(particlePos);
         double sparkIntensity = ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_INTENSITY.getValue() / 12.;
         ParticleContext context = ParticleContext.block(level, blockState, particlePos);
-        EmitterRule emitterRule = EmitterRuleManager.getRuleById(litSomething ? EmitterRuleIds.FLINT_AND_STEEL_USE : EmitterRuleIds.FIRE_PLACED);
+        EmitterRuleSet emitterRule = EmitterRuleSetManager.getRuleSet(litSomething ? EmitterRuleSetIds.FLINT_AND_STEEL_USE : EmitterRuleSetIds.FIRE_PLACED);
 
         VoxelShape shape = blockState.getCollisionShape(level, particlePos);
         boolean spawnLess = false;
