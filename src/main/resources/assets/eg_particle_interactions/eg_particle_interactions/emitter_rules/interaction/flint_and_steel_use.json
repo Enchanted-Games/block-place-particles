@@ -1,5 +1,23 @@
 {
   "rules": [
+    {
+      "conditions": [
+        {
+          "type": "block",
+          "predicate": {
+            "type": "list",
+            "blocks": "interaction/soul_sparks"
+          }
+        }
+      ],
+      "emitter": {
+        "emitter_type": "particle_interactions",
+        "particle": {
+          "type": "spark/flying_soul_spark",
+          "spark_options": {}
+        }
+      }
+    }
   ],
   "fallback_emitter": {
     "emitter_type": "particle_interactions",

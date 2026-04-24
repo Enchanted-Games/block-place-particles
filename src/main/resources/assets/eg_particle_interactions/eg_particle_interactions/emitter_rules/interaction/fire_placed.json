@@ -1,18 +1,21 @@
 {
   "rules": [
     {
-      "type": "block",
+      "conditions": [
+        {
+          "type": "block",
+          "predicate": {
+            "type": "list",
+            "blocks": "interaction/soul_sparks"
+          }
+        }
+      ],
       "emitter": {
         "emitter_type": "particle_interactions",
         "particle": {
           "type": "spark/flying_soul_spark",
           "spark_options": {}
         }
-      },
-
-      "predicate": {
-        "type": "block_state",
-        "block": "soul_fire"
       }
     }
   ],
