@@ -25,11 +25,6 @@ public class BlockSplash extends BucketSplash {
     }
 
     @Override
-    protected @NonNull ParticleLayer getParticleLayer() {
-        return ParticleLayer.TERRAIN;
-    }
-
-    @Override
     protected float getU0() {
         return this.currentSprite.getU((this.uo + 1.0F) / 4.0F);
     }

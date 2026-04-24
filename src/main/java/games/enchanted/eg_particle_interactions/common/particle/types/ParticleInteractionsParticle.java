@@ -98,9 +98,9 @@ public abstract class ParticleInteractionsParticle extends Particle {
         this.velocityDecay = (1 - config.getVelocityDecayProvider().getValue(context));
     }
 
-    protected SingleQuadParticle.Layer getLayer() {
+    protected SingleQuadParticle.Layer getVanillaLayer() {
         ParticleLayer layer = this.getParticleLayer();
-        return layer.layer();
+        return layer.vanillaLayer();
     }
 
     @Override
@@ -116,7 +116,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
             quaternionf.rotateZ(Mth.lerp(partialTicks, this.prevRoll, this.roll));
         }
 
-        StateQuadConsumer consumer = new StateQuadConsumer(state, this.getLayer());
+        StateQuadConsumer consumer = new StateQuadConsumer(state, this.getVanillaLayer());
         this.adjustPositionBeforeExtraction(consumer, camera, quaternionf, partialTicks);
     }
 

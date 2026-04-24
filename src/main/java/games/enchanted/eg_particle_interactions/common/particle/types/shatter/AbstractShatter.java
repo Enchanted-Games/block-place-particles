@@ -147,9 +147,4 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
         consumer.addVertex(quaternion, x, y, z, this.slice1X, this.inverseSlicePositions ? this.slice1Y : 0, scale, u0, v1, lightColour, r, g, b, a);
         consumer.finishQuad();
     }
-
-    @Override
-    protected @NonNull ParticleLayer getParticleLayer() {
-        return ParticleLayer.BACKFACE_TERRAIN;
-    }
 }
