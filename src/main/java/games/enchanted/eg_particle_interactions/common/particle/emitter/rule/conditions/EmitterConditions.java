@@ -15,5 +15,8 @@ public class EmitterConditions {
         EMITTER_RULE_TYPES.put(ParticleInteractionsMod.id("block"), BlockPredicateEmitterCondition.CODEC);
         EMITTER_RULE_TYPES.put(ParticleInteractionsMod.id("fluid"), FluidPredicateEmitterCondition.CODEC);
         EMITTER_RULE_TYPES.put(ParticleInteractionsMod.id("biome"), BiomePredicateEmitterCondition.CODEC);
+        EMITTER_RULE_TYPES.put(ParticleInteractionsMod.id("logic/and"), AndLogicEmitterCondition.CODEC);
+        EMITTER_RULE_TYPES.put(ParticleInteractionsMod.id("logic/or"), OrLogicEmitterCondition.CODEC);
+        EMITTER_RULE_TYPES.put(ParticleInteractionsMod.id("logic/not"), NotLogicEmitterCondition.CODEC);
     }
 }
