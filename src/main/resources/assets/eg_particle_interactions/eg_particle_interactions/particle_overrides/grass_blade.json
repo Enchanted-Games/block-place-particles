@@ -1,12 +1,75 @@
 {
   "emitters": {
     "default": {
-      "emitter_type": "particle_interactions",
-      "particle": {
-        "type": "simple/grass_blade",
-        "simple_options": {}
-      },
-      "velocity_multiplier": 0.13
+      "rules": [
+        {
+          "conditions": [
+            {
+              "type": "logic/and",
+              "conditions": [
+                {
+                  "type": "block",
+                  "predicate": {
+                    "type": "list",
+                    "blocks": "partial_grass_blade_partial_firefly"
+                  }
+                },
+                {
+                  "type": "light_level",
+                  "sky": {
+                    "min": 12,
+                    "max": 15
+                  },
+                  "block": {
+                    "min": 0,
+                    "max": 5
+                  }
+                },
+                {
+                  "type": "biome",
+                  "predicate": {
+                    "type": "list",
+                    "biomes": "swampy"
+                  }
+                }
+              ]
+            }
+          ],
+          "emitter": {
+            "emitter_type": "random",
+            "emitters": [
+              {
+                "weight": 8,
+                "emitter": {
+                  "emitter_type": "particle_interactions",
+                  "particle": {
+                    "type": "simple/grass_blade",
+                    "simple_options": {}
+                  },
+                  "velocity_multiplier": 0.13
+                }
+              },
+              {
+                "weight": 1,
+                "emitter": {
+                  "emitter_type": "vanilla",
+                  "particle": {
+                    "type": "firefly"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "fallback_emitter": {
+        "emitter_type": "particle_interactions",
+        "particle": {
+          "type": "simple/grass_blade",
+          "simple_options": {}
+        },
+        "velocity_multiplier": 0.13
+      }
     }
   }
 }
