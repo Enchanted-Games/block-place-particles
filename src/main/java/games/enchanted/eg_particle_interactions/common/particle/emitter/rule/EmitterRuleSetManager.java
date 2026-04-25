@@ -28,7 +28,7 @@ public class EmitterRuleSetManager extends SimplePreparableReloadListener<Emitte
         ModCodecs.IDENTIFIER.xmap(
             EmitterRuleSetManager::getRuleSet,
             emitterRuleSet -> {
-                throw new IllegalStateException("Cannot serialise biome list to id");
+                throw new IllegalStateException("Cannot serialise emitter rule set to id");
             }
         )
     );
