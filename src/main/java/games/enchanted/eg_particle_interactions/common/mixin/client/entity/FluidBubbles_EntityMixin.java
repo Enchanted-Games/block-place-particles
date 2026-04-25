@@ -55,15 +55,16 @@ public class FluidBubbles_EntityMixin {
 
         OverridePreset overridePreset = FluidOverrideManager.getForFluid(Fluids.WATER.defaultFluidState(), origin);
         ParticleOverride override = overridePreset.getRandom();
+        ParticleContext context = ParticleContext.fluid(clientLevel, Fluids.WATER.defaultFluidState(), BlockPos.containing(x, y, z));
 
-        if(override.hasNoEmitter(origin)) {
+        if(override.hasNoEmitter(origin, context)) {
             original.call(instance, particle, x, y, z, xd, yd, zd);
             return;
         }
 
         override.spawnParticle(
             origin,
-            ParticleContext.fluid(clientLevel, Fluids.WATER.defaultFluidState(), BlockPos.containing(x, y, z)),
+            context,
             x,
             y,
             z,

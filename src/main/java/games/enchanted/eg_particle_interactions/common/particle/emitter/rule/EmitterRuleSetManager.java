@@ -2,9 +2,11 @@ package games.enchanted.eg_particle_interactions.common.particle.emitter.rule;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.Logging;
+import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
@@ -21,6 +23,15 @@ import java.util.Map;
 
 public class EmitterRuleSetManager extends SimplePreparableReloadListener<EmitterRuleSetManager.Preparation> {
     public static final EmitterRuleSetManager INSTANCE = new EmitterRuleSetManager();
+
+    public static final Codec<EmitterRuleSet> INLINE_OR_ID_CODEC = EmitterRuleSet.CODEC.withAlternative(
+        ModCodecs.IDENTIFIER.xmap(
+            EmitterRuleSetManager::getRuleSet,
+            emitterRuleSet -> {
+                throw new IllegalStateException("Cannot serialise biome list to id");
+            }
+        )
+    );
 
     private static final HashMap<Identifier, EmitterRuleSet> RULE_SET_BY_ID = new HashMap<>();
     private static final FileToIdConverter RULE_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/emitter_rules");

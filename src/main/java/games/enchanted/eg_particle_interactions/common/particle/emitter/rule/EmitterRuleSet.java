@@ -13,6 +13,11 @@ import java.util.List;
 public record EmitterRuleSet(List<EmitterRule> rules, Emitter fallbackEmitter) {
     public static final EmitterRuleSet EMPTY = new EmitterRuleSet(List.of(), EmptyEmitter.INSTANCE);
 
+    public static final Codec<EmitterRuleSet> CODEC = File.CODEC.xmap(
+        file -> combineFiles(List.of(file)),
+        emitterRuleSet -> new File(emitterRuleSet.rules, emitterRuleSet.fallbackEmitter)
+    );
+
     public Emitter getEmitter(ParticleContext context) {
         for (EmitterRule rule : this.rules()) {
             if(!rule.matches(context)) continue;

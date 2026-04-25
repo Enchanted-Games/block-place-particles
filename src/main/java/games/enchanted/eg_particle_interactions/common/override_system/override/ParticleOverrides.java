@@ -8,8 +8,6 @@ import com.mojang.serialization.JsonOps;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
-import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
-import games.enchanted.eg_particle_interactions.common.particle.emitter.EmptyEmitter;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
@@ -56,7 +54,7 @@ public class ParticleOverrides extends SimplePreparableReloadListener<ParticleOv
     @Override
     protected void apply(Preparation preparations, ResourceManager manager, ProfilerFiller profiler) {
         clearRegisteredOverrides();
-        registerOverride(FALLBACK_OVERRIDE_ID, new ParticleOverride(Map.of(ParticleOrigin.DEFAULT, EmptyEmitter.INSTANCE)));
+        registerOverride(FALLBACK_OVERRIDE_ID, ParticleOverride.EMPTY);
 
         Map<Identifier, ParticleOverride> preparedOverrides = preparations.overrideList();
         for (Map.Entry<Identifier, ParticleOverride> overrideEntry : preparedOverrides.entrySet()) {

@@ -1,21 +1,6 @@
 {
   "emitters": {
-    "default": {
-      "emitter_type": "particle_interactions",
-      "particle": {
-        "type": "dust/block_dust",
-        "dust_options": {
-          "speck_emitter": {
-            "emitter_type": "particle_interactions",
-            "particle": {
-              "type": "dust/block_dust_speck",
-              "dust_options": {}
-            }
-          }
-        }
-      },
-      "velocity_multiplier": 0.13
-    },
+    "default": "interaction/fire_placed",
     "block/falling_block_unstable": {
       "emitter_type": "particle_interactions",
       "particle": {
