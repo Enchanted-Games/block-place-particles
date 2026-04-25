@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import org.jspecify.annotations.Nullable;
 
-public record ParticleContext(ClientLevel level, BlockPos pos, @Nullable BlockContext blockContext, @Nullable FluidContext fluidContext, @Nullable ItemStack stack) {
+public record ParticleContext(ClientLevel level, BlockPos pos, @Nullable BlockContext blockContext, @Nullable FluidContext fluidContext, @Nullable ItemContext stack) {
     public static ParticleContext plain(ClientLevel level, BlockPos pos) {
         return new ParticleContext(level, pos, null, null, null);
     }
@@ -24,5 +24,8 @@ public record ParticleContext(ClientLevel level, BlockPos pos, @Nullable BlockCo
     }
 
     public record FluidContext(FluidState state) {
+    }
+
+    public record ItemContext(ItemStack stack) {
     }
 }
