@@ -14,7 +14,15 @@
         "emitter_type": "particle_interactions",
         "particle": {
           "type": "spark/flying_soul_spark",
-          "spark_options": {}
+          "spark_options": {
+            "flash_emitter": {
+              "emitter_type": "particle_interactions",
+              "particle": {
+                "type": "simple/soul_spark_flash",
+                "simple_options": {}
+              }
+            }
+          }
         }
       }
     }
@@ -23,7 +31,15 @@
     "emitter_type": "particle_interactions",
     "particle": {
       "type": "spark/flying_spark",
-      "spark_options": {}
+      "spark_options": {
+        "flash_emitter": {
+          "emitter_type": "particle_interactions",
+          "particle": {
+            "type": "simple/spark_flash",
+            "simple_options": {}
+          }
+        }
+      }
     }
   }
 }

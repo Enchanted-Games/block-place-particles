@@ -18,19 +18,19 @@ import java.util.Optional;
 public class SparkParticleOptions implements PIParticleOptions {
     private final PIParticleType<SparkParticleOptions> type;
     private final ParticleConfig config;
-    private final @Nullable Emitter speckEmitter;
+    private final @Nullable Emitter flashEmitter;
 
     public SparkParticleOptions(PIParticleType<SparkParticleOptions> type, ParticleConfig config, @Nullable Emitter flashEmitter) {
         this.type = type;
         this.config = config;
-        this.speckEmitter = flashEmitter;
+        this.flashEmitter = flashEmitter;
     }
 
     private static Codec<SparkParticleOptions> createCodec(PIParticleType<SparkParticleOptions> type, ParticleConfig defaultConfig) {
         return RecordCodecBuilder.create((RecordCodecBuilder.Instance<SparkParticleOptions> instance) ->
             instance.group(
                 ParticleConfig.createCodec(defaultConfig).forGetter(SparkParticleOptions::config),
-                Emitters.CODEC.optionalFieldOf("flash_emitter").forGetter(dustParticleOptions -> Optional.ofNullable(dustParticleOptions.getFlashEmitter()))
+                Emitters.CODEC.optionalFieldOf("flash_emitter").forGetter(options -> Optional.ofNullable(options.getFlashEmitter()))
             ).apply(
                 instance,
                 (
@@ -68,6 +68,6 @@ public class SparkParticleOptions implements PIParticleOptions {
     }
 
     public @Nullable Emitter getFlashEmitter() {
-        return this.speckEmitter;
+        return this.flashEmitter;
     }
 }
