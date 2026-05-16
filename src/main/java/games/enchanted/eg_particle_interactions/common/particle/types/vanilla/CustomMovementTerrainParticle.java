@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.particle.types.vanilla;
 
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.options.SimpleParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -24,14 +25,8 @@ public class CustomMovementTerrainParticle extends TerrainParticle {
         @Override
         public @Nullable Particle createParticle(
             SimpleParticleOptions options,
-            ParticleContext context,
-            ParticleAppearance appearance,
-            double x,
-            double y,
-            double z,
-            double xSpeed,
-            double ySpeed,
-            double zSpeed
+            ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context,
+            double x, double z, double y, double xSpeed, double ySpeed, double zSpeed
         ) {
             ParticleContext.BlockContext blockContext = context.blockContext();
             if (blockContext == null) return null;
@@ -50,11 +45,12 @@ public class CustomMovementTerrainParticle extends TerrainParticle {
         @Override
         public @Nullable Particle createParticle(
             SimpleParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed

@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.particle.types.emitter.a
 
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.DefaultParticles;
 import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
@@ -10,8 +11,8 @@ import net.minecraft.client.particle.Particle;
 import org.jetbrains.annotations.Nullable;
 
 public class ArcEmitter extends AbstractArcEmitter {
-    protected ArcEmitter(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, ArcEmitterOptions options) {
-        super(context, appearance, options.config(), x, y, z, 0, 0, 0, options);
+    protected ArcEmitter(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, double x, double y, double z, ArcEmitterOptions options) {
+        super(components, appearance, context, options.config(), x, y, z, 0, 0, 0, options);
     }
 
     @Override
@@ -26,16 +27,17 @@ public class ArcEmitter extends AbstractArcEmitter {
         @Override
         public @Nullable Particle createParticle(
             ArcEmitterOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            return new ArcEmitter(context, appearance, x, y, z, options);
+            return new ArcEmitter(components, appearance, context, x, y, z, options);
         }
     }
 }

@@ -8,6 +8,8 @@ import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.SpriteCycleMode;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.texture.TextureConfig;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponents;
 import games.enchanted.eg_particle_interactions.common.particle.render.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.StateQuadConsumer;
@@ -53,14 +55,14 @@ public abstract class ParticleInteractionsParticle extends Particle {
     private float alpha = 1.0f;
     private float prevAlpha = 1.0f;
 
-    protected ParticleInteractionsParticle(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z) {
-        this(context, appearance, config, x, y, z, 0, 0, 0);
+    protected ParticleInteractionsParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z) {
+        this(components, appearance, context, config, y, z, 0, 0, 0, x);
         this.xd = 0;
         this.yd = 0;
         this.zd = 0;
     }
 
-    protected ParticleInteractionsParticle(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+    protected ParticleInteractionsParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double y, double z, double xSpeed, double ySpeed, double zSpeed, double x) {
         super(context.level(), x, y, z, xSpeed, ySpeed, zSpeed);
         ClientLevel level = context.level();
 
@@ -75,6 +77,11 @@ public abstract class ParticleInteractionsParticle extends Particle {
         this.pickSpriteForAppearance();
 
         this.gravity = config.getGravityProvider().getValue(context);
+        var gravityComponent = components.get(ParticleComponents.GRAVITY);
+        if(gravityComponent != null) {
+            this.gravity = gravityComponent.initialGravity().getValue(context);
+        }
+
         this.lifetime = config.getLifetimeProvider().getValue(context);
         float collisionSize = config.getCollisionSizeProvider().getValue(context);
         this.setSize(collisionSize, collisionSize);

@@ -3,11 +3,12 @@ package games.enchanted.eg_particle_interactions.common.particle.types.constant_
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
 
 public class ConstantMotionParticle extends ParticleInteractionsParticle {
-    protected ConstantMotionParticle(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, double constantXSpeed, double constantYSpeed, double constantZSpeed, float quadSize) {
-        super(context, appearance, config, x, y, z, constantXSpeed, constantYSpeed, constantZSpeed);
+    protected ConstantMotionParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, double constantXSpeed, double constantYSpeed, double constantZSpeed, float quadSize) {
+        super(components, appearance, context, config, y, z, constantXSpeed, constantYSpeed, constantZSpeed, x);
         this.setScale(quadSize);
     }
 

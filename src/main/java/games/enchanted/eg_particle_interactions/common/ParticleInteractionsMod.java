@@ -6,6 +6,7 @@ import games.enchanted.eg_particle_interactions.common.override_system.override.
 import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearanceManager;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponents;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSetManager;
 import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
 import games.enchanted.eg_particle_interactions.common.predicates.biome.list.BiomeListManager;
@@ -22,6 +23,7 @@ public class ParticleInteractionsMod {
     public static void startOfModLoading() {
         Logging.info("Mod init started. Compiled for {}", Constants.TARGET_PLATFORM);
 
+        ParticleComponents.init();
         ParticleTypesRegistry.init();
 
         // register reload listeners here if fabric api is installed or if targeting neoforge

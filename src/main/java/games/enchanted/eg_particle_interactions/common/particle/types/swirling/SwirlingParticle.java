@@ -3,6 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.types.swirling;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 
@@ -14,8 +15,8 @@ public class SwirlingParticle extends ParticleInteractionsParticle {
     protected final boolean shouldSwirl;
 
     // TODO: swirling particle options
-    protected SwirlingParticle(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, boolean shouldSwirl) {
-        super(context, appearance, config, x, y, z, xSpeed, ySpeed, zSpeed);
+    protected SwirlingParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, boolean shouldSwirl) {
+        super(components, appearance, context, config, y, z, xSpeed, ySpeed, zSpeed, x);
         this.xd = xSpeed;
         this.yd = ySpeed;
         this.zd = zSpeed;

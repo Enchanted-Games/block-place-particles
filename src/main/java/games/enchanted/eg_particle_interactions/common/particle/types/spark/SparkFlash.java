@@ -3,6 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.types.spark;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.options.SimpleParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
@@ -13,8 +14,8 @@ public class SparkFlash extends ParticleInteractionsParticle {
     private final float originalQuadSize;
     protected final boolean useRandomAnimation;
 
-    SparkFlash(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, boolean useRandomAnimation) {
-        super(context, appearance, config, x, y, z, xSpeed, ySpeed, zSpeed);
+    SparkFlash(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, boolean useRandomAnimation) {
+        super(components, appearance, context, config, y, z, xSpeed, ySpeed, zSpeed, x);
         this.speedUpWhenYMotionIsBlocked = true;
         this.friction = 0.96F;
 
@@ -47,16 +48,17 @@ public class SparkFlash extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             SimpleParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            return new SparkFlash(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, false);
+            return new SparkFlash(components, appearance, context, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, false);
         }
     }
 
@@ -67,16 +69,17 @@ public class SparkFlash extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             SimpleParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            return new SparkFlash(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, true);
+            return new SparkFlash(components, appearance, context, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, true);
         }
     }
 }

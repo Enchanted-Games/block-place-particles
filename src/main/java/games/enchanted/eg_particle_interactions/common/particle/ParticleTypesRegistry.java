@@ -7,7 +7,11 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponents;
+import games.enchanted.eg_particle_interactions.common.particle.component.type.GravityComponent;
 import games.enchanted.eg_particle_interactions.common.particle.options.*;
+import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomFloatProvider;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.types.vanilla.CustomMovementTerrainParticle;
 import games.enchanted.eg_particle_interactions.common.particle.types.bubble.UnderwaterRisingBubble;
@@ -67,6 +71,9 @@ public class ParticleTypesRegistry {
         Dust.SnowflakeProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "snowflake"),
         DefaultParticles.SNOWFLAKE_CONFIG,
+        ParticleComponentMap.Builder.create()
+            .set(ParticleComponents.GRAVITY, new GravityComponent(new RandomFloatProvider(0, 0)))
+        .build(),
         DustParticleOptions::codec,
         DustParticleOptions::streamCodec,
         DustParticleOptions::idPrefix
@@ -458,7 +465,19 @@ public class ParticleTypesRegistry {
         StreamCodecGetter<T> streamCodecGetter,
         Supplier<String> idPrefix
     ) {
-        PIParticleType<T> type = new PIParticleType<>() {
+        return register(providerCreator, id, defaultConfig, ParticleComponentMap.EMPTY, codecGetter, streamCodecGetter, idPrefix);
+    }
+
+    private static <T extends PIParticleOptions> PIParticleType<T> register(
+        PIProviderCreator<T> providerCreator,
+        Identifier id,
+        ParticleConfig defaultConfig,
+        ParticleComponentMap components,
+        CodecGetter<T> codecGetter,
+        StreamCodecGetter<T> streamCodecGetter,
+        Supplier<String> idPrefix
+    ) {
+        PIParticleType<T> type = new PIParticleType<>(components) {
             public @NotNull MapCodec<T> codec() {
                 return codecGetter.create(this, defaultConfig);
             }

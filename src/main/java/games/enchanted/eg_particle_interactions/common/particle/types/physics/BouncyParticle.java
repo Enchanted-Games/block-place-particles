@@ -4,6 +4,7 @@ import games.enchanted.eg_particle_interactions.common.config.categories.General
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
@@ -30,8 +31,8 @@ public abstract class BouncyParticle extends ParticleInteractionsParticle {
      * A single quad particle has simple bouncing physics.
      * Set {@link #physics_bounciness} or {@link #physics_passThroughFluidSpeed} in your particle constructor to adjust the particle physics
      */
-    protected BouncyParticle(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        super(context, appearance, config, x, y, z, xSpeed, ySpeed, zSpeed);
+    protected BouncyParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        super(components, appearance, context, config, y, z, xSpeed, ySpeed, zSpeed, x);
     }
 
     protected float getTotalVelocity() {

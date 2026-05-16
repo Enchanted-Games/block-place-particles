@@ -4,12 +4,11 @@ import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.options.DripParticleOption;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
-import games.enchanted.eg_particle_interactions.common.particle.render.layer.ParticleLayer;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
 import net.minecraft.client.particle.Particle;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 public class DripAndLandParticle extends ParticleInteractionsParticle {
@@ -21,8 +20,8 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
     protected float v0;
     protected float v1;
 
-    DripAndLandParticle(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, DripParticleOption dripParticleOption) {
-        super(context, appearance, config, x, y, z);
+    DripAndLandParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, DripParticleOption dripParticleOption) {
+        super(components, appearance, context, config, x, y, z);
         this.setScale(0.15f);
 
         this.startFallingAtTicks = dripParticleOption.getStartFallingTicks().getValue(context);
@@ -105,8 +104,19 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
         }
 
         @Override
-        public @Nullable Particle createParticle(DripParticleOption options, ParticleContext context, ParticleAppearance particleAppearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new DripAndLandParticle(context, particleAppearance, options.config(), x, y, z, options);
+        public @Nullable Particle createParticle(
+            DripParticleOption options,
+            ParticleComponentMap components,
+            ParticleAppearance appearance,
+            ParticleContext context,
+            double x,
+            double z,
+            double y,
+            double xSpeed,
+            double ySpeed,
+            double zSpeed
+        ) {
+            return new DripAndLandParticle(components, appearance, context, options.config(), x, y, z, options);
         }
     }
 }

@@ -1,6 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.spark;
 
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
@@ -25,8 +26,8 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
 
     protected final @Nullable Emitter flashEmitter;
 
-    protected FlyingSpark(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SparkParticleOptions options) {
-        super(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed);
+    protected FlyingSpark(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SparkParticleOptions options) {
+        super(components, appearance, context, options.config(), x, y, z, xSpeed, ySpeed, zSpeed);
         this.friction = 1.0f;
 
         this.xd = (xSpeed / 2) + (Math.random() * 3.0 - 1.5) * 0.05 * (this.random.nextFloat() > 0.95 ? 2 : 1);
@@ -117,16 +118,17 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         @Override
         public @Nullable Particle createParticle(
             SparkParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            return new FlyingSpark(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, options);
+            return new FlyingSpark(components, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed, options);
         }
     }
 
@@ -137,16 +139,17 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
         @Override
         public @Nullable Particle createParticle(
             SparkParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            return new FlyingSpark(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, options);
+            return new FlyingSpark(components, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed, options);
         }
     }
 }

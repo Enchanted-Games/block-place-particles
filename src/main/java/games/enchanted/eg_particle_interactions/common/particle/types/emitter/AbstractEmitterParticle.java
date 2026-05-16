@@ -4,6 +4,7 @@ import games.enchanted.eg_particle_interactions.common.config.categories.General
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
 import net.minecraft.client.particle.ParticleRenderType;
@@ -17,8 +18,8 @@ public abstract class AbstractEmitterParticle extends ParticleInteractionsPartic
     protected float emitterHeight;
     protected float emitterDepth;
 
-    public AbstractEmitterParticle(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, float width, float height, float depth) {
-        super(context, appearance, config, x, y, z);
+    public AbstractEmitterParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, float width, float height, float depth) {
+        super(components, appearance, context, config, x, y, z);
         this.emitterWidth = width;
         this.emitterHeight = height;
         this.emitterDepth = depth;

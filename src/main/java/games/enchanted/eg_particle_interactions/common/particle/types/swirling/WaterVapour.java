@@ -3,6 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.types.swirling;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.options.SimpleParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
@@ -10,8 +11,8 @@ import net.minecraft.client.particle.Particle;
 import org.jetbrains.annotations.Nullable;
 
 public class WaterVapour extends SwirlingParticle {
-    protected WaterVapour(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, boolean shouldSwirl) {
-        super(context, appearance, config, x, y, z, xSpeed, ySpeed, zSpeed, shouldSwirl);
+    protected WaterVapour(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, boolean shouldSwirl) {
+        super(components, appearance, context, config, x, y, z, xSpeed, ySpeed, zSpeed, shouldSwirl);
         this.setInitialVelocity(xSpeed, ySpeed, zSpeed, 0.015f);
 
         this.rotSpeed = 0f;
@@ -29,16 +30,17 @@ public class WaterVapour extends SwirlingParticle {
         @Override
         public @Nullable Particle createParticle(
             SimpleParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            return new WaterVapour(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, true);
+            return new WaterVapour(components, appearance, context, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, true);
         }
     }
 }

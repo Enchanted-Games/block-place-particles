@@ -42,11 +42,12 @@ public class ParticleSpawner {
 
         Particle particle = provider.createParticle(
             options,
-            context,
+            type.components(),
             appearance != null ? appearance : ParticleAppearanceManager.get(particleId),
+            context,
             x,
-            y,
             z,
+            y,
             xSpeed,
             ySpeed,
             zSpeed

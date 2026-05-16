@@ -3,8 +3,8 @@ package games.enchanted.eg_particle_interactions.common.particle.types.shatter;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
-import games.enchanted.eg_particle_interactions.common.particle.render.layer.ParticleLayer;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.core.Direction;
@@ -21,8 +21,8 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
     protected final float uvOffset;
     protected final boolean inverseSlicePositions;
 
-    protected AbstractShatter(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        super(context, appearance, config, x, y, z, xSpeed, ySpeed, zSpeed);
+    protected AbstractShatter(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        super(components, appearance, context, config, y, z, xSpeed, ySpeed, zSpeed, x);
 
         int spriteWidth = this.currentSprite.contents().width();
         int randomSize = MathHelpers.randomBetween(3, 5);

@@ -3,6 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.types.shatter;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.options.SimpleParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import net.minecraft.client.particle.Particle;
@@ -14,8 +15,8 @@ import org.jspecify.annotations.Nullable;
 public class BlockShatter extends AbstractShatter {
     protected final @Nullable Direction facingDirection;
 
-    protected BlockShatter(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        super(context, appearance, config, x, y, z, xSpeed, ySpeed, zSpeed);
+    protected BlockShatter(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        super(components, appearance, context, config, x, y, z, xSpeed, ySpeed, zSpeed);
 
         if (context.blockContext() != null) {
             BlockState state = context.blockContext().state();
@@ -37,16 +38,17 @@ public class BlockShatter extends AbstractShatter {
         @Override
         public @Nullable Particle createParticle(
             SimpleParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            return new BlockShatter(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed);
+            return new BlockShatter(components, appearance, context, options.config(), x, y, z, xSpeed, ySpeed, zSpeed);
         }
     }
 }

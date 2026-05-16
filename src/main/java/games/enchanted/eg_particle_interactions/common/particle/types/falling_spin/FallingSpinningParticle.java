@@ -5,6 +5,7 @@ import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.cli
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.options.SimpleParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
@@ -18,8 +19,8 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
     protected float spinAcceleration;
     protected float maxSpinSpeed = 1f;
 
-    protected FallingSpinningParticle(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float gravityMultiplier) {
-        super(context, appearance, config, x, y, z, xSpeed, ySpeed, zSpeed);
+    protected FallingSpinningParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float gravityMultiplier) {
+        super(components, appearance, context, config, y, z, xSpeed, ySpeed, zSpeed, x);
 
         this.spinAcceleration = (float) Math.toRadians(this.random.nextBoolean() ? -5.0 : 5.0);
         this.roll = (float) Math.toRadians(this.random.nextIntBetweenInclusive(0, 360));
@@ -56,16 +57,17 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             SimpleParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            FallingSpinningParticle particle = new FallingSpinningParticle(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, 1f);
+            FallingSpinningParticle particle = new FallingSpinningParticle(components, appearance, context, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, 1f);
             float particleSize = context.level().getRandom().nextBoolean() ? 0.1f : 0.12f;
             particle.setScale(particleSize);
             return particle;
@@ -79,16 +81,17 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             SimpleParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            FallingSpinningParticle particle = new FallingSpinningParticle(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, 2f);
+            FallingSpinningParticle particle = new FallingSpinningParticle(components, appearance, context, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, 2f);
             float particleSize = MathHelpers.randomBetween(0.08f, 0.12f);
             particle.setScale(particleSize);
             return particle;
@@ -102,16 +105,17 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             SimpleParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            FallingSpinningParticle particle = new FallingSpinningParticle(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, 0.6f);
+            FallingSpinningParticle particle = new FallingSpinningParticle(components, appearance, context, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, 0.6f);
             float particleSize = context.level().getRandom().nextBoolean() ? 0.1f : 0.12f;
             particle.setScale(particleSize);
             particle.maxSpinSpeed = 0.1f;
@@ -127,16 +131,17 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             SimpleParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            FallingSpinningParticle particle = new FallingSpinningParticle(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, 1f);
+            FallingSpinningParticle particle = new FallingSpinningParticle(components, appearance, context, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, 1f);
             particle.maxSpinSpeed = 0.5f;
             return particle;
         }
@@ -149,16 +154,17 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             SimpleParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            FallingSpinningParticle particle = new FallingSpinningParticle(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, 1f);
+            FallingSpinningParticle particle = new FallingSpinningParticle(components, appearance, context, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, 1f);
             float particleSize = context.level().getRandom().nextBoolean() ? 0.10F : 0.12F;
             particle.setScale(particleSize);
             return particle;
@@ -172,16 +178,17 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             SimpleParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            FallingSpinningParticle particle = new FallingSpinningParticle(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, 2f);
+            FallingSpinningParticle particle = new FallingSpinningParticle(components, appearance, context, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, 2f);
             float particleSize = context.level().getRandom().nextBoolean() ? 0.10F : 0.12F;
             particle.setScale(particleSize);
             return particle;
@@ -195,16 +202,17 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             SimpleParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            FallingSpinningParticle particle = new FallingSpinningParticle(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, 3f);
+            FallingSpinningParticle particle = new FallingSpinningParticle(components, appearance, context, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, 3f);
             ClientLevel level = context.level();
             float particleSize = level.getRandom().nextBoolean() ? 0.14F : 0.15F;
             particle.setScale(particleSize);
@@ -221,16 +229,17 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             SimpleParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            FallingSpinningParticle particle = new FallingSpinningParticle(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, 2.5f);
+            FallingSpinningParticle particle = new FallingSpinningParticle(components, appearance, context, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, 2.5f);
             float particleSize = context.level().getRandom().nextBoolean() ? 0.11F : 0.13F;
             particle.setScale(particleSize);
             return particle;

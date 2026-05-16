@@ -3,6 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.types.emitter.a
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.types.emitter.AbstractEmitterParticle;
@@ -29,8 +30,8 @@ public abstract class AbstractArcEmitter extends AbstractEmitterParticle {
     protected final float initialAngleXRad;
     protected final float initialAngleYRad;
 
-    public AbstractArcEmitter(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, float width, float height, float depth, ArcEmitterOptions options) {
-        super(context, appearance, config, x, y, z, width, height, depth);
+    public AbstractArcEmitter(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, float width, float height, float depth, ArcEmitterOptions options) {
+        super(components, appearance, context, config, x, y, z, width, height, depth);
 
         this.length = options.getLength();
         this.splitAmount = options.getSplits();

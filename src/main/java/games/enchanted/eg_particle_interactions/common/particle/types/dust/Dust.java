@@ -1,6 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.dust;
 
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
@@ -17,8 +18,8 @@ public class Dust extends ParticleInteractionsParticle {
     protected @Nullable Emitter speckEmitter;
     protected boolean spawnSpecks;
 
-    protected Dust(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, DustParticleOptions dustParticleOptions) {
-        super(context, appearance, dustParticleOptions.config(), x, y, z, xSpeed, ySpeed, zSpeed);
+    protected Dust(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, DustParticleOptions dustParticleOptions) {
+        super(components, appearance, context, dustParticleOptions.config(), y, z, xSpeed, ySpeed, zSpeed, x);
 
         this.speckEmitter = dustParticleOptions.getSpeckEmitter();
         this.spawnSpecks = this.speckEmitter != null;
@@ -62,16 +63,17 @@ public class Dust extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             DustParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            return new Dust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, options);
+            return new Dust(components, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed, options);
         }
     }
 
@@ -82,16 +84,17 @@ public class Dust extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             DustParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            return new Dust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, options);
+            return new Dust(components, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed, options);
         }
     }
 
@@ -102,16 +105,17 @@ public class Dust extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             DustParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            return new Dust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, options);
+            return new Dust(components, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed, options);
         }
     }
 
@@ -122,16 +126,17 @@ public class Dust extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             DustParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            return new Dust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, options);
+            return new Dust(components, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed, options);
         }
     }
 
@@ -142,16 +147,17 @@ public class Dust extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             DustParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            Dust particle = new Dust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, options);
+            Dust particle = new Dust(components, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed, options);
             particle.roll = 0;
             particle.prevRoll = 0;
             particle.lifetime = (int) (particle.lifetime * 0.4f);
@@ -168,16 +174,17 @@ public class Dust extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             DustParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            return new Dust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, options);
+            return new Dust(components, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed, options);
         }
     }
 
@@ -188,16 +195,17 @@ public class Dust extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             DustParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            return new Dust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, options);
+            return new Dust(components, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed, options);
         }
     }
 
@@ -208,16 +216,17 @@ public class Dust extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             DustParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            return new Dust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, options);
+            return new Dust(components, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed, options);
         }
     }
 
@@ -228,16 +237,17 @@ public class Dust extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             DustParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            return new Dust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, options);
+            return new Dust(components, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed, options);
         }
     }
 
@@ -248,16 +258,17 @@ public class Dust extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             DustParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            return new Dust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, options);
+            return new Dust(components, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed, options);
         }
     }
 
@@ -268,16 +279,17 @@ public class Dust extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             DustParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            return new Dust(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, options);
+            return new Dust(components, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed, options);
         }
     }
 }

@@ -3,19 +3,18 @@ package games.enchanted.eg_particle_interactions.common.particle.types.splash;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.options.SimpleParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
-import games.enchanted.eg_particle_interactions.common.particle.render.layer.ParticleLayer;
 import net.minecraft.client.particle.Particle;
 import org.jetbrains.annotations.Nullable;
-import org.jspecify.annotations.NonNull;
 
 public class BlockSplash extends BucketSplash {
     private final float uo;
     private final float vo;
 
-    protected BlockSplash(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        super(context, appearance, config, x, y, z, xSpeed, ySpeed, zSpeed);
+    protected BlockSplash(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        super(components, appearance, context, config, x, y, z, xSpeed, ySpeed, zSpeed);
 
         this.uo = this.random.nextFloat() * 3.0F;
         this.vo = this.random.nextFloat() * 3.0F;
@@ -52,16 +51,17 @@ public class BlockSplash extends BucketSplash {
         @Override
         public @Nullable Particle createParticle(
             SimpleParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            return new BlockSplash(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed);
+            return new BlockSplash(components, appearance, context, options.config(), x, y, z, xSpeed, ySpeed, zSpeed);
         }
     }
 }

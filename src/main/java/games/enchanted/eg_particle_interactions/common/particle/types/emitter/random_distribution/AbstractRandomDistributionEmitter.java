@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.particle.types.emitter.r
 
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.RandomDistributionEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.types.emitter.AbstractEmitterParticle;
@@ -18,8 +19,8 @@ public abstract class AbstractRandomDistributionEmitter extends AbstractEmitterP
     protected Vector3f emitterVariance;
     protected boolean emitOnFirstTick;
 
-    protected AbstractRandomDistributionEmitter(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomDistributionEmitterOptions emitterOptions) {
-        super(context, appearance, emitterOptions.config(), x, y, z, emitterOptions.getDimensions().x, emitterOptions.getDimensions().y, emitterOptions.getDimensions().z);
+    protected AbstractRandomDistributionEmitter(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomDistributionEmitterOptions emitterOptions) {
+        super(components, appearance, context, emitterOptions.config(), x, y, z, emitterOptions.getDimensions().x, emitterOptions.getDimensions().y, emitterOptions.getDimensions().z);
         this.emittedXSpeed = xSpeed;
         this.emittedYSpeed = ySpeed;
         this.emittedZSpeed = zSpeed;

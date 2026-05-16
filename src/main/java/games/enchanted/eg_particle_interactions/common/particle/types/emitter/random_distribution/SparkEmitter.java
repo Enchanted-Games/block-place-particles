@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.particle.types.emitter.r
 
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.options.DefaultParticles;
 import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.RandomDistributionEmitterOptions;
@@ -10,8 +11,8 @@ import net.minecraft.client.particle.Particle;
 import org.jetbrains.annotations.Nullable;
 
 public class SparkEmitter extends AbstractRandomDistributionEmitter {
-    protected SparkEmitter(ParticleContext context, ParticleAppearance appearance, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomDistributionEmitterOptions emitterOptions) {
-        super(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, emitterOptions);
+    protected SparkEmitter(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomDistributionEmitterOptions emitterOptions) {
+        super(components, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed, emitterOptions);
     }
 
     @Override
@@ -26,16 +27,17 @@ public class SparkEmitter extends AbstractRandomDistributionEmitter {
         @Override
         public @Nullable Particle createParticle(
             RandomDistributionEmitterOptions emitterOptions,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            return new SparkEmitter(context, appearance, x, y, z, xSpeed, ySpeed, zSpeed, emitterOptions);
+            return new SparkEmitter(components, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed, emitterOptions);
         }
     }
 }

@@ -4,6 +4,7 @@ import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.options.SimpleParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
@@ -15,8 +16,8 @@ import net.minecraft.tags.FluidTags;
 import org.jetbrains.annotations.Nullable;
 
 public class UnderwaterRisingBubble extends ParticleInteractionsParticle {
-    protected UnderwaterRisingBubble(ParticleContext context, ParticleAppearance appearance, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        super(context, appearance, config, x, y, z, xSpeed, ySpeed, zSpeed);
+    protected UnderwaterRisingBubble(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        super(components, appearance, context, config, y, z, xSpeed, ySpeed, zSpeed, x);
         this.friction = 0.85F;
 
         this.setScale(this.getScale() * (this.random.nextFloat() * 0.6F + 0.2F));
@@ -53,15 +54,17 @@ public class UnderwaterRisingBubble extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             SimpleParticleOptions options,
-            ParticleContext context, ParticleAppearance appearance,
+            ParticleComponentMap components,
+            ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            return new UnderwaterRisingBubble(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed);
+            return new UnderwaterRisingBubble(components, appearance, context, options.config(), x, y, z, xSpeed, ySpeed, zSpeed);
         }
     }
 
@@ -72,16 +75,17 @@ public class UnderwaterRisingBubble extends ParticleInteractionsParticle {
         @Override
         public @Nullable Particle createParticle(
             SimpleParticleOptions options,
-            ParticleContext context,
+            ParticleComponentMap components,
             ParticleAppearance appearance,
+            ParticleContext context,
             double x,
-            double y,
             double z,
+            double y,
             double xSpeed,
             double ySpeed,
             double zSpeed
         ) {
-            UnderwaterRisingBubble particle = new UnderwaterRisingBubble(context, appearance, options.config(), x, y, z, xSpeed, ySpeed, zSpeed);
+            UnderwaterRisingBubble particle = new UnderwaterRisingBubble(components, appearance, context, options.config(), x, y, z, xSpeed, ySpeed, zSpeed);
             particle.setScale(MathHelpers.randomBetween(0.02f, 0.05f));
             return particle;
         }
