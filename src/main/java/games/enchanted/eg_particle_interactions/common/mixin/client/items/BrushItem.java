@@ -86,7 +86,7 @@ public abstract class BrushItem {
             return;
         } else if(ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.DUST) {
             double velocityMultiplier = 0.1f;
-            ParticleSpawner.spawn(
+            ParticleSpawner.spawnWithDefaultAppearance(
                 DefaultParticles.BRUSH_DUST.get(),
                 ParticleContext.plain(clientLevel, blockPos),
                 particlePos.x + (brushDirection.getStepX() * outwardVelocity),

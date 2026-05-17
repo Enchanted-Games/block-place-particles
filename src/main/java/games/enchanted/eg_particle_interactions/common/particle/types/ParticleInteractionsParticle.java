@@ -10,6 +10,7 @@ import games.enchanted.eg_particle_interactions.common.particle.appearance.Sprit
 import games.enchanted.eg_particle_interactions.common.particle.appearance.texture.TextureConfig;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponents;
+import games.enchanted.eg_particle_interactions.common.particle.component.type.GravityComponent;
 import games.enchanted.eg_particle_interactions.common.particle.render.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.StateQuadConsumer;
@@ -77,7 +78,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
         this.pickSpriteForAppearance();
 
         this.gravity = config.getGravityProvider().getValue(context);
-        var gravityComponent = components.get(ParticleComponents.GRAVITY);
+        GravityComponent gravityComponent = components.get(ParticleComponents.GRAVITY);
         if(gravityComponent != null) {
             this.gravity = gravityComponent.initialGravity().getValue(context);
         }

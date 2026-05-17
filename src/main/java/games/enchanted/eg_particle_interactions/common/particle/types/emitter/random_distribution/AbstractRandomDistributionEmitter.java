@@ -42,7 +42,7 @@ public abstract class AbstractRandomDistributionEmitter extends AbstractEmitterP
                 double[] emitPos = getRandomPositionInsideBounds();
                 PIParticleOptions particle = this.getParticleToEmit(context, emitPos[0], emitPos[1], emitPos[2]);
                 if (particle == null) continue;
-                ParticleSpawner.spawn(
+                ParticleSpawner.spawnWithDefaultAppearance(
                     particle,
                     this.context,
                     emitPos[0],

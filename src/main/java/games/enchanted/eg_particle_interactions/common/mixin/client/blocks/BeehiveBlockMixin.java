@@ -59,7 +59,7 @@ public abstract class BeehiveBlockMixin extends BaseEntityBlock {
             original.call(instance, particleData, x, y, z, xSpeed, ySpeed, zSpeed);
             return;
         }
-        ParticleSpawner.spawn(
+        ParticleSpawner.spawnWithDefaultAppearance(
             DefaultParticles.HANGING_HONEY_DROP.get(),
             ParticleContext.plain(clientLevel, BlockPos.containing(x, y, z)),
             x,

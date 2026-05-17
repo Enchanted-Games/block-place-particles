@@ -9,29 +9,41 @@ public class ParticleComponentMap implements ParticleComponentGetter {
     public static final ParticleComponentMap EMPTY = new ParticleComponentMap(new Reference2ObjectOpenHashMap<>(0));
 
     final Reference2ObjectOpenHashMap<ParticleComponent<?>, Optional<?>> defaultComponents;
-    final Reference2ObjectOpenHashMap<ParticleComponent<?>, Optional<?>> components;
+    final Reference2ObjectOpenHashMap<ParticleComponent<?>, Optional<?>> modifiedComponents;
 
     ParticleComponentMap(Reference2ObjectOpenHashMap<ParticleComponent<?>, Optional<?>> defaultComponents) {
-        this.defaultComponents = defaultComponents;
-        this.components = new Reference2ObjectOpenHashMap<>();
+        this(defaultComponents, new Reference2ObjectOpenHashMap<>());
     }
 
-    @SuppressWarnings("unchecked")
+    ParticleComponentMap(Reference2ObjectOpenHashMap<ParticleComponent<?>, Optional<?>> defaultComponents, Reference2ObjectOpenHashMap<ParticleComponent<?>, Optional<?>> modifiedComponents) {
+        this.defaultComponents = defaultComponents;
+        this.modifiedComponents = modifiedComponents;
+    }
+
     @Override
     public @Nullable <T> T get(ParticleComponent<? extends T> component) {
-        if(this.components.containsKey(component)) {
-            return (T) this.defaultComponents.get(component);
+        if(this.modifiedComponents.containsKey(component)) {
+            return (T) this.modifiedComponents.get(component).orElse(null);
         }
-        Optional<T> defaultOptional = (Optional<T>) this.defaultComponents.get(component);
+        Optional<?> defaultOptional = this.defaultComponents.get(component);
         if(defaultOptional == null) return null;
-        return defaultOptional.orElse(null);
+        return (T) defaultOptional.orElse(null);
     }
 
     public static class Builder {
         final Reference2ObjectOpenHashMap<ParticleComponent<?>, Optional<?>> components = new Reference2ObjectOpenHashMap<>();
+        final boolean defaultsBuilder;
 
-        public static Builder create() {
-            return new Builder();
+        Builder(boolean defaultsBuilder) {
+            this.defaultsBuilder = defaultsBuilder;
+        }
+
+        public static Builder createDefaults() {
+            return new Builder(true);
+        }
+
+        public static Builder createModifications() {
+            return new Builder(false);
         }
 
         public <T> Builder set(ParticleComponentRegistry.ComponentReference<T> reference, @Nullable T value) {
@@ -44,7 +56,14 @@ public class ParticleComponentMap implements ParticleComponentGetter {
         }
 
         public ParticleComponentMap build() {
-            return new ParticleComponentMap(this.components);
+            if(this.defaultsBuilder) {
+                return new ParticleComponentMap(this.components);
+            }
+            return new ParticleComponentMap(new Reference2ObjectOpenHashMap<>(), this.components);
+        }
+
+        public static ParticleComponentMap combine(ParticleComponentMap defaults, ParticleComponentMap modified) {
+            return new ParticleComponentMap(defaults.defaultComponents, modified.modifiedComponents);
         }
     }
 }

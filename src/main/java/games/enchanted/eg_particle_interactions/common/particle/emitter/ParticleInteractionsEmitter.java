@@ -50,8 +50,8 @@ public class ParticleInteractionsEmitter extends Emitter {
     public void spawnParticle(ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         ParticleSpawner.spawn(
             this.particleOptions,
-            context,
             this.appearance,
+            context,
             x,
             y,
             z,

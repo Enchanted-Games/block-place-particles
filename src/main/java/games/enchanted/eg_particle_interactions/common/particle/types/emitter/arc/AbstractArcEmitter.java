@@ -95,7 +95,7 @@ public abstract class AbstractArcEmitter extends AbstractEmitterParticle {
             for (int i = 0; i < length; i++) {
                 PIParticleOptions particle = particleSupplier.getParticle(context, x, y, z);
                 if (particle == null) continue;
-                ParticleSpawner.spawn(
+                ParticleSpawner.spawnWithDefaultAppearance(
                     particle,
                     context,
                     x + (directionVector.x * i),

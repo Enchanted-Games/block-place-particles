@@ -71,7 +71,7 @@ public class ParticleTypesRegistry {
         Dust.SnowflakeProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "snowflake"),
         DefaultParticles.SNOWFLAKE_CONFIG,
-        ParticleComponentMap.Builder.create()
+        ParticleComponentMap.Builder.createDefaults()
             .set(ParticleComponents.GRAVITY, new GravityComponent(new RandomFloatProvider(0, 0)))
         .build(),
         DustParticleOptions::codec,

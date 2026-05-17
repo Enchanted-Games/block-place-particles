@@ -78,7 +78,7 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
             this.hasSpawnedSmokeParticle = true;
         }
         if (this.hasEnteredWater && !this.hasSpawnedSmokeParticle) {
-            ParticleSpawner.spawn(
+            ParticleSpawner.spawnWithDefaultAppearance(
                 DefaultParticles.WATER_VAPOUR.get(),
                 this.context,
                 this.xo,

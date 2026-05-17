@@ -11,8 +11,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Supplier;
-
 public class SpawnParticlesUtil {
     public static boolean isParticleOutsideRenderDistance(@NotNull ParticleCategory particleCategory, BlockPos particlePos) {
         return isParticleOutsideRenderDistance(particleCategory, particlePos.getX(), particlePos.getY(), particlePos.getZ());
@@ -49,7 +47,7 @@ public class SpawnParticlesUtil {
     public static void spawnParticleInCircle(PIParticleOptions particleOptions, ParticleContext context, Vec3 center, int amount, float spread, float radius, float outwardVelocityMultiplier, float verticalVelocityBase, float verticalVelocityMultiplier) {
         spawnParticleInCircle(
             (x, y, z, xSpeed, ySpeed, zSpeed) -> {
-                ParticleSpawner.spawn(
+                ParticleSpawner.spawnWithDefaultAppearance(
                     particleOptions,
                     context,
                     x,
@@ -105,7 +103,7 @@ public class SpawnParticlesUtil {
 
     public static void spawnMostlyUpwardsMotionParticleOption(ParticleContext context, PIParticleOptions particleOptions, double xPos, double yPos, double zPos, double velocityIntensity) {
         RandomSource random = context.level().getRandom();
-        ParticleSpawner.spawn(
+        ParticleSpawner.spawnWithDefaultAppearance(
             particleOptions,
             context,
             xPos,

@@ -5,14 +5,14 @@ import games.enchanted.eg_particle_interactions.common.particle.component.Partic
 import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
 
 public abstract class PIParticleType<T extends PIParticleOptions> {
-    final ParticleComponentMap components;
+    final ParticleComponentMap defaultComponents;
 
-    public PIParticleType(ParticleComponentMap components) {
-        this.components = components;
+    public PIParticleType(ParticleComponentMap defaultComponents) {
+        this.defaultComponents = defaultComponents;
     }
 
-    public ParticleComponentMap components() {
-        return this.components;
+    public ParticleComponentMap defaultComponents() {
+        return this.defaultComponents;
     }
 
     public abstract MapCodec<T> codec();

@@ -163,7 +163,7 @@ public class SpawnParticles {
             boolean blockAboveIsWater = level.getFluidState(blockPos.above()).is(FluidTags.WATER);
             double verticalVelocity = (y - 0.5) * (blockAboveIsWater ? 0.2 : 0);
             double horizontalVelocityMul = !blockAboveIsWater ? 0.35 : 0.25;
-            ParticleSpawner.spawn(
+            ParticleSpawner.spawnWithDefaultAppearance(
                 DefaultParticles.UNDERWATER_RISING_BUBBLE.get(),
                 ParticleContext.plain(level, blockPos),
                 blockPos.getX() + x,
@@ -258,7 +258,7 @@ public class SpawnParticles {
         ParticleContext context = ParticleContext.plain(level, BlockPos.containing(minecartX, minecartY, minecartZ));
         if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos1 = minecartWheelPoint(rotX, rotY, 0.45f, 0.35f, 0.45f);
-            ParticleSpawner.spawn(
+            ParticleSpawner.spawnWithDefaultAppearance(
                 DefaultParticles.FLYING_SPARK.get(),
                 context,
                 wheelPos1.x + minecartX,
@@ -271,7 +271,7 @@ public class SpawnParticles {
         }
         if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos2 = minecartWheelPoint(rotX, rotY, -0.45f, -0.35f, 0.45f);
-            ParticleSpawner.spawn(
+            ParticleSpawner.spawnWithDefaultAppearance(
                 DefaultParticles.FLYING_SPARK.get(),
                 context,
                 wheelPos2.x + minecartX,
@@ -284,7 +284,7 @@ public class SpawnParticles {
         }
         if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos3 = minecartWheelPoint(rotX, rotY, 0.45f, 0.35f, -0.45f);
-            ParticleSpawner.spawn(
+            ParticleSpawner.spawnWithDefaultAppearance(
                 DefaultParticles.FLYING_SPARK.get(),
                 context,
                 wheelPos3.x + minecartX,
@@ -297,7 +297,7 @@ public class SpawnParticles {
         }
         if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos4 = minecartWheelPoint(rotX, rotY, -0.45f, -0.35f, -0.45f);
-            ParticleSpawner.spawn(
+            ParticleSpawner.spawnWithDefaultAppearance(
                 DefaultParticles.FLYING_SPARK.get(),
                 context,
                 wheelPos4.x + minecartX,
@@ -374,7 +374,7 @@ public class SpawnParticles {
         if (BlockInteractionOptions.CAMPFIRE_EMBER_ENABLED.getValue()) {
             if (level.getRandom().nextFloat() * 101 <= BlockInteractionOptions.CAMPFIRE_EMBER_SPAWN_CHANCE.getValue()) {
                 for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 4); i++) {
-                    ParticleSpawner.spawn(
+                    ParticleSpawner.spawnWithDefaultAppearance(
                         campfireState.is(Blocks.SOUL_CAMPFIRE) ? DefaultParticles.FLOATING_SOUL_EMBER.get() : DefaultParticles.FLOATING_EMBER.get(),
                         context,
                         (double) particlePos.getX() + (level.getRandom().nextFloat() * 0.75) + 0.125f,
@@ -414,7 +414,7 @@ public class SpawnParticles {
         if (BlockInteractionOptions.FIRE_EMBER_ENABLED.getValue()) {
             if (level.getRandom().nextFloat() * 101 <= BlockInteractionOptions.FIRE_EMBER_SPAWN_CHANCE.getValue()) {
                 for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 4); i++) {
-                    ParticleSpawner.spawn(
+                    ParticleSpawner.spawnWithDefaultAppearance(
                         fireState.is(Blocks.SOUL_FIRE) ? DefaultParticles.FLOATING_SOUL_EMBER.get() : DefaultParticles.FLOATING_EMBER.get(),
                         context,
                         particlePos.getX() + minX + (level.getRandom().nextFloat() * width),
@@ -617,7 +617,7 @@ public class SpawnParticles {
         final float UPWARDS_SPEED = 0.5f;
         final float DOWNWARDS_SPEED = 0.1f;
 
-        ParticleSpawner.spawn(
+        ParticleSpawner.spawnWithDefaultAppearance(
             emitter,
             context,
             x,
@@ -627,7 +627,7 @@ public class SpawnParticles {
             attachFace == AttachFace.WALL ? UPWARDS_SPEED : 0,
             facing.getStepZ() * (attachFace == AttachFace.WALL ? HORIZONTAL_MIN_SPEED : HORIZONTAL_MAX_SPEED)
         );
-        ParticleSpawner.spawn(
+        ParticleSpawner.spawnWithDefaultAppearance(
             emitter,
             context,
             x,
@@ -673,7 +673,7 @@ public class SpawnParticles {
             float xVel = MathHelpers.randomBetween(-0.2f, 0.2f);
             float yVel = MathHelpers.randomBetween(0.3f, 0.6f);
             float zVel = MathHelpers.randomBetween(-0.2f, 0.2f);
-            ParticleSpawner.spawn(DefaultParticles.FLOATING_SPARK.get(), ParticleContext.plain(level, pos), x, y, z, xVel, yVel, zVel);
+            ParticleSpawner.spawnWithDefaultAppearance(DefaultParticles.FLOATING_SPARK.get(), ParticleContext.plain(level, pos), x, y, z, xVel, yVel, zVel);
         }
     }
 
@@ -690,7 +690,7 @@ public class SpawnParticles {
             float xVel = (float) MathHelpers.clampOutside(MathHelpers.randomBetween(-0.5f, 0.5f), -0.2, 0.2);
             float yVel = MathHelpers.randomBetween(0.4f, 0.6f);
             float zVel = (float) MathHelpers.clampOutside(MathHelpers.randomBetween(-0.5f, 0.5f), -0.2, 0.2);
-            ParticleSpawner.spawn(DefaultParticles.FLYING_SPARK.get(), ParticleContext.plain(level, pos), x, y, z, xVel, yVel, zVel);
+            ParticleSpawner.spawnWithDefaultAppearance(DefaultParticles.FLYING_SPARK.get(), ParticleContext.plain(level, pos), x, y, z, xVel, yVel, zVel);
         }
     }
 
@@ -727,7 +727,7 @@ public class SpawnParticles {
             double d0 = (double) fluidPos.getX() + level.getRandom().nextDouble();
             double d1 = (double) fluidPos.getY() + fluidState.getOwnHeight();
             double d2 = (double) fluidPos.getZ() + level.getRandom().nextDouble();
-            ParticleSpawner.spawn(DefaultParticles.LAVA_POP.get(), ParticleContext.plain(level, fluidPos), d0, d1, d2, 0.0f, 0.0f, 0.0f);
+            ParticleSpawner.spawnWithDefaultAppearance(DefaultParticles.LAVA_POP.get(), ParticleContext.plain(level, fluidPos), d0, d1, d2, 0.0f, 0.0f, 0.0f);
         }
     }
 
@@ -751,7 +751,7 @@ public class SpawnParticles {
                 MathHelpers.randomBetween(2, 4),
                 1
             );
-            ParticleSpawner.spawn(emitter, context, x, y, z, 0.0f, 0.0f, 0.0f);
+            ParticleSpawner.spawnWithDefaultAppearance(emitter, context, x, y, z, 0.0f, 0.0f, 0.0f);
         }
     }
 
@@ -810,7 +810,7 @@ public class SpawnParticles {
             double randomY = boundingBox.minY + (boundingBox.getYsize() * level.getRandom().nextDouble());
             double randomZ = boundingBox.minZ + (boundingBox.getZsize() * level.getRandom().nextDouble());
 
-            ParticleSpawner.spawn(
+            ParticleSpawner.spawnWithDefaultAppearance(
                 particleOptionToSpawn,
                 context,
                 (itemFrameDirection.getStepX() * 0.15) + x,
@@ -850,7 +850,7 @@ public class SpawnParticles {
         Direction furnaceDirection = furnaceState.getValue(FurnaceBlock.FACING);
         final boolean spawnSpark = level.getRandom().nextFloat() < 0.7;
         final float outwardVelocity = MathHelpers.randomBetween(0.01f, 0.03f) * (spawnSpark ? 1 : 5);
-        ParticleSpawner.spawn(
+        ParticleSpawner.spawnWithDefaultAppearance(
             spawnSpark ? DefaultParticles.FLOATING_EMBER.get() : DefaultParticles.FLOATING_SPARK.get(),
             ParticleContext.plain(level, blockPos),
             positions[0],
@@ -872,7 +872,7 @@ public class SpawnParticles {
         Direction furnaceDirection = furnaceState.getValue(FurnaceBlock.FACING);
         final boolean spawnSpark = level.getRandom().nextFloat() < 0.2;
         final float outwardVelocity = MathHelpers.randomBetween(0.01f, 0.03f) * (spawnSpark ? 1 : 5);
-        ParticleSpawner.spawn(
+        ParticleSpawner.spawnWithDefaultAppearance(
             spawnSpark ? DefaultParticles.FLOATING_EMBER.get() : DefaultParticles.FLOATING_SPARK.get(),
             ParticleContext.plain(level, blockPos),
             positions[0],
@@ -933,7 +933,7 @@ public class SpawnParticles {
             double xOffset = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 + Math.abs(faceDirection.getStepX()));
             double yOffset = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 + Math.abs(faceDirection.getStepY()));
             double zOffset = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 + Math.abs(faceDirection.getStepZ()));
-            ParticleSpawner.spawn(
+            ParticleSpawner.spawnWithDefaultAppearance(
                 DefaultParticles.FALLING_HONEY_DROP.get(),
                 context,
                 x + xOffset,
@@ -951,7 +951,7 @@ public class SpawnParticles {
         ParticleContext context = ParticleContext.plain(level, player.blockPosition());
 
         for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(Math.max(amount / 2, 0), Math.max(amount / 2, 1)); i++) {
-            ParticleSpawner.spawn(
+            ParticleSpawner.spawnWithDefaultAppearance(
                 DefaultParticles.FALLING_HONEY_DROP.get(),
                 context,
                 player.getX() - 0.25 + (level.getRandom().nextDouble() / 2),
