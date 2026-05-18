@@ -8,7 +8,7 @@ import games.enchanted.eg_particle_interactions.common.particle.types.ParticleIn
 
 public class ConstantMotionParticle extends ParticleInteractionsParticle {
     protected ConstantMotionParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, double constantXSpeed, double constantYSpeed, double constantZSpeed, float quadSize) {
-        super(components, appearance, context, config, y, z, constantXSpeed, constantYSpeed, constantZSpeed, x);
+        super(components, appearance, context, config, x, y, z, constantYSpeed, constantZSpeed, constantXSpeed);
         this.setScale(quadSize);
     }
 

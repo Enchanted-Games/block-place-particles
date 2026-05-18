@@ -22,7 +22,7 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
     protected final boolean inverseSlicePositions;
 
     protected AbstractShatter(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        super(components, appearance, context, config, y, z, xSpeed, ySpeed, zSpeed, x);
+        super(components, appearance, context, config, x, y, z, ySpeed, zSpeed, xSpeed);
 
         int spriteWidth = this.currentSprite.contents().width();
         int randomSize = MathHelpers.randomBetween(3, 5);

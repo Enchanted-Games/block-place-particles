@@ -7,16 +7,23 @@ import games.enchanted.eg_particle_interactions.common.override_system.override.
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearanceManager;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponents;
+import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleDefinition;
+import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleDefinitionManager;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSetManager;
 import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
 import games.enchanted.eg_particle_interactions.common.predicates.biome.list.BiomeListManager;
+import games.enchanted.eg_particle_interactions.common.predicates.block.list.BlockListManager;
+import games.enchanted.eg_particle_interactions.common.predicates.fluid.list.FluidListManager;
 import net.minecraft.resources.Identifier;
 
 public class ParticleInteractionsMod {
+    public static Identifier PARTICLE_DEFINITIONS_RELOAD_LISTENER = ParticleInteractionsMod.id("particle_definitions");
     public static Identifier PARTICLE_OVERRIDES_RELOAD_LISTENER = ParticleInteractionsMod.id("particle_overrides");
     public static Identifier BLOCK_OVERRIDE_RULE_RELOAD_LISTENER = ParticleInteractionsMod.id("block_override_rules");
     public static Identifier FLUID_OVERRIDE_RULE_RELOAD_LISTENER = ParticleInteractionsMod.id("fluid_override_rules");
     public static Identifier PARTICLE_APPEARANCE_RELOAD_LISTENER = ParticleInteractionsMod.id("particle_appearances");
+    public static Identifier BLOCK_LIST_RELOAD_LISTENER = ParticleInteractionsMod.id("block_lists");
+    public static Identifier FLUID_LIST_RELOAD_LISTENER = ParticleInteractionsMod.id("fluid_lists");
     public static Identifier BIOME_LIST_RELOAD_LISTENER = ParticleInteractionsMod.id("biome_lists");
     public static Identifier EMITTER_RULES_RELOAD_LISTENER = ParticleInteractionsMod.id("emitter_rules");
 
@@ -47,8 +54,11 @@ public class ParticleInteractionsMod {
         PlatformHelper.registerResourceReloadListener(BlockOverrideManager.INSTANCE, BLOCK_OVERRIDE_RULE_RELOAD_LISTENER);
         PlatformHelper.registerResourceReloadListener(FluidOverrideManager.INSTANCE, FLUID_OVERRIDE_RULE_RELOAD_LISTENER);
         PlatformHelper.registerResourceReloadListener(ParticleAppearanceManager.INSTANCE, PARTICLE_APPEARANCE_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(BlockListManager.INSTANCE, BLOCK_LIST_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(FluidListManager.INSTANCE, FLUID_LIST_RELOAD_LISTENER);
         PlatformHelper.registerResourceReloadListener(BiomeListManager.INSTANCE, BIOME_LIST_RELOAD_LISTENER);
         PlatformHelper.registerResourceReloadListener(EmitterRuleSetManager.INSTANCE, EMITTER_RULES_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(ParticleDefinitionManager.INSTANCE, PARTICLE_DEFINITIONS_RELOAD_LISTENER);
     }
 
     public static boolean isFabricResourceLoaderPresent() {

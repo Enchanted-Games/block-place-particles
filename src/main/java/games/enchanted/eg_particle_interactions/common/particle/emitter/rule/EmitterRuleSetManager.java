@@ -26,7 +26,7 @@ public class EmitterRuleSetManager extends SimplePreparableReloadListener<Emitte
 
     public static final Codec<EmitterRuleSet> INLINE_OR_ID_CODEC = EmitterRuleSet.CODEC.withAlternative(
         ModCodecs.IDENTIFIER.xmap(
-            EmitterRuleSetManager::getRuleSet,
+            EmitterRuleSetManager::getRuleSetOrThrow,
             emitterRuleSet -> {
                 throw new IllegalStateException("Cannot serialise emitter rule set to id");
             }
@@ -76,8 +76,15 @@ public class EmitterRuleSetManager extends SimplePreparableReloadListener<Emitte
         if(RULE_SET_BY_ID.containsKey(ruleId)) {
             return RULE_SET_BY_ID.get(ruleId);
         }
-        Logging.warn("Tried to get non-existent emitter rule! {}", ruleId);
+        Logging.warn("Tried to get non-existent emitter rule '{}'!", ruleId);
         return EmitterRuleSet.EMPTY;
+    }
+
+    public static EmitterRuleSet getRuleSetOrThrow(Identifier ruleId) {
+        if(RULE_SET_BY_ID.containsKey(ruleId)) {
+            return RULE_SET_BY_ID.get(ruleId);
+        }
+        throw new IllegalArgumentException("Tried to get non-existent emitter rule '" + ruleId + "'!");
     }
 
     protected record Preparation(Map<Identifier, List<EmitterRuleSet.File>> filesById) {

@@ -19,7 +19,7 @@ public class Dust extends ParticleInteractionsParticle {
     protected boolean spawnSpecks;
 
     protected Dust(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, DustParticleOptions dustParticleOptions) {
-        super(components, appearance, context, dustParticleOptions.config(), y, z, xSpeed, ySpeed, zSpeed, x);
+        super(components, appearance, context, dustParticleOptions.config(), x, y, z, ySpeed, zSpeed, xSpeed);
 
         this.speckEmitter = dustParticleOptions.getSpeckEmitter();
         this.spawnSpecks = this.speckEmitter != null;

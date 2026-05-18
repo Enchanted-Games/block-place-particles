@@ -1,16 +1,15 @@
 package games.enchanted.eg_particle_interactions.common.particle.util;
 
-import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
-import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponents;
-import games.enchanted.eg_particle_interactions.common.particle.component.type.GravityComponent;
-import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
-import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomFloatProvider;
-import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearanceManager;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
+import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleDefinition;
+import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleDefinitionManager;
+import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
+import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.resources.Identifier;
@@ -59,6 +58,21 @@ public class ParticleSpawner {
         spawnParticle(options, components, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 
+    public static void spawn(
+        ParticleDefinition definition,
+        ParticleComponentMap customComponents,
+        @Nullable ParticleAppearance appearance,
+        ParticleContext context,
+        double x,
+        double y,
+        double z,
+        double xSpeed,
+        double ySpeed,
+        double zSpeed
+    ) {
+        spawnParticle(definition, customComponents, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed);
+    }
+
     @SuppressWarnings("unchecked")
     private static <T extends PIParticleOptions> void spawnParticle(
         final T options,
@@ -82,6 +96,37 @@ public class ParticleSpawner {
 
         Particle particle = provider.createParticle(
             options,
+            combinedComponentMap,
+            appearance != null ? appearance : ParticleAppearanceManager.get(particleId),
+            context,
+            x,
+            z,
+            y,
+            xSpeed,
+            ySpeed,
+            zSpeed
+        );
+        if(particle != null) {
+            Minecraft.getInstance().particleEngine.add(particle);
+        }
+    }
+
+    private static void spawnParticle(
+        ParticleDefinition definition,
+        ParticleComponentMap customComponents,
+        @Nullable ParticleAppearance appearance,
+        ParticleContext context,
+        double x,
+        double y,
+        double z,
+        double xSpeed,
+        double ySpeed,
+        double zSpeed
+    ) {
+        Identifier particleId = ParticleDefinitionManager.INSTANCE.getIdOrThrow(definition);
+        ParticleComponentMap combinedComponentMap = ParticleComponentMap.Builder.combine(definition.defaultComponents(), customComponents);
+
+        Particle particle = definition.behaviourProvider().createParticle(
             combinedComponentMap,
             appearance != null ? appearance : ParticleAppearanceManager.get(particleId),
             context,

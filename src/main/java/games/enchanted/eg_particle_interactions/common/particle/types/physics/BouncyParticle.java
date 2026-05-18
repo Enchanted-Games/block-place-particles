@@ -32,7 +32,7 @@ public abstract class BouncyParticle extends ParticleInteractionsParticle {
      * Set {@link #physics_bounciness} or {@link #physics_passThroughFluidSpeed} in your particle constructor to adjust the particle physics
      */
     protected BouncyParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        super(components, appearance, context, config, y, z, xSpeed, ySpeed, zSpeed, x);
+        super(components, appearance, context, config, x, y, z, ySpeed, zSpeed, xSpeed);
     }
 
     protected float getTotalVelocity() {

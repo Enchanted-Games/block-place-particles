@@ -8,7 +8,7 @@ public interface ParticleComponentGetter {
 
     @Nullable
     default <T> T get(ParticleComponentRegistry.ComponentReference<? extends T> component) {
-        return this.get(component.value());
+        return this.get(component.componentType());
     }
 
     default <T> T getOrDefault(final ParticleComponent<? extends T> component, final T defaultValue) {

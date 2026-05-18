@@ -4,8 +4,10 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
+import net.minecraft.IdentifierException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
+import org.jspecify.annotations.Nullable;
 
 public class ModCodecs {
     public static final Codec<Identifier> IDENTIFIER = Codec.STRING.comapFlatMap(
@@ -24,6 +26,24 @@ public class ModCodecs {
         },
         Identifier::toString
     );
+
+    public static @Nullable Identifier tryParseIdentifier(String id) {
+        try {
+            int sepIndex = id.indexOf(Identifier.NAMESPACE_SEPARATOR);
+            if(sepIndex >= 0) {
+                String path = id.substring(sepIndex + 1);
+                if(sepIndex == 0) {
+                    return ParticleInteractionsMod.id(path);
+                } else {
+                    String namespace = id.substring(0, sepIndex);
+                    return Identifier.fromNamespaceAndPath(namespace, path);
+                }
+            }
+            return ParticleInteractionsMod.id(id);
+        } catch (IdentifierException e) {
+            return null;
+        }
+    }
 
     public static final Codec<TextureHelpers.AtlasIdAndTexture> ATLAS = Identifier.CODEC.xmap(
         identifier -> {

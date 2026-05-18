@@ -17,13 +17,13 @@ public class BiomeListPredicate extends BiomePredicate {
         )
     );
 
-    final BiomeList biomeList;
+    final BiomeList.Reference biomeList;
 
-    public BiomeListPredicate(BiomeList biomeList) {
+    public BiomeListPredicate(BiomeList.Reference biomeList) {
         this.biomeList = biomeList;
     }
 
-    protected BiomeList getBiomeList() {
+    protected BiomeList.Reference getBiomeList() {
         return this.biomeList;
     }
 
@@ -34,6 +34,6 @@ public class BiomeListPredicate extends BiomePredicate {
 
     @Override
     public boolean matches(BiomeContext biomeContext) {
-        return ObjectOrTagLocation.doesListContainObject(biomeList.biomesAndTags(), biomeContext.biome(), RegistryHelpers.getBiomeRegistry(biomeContext.level()));
+        return ObjectOrTagLocation.doesListContainObject(biomeList.get().biomesAndTags(), biomeContext.biome(), RegistryHelpers.getBiomeRegistry(biomeContext.level()));
     }
 }

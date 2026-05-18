@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class BucketSplash extends ParticleInteractionsParticle {
     protected BucketSplash(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        super(components, appearance, context, config, y, z, xSpeed, ySpeed, zSpeed, x);
+        super(components, appearance, context, config, x, y, z, ySpeed, zSpeed, xSpeed);
 
         this.friction = 0.999F;
         this.xd = xSpeed + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;

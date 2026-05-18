@@ -17,13 +17,13 @@ public class BlockListPredicate extends BlockPredicate {
         )
     );
 
-    final BlockList blockList;
+    final BlockList.Reference blockList;
 
-    public BlockListPredicate(BlockList blockList) {
+    public BlockListPredicate(BlockList.Reference blockList) {
         this.blockList = blockList;
     }
 
-    protected BlockList getBlockList() {
+    protected BlockList.Reference getBlockList() {
         return this.blockList;
     }
 
@@ -34,7 +34,7 @@ public class BlockListPredicate extends BlockPredicate {
 
     @Override
     public boolean matches(BlockState state) {
-        return ObjectOrTagLocation.doesListContainBlock(blockList.blocksAndTags(), state) ||
-            blockList.statePredicates().stream().anyMatch(p -> p.matches(state));
+        return ObjectOrTagLocation.doesListContainBlock(blockList.get().blocksAndTags(), state) ||
+            blockList.get().statePredicates().stream().anyMatch(p -> p.matches(state));
     }
 }

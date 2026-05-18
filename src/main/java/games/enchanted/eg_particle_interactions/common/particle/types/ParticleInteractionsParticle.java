@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.types;
 
+import games.enchanted.eg_particle_interactions.common.particle.behaviour.ParticleBehaviourProvider;
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.ParticleAccessor;
@@ -28,8 +29,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
+import org.jspecify.annotations.Nullable;
 
-public abstract class ParticleInteractionsParticle extends Particle {
+public class ParticleInteractionsParticle extends Particle {
     private float scale;
     private float prevScale;
     protected float roll;
@@ -57,13 +59,13 @@ public abstract class ParticleInteractionsParticle extends Particle {
     private float prevAlpha = 1.0f;
 
     protected ParticleInteractionsParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z) {
-        this(components, appearance, context, config, y, z, 0, 0, 0, x);
+        this(components, appearance, context, config, x, y, z, 0, 0, 0);
         this.xd = 0;
         this.yd = 0;
         this.zd = 0;
     }
 
-    protected ParticleInteractionsParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double y, double z, double xSpeed, double ySpeed, double zSpeed, double x) {
+    protected ParticleInteractionsParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, double ySpeed, double zSpeed, double xSpeed) {
         super(context.level(), x, y, z, xSpeed, ySpeed, zSpeed);
         ClientLevel level = context.level();
 
@@ -89,6 +91,7 @@ public abstract class ParticleInteractionsParticle extends Particle {
 
         // 0.1 - 0.2
         this.scale = 0.1f * (this.random.nextFloat() * 0.5f + 0.5f) * 2.0f;
+        this.prevScale = scale;
 
         int[] colour = appearance.colourSource().getARGB(context);
         this.setRGBA(
@@ -368,5 +371,12 @@ public abstract class ParticleInteractionsParticle extends Particle {
         BillboardMode XYZ = (quaternion, camera, partialTicks) -> quaternion.set(camera.rotation());
 
         void rotate(Quaternionf quaternion, Camera camera, float partialTicks);
+    }
+
+    public static class Provider implements ParticleBehaviourProvider {
+        @Override
+        public @Nullable Particle createParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, double x, double z, double y, double xSpeed, double ySpeed, double zSpeed) {
+            return new ParticleInteractionsParticle(components, appearance, context, ParticleConfig.DEFAULT, x, y, z, ySpeed, zSpeed, xSpeed);
+        }
     }
 }

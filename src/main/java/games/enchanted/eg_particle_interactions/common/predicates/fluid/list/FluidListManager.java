@@ -1,77 +1,41 @@
 package games.enchanted.eg_particle_interactions.common.predicates.fluid.list;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.JsonOps;
 import games.enchanted.eg_particle_interactions.common.Constants;
-import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
+import games.enchanted.eg_particle_interactions.common.particle.util.ObjectReference;
+import games.enchanted.eg_particle_interactions.common.predicates.AbstractListManager;
+import games.enchanted.eg_particle_interactions.common.registry.ObjectOrTagLocation;
 import net.minecraft.resources.FileToIdConverter;
-import net.minecraft.resources.Identifier;
-import net.minecraft.server.packs.resources.Resource;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.util.StrictJsonParser;
-import net.minecraft.util.profiling.ProfilerFiller;
 
-import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class FluidListManager {
-    private static final Map<Identifier, FluidList> LIST_BY_ID = new HashMap<>();
-    private static final FileToIdConverter FILE_TO_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/lists/fluids");
-
-    public static final Codec<FluidList> INLINE_OR_ID_CODEC = FluidList.CODEC.withAlternative(
+public class FluidListManager extends AbstractListManager<FluidList.File, FluidList> {
+    public static final Codec<FluidList.Reference> INLINE_OR_ID_CODEC = FluidList.REFERENCE_CODEC.withAlternative(
         ModCodecs.IDENTIFIER.xmap(
-            FluidListManager::getOrDefault,
-            fluidList -> {
-                throw new IllegalStateException("Cannot serialise fluid list to id");
-            }
+            FluidList.Reference::new,
+            ObjectReference::id
         )
     );
 
     public static final FluidListManager INSTANCE = new FluidListManager();
 
-    public void prepareAndApply(ResourceManager manager, ProfilerFiller profiler) {
-        Map<Identifier, List<FluidList.File>> fluidListFiles = new HashMap<>();
-
-        for (Map.Entry<Identifier, List<Resource>> listResources : FILE_TO_ID_CONVERTER.listMatchingResourceStacks(manager).entrySet()) {
-            Identifier fileId = listResources.getKey();
-            Identifier listId = FILE_TO_ID_CONVERTER.fileToId(fileId);
-
-            List<FluidList.File> parsedFiles = new ArrayList<>();
-            this.parseListFiles(fileId, listResources.getValue(), parsedFiles);
-
-            fluidListFiles.put(listId, parsedFiles);
-        }
-
-        LIST_BY_ID.clear();
-
-        for (Map.Entry<Identifier, List<FluidList.File>> entry : fluidListFiles.entrySet()) {
-            FluidList combined = FluidList.File.combine(entry.getValue());
-            LIST_BY_ID.put(entry.getKey(), combined);
-        }
+    public FluidListManager() {
+        super(FileToIdConverter.json(Constants.MOD_ID + "/lists/fluids"), "fluid");
     }
 
-    protected void parseListFiles(Identifier fileId, List<Resource> resources, List<FluidList.File> output) {
-        for (Resource resource : resources) {
-            try (Reader reader = resource.openAsReader()) {
-                JsonElement json = StrictJsonParser.parse(reader);
-                output.add(FluidList.File.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
-            } catch (Exception e) {
-                Logging.error("Failed to parse fluid list '{}', {}", fileId, e);
-            }
-        }
+    @Override
+    protected Codec<FluidList.File> fileCodec() {
+        return FluidList.File.CODEC;
     }
 
-    public static FluidList getOrDefault(Identifier id) {
-        if(!LIST_BY_ID.containsKey(id)) {
-            Logging.warn("Fluid list with id '{}' was not found", id);
-            return new FluidList(List.of(), List.of());
-        }
-        return LIST_BY_ID.get(id);
+    @Override
+    protected FluidList listMaker(List<ObjectOrTagLocation> objectOrTagLocations) {
+        return new FluidList(objectOrTagLocations, List.of());
+    }
+
+    @Override
+    protected FluidList combineFiles(List<FluidList.File> files) {
+        return FluidList.File.combine(files);
     }
 }

@@ -19,7 +19,7 @@ public class ParticleComponents {
         Codec<T> codec,
         StreamCodec<? extends FriendlyByteBuf, T> streamCodec
     ) {
-        return ParticleComponentRegistry.INSTANCE.register(id, ParticleComponent.create(codec, streamCodec));
+        return ParticleComponentRegistry.register(id, ParticleComponent.create(codec, streamCodec));
     }
 
     public static void init() {

@@ -44,7 +44,7 @@ public record EmitterRuleSet(List<EmitterRule> rules, Emitter fallbackEmitter) {
         public static final Codec<EmitterRuleSet.File> CODEC = RecordCodecBuilder.create(
             i -> i.group(
                 Codec.list(EmitterRule.CODEC).optionalFieldOf("rules", List.of()).forGetter(EmitterRuleSet.File::rules),
-                Emitters.CODEC.optionalFieldOf("fallback_emitter", EmptyEmitter.INSTANCE).forGetter(EmitterRuleSet.File::fallbackEmitter)
+                Emitters.CODEC.fieldOf("fallback_emitter").forGetter(EmitterRuleSet.File::fallbackEmitter)
             ).apply(
                 i,
                 EmitterRuleSet.File::new

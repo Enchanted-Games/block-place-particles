@@ -13,6 +13,7 @@ import games.enchanted.eg_particle_interactions.common.particle.component.type.G
 import games.enchanted.eg_particle_interactions.common.particle.options.*;
 import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomFloatProvider;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
+import games.enchanted.eg_particle_interactions.common.particle.types.physics.StretchyBouncyShapeParticle;
 import games.enchanted.eg_particle_interactions.common.particle.types.vanilla.CustomMovementTerrainParticle;
 import games.enchanted.eg_particle_interactions.common.particle.types.bubble.UnderwaterRisingBubble;
 import games.enchanted.eg_particle_interactions.common.particle.types.constant_motion.LavaPop;
@@ -66,14 +67,23 @@ public class ParticleTypesRegistry {
         PIParticleType::codec
     );
 
+    // TODO: remove ParticleConfig, replace it all with components
+    // TODO: remove all definitions from here and move them to particle json files
+    // TODO: PIParticleType only used for currently hardcoded behaviour like stretchy shape particles
+    public static final PIParticleType<SimpleParticleOptions> STRETCHY_CUBE = register(
+        StretchyBouncyShapeParticle.Provider::new,
+        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "stretchy_cube"),
+        DefaultParticles.EMBER_CONFIG,
+        SimpleParticleOptions::codec,
+        SimpleParticleOptions::streamCodec,
+        () -> ""
+    );
+
 
     public static final PIParticleType<DustParticleOptions> SNOWFLAKE = register(
         Dust.SnowflakeProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "snowflake"),
         DefaultParticles.SNOWFLAKE_CONFIG,
-        ParticleComponentMap.Builder.createDefaults()
-            .set(ParticleComponents.GRAVITY, new GravityComponent(new RandomFloatProvider(0, 0)))
-        .build(),
         DustParticleOptions::codec,
         DustParticleOptions::streamCodec,
         DustParticleOptions::idPrefix

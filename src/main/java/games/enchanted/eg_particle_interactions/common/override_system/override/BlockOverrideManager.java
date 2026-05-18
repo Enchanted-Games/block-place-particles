@@ -22,7 +22,6 @@ public class BlockOverrideManager extends AbstractOverrideRuleLoader<BlockState,
 
     @Override
     protected Preparation<BlockState, BlockPredicate> prepare(ResourceManager manager, ProfilerFiller profiler) {
-        BlockListManager.INSTANCE.prepareAndApply(manager, profiler);
         return super.prepare(manager, profiler);
     }
 

@@ -22,7 +22,6 @@ public class FluidOverrideManager extends AbstractOverrideRuleLoader<FluidState,
 
     @Override
     protected Preparation<FluidState, FluidPredicate> prepare(ResourceManager manager, ProfilerFiller profiler) {
-        FluidListManager.INSTANCE.prepareAndApply(manager, profiler);
         return super.prepare(manager, profiler);
     }
 

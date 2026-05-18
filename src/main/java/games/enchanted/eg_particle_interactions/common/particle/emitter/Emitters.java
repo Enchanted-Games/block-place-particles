@@ -14,6 +14,7 @@ public class Emitters {
     static {
         EMITTER_TYPES.put(ParticleInteractionsMod.id("vanilla"), VanillaEmitter.CODEC);
         EMITTER_TYPES.put(ParticleInteractionsMod.id("particle_interactions"), ParticleInteractionsEmitter.CODEC);
+        EMITTER_TYPES.put(ParticleInteractionsMod.id("particle_interactions_new"), ParticleInteractionsNewEmitter.CODEC);
         EMITTER_TYPES.put(ParticleInteractionsMod.id("empty"), EmptyEmitter.EMPTY_CODEC);
         EMITTER_TYPES.put(ParticleInteractionsMod.id("random"), RandomEmitter.CODEC);
     }

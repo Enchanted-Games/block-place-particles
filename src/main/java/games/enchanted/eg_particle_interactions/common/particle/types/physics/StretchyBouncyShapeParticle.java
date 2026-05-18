@@ -7,12 +7,17 @@ import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
+import games.enchanted.eg_particle_interactions.common.particle.options.SimpleParticleOptions;
+import games.enchanted.eg_particle_interactions.common.particle.options.SparkParticleOptions;
+import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
+import games.enchanted.eg_particle_interactions.common.particle.types.spark.FlyingSpark;
 import games.enchanted.eg_particle_interactions.common.shapes.QuadFaceShape;
 import games.enchanted.eg_particle_interactions.common.shapes.ShapeDefinitions;
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import net.minecraft.client.Camera;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -20,8 +25,9 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.jspecify.annotations.Nullable;
 
-public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
+public class StretchyBouncyShapeParticle extends BouncyParticle {
     protected double prevPrevX;
     protected double prevPrevY;
     protected double prevPrevZ;
@@ -46,6 +52,14 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
 
         this.particleShapeScale = new Vector3f(1);
         this.setShape(ShapeDefinitions.CUBE);
+    }
+
+    @Override
+    public void setScale(float scale, boolean lerp) {
+        super.setScale(scale, lerp);
+        this.particleShapeScale.x = this.getScale();
+        this.particleShapeScale.y = this.getScale();
+        this.particleShapeScale.z = this.getScale();
     }
 
     @Override
@@ -171,4 +185,26 @@ public abstract class StretchyBouncyShapeParticle extends BouncyParticle {
         return super.getRenderBoundingBox(partialTicks).move(-diffX / 2, -diffY / 2, -diffZ / 2).inflate( Math.abs(new Vec3(this.x, this.y, this.z).distanceTo(new Vec3(this.xo, this.yo, this.zo)) / 2 ));
     }
     *///?}
+
+
+    public static class Provider implements PIParticleProvider<SimpleParticleOptions> {
+        public Provider() {
+        }
+
+        @Override
+        public @Nullable Particle createParticle(
+            SimpleParticleOptions options,
+            ParticleComponentMap components,
+            ParticleAppearance appearance,
+            ParticleContext context,
+            double x,
+            double z,
+            double y,
+            double xSpeed,
+            double ySpeed,
+            double zSpeed
+        ) {
+            return new StretchyBouncyShapeParticle(components, appearance, context, options.config(), x, y, z, xSpeed, ySpeed, zSpeed);
+        }
+    }
 }

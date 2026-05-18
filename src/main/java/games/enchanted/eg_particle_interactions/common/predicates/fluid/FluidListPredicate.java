@@ -17,13 +17,13 @@ public class FluidListPredicate extends FluidPredicate {
         )
     );
 
-    final FluidList fluidList;
+    final FluidList.Reference fluidList;
 
-    public FluidListPredicate(FluidList fluidList) {
+    public FluidListPredicate(FluidList.Reference fluidList) {
         this.fluidList = fluidList;
     }
 
-    protected FluidList getFluidList() {
+    protected FluidList.Reference getFluidList() {
         return this.fluidList;
     }
 
@@ -34,7 +34,7 @@ public class FluidListPredicate extends FluidPredicate {
 
     @Override
     public boolean matches(FluidState state) {
-        return ObjectOrTagLocation.doesListContainFluid(fluidList.blocksAndTags(), state) ||
-            fluidList.statePredicates().stream().anyMatch(p -> p.matches(state));
+        return ObjectOrTagLocation.doesListContainFluid(fluidList.get().blocksAndTags(), state) ||
+            fluidList.get().statePredicates().stream().anyMatch(p -> p.matches(state));
     }
 }

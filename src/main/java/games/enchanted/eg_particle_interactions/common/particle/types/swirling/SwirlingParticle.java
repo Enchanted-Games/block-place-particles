@@ -16,7 +16,7 @@ public class SwirlingParticle extends ParticleInteractionsParticle {
 
     // TODO: swirling particle options
     protected SwirlingParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, boolean shouldSwirl) {
-        super(components, appearance, context, config, y, z, xSpeed, ySpeed, zSpeed, x);
+        super(components, appearance, context, config, x, y, z, ySpeed, zSpeed, xSpeed);
         this.xd = xSpeed;
         this.yd = ySpeed;
         this.zd = zSpeed;
