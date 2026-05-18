@@ -57,9 +57,10 @@ public class StretchyBouncyShapeParticle extends BouncyParticle {
     @Override
     public void setScale(float scale, boolean lerp) {
         super.setScale(scale, lerp);
-        this.particleShapeScale.x = this.getScale();
-        this.particleShapeScale.y = this.getScale();
-        this.particleShapeScale.z = this.getScale();
+        // TODO: fix this when sparks arent hardcoded
+//        this.particleShapeScale.x = this.getScale();
+//        this.particleShapeScale.y = this.getScale();
+//        this.particleShapeScale.z = this.getScale();
     }
 
     @Override
