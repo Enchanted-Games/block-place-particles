@@ -11,7 +11,8 @@ import games.enchanted.eg_particle_interactions.common.particle.appearance.Sprit
 import games.enchanted.eg_particle_interactions.common.particle.appearance.texture.TextureConfig;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponents;
-import games.enchanted.eg_particle_interactions.common.particle.component.type.GravityComponent;
+import games.enchanted.eg_particle_interactions.common.particle.component.type.FloatProviderComponent;
+import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomFloatProvider;
 import games.enchanted.eg_particle_interactions.common.particle.render.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.StateQuadConsumer;
@@ -79,11 +80,10 @@ public class ParticleInteractionsParticle extends Particle {
         this.currentSprite = TextureHelpers.missingParticleSprite();
         this.pickSpriteForAppearance();
 
-        this.gravity = config.getGravityProvider().getValue(context);
-        GravityComponent gravityComponent = components.get(ParticleComponents.GRAVITY);
-        if(gravityComponent != null) {
-            this.gravity = gravityComponent.initialGravity().getValue(context);
-        }
+        FloatProviderComponent gravityComponent = components.getOrFallback(ParticleComponents.GRAVITY_INITIAL, FloatProviderComponent.ZERO);
+        this.gravity = gravityComponent.provider().getValue(context);
+        FloatProviderComponent gravityDecayComponent = components.getOrFallback(ParticleComponents.GRAVITY_DECAY, FloatProviderComponent.ONE);
+        this.gravityDecay = gravityDecayComponent.provider().getValue(context);
 
         this.lifetime = config.getLifetimeProvider().getValue(context);
         float collisionSize = config.getCollisionSizeProvider().getValue(context);
@@ -105,7 +105,6 @@ public class ParticleInteractionsParticle extends Particle {
 
         this.layer = ParticleLayer.fromAppearance(context, appearance);
 
-        this.gravityDecay = (1 - config.getGravityDecayProvider().getValue(context));
         this.velocityDecay = (1 - config.getVelocityDecayProvider().getValue(context));
     }
 

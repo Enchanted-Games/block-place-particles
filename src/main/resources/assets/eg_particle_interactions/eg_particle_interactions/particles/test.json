@@ -1,5 +1,5 @@
 {
     "components": {
-        "gravity": {"initial_gravity": 0}
+        "gravity/initial": 0.5
     }
 }

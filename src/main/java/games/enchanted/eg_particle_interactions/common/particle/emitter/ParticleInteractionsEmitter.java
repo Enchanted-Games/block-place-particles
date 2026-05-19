@@ -18,7 +18,7 @@ public class ParticleInteractionsEmitter extends Emitter {
         instance.group(
             Codec.DOUBLE.optionalFieldOf(Emitter.VELOCITY_MULTIPLIER_NAME, Emitter.VELOCITY_MULTIPLIER_DEFAULT).forGetter(Emitter::getVelocityMultiplier),
             ParticleTypesRegistry.CODEC.fieldOf("particle").forGetter(ParticleInteractionsEmitter::getParticleOptions),
-            ParticleAppearanceManager.INLINE_OR_ID_CODEC.optionalFieldOf("appearance").forGetter(particleInteractionsEmitter -> Optional.ofNullable(particleInteractionsEmitter.getAppearance()))
+            ParticleAppearanceManager.REFERENCE_CODEC.optionalFieldOf("appearance").forGetter(particleInteractionsEmitter -> Optional.ofNullable(particleInteractionsEmitter.getAppearance()))
         ).apply(
             instance,
             (
@@ -34,9 +34,9 @@ public class ParticleInteractionsEmitter extends Emitter {
     );
 
     final PIParticleOptions particleOptions;
-    final @Nullable ParticleAppearance appearance;
+    final ParticleAppearance.@Nullable Reference appearance;
 
-    public ParticleInteractionsEmitter(double velocityMultiplier, PIParticleOptions particleOptions, @Nullable ParticleAppearance appearance) {
+    public ParticleInteractionsEmitter(double velocityMultiplier, PIParticleOptions particleOptions, ParticleAppearance.@Nullable Reference appearance) {
         super(velocityMultiplier);
         this.particleOptions = particleOptions;
         this.appearance = appearance;
@@ -50,7 +50,7 @@ public class ParticleInteractionsEmitter extends Emitter {
     public void spawnParticle(ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         ParticleSpawner.spawn(
             this.particleOptions,
-            this.appearance,
+            this.appearance == null ? null : this.appearance.get(),
             context,
             x,
             y,
@@ -70,7 +70,7 @@ public class ParticleInteractionsEmitter extends Emitter {
         return this.particleOptions;
     }
 
-    protected @Nullable ParticleAppearance getAppearance() {
+    protected ParticleAppearance.@Nullable Reference getAppearance() {
         return this.appearance;
     }
 }

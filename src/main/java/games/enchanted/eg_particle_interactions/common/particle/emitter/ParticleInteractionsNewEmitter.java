@@ -19,40 +19,41 @@ public class ParticleInteractionsNewEmitter extends Emitter {
         instance.group(
             Codec.DOUBLE.optionalFieldOf(Emitter.VELOCITY_MULTIPLIER_NAME, Emitter.VELOCITY_MULTIPLIER_DEFAULT).forGetter(Emitter::getVelocityMultiplier),
             ParticleDefinitionManager.REFERENCE_CODEC.fieldOf("particle").forGetter(ParticleInteractionsNewEmitter::getParticleDefinition),
-            ParticleAppearanceManager.INLINE_OR_ID_CODEC.optionalFieldOf("appearance").forGetter(particleInteractionsEmitter -> Optional.ofNullable(particleInteractionsEmitter.getAppearance()))
+            ParticleComponentMap.CODEC.optionalFieldOf("components", ParticleComponentMap.EMPTY).forGetter(ParticleInteractionsNewEmitter::getCustomComponents),
+            ParticleAppearanceManager.REFERENCE_CODEC.optionalFieldOf("appearance").forGetter(emitter -> Optional.ofNullable(emitter.getAppearance()))
         ).apply(
             instance,
             (
                 velocityMultiplier,
-                particleOptions,
+                definitionReference,
+                customComponents,
                 appearance
             ) -> new ParticleInteractionsNewEmitter(
                 velocityMultiplier,
-                particleOptions,
+                definitionReference,
+                customComponents,
                 appearance.orElse(null)
             )
         )
     );
 
     final ParticleDefinition.Reference particleDefinition;
-    final @Nullable ParticleAppearance appearance;
+    final ParticleComponentMap customComponents;
+    final ParticleAppearance.@Nullable Reference appearance;
 
-    public ParticleInteractionsNewEmitter(double velocityMultiplier, ParticleDefinition.Reference particleDefinition, @Nullable ParticleAppearance appearance) {
+    public ParticleInteractionsNewEmitter(double velocityMultiplier, ParticleDefinition.Reference particleDefinition, ParticleComponentMap customComponents, ParticleAppearance.@Nullable Reference appearance) {
         super(velocityMultiplier);
         this.particleDefinition = particleDefinition;
+        this.customComponents = customComponents;
         this.appearance = appearance;
-    }
-
-    public static Emitter defaultAppearance(double velocityMultiplier, ParticleDefinition.Reference particleDefinition) {
-        return new ParticleInteractionsNewEmitter(velocityMultiplier, particleDefinition, null);
     }
 
     @Override
     public void spawnParticle(ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         ParticleSpawner.spawn(
             this.particleDefinition.get(),
-            ParticleComponentMap.EMPTY,
-            this.appearance,
+            this.customComponents,
+            this.appearance == null ? null : this.appearance.get(),
             context,
             x,
             y,
@@ -72,7 +73,11 @@ public class ParticleInteractionsNewEmitter extends Emitter {
         return this.particleDefinition;
     }
 
-    protected @Nullable ParticleAppearance getAppearance() {
+    protected ParticleComponentMap getCustomComponents() {
+        return this.customComponents;
+    }
+
+    protected ParticleAppearance.@Nullable Reference getAppearance() {
         return this.appearance;
     }
 }

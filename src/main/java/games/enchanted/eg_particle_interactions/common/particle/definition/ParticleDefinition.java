@@ -5,7 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.particle.behaviour.ParticleBehaviourProvider;
 import games.enchanted.eg_particle_interactions.common.particle.behaviour.ParticleBehaviours;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
-import games.enchanted.eg_particle_interactions.common.particle.util.ObjectReference;
+import games.enchanted.eg_particle_interactions.common.util.ObjectReference;
 import net.minecraft.resources.Identifier;
 
 public record ParticleDefinition(ParticleComponentMap defaultComponents, ParticleBehaviourProvider behaviourProvider) {

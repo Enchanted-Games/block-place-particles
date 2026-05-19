@@ -11,8 +11,8 @@ public interface ParticleComponentGetter {
         return this.get(component.componentType());
     }
 
-    default <T> T getOrDefault(final ParticleComponent<? extends T> component, final T defaultValue) {
-        T value = this.get(component);
-        return value != null ? value : defaultValue;
+    default <T> T getOrFallback(ParticleComponentRegistry.ComponentReference<? extends T> component, T fallback) {
+        var value = this.get(component.componentType());
+        return value == null ? fallback : value;
     }
 }

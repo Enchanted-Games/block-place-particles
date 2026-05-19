@@ -1,13 +1,11 @@
 package games.enchanted.eg_particle_interactions.common.particle.appearance;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.Logging;
-import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
@@ -17,7 +15,6 @@ import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.StrictJsonParser;
 import net.minecraft.util.profiling.ProfilerFiller;
 
-import java.io.IOException;
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,10 +25,13 @@ public class ParticleAppearanceManager extends SimplePreparableReloadListener<Pa
 
     public static final ParticleAppearanceManager INSTANCE = new ParticleAppearanceManager();
 
-    public static final Codec<ParticleAppearance> INLINE_OR_ID_CODEC = ParticleAppearance.CODEC.withAlternative(
-        ModCodecs.IDENTIFIER.xmap(
-            ParticleAppearanceManager::get,
-            appearance -> ParticleInteractionsMod.id("unknown")
+    public static final Codec<ParticleAppearance.Reference> REFERENCE_CODEC = ModCodecs.IDENTIFIER.xmap(
+        ParticleAppearance.Reference::new,
+        ParticleAppearance.Reference::id
+    ).withAlternative(
+        ParticleAppearance.CODEC.xmap(
+            ParticleAppearance.InlineRef::new,
+            ParticleAppearance.InlineRef::lookupObject
         )
     );
 

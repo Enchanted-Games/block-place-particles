@@ -3,9 +3,8 @@ package games.enchanted.eg_particle_interactions.common.predicates.biome.list;
 import com.mojang.serialization.Codec;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
-import games.enchanted.eg_particle_interactions.common.particle.util.ObjectReference;
+import games.enchanted.eg_particle_interactions.common.util.ObjectReference;
 import games.enchanted.eg_particle_interactions.common.predicates.AbstractListManager;
-import games.enchanted.eg_particle_interactions.common.predicates.fluid.list.FluidList;
 import games.enchanted.eg_particle_interactions.common.registry.ObjectOrTagLocation;
 import net.minecraft.resources.FileToIdConverter;
 
