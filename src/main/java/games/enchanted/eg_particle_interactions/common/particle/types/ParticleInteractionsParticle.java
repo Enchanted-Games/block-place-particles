@@ -12,6 +12,7 @@ import games.enchanted.eg_particle_interactions.common.particle.appearance.Sprit
 import games.enchanted.eg_particle_interactions.common.particle.appearance.texture.TextureConfig;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponents;
+import games.enchanted.eg_particle_interactions.common.particle.component.type.BooleanComponent;
 import games.enchanted.eg_particle_interactions.common.particle.component.type.FloatProviderComponent;
 import games.enchanted.eg_particle_interactions.common.particle.component.type.IntProviderComponent;
 import games.enchanted.eg_particle_interactions.common.particle.component.type.Vec3Component;
@@ -137,7 +138,8 @@ public class ParticleInteractionsParticle extends Particle {
 
         this.layer = ParticleLayer.fromAppearance(context, appearance);
 
-        ((ParticleAccess) this).eg_particle_interactions$setBypassMovementCollisionCheck(this.friction < 0.99);
+        BooleanComponent bypassCollisionCheckComponent = components.get(ParticleComponents.PHYSICS_BYPASS_COLLISION_CHECK);
+        ((ParticleAccess) this).eg_particle_interactions$setBypassMovementCollisionCheck( bypassCollisionCheckComponent == null ? this.friction < 0.99 : bypassCollisionCheckComponent.value());
     }
 
     protected SingleQuadParticle.Layer getVanillaLayer() {

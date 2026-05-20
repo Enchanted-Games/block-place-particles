@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.particle.component;
 
 import com.mojang.serialization.Codec;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
+import games.enchanted.eg_particle_interactions.common.particle.component.type.BooleanComponent;
 import games.enchanted.eg_particle_interactions.common.particle.component.type.FloatProviderComponent;
 import games.enchanted.eg_particle_interactions.common.particle.component.type.IntProviderComponent;
 import games.enchanted.eg_particle_interactions.common.particle.component.type.Vec3Component;
@@ -54,6 +55,11 @@ public class ParticleComponents {
         ParticleInteractionsMod.id("physics/fluid_dampen"),
         FloatProviderComponent.CODEC,
         FloatProviderComponent.STREAM_CODEC
+    );
+    public static final ParticleComponentRegistry.ComponentReference<BooleanComponent> PHYSICS_BYPASS_COLLISION_CHECK = register(
+        ParticleInteractionsMod.id("physics/bypass_collision_check"),
+        BooleanComponent.CODEC,
+        BooleanComponent.STREAM_CODEC
     );
 
     public static <T> ParticleComponentRegistry.ComponentReference<T> register(
