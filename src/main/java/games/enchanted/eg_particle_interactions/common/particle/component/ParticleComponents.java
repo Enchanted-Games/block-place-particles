@@ -45,6 +45,16 @@ public class ParticleComponents {
         FloatProviderComponent.CODEC,
         FloatProviderComponent.STREAM_CODEC
     );
+    public static final ParticleComponentRegistry.ComponentReference<FloatProviderComponent> PHYSICS_BOUNCINESS = register(
+        ParticleInteractionsMod.id("physics/bounciness"),
+        FloatProviderComponent.CODEC,
+        FloatProviderComponent.STREAM_CODEC
+    );
+    public static final ParticleComponentRegistry.ComponentReference<FloatProviderComponent> PHYSICS_FLUID_DAMPEN = register(
+        ParticleInteractionsMod.id("physics/fluid_dampen"),
+        FloatProviderComponent.CODEC,
+        FloatProviderComponent.STREAM_CODEC
+    );
 
     public static <T> ParticleComponentRegistry.ComponentReference<T> register(
         Identifier id,

@@ -15,7 +15,6 @@ import games.enchanted.eg_particle_interactions.common.particle.component.Partic
 import games.enchanted.eg_particle_interactions.common.particle.component.type.FloatProviderComponent;
 import games.enchanted.eg_particle_interactions.common.particle.component.type.IntProviderComponent;
 import games.enchanted.eg_particle_interactions.common.particle.component.type.Vec3Component;
-import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomFloatProvider;
 import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomIntProvider;
 import games.enchanted.eg_particle_interactions.common.particle.render.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
@@ -29,14 +28,21 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 import org.jspecify.annotations.Nullable;
 
+import java.util.List;
+
 public class ParticleInteractionsParticle extends Particle {
+    protected static final double MAXIMUM_COLLISION_VELOCITY_SQUARED = Mth.square(100.0F);
+
     private float scale;
     private float prevScale;
     protected float roll;
@@ -46,6 +52,11 @@ public class ParticleInteractionsParticle extends Particle {
     protected final int minLightEmission;
     protected final float gravityDecay;
     protected final Vec3 velocityDecay;
+
+    protected float bounciness = 0f;
+    protected float fluidDampen = 0f;
+    protected boolean isInFluid = false;
+    protected boolean hasEnteredFluid = false;
 
     protected ParticleContext context;
     protected ParticleAppearance appearance;
@@ -102,6 +113,13 @@ public class ParticleInteractionsParticle extends Particle {
 
         FloatProviderComponent frictionComponent = components.getOrFallback(ParticleComponents.PHYSICS_FRICTION, FloatProviderComponent.ZERO);
         this.friction = frictionComponent.provider().getValue(context);
+
+        FloatProviderComponent bouncinessComponent = components.getOrFallback(ParticleComponents.PHYSICS_BOUNCINESS, FloatProviderComponent.ZERO);
+        this.bounciness = bouncinessComponent.provider().getValue(context);
+
+        FloatProviderComponent fluidDampenComponent = components.getOrFallback(ParticleComponents.PHYSICS_FLUID_DAMPEN, FloatProviderComponent.ZERO);
+        this.fluidDampen = fluidDampenComponent.provider().getValue(context);
+
 
         // 0.1 - 0.2
         this.scale = 0.1f * (this.random.nextFloat() * 0.5f + 0.5f) * 2.0f;
@@ -200,6 +218,19 @@ public class ParticleInteractionsParticle extends Particle {
             return;
         }
 
+        this.doBouncyPhysics();
+
+        this.isInFluid = !this.level.getFluidState(BlockPos.containing(this.x, this.y, this.z)).is(Fluids.EMPTY);
+        if (this.isInFluid) {
+            this.hasEnteredFluid = true;
+        }
+        if (this.isInFluid) {
+            final float effectiveFluidDampen = 1 - this.fluidDampen;
+            this.xd *= effectiveFluidDampen;
+            this.yd *= effectiveFluidDampen;
+            this.zd *= effectiveFluidDampen;
+        }
+
         this.yd -= 0.04 * this.gravity;
         this.move(this.xd, this.yd, this.zd);
         if (this.speedUpWhenYMotionIsBlocked && this.y == this.yo) {
@@ -214,6 +245,22 @@ public class ParticleInteractionsParticle extends Particle {
         }
 
         this.applyGravityAndVelocityDecays();
+    }
+
+    protected void doBouncyPhysics() {
+        if (age > 0 && this.bounciness > 0 && this.hasPhysics) {
+            if (GeneralOptions.ADVANCED_PARTICLE_PHYSICS.getValue()) {
+                double xVel = this.xd;
+                double yVel = this.yd;
+                double zVel = this.zd;
+                if (xVel * xVel + yVel * yVel + zVel * zVel < MAXIMUM_COLLISION_VELOCITY_SQUARED) {
+                    Vec3 collisionVector = Entity.collideBoundingBox(null, new Vec3(xVel, yVel, zVel), this.getBoundingBox(), this.level, List.of());
+                    this.xd = collisionVector.x == 0.0 ? -this.xd * this.bounciness : this.xd;
+                    this.yd = collisionVector.y == 0.0 ? -this.yd * this.bounciness : this.yd;
+                    this.zd = collisionVector.z == 0.0 ? -this.zd * this.bounciness : this.zd;
+                }
+            }
+        }
     }
 
     protected void applyGravityAndVelocityDecays() {

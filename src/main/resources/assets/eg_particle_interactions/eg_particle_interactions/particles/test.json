@@ -1,12 +1,14 @@
 {
     "components": {
-        "gravity/initial": 0.4,
+        "gravity/initial": 1,
         "lifetime": {
-            "min": 20,
-            "max": 30
+            "min": 200,
+            "max": 300
         },
         "velocity/initial_randomness": [0.1, 0.1, 0.1],
         "physics/collision_size": 1,
-        "physics/friction": 0.3
+        "physics/friction": 0.0,
+        "physics/bounciness": 1,
+        "physics/fluid_dampen": 0.06
     }
 }
