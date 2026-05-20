@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.types;
 
+import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
 import games.enchanted.eg_particle_interactions.common.particle.behaviour.ParticleBehaviourProvider;
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes;
@@ -12,7 +13,10 @@ import games.enchanted.eg_particle_interactions.common.particle.appearance.textu
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponents;
 import games.enchanted.eg_particle_interactions.common.particle.component.type.FloatProviderComponent;
+import games.enchanted.eg_particle_interactions.common.particle.component.type.IntProviderComponent;
+import games.enchanted.eg_particle_interactions.common.particle.component.type.Vec3Component;
 import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomFloatProvider;
+import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomIntProvider;
 import games.enchanted.eg_particle_interactions.common.particle.render.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.StateQuadConsumer;
@@ -41,7 +45,7 @@ public class ParticleInteractionsParticle extends Particle {
     protected float billboardXOffset = 0.0f;
     protected final int minLightEmission;
     protected final float gravityDecay;
-    protected final float velocityDecay;
+    protected final Vec3 velocityDecay;
 
     protected ParticleContext context;
     protected ParticleAppearance appearance;
@@ -70,9 +74,13 @@ public class ParticleInteractionsParticle extends Particle {
         super(context.level(), x, y, z, xSpeed, ySpeed, zSpeed);
         ClientLevel level = context.level();
 
-        this.xd = xSpeed + ((level.getRandom().nextFloat() - 0.5f) * 2f * config.getInitialVelocityRandomness());
-        this.yd = ySpeed + ((level.getRandom().nextFloat() - 0.5f) * 2f * config.getInitialVelocityRandomness());
-        this.zd = zSpeed + ((level.getRandom().nextFloat() - 0.5f) * 2f * config.getInitialVelocityRandomness());
+        Vec3Component velocityRandomnessComponent = components.getOrFallback(ParticleComponents.VELOCITY_INITIAL_RANDOMNESS, Vec3Component.ZERO);
+        this.xd = xSpeed + ((level.getRandom().nextFloat() - 0.5f) * 2f * velocityRandomnessComponent.vec3().x());
+        this.yd = ySpeed + ((level.getRandom().nextFloat() - 0.5f) * 2f * velocityRandomnessComponent.vec3().y());
+        this.zd = zSpeed + ((level.getRandom().nextFloat() - 0.5f) * 2f * velocityRandomnessComponent.vec3().z());
+
+        Vec3Component velocityDecayComponent = components.getOrFallback(ParticleComponents.VELOCITY_DECAY, Vec3Component.ONE);
+        this.velocityDecay = velocityDecayComponent.vec3();
 
         this.context = context;
         this.appearance = appearance;
@@ -85,9 +93,15 @@ public class ParticleInteractionsParticle extends Particle {
         FloatProviderComponent gravityDecayComponent = components.getOrFallback(ParticleComponents.GRAVITY_DECAY, FloatProviderComponent.ONE);
         this.gravityDecay = gravityDecayComponent.provider().getValue(context);
 
-        this.lifetime = config.getLifetimeProvider().getValue(context);
-        float collisionSize = config.getCollisionSizeProvider().getValue(context);
+        IntProviderComponent lifetimeComponent = components.getOrFallback(ParticleComponents.LIFETIME, new IntProviderComponent(new RandomIntProvider(20, 20)));
+        this.lifetime = lifetimeComponent.provider().getValue(context);
+
+        FloatProviderComponent collisionSizeComponent = components.getOrFallback(ParticleComponents.PHYSICS_COLLISION_SIZE, FloatProviderComponent.ZERO);
+        float collisionSize = collisionSizeComponent.provider().getValue(context) / 16;
         this.setSize(collisionSize, collisionSize);
+
+        FloatProviderComponent frictionComponent = components.getOrFallback(ParticleComponents.PHYSICS_FRICTION, FloatProviderComponent.ZERO);
+        this.friction = frictionComponent.provider().getValue(context);
 
         // 0.1 - 0.2
         this.scale = 0.1f * (this.random.nextFloat() * 0.5f + 0.5f) * 2.0f;
@@ -105,7 +119,7 @@ public class ParticleInteractionsParticle extends Particle {
 
         this.layer = ParticleLayer.fromAppearance(context, appearance);
 
-        this.velocityDecay = (1 - config.getVelocityDecayProvider().getValue(context));
+        ((ParticleAccess) this).eg_particle_interactions$setBypassMovementCollisionCheck(this.friction < 0.99);
     }
 
     protected SingleQuadParticle.Layer getVanillaLayer() {
@@ -174,15 +188,38 @@ public class ParticleInteractionsParticle extends Particle {
 
     @Override
     public void tick() {
+        if(this.removed) return;
+
         this.pickSpriteForAppearance();
-        super.tick();
+
+        this.xo = this.x;
+        this.yo = this.y;
+        this.zo = this.z;
+        if (this.age++ >= this.lifetime) {
+            this.remove();
+            return;
+        }
+
+        this.yd -= 0.04 * this.gravity;
+        this.move(this.xd, this.yd, this.zd);
+        if (this.speedUpWhenYMotionIsBlocked && this.y == this.yo) {
+            this.xd *= 1.1;
+            this.zd *= 1.1;
+        }
+        if (this.onGround) {
+            final float effectiveFriction = 1 - this.friction;
+            this.xd *= effectiveFriction;
+            this.yd *= effectiveFriction;
+            this.zd *= effectiveFriction;
+        }
+
         this.applyGravityAndVelocityDecays();
     }
 
     protected void applyGravityAndVelocityDecays() {
-        this.xd *= this.velocityDecay;
-        this.yd *= this.velocityDecay;
-        this.zd *= this.velocityDecay;
+        this.xd *= this.velocityDecay.x();
+        this.yd *= this.velocityDecay.y();
+        this.zd *= this.velocityDecay.z();
 
         this.gravity *= this.gravityDecay;
     }
@@ -234,6 +271,33 @@ public class ParticleInteractionsParticle extends Particle {
         return new AABB(pos.subtract(scale), pos.add(scale));
     }
 
+    @Override
+    protected final void setSize(float w, float h) {
+        if (w != this.bbWidth || h != this.bbHeight) {
+            this.bbWidth = w;
+            this.bbHeight = h;
+            AABB aabb = this.getBoundingBox();
+            double newMinX = (aabb.minX + aabb.maxX - w) / 2.0d;
+            double newMinY = aabb.minY - this.bbHeight / 2;
+            double newMinZ = (aabb.minZ + aabb.maxZ - w) / 2.0d;
+            this.setBoundingBox(new AABB(
+                newMinX,
+                newMinY,
+                newMinZ,
+                newMinX + this.bbWidth,
+                newMinY + this.bbHeight,
+                newMinZ + this.bbWidth
+            ));
+        }
+    }
+
+    @Override
+    protected void setLocationFromBoundingbox() {
+        AABB aabb = this.getBoundingBox();
+        this.x = (aabb.minX + aabb.maxX) / 2.0d;
+        this.y = (aabb.minY + aabb.maxY) / 2.0d;
+        this.z = (aabb.minZ + aabb.maxZ) / 2.0d;
+    }
 
     /**
      * Wrapper around minecrafts light coords / light color methods for easier multi version support
