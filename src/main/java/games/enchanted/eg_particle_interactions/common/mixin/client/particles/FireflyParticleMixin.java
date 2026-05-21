@@ -3,7 +3,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.client.particles;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
-import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
+import games.enchanted.eg_particle_interactions.common.duck.ParticleDuck;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.FireflyParticle;
 import net.minecraft.client.particle.SingleQuadParticle;
@@ -28,7 +28,7 @@ public abstract class FireflyParticleMixin extends SingleQuadParticle {
     )
     private void eg_particle_interactions$makeFirefliesNotGetStuckOnStuff(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, TextureAtlasSprite textureAtlasSprite, CallbackInfo ci) {
         if(!GeneralOptions.FIREFLY_FIXES.getValue()) return;
-        ((ParticleAccess) this).eg_particle_interactions$setBypassMovementCollisionCheck(true);
+        ((ParticleDuck) this).eg_particle_interactions$setBypassMovementCollisionCheck(true);
     }
 
     @WrapOperation(

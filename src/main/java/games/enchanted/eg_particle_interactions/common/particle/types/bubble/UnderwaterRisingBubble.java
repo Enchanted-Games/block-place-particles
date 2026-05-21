@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.bubble;
 
-import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
+import games.enchanted.eg_particle_interactions.common.duck.ParticleDuck;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
@@ -22,7 +22,7 @@ public class UnderwaterRisingBubble extends ParticleInteractionsParticle {
 
         this.setScale(this.getScale() * (this.random.nextFloat() * 0.6F + 0.2F));
 
-        ((ParticleAccess) this).eg_particle_interactions$setBypassMovementCollisionCheck(true);
+        ((ParticleDuck) this).eg_particle_interactions$setBypassMovementCollisionCheck(true);
     }
 
     @Override
@@ -30,15 +30,15 @@ public class UnderwaterRisingBubble extends ParticleInteractionsParticle {
         super.tick();
         if (this.age > 1 && !this.removed && !this.level.getFluidState(BlockPos.containing(this.x, this.y + 0.125f, this.z)).is(FluidTags.WATER)) {
             this.popAndRemove();
-        } else if (this.age >= this.lifetime - 1 || ((ParticleAccess) this).eg_particle_interactions$isStoppedByCollision()) {
+        } else if (this.age >= this.lifetime - 1 || ((ParticleDuck) this).eg_particle_interactions$isStoppedByCollision()) {
             this.popAndRemove();
         }
         this.xd *= 0.9;
         this.zd *= 0.9;
 
         // if moving upwards
-        if (this.yd > 0 && ((ParticleAccess) this).eg_particle_interactions$getBypassMovementCollisionCheck()) {
-            ((ParticleAccess) this).eg_particle_interactions$setBypassMovementCollisionCheck(false);
+        if (this.yd > 0 && ((ParticleDuck) this).eg_particle_interactions$getBypassMovementCollisionCheck()) {
+            ((ParticleDuck) this).eg_particle_interactions$setBypassMovementCollisionCheck(false);
         }
     }
 

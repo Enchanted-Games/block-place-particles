@@ -2,10 +2,7 @@ package games.enchanted.eg_particle_interactions.common.particle.component;
 
 import com.mojang.serialization.Codec;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
-import games.enchanted.eg_particle_interactions.common.particle.component.type.BooleanComponent;
-import games.enchanted.eg_particle_interactions.common.particle.component.type.FloatProviderComponent;
-import games.enchanted.eg_particle_interactions.common.particle.component.type.IntProviderComponent;
-import games.enchanted.eg_particle_interactions.common.particle.component.type.Vec3Component;
+import games.enchanted.eg_particle_interactions.common.particle.component.type.*;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
@@ -60,6 +57,16 @@ public class ParticleComponents {
         ParticleInteractionsMod.id("physics/bypass_collision_check"),
         BooleanComponent.CODEC,
         BooleanComponent.STREAM_CODEC
+    );
+    public static final ParticleComponentRegistry.ComponentReference<AppearanceComponent> APPEARANCE = register(
+        ParticleInteractionsMod.id("appearance"),
+        AppearanceComponent.CODEC,
+        AppearanceComponent.STREAM_CODEC
+    );
+    public static final ParticleComponentRegistry.ComponentReference<LifetimeEventsComponent> LIFETIME_EVENTS = register(
+        ParticleInteractionsMod.id("lifetime_events"),
+        LifetimeEventsComponent.CODEC,
+        LifetimeEventsComponent.STREAM_CODEC
     );
 
     public static <T> ParticleComponentRegistry.ComponentReference<T> register(

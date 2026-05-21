@@ -1,11 +1,18 @@
 package games.enchanted.eg_particle_interactions.common.util;
 
-import net.minecraft.util.Mth;
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
 
 public class MathHelpers {
+    public static boolean isInRange(double value, double min, double max) {
+        return min <= value && value <= max;
+    }
+
+    public static double clampIfInRange(double value, double clamp, double min, double max) {
+        return !isInRange(value, min, max) ? value : clamp;
+    }
+
     public static int clampInt(int val, int min, int max) {
         return Math.max(min, Math.min(max, val));
     }

@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.client.particles;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
-import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
+import games.enchanted.eg_particle_interactions.common.duck.ParticleDuck;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.util.Mth;
@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Particle.class)
-public class ParticleMixin implements ParticleAccess {
+public class ParticleMixin implements ParticleDuck {
     @Shadow protected double y;
     @Shadow protected boolean hasPhysics;
     @Shadow private boolean stoppedByCollision;

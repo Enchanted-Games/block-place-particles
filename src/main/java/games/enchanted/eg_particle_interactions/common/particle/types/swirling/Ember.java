@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.swirling;
 
-import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
+import games.enchanted.eg_particle_interactions.common.duck.ParticleDuck;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
@@ -23,7 +23,7 @@ public class Ember extends SwirlingParticle {
 
         this.setScale(2.5f / 32f);
 
-        ((ParticleAccess) this).eg_particle_interactions$setBypassMovementCollisionCheck(true);
+        ((ParticleDuck) this).eg_particle_interactions$setBypassMovementCollisionCheck(true);
     }
 
     @Override

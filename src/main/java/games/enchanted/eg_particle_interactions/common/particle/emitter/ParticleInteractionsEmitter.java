@@ -48,7 +48,7 @@ public class ParticleInteractionsEmitter extends Emitter {
 
     @Override
     public void spawnParticle(ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        ParticleSpawner.spawn(
+        ParticleSpawner.spawnWithAppearance(
             this.particleOptions,
             this.appearance == null ? null : this.appearance.get(),
             context,

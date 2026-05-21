@@ -6,6 +6,8 @@ import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesReg
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearanceManager;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponents;
+import games.enchanted.eg_particle_interactions.common.particle.component.type.AppearanceComponent;
 import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleDefinition;
 import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleDefinitionManager;
 import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
@@ -26,10 +28,10 @@ public class ParticleSpawner {
         double ySpeed,
         double zSpeed
     ) {
-        spawn(options, null, context, x, y, z, xSpeed, ySpeed, zSpeed);
+        spawnWithAppearance(options, null, context, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 
-    public static void spawn(
+    public static void spawnWithAppearance(
         PIParticleOptions options,
         @Nullable ParticleAppearance appearance,
         ParticleContext context,
@@ -40,13 +42,18 @@ public class ParticleSpawner {
         double ySpeed,
         double zSpeed
     ) {
-        spawn(options, ParticleComponentMap.EMPTY, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed);
+        ParticleComponentMap components = ParticleComponentMap.EMPTY;
+        if(appearance != null) {
+            components = ParticleComponentMap.Builder.create()
+                .set(ParticleComponents.APPEARANCE, new AppearanceComponent(new ParticleAppearance.InlineRef(appearance)))
+                .build();
+        }
+        spawn(options, components, context, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 
     public static void spawn(
         PIParticleOptions options,
         ParticleComponentMap components,
-        @Nullable ParticleAppearance appearance,
         ParticleContext context,
         double x,
         double y,
@@ -55,7 +62,7 @@ public class ParticleSpawner {
         double ySpeed,
         double zSpeed
     ) {
-        spawnParticle(options, components, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed);
+        spawnParticle(options, components, context, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 
     public static void spawn(
@@ -70,14 +77,20 @@ public class ParticleSpawner {
         double ySpeed,
         double zSpeed
     ) {
-        spawnParticle(definition, customComponents, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed);
+        if(appearance == null) {
+            spawnParticle(definition, customComponents, context, x, y, z, xSpeed, ySpeed, zSpeed);
+            return;
+        }
+        ParticleComponentMap components = ParticleComponentMap.Builder.create()
+            .set(ParticleComponents.APPEARANCE, new AppearanceComponent(new ParticleAppearance.InlineRef(appearance)))
+            .build();
+        spawnParticle(definition, ParticleComponentMap.Builder.combine(components, customComponents), context, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 
     @SuppressWarnings("unchecked")
     private static <T extends PIParticleOptions> void spawnParticle(
         final T options,
         ParticleComponentMap components,
-        @Nullable ParticleAppearance appearance,
         ParticleContext context,
         double x,
         double y,
@@ -93,11 +106,12 @@ public class ParticleSpawner {
         PIParticleProvider<T> provider = ParticleTypesRegistry.getProviderOrThrow(type);
         Identifier particleId = ParticleTypesRegistry.getIdOrThrow(type);
         ParticleComponentMap combinedComponentMap = ParticleComponentMap.Builder.combine(type.defaultComponents(), components);
+        AppearanceComponent appearance = combinedComponentMap.get(ParticleComponents.APPEARANCE);
 
         Particle particle = provider.createParticle(
             options,
             combinedComponentMap,
-            appearance != null ? appearance : ParticleAppearanceManager.get(particleId),
+            appearance != null ? appearance.value().get() : ParticleAppearanceManager.get(particleId),
             context,
             x,
             z,
@@ -114,7 +128,6 @@ public class ParticleSpawner {
     private static void spawnParticle(
         ParticleDefinition definition,
         ParticleComponentMap customComponents,
-        @Nullable ParticleAppearance appearance,
         ParticleContext context,
         double x,
         double y,
@@ -125,10 +138,11 @@ public class ParticleSpawner {
     ) {
         Identifier particleId = ParticleDefinitionManager.INSTANCE.getIdOrThrow(definition);
         ParticleComponentMap combinedComponentMap = ParticleComponentMap.Builder.combine(definition.defaultComponents(), customComponents);
+        AppearanceComponent appearance = combinedComponentMap.get(ParticleComponents.APPEARANCE);
 
         Particle particle = definition.behaviourProvider().createParticle(
             combinedComponentMap,
-            appearance != null ? appearance : ParticleAppearanceManager.get(particleId),
+            appearance != null ? appearance.value().get() : ParticleAppearanceManager.get(particleId),
             context,
             x,
             z,

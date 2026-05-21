@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.drip;
 
-import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
+import games.enchanted.eg_particle_interactions.common.duck.ParticleDuck;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
@@ -75,7 +75,7 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
 
         this.lifetime = this.age + level.getRandom().nextInt(30, 60);
 
-        ((ParticleAccess) this).eg_particle_interactions$moveUpBecauseParticleLanded();
+        ((ParticleDuck) this).eg_particle_interactions$moveUpBecauseParticleLanded();
         this.billboardYOffset = 1.0f;
     }
 

@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.types;
 
-import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
+import games.enchanted.eg_particle_interactions.common.duck.ParticleDuck;
 import games.enchanted.eg_particle_interactions.common.particle.behaviour.ParticleBehaviourProvider;
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes;
@@ -12,16 +12,15 @@ import games.enchanted.eg_particle_interactions.common.particle.appearance.Sprit
 import games.enchanted.eg_particle_interactions.common.particle.appearance.texture.TextureConfig;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponents;
-import games.enchanted.eg_particle_interactions.common.particle.component.type.BooleanComponent;
-import games.enchanted.eg_particle_interactions.common.particle.component.type.FloatProviderComponent;
-import games.enchanted.eg_particle_interactions.common.particle.component.type.IntProviderComponent;
-import games.enchanted.eg_particle_interactions.common.particle.component.type.Vec3Component;
+import games.enchanted.eg_particle_interactions.common.particle.component.type.*;
+import games.enchanted.eg_particle_interactions.common.particle.event.EventStack;
 import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomIntProvider;
 import games.enchanted.eg_particle_interactions.common.particle.render.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.StateQuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.render.layer.ParticleLayer;
 import games.enchanted.eg_particle_interactions.common.particle.render.state.CustomParticleGeometryRenderState;
+import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -37,12 +36,17 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
+import org.joml.Vector3d;
 import org.jspecify.annotations.Nullable;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Consumer;
 
 public class ParticleInteractionsParticle extends Particle {
     protected static final double MAXIMUM_COLLISION_VELOCITY_SQUARED = Mth.square(100.0F);
+    private static final double MIN_BOUNCE_CUTOFF = 0.05;
 
     private float scale;
     private float prevScale;
@@ -58,10 +62,14 @@ public class ParticleInteractionsParticle extends Particle {
     protected float fluidDampen = 0f;
     protected boolean isInFluid = false;
     protected boolean hasEnteredFluid = false;
+    protected Vec3 collisionResult = Vec3.ZERO;
 
     protected ParticleContext context;
     protected ParticleAppearance appearance;
     protected ParticleLayer layer;
+
+    protected EventStack eventStack;
+    protected final Set<Consumer<ParticleInteractionsParticle>> onBounceConsumers = new HashSet<>();
 
     protected boolean updateSpritesAfterFirstCall = true;
     protected TextureAtlasSprite currentSprite;
@@ -139,7 +147,10 @@ public class ParticleInteractionsParticle extends Particle {
         this.layer = ParticleLayer.fromAppearance(context, appearance);
 
         BooleanComponent bypassCollisionCheckComponent = components.get(ParticleComponents.PHYSICS_BYPASS_COLLISION_CHECK);
-        ((ParticleAccess) this).eg_particle_interactions$setBypassMovementCollisionCheck( bypassCollisionCheckComponent == null ? this.friction < 0.99 : bypassCollisionCheckComponent.value());
+        ((ParticleDuck) this).eg_particle_interactions$setBypassMovementCollisionCheck(bypassCollisionCheckComponent == null ? this.friction < 0.99 : bypassCollisionCheckComponent.value());
+
+        LifetimeEventsComponent lifetimeEventsComponent = components.get(ParticleComponents.LIFETIME_EVENTS);
+        this.eventStack = new EventStack(lifetimeEventsComponent == null ? List.of() : lifetimeEventsComponent.events(), this);
     }
 
     protected SingleQuadParticle.Layer getVanillaLayer() {
@@ -178,6 +189,8 @@ public class ParticleInteractionsParticle extends Particle {
                 this.getBoundingBox(),
                 ((ParticleAccessor) this).eg_particle_interactions$getStoppedByCollision() ? ParticleDebugShapes.PARTICLE_BOUNDING_BOX_STOPPED : ParticleDebugShapes.PARTICLE_BOUNDING_BOX
             );
+
+            ParticleDebugShapes.onGroundMarker(this.getBoundingBox(), this.onGround);
         }
         if (GeneralOptions.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES.getValue()) {
             ParticleDebugShapes.particlePosition(x + cameraPosition.x(), y + cameraPosition.y(), z + cameraPosition.z(), ParticleDebugShapes.PARTICLE_RENDER_POSITION);
@@ -209,6 +222,7 @@ public class ParticleInteractionsParticle extends Particle {
     @Override
     public void tick() {
         if(this.removed) return;
+        if(this.age == 0) this.eventStack.particleSpawn();
 
         this.pickSpriteForAppearance();
 
@@ -219,8 +233,6 @@ public class ParticleInteractionsParticle extends Particle {
             this.remove();
             return;
         }
-
-        this.doBouncyPhysics();
 
         this.isInFluid = !this.level.getFluidState(BlockPos.containing(this.x, this.y, this.z)).is(Fluids.EMPTY);
         if (this.isInFluid) {
@@ -233,8 +245,13 @@ public class ParticleInteractionsParticle extends Particle {
             this.zd *= effectiveFluidDampen;
         }
 
-        this.yd -= 0.04 * this.gravity;
+        if(!this.onGround) {
+            this.yd -= 0.04 * this.gravity;
+        }
+
+        this.doCollisions();
         this.move(this.xd, this.yd, this.zd);
+
         if (this.speedUpWhenYMotionIsBlocked && this.y == this.yo) {
             this.xd *= 1.1;
             this.zd *= 1.1;
@@ -247,20 +264,33 @@ public class ParticleInteractionsParticle extends Particle {
         }
 
         this.applyGravityAndVelocityDecays();
+        this.eventStack.tick();
     }
 
-    protected void doBouncyPhysics() {
-        if (age > 0 && this.bounciness > 0 && this.hasPhysics) {
-            if (GeneralOptions.ADVANCED_PARTICLE_PHYSICS.getValue()) {
-                double xVel = this.xd;
-                double yVel = this.yd;
-                double zVel = this.zd;
-                if (xVel * xVel + yVel * yVel + zVel * zVel < MAXIMUM_COLLISION_VELOCITY_SQUARED) {
-                    Vec3 collisionVector = Entity.collideBoundingBox(null, new Vec3(xVel, yVel, zVel), this.getBoundingBox(), this.level, List.of());
-                    this.xd = collisionVector.x == 0.0 ? -this.xd * this.bounciness : this.xd;
-                    this.yd = collisionVector.y == 0.0 ? -this.yd * this.bounciness : this.yd;
-                    this.zd = collisionVector.z == 0.0 ? -this.zd * this.bounciness : this.zd;
-                }
+    protected void doCollisions() {
+        if (this.age > 0 && this.hasPhysics) {
+            final double xVel = this.xd;
+            final double yVel = this.yd;
+            final double zVel = this.zd;
+            if (xVel * xVel + yVel * yVel + zVel * zVel > MAXIMUM_COLLISION_VELOCITY_SQUARED) return;
+
+            final boolean xVelInCutoffRange = MathHelpers.isInRange(xVel, -MIN_BOUNCE_CUTOFF, MIN_BOUNCE_CUTOFF);
+            final boolean yVelInCutoffRange = MathHelpers.isInRange(yVel, -MIN_BOUNCE_CUTOFF, MIN_BOUNCE_CUTOFF);
+            final boolean zVelInCutoffRange = MathHelpers.isInRange(zVel, -MIN_BOUNCE_CUTOFF, MIN_BOUNCE_CUTOFF);
+
+            this.collisionResult = Entity.collideBoundingBox(null, new Vec3(xVel, yVel, zVel), this.getBoundingBox(), this.level, List.of());
+            this.xd = this.collisionResult.x == 0.0 && !xVelInCutoffRange ? -xVel * this.bounciness * 0.99999 : xVel;
+            this.yd = this.collisionResult.y == 0.0 && !yVelInCutoffRange ? -yVel * this.bounciness * 0.99999 : yVel;
+            this.zd = this.collisionResult.z == 0.0 && !zVelInCutoffRange ? -zVel * this.bounciness * 0.99999 : zVel;
+
+            if(
+                !this.onBounceConsumers.isEmpty() && this.bounciness > 0 && (
+                    (!xVelInCutoffRange && this.collisionResult.x == 0.0) ||
+                    (!yVelInCutoffRange && this.collisionResult.y == 0.0) ||
+                    (!zVelInCutoffRange && this.collisionResult.z == 0.0)
+                )
+            ) {
+                this.onBounceConsumers.forEach(consumer -> consumer.accept(this));
             }
         }
     }
@@ -271,6 +301,31 @@ public class ParticleInteractionsParticle extends Particle {
         this.zd *= this.velocityDecay.z();
 
         this.gravity *= this.gravityDecay;
+    }
+
+    @Override
+    public void move(double xa, double ya, double za) {
+        if (!((ParticleAccessor) this).eg_particle_interactions$getStoppedByCollision()) {
+            final double originalYa = ya;
+            if (this.hasPhysics && (xa != 0.0 || ya != 0.0 || za != 0.0) && xa * xa + ya * ya + za * za < MAXIMUM_COLLISION_VELOCITY_SQUARED) {
+                Vec3 movement = this.collisionResult;
+                xa = movement.x;
+                ya = movement.y;
+                za = movement.z;
+            }
+
+            if (xa != 0.0 || ya != 0.0 || za != 0.0) {
+                this.setBoundingBox(this.getBoundingBox().move(xa, ya, za));
+                this.setLocationFromBoundingbox();
+            }
+
+            final double epsilon = 0.00001;
+            if (!((ParticleDuck) this).eg_particle_interactions$getBypassMovementCollisionCheck() && Math.abs(originalYa) >= epsilon && Math.abs(ya) < epsilon) {
+                ((ParticleDuck) this).eg_particle_interactions$setHasStoppedByCollision(true);
+            }
+
+            this.onGround = originalYa != ya && originalYa < 0.0;
+        }
     }
 
     /**
@@ -483,6 +538,21 @@ public class ParticleInteractionsParticle extends Particle {
         BillboardMode XYZ = (quaternion, camera, partialTicks) -> quaternion.set(camera.rotation());
 
         void rotate(Quaternionf quaternion, Camera camera, float partialTicks);
+    }
+
+    public void registerOnBounceConsumer(Consumer<ParticleInteractionsParticle> consumer) {
+        this.onBounceConsumers.add(consumer);
+    }
+
+    public void modifyVelocity(Vector3d division, Vector3d multiplication, Vector3d addition, Vector3d subtraction) {
+        Vector3d delta = new Vector3d(this.xd, this.yd, this.zd)
+            .div(division)
+            .mul(multiplication)
+            .add(addition)
+            .sub(subtraction);
+        this.xd = delta.x();
+        this.yd = delta.y();
+        this.zd = delta.z();
     }
 
     public static class Provider implements ParticleBehaviourProvider {

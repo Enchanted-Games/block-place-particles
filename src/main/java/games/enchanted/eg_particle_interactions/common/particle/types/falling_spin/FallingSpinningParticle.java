@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.falling_spin;
 
-import games.enchanted.eg_particle_interactions.common.duck.ParticleAccess;
+import games.enchanted.eg_particle_interactions.common.duck.ParticleDuck;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.ParticleAccessor;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
@@ -29,7 +29,7 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
         float particleSize = this.random.nextBoolean() ? 0.07F : 0.08F;
         this.setScale(particleSize);
 
-        ((ParticleAccess) this).eg_particle_interactions$setBypassMovementCollisionCheck(true);
+        ((ParticleDuck) this).eg_particle_interactions$setBypassMovementCollisionCheck(true);
     }
 
     @Override
@@ -43,8 +43,8 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
         }
 
         // if moving downwards
-        if (this.yd < 0 && ((ParticleAccess) this).eg_particle_interactions$getBypassMovementCollisionCheck()) {
-            ((ParticleAccess) this).eg_particle_interactions$setBypassMovementCollisionCheck(false);
+        if (this.yd < 0 && ((ParticleDuck) this).eg_particle_interactions$getBypassMovementCollisionCheck()) {
+            ((ParticleDuck) this).eg_particle_interactions$setBypassMovementCollisionCheck(false);
         }
 
         super.tick();
