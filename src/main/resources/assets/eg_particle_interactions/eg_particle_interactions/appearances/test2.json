@@ -1,0 +1,33 @@
+{
+  "texture_config": {
+    "sprites": [
+      "eg_particle_interactions:soul_spark_flash/0",
+      "eg_particle_interactions:soul_spark_flash/1",
+      "eg_particle_interactions:soul_spark_flash/2",
+      "eg_particle_interactions:soul_spark_flash/3"
+    ],
+    "sprite_cycle_mode": "age_cycle"
+  },
+  "light_emission": 15,
+  "events": [
+    {
+      "trigger": {
+        "type": "in_air"
+      },
+      "action": {
+        "type": "set_appearance",
+        "appearance": "test"
+      }
+    },
+    {
+      "trigger": {
+        "type": "on_ground",
+        "oneshot": false
+      },
+      "action": {
+        "type": "set_appearance",
+        "appearance": "test"
+      }
+    }
+  ]
+}

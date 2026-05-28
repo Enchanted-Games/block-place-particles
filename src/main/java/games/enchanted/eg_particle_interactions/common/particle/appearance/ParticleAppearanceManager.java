@@ -14,26 +14,25 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.StrictJsonParser;
 import net.minecraft.util.profiling.ProfilerFiller;
+import org.jspecify.annotations.Nullable;
 
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ParticleAppearanceManager extends SimplePreparableReloadListener<ParticleAppearanceManager.Prepare> {
+    public static final Codec<ParticleAppearance.Reference> ID_CODEC = ModCodecs.IDENTIFIER.xmap(
+        ParticleAppearance.Reference::new,
+        ParticleAppearance.Reference::id
+    );
+
+    @Nullable
+    private static Codec<ParticleAppearance.Reference> REFERENCE_CODEC;
+
     private static final Map<Identifier, ParticleAppearance> SOURCE_BY_ID = new HashMap<>();
     private static final FileToIdConverter FILE_TO_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/appearances");
 
     public static final ParticleAppearanceManager INSTANCE = new ParticleAppearanceManager();
-
-    public static final Codec<ParticleAppearance.Reference> REFERENCE_CODEC = ModCodecs.IDENTIFIER.xmap(
-        ParticleAppearance.Reference::new,
-        ParticleAppearance.Reference::id
-    ).withAlternative(
-        ParticleAppearance.CODEC.xmap(
-            ParticleAppearance.InlineRef::new,
-            ParticleAppearance.InlineRef::lookupObject
-        )
-    );
 
     @Override
     protected Prepare prepare(ResourceManager manager, ProfilerFiller profiler) {
@@ -50,7 +49,7 @@ public class ParticleAppearanceManager extends SimplePreparableReloadListener<Pa
     protected static void parseSource(Identifier fileId, Resource resource, Map<Identifier, ParticleAppearance> output) {
         try (Reader reader = resource.openAsReader()) {
             JsonElement json = StrictJsonParser.parse(reader);
-            output.put(FILE_TO_ID_CONVERTER.fileToId(fileId), ParticleAppearance.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
+            output.put(FILE_TO_ID_CONVERTER.fileToId(fileId), ParticleAppearance.codec().parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
         } catch (Exception e) {
             Logging.error("Failed to parse particle appearance '{}'", fileId, e);
         }
@@ -67,6 +66,18 @@ public class ParticleAppearanceManager extends SimplePreparableReloadListener<Pa
             return ParticleAppearance.FALLBACK_APPEARANCE;
         }
         return SOURCE_BY_ID.get(sourceId);
+    }
+
+    public static Codec<ParticleAppearance.Reference> referenceCodec() {
+        if(REFERENCE_CODEC == null) {
+            REFERENCE_CODEC = ID_CODEC.withAlternative(
+                ParticleAppearance.codec().xmap(
+                    ParticleAppearance.InlineRef::new,
+                    ParticleAppearance.InlineRef::lookupObject
+                )
+            );
+        }
+        return REFERENCE_CODEC;
     }
 
     protected record Prepare(Map<Identifier, ParticleAppearance> textureSourceMap) {

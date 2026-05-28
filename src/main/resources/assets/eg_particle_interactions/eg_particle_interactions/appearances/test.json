@@ -8,5 +8,16 @@
     ],
     "sprite_cycle_mode": "age_cycle"
   },
-  "light_emission": 15
+  "light_emission": 15,
+  "events": [
+    {
+      "trigger": {
+        "type": "on_ground"
+      },
+      "action": {
+        "type": "set_appearance",
+        "appearance": "test2"
+      }
+    }
+  ]
 }

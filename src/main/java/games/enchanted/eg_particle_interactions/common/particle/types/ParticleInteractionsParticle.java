@@ -1,6 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.types;
 
 import games.enchanted.eg_particle_interactions.common.duck.ParticleDuck;
+import games.enchanted.eg_particle_interactions.common.particle.VelocityProvider;
 import games.enchanted.eg_particle_interactions.common.particle.behaviour.ParticleBehaviourProvider;
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes;
@@ -13,7 +14,10 @@ import games.enchanted.eg_particle_interactions.common.particle.appearance.textu
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponents;
 import games.enchanted.eg_particle_interactions.common.particle.component.type.*;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.event.EventStack;
+import games.enchanted.eg_particle_interactions.common.util.math.IntMathModifier;
+import games.enchanted.eg_particle_interactions.common.util.math.Vector3dMathModifier;
 import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomIntProvider;
 import games.enchanted.eg_particle_interactions.common.particle.render.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
@@ -29,6 +33,8 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
+import net.minecraft.gizmos.Gizmos;
+import net.minecraft.gizmos.TextGizmo;
 import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -39,9 +45,7 @@ import org.joml.Quaternionf;
 import org.joml.Vector3d;
 import org.jspecify.annotations.Nullable;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Consumer;
 
 public class ParticleInteractionsParticle extends Particle {
@@ -62,14 +66,15 @@ public class ParticleInteractionsParticle extends Particle {
     protected float fluidDampen = 0f;
     protected boolean isInFluid = false;
     protected boolean hasEnteredFluid = false;
+    protected boolean onGroundLastTick = false;
     protected Vec3 collisionResult = Vec3.ZERO;
 
     protected ParticleContext context;
     protected ParticleAppearance appearance;
     protected ParticleLayer layer;
 
-    protected EventStack eventStack;
-    protected final Set<Consumer<ParticleInteractionsParticle>> onBounceConsumers = new HashSet<>();
+    protected final EventStack lifetimeEventStack;
+    protected EventStack appearanceEventStack;
 
     protected boolean updateSpritesAfterFirstCall = true;
     protected TextureAtlasSprite currentSprite;
@@ -103,10 +108,8 @@ public class ParticleInteractionsParticle extends Particle {
         this.velocityDecay = velocityDecayComponent.vec3();
 
         this.context = context;
-        this.appearance = appearance;
 
-        this.currentSprite = TextureHelpers.missingParticleSprite();
-        this.pickSpriteForAppearance();
+        this.setAppearance(appearance);
 
         FloatProviderComponent gravityComponent = components.getOrFallback(ParticleComponents.GRAVITY_INITIAL, FloatProviderComponent.ZERO);
         this.gravity = gravityComponent.provider().getValue(context);
@@ -150,7 +153,16 @@ public class ParticleInteractionsParticle extends Particle {
         ((ParticleDuck) this).eg_particle_interactions$setBypassMovementCollisionCheck(bypassCollisionCheckComponent == null ? this.friction < 0.99 : bypassCollisionCheckComponent.value());
 
         LifetimeEventsComponent lifetimeEventsComponent = components.get(ParticleComponents.LIFETIME_EVENTS);
-        this.eventStack = new EventStack(lifetimeEventsComponent == null ? List.of() : lifetimeEventsComponent.events(), this);
+        this.lifetimeEventStack = new EventStack(lifetimeEventsComponent == null ? List.of() : lifetimeEventsComponent.events(), this);
+    }
+
+    public void setAppearance(ParticleAppearance appearance) {
+        this.appearance = appearance;
+        this.appearanceEventStack = new EventStack(appearance.events(), this);
+
+        this.updateSpritesAfterFirstCall = true;
+        this.currentSprite = TextureHelpers.missingParticleSprite();
+        this.pickSpriteForAppearance();
     }
 
     protected SingleQuadParticle.Layer getVanillaLayer() {
@@ -177,9 +189,12 @@ public class ParticleInteractionsParticle extends Particle {
 
     protected void adjustPositionBeforeExtraction(QuadConsumer consumer, Camera camera, Quaternionf quaternionf, float partialTicks) {
         Vec3 cameraPosition = camera.position();
-        float x = (float) (Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x());
-        float y = (float) (Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y());
-        float z = (float) (Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z());
+        float lerpedX = (float) Mth.lerp(partialTicks, this.xo, this.x);
+        float lerpedY = (float) Mth.lerp(partialTicks, this.yo, this.y);
+        float lerpedZ = (float) Mth.lerp(partialTicks, this.zo, this.z);
+        float x = (float) (lerpedX - cameraPosition.x());
+        float y = (float) (lerpedY - cameraPosition.y());
+        float z = (float) (lerpedZ - cameraPosition.z());
         this.extractGeometry(consumer, quaternionf, x, y, z, partialTicks);
 
         if (GeneralOptions.DEBUG_PARTICLE_TICK_BOUNDING_BOXES.getValue()) {
@@ -191,6 +206,9 @@ public class ParticleInteractionsParticle extends Particle {
             );
 
             ParticleDebugShapes.onGroundMarker(this.getBoundingBox(), this.onGround);
+
+            Gizmos.billboardText("Age: " + this.age, new Vec3(lerpedX, lerpedY + 0.2, lerpedZ), TextGizmo.Style.whiteAndCentered());
+            Gizmos.billboardText("Lifetime: " + this.lifetime, new Vec3(lerpedX, lerpedY, lerpedZ), TextGizmo.Style.whiteAndCentered());
         }
         if (GeneralOptions.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES.getValue()) {
             ParticleDebugShapes.particlePosition(x + cameraPosition.x(), y + cameraPosition.y(), z + cameraPosition.z(), ParticleDebugShapes.PARTICLE_RENDER_POSITION);
@@ -222,7 +240,7 @@ public class ParticleInteractionsParticle extends Particle {
     @Override
     public void tick() {
         if(this.removed) return;
-        if(this.age == 0) this.eventStack.particleSpawn();
+        if(this.age == 0) this.forEventStacks(EventStack::particleSpawn);
 
         this.pickSpriteForAppearance();
 
@@ -264,7 +282,7 @@ public class ParticleInteractionsParticle extends Particle {
         }
 
         this.applyGravityAndVelocityDecays();
-        this.eventStack.tick();
+        this.forEventStacks(EventStack::tick);
     }
 
     protected void doCollisions() {
@@ -284,13 +302,13 @@ public class ParticleInteractionsParticle extends Particle {
             this.zd = this.collisionResult.z == 0.0 && !zVelInCutoffRange ? -zVel * this.bounciness * 0.99999 : zVel;
 
             if(
-                !this.onBounceConsumers.isEmpty() && this.bounciness > 0 && (
+                this.bounciness > 0 && (
                     (!xVelInCutoffRange && this.collisionResult.x == 0.0) ||
                     (!yVelInCutoffRange && this.collisionResult.y == 0.0) ||
                     (!zVelInCutoffRange && this.collisionResult.z == 0.0)
                 )
             ) {
-                this.onBounceConsumers.forEach(consumer -> consumer.accept(this));
+                this.forEventStacks(EventStack::particleBounce);
             }
         }
     }
@@ -305,6 +323,7 @@ public class ParticleInteractionsParticle extends Particle {
 
     @Override
     public void move(double xa, double ya, double za) {
+        this.onGroundLastTick = this.onGround;
         if (!((ParticleAccessor) this).eg_particle_interactions$getStoppedByCollision()) {
             final double originalYa = ya;
             if (this.hasPhysics && (xa != 0.0 || ya != 0.0 || za != 0.0) && xa * xa + ya * ya + za * za < MAXIMUM_COLLISION_VELOCITY_SQUARED) {
@@ -360,7 +379,7 @@ public class ParticleInteractionsParticle extends Particle {
         return this.age;
     }
 
-    public void setCurrentSprite(TextureAtlasSprite sprite) {
+    protected void setCurrentSprite(TextureAtlasSprite sprite) {
         this.currentSprite = sprite;
     }
 
@@ -533,26 +552,64 @@ public class ParticleInteractionsParticle extends Particle {
         return this.layer;
     }
 
+    @Override
+    public void setLifetime(int lifetime) {
+        super.setLifetime(Math.max(0, lifetime));
+        this.age = Math.min(this.age, this.lifetime);
+        if(this.lifetime <= 0) this.remove();
+    }
+
+    protected Vector3d velocityAsVector() {
+        return new Vector3d(this.xd, this.yd, this.zd);
+    }
+
+    public void modifyVelocity(Vector3dMathModifier modifier) {
+        Vector3d delta = modifier.apply(this.velocityAsVector());
+        this.xd = delta.x();
+        this.yd = delta.y();
+        this.zd = delta.z();
+    }
+
+    public void modifyLifetime(IntMathModifier modifier) {
+        this.setLifetime(modifier.apply(this.getLifetime()));
+    }
+
+    public void emit(Emitter emitter, Vector3d positionOffset, VelocityProvider velocityProvider) {
+        Vector3d vel = velocityProvider.getVelocity(this.velocityAsVector());
+        emitter.spawnParticle(
+            this.context,
+            this.x + positionOffset.x,
+            this.y + positionOffset.y,
+            this.z + positionOffset.z,
+            vel.x,
+            vel.y,
+            vel.z
+        );
+    }
+
+    public boolean isOnGround() {
+        return this.onGround;
+    }
+
+    public boolean isOnGroundOneshot() {
+        return this.onGround && !this.onGroundLastTick;
+    }
+
+    public boolean isInAirOneshot() {
+        return !this.onGround && this.onGroundLastTick;
+    }
+
+    protected void forEventStacks(Consumer<EventStack> eventStackConsumer) {
+        eventStackConsumer.accept(this.lifetimeEventStack);
+        eventStackConsumer.accept(this.appearanceEventStack);
+    }
+
+
     public interface BillboardMode {
         BillboardMode FIXED = (quaternion, camera, partialTicks) -> quaternion.set(0.0f, 0.0f, 0.0f, camera.rotation().w);
         BillboardMode XYZ = (quaternion, camera, partialTicks) -> quaternion.set(camera.rotation());
 
         void rotate(Quaternionf quaternion, Camera camera, float partialTicks);
-    }
-
-    public void registerOnBounceConsumer(Consumer<ParticleInteractionsParticle> consumer) {
-        this.onBounceConsumers.add(consumer);
-    }
-
-    public void modifyVelocity(Vector3d division, Vector3d multiplication, Vector3d addition, Vector3d subtraction) {
-        Vector3d delta = new Vector3d(this.xd, this.yd, this.zd)
-            .div(division)
-            .mul(multiplication)
-            .add(addition)
-            .sub(subtraction);
-        this.xd = delta.x();
-        this.yd = delta.y();
-        this.zd = delta.z();
     }
 
     public static class Provider implements ParticleBehaviourProvider {

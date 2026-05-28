@@ -8,12 +8,12 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
 public record AppearanceComponent(ParticleAppearance.Reference value) {
-    public static final Codec<AppearanceComponent> CODEC = ParticleAppearanceManager.REFERENCE_CODEC.xmap(
+    public static final Codec<AppearanceComponent> CODEC = ParticleAppearanceManager.referenceCodec().xmap(
         AppearanceComponent::new,
         AppearanceComponent::value
     );
     public static final StreamCodec<FriendlyByteBuf, AppearanceComponent> STREAM_CODEC = StreamCodec.composite(
-        ByteBufCodecs.fromCodec(ParticleAppearanceManager.REFERENCE_CODEC),
+        ByteBufCodecs.fromCodec(ParticleAppearanceManager.referenceCodec()),
         AppearanceComponent::value,
         AppearanceComponent::new
     );

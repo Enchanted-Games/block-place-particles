@@ -2,28 +2,29 @@ package games.enchanted.eg_particle_interactions.common.particle.event.action.li
 
 import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.particle.event.action.EventAction;
-import games.enchanted.eg_particle_interactions.common.util.math.Vector3dMathModifier;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
+import games.enchanted.eg_particle_interactions.common.util.math.IntMathModifier;
+import games.enchanted.eg_particle_interactions.common.util.math.Vector3dMathModifier;
 
-public class ModifyVelocityAction extends EventAction {
-    public static final MapCodec<ModifyVelocityAction> CODEC = Vector3dMathModifier.CODEC.xmap(
-        ModifyVelocityAction::new,
-        ModifyVelocityAction::getModifier
+public class ModifyLifetimeAction extends EventAction {
+    public static final MapCodec<ModifyLifetimeAction> CODEC = IntMathModifier.CODEC.xmap(
+        ModifyLifetimeAction::new,
+        ModifyLifetimeAction::getModifier
     );
 
-    final Vector3dMathModifier modifier;
+    final IntMathModifier modifier;
 
-    ModifyVelocityAction(Vector3dMathModifier modifier) {
+    ModifyLifetimeAction(IntMathModifier modifier) {
         this.modifier = modifier;
     }
 
-    protected Vector3dMathModifier getModifier() {
+    protected IntMathModifier getModifier() {
         return this.modifier;
     }
 
     @Override
     public void onFire(ParticleInteractionsParticle particle) {
-        particle.modifyVelocity(this.modifier);
+        particle.modifyLifetime(this.modifier);
     }
 
     @Override

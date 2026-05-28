@@ -9,6 +9,17 @@
         "physics/collision_size": 1,
         "physics/friction": 0,
         "physics/bounciness": 0.9,
-        "physics/fluid_dampen": 0.06
+        "physics/fluid_dampen": 0.06,
+        "lifetime_events": [
+            {
+                "trigger": {
+                    "type": "on_ground"
+                },
+                "action": {
+                    "type": "modify_lifetime",
+                    "subtract": 100
+                }
+            }
+        ]
     }
 }

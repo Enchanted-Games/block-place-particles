@@ -18,7 +18,7 @@ public class ParticleInteractionsEmitter extends Emitter {
         instance.group(
             Codec.DOUBLE.optionalFieldOf(Emitter.VELOCITY_MULTIPLIER_NAME, Emitter.VELOCITY_MULTIPLIER_DEFAULT).forGetter(Emitter::getVelocityMultiplier),
             ParticleTypesRegistry.CODEC.fieldOf("particle").forGetter(ParticleInteractionsEmitter::getParticleOptions),
-            ParticleAppearanceManager.REFERENCE_CODEC.optionalFieldOf("appearance").forGetter(particleInteractionsEmitter -> Optional.ofNullable(particleInteractionsEmitter.getAppearance()))
+            ParticleAppearanceManager.referenceCodec().optionalFieldOf("appearance").forGetter(particleInteractionsEmitter -> Optional.ofNullable(particleInteractionsEmitter.getAppearance()))
         ).apply(
             instance,
             (
