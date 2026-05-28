@@ -11,8 +11,14 @@ import net.minecraft.util.ExtraCodecs;
 import java.util.List;
 
 public class TextureConfigs {
-    public static final TextureConfig MISSING = new SpritesTextureConfig(
-        List.of(MissingTextureAtlasSprite.getLocation()),
+    public static final TextureConfig MISSING_APPEARANCE = new SpritesTextureConfig(
+        List.of(ParticleInteractionsMod.id("missing_appearance")),
+        SpritesTextureConfig.DEFAULT_ATLAS,
+        SpritesTextureConfig.DEFAULT_CYCLE_MODE,
+        SpritesTextureConfig.DEFAULT_LAYER_DEFINITION
+    );
+    public static final TextureConfig MISSING_DEFINITION = new SpritesTextureConfig(
+        List.of(ParticleInteractionsMod.id("missing_definition")),
         SpritesTextureConfig.DEFAULT_ATLAS,
         SpritesTextureConfig.DEFAULT_CYCLE_MODE,
         SpritesTextureConfig.DEFAULT_LAYER_DEFINITION

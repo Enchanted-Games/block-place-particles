@@ -16,17 +16,24 @@ import java.util.List;
 public record ParticleAppearance(TextureConfig textureConfig, ColourSource colourSource, int lightEmission, List<EventStack.Event> events) {
     private static final int DEFAULT_LIGHT_EMISSION = 0;
 
-    public static final ParticleAppearance FALLBACK_APPEARANCE = new ParticleAppearance(
-        TextureConfigs.MISSING,
+    public static final ParticleAppearance.Reference MISSING_APPEARANCE = new InlineRef(new ParticleAppearance(
+        TextureConfigs.MISSING_APPEARANCE,
         ColourSources.WHITE,
         DEFAULT_LIGHT_EMISSION,
         List.of()
-    );
+    ));
+
+    public static final ParticleAppearance.Reference MISSING_DEFINITION = new InlineRef(new ParticleAppearance(
+        TextureConfigs.MISSING_DEFINITION,
+        ColourSources.WHITE,
+        DEFAULT_LIGHT_EMISSION,
+        List.of()
+    ));
 
     public static Codec<ParticleAppearance> codec() {
         return RecordCodecBuilder.create(i -> i
             .group(
-                TextureConfigs.CODEC.optionalFieldOf("texture_config", TextureConfigs.MISSING).forGetter(ParticleAppearance::textureConfig),
+                TextureConfigs.CODEC.optionalFieldOf("texture_config", TextureConfigs.MISSING_APPEARANCE).forGetter(ParticleAppearance::textureConfig),
                 ColourSources.CODEC.optionalFieldOf("colour", ColourSources.WHITE).forGetter(ParticleAppearance::colourSource),
                 Codec.intRange(0, 15).optionalFieldOf("light_emission", DEFAULT_LIGHT_EMISSION).forGetter(ParticleAppearance::lightEmission),
                 EventStack.Event.appearanceCodec().listOf().optionalFieldOf("events", List.of()).forGetter(ParticleAppearance::events)

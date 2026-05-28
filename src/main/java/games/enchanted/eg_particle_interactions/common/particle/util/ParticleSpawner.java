@@ -136,13 +136,21 @@ public class ParticleSpawner {
         double ySpeed,
         double zSpeed
     ) {
-        Identifier particleId = ParticleDefinitionManager.INSTANCE.getIdOrThrow(definition);
+        Identifier particleId = ParticleDefinitionManager.INSTANCE.getIdOrNull(definition);
         ParticleComponentMap combinedComponentMap = ParticleComponentMap.Builder.combine(definition.defaultComponents(), customComponents);
-        AppearanceComponent appearance = combinedComponentMap.get(ParticleComponents.APPEARANCE);
+        AppearanceComponent appearanceComponent = combinedComponentMap.get(ParticleComponents.APPEARANCE);
+        ParticleAppearance appearance;
+        if(appearanceComponent != null) {
+            appearance = appearanceComponent.value().get();
+        } else if (particleId != null) {
+            appearance = ParticleAppearanceManager.get(particleId);
+        } else {
+            appearance = ParticleAppearance.MISSING_APPEARANCE.get();
+        }
 
         Particle particle = definition.behaviourProvider().createParticle(
             combinedComponentMap,
-            appearance != null ? appearance.value().get() : ParticleAppearanceManager.get(particleId),
+            appearance,
             context,
             x,
             z,

@@ -8,7 +8,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.Logging;
-import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
@@ -17,6 +16,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.StrictJsonParser;
 import net.minecraft.util.profiling.ProfilerFiller;
+import org.jspecify.annotations.Nullable;
 
 import java.io.Reader;
 import java.util.HashMap;
@@ -65,7 +65,7 @@ public class ParticleDefinitionManager extends SimplePreparableReloadListener<Pa
         this.definitionById.clear();
     }
 
-    public ParticleDefinition get(Identifier definitionId) {
+    public ParticleDefinition getOrFallback(Identifier definitionId) {
         if(!(this.definitionById.containsKey(definitionId))) {
             return ParticleDefinition.FALLBACK;
         }
@@ -77,6 +77,13 @@ public class ParticleDefinitionManager extends SimplePreparableReloadListener<Pa
             throw new IllegalArgumentException("Unknown particle definition '" + definitionId + "'");
         }
         return this.definitionById.get(definitionId);
+    }
+
+    public @Nullable Identifier getIdOrNull(ParticleDefinition definition) {
+        if(!(this.definitionById.inverse().containsKey(definition))) {
+            return null;
+        }
+        return this.definitionById.inverse().get(definition);
     }
 
     public Identifier getIdOrThrow(ParticleDefinition definition) {

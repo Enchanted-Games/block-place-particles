@@ -63,7 +63,7 @@ public class ParticleAppearanceManager extends SimplePreparableReloadListener<Pa
 
     public static ParticleAppearance get(Identifier sourceId) {
         if(!(SOURCE_BY_ID.containsKey(sourceId))) {
-            return ParticleAppearance.FALLBACK_APPEARANCE;
+            return ParticleAppearance.MISSING_APPEARANCE.get();
         }
         return SOURCE_BY_ID.get(sourceId);
     }
