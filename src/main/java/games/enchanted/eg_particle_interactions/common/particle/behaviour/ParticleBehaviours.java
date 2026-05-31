@@ -14,5 +14,6 @@ public class ParticleBehaviours {
 
     static {
         BEHAVIOUR_TYPES.put(ParticleInteractionsMod.id("simple"), SIMPLE);
+        BEHAVIOUR_TYPES.put(ParticleInteractionsMod.id("spark_shape"), new SparkShapeParticleBehaviour.Provider());
     }
 }
