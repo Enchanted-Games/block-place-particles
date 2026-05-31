@@ -64,7 +64,6 @@ public class ParticleInteractionsParticle extends Particle {
     protected final Vec3 velocityDecay;
 
     protected float bounciness = 0f;
-    protected float fluidDampen = 0f;
     protected FluidState inFluid = Fluids.EMPTY.defaultFluidState();
     protected FluidState inFluidLastTick = this.inFluid;
     protected boolean onGroundLastTick = false;
@@ -129,9 +128,6 @@ public class ParticleInteractionsParticle extends Particle {
 
         FloatProviderComponent bouncinessComponent = components.getOrFallback(ParticleComponents.PHYSICS_BOUNCINESS, FloatProviderComponent.ZERO);
         this.bounciness = bouncinessComponent.provider().getValue(context);
-
-        FloatProviderComponent fluidDampenComponent = components.getOrFallback(ParticleComponents.PHYSICS_FLUID_DAMPEN, FloatProviderComponent.ZERO);
-        this.fluidDampen = fluidDampenComponent.provider().getValue(context);
 
 
         // 0.1 - 0.2
@@ -255,12 +251,6 @@ public class ParticleInteractionsParticle extends Particle {
 
         this.inFluidLastTick = this.inFluid;
         this.inFluid = this.level.getFluidState(BlockPos.containing(this.x, this.y, this.z));
-//        if (this.isInFluid) {
-//            final float effectiveFluidDampen = 1 - this.fluidDampen;
-//            this.xd *= effectiveFluidDampen;
-//            this.yd *= effectiveFluidDampen;
-//            this.zd *= effectiveFluidDampen;
-//        }
 
         if(!this.onGround) {
             this.yd -= 0.04 * this.gravity;

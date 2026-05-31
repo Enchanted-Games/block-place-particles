@@ -10,7 +10,6 @@
         "physics/friction": 0,
         "physics/bounciness": 0.9,
         "appearance": "test",
-        "physics/fluid_dampen": 0.06,
         "lifetime_events": [
         ]
     }

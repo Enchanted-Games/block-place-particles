@@ -48,11 +48,6 @@ public class ParticleComponents {
         FloatProviderComponent.CODEC,
         FloatProviderComponent.STREAM_CODEC
     );
-    public static final ParticleComponentRegistry.ComponentReference<FloatProviderComponent> PHYSICS_FLUID_DAMPEN = register(
-        ParticleInteractionsMod.id("physics/fluid_dampen"),
-        FloatProviderComponent.CODEC,
-        FloatProviderComponent.STREAM_CODEC
-    );
     public static final ParticleComponentRegistry.ComponentReference<BooleanComponent> PHYSICS_BYPASS_COLLISION_CHECK = register(
         ParticleInteractionsMod.id("physics/bypass_collision_check"),
         BooleanComponent.CODEC,
