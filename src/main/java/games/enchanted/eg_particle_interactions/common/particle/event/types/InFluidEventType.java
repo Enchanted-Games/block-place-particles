@@ -57,10 +57,8 @@ public class InFluidEventType extends ParticleEventType {
 
         if(this.oneshot && matchesFluid != matchesLastFluid) {
             this.fire(particle);
-            Logging.info("influid fired (oneshot)");
         } else if(!this.oneshot && matchesFluid) {
             this.fire(particle);
-            Logging.info("influid fired)");
         }
     }
 
