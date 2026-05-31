@@ -10,24 +10,5 @@
   },
   "light_emission": 15,
   "events": [
-    {
-      "trigger": {
-        "type": "in_air"
-      },
-      "action": {
-        "type": "set_appearance",
-        "appearance": "test"
-      }
-    },
-    {
-      "trigger": {
-        "type": "on_ground",
-        "oneshot": false
-      },
-      "action": {
-        "type": "set_appearance",
-        "appearance": "test"
-      }
-    }
   ]
 }

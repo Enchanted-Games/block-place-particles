@@ -12,11 +12,18 @@
   "events": [
     {
       "trigger": {
-        "type": "on_ground"
+        "type": "in_fluid",
+        "fluid_predicate": {
+          "type": "list",
+          "fluids": [
+            "water",
+            "flowing_water"
+          ]
+        }
       },
       "action": {
         "type": "set_appearance",
-        "appearance": "test2"
+        "appearance": "test"
       }
     }
   ]

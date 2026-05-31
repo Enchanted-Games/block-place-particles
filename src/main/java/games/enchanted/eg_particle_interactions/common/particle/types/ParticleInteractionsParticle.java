@@ -38,6 +38,7 @@ import net.minecraft.gizmos.TextGizmo;
 import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -64,8 +65,8 @@ public class ParticleInteractionsParticle extends Particle {
 
     protected float bounciness = 0f;
     protected float fluidDampen = 0f;
-    protected boolean isInFluid = false;
-    protected boolean hasEnteredFluid = false;
+    protected FluidState inFluid = Fluids.EMPTY.defaultFluidState();
+    protected FluidState inFluidLastTick = this.inFluid;
     protected boolean onGroundLastTick = false;
     protected Vec3 collisionResult = Vec3.ZERO;
 
@@ -252,16 +253,14 @@ public class ParticleInteractionsParticle extends Particle {
             return;
         }
 
-        this.isInFluid = !this.level.getFluidState(BlockPos.containing(this.x, this.y, this.z)).is(Fluids.EMPTY);
-        if (this.isInFluid) {
-            this.hasEnteredFluid = true;
-        }
-        if (this.isInFluid) {
-            final float effectiveFluidDampen = 1 - this.fluidDampen;
-            this.xd *= effectiveFluidDampen;
-            this.yd *= effectiveFluidDampen;
-            this.zd *= effectiveFluidDampen;
-        }
+        this.inFluidLastTick = this.inFluid;
+        this.inFluid = this.level.getFluidState(BlockPos.containing(this.x, this.y, this.z));
+//        if (this.isInFluid) {
+//            final float effectiveFluidDampen = 1 - this.fluidDampen;
+//            this.xd *= effectiveFluidDampen;
+//            this.yd *= effectiveFluidDampen;
+//            this.zd *= effectiveFluidDampen;
+//        }
 
         if(!this.onGround) {
             this.yd -= 0.04 * this.gravity;
@@ -597,6 +596,14 @@ public class ParticleInteractionsParticle extends Particle {
 
     public boolean isInAirOneshot() {
         return !this.onGround && this.onGroundLastTick;
+    }
+
+    public FluidState getInFluid() {
+        return this.inFluid;
+    }
+
+    public FluidState getInFluidLastTick() {
+        return this.inFluidLastTick;
     }
 
     protected void forEventStacks(Consumer<EventStack> eventStackConsumer) {

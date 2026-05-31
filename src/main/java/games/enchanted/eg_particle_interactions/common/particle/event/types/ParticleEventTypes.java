@@ -15,5 +15,7 @@ public class ParticleEventTypes {
         EVENT_TYPES.put(ParticleInteractionsMod.id("on_ground"), OnGroundEventType.CODEC);
         EVENT_TYPES.put(ParticleInteractionsMod.id("in_air"), InAirEventType.CODEC);
         EVENT_TYPES.put(ParticleInteractionsMod.id("on_bounce"), OnBounceEventType.CODEC);
+        EVENT_TYPES.put(ParticleInteractionsMod.id("on_spawn"), OnSpawnEventType.CODEC);
+        EVENT_TYPES.put(ParticleInteractionsMod.id("in_fluid"), InFluidEventType.CODEC);
     }
 }

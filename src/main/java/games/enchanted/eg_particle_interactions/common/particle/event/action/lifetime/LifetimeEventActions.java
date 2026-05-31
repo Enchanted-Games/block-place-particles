@@ -2,7 +2,6 @@ package games.enchanted.eg_particle_interactions.common.particle.event.action.li
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import com.terraformersmc.modmenu.util.mod.Mod;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
 import games.enchanted.eg_particle_interactions.common.particle.event.action.EventAction;
