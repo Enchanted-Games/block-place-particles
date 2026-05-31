@@ -17,5 +17,8 @@ public class ParticleEventTypes {
         EVENT_TYPES.put(ParticleInteractionsMod.id("on_bounce"), OnBounceEventType.CODEC);
         EVENT_TYPES.put(ParticleInteractionsMod.id("on_spawn"), OnSpawnEventType.CODEC);
         EVENT_TYPES.put(ParticleInteractionsMod.id("in_fluid"), InFluidEventType.CODEC);
+        EVENT_TYPES.put(ParticleInteractionsMod.id("after_ticks"), AfterTicksEventType.CODEC);
+        EVENT_TYPES.put(ParticleInteractionsMod.id("after_lifetime_percent"), AfterLifetimePercentEventType.CODEC);
+        EVENT_TYPES.put(ParticleInteractionsMod.id("random_chance"), RandomChanceEventType.CODEC);
     }
 }

@@ -10,21 +10,5 @@
   },
   "light_emission": 15,
   "events": [
-    {
-      "trigger": {
-        "type": "in_fluid",
-        "fluid_predicate": {
-          "type": "list",
-          "fluids": [
-            "water",
-            "flowing_water"
-          ]
-        }
-      },
-      "action": {
-        "type": "set_appearance",
-        "appearance": "test"
-      }
-    }
   ]
 }

@@ -596,6 +596,14 @@ public class ParticleInteractionsParticle extends Particle {
         return this.inFluidLastTick;
     }
 
+    public int getAge() {
+        return this.age;
+    }
+
+    public float getAgePercent() {
+        return (float) this.age / this.lifetime;
+    }
+
     protected void forEventStacks(Consumer<EventStack> eventStackConsumer) {
         eventStackConsumer.accept(this.lifetimeEventStack);
         eventStackConsumer.accept(this.appearanceEventStack);
