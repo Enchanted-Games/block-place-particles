@@ -9,18 +9,6 @@
         "physics/collision_size": 1,
         "physics/friction": 0,
         "physics/bounciness": 0.9,
-        "physics/wind_config": {
-            "swirl": {
-                "period": {
-                    "min": 708,
-                    "max": 720
-                },
-                "strength": {
-                    "min": 0.7,
-                    "max": 0.9
-                }
-            }
-        },
         "appearance": "test",
         "lifetime_events": [
         ]

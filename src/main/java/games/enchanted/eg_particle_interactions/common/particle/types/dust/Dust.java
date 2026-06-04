@@ -24,8 +24,8 @@ public class Dust extends ParticleInteractionsParticle {
         this.speckEmitter = dustParticleOptions.getSpeckEmitter();
         this.spawnSpecks = this.speckEmitter != null;
 
-        this.roll = (float) Math.toRadians(this.random.nextIntBetweenInclusive(0, 360));
-        this.prevRoll = this.roll;
+        this.spin = (float) Math.toRadians(this.random.nextIntBetweenInclusive(0, 360));
+        this.prevSpin = this.spin;
 
         float particleSize = this.random.nextBoolean() ? MIN_SIZE : MAX_SIZE;
         this.setScale(particleSize);
@@ -158,8 +158,8 @@ public class Dust extends ParticleInteractionsParticle {
             double zSpeed
         ) {
             Dust particle = new Dust(components, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed, options);
-            particle.roll = 0;
-            particle.prevRoll = 0;
+            particle.spin = 0;
+            particle.prevSpin = 0;
             particle.lifetime = (int) (particle.lifetime * 0.4f);
             particle.friction = 0.9f;
             return particle;

@@ -25,8 +25,8 @@ public class SparkFlash extends ParticleInteractionsParticle {
         this.useRandomAnimation = useRandomAnimation;
         if (useRandomAnimation) {
             int rot = this.random.nextIntBetweenInclusive(0, 3);
-            this.roll = rot * 90;
-            this.prevRoll = roll;
+            this.spin = rot * 90;
+            this.prevSpin = spin;
         }
 
         this.lifetime = this.random.nextInt(4) + 3;

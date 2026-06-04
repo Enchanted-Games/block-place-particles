@@ -9,6 +9,9 @@
     "sprite_cycle_mode": "age_cycle"
   },
   "light_emission": 15,
+  "spin_config": {
+    "initial_rotation": [0, 45]
+  },
   "events": [
   ]
 }

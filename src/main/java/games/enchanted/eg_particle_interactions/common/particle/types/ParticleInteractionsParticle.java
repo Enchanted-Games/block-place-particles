@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.particle.types;
 
 import games.enchanted.eg_particle_interactions.common.duck.ParticleDuck;
 import games.enchanted.eg_particle_interactions.common.particle.VelocityProvider;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.SpinConfig;
 import games.enchanted.eg_particle_interactions.common.particle.behaviour.ParticleBehaviourProvider;
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes;
@@ -55,13 +56,17 @@ public class ParticleInteractionsParticle extends Particle {
 
     private float scale;
     private float prevScale;
-    protected float roll;
-    protected float prevRoll;
     protected float billboardYOffset = 0.0f;
     protected float billboardXOffset = 0.0f;
     protected final int minLightEmission;
     protected final float gravityDecay;
     protected final Vec3 velocityDecay;
+
+    protected float spin;
+    protected float prevSpin;
+    protected float spinSpeed;
+    protected float maxSpinSpeed;
+    protected float spinAcceleration;
 
     protected double swirlPeriod;
     protected float swirlStrength;
@@ -150,6 +155,12 @@ public class ParticleInteractionsParticle extends Particle {
         FloatProviderComponent bouncinessComponent = components.getOrFallback(ParticleComponents.PHYSICS_BOUNCINESS, FloatProviderComponent.ZERO);
         this.bounciness = bouncinessComponent.provider().getValue(context);
 
+        BooleanComponent bypassCollisionCheckComponent = components.get(ParticleComponents.PHYSICS_BYPASS_COLLISION_CHECK);
+        ((ParticleDuck) this).eg_particle_interactions$setBypassMovementCollisionCheck(bypassCollisionCheckComponent == null ? this.friction < 0.99 : bypassCollisionCheckComponent.value());
+
+        LifetimeEventsComponent lifetimeEventsComponent = components.get(ParticleComponents.LIFETIME_EVENTS);
+        this.lifetimeEventStack = new EventStack(lifetimeEventsComponent == null ? List.of() : lifetimeEventsComponent.events(), this);
+
 
         // 0.1 - 0.2
         this.scale = 0.1f * (this.random.nextFloat() * 0.5f + 0.5f) * 2.0f;
@@ -165,13 +176,14 @@ public class ParticleInteractionsParticle extends Particle {
 
         this.minLightEmission = appearance.lightEmission();
 
+        SpinConfig spinConfig = appearance.spinConfig();
+        this.spin = (float) Math.toRadians(spinConfig.startingRotation().getValue(context));
+        this.prevSpin = spin;
+        this.spinSpeed = spinConfig.startingSpeed().getValue(context);
+        this.maxSpinSpeed = spinConfig.maxSpeed().getValue(context);
+        this.spinAcceleration = spinConfig.acceleration().getValue(context);
+
         this.layer = ParticleLayer.fromAppearance(context, appearance);
-
-        BooleanComponent bypassCollisionCheckComponent = components.get(ParticleComponents.PHYSICS_BYPASS_COLLISION_CHECK);
-        ((ParticleDuck) this).eg_particle_interactions$setBypassMovementCollisionCheck(bypassCollisionCheckComponent == null ? this.friction < 0.99 : bypassCollisionCheckComponent.value());
-
-        LifetimeEventsComponent lifetimeEventsComponent = components.get(ParticleComponents.LIFETIME_EVENTS);
-        this.lifetimeEventStack = new EventStack(lifetimeEventsComponent == null ? List.of() : lifetimeEventsComponent.events(), this);
     }
 
     public void setAppearance(ParticleAppearance appearance) {
@@ -197,8 +209,8 @@ public class ParticleInteractionsParticle extends Particle {
     public void extract(CustomParticleGeometryRenderState state, Camera camera, float partialTicks) {
         Quaternionf quaternionf = new Quaternionf();
         this.getBillboardMode().rotate(quaternionf, camera, partialTicks);
-        if (this.roll != 0.0F) {
-            quaternionf.rotateZ(Mth.lerp(partialTicks, this.prevRoll, this.roll));
+        if (this.spin != 0.0F) {
+            quaternionf.rotateZ(Mth.lerp(partialTicks, this.prevSpin, this.spin));
         }
 
         StateQuadConsumer consumer = new StateQuadConsumer(state, this.getVanillaLayer());
@@ -293,8 +305,22 @@ public class ParticleInteractionsParticle extends Particle {
             this.zd *= effectiveFriction;
         }
 
+        this.doSpin();
+
         this.applyGravityAndVelocityDecays();
         this.forEventStacks(EventStack::tick);
+    }
+
+    protected void doSpin() {
+        final boolean backwardSpin = this.spinAcceleration < 0;
+        final boolean reachedMaxSpeed = backwardSpin ? this.spinSpeed <= -this.maxSpinSpeed : this.spinSpeed >= this.maxSpinSpeed;
+
+        this.spinSpeed += reachedMaxSpeed ? 0 : (this.spinAcceleration / 2.0f);
+
+        this.prevSpin = this.spin;
+        if (!this.onGround && !((ParticleAccessor) this).eg_particle_interactions$getStoppedByCollision()) {
+            this.spin += this.spinSpeed / 6.5f;
+        }
     }
 
     protected void doWind() {

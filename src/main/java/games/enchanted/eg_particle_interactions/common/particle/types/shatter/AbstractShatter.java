@@ -36,8 +36,8 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
         this.slice1Y = (float) MathHelpers.randomBetween((randomSizeThird * 2) - 1, randomSize - 1) / randomSize;
 
         this.inverseSlicePositions = level.getRandom().nextBoolean();
-        this.roll = (float) Math.toRadians(MathHelpers.randomBetween(0, 3) * 90);
-        this.prevRoll = this.roll;
+        this.spin = (float) Math.toRadians(MathHelpers.randomBetween(0, 3) * 90);
+        this.prevSpin = this.spin;
 
         setInitialVelocity(xSpeed, ySpeed, zSpeed, 0.1f);
     }

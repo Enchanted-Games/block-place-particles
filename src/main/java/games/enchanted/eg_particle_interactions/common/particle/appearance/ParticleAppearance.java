@@ -13,13 +13,14 @@ import net.minecraft.resources.Identifier;
 
 import java.util.List;
 
-public record ParticleAppearance(TextureConfig textureConfig, ColourSource colourSource, int lightEmission, List<EventStack.Event> events) {
+public record ParticleAppearance(TextureConfig textureConfig, ColourSource colourSource, int lightEmission, SpinConfig spinConfig, List<EventStack.Event> events) {
     private static final int DEFAULT_LIGHT_EMISSION = 0;
 
     public static final ParticleAppearance.Reference MISSING_APPEARANCE = new InlineRef(new ParticleAppearance(
         TextureConfigs.MISSING_APPEARANCE,
         ColourSources.WHITE,
         DEFAULT_LIGHT_EMISSION,
+        SpinConfig.NO_SPIN,
         List.of()
     ));
 
@@ -27,6 +28,7 @@ public record ParticleAppearance(TextureConfig textureConfig, ColourSource colou
         TextureConfigs.MISSING_DEFINITION,
         ColourSources.WHITE,
         DEFAULT_LIGHT_EMISSION,
+        SpinConfig.NO_SPIN,
         List.of()
     ));
 
@@ -36,6 +38,7 @@ public record ParticleAppearance(TextureConfig textureConfig, ColourSource colou
                 TextureConfigs.CODEC.optionalFieldOf("texture_config", TextureConfigs.MISSING_APPEARANCE).forGetter(ParticleAppearance::textureConfig),
                 ColourSources.CODEC.optionalFieldOf("colour", ColourSources.WHITE).forGetter(ParticleAppearance::colourSource),
                 Codec.intRange(0, 15).optionalFieldOf("light_emission", DEFAULT_LIGHT_EMISSION).forGetter(ParticleAppearance::lightEmission),
+                SpinConfig.CODEC.optionalFieldOf("spin_config", SpinConfig.NO_SPIN).forGetter(ParticleAppearance::spinConfig),
                 EventStack.Event.appearanceCodec().listOf().optionalFieldOf("events", List.of()).forGetter(ParticleAppearance::events)
             ).apply(
                 i,
