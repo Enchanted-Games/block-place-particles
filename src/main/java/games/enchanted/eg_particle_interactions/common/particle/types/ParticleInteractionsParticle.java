@@ -17,6 +17,7 @@ import games.enchanted.eg_particle_interactions.common.particle.component.Partic
 import games.enchanted.eg_particle_interactions.common.particle.component.type.*;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.event.EventStack;
+import games.enchanted.eg_particle_interactions.common.util.math.FloatMathModifier;
 import games.enchanted.eg_particle_interactions.common.util.math.IntMathModifier;
 import games.enchanted.eg_particle_interactions.common.util.math.Vector3dMathModifier;
 import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomIntProvider;
@@ -27,6 +28,7 @@ import games.enchanted.eg_particle_interactions.common.particle.render.layer.Par
 import games.enchanted.eg_particle_interactions.common.particle.render.state.CustomParticleGeometryRenderState;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
+import games.enchanted.eg_particle_interactions.common.util.math.Vector3fMathModifier;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
@@ -61,7 +63,7 @@ public class ParticleInteractionsParticle extends Particle {
 
     private float scale;
     private float prevScale;
-    protected Vector3fc modelOffset;
+    protected Vector3f modelOffset;
     protected int minLightEmission;
 
     protected float spin;
@@ -167,7 +169,7 @@ public class ParticleInteractionsParticle extends Particle {
         this.scale = appearance.scale().getValue(context) / 16f;
         this.prevScale = scale;
 
-        this.modelOffset = appearance.modelOffset();
+        this.modelOffset = new Vector3f(appearance.modelOffset());
 
         int[] colour = appearance.colourSource().getARGB(context);
         this.setRGBA(
@@ -278,6 +280,7 @@ public class ParticleInteractionsParticle extends Particle {
         if(this.removed) return;
         if(this.age == 0) this.forEventStacks(EventStack::particleSpawn);
 
+        this.prevScale = this.scale;
         this.pickSpriteForAppearance();
 
         this.xo = this.x;
@@ -642,6 +645,18 @@ public class ParticleInteractionsParticle extends Particle {
 
     public void modifyLifetime(IntMathModifier modifier) {
         this.setLifetime(modifier.apply(this.getLifetime()));
+    }
+
+    public void modifyModelOffset(Vector3fMathModifier modifier) {
+        this.modelOffset = modifier.apply(this.modelOffset);
+    }
+
+    public void modifyScale(FloatMathModifier modifier) {
+        this.setScale(modifier.apply(this.getScale() * 16f) / 16f, true);
+    }
+
+    public void modifyLightEmission(IntMathModifier modifier) {
+        this.minLightEmission = modifier.apply(this.minLightEmission);
     }
 
     public void emit(Emitter emitter, Vector3d positionOffset, VelocityProvider velocityProvider) {

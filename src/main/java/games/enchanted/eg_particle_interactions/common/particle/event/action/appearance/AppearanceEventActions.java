@@ -14,5 +14,8 @@ public class AppearanceEventActions {
 
     static {
         EVENT_ACTIONS.put(ParticleInteractionsMod.id("set_appearance"), ModifyAppearanceAction.CODEC);
+        EVENT_ACTIONS.put(ParticleInteractionsMod.id("modify_scale"), ModifyScaleAction.CODEC);
+        EVENT_ACTIONS.put(ParticleInteractionsMod.id("modify_model_offset"), ModifyModelOffsetAction.CODEC);
+        EVENT_ACTIONS.put(ParticleInteractionsMod.id("modify_light_emission"), ModifyLightEmissionAction.CODEC);
     }
 }

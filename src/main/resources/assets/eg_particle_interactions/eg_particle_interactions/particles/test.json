@@ -1,5 +1,5 @@
 {
-    "special_type": "spark_shape",
+    "special_type": "simple",
     "components": {
         "gravity/initial": 0.5,
         "lifetime": {
@@ -10,7 +10,7 @@
         "physics/collision_size": 1,
         "physics/friction": 0,
         "physics/bounciness": 0.9,
-        "appearance": "spark/flying_spark",
+        "appearance": "test",
         "lifetime_events": [
         ]
     }
