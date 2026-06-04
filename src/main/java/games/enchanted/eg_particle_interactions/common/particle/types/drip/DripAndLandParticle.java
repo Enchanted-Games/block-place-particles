@@ -76,7 +76,7 @@ public class DripAndLandParticle extends ParticleInteractionsParticle {
         this.lifetime = this.age + level.getRandom().nextInt(30, 60);
 
         ((ParticleDuck) this).eg_particle_interactions$moveUpBecauseParticleLanded();
-        this.billboardYOffset = 1.0f;
+//        this.billboardYOffset = 1.0f;
     }
 
     @Override

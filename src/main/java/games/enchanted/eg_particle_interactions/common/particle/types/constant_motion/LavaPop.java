@@ -12,7 +12,7 @@ import org.jspecify.annotations.Nullable;
 public class LavaPop extends ConstantMotionParticle {
     protected LavaPop(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, double constantXSpeed, double constantYSpeed, double constantZSpeed, float quadSize) {
         super(components, appearance, context, config, x, y, z, constantXSpeed, constantYSpeed, constantZSpeed, quadSize);
-        this.billboardYOffset = 1.0f;
+//        this.billboardYOffset = 1.0f;
     }
 
     public static class LavaPopProvider implements PIParticleProvider<SimpleParticleOptions> {

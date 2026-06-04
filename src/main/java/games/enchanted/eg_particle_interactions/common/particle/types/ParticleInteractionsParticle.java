@@ -45,6 +45,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
+import org.joml.Vector3f;
+import org.joml.Vector3fc;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
@@ -54,13 +56,13 @@ public class ParticleInteractionsParticle extends Particle {
     protected static final double MAXIMUM_COLLISION_VELOCITY_SQUARED = Mth.square(100.0F);
     private static final double MIN_BOUNCE_CUTOFF = 0.05;
 
-    private float scale;
-    private float prevScale;
-    protected float billboardYOffset = 0.0f;
-    protected float billboardXOffset = 0.0f;
-    protected final int minLightEmission;
     protected final float gravityDecay;
     protected final Vec3 velocityDecay;
+
+    private float scale;
+    private float prevScale;
+    protected Vector3fc modelOffset;
+    protected int minLightEmission;
 
     protected float spin;
     protected float prevSpin;
@@ -162,9 +164,10 @@ public class ParticleInteractionsParticle extends Particle {
         this.lifetimeEventStack = new EventStack(lifetimeEventsComponent == null ? List.of() : lifetimeEventsComponent.events(), this);
 
 
-        // 0.1 - 0.2
-        this.scale = 0.1f * (this.random.nextFloat() * 0.5f + 0.5f) * 2.0f;
+        this.scale = appearance.scale().getValue(context) / 16f;
         this.prevScale = scale;
+
+        this.modelOffset = appearance.modelOffset();
 
         int[] colour = appearance.colourSource().getARGB(context);
         this.setRGBA(
@@ -248,18 +251,21 @@ public class ParticleInteractionsParticle extends Particle {
     }
 
     protected void extractGeometry(QuadConsumer consumer, Quaternionf quaternion, float x, float y, float z, float partialTicks) {
-        int light = this.getLightmapCoords(partialTicks);
-        float scale = this.getLerpedScale(partialTicks);
-        float r = this.getLerpedRed(partialTicks);
-        float g = this.getLerpedGreen(partialTicks);
-        float b = this.getLerpedBlue(partialTicks);
-        float a = this.getLerpedAlpha(partialTicks);
+        final int light = this.getLightmapCoords(partialTicks);
+        final float scale = this.getLerpedScale(partialTicks);
+        final float r = this.getLerpedRed(partialTicks);
+        final float g = this.getLerpedGreen(partialTicks);
+        final float b = this.getLerpedBlue(partialTicks);
+        final float a = this.getLerpedAlpha(partialTicks);
+
+        final float billboardXOffset = this.modelOffset.x();
+        final float billboardYOffset = this.modelOffset.y();
 
         consumer.startQuad();
-        consumer.addVertex(quaternion, x, y, z, 1.0F + this.billboardXOffset, -1.0F + this.billboardYOffset, scale, getU1(), getV1(), light, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z, 1.0F + this.billboardXOffset, 1.0F + this.billboardYOffset, scale, getU1(), getV0(), light, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z, -1.0F + this.billboardXOffset, 1.0F + this.billboardYOffset, scale, getU0(), getV0(), light, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z, -1.0F + this.billboardXOffset, -1.0F + this.billboardYOffset, scale, getU0(), getV1(), light, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, 0.5f + billboardXOffset, -0.5f + billboardYOffset, scale, getU1(), getV1(), light, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, 0.5f + billboardXOffset, 0.5f + billboardYOffset, scale, getU1(), getV0(), light, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, -0.5f + billboardXOffset, 0.5f + billboardYOffset, scale, getU0(), getV0(), light, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, -0.5f + billboardXOffset, -0.5f + billboardYOffset, scale, getU0(), getV1(), light, r, g, b, a);
         consumer.finishQuad();
     }
 

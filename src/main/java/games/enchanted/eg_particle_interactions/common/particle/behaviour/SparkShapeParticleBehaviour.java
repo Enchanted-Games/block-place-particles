@@ -41,9 +41,9 @@ public class SparkShapeParticleBehaviour extends ParticleInteractionsParticle {
         this.prevPrevY = this.yo;
         this.prevPrevZ = this.zo;
 
-        // TODO: move to particle appearances
-        float particleSize = (this.random.nextBoolean() ? 0.025f : 0.03f);
-        this.setScale(particleSize);
+        // TODO: move to particle appearances (scale 3)
+//        float particleSize = (this.random.nextBoolean() ? 0.025f : 0.03f);
+//        this.setScale(particleSize);
 
         this.particleShape = ShapeDefinitions.VERTICAL_CROSS;
         this.particleShapeScale = new Vector3f(1);
@@ -63,6 +63,12 @@ public class SparkShapeParticleBehaviour extends ParticleInteractionsParticle {
     @Override
     public BillboardMode getBillboardMode() {
         return BillboardMode.FIXED;
+    }
+
+    protected Vector3f getShapeOffset() {
+        Vector3f shapeOffset = new Vector3f(0);
+        this.modelOffset.div(16, shapeOffset);
+        return shapeOffset;
     }
 
     @Override
@@ -113,9 +119,12 @@ public class SparkShapeParticleBehaviour extends ParticleInteractionsParticle {
         if (!Float.isFinite(yaw)) yaw = this.prevYaw;
         this.prevYaw = yaw;
 
-        Vector3f shapePos = MathHelpers.getPosBetween3DPoints(pos, prevPos);
-        Vector3f shapeScale = new Vector3f(1, Math.max(Math.abs(MathHelpers.getDistanceBetweenVectors(pos, prevPos) * 40), 1), 1).mul(this.particleShapeScale);
+        Vector3f shapePos = MathHelpers.getPosBetween3DPoints(pos, prevPos).add(this.getShapeOffset());
+        Vector3f shapeScale = new Vector3f(1, Math.max(Math.abs(MathHelpers.getDistanceBetweenVectors(pos, prevPos) * 40), 1), 1)
+            .mul(this.particleShapeScale)
+            .mul(this.getLerpedScale(partialTicks));
         Vector3f shapeRotation = new Vector3f(-(pitch - 90), yaw, 0);
+
         this.particleShape.extractShape(
             consumer,
             new Vector2f[]{new Vector2f(u0, v0), new Vector2f(u1, v1)},
@@ -147,7 +156,7 @@ public class SparkShapeParticleBehaviour extends ParticleInteractionsParticle {
             Mth.lerp(partialTicks, this.prevPrevZ, this.zo)
         );
 
-        return new AABB(pos1, pos2).inflate(this.getLerpedScale(partialTicks));
+        return new AABB(pos1, pos2).move(this.getShapeOffset()).inflate(this.getLerpedScale(partialTicks));
     }
 
     public static class Provider implements ParticleBehaviourProvider {

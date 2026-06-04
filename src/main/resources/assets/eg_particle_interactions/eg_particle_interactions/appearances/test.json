@@ -12,6 +12,8 @@
   "spin_config": {
     "initial_rotation": [0, 45]
   },
+  "scale": 5,
+  "model_offset": [0, 1, 0],
   "events": [
   ]
 }
