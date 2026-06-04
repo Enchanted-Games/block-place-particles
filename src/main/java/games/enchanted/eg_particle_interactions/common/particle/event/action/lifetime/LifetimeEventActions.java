@@ -16,5 +16,6 @@ public class LifetimeEventActions {
         EVENT_ACTIONS.put(ParticleInteractionsMod.id("modify_velocity"), ModifyVelocityAction.CODEC);
         EVENT_ACTIONS.put(ParticleInteractionsMod.id("spawn_particle"), SpawnParticleAction.CODEC);
         EVENT_ACTIONS.put(ParticleInteractionsMod.id("modify_lifetime"), ModifyLifetimeAction.CODEC);
+        EVENT_ACTIONS.put(ParticleInteractionsMod.id("kill"), KillParticleAction.CODEC);
     }
 }

@@ -15,6 +15,14 @@
         },
         "appearance": "test",
         "lifetime_events": [
+            {
+                "trigger": {
+                    "type": "on_ground"
+                },
+                "action": {
+                    "type": "kill"
+                }
+            }
         ]
     }
 }
