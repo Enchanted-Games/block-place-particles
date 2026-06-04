@@ -63,6 +63,16 @@ public class ParticleInteractionsParticle extends Particle {
     protected final float gravityDecay;
     protected final Vec3 velocityDecay;
 
+    protected double swirlPeriod;
+    protected float swirlStrength;
+    protected final boolean shouldSwirl;
+    protected final float xFlowScale;
+    protected final float yFlowScale;
+    protected final float zFlowScale;
+    protected final float maxXFlow;
+    protected final float maxYFlow;
+    protected final float maxZFlow;
+
     protected float bounciness = 0f;
     protected FluidState inFluid = Fluids.EMPTY.defaultFluidState();
     protected FluidState inFluidLastTick = this.inFluid;
@@ -125,6 +135,17 @@ public class ParticleInteractionsParticle extends Particle {
 
         FloatProviderComponent frictionComponent = components.getOrFallback(ParticleComponents.PHYSICS_FRICTION, FloatProviderComponent.ZERO);
         this.friction = frictionComponent.provider().getValue(context);
+
+        WindConfigComponent windComponent = components.getOrFallback(ParticleComponents.PHYSICS_WIND_CONFIG, WindConfigComponent.NO_WIND);
+        this.shouldSwirl = !windComponent.swirlConfig().unset();
+        this.swirlPeriod = windComponent.swirlConfig().swirlPeriod().getValue(context);
+        this.swirlStrength = windComponent.swirlConfig().swirlStrength().getValue(context);
+        this.xFlowScale = windComponent.flowAcceleration().x() / 100f;
+        this.yFlowScale = windComponent.flowAcceleration().y() / 100f;
+        this.zFlowScale = windComponent.flowAcceleration().z() / 100f;
+        this.maxXFlow = windComponent.maxFlowSpeed().x() / 100;
+        this.maxYFlow = windComponent.maxFlowSpeed().y() / 100;
+        this.maxZFlow = windComponent.maxFlowSpeed().z() / 100;
 
         FloatProviderComponent bouncinessComponent = components.getOrFallback(ParticleComponents.PHYSICS_BOUNCINESS, FloatProviderComponent.ZERO);
         this.bounciness = bouncinessComponent.provider().getValue(context);
@@ -252,6 +273,8 @@ public class ParticleInteractionsParticle extends Particle {
         this.inFluidLastTick = this.inFluid;
         this.inFluid = this.level.getFluidState(BlockPos.containing(this.x, this.y, this.z));
 
+        this.doWind();
+
         if(!this.onGround) {
             this.yd -= 0.04 * this.gravity;
         }
@@ -272,6 +295,32 @@ public class ParticleInteractionsParticle extends Particle {
 
         this.applyGravityAndVelocityDecays();
         this.forEventStacks(EventStack::tick);
+    }
+
+    protected void doWind() {
+        if(!this.hasPhysics || this.onGround) return;
+
+        float windStrength = (float) Math.pow(this.getAgePercent(), 1.25f);
+        if(this.xFlowScale > 0) {
+            double power = this.xFlowScale * windStrength;
+            this.xd += power > this.maxXFlow ? 0 : power;
+        }
+        if(this.yFlowScale > 0) {
+            double power = this.yFlowScale * windStrength;
+            this.yd += power > this.maxYFlow ? 0 : power;
+        }
+        if(this.zFlowScale > 0) {
+            double power = this.zFlowScale * windStrength;
+            this.zd += power > this.maxZFlow ? 0 : power;
+        }
+
+        if(!shouldSwirl) return;
+        float swirlMultiplier = Math.max(this.age * 0.08f, 1f);
+        double swirlX = swirlMultiplier * Math.cos(swirlMultiplier * this.swirlPeriod) * this.swirlStrength;
+        double swirlZ = swirlMultiplier * Math.sin(swirlMultiplier * this.swirlPeriod) * this.swirlStrength;
+
+        this.xd += swirlX * 0.0025f;
+        this.zd += swirlZ * 0.0025f;
     }
 
     protected void doCollisions() {

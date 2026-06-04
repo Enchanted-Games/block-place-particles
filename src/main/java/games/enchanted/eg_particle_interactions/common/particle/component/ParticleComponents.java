@@ -53,6 +53,11 @@ public class ParticleComponents {
         BooleanComponent.CODEC,
         BooleanComponent.STREAM_CODEC
     );
+    public static final ParticleComponentRegistry.ComponentReference<WindConfigComponent> PHYSICS_WIND_CONFIG = register(
+        ParticleInteractionsMod.id("physics/wind_config"),
+        WindConfigComponent.CODEC,
+        WindConfigComponent.STREAM_CODEC
+    );
     public static final ParticleComponentRegistry.ComponentReference<AppearanceComponent> APPEARANCE = register(
         ParticleInteractionsMod.id("appearance"),
         AppearanceComponent.CODEC,

@@ -1,7 +1,6 @@
 {
-    "special_type": "spark_shape",
     "components": {
-        "gravity/initial": 1,
+        "gravity/initial": 0.5,
         "lifetime": {
             "min": 200,
             "max": 300
@@ -10,28 +9,20 @@
         "physics/collision_size": 1,
         "physics/friction": 0,
         "physics/bounciness": 0.9,
-        "appearance": "spark/flying_spark",
-        "lifetime_events": [
-            {
-                "trigger": {
-                    "type": "random_chance",
-                    "chance": 0.2,
-                    "lifetime_percentage_range": [0, 0.1]
+        "physics/wind_config": {
+            "swirl": {
+                "period": {
+                    "min": 708,
+                    "max": 720
                 },
-                "action": {
-                    "type": "spawn_particle",
-                    "emitter": {
-                        "emitter_type": "particle_interactions",
-                        "particle": {
-                            "type": "simple/soul_spark_flash",
-                            "simple_options": {}
-                        }
-                    },
-                    "velocity_provider": {
-                        "value": [0, 0.2, 0]
-                    }
+                "strength": {
+                    "min": 0.7,
+                    "max": 0.9
                 }
             }
+        },
+        "appearance": "test",
+        "lifetime_events": [
         ]
     }
 }
