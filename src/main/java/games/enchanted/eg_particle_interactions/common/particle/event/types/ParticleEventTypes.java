@@ -12,6 +12,7 @@ public class ParticleEventTypes {
     public static final Codec<ParticleEventType> CODEC = EVENT_TYPES.codec(ModCodecs.IDENTIFIER).dispatch("type", ParticleEventType::codec, mapCodec -> mapCodec);
 
     static {
+        EVENT_TYPES.put(ParticleInteractionsMod.id("tick"), TickEventType.CODEC);
         EVENT_TYPES.put(ParticleInteractionsMod.id("on_ground"), OnGroundEventType.CODEC);
         EVENT_TYPES.put(ParticleInteractionsMod.id("in_air"), InAirEventType.CODEC);
         EVENT_TYPES.put(ParticleInteractionsMod.id("on_bounce"), OnBounceEventType.CODEC);

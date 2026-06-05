@@ -8,7 +8,7 @@
     ],
     "sprite_cycle_mode": "age_cycle"
   },
-  "light_emission": 13,
+  "light_emission": 8,
   "spin_config": {
     "initial_rotation": [0, 45]
   },
@@ -16,11 +16,12 @@
   "events": [
     {
       "trigger": {
-        "type": "on_bounce"
+        "type": "tick"
       },
       "action": {
-        "type": "modify_light_emission",
-        "add": 2
+        "type": "age_based_light_emission",
+        "multiplier": 1,
+        "lifetime_percentage_range": [0.5, 1]
       }
     }
   ]

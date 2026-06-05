@@ -5,17 +5,13 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
-import net.minecraft.util.ExtraCodecs;
-import net.minecraft.util.Util;
-import org.joml.Vector2f;
-
-import java.util.List;
+import games.enchanted.eg_particle_interactions.common.util.math.FloatRange;
 
 public class RandomChanceEventType extends ParticleEventType {
     public static final MapCodec<RandomChanceEventType> CODEC = RecordCodecBuilder.mapCodec(i -> i
         .group(
             Codec.FLOAT.fieldOf("chance").forGetter(RandomChanceEventType::getChance),
-            AgeRange.CODEC.optionalFieldOf("lifetime_percentage_range", new AgeRange(0, 1)).forGetter(RandomChanceEventType::getAgePercentageRange)
+            FloatRange.CODEC.optionalFieldOf("lifetime_percentage_range", new FloatRange(0, 1)).forGetter(RandomChanceEventType::getAgePercentageRange)
         ).apply(
             i,
             RandomChanceEventType::new
@@ -23,9 +19,9 @@ public class RandomChanceEventType extends ParticleEventType {
     );
 
     final float chance;
-    final AgeRange agePercentRange;
+    final FloatRange agePercentRange;
 
-    RandomChanceEventType(float chance, AgeRange agePercentRange) {
+    RandomChanceEventType(float chance, FloatRange agePercentRange) {
         this.chance = chance;
         this.agePercentRange = agePercentRange;
     }
@@ -33,7 +29,7 @@ public class RandomChanceEventType extends ParticleEventType {
     @Override
     public void onParticleTick(ParticleInteractionsParticle particle) {
         float age = particle.getAgePercent();
-        if(age <= this.agePercentRange.min() || age >= this.agePercentRange.max()) return;
+        if(this.agePercentRange.inRange(age)) return;
         if(MathHelpers.randomBetween(0f, 1f) <= this.chance) {
             this.fire(particle);
         }
@@ -43,21 +39,12 @@ public class RandomChanceEventType extends ParticleEventType {
         return this.chance;
     }
 
-    protected AgeRange getAgePercentageRange() {
+    protected FloatRange getAgePercentageRange() {
         return this.agePercentRange;
     }
 
     @Override
     public MapCodec<? extends ParticleEventType> codec() {
         return CODEC;
-    }
-
-    protected record AgeRange(float min, float max) {
-        static final Codec<AgeRange> CODEC = Codec.FLOAT.listOf().comapFlatMap(
-            input -> Util.fixedSize(input, 2).map(
-                list -> new AgeRange(list.get(0), list.get(1))
-            ),
-            range -> List.of(range.min(), range.max())
-        );
     }
 }

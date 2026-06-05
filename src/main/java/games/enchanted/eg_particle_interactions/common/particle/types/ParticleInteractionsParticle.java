@@ -91,6 +91,8 @@ public class ParticleInteractionsParticle extends Particle {
     protected ParticleContext context;
     protected ParticleAppearance appearance;
     protected ParticleLayer layer;
+    protected float initialAppearanceScale;
+    protected int initialLightEmission;
 
     protected final EventStack lifetimeEventStack;
     protected EventStack appearanceEventStack;
@@ -164,10 +166,15 @@ public class ParticleInteractionsParticle extends Particle {
 
         LifetimeEventsComponent lifetimeEventsComponent = components.get(ParticleComponents.LIFETIME_EVENTS);
         this.lifetimeEventStack = new EventStack(lifetimeEventsComponent == null ? List.of() : lifetimeEventsComponent.events(), this);
+    }
 
+    public void setAppearance(ParticleAppearance appearance) {
+        this.appearance = appearance;
+        this.appearanceEventStack = new EventStack(appearance.events(), this);
 
-        this.scale = appearance.scale().getValue(context) / 16f;
-        this.prevScale = scale;
+        this.initialAppearanceScale = appearance.scale().getValue(context) / 16f;
+        this.scale = this.initialAppearanceScale;
+        this.prevScale = this.initialAppearanceScale;
 
         this.modelOffset = new Vector3f(appearance.modelOffset());
 
@@ -180,6 +187,7 @@ public class ParticleInteractionsParticle extends Particle {
         );
 
         this.minLightEmission = appearance.lightEmission();
+        this.initialLightEmission = this.minLightEmission;
 
         SpinConfig spinConfig = appearance.spinConfig();
         this.spin = (float) Math.toRadians(spinConfig.startingRotation().getValue(context));
@@ -189,11 +197,6 @@ public class ParticleInteractionsParticle extends Particle {
         this.spinAcceleration = spinConfig.acceleration().getValue(context);
 
         this.layer = ParticleLayer.fromAppearance(context, appearance);
-    }
-
-    public void setAppearance(ParticleAppearance appearance) {
-        this.appearance = appearance;
-        this.appearanceEventStack = new EventStack(appearance.events(), this);
 
         this.updateSpritesAfterFirstCall = true;
         this.currentSprite = TextureHelpers.missingParticleSprite();
@@ -242,6 +245,7 @@ public class ParticleInteractionsParticle extends Particle {
 
             ParticleDebugShapes.onGroundMarker(this.getBoundingBox(), this.onGround);
 
+            Gizmos.billboardText("Light Emission: " + this.minLightEmission, new Vec3(lerpedX, lerpedY + 0.4, lerpedZ), TextGizmo.Style.whiteAndCentered());
             Gizmos.billboardText("Age: " + this.age, new Vec3(lerpedX, lerpedY + 0.2, lerpedZ), TextGizmo.Style.whiteAndCentered());
             Gizmos.billboardText("Lifetime: " + this.lifetime, new Vec3(lerpedX, lerpedY, lerpedZ), TextGizmo.Style.whiteAndCentered());
         }
@@ -608,6 +612,10 @@ public class ParticleInteractionsParticle extends Particle {
         return this.scale;
     }
 
+    public float getInitialAppearanceScale() {
+        return this.initialAppearanceScale;
+    }
+
     public void setScale(float scale) {
         this.setScale(scale, false);
     }
@@ -657,6 +665,14 @@ public class ParticleInteractionsParticle extends Particle {
 
     public void modifyLightEmission(IntMathModifier modifier) {
         this.minLightEmission = modifier.apply(this.minLightEmission);
+    }
+
+    public void setLightEmission(int lightEmission) {
+        this.minLightEmission = lightEmission;
+    }
+
+    public int getInitialAppearanceLightEmission() {
+        return this.initialLightEmission;
     }
 
     public void emit(Emitter emitter, Vector3d positionOffset, VelocityProvider velocityProvider) {
