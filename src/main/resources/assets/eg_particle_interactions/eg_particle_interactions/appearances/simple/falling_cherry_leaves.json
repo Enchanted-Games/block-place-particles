@@ -14,5 +14,13 @@
       "minecraft:cherry_10",
       "minecraft:cherry_11"
     ]
+  },
+  "spin_config": {
+    "initial_rotation": {
+      "range": [0, 360]
+    },
+    "acceleration": {
+      "values": [-5, 5]
+    }
   }
 }

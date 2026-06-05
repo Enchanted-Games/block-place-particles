@@ -1,0 +1,14 @@
+{
+    "components": {
+        "gravity/initial": {
+            "range": [0.25, 0.38]
+        },
+        "lifetime": {
+            "range": [18, 82]
+        },
+        "velocity/decay": [0.98, 0.98, 0.98],
+        "physics/friction": 0.5,
+        "physics/collision_size": 1.5,
+        "appearance": "simple/falling_cherry_leaves"
+    }
+}
