@@ -2,10 +2,7 @@
     "components": {
         "gravity/initial": 0,
         "velocity/decay": 0.5,
-        "lifetime": {
-            "min": 20,
-            "max": 20
-        },
+        "lifetime": 20,
         "velocity/initial_randomness": [0.05, 0.05, 0.05],
         "physics/friction": 0,
         "appearance": "dust/snowflake"

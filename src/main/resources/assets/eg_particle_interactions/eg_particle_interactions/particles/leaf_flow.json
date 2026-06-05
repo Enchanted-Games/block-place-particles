@@ -2,8 +2,7 @@
     "components": {
         "gravity/initial": 0.03,
         "lifetime": {
-            "min": 200,
-            "max": 300
+            "range": [200, 300]
         },
         "velocity/initial_randomness": [0.0, 0.0, 0.0],
         "physics/collision_size": 1,

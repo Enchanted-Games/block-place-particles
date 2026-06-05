@@ -1,54 +1,59 @@
 package games.enchanted.eg_particle_interactions.common.particle.options.value;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.util.math.IntRange;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class RandomIntProvider implements ValueProvider<Integer> {
-    private static final Codec<RandomIntProvider> MIN_MAX_CODEC = RecordCodecBuilder.create(
+    private static final Codec<RandomIntProvider> RANGE_OR_VALUES_CODEC = RecordCodecBuilder.create(
         i -> i.group(
-            Codec.INT.fieldOf("min").forGetter(RandomIntProvider::getMin),
-            Codec.INT.fieldOf("max").forGetter(RandomIntProvider::getMax)
+            IntRange.CODEC.optionalFieldOf("range").forGetter(
+                provider -> Optional.ofNullable(provider.getRange())
+            ),
+            Codec.INT.listOf(1, 1024).optionalFieldOf("values").forGetter(provider -> {
+                if(provider.getInts().length == 0) return Optional.empty();
+                return Optional.of(Arrays.stream(provider.getInts()).toList());
+            })
         ).apply(
             i,
-            RandomIntProvider::new
-        )
-    );
-
-    private static final Codec<RandomIntProvider> LIST_CODEC = Codec.INT.listOf().xmap(
-        RandomIntProvider::new,
-        provider -> {
-            if(provider.getInts().length == 0) {
-                throw new IllegalArgumentException("Cannot serialize min-max int provider as list provider");
+            (intRange, ints) -> {
+                if(intRange.isEmpty() && ints.isEmpty()) {
+                    throw new IllegalArgumentException("Integer provider must have `range` or `values` fields, or be a single integer");
+                }
+                return new RandomIntProvider(intRange.orElse(null), ints.orElse(List.of()));
             }
-            return Arrays.asList(provider.getInts());
-        }
+        )
     );
 
-    public static Codec<RandomIntProvider> CODEC = MIN_MAX_CODEC.withAlternative(
+    public static Codec<RandomIntProvider> CODEC = RANGE_OR_VALUES_CODEC.withAlternative(
         Codec.INT.xmap(
-            value -> new RandomIntProvider(value, value),
-            RandomIntProvider::getMax
+            value -> new RandomIntProvider(null, List.of(value)),
+            provider -> provider.getInts()[0]
         )
-    ).withAlternative(LIST_CODEC);
+    );
 
-    final int min;
-    final int max;
+    @Nullable
+    final IntRange range;
     final Integer[] ints;
 
-    public RandomIntProvider(int min, int max) {
-        this.min = min;
-        this.max = max;
-        this.ints = new Integer[0];
+    public RandomIntProvider(@Nullable IntRange range, List<Integer> ints) {
+        this.range = range;
+        this.ints = ints.toArray(new Integer[0]);
     }
 
-    public RandomIntProvider(List<Integer> ints) {
-        this.min = 0;
-        this.max = 0;
-        this.ints = ints.toArray(new Integer[0]);
+    public RandomIntProvider(int min, int max) {
+        this(new IntRange(min, max), List.of());
+    }
+
+    public RandomIntProvider(List<Integer> values) {
+        this(null, values);
     }
 
     @Override
@@ -56,16 +61,17 @@ public class RandomIntProvider implements ValueProvider<Integer> {
         if(this.ints.length > 0) {
             return this.ints[context.level().getRandom().nextIntBetweenInclusive(0, this.ints.length - 1)];
         }
-        if(this.min == this.max) return this.max;
-        return Math.round((context.level().getRandom().nextFloat() * (this.max - this.min)) + this.min);
+        if(this.range == null) {
+            throw new IllegalStateException("Somehow got an integer provider with no values or range");
+        }
+        final int min = this.range.min();
+        final int max = this.range.max();
+        if(min == max) return max;
+        return Math.round((context.level().getRandom().nextFloat() * (max - min)) + min);
     }
 
-    protected int getMax() {
-        return max;
-    }
-
-    protected int getMin() {
-        return min;
+    protected @Nullable IntRange getRange() {
+        return this.range;
     }
 
     protected Integer[] getInts() {

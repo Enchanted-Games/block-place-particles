@@ -10,7 +10,9 @@
   },
   "light_emission": 8,
   "spin_config": {
-    "initial_rotation": [0, 45]
+    "initial_rotation": {
+      "values":  [0, 45]
+    }
   },
   "scale": 16,
   "events": [

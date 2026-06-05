@@ -25,12 +25,10 @@
           "gravity_decay": 0,
           "velocity_decay": 0,
           "gravity": {
-            "min": 0.04,
-            "max": 0.06
+            "range": [0.04, 0.06]
           },
           "lifetime": {
-            "min": 90,
-            "max": 200
+            "range": [90, 200]
           },
           "speck_emitter": {
             "emitter_type": "particle_interactions",
