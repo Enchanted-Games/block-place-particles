@@ -111,6 +111,8 @@ public class ParticleInteractionsParticle extends Particle {
     private float alpha = 1.0f;
     private float prevAlpha = 1.0f;
 
+    protected final float randomRenderOffset;
+
     protected ParticleInteractionsParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z) {
         this(components, appearance, context, config, x, y, z, 0, 0, 0);
         this.xd = 0;
@@ -168,6 +170,8 @@ public class ParticleInteractionsParticle extends Particle {
 
         LifetimeEventsComponent lifetimeEventsComponent = components.get(ParticleComponents.LIFETIME_EVENTS);
         this.lifetimeEventStack = new EventStack(lifetimeEventsComponent == null ? List.of() : lifetimeEventsComponent.events(), this);
+
+        this.randomRenderOffset = GeneralOptions.PARTICLE_Z_FIGHTING_FIX.getValue() ? level.getRandom().nextFloat() * 0.005f : 0f;
     }
 
     public void setAppearance(ParticleAppearance appearance) {
@@ -230,7 +234,7 @@ public class ParticleInteractionsParticle extends Particle {
     protected void adjustPositionBeforeExtraction(QuadConsumer consumer, Camera camera, Quaternionf quaternionf, float partialTicks) {
         Vec3 cameraPosition = camera.position();
         float lerpedX = (float) Mth.lerp(partialTicks, this.xo, this.x);
-        float lerpedY = (float) Mth.lerp(partialTicks, this.yo, this.y);
+        float lerpedY = (float) Mth.lerp(partialTicks, this.yo, this.y) + (this.onGround ? this.randomRenderOffset : 0);
         float lerpedZ = (float) Mth.lerp(partialTicks, this.zo, this.z);
         float x = (float) (lerpedX - cameraPosition.x());
         float y = (float) (lerpedY - cameraPosition.y());
