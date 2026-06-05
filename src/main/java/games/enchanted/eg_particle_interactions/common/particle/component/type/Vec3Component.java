@@ -25,4 +25,8 @@ public record Vec3Component(Vec3 vec3) {
         Vec3Component::vec3,
         Vec3Component::new
     );
+
+    public static Vec3Component scalar(float value) {
+        return new Vec3Component(new Vec3(value, value, value));
+    }
 }

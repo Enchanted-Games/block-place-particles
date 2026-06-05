@@ -17,6 +17,7 @@ import games.enchanted.eg_particle_interactions.common.particle.component.Partic
 import games.enchanted.eg_particle_interactions.common.particle.component.type.*;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.event.EventStack;
+import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomFloatProvider;
 import games.enchanted.eg_particle_interactions.common.util.math.FloatMathModifier;
 import games.enchanted.eg_particle_interactions.common.util.math.IntMathModifier;
 import games.enchanted.eg_particle_interactions.common.util.math.Vector3dMathModifier;
@@ -57,6 +58,7 @@ import java.util.function.Consumer;
 public class ParticleInteractionsParticle extends Particle {
     protected static final double MAXIMUM_COLLISION_VELOCITY_SQUARED = Mth.square(100.0F);
     private static final double MIN_BOUNCE_CUTOFF = 0.05;
+    private static final double EPSILON = 1.0E-5d;
 
     protected final float gravityDecay;
     protected final Vec3 velocityDecay;
@@ -120,7 +122,7 @@ public class ParticleInteractionsParticle extends Particle {
         super(context.level(), x, y, z, xSpeed, ySpeed, zSpeed);
         ClientLevel level = context.level();
 
-        Vec3Component velocityRandomnessComponent = components.getOrFallback(ParticleComponents.VELOCITY_INITIAL_RANDOMNESS, Vec3Component.ZERO);
+        Vec3Component velocityRandomnessComponent = components.getOrFallback(ParticleComponents.VELOCITY_INITIAL_RANDOMNESS, Vec3Component.scalar(0.02f));
         this.xd = xSpeed + ((level.getRandom().nextFloat() - 0.5f) * 2f * velocityRandomnessComponent.vec3().x());
         this.yd = ySpeed + ((level.getRandom().nextFloat() - 0.5f) * 2f * velocityRandomnessComponent.vec3().y());
         this.zd = zSpeed + ((level.getRandom().nextFloat() - 0.5f) * 2f * velocityRandomnessComponent.vec3().z());
@@ -137,14 +139,14 @@ public class ParticleInteractionsParticle extends Particle {
         FloatProviderComponent gravityDecayComponent = components.getOrFallback(ParticleComponents.GRAVITY_DECAY, FloatProviderComponent.ONE);
         this.gravityDecay = gravityDecayComponent.provider().getValue(context);
 
-        IntProviderComponent lifetimeComponent = components.getOrFallback(ParticleComponents.LIFETIME, new IntProviderComponent(new RandomIntProvider(20, 20)));
+        IntProviderComponent lifetimeComponent = components.getOrFallback(ParticleComponents.LIFETIME, new IntProviderComponent(new RandomIntProvider(List.of(20))));
         this.lifetime = lifetimeComponent.provider().getValue(context);
 
         FloatProviderComponent collisionSizeComponent = components.getOrFallback(ParticleComponents.PHYSICS_COLLISION_SIZE, FloatProviderComponent.ZERO);
         float collisionSize = collisionSizeComponent.provider().getValue(context) / 16;
         this.setSize(collisionSize, collisionSize);
 
-        FloatProviderComponent frictionComponent = components.getOrFallback(ParticleComponents.PHYSICS_FRICTION, FloatProviderComponent.ZERO);
+        FloatProviderComponent frictionComponent = components.getOrFallback(ParticleComponents.PHYSICS_FRICTION, new FloatProviderComponent(new RandomFloatProvider(List.of(0.98f))));
         this.friction = frictionComponent.provider().getValue(context);
 
         WindConfigComponent windComponent = components.getOrFallback(ParticleComponents.PHYSICS_WIND_CONFIG, WindConfigComponent.NO_WIND);
@@ -245,9 +247,10 @@ public class ParticleInteractionsParticle extends Particle {
 
             ParticleDebugShapes.onGroundMarker(this.getBoundingBox(), this.onGround);
 
-            Gizmos.billboardText("Light Emission: " + this.minLightEmission, new Vec3(lerpedX, lerpedY + 0.4, lerpedZ), TextGizmo.Style.whiteAndCentered());
-            Gizmos.billboardText("Age: " + this.age, new Vec3(lerpedX, lerpedY + 0.2, lerpedZ), TextGizmo.Style.whiteAndCentered());
-            Gizmos.billboardText("Lifetime: " + this.lifetime, new Vec3(lerpedX, lerpedY, lerpedZ), TextGizmo.Style.whiteAndCentered());
+//            Gizmos.billboardText("Light Emission: " + this.minLightEmission, new Vec3(lerpedX, lerpedY + 0.4, lerpedZ), TextGizmo.Style.whiteAndCentered());
+//            Gizmos.billboardText("Age: " + this.age, new Vec3(lerpedX, lerpedY + 0.2, lerpedZ), TextGizmo.Style.whiteAndCentered());
+//            Gizmos.billboardText("Lifetime: " + this.lifetime, new Vec3(lerpedX, lerpedY, lerpedZ), TextGizmo.Style.whiteAndCentered());
+            Gizmos.billboardText(this.onGround ? "g" : "", new Vec3(lerpedX, lerpedY, lerpedZ), TextGizmo.Style.whiteAndCentered());
         }
         if (GeneralOptions.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES.getValue()) {
             ParticleDebugShapes.particlePosition(x + cameraPosition.x(), y + cameraPosition.y(), z + cameraPosition.z(), ParticleDebugShapes.PARTICLE_RENDER_POSITION);
@@ -311,7 +314,7 @@ public class ParticleInteractionsParticle extends Particle {
             this.xd *= 1.1;
             this.zd *= 1.1;
         }
-        if (this.onGround) {
+        if (this.onGround && this.velocityAsVector().length() > EPSILON) {
             final float effectiveFriction = 1 - this.friction;
             this.xd *= effectiveFriction;
             this.yd *= effectiveFriction;
@@ -415,12 +418,11 @@ public class ParticleInteractionsParticle extends Particle {
                 this.setLocationFromBoundingbox();
             }
 
-            final double epsilon = 0.00001;
-            if (!((ParticleDuck) this).eg_particle_interactions$getBypassMovementCollisionCheck() && Math.abs(originalYa) >= epsilon && Math.abs(ya) < epsilon) {
+            if (!((ParticleDuck) this).eg_particle_interactions$getBypassMovementCollisionCheck() && Math.abs(originalYa) >= EPSILON && Math.abs(ya) < EPSILON) {
                 ((ParticleDuck) this).eg_particle_interactions$setHasStoppedByCollision(true);
             }
 
-            this.onGround = originalYa != ya && originalYa < 0.0;
+            this.onGround = originalYa != ya && originalYa < 0d;
         }
     }
 
