@@ -1,41 +1,41 @@
 {
-  "weights": {
-    "default": [
-      {
-        "weight": 1,
-        "block_predicate": {
-          "type": "list",
-          "blocks": "generic_leaf"
-        }
-      }
-    ]
-  },
-  "exclusions": {
-    "default": [
-      {
-        "type": "list",
-        "blocks": "flower_petal"
-      },
-      {
-        "type": "list",
-        "blocks": "pale_leaf"
-      },
-      {
-        "type": "list",
-        "blocks": "pine_leaf"
-      },
-      {
-        "type": "list",
-        "blocks": "cherry_leaf"
-      },
-      {
-        "type": "list",
-        "blocks": "azalea_leaf"
-      },
-      {
-        "type": "list",
-        "blocks": "flowering_azalea"
-      }
-    ]
-  }
+    "weights": {
+        "default": [
+            {
+                "weight": 1,
+                "block_predicate": {
+                    "type": "list",
+                    "blocks": "generic_leaf"
+                }
+            }
+        ]
+    },
+    "exclusions": {
+        "default": [
+            {
+                "type": "list",
+                "blocks": "flower_petal"
+            },
+            {
+                "type": "list",
+                "blocks": "pale_leaf"
+            },
+            {
+                "type": "list",
+                "blocks": "pine_leaf"
+            },
+            {
+                "type": "list",
+                "blocks": "cherry_leaf"
+            },
+            {
+                "type": "list",
+                "blocks": "azalea_leaf"
+            },
+            {
+                "type": "list",
+                "blocks": "flowering_azalea"
+            }
+        ]
+    }
 }

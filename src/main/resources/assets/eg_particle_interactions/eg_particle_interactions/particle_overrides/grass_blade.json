@@ -1,115 +1,115 @@
 {
-  "emitters": {
-    "default": {
-      "rules": [
-        {
-          "conditions": [
-            {
-              "type": "logic/and",
-              "conditions": [
+    "emitters": {
+        "default": {
+            "rules": [
                 {
-                  "type": "block",
-                  "predicate": {
-                    "type": "list",
-                    "blocks": "partial_grass_blade_partial_firefly_in_swamp"
-                  }
+                    "conditions": [
+                        {
+                            "type": "logic/and",
+                            "conditions": [
+                                {
+                                    "type": "block",
+                                    "predicate": {
+                                        "type": "list",
+                                        "blocks": "partial_grass_blade_partial_firefly_in_swamp"
+                                    }
+                                },
+                                {
+                                    "type": "raw_light",
+                                    "min": 0,
+                                    "max": 12
+                                },
+                                {
+                                    "type": "biome",
+                                    "predicate": {
+                                        "type": "list",
+                                        "biomes": "swampy"
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "emitter": {
+                        "emitter_type": "random",
+                        "emitters": [
+                            {
+                                "weight": 10,
+                                "emitter": {
+                                    "emitter_type": "particle_interactions",
+                                    "particle": {
+                                        "type": "simple/grass_blade",
+                                        "simple_options": {}
+                                    },
+                                    "velocity_multiplier": 0.13
+                                }
+                            },
+                            {
+                                "weight": 1,
+                                "emitter": {
+                                    "emitter_type": "vanilla",
+                                    "particle": {
+                                        "type": "firefly"
+                                    }
+                                }
+                            }
+                        ]
+                    }
                 },
                 {
-                  "type": "raw_light",
-                  "min": 0,
-                  "max": 12
-                },
-                {
-                  "type": "biome",
-                  "predicate": {
-                    "type": "list",
-                    "biomes": "swampy"
-                  }
+                    "conditions": [
+                        {
+                            "type": "logic/and",
+                            "conditions": [
+                                {
+                                    "type": "block",
+                                    "predicate": {
+                                        "type": "list",
+                                        "blocks": "partial_grass_blade_partial_firefly"
+                                    }
+                                },
+                                {
+                                    "type": "raw_light",
+                                    "min": 0,
+                                    "max": 12
+                                }
+                            ]
+                        }
+                    ],
+                    "emitter": {
+                        "emitter_type": "random",
+                        "emitters": [
+                            {
+                                "weight": 4,
+                                "emitter": {
+                                    "emitter_type": "particle_interactions",
+                                    "particle": {
+                                        "type": "simple/grass_blade",
+                                        "simple_options": {}
+                                    },
+                                    "velocity_multiplier": 0.13
+                                }
+                            },
+                            {
+                                "weight": 1,
+                                "emitter": {
+                                    "emitter_type": "vanilla",
+                                    "particle": {
+                                        "type": "firefly"
+                                    }
+                                }
+                            }
+                        ]
+                    }
                 }
-              ]
-            }
-          ],
-          "emitter": {
-            "emitter_type": "random",
-            "emitters": [
-              {
-                "weight": 10,
-                "emitter": {
-                  "emitter_type": "particle_interactions",
-                  "particle": {
+            ],
+            "fallback_emitter": {
+                "emitter_type": "particle_interactions",
+                "particle": {
                     "type": "simple/grass_blade",
                     "simple_options": {}
-                  },
-                  "velocity_multiplier": 0.13
-                }
-              },
-              {
-                "weight": 1,
-                "emitter": {
-                  "emitter_type": "vanilla",
-                  "particle": {
-                    "type": "firefly"
-                  }
-                }
-              }
-            ]
-          }
-        },
-        {
-          "conditions": [
-            {
-              "type": "logic/and",
-              "conditions": [
-                {
-                  "type": "block",
-                  "predicate": {
-                    "type": "list",
-                    "blocks": "partial_grass_blade_partial_firefly"
-                  }
                 },
-                {
-                  "type": "raw_light",
-                  "min": 0,
-                  "max": 12
-                }
-              ]
+                "velocity_multiplier": 0.13
             }
-          ],
-          "emitter": {
-            "emitter_type": "random",
-            "emitters": [
-              {
-                "weight": 4,
-                "emitter": {
-                  "emitter_type": "particle_interactions",
-                  "particle": {
-                    "type": "simple/grass_blade",
-                    "simple_options": {}
-                  },
-                  "velocity_multiplier": 0.13
-                }
-              },
-              {
-                "weight": 1,
-                "emitter": {
-                  "emitter_type": "vanilla",
-                  "particle": {
-                    "type": "firefly"
-                  }
-                }
-              }
-            ]
-          }
         }
-      ],
-      "fallback_emitter": {
-        "emitter_type": "particle_interactions",
-        "particle": {
-          "type": "simple/grass_blade",
-          "simple_options": {}
-        },
-        "velocity_multiplier": 0.13
-      }
     }
-  }
 }

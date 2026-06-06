@@ -9,11 +9,17 @@
         "sprite_cycle_mode": "random_on_spawn"
     },
     "scale": {
-        "values": [3.3, 3.6]
+        "values": [
+            3.3,
+            3.6
+        ]
     },
     "spin_config": {
         "initial_rotation": {
-            "range": [0, 360]
+            "range": [
+                0,
+                360
+            ]
         }
     }
 }

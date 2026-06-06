@@ -1,7 +1,7 @@
 {
-  "texture_config": {
-    "sprites": [
-      "minecraft:bubble"
-    ]
-  }
+    "texture_config": {
+        "sprites": [
+            "minecraft:bubble"
+        ]
+    }
 }

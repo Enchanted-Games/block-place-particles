@@ -10,7 +10,10 @@
     },
     "light_emission": 15,
     "scale": {
-        "range": [4, 5]
+        "range": [
+            4,
+            5
+        ]
     },
     "events": [
         {
@@ -19,7 +22,10 @@
             },
             "action": {
                 "type": "age_based_scale",
-                "lifetime_percentage_range": [0, 1]
+                "lifetime_percentage_range": [
+                    0,
+                    1
+                ]
             }
         }
     ]

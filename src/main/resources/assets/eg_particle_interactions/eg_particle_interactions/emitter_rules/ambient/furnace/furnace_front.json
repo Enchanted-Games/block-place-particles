@@ -19,7 +19,11 @@
                         "emitter": {
                             "emitter_type": "particle_interactions_new",
                             "particle": "spark/floating_spark",
-                            "velocity_multiplier": [5, 1, 5]
+                            "velocity_multiplier": [
+                                5,
+                                1,
+                                5
+                            ]
                         },
                         "weight": 3
                     },

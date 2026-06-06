@@ -1,14 +1,14 @@
 {
-  "texture_config": {
-    "sprites": [
-      "eg_particle_interactions:chain_snap/0",
-      "eg_particle_interactions:chain_snap/1",
-      "eg_particle_interactions:chain_snap/2",
-      "eg_particle_interactions:chain_snap/3"
-    ]
-  },
-  "colour": {
-    "type": "eg_particle_interactions:block_texture",
-    "tint_index": 0
-  }
+    "texture_config": {
+        "sprites": [
+            "eg_particle_interactions:chain_snap/0",
+            "eg_particle_interactions:chain_snap/1",
+            "eg_particle_interactions:chain_snap/2",
+            "eg_particle_interactions:chain_snap/3"
+        ]
+    },
+    "colour": {
+        "type": "eg_particle_interactions:block_texture",
+        "tint_index": 0
+    }
 }

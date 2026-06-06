@@ -1,12 +1,12 @@
 {
-  "emitters": {
-    "default": {
-      "emitter_type": "particle_interactions",
-      "particle": {
-        "type": "simple/flower_petal",
-        "simple_options": {}
-      },
-      "velocity_multiplier": 0.18
+    "emitters": {
+        "default": {
+            "emitter_type": "particle_interactions",
+            "particle": {
+                "type": "simple/flower_petal",
+                "simple_options": {}
+            },
+            "velocity_multiplier": 0.18
+        }
     }
-  }
 }

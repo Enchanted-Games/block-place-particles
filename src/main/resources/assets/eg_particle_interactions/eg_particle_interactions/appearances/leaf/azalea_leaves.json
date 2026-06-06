@@ -17,14 +17,23 @@
         ]
     },
     "scale": {
-        "range": [2.2, 2.9]
+        "range": [
+            2.2,
+            2.9
+        ]
     },
     "spin_config": {
         "initial_rotation": {
-            "range": [0, 360]
+            "range": [
+                0,
+                360
+            ]
         },
         "acceleration": {
-            "values": [-0.2, 0.2]
+            "values": [
+                -0.2,
+                0.2
+            ]
         }
     }
 }

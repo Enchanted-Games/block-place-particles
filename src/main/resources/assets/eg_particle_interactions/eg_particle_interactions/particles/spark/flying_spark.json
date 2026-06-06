@@ -2,12 +2,22 @@
     "special_type": "spark_shape",
     "components": {
         "gravity/initial": {
-            "range": [0.8, 0.9]
+            "range": [
+                0.8,
+                0.9
+            ]
         },
         "lifetime": {
-            "range": [20, 60]
+            "range": [
+                20,
+                60
+            ]
         },
-        "velocity/decay": [0.98, 0.98, 0.98],
+        "velocity/decay": [
+            0.98,
+            0.98,
+            0.98
+        ],
         "physics/friction": 0.1,
         "physics/bounciness": 0.8,
         "physics/collision_size": 0.5,
@@ -17,7 +27,10 @@
                 "trigger": {
                     "type": "random_chance",
                     "chance": 0.2,
-                    "lifetime_percentage_range": [0, 0.05]
+                    "lifetime_percentage_range": [
+                        0,
+                        0.05
+                    ]
                 },
                 "action": {
                     "type": "spawn_particle",
@@ -27,7 +40,11 @@
                     },
                     "velocity_provider": {
                         "type": "static",
-                        "value": [0, 0, 0]
+                        "value": [
+                            0,
+                            0,
+                            0
+                        ]
                     }
                 }
             },
@@ -44,7 +61,11 @@
                     },
                     "velocity_provider": {
                         "type": "static",
-                        "value": [0, 0, 0]
+                        "value": [
+                            0,
+                            0,
+                            0
+                        ]
                     }
                 }
             },

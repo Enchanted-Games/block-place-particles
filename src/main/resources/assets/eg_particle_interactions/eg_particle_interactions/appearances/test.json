@@ -1,30 +1,36 @@
 {
-  "texture_config": {
-    "sprites": [
-      "eg_particle_interactions:spark_flash/0",
-      "eg_particle_interactions:spark_flash/1",
-      "eg_particle_interactions:spark_flash/2",
-      "eg_particle_interactions:spark_flash/3"
-    ],
-    "sprite_cycle_mode": "age_cycle"
-  },
-  "light_emission": 8,
-  "spin_config": {
-    "initial_rotation": {
-      "values":  [0, 45]
-    }
-  },
-  "scale": 16,
-  "events": [
-    {
-      "trigger": {
-        "type": "tick"
-      },
-      "action": {
-        "type": "age_based_light_emission",
-        "multiplier": 1,
-        "lifetime_percentage_range": [0.5, 1]
-      }
-    }
-  ]
+    "texture_config": {
+        "sprites": [
+            "eg_particle_interactions:spark_flash/0",
+            "eg_particle_interactions:spark_flash/1",
+            "eg_particle_interactions:spark_flash/2",
+            "eg_particle_interactions:spark_flash/3"
+        ],
+        "sprite_cycle_mode": "age_cycle"
+    },
+    "light_emission": 8,
+    "spin_config": {
+        "initial_rotation": {
+            "values": [
+                0,
+                45
+            ]
+        }
+    },
+    "scale": 16,
+    "events": [
+        {
+            "trigger": {
+                "type": "tick"
+            },
+            "action": {
+                "type": "age_based_light_emission",
+                "multiplier": 1,
+                "lifetime_percentage_range": [
+                    0.5,
+                    1
+                ]
+            }
+        }
+    ]
 }

@@ -1,8 +1,8 @@
 {
-  "blocks": [
-    "snow",
-    "snow_block",
-    "powder_snow",
-    "#snow"
-  ]
+    "blocks": [
+        "snow",
+        "snow_block",
+        "powder_snow",
+        "#snow"
+    ]
 }

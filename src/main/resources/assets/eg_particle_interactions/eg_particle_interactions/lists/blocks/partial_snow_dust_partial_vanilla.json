@@ -1,10 +1,10 @@
 {
-  "block_states": [
-    {
-      "block": "grass_block",
-      "properties": {
-        "snowy": "true"
-      }
-    }
-  ]
+    "block_states": [
+        {
+            "block": "grass_block",
+            "properties": {
+                "snowy": "true"
+            }
+        }
+    ]
 }

@@ -1,15 +1,29 @@
 {
     "components": {
         "gravity/initial": {
-            "range": [0.175, 0.3]
+            "range": [
+                0.175,
+                0.3
+            ]
         },
         "gravity/decay": 0.95,
         "lifetime": {
-            "range": [22, 82]
+            "range": [
+                22,
+                82
+            ]
         },
         "physics/collision_size": 0.5,
-        "velocity/decay": [0.94, 0.94, 0.94],
-        "velocity/initial_randomness": [0.03, 0.03, 0.03],
+        "velocity/decay": [
+            0.94,
+            0.94,
+            0.94
+        ],
+        "velocity/initial_randomness": [
+            0.03,
+            0.03,
+            0.03
+        ],
         "appearance": "snowflake/speck"
     }
 }

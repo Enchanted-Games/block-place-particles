@@ -1,10 +1,10 @@
 {
-  "texture_config": {
-    "sprites": [
-      "eg_particle_interactions:honey_drop/0",
-      "eg_particle_interactions:honey_drop/1",
-      "eg_particle_interactions:honey_drop/2"
-    ],
-    "layer": "translucent"
-  }
+    "texture_config": {
+        "sprites": [
+            "eg_particle_interactions:honey_drop/0",
+            "eg_particle_interactions:honey_drop/1",
+            "eg_particle_interactions:honey_drop/2"
+        ],
+        "layer": "translucent"
+    }
 }

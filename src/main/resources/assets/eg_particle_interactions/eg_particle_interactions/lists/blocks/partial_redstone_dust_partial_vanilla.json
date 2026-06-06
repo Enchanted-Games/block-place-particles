@@ -1,8 +1,8 @@
 {
-  "blocks": [
-    "#redstone_ores",
-    "#c:ores/redstone",
-    "repeater",
-    "comparator"
-  ]
+    "blocks": [
+        "#redstone_ores",
+        "#c:ores/redstone",
+        "repeater",
+        "comparator"
+    ]
 }

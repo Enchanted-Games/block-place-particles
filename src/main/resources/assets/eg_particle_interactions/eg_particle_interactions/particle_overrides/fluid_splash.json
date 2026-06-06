@@ -1,39 +1,36 @@
 {
-  "emitters": {
-    "fluid/placed": {
-      "emitter_type": "particle_interactions",
-      "particle": {
-        "type": "dust/block_dust",
-        "dust_options": {}
-      },
-      "appearance": {
-        "texture_config": {
-          "sprites": [
-            "eg_particle_interactions:blue_drop"
-          ]
+    "emitters": {
+        "fluid/placed": {
+            "emitter_type": "particle_interactions",
+            "particle": {
+                "type": "dust/block_dust",
+                "dust_options": {}
+            },
+            "appearance": {
+                "texture_config": {
+                    "sprites": [
+                        "eg_particle_interactions:blue_drop"
+                    ]
+                }
+            },
+            "velocity_multiplier": 0.2
+        },
+        "fluid/water/entity_entered_bubbles": {
+            "emitter_type": "particle_interactions",
+            "particle": {
+                "type": "dust/block_dust",
+                "dust_options": {}
+            },
+            "velocity_multiplier": 0.2
+        },
+        "fluid/water/entity_entered": {
+            "emitter_type": "particle_interactions",
+            "particle": {
+                "type": "simple/chain_snap",
+                "simple_options": {}
+            },
+            "appearance": "drip/honey_drop",
+            "velocity_multiplier": 0.2
         }
-      },
-
-      "velocity_multiplier": 0.2
-    },
-
-    "fluid/water/entity_entered_bubbles": {
-      "emitter_type": "particle_interactions",
-      "particle": {
-        "type": "dust/block_dust",
-        "dust_options": {}
-      },
-      "velocity_multiplier": 0.2
-    },
-
-    "fluid/water/entity_entered": {
-      "emitter_type": "particle_interactions",
-      "particle": {
-        "type": "simple/chain_snap",
-        "simple_options": {}
-      },
-      "appearance": "drip/honey_drop",
-      "velocity_multiplier": 0.2
     }
-  }
 }

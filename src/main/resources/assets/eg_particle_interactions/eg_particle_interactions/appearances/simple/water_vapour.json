@@ -1,13 +1,13 @@
 {
-  "texture_config": {
-    "sprites": [
-      "eg_particle_interactions:water_vapour/0",
-      "eg_particle_interactions:water_vapour/1",
-      "eg_particle_interactions:water_vapour/2",
-      "eg_particle_interactions:water_vapour/3",
-      "eg_particle_interactions:water_vapour/4",
-      "eg_particle_interactions:water_vapour/4"
-    ],
-    "sprite_cycle_mode": "age_cycle"
-  }
+    "texture_config": {
+        "sprites": [
+            "eg_particle_interactions:water_vapour/0",
+            "eg_particle_interactions:water_vapour/1",
+            "eg_particle_interactions:water_vapour/2",
+            "eg_particle_interactions:water_vapour/3",
+            "eg_particle_interactions:water_vapour/4",
+            "eg_particle_interactions:water_vapour/4"
+        ],
+        "sprite_cycle_mode": "age_cycle"
+    }
 }

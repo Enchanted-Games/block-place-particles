@@ -12,14 +12,23 @@
         "tint_index": 0
     },
     "scale": {
-        "values": [3.92, 3.6]
+        "values": [
+            3.92,
+            3.6
+        ]
     },
     "spin_config": {
         "initial_rotation": {
-            "range": [0, 360]
+            "range": [
+                0,
+                360
+            ]
         },
         "acceleration": {
-            "values": [-0.2, 0.2]
+            "values": [
+                -0.2,
+                0.2
+            ]
         }
     }
 }

@@ -1,14 +1,14 @@
 {
-  "blocks": [
-    "short_grass",
-    "tall_grass"
-  ],
-  "block_states": [
-    {
-      "block": "grass_block",
-      "properties": {
-        "snowy": "false"
-      }
-    }
-  ]
+    "blocks": [
+        "short_grass",
+        "tall_grass"
+    ],
+    "block_states": [
+        {
+            "block": "grass_block",
+            "properties": {
+                "snowy": "false"
+            }
+        }
+    ]
 }

@@ -2,15 +2,30 @@
     "components": {
         "gravity/initial": 0.03,
         "lifetime": {
-            "range": [200, 300]
+            "range": [
+                200,
+                300
+            ]
         },
-        "velocity/initial_randomness": [0.0, 0.0, 0.0],
+        "velocity/initial_randomness": [
+            0.0,
+            0.0,
+            0.0
+        ],
         "physics/collision_size": 1,
         "physics/friction": 1,
         "physics/bounciness": 0,
         "physics/wind_config": {
-            "flow_acceleration": [0.7, 0, 0.7],
-            "max_flow_speed": [0.4, 0.2, 0.4]
+            "flow_acceleration": [
+                0.7,
+                0,
+                0.7
+            ],
+            "max_flow_speed": [
+                0.4,
+                0.2,
+                0.4
+            ]
         },
         "appearance": "test",
         "lifetime_events": [
