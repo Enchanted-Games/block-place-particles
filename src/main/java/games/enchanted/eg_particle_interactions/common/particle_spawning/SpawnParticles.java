@@ -670,44 +670,6 @@ public class SpawnParticles {
         );
     }
 
-    public static void spawnBlazeAmbientParticles(ClientLevel level, double x, double y, double z) {
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, x, y, z)) return;
-        BlockPos pos = BlockPos.containing(x, y, z);
-
-        if (level.getRandom().nextFloat() < (float) EntityOptions.BLAZE_SPARKS_SPAWN_CHANCE.getValue() / 100) {
-            float xVel = MathHelper.randomBetween(-0.2f, 0.2f);
-            float yVel = MathHelper.randomBetween(0.3f, 0.6f);
-            float zVel = MathHelper.randomBetween(-0.2f, 0.2f);
-            ParticleSpawner.spawnWithDefaultAppearance(DefaultParticles.FLOATING_SPARK.get(), ParticleContext.plain(level, pos), x, y, z, xVel, yVel, zVel);
-        }
-    }
-
-    public static void spawnBlazeHurtParticles(ClientLevel level, double x, double y, double z) {
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, x, y, z)) return;
-        if (!EntityOptions.BLAZE_SPARKS_SPAWN_ON_HURT.getValue()) return;
-        int amount = EntityOptions.BLAZE_SPARKS_AMOUNT_ON_HURT.getValue();
-        BlockPos pos = BlockPos.containing(x, y, z);
-
-        for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(
-            amount <= 1 ? 1 : amount - 1,
-            amount + 2
-        ); i++) {
-            float xVel = (float) MathHelper.clampOutside(MathHelper.randomBetween(-0.5f, 0.5f), -0.2, 0.2);
-            float yVel = MathHelper.randomBetween(0.4f, 0.6f);
-            float zVel = (float) MathHelper.clampOutside(MathHelper.randomBetween(-0.5f, 0.5f), -0.2, 0.2);
-            ParticleSpawner.spawnWithDefaultComponents(
-                ParticleIDs.FLYING_SPARK.get(),
-                ParticleContext.plain(level, pos),
-                x,
-                y,
-                z,
-                xVel,
-                yVel,
-                zVel
-            );
-        }
-    }
-
     public static void spawnRedstoneInteractionParticles(ClientLevel level, BlockState blockState, double interactionX, double interactionY, double interactionZ, float spreadX, float spreadY, float spreadZ) {
         if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, interactionX, interactionY, interactionZ)) return;
         if (!BlockInteractionOptions.REDSTONE_INTERACTION_DUST_ENABLED.getValue()) return;

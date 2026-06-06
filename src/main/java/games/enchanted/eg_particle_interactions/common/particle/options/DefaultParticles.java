@@ -100,27 +100,7 @@ public class DefaultParticles {
     );
 
 
-    public static final ParticleConfig SPARK_FLASH_CONFIG = new ParticleConfig(ParticleConfig.DEFAULT_GRAVITY, new RandomIntProvider(4, 7));
-
-    public static final Supplier<SimpleParticleOptions> SPARK_FLASH = () -> new SimpleParticleOptions(ParticleTypesRegistry.SPARK_FLASH, SPARK_FLASH_CONFIG);
-    public static final Supplier<SimpleParticleOptions> SOUL_SPARK_FLASH = () -> new SimpleParticleOptions(ParticleTypesRegistry.SOUL_SPARK_FLASH, SPARK_FLASH_CONFIG);
-    public static final Supplier<SimpleParticleOptions> LIGHTNING_FLASH = () -> new SimpleParticleOptions(ParticleTypesRegistry.LIGHTNING_FLASH, SPARK_FLASH_CONFIG);
-
-    private static final RandomFloatProvider SPARK_COLLISION_SIZE = new RandomFloatProvider(0.03f, 0.03f);
-    public static final ParticleConfig FLYING_SPARK_CONFIG = new ParticleConfig(new RandomFloatProvider(0.8f, 0.9f), new RandomIntProvider(20, 60), SPARK_COLLISION_SIZE);
-    public static final ParticleConfig FLOATING_SPARK_CONFIG = new ParticleConfig(new RandomFloatProvider(0.2f, 0.3f), new RandomIntProvider(4, 12), SPARK_COLLISION_SIZE);
-
-    public static final Supplier<SparkParticleOptions> FLOATING_SPARK = () -> new SparkParticleOptions(
-        ParticleTypesRegistry.FLOATING_SPARK,
-        FLOATING_SPARK_CONFIG,
-        ParticleInteractionsEmitter.defaultAppearance(Emitter.VELOCITY_MULTIPLIER_DEFAULT, SPARK_FLASH.get())
-    );
-
-    public static final Supplier<SparkParticleOptions> FLOATING_SOUL_SPARK = () -> new SparkParticleOptions(
-        ParticleTypesRegistry.FLOATING_SOUL_SPARK,
-        FLOATING_SPARK_CONFIG,
-        ParticleInteractionsEmitter.defaultAppearance(Emitter.VELOCITY_MULTIPLIER_DEFAULT, SOUL_SPARK_FLASH.get())
-    );
+    public static final ParticleConfig LIGHTNING_FLASH_CONFIG = new ParticleConfig(ParticleConfig.DEFAULT_GRAVITY, new RandomIntProvider(4, 7));
 
 
     public static final ParticleConfig LAVA_POP_CONFIG = new ParticleConfig(

@@ -19,7 +19,6 @@ import games.enchanted.eg_particle_interactions.common.particle.types.emitter.ra
 import games.enchanted.eg_particle_interactions.common.particle.types.falling_spin.FallingSpinningParticle;
 import games.enchanted.eg_particle_interactions.common.particle.types.physics.StretchyBouncyShapeParticle;
 import games.enchanted.eg_particle_interactions.common.particle.types.shatter.BlockShatter;
-import games.enchanted.eg_particle_interactions.common.particle.types.spark.FlyingSpark;
 import games.enchanted.eg_particle_interactions.common.particle.types.spark.SparkFlash;
 import games.enchanted.eg_particle_interactions.common.particle.types.splash.BlockSplash;
 import games.enchanted.eg_particle_interactions.common.particle.types.splash.BucketSplash;
@@ -293,43 +292,10 @@ public class ParticleTypesRegistry {
         SimpleParticleOptions::idPrefix
     );
 
-    public static final PIParticleType<SparkParticleOptions> FLOATING_SPARK = register(
-        FlyingSpark.FloatingSparkProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "floating_spark"),
-        DefaultParticles.FLOATING_SPARK_CONFIG,
-        SparkParticleOptions::codec,
-        SparkParticleOptions::streamCodec,
-        SparkParticleOptions::idPrefix
-    );
-    public static final PIParticleType<SparkParticleOptions> FLOATING_SOUL_SPARK = register(
-        FlyingSpark.FloatingSparkProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "floating_soul_spark"),
-        DefaultParticles.FLOATING_SPARK_CONFIG,
-        SparkParticleOptions::codec,
-        SparkParticleOptions::streamCodec,
-        SparkParticleOptions::idPrefix
-    );
-
-    public static final PIParticleType<SimpleParticleOptions> SPARK_FLASH = register(
-        SparkFlash.Provider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "spark_flash"),
-        DefaultParticles.SPARK_FLASH_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
-    );
-    public static final PIParticleType<SimpleParticleOptions> SOUL_SPARK_FLASH = register(
-        SparkFlash.Provider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "soul_spark_flash"),
-        DefaultParticles.SPARK_FLASH_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
-    );
     public static final PIParticleType<SimpleParticleOptions> LIGHTNING_FLASH = register(
         SparkFlash.RandomAnimationProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "lightning_flash"),
-        DefaultParticles.SPARK_FLASH_CONFIG,
+        DefaultParticles.LIGHTNING_FLASH_CONFIG,
         SimpleParticleOptions::codec,
         SimpleParticleOptions::streamCodec,
         SimpleParticleOptions::idPrefix

@@ -30,8 +30,6 @@
         "blocks.SmokerBlock",
         "blocks.TntBlock",
         "entity.AbstractMinecartMixin",
-        "entity.Blaze",
-        "entity.BlazeDamage_EntityMixin",
         "entity.FallingBlockEntity",
         "entity.FallingBlockEntityLand_ClientLevelMixin",
         "entity.FluidBubbles_EntityMixin",

@@ -27,16 +27,6 @@ public class EntityOptions {
         new IntOption(18, "lightning_strike_amount_of_sparks")
     );
 
-    public static final ConfigOption<Integer> BLAZE_SPARKS_SPAWN_CHANCE = registerOption(
-        new IntOption(25, "blaze_sparks_spawn_chance")
-    );
-    public static final ConfigOption<Boolean> BLAZE_SPARKS_SPAWN_ON_HURT = registerOption(
-        new BoolOption(true, "blaze_sparks_enabled")
-    );
-    public static final ConfigOption<Integer> BLAZE_SPARKS_AMOUNT_ON_HURT = registerOption(
-        new IntOption(6, "blaze_sparks_amount_on_hurt")
-    );
-
     public static final ConfigOption<Boolean> ITEM_FRAME_INTERACTION_ENABLED = registerOption(
         new BoolOption(true, "item_frame_interaction_enabled")
     );

@@ -475,20 +475,6 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 ConfigScreenHelper.createSeparator()
             )
 
-            // blaze sparks
-            .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
-                "blaze_sparks",
-                "blaze_sparks",
-                ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY,
-                ConfigScreenHelper.integerSliderOption(ConfigTranslation.ENTITY_AMBIENT_PARTICLE_SPAWN_CHANCE, "blaze_sparks", EntityOptions.BLAZE_SPARKS_SPAWN_CHANCE, 1, 100, 1),
-                ConfigScreenHelper.booleanOption(ConfigTranslation.SPAWN_PARTICLE_ON_ENTITY_HURT, "blaze_sparks", EntityOptions.BLAZE_SPARKS_SPAWN_ON_HURT),
-                ConfigScreenHelper.integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_ENTITY_HURT, "blaze_sparks", EntityOptions.BLAZE_SPARKS_AMOUNT_ON_HURT, 1, 32, 1)
-            ))
-
-            .group(
-                ConfigScreenHelper.createSeparator()
-            )
-
             // item frame interactions
             .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
                 "item_frame_dust",
