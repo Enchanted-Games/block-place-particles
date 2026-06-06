@@ -5,7 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.particle.event.action.EventAction;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
-import games.enchanted.eg_particle_interactions.common.util.math.FloatRange;
+import games.enchanted.eg_particle_interactions.common.util.math.range.FloatRange;
 
 public class SetLightBasedOnAge extends EventAction {
     public static final MapCodec<SetLightBasedOnAge> CODEC = RecordCodecBuilder.mapCodec(i -> i

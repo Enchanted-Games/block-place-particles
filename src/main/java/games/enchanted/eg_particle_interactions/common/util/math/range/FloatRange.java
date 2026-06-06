@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.util.math;
+package games.enchanted.eg_particle_interactions.common.util.math.range;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.util.Util;
@@ -26,6 +26,10 @@ public record FloatRange(float min, float max) {
 
     public boolean outsideRange(float value) {
         return value <= this.min() || value >= this.max();
+    }
+
+    public float clampWithin(float value) {
+        return Math.clamp(value, this.min(), this.max());
     }
 
     /**

@@ -3,7 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.event.action.ap
 import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.particle.event.action.EventAction;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
-import games.enchanted.eg_particle_interactions.common.util.math.FloatMathModifier;
+import games.enchanted.eg_particle_interactions.common.util.math.modifier.FloatMathModifier;
 
 public class ModifyScaleAction extends EventAction {
     public static final MapCodec<ModifyScaleAction> CODEC = FloatMathModifier.CODEC.xmap(

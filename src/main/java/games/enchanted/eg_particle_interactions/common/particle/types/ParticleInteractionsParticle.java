@@ -18,9 +18,9 @@ import games.enchanted.eg_particle_interactions.common.particle.component.type.*
 import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.event.EventStack;
 import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomFloatProvider;
-import games.enchanted.eg_particle_interactions.common.util.math.FloatMathModifier;
-import games.enchanted.eg_particle_interactions.common.util.math.IntMathModifier;
-import games.enchanted.eg_particle_interactions.common.util.math.Vector3dMathModifier;
+import games.enchanted.eg_particle_interactions.common.util.math.modifier.FloatMathModifier;
+import games.enchanted.eg_particle_interactions.common.util.math.modifier.IntMathModifier;
+import games.enchanted.eg_particle_interactions.common.util.math.modifier.Vector3dMathModifier;
 import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomIntProvider;
 import games.enchanted.eg_particle_interactions.common.particle.render.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
@@ -29,7 +29,7 @@ import games.enchanted.eg_particle_interactions.common.particle.render.layer.Par
 import games.enchanted.eg_particle_interactions.common.particle.render.state.CustomParticleGeometryRenderState;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
 import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
-import games.enchanted.eg_particle_interactions.common.util.math.Vector3fMathModifier;
+import games.enchanted.eg_particle_interactions.common.util.math.modifier.Vector3fMathModifier;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
@@ -49,7 +49,6 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
-import org.joml.Vector3fc;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;

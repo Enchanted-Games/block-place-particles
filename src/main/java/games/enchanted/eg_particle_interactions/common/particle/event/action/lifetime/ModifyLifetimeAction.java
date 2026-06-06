@@ -3,8 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.event.action.li
 import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.particle.event.action.EventAction;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
-import games.enchanted.eg_particle_interactions.common.util.math.IntMathModifier;
-import games.enchanted.eg_particle_interactions.common.util.math.Vector3dMathModifier;
+import games.enchanted.eg_particle_interactions.common.util.math.modifier.IntMathModifier;
 
 public class ModifyLifetimeAction extends EventAction {
     public static final MapCodec<ModifyLifetimeAction> CODEC = IntMathModifier.CODEC.xmap(

@@ -3,8 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.event.action.ap
 import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.particle.event.action.EventAction;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
-import games.enchanted.eg_particle_interactions.common.util.math.Vector3dMathModifier;
-import games.enchanted.eg_particle_interactions.common.util.math.Vector3fMathModifier;
+import games.enchanted.eg_particle_interactions.common.util.math.modifier.Vector3fMathModifier;
 
 public class ModifyModelOffsetAction extends EventAction {
     public static final MapCodec<ModifyModelOffsetAction> CODEC = Vector3fMathModifier.CODEC.xmap(

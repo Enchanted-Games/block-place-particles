@@ -1,10 +1,9 @@
 package games.enchanted.eg_particle_interactions.common.particle.options.value;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.util.math.IntRange;
+import games.enchanted.eg_particle_interactions.common.util.math.range.IntRange;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Arrays;

@@ -5,7 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
 import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
-import games.enchanted.eg_particle_interactions.common.util.math.FloatRange;
+import games.enchanted.eg_particle_interactions.common.util.math.range.FloatRange;
 
 public class RandomChanceEventType extends ParticleEventType {
     public static final MapCodec<RandomChanceEventType> CODEC = RecordCodecBuilder.mapCodec(i -> i
