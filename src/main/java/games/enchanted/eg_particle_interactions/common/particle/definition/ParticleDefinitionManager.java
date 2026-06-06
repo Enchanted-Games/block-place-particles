@@ -19,7 +19,9 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import org.jspecify.annotations.Nullable;
 
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ParticleDefinitionManager extends SimplePreparableReloadListener<ParticleDefinitionManager.Preparation> {
@@ -33,6 +35,7 @@ public class ParticleDefinitionManager extends SimplePreparableReloadListener<Pa
     private static final FileToIdConverter FILE_TO_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/particles");
 
     private final BiMap<Identifier, ParticleDefinition> definitionById = HashBiMap.create();
+    private final List<Identifier> missingLogged = new ArrayList<>();
 
     @Override
     protected Preparation prepare(ResourceManager manager, ProfilerFiller profiler) {
@@ -63,10 +66,15 @@ public class ParticleDefinitionManager extends SimplePreparableReloadListener<Pa
 
     private void clear() {
         this.definitionById.clear();
+        this.missingLogged.clear();
     }
 
     public ParticleDefinition getOrFallback(Identifier definitionId) {
         if(!(this.definitionById.containsKey(definitionId))) {
+            if(!this.missingLogged.contains(definitionId)) {
+                this.missingLogged.add(definitionId);
+                Logging.warn("Unknown particle definition '" + definitionId + "'");
+            }
             return ParticleDefinition.FALLBACK;
         }
         return this.definitionById.get(definitionId);

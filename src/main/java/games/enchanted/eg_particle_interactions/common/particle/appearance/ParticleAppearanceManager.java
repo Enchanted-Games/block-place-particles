@@ -17,7 +17,9 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import org.jspecify.annotations.Nullable;
 
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ParticleAppearanceManager extends SimplePreparableReloadListener<ParticleAppearanceManager.Prepare> {
@@ -31,6 +33,7 @@ public class ParticleAppearanceManager extends SimplePreparableReloadListener<Pa
 
     private static final Map<Identifier, ParticleAppearance> SOURCE_BY_ID = new HashMap<>();
     private static final FileToIdConverter FILE_TO_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/appearances");
+    private static final List<Identifier> MISSING_LOGGED = new ArrayList<>();
 
     public static final ParticleAppearanceManager INSTANCE = new ParticleAppearanceManager();
 
@@ -59,10 +62,15 @@ public class ParticleAppearanceManager extends SimplePreparableReloadListener<Pa
     protected void apply(Prepare preparations, ResourceManager manager, ProfilerFiller profiler) {
         SOURCE_BY_ID.clear();
         SOURCE_BY_ID.putAll(preparations.textureSourceMap());
+        MISSING_LOGGED.clear();
     }
 
     public static ParticleAppearance get(Identifier sourceId) {
         if(!(SOURCE_BY_ID.containsKey(sourceId))) {
+            if(!MISSING_LOGGED.contains(sourceId)) {
+                MISSING_LOGGED.add(sourceId);
+                Logging.warn("Unknown particle appearance '" + sourceId + "'");
+            }
             return ParticleAppearance.MISSING_APPEARANCE.get();
         }
         return SOURCE_BY_ID.get(sourceId);
