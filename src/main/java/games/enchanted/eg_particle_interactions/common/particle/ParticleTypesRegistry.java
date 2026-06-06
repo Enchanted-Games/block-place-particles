@@ -73,22 +73,6 @@ public class ParticleTypesRegistry {
     );
 
 
-    public static final PIParticleType<DustParticleOptions> SNOWFLAKE = register(
-        Dust.SnowflakeProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "snowflake"),
-        DefaultParticles.SNOWFLAKE_CONFIG,
-        DustParticleOptions::codec,
-        DustParticleOptions::streamCodec,
-        DustParticleOptions::idPrefix
-    );
-    public static final PIParticleType<DustParticleOptions> SNOWFLAKE_SPECK = register(
-        Dust.SnowflakeSpeckProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "snowflake_speck"),
-        DefaultParticles.SNOWFLAKE_SPECK_CONFIG,
-        DustParticleOptions::codec,
-        DustParticleOptions::streamCodec,
-        DustParticleOptions::idPrefix
-    );
     public static final PIParticleType<SimpleParticleOptions> FLOWER_PETAL = register(
         FallingSpinningParticle.FlowerPetalProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "flower_petal"),

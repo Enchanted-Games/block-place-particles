@@ -1,12 +1,9 @@
 {
-  "emitters": {
-    "default": {
-      "emitter_type": "particle_interactions",
-      "particle": {
-        "type": "dust/snowflake",
-        "dust_options": {}
-      },
-      "velocity_multiplier": 0.15
+    "emitters": {
+        "default": {
+            "emitter_type": "particle_interactions_new",
+            "particle": "snowflake/snowflake",
+            "velocity_multiplier": 0.15
+        }
     }
-  }
 }

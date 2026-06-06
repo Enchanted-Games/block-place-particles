@@ -1,0 +1,19 @@
+{
+    "texture_config": {
+        "sprites": [
+            "eg_particle_interactions:snowflake_speck/0",
+            "eg_particle_interactions:snowflake_speck/1",
+            "eg_particle_interactions:snowflake_speck/2",
+            "eg_particle_interactions:snowflake_speck/3"
+        ],
+        "sprite_cycle_mode": "random_on_spawn"
+    },
+    "scale": {
+        "values": [3.3, 3.6]
+    },
+    "spin_config": {
+        "initial_rotation": {
+            "range": [0, 360]
+        }
+    }
+}
