@@ -12,7 +12,7 @@ import games.enchanted.eg_particle_interactions.common.particle.types.ParticleIn
 import games.enchanted.eg_particle_interactions.common.shapes.QuadFaceShape;
 import games.enchanted.eg_particle_interactions.common.shapes.ShapeDefinitions;
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
-import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
+import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import net.minecraft.client.Camera;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.util.Mth;
@@ -119,8 +119,8 @@ public class SparkShapeParticleBehaviour extends ParticleInteractionsParticle {
         if (!Float.isFinite(yaw)) yaw = this.prevYaw;
         this.prevYaw = yaw;
 
-        Vector3f shapePos = MathHelpers.getPosBetween3DPoints(pos, prevPos).add(this.getShapeOffset());
-        Vector3f shapeScale = new Vector3f(1, Math.max(Math.abs(MathHelpers.getDistanceBetweenVectors(pos, prevPos) * 40), 1), 1)
+        Vector3f shapePos = MathHelper.getPosBetween3DPoints(pos, prevPos).add(this.getShapeOffset());
+        Vector3f shapeScale = new Vector3f(1, Math.max(Math.abs(MathHelper.getDistanceBetweenVectors(pos, prevPos) * 40), 1), 1)
             .mul(this.particleShapeScale)
             .mul(this.getLerpedScale(partialTicks));
         Vector3f shapeRotation = new Vector3f(-(pitch - 90), yaw, 0);

@@ -3,7 +3,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.client.entity;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
-import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
+import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -68,7 +68,7 @@ public abstract class LocalPlayer_EntityMixin {
             return;
         }
 
-        eg_particle_interactions$ticksUntilNextBlockDisturbance = MathHelpers.randomBetween(3, 10);
+        eg_particle_interactions$ticksUntilNextBlockDisturbance = MathHelper.randomBetween(3, 10);
         BlockPos verticalOffsetBlockPos = BlockPos.containing(insideBlockPos.getX(), this.getY() + 0.1, insideBlockPos.getZ());
         SpawnParticles.spawnBlockDisturbanceParticles(clientLevel, verticalOffsetBlockPos, level.getBlockState(verticalOffsetBlockPos), this.getX(), this.getY(), this.getZ(), this.getDeltaMovement(), player.isSprinting());
     }

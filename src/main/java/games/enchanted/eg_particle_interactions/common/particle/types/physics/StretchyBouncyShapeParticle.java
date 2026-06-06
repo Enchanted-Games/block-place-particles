@@ -8,14 +8,12 @@ import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.options.SimpleParticleOptions;
-import games.enchanted.eg_particle_interactions.common.particle.options.SparkParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
-import games.enchanted.eg_particle_interactions.common.particle.types.spark.FlyingSpark;
 import games.enchanted.eg_particle_interactions.common.shapes.QuadFaceShape;
 import games.enchanted.eg_particle_interactions.common.shapes.ShapeDefinitions;
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
-import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
+import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import net.minecraft.client.Camera;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.util.Mth;
@@ -138,8 +136,8 @@ public class StretchyBouncyShapeParticle extends BouncyParticle {
         if (!Float.isFinite(yaw)) yaw = prevYaw;
         prevYaw = yaw;
 
-        Vector3f shapePos = MathHelpers.getPosBetween3DPoints(pos, prevPos);
-        Vector3f shapeScale = new Vector3f(1, Math.max(Math.abs(MathHelpers.getDistanceBetweenVectors(pos, prevPos) * 40), 1), 1).mul(this.particleShapeScale);
+        Vector3f shapePos = MathHelper.getPosBetween3DPoints(pos, prevPos);
+        Vector3f shapeScale = new Vector3f(1, Math.max(Math.abs(MathHelper.getDistanceBetweenVectors(pos, prevPos) * 40), 1), 1).mul(this.particleShapeScale);
         Vector3f shapeRotation = new Vector3f(-(pitch - 90), yaw, 0);
         this.particleShape.extractShape(
             consumer,

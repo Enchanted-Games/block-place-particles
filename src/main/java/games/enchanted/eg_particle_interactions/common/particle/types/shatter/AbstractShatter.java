@@ -6,7 +6,7 @@ import games.enchanted.eg_particle_interactions.common.particle.appearance.Parti
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
-import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
+import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import net.minecraft.core.Direction;
 import org.joml.Quaternionf;
 import org.jspecify.annotations.NonNull;
@@ -25,18 +25,18 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
         super(components, appearance, context, config, x, y, z, ySpeed, zSpeed, xSpeed);
 
         int spriteWidth = this.currentSprite.contents().width();
-        int randomSize = MathHelpers.randomBetween(3, 5);
+        int randomSize = MathHelper.randomBetween(3, 5);
         int randomSizeThird = randomSize / 3;
-        this.uvOffset = (float) MathHelpers.randomBetween(0, spriteWidth - randomSize) / spriteWidth;
+        this.uvOffset = (float) MathHelper.randomBetween(0, spriteWidth - randomSize) / spriteWidth;
         this.uvScale = (float) randomSize / spriteWidth;
         this.setScale(this.uvScale);
-        this.slice0X = (float) MathHelpers.randomBetween(1, randomSizeThird) / randomSize;
-        this.slice0Y = (float) MathHelpers.randomBetween(2, randomSizeThird) / randomSize;
-        this.slice1X = (float) MathHelpers.randomBetween((randomSizeThird * 2) + 1, randomSize - 1) / randomSize;
-        this.slice1Y = (float) MathHelpers.randomBetween((randomSizeThird * 2) - 1, randomSize - 1) / randomSize;
+        this.slice0X = (float) MathHelper.randomBetween(1, randomSizeThird) / randomSize;
+        this.slice0Y = (float) MathHelper.randomBetween(2, randomSizeThird) / randomSize;
+        this.slice1X = (float) MathHelper.randomBetween((randomSizeThird * 2) + 1, randomSize - 1) / randomSize;
+        this.slice1Y = (float) MathHelper.randomBetween((randomSizeThird * 2) - 1, randomSize - 1) / randomSize;
 
         this.inverseSlicePositions = level.getRandom().nextBoolean();
-        this.spin = (float) Math.toRadians(MathHelpers.randomBetween(0, 3) * 90);
+        this.spin = (float) Math.toRadians(MathHelper.randomBetween(0, 3) * 90);
         this.prevSpin = this.spin;
 
         setInitialVelocity(xSpeed, ySpeed, zSpeed, 0.1f);
@@ -72,22 +72,22 @@ public abstract class AbstractShatter extends ParticleInteractionsParticle {
         Direction facingDirection = this.getParticleFacingDirection();
         switch (facingDirection) {
             case NORTH -> {
-                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelpers.eulerAnglesToQuaternion(0f, (float) Math.toRadians(270), 0f));
+                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(270), 0f));
             }
             case EAST -> {
-                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelpers.eulerAnglesToQuaternion(0f, (float) Math.toRadians(180), 0f));
+                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(180), 0f));
             }
             case SOUTH -> {
-                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelpers.eulerAnglesToQuaternion(0f, (float) Math.toRadians(90), 0f));
+                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(90), 0f));
             }
             case WEST -> {
-                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelpers.eulerAnglesToQuaternion(0f, 0f, 0f));
+                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, 0f, 0f));
             }
             case UP -> {
-                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelpers.eulerAnglesToQuaternion(0f, (float) Math.toRadians(90), (float) Math.toRadians(90)));
+                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(90), (float) Math.toRadians(90)));
             }
             case DOWN -> {
-                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelpers.eulerAnglesToQuaternion(0f, (float) Math.toRadians(90), (float) Math.toRadians(-90)));
+                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(90), (float) Math.toRadians(-90)));
             }
             case null, default -> {
                 return BillboardMode.XYZ;

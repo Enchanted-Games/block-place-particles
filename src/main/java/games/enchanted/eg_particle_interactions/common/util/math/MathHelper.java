@@ -1,10 +1,10 @@
-package games.enchanted.eg_particle_interactions.common.util;
+package games.enchanted.eg_particle_interactions.common.util.math;
 
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
 
-public class MathHelpers {
+public class MathHelper {
     public static boolean isInRange(double value, double min, double max) {
         return min <= value && value <= max;
     }

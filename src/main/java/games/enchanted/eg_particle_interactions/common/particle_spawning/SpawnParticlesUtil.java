@@ -3,7 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle_spawning;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
-import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
+import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
@@ -20,7 +20,7 @@ public class SpawnParticlesUtil {
         LocalPlayer player = Minecraft.getInstance().player;
         if(player == null) return false;
 
-        double distanceFromPlayer = MathHelpers.getDistanceBetweenPoints(player.getX() / 16, player.getY() / 16, player.getZ() / 16, x / 16, y / 16, z / 16);
+        double distanceFromPlayer = MathHelper.getDistanceBetweenPoints(player.getX() / 16, player.getY() / 16, player.getZ() / 16, x / 16, y / 16, z / 16);
         double maxDistance = Math.min(particleCategory.getMaxDistance(), Minecraft.getInstance().options.renderDistance().get());
 
         return distanceFromPlayer >= maxDistance;
@@ -81,12 +81,12 @@ public class SpawnParticlesUtil {
      * @param verticalVelocityMultiplier multiplied by particle distance from the center
      */
     public static void spawnParticleInCircle(ParticleAdder adder, Vec3 center, int amount, float spread, float radius, float outwardVelocityMultiplier, float verticalVelocityBase, float verticalVelocityMultiplier) {
-        float randomAngleOffset = (float) Math.toRadians(MathHelpers.randomBetween(0, 360f));
+        float randomAngleOffset = (float) Math.toRadians(MathHelper.randomBetween(0, 360f));
         radius /= 2;
         for (int i = 0; i < amount; i++) {
             float progressRadians = (float) Math.toRadians(((float) i / amount) * 360f) + randomAngleOffset;
-            double distX = (radius * Math.cos(progressRadians)) + MathHelpers.randomBetween(-(spread / 2), spread / 2);
-            double distZ = (radius * Math.sin(progressRadians)) + MathHelpers.randomBetween(-(spread / 2), spread / 2);
+            double distX = (radius * Math.cos(progressRadians)) + MathHelper.randomBetween(-(spread / 2), spread / 2);
+            double distZ = (radius * Math.sin(progressRadians)) + MathHelper.randomBetween(-(spread / 2), spread / 2);
             double x = center.x + distX;
             double z = center.z + distZ;
             double distFromCenter = Math.max(Math.abs(distX), Math.abs(distZ));

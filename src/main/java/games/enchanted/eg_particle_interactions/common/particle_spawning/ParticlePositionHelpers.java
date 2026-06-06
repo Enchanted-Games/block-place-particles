@@ -1,7 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle_spawning;
 
 
-import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
+import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
@@ -71,9 +71,9 @@ public class ParticlePositionHelpers {
         double baseZ = blockPos.getZ() + 0.5;
 
         double outwardOffset = 0.52;
-        double randomOffset = MathHelpers.randomBetween(-0.3f, 0.3f);
+        double randomOffset = MathHelper.randomBetween(-0.3f, 0.3f);
         double offsetX = direction$axis == Direction.Axis.X ? direction.getStepX() * outwardOffset : randomOffset;
-        double offsetY = MathHelpers.randomBetween(0, 0.375f);
+        double offsetY = MathHelper.randomBetween(0, 0.375f);
         double offsetZ = direction$axis == Direction.Axis.Z ? direction.getStepZ() * outwardOffset : randomOffset;
 
         return new double[]{baseX + offsetX, baseY + offsetY, baseZ + offsetZ};

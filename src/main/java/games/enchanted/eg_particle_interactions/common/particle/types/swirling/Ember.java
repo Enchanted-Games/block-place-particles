@@ -7,7 +7,7 @@ import games.enchanted.eg_particle_interactions.common.particle.appearance.Parti
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.options.SimpleParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
-import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
+import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import net.minecraft.client.particle.Particle;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,8 +18,8 @@ public class Ember extends SwirlingParticle {
 
         this.rotSpeed = 0f;
         this.spinAcceleration = 0f;
-        this.swirlStrength = MathHelpers.randomBetween(0.7f, 0.9f) * (level.getRandom().nextBoolean() ? -1 : 1);
-        this.swirlPeriod = MathHelpers.randomBetween(708, 720);
+        this.swirlStrength = MathHelper.randomBetween(0.7f, 0.9f) * (level.getRandom().nextBoolean() ? -1 : 1);
+        this.swirlPeriod = MathHelper.randomBetween(708, 720);
 
         this.setScale(2.5f / 32f);
 

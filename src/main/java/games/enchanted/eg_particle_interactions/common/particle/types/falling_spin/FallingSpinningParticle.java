@@ -9,7 +9,7 @@ import games.enchanted.eg_particle_interactions.common.particle.component.Partic
 import games.enchanted.eg_particle_interactions.common.particle.options.SimpleParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
-import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
+import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import org.jspecify.annotations.Nullable;
@@ -92,7 +92,7 @@ public class FallingSpinningParticle extends ParticleInteractionsParticle {
             double zSpeed
         ) {
             FallingSpinningParticle particle = new FallingSpinningParticle(components, appearance, context, options.config(), x, y, z, xSpeed, ySpeed, zSpeed, 2f);
-            float particleSize = MathHelpers.randomBetween(0.08f, 0.12f);
+            float particleSize = MathHelper.randomBetween(0.08f, 0.12f);
             particle.setScale(particleSize);
             return particle;
         }

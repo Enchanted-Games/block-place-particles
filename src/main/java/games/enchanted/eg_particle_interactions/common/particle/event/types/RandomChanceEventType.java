@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
-import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
+import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import games.enchanted.eg_particle_interactions.common.util.math.range.FloatRange;
 
 public class RandomChanceEventType extends ParticleEventType {
@@ -30,7 +30,7 @@ public class RandomChanceEventType extends ParticleEventType {
     public void onParticleTick(ParticleInteractionsParticle particle) {
         float age = particle.getAgePercent();
         if(this.agePercentRange.inRange(age)) return;
-        if(MathHelpers.randomBetween(0f, 1f) <= this.chance) {
+        if(MathHelper.randomBetween(0f, 1f) <= this.chance) {
             this.fire(particle);
         }
     }

@@ -6,6 +6,7 @@ import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.cli
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.SpriteContentsAccessor;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteAtlasManager;
+import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -112,7 +113,7 @@ public class ColourUtil {
         }
 
         PaletteEntry getRandomEntry() {
-            return entries()[MathHelpers.randomBetween(0, entries().length - 1)];
+            return entries()[MathHelper.randomBetween(0, entries().length - 1)];
         }
     }
 
@@ -127,10 +128,10 @@ public class ColourUtil {
      * Converts argb to an int in argb decimal format
      */
     public static int ARGB_to_ARGBint(int a, int r, int g, int b) {
-        int alpha = MathHelpers.clampInt(a, 0, 255);
-        int red = MathHelpers.clampInt(r, 0, 255);
-        int green = MathHelpers.clampInt(g, 0, 255);
-        int blue = MathHelpers.clampInt(b, 0, 255);
+        int alpha = MathHelper.clampInt(a, 0, 255);
+        int red = MathHelper.clampInt(r, 0, 255);
+        int green = MathHelper.clampInt(g, 0, 255);
+        int blue = MathHelper.clampInt(b, 0, 255);
         return (alpha << 24) | (red << 16) | (green << 8) | blue;
     }
 
@@ -149,9 +150,9 @@ public class ColourUtil {
      * Converts rgb to an int in rgb decimal format
      */
     public static int RGB_to_RGBint(int r, int g, int b) {
-        int red = MathHelpers.clampInt(r, 0, 255);
-        int green = MathHelpers.clampInt(g, 0, 255);
-        int blue = MathHelpers.clampInt(b, 0, 255);
+        int red = MathHelper.clampInt(r, 0, 255);
+        int green = MathHelper.clampInt(g, 0, 255);
+        int blue = MathHelper.clampInt(b, 0, 255);
         return (red << 16) | (green << 8) | blue;
     }
 
@@ -190,7 +191,7 @@ public class ColourUtil {
     public static int[] randomiseNegative(int[] colourChannels, float amount) {
         int[] randomised = new int[colourChannels.length];
         for (int i = 0; i < colourChannels.length; i++) {
-            randomised[i] = variateColourComponent(colourChannels[i], -MathHelpers.randomBetween(0, amount));
+            randomised[i] = variateColourComponent(colourChannels[i], -MathHelper.randomBetween(0, amount));
         }
         return randomised;
     }
@@ -203,7 +204,7 @@ public class ColourUtil {
      * @return the randomised colour
      */
     public static int[] randomiseNegativeUniform(int[] colourChannels, float amount) {
-        float randomAmount = -MathHelpers.randomBetween(0, amount);
+        float randomAmount = -MathHelper.randomBetween(0, amount);
         int[] randomised = new int[colourChannels.length];
         for (int i = 0; i < colourChannels.length; i++) {
             randomised[i] = variateColourComponent(colourChannels[i], randomAmount);
@@ -212,7 +213,7 @@ public class ColourUtil {
     }
 
     public static int variateColourComponent(int colour, float variation) {
-        return MathHelpers.clampInt(colour + (int)(variation * 255), 0, 255);
+        return MathHelper.clampInt(colour + (int)(variation * 255), 0, 255);
     }
 
     /**

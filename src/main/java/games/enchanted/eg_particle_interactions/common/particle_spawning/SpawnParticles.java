@@ -20,7 +20,7 @@ import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpa
 import games.enchanted.eg_particle_interactions.common.registry.ObjectOrTagLocation;
 import games.enchanted.eg_particle_interactions.common.util.BiomeHelpers;
 import games.enchanted.eg_particle_interactions.common.util.FluidHelpers;
-import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
+import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -93,9 +93,9 @@ public class SpawnParticles {
                     override.getRandom().spawnParticle(
                         origin,
                         ParticleContext.block(level, placedBlockState, blockPos),
-                        (double) blockPos.getX() + MathHelpers.expandWhenOutOfBound(particleXOffset, 0, 1),
-                        (double) blockPos.getY() + MathHelpers.expandWhenOutOfBound(particleYOffset, 0, 1),
-                        (double) blockPos.getZ() + MathHelpers.expandWhenOutOfBound(particleZOffset, 0, 1),
+                        (double) blockPos.getX() + MathHelper.expandWhenOutOfBound(particleXOffset, 0, 1),
+                        (double) blockPos.getY() + MathHelper.expandWhenOutOfBound(particleYOffset, 0, 1),
+                        (double) blockPos.getZ() + MathHelper.expandWhenOutOfBound(particleZOffset, 0, 1),
                         (particleXOffset - blockCenter.x()),
                         (particleYOffset - blockCenter.y()),
                         (particleZOffset - blockCenter.z())
@@ -243,7 +243,7 @@ public class SpawnParticles {
         if (!isOnRails) return;
         if (!(hasBlock || hasPassenger) && EntityOptions.MINECART_SPARKS_ONLY_WITH_PASSENGER.getValue()) return;
 
-        double speed = MathHelpers.maxVec3(deltaMovement.toVector3f(), true);
+        double speed = MathHelper.maxVec3(deltaMovement.toVector3f(), true);
         if (speed < 0.05) return;
 
         float sparksChancePerWheel = (float) (Math.clamp(speed, 0, maxSpeed) / maxSpeed) - 0.75f;
@@ -670,9 +670,9 @@ public class SpawnParticles {
         BlockPos pos = BlockPos.containing(x, y, z);
 
         if (level.getRandom().nextFloat() < (float) EntityOptions.BLAZE_SPARKS_SPAWN_CHANCE.getValue() / 100) {
-            float xVel = MathHelpers.randomBetween(-0.2f, 0.2f);
-            float yVel = MathHelpers.randomBetween(0.3f, 0.6f);
-            float zVel = MathHelpers.randomBetween(-0.2f, 0.2f);
+            float xVel = MathHelper.randomBetween(-0.2f, 0.2f);
+            float yVel = MathHelper.randomBetween(0.3f, 0.6f);
+            float zVel = MathHelper.randomBetween(-0.2f, 0.2f);
             ParticleSpawner.spawnWithDefaultAppearance(DefaultParticles.FLOATING_SPARK.get(), ParticleContext.plain(level, pos), x, y, z, xVel, yVel, zVel);
         }
     }
@@ -687,9 +687,9 @@ public class SpawnParticles {
             amount <= 1 ? 1 : amount - 1,
             amount + 2
         ); i++) {
-            float xVel = (float) MathHelpers.clampOutside(MathHelpers.randomBetween(-0.5f, 0.5f), -0.2, 0.2);
-            float yVel = MathHelpers.randomBetween(0.4f, 0.6f);
-            float zVel = (float) MathHelpers.clampOutside(MathHelpers.randomBetween(-0.5f, 0.5f), -0.2, 0.2);
+            float xVel = (float) MathHelper.clampOutside(MathHelper.randomBetween(-0.5f, 0.5f), -0.2, 0.2);
+            float yVel = MathHelper.randomBetween(0.4f, 0.6f);
+            float zVel = (float) MathHelper.clampOutside(MathHelper.randomBetween(-0.5f, 0.5f), -0.2, 0.2);
             ParticleSpawner.spawnWithDefaultAppearance(DefaultParticles.FLYING_SPARK.get(), ParticleContext.plain(level, pos), x, y, z, xVel, yVel, zVel);
         }
     }
@@ -704,18 +704,18 @@ public class SpawnParticles {
         ParticleContext context = ParticleContext.block(level, blockState, pos);
 
         for (int i = 0; i < BlockInteractionOptions.REDSTONE_INTERACTION_DUST_AMOUNT.getValue(); i++) {
-            double particleX = interactionX + MathHelpers.randomBetween(-spreadX / 2, spreadX / 2);
-            double particleY = interactionY + MathHelpers.randomBetween(-spreadY / 2, spreadY / 2);
-            double particleZ = interactionZ + MathHelpers.randomBetween(-spreadZ / 2, spreadZ / 2);
+            double particleX = interactionX + MathHelper.randomBetween(-spreadX / 2, spreadX / 2);
+            double particleY = interactionY + MathHelper.randomBetween(-spreadY / 2, spreadY / 2);
+            double particleZ = interactionZ + MathHelper.randomBetween(-spreadZ / 2, spreadZ / 2);
             override.getRandom().spawnParticle(
                 origin,
                 context,
                 particleX,
                 particleY,
                 particleZ,
-                MathHelpers.randomBetween(-0.05f, 0.05f),
+                MathHelper.randomBetween(-0.05f, 0.05f),
                 0.2f,
-                MathHelpers.randomBetween(-0.05f, 0.05f)
+                MathHelper.randomBetween(-0.05f, 0.05f)
             );
         }
     }
@@ -747,8 +747,8 @@ public class SpawnParticles {
             double z = (double) blockPos.getZ() + level.getRandom().nextDouble();
             RandomDistributionEmitterOptions emitter = new RandomDistributionEmitterOptions(
                 ParticleTypesRegistry.UNDERWATER_RISING_BUBBLE_SMALL_EMITTER,
-                MathHelpers.randomBetween(9, 30),
-                MathHelpers.randomBetween(2, 4),
+                MathHelper.randomBetween(9, 30),
+                MathHelper.randomBetween(2, 4),
                 1
             );
             ParticleSpawner.spawnWithDefaultAppearance(emitter, context, x, y, z, 0.0f, 0.0f, 0.0f);
@@ -849,7 +849,7 @@ public class SpawnParticles {
 
         Direction furnaceDirection = furnaceState.getValue(FurnaceBlock.FACING);
         final boolean spawnSpark = level.getRandom().nextFloat() < 0.7;
-        final float outwardVelocity = MathHelpers.randomBetween(0.01f, 0.03f) * (spawnSpark ? 1 : 5);
+        final float outwardVelocity = MathHelper.randomBetween(0.01f, 0.03f) * (spawnSpark ? 1 : 5);
         ParticleSpawner.spawnWithDefaultAppearance(
             spawnSpark ? DefaultParticles.FLOATING_EMBER.get() : DefaultParticles.FLOATING_SPARK.get(),
             ParticleContext.plain(level, blockPos),
@@ -871,7 +871,7 @@ public class SpawnParticles {
 
         Direction furnaceDirection = furnaceState.getValue(FurnaceBlock.FACING);
         final boolean spawnSpark = level.getRandom().nextFloat() < 0.2;
-        final float outwardVelocity = MathHelpers.randomBetween(0.01f, 0.03f) * (spawnSpark ? 1 : 5);
+        final float outwardVelocity = MathHelper.randomBetween(0.01f, 0.03f) * (spawnSpark ? 1 : 5);
         ParticleSpawner.spawnWithDefaultAppearance(
             spawnSpark ? DefaultParticles.FLOATING_EMBER.get() : DefaultParticles.FLOATING_SPARK.get(),
             ParticleContext.plain(level, blockPos),
@@ -892,12 +892,12 @@ public class SpawnParticles {
         SpawnParticlesUtil.spawnParticleInCircle(
             new ArcEmitterOptions(
                 ParticleTypesRegistry.ARC_EMITTER,
-                MathHelpers.randomBetween(7, 14),
-                MathHelpers.randomBetween(3, 5),
+                MathHelper.randomBetween(7, 14),
+                MathHelper.randomBetween(3, 5),
                 40,
-                MathHelpers.randomBetween(4, 6),
+                MathHelper.randomBetween(4, 6),
                 ArcEmitterOptions.TICK_INTERVAL_DEFAULT,
-                MathHelpers.randomBetween(160, 380),
+                MathHelper.randomBetween(160, 380),
                 null
             ),
             context,
@@ -915,7 +915,7 @@ public class SpawnParticles {
             DefaultParticles.FLYING_SPARK.get(),
             context,
             new Vec3(x, y + 0.01, z),
-            MathHelpers.randomBetween(Math.max(0, amountOfSparks - 4), amountOfSparks),
+            MathHelper.randomBetween(Math.max(0, amountOfSparks - 4), amountOfSparks),
             0.3f,
             0.8f,
             0.25f,

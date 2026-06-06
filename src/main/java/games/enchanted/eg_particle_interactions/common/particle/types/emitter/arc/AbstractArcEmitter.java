@@ -8,7 +8,7 @@ import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitt
 import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.types.emitter.AbstractEmitterParticle;
 import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
-import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
+import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
@@ -63,7 +63,7 @@ public abstract class AbstractArcEmitter extends AbstractEmitterParticle {
     private void calculateSplits() {
         this.splits.clear();
         for (int i = 0; i < splitAmount; i++) {
-            Vector3f directionVector = MathHelpers.directionVectorFromPitchYaw(applyRandomDirectionRotation(initialAngleXRad), applyRandomDirectionRotation(initialAngleYRad)).mul(DIRECTION_VECTOR_SCALE);
+            Vector3f directionVector = MathHelper.directionVectorFromPitchYaw(applyRandomDirectionRotation(initialAngleXRad), applyRandomDirectionRotation(initialAngleYRad)).mul(DIRECTION_VECTOR_SCALE);
             @Nullable Split prevSplit = this.splits.isEmpty() ? null : this.splits.getLast();
             this.splits.add(new Split(
                 prevSplit == null ? this.x : prevSplit.getEndPos().x,

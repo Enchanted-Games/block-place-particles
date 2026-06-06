@@ -8,7 +8,7 @@ import games.enchanted.eg_particle_interactions.common.particle.component.Partic
 import games.enchanted.eg_particle_interactions.common.particle.options.SimpleParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
-import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
+import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -86,7 +86,7 @@ public class UnderwaterRisingBubble extends ParticleInteractionsParticle {
             double zSpeed
         ) {
             UnderwaterRisingBubble particle = new UnderwaterRisingBubble(components, appearance, context, options.config(), x, y, z, xSpeed, ySpeed, zSpeed);
-            particle.setScale(MathHelpers.randomBetween(0.02f, 0.05f));
+            particle.setScale(MathHelper.randomBetween(0.02f, 0.05f));
             return particle;
         }
     }

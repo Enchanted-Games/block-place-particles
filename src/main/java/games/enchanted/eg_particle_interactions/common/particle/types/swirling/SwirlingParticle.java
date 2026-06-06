@@ -5,7 +5,7 @@ import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
-import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
+import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 
 public class SwirlingParticle extends ParticleInteractionsParticle {
     protected float rotSpeed;
@@ -26,8 +26,8 @@ public class SwirlingParticle extends ParticleInteractionsParticle {
         this.shouldSwirl = shouldSwirl;
         this.rotSpeed = 0f;
         this.spinAcceleration = 0f;
-        this.swirlStrength = MathHelpers.randomBetween(5, 5);
-        this.swirlPeriod = MathHelpers.randomBetween(100, 300);
+        this.swirlStrength = MathHelper.randomBetween(5, 5);
+        this.swirlPeriod = MathHelper.randomBetween(100, 300);
     }
 
     protected void setInitialVelocity(double xSpeed, double ySpeed, double zSpeed, float variance) {

@@ -3,7 +3,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.client.particles;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
-import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
+import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import org.spongepowered.asm.mixin.*;
@@ -31,7 +31,7 @@ public abstract class BreakingItemParticle extends SingleQuadParticle {
         this.eg_particle_interactions$quadSizePixels =
             this.quadSize <= 0.04 ?
                 (float) 1 / this.sprite.contents().width() :
-                MathHelpers.ceilWithResolution(this.quadSize + 0.0625, this.sprite.contents().width());
+                MathHelper.ceilWithResolution(this.quadSize + 0.0625, this.sprite.contents().width());
 
         if(this.uo + this.eg_particle_interactions$quadSizePixels > 1) this.uo = 1 - this.eg_particle_interactions$quadSizePixels;
         if(this.vo + this.eg_particle_interactions$quadSizePixels > 1) this.vo = 1 - this.eg_particle_interactions$quadSizePixels;
@@ -43,8 +43,8 @@ public abstract class BreakingItemParticle extends SingleQuadParticle {
     )
     protected void eg_particle_interactions$terrainParticleInit(ClientLevel level, double x, double y, double z, TextureAtlasSprite textureAtlasSprite, CallbackInfo ci) {
         if(GeneralOptions.PIXEL_CONSISTENT_TERRAIN_PARTICLES.getValue()) {
-            this.uo = (float) MathHelpers.randomBetween(0, this.sprite.contents().width()) / this.sprite.contents().width();
-            this.vo = (float) MathHelpers.randomBetween(0, this.sprite.contents().height()) / this.sprite.contents().height();
+            this.uo = (float) MathHelper.randomBetween(0, this.sprite.contents().width()) / this.sprite.contents().width();
+            this.vo = (float) MathHelper.randomBetween(0, this.sprite.contents().height()) / this.sprite.contents().height();
 
             this.eg_particle_interactions$recalculatePixelQuadSizes();
         }

@@ -27,7 +27,7 @@ import games.enchanted.eg_particle_interactions.common.particle.render.geometry.
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.StateQuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.render.layer.ParticleLayer;
 import games.enchanted.eg_particle_interactions.common.particle.render.state.CustomParticleGeometryRenderState;
-import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
+import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.Vector3fMathModifier;
 import net.minecraft.client.Camera;
@@ -375,9 +375,9 @@ public class ParticleInteractionsParticle extends Particle {
             final double zVel = this.zd;
             if (xVel * xVel + yVel * yVel + zVel * zVel > MAXIMUM_COLLISION_VELOCITY_SQUARED) return;
 
-            final boolean xVelInCutoffRange = MathHelpers.isInRange(xVel, -MIN_BOUNCE_CUTOFF, MIN_BOUNCE_CUTOFF);
-            final boolean yVelInCutoffRange = MathHelpers.isInRange(yVel, -MIN_BOUNCE_CUTOFF, MIN_BOUNCE_CUTOFF);
-            final boolean zVelInCutoffRange = MathHelpers.isInRange(zVel, -MIN_BOUNCE_CUTOFF, MIN_BOUNCE_CUTOFF);
+            final boolean xVelInCutoffRange = MathHelper.isInRange(xVel, -MIN_BOUNCE_CUTOFF, MIN_BOUNCE_CUTOFF);
+            final boolean yVelInCutoffRange = MathHelper.isInRange(yVel, -MIN_BOUNCE_CUTOFF, MIN_BOUNCE_CUTOFF);
+            final boolean zVelInCutoffRange = MathHelper.isInRange(zVel, -MIN_BOUNCE_CUTOFF, MIN_BOUNCE_CUTOFF);
 
             this.collisionResult = Entity.collideBoundingBox(null, new Vec3(xVel, yVel, zVel), this.getBoundingBox(), this.level, List.of());
             this.xd = this.collisionResult.x == 0.0 && !xVelInCutoffRange ? -xVel * this.bounciness * 0.99999 : xVel;

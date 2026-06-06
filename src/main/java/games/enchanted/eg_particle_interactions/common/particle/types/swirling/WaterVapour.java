@@ -6,7 +6,7 @@ import games.enchanted.eg_particle_interactions.common.particle.appearance.Parti
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.options.SimpleParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
-import games.enchanted.eg_particle_interactions.common.util.MathHelpers;
+import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import net.minecraft.client.particle.Particle;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,8 +17,8 @@ public class WaterVapour extends SwirlingParticle {
 
         this.rotSpeed = 0f;
         this.spinAcceleration = 0f;
-        this.swirlStrength = MathHelpers.randomBetween(3f, 6f) * (level.getRandom().nextBoolean() ? -1 : 1);
-        this.swirlPeriod = MathHelpers.randomBetween(1, 4);
+        this.swirlStrength = MathHelper.randomBetween(3f, 6f) * (level.getRandom().nextBoolean() ? -1 : 1);
+        this.swirlPeriod = MathHelper.randomBetween(1, 4);
 
         this.setScale(2f / 32f);
     }
