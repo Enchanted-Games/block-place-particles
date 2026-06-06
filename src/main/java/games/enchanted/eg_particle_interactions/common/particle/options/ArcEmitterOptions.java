@@ -5,6 +5,8 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSet;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSetManager;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -26,8 +28,9 @@ public class ArcEmitterOptions implements PIParticleOptions {
     private final int repeat;
     @Nullable private final Integer initialAngleXDeg;
     @Nullable private final Integer initialAngleYDeg;
+    private final EmitterRuleSet emitterRuleSet;
 
-    public ArcEmitterOptions(PIParticleType<ArcEmitterOptions> type, int length, int splits, int angleVariance, int repeat, int tickInterval, @Nullable Integer initialAngleXDeg, @Nullable Integer initialAngleYDeg) {
+    public ArcEmitterOptions(PIParticleType<ArcEmitterOptions> type, int length, int splits, int angleVariance, int repeat, int tickInterval, @Nullable Integer initialAngleXDeg, @Nullable Integer initialAngleYDeg, EmitterRuleSet emitterRuleSet) {
         this.type = type;
         this.length = length;
         this.splits = splits;
@@ -36,6 +39,7 @@ public class ArcEmitterOptions implements PIParticleOptions {
         this.tickInterval = tickInterval;
         this.initialAngleXDeg = initialAngleXDeg;
         this.initialAngleYDeg = initialAngleYDeg;
+        this.emitterRuleSet = emitterRuleSet;
     }
 
     private static Codec<ArcEmitterOptions> createCodec(PIParticleType<ArcEmitterOptions> type) {
@@ -47,7 +51,8 @@ public class ArcEmitterOptions implements PIParticleOptions {
                 ExtraCodecs.POSITIVE_INT.optionalFieldOf("repeat", REPEAT_DEFAULT).forGetter(ArcEmitterOptions::getRepeat),
                 ExtraCodecs.POSITIVE_INT.optionalFieldOf("interval", TICK_INTERVAL_DEFAULT).forGetter(ArcEmitterOptions::getTickInterval),
                 Codec.INT.optionalFieldOf("initial_x_angle").forGetter(ArcEmitterOptions::getInitialAngleXDeg),
-                Codec.INT.optionalFieldOf("initial_y_angle").forGetter(ArcEmitterOptions::getInitialAngleYDeg)
+                Codec.INT.optionalFieldOf("initial_y_angle").forGetter(ArcEmitterOptions::getInitialAngleYDeg),
+                EmitterRuleSetManager.INLINE_OR_ID_CODEC.fieldOf("emitter").forGetter(ArcEmitterOptions::getEmitterRuleSet)
             ).apply(
                 instance,
                 (
@@ -57,7 +62,8 @@ public class ArcEmitterOptions implements PIParticleOptions {
                     Integer repeat,
                     Integer tickInterval,
                     Optional<Integer> initialAngleXDeg,
-                    Optional<Integer> initialAngleYDeg
+                    Optional<Integer> initialAngleYDeg,
+                    EmitterRuleSet emitterRuleSet
                 ) -> new ArcEmitterOptions(
                     type,
                     length,
@@ -66,7 +72,8 @@ public class ArcEmitterOptions implements PIParticleOptions {
                     repeat,
                     tickInterval,
                     initialAngleXDeg.orElse(null),
-                    initialAngleYDeg.orElse(null)
+                    initialAngleYDeg.orElse(null),
+                    emitterRuleSet
                 )
             )
         );
@@ -95,30 +102,34 @@ public class ArcEmitterOptions implements PIParticleOptions {
     }
 
     public int getLength() {
-        return length;
+        return this.length;
     }
 
     public int getSplits() {
-        return splits;
+        return this.splits;
     }
 
     public int getAngleVariance() {
-        return angleVariance;
+        return this.angleVariance;
     }
 
     public int getTickInterval() {
-        return tickInterval;
+        return this.tickInterval;
     }
 
     public int getRepeat() {
-        return repeat;
+        return this.repeat;
     }
 
     public Optional<Integer> getInitialAngleXDeg() {
-        return Optional.ofNullable(initialAngleXDeg);
+        return Optional.ofNullable(this.initialAngleXDeg);
     }
 
     public Optional<Integer> getInitialAngleYDeg() {
-        return Optional.ofNullable(initialAngleYDeg);
+        return Optional.ofNullable(this.initialAngleYDeg);
+    }
+
+    public EmitterRuleSet getEmitterRuleSet() {
+        return this.emitterRuleSet;
     }
 }

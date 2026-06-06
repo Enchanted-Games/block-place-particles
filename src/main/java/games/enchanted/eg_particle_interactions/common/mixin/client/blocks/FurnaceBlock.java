@@ -28,9 +28,7 @@ public abstract class FurnaceBlock extends AbstractFurnaceBlock {
     )
     private void eg_particle_interactions$spawnAdditionalParticles(BlockState blockState, Level level, BlockPos blockPos, RandomSource randomSource, CallbackInfo ci) {
         if (!(level instanceof ClientLevel clientLevel)) return;
-        if (blockState.getValue(LIT)) {
-            SpawnParticles.spawnAdditionalFurnaceParticles(clientLevel, blockPos, blockState);
-        }
+        SpawnParticles.spawnAdditionalFurnaceParticles(clientLevel, blockPos, blockState);
     }
 
     @WrapOperation(

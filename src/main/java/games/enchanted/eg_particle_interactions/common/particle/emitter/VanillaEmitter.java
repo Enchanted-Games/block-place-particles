@@ -1,41 +1,41 @@
 package games.enchanted.eg_particle_interactions.common.particle.emitter;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import org.joml.Vector3d;
 
 public class VanillaEmitter extends Emitter {
     public static final MapCodec<VanillaEmitter> CODEC = RecordCodecBuilder.mapCodec(instance ->
         instance.group(
-            Codec.DOUBLE.optionalFieldOf(Emitter.VELOCITY_MULTIPLIER_NAME, Emitter.VELOCITY_MULTIPLIER_DEFAULT).forGetter(Emitter::getVelocityMultiplier),
+            ModCodecs.COMPACT_VECTOR3D.optionalFieldOf(Emitter.VELOCITY_MULTIPLIER_NAME, Emitter.VELOCITY_MULTIPLIER_DEFAULT).forGetter(Emitter::getVelocityMultiplier),
             ParticleTypes.CODEC.fieldOf("particle").forGetter(VanillaEmitter::getParticleOptions)
         ).apply(
             instance,
-            (velocityMultiplier, particleOptions) -> new VanillaEmitter(particleOptions, velocityMultiplier)
+            VanillaEmitter::new
         )
     );
 
     protected final ParticleOptions particleOptions;
 
-    public VanillaEmitter(ParticleOptions particleOptions, double velocityMultiplier) {
+    public VanillaEmitter(Vector3d velocityMultiplier, ParticleOptions particleOptions) {
         super(velocityMultiplier);
         this.particleOptions = particleOptions;
     }
 
     @Override
     public void spawnParticle(ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        if(this.particleOptions == null) return;
         context.level().addParticle(
             this.particleOptions,
             x,
             y,
             z,
-            xSpeed * this.getVelocityMultiplier(),
-            ySpeed * this.getVelocityMultiplier(),
-            zSpeed * this.getVelocityMultiplier()
+            xSpeed * this.getVelocityMultiplier().x(),
+            ySpeed * this.getVelocityMultiplier().y(),
+            zSpeed * this.getVelocityMultiplier().z()
         );
     }
 

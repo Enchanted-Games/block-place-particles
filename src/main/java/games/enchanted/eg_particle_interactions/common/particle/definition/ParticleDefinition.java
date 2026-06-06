@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.particle.definition;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.behaviour.ParticleBehaviourProvider;
 import games.enchanted.eg_particle_interactions.common.particle.behaviour.ParticleBehaviours;
@@ -37,6 +38,20 @@ public record ParticleDefinition(ParticleComponentMap defaultComponents, Particl
         @Override
         protected ParticleDefinition lookupObject() {
             return ParticleDefinitionManager.INSTANCE.getOrFallback(this.id());
+        }
+    }
+
+    public static class InlineRef extends Reference {
+        final ParticleDefinition definition;
+
+        public InlineRef(ParticleDefinition definition) {
+            super(ParticleInteractionsMod.id("inline_" + definition.hashCode()));
+            this.definition = definition;
+        }
+
+        @Override
+        protected ParticleDefinition lookupObject() {
+            return this.definition;
         }
     }
 }

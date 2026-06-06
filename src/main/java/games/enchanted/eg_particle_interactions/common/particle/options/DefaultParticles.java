@@ -110,22 +110,12 @@ public class DefaultParticles {
     public static final ParticleConfig FLYING_SPARK_CONFIG = new ParticleConfig(new RandomFloatProvider(0.8f, 0.9f), new RandomIntProvider(20, 60), SPARK_COLLISION_SIZE);
     public static final ParticleConfig FLOATING_SPARK_CONFIG = new ParticleConfig(new RandomFloatProvider(0.2f, 0.3f), new RandomIntProvider(4, 12), SPARK_COLLISION_SIZE);
 
-    public static final Supplier<SparkParticleOptions> FLYING_SPARK = () -> new SparkParticleOptions(
-        ParticleTypesRegistry.FLYING_SPARK,
-        FLYING_SPARK_CONFIG,
-        ParticleInteractionsEmitter.defaultAppearance(Emitter.VELOCITY_MULTIPLIER_DEFAULT, SPARK_FLASH.get())
-    );
     public static final Supplier<SparkParticleOptions> FLOATING_SPARK = () -> new SparkParticleOptions(
         ParticleTypesRegistry.FLOATING_SPARK,
         FLOATING_SPARK_CONFIG,
         ParticleInteractionsEmitter.defaultAppearance(Emitter.VELOCITY_MULTIPLIER_DEFAULT, SPARK_FLASH.get())
     );
 
-    public static final Supplier<SparkParticleOptions> FLYING_SOUL_SPARK = () -> new SparkParticleOptions(
-        ParticleTypesRegistry.FLYING_SOUL_SPARK,
-        FLYING_SPARK_CONFIG,
-        ParticleInteractionsEmitter.defaultAppearance(Emitter.VELOCITY_MULTIPLIER_DEFAULT, SOUL_SPARK_FLASH.get())
-    );
     public static final Supplier<SparkParticleOptions> FLOATING_SOUL_SPARK = () -> new SparkParticleOptions(
         ParticleTypesRegistry.FLOATING_SOUL_SPARK,
         FLOATING_SPARK_CONFIG,

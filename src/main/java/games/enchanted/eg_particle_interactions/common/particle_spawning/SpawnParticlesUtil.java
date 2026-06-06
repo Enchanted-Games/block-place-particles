@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.particle_spawning;
 
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleDefinition;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSet;
 import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
 import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
@@ -143,6 +144,19 @@ public class SpawnParticlesUtil {
         RandomSource random = context.level().getRandom();
         ParticleSpawner.spawnWithDefaultAppearance(
             particleOptions,
+            context,
+            xPos,
+            yPos,
+            zPos,
+            (random.nextDouble() - 0.5) * velocityIntensity * 0.4,
+            Math.abs((random.nextDouble() - 0.25) * velocityIntensity) + 0.25,
+            (random.nextDouble() - 0.5) * velocityIntensity * 0.4
+        );
+    }
+
+    public static void spawnMostlyUpwardsMotionParticleOption(ParticleContext context, EmitterRuleSet emitterRuleSet, double xPos, double yPos, double zPos, double velocityIntensity) {
+        RandomSource random = context.level().getRandom();
+        emitterRuleSet.getEmitter(context).spawnParticle(
             context,
             xPos,
             yPos,

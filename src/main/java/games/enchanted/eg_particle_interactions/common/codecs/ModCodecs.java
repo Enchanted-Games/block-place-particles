@@ -63,4 +63,8 @@ public class ModCodecs {
         (input) -> Util.fixedSize(input, 3).map((d) -> new Vector3d(d.get(0), d.get(1), d.get(2))),
         (vec) -> List.of(vec.x(), vec.y(), vec.z())
     );
+
+    public static final Codec<Vector3d> COMPACT_VECTOR3D = VECTOR3D.withAlternative(
+        Codec.DOUBLE.xmap(Vector3d::new, Vector3d::x)
+    );
 }

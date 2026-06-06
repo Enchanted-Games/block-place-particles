@@ -7,29 +7,33 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
 public class BlockStatePredicate extends BlockPredicate {
     public static final MapCodec<BlockStatePredicate> CODEC = RecordCodecBuilder.mapCodec(i ->
         i.group(
-            BuiltInRegistries.BLOCK.holderByNameCodec().fieldOf("block").forGetter(BlockStatePredicate::getBlock),
+            BuiltInRegistries.BLOCK.holderByNameCodec().optionalFieldOf("block").forGetter(predicate -> Optional.ofNullable(predicate.getBlock())),
             StatePropertiesPredicate.CODEC.optionalFieldOf("properties", new StatePropertiesPredicate(List.of())).forGetter(BlockStatePredicate::getPropertiesPredicate)
         ).apply(
             i,
-            BlockStatePredicate::new
+            (block, propertiesPredicate) -> {
+                return new BlockStatePredicate(block.orElse(null), propertiesPredicate);
+            }
         )
     );
 
-    final Holder<Block> block;
+    final @Nullable Holder<Block> block;
     final StatePropertiesPredicate propertiesPredicate;
 
-    public BlockStatePredicate(Holder<Block> block, StatePropertiesPredicate propertiesPredicate) {
+    public BlockStatePredicate(@Nullable Holder<Block> block, StatePropertiesPredicate propertiesPredicate) {
         this.block = block;
         this.propertiesPredicate = propertiesPredicate;
     }
 
-    protected Holder<Block> getBlock() {
+    protected @Nullable Holder<Block> getBlock() {
         return this.block;
     }
 
@@ -44,6 +48,9 @@ public class BlockStatePredicate extends BlockPredicate {
 
     @Override
     public boolean matches(BlockState state) {
+        if(this.getBlock() == null) {
+            return this.propertiesPredicate.matches(state);
+        }
         return this.propertiesPredicate.matches(state) && state.is(this.getBlock());
     }
 }

@@ -35,6 +35,7 @@ public class EmitterRuleSetManager extends SimplePreparableReloadListener<Emitte
 
     private static final HashMap<Identifier, EmitterRuleSet> RULE_SET_BY_ID = new HashMap<>();
     private static final FileToIdConverter RULE_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/emitter_rules");
+    private static final List<Identifier> MISSING_LOGGED = new ArrayList<>();
 
     @Override
     protected Preparation prepare(ResourceManager manager, ProfilerFiller profiler) {
@@ -70,13 +71,17 @@ public class EmitterRuleSetManager extends SimplePreparableReloadListener<Emitte
         for (Map.Entry<Identifier, List<EmitterRuleSet.File>> ruleFiles : preparations.filesById().entrySet()) {
             RULE_SET_BY_ID.put(ruleFiles.getKey(), EmitterRuleSet.combineFiles(ruleFiles.getValue()));
         }
+        MISSING_LOGGED.clear();
     }
 
     public static EmitterRuleSet getRuleSet(Identifier ruleId) {
         if(RULE_SET_BY_ID.containsKey(ruleId)) {
             return RULE_SET_BY_ID.get(ruleId);
         }
-        Logging.warn("Tried to get non-existent emitter rule '{}'!", ruleId);
+        if(!MISSING_LOGGED.contains(ruleId)) {
+            Logging.warn("Unknown emitter rule '{}'", ruleId);
+            MISSING_LOGGED.add(ruleId);
+        }
         return EmitterRuleSet.EMPTY;
     }
 

@@ -78,7 +78,6 @@ public class ParticleSpawner {
         spawn(
             definition,
             ParticleComponentMap.EMPTY,
-            null,
             context,
             x,
             y,
@@ -92,7 +91,6 @@ public class ParticleSpawner {
     public static void spawn(
         ParticleDefinition definition,
         ParticleComponentMap customComponents,
-        @Nullable ParticleAppearance appearance,
         ParticleContext context,
         double x,
         double y,
@@ -101,14 +99,7 @@ public class ParticleSpawner {
         double ySpeed,
         double zSpeed
     ) {
-        if(appearance == null) {
-            spawnParticle(definition, customComponents, context, x, y, z, xSpeed, ySpeed, zSpeed);
-            return;
-        }
-        ParticleComponentMap components = ParticleComponentMap.Builder.create()
-            .set(ParticleComponents.APPEARANCE, new AppearanceComponent(new ParticleAppearance.InlineRef(appearance)))
-            .build();
-        spawnParticle(definition, ParticleComponentMap.Builder.combine(components, customComponents), context, x, y, z, xSpeed, ySpeed, zSpeed);
+        spawnParticle(definition, customComponents, context, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 
     @SuppressWarnings("unchecked")

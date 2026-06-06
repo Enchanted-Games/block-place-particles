@@ -10,16 +10,14 @@ import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.options.*;
 import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
-import games.enchanted.eg_particle_interactions.common.particle.types.physics.StretchyBouncyShapeParticle;
-import games.enchanted.eg_particle_interactions.common.particle.types.vanilla.CustomMovementTerrainParticle;
 import games.enchanted.eg_particle_interactions.common.particle.types.bubble.UnderwaterRisingBubble;
 import games.enchanted.eg_particle_interactions.common.particle.types.constant_motion.LavaPop;
 import games.enchanted.eg_particle_interactions.common.particle.types.drip.DripAndLandParticle;
 import games.enchanted.eg_particle_interactions.common.particle.types.dust.Dust;
 import games.enchanted.eg_particle_interactions.common.particle.types.emitter.arc.ArcEmitter;
-import games.enchanted.eg_particle_interactions.common.particle.types.emitter.random_distribution.SparkEmitter;
-import games.enchanted.eg_particle_interactions.common.particle.types.emitter.random_distribution.UnderwaterBubbleEmitter;
+import games.enchanted.eg_particle_interactions.common.particle.types.emitter.random_distribution.RandomDistributionEmitter;
 import games.enchanted.eg_particle_interactions.common.particle.types.falling_spin.FallingSpinningParticle;
+import games.enchanted.eg_particle_interactions.common.particle.types.physics.StretchyBouncyShapeParticle;
 import games.enchanted.eg_particle_interactions.common.particle.types.shatter.BlockShatter;
 import games.enchanted.eg_particle_interactions.common.particle.types.spark.FlyingSpark;
 import games.enchanted.eg_particle_interactions.common.particle.types.spark.SparkFlash;
@@ -29,11 +27,11 @@ import games.enchanted.eg_particle_interactions.common.particle.types.splash.Lav
 import games.enchanted.eg_particle_interactions.common.particle.types.swirling.Ember;
 import games.enchanted.eg_particle_interactions.common.particle.types.swirling.WaterVapour;
 import games.enchanted.eg_particle_interactions.common.particle.types.vanilla.BlockParticleOptionWrapper;
+import games.enchanted.eg_particle_interactions.common.particle.types.vanilla.CustomMovementTerrainParticle;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
-import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.HashMap;
@@ -92,14 +90,6 @@ public class ParticleTypesRegistry {
         DustParticleOptions::codec,
         DustParticleOptions::streamCodec,
         DustParticleOptions::idPrefix
-    );
-    public static final PIParticleType<SimpleParticleOptions> FALLING_CHERRY_PETAL = register(
-        FallingSpinningParticle.FlowerPetalProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_cherry_leaves"),
-        DefaultParticles.GENERIC_LEAF_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
     );
     public static final PIParticleType<SimpleParticleOptions> FALLING_GENERIC_LEAVES = register(
         FallingSpinningParticle.GenericLeafProvider::new,
@@ -303,26 +293,10 @@ public class ParticleTypesRegistry {
         SimpleParticleOptions::idPrefix
     );
 
-    public static final PIParticleType<SparkParticleOptions> FLYING_SPARK = register(
-        FlyingSpark.FlyingSparkProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "flying_spark"),
-        DefaultParticles.FLYING_SPARK_CONFIG,
-        SparkParticleOptions::codec,
-        SparkParticleOptions::streamCodec,
-        SparkParticleOptions::idPrefix
-    );
     public static final PIParticleType<SparkParticleOptions> FLOATING_SPARK = register(
         FlyingSpark.FloatingSparkProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "floating_spark"),
         DefaultParticles.FLOATING_SPARK_CONFIG,
-        SparkParticleOptions::codec,
-        SparkParticleOptions::streamCodec,
-        SparkParticleOptions::idPrefix
-    );
-    public static final PIParticleType<SparkParticleOptions> FLYING_SOUL_SPARK = register(
-        FlyingSpark.FlyingSparkProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "flying_soul_spark"),
-        DefaultParticles.FLYING_SPARK_CONFIG,
         SparkParticleOptions::codec,
         SparkParticleOptions::streamCodec,
         SparkParticleOptions::idPrefix
@@ -412,21 +386,13 @@ public class ParticleTypesRegistry {
         SimpleParticleOptions::idPrefix
     );
 
-    public static final PIParticleType<RandomDistributionEmitterOptions> FLYING_SPARK_EMITTER = register(
-        SparkEmitter.Provider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "flying_spark_emitter"),
+    public static final PIParticleType<RandomDistributionEmitterOptions> DISTRIBUTION_EMITTER = register(
+        RandomDistributionEmitter.Provider::new,
+        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "distribution_emitter"),
         ParticleConfig.DEFAULT,
         RandomDistributionEmitterOptions::codec,
         RandomDistributionEmitterOptions::streamCodec,
-        RandomDistributionEmitterOptions::idPrefix
-    );
-    public static final PIParticleType<RandomDistributionEmitterOptions> UNDERWATER_RISING_BUBBLE_SMALL_EMITTER = register(
-        UnderwaterBubbleEmitter.Provider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "underwater_rising_bubble_small_emitter"),
-        ParticleConfig.DEFAULT,
-        RandomDistributionEmitterOptions::codec,
-        RandomDistributionEmitterOptions::streamCodec,
-        RandomDistributionEmitterOptions::idPrefix
+        () -> ""
     );
     public static final PIParticleType<ArcEmitterOptions> ARC_EMITTER = register(
         ArcEmitter.Provider::new,
@@ -434,7 +400,7 @@ public class ParticleTypesRegistry {
         ParticleConfig.DEFAULT,
         ArcEmitterOptions::codec,
         ArcEmitterOptions::streamCodec,
-        ArcEmitterOptions::idPrefix
+        () -> ""
     );
 
     // wrappers around various vanilla particles
@@ -485,11 +451,12 @@ public class ParticleTypesRegistry {
         Supplier<String> idPrefix
     ) {
         PIParticleType<T> type = new PIParticleType<>(components) {
-            public @NotNull MapCodec<T> codec() {
+            public MapCodec<T> codec() {
                 return codecGetter.create(this, defaultConfig);
             }
         };
-        registerType(type, id.withPrefix(idPrefix.get() + "/"), providerCreator.create());
+        String prefix = idPrefix.get();
+        registerType(type, id.withPrefix(prefix.isEmpty() ? "" : prefix + "/"), providerCreator.create());
         return type;
     }
 

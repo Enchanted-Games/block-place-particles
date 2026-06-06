@@ -5,24 +5,26 @@ import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
-import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSet;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.particles.DustParticleOptions;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 
 public abstract class AbstractEmitterParticle extends ParticleInteractionsParticle {
     protected float emitterWidth;
     protected float emitterHeight;
     protected float emitterDepth;
+    protected final EmitterRuleSet emitterRuleSet;
 
-    public AbstractEmitterParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, float width, float height, float depth) {
+    public AbstractEmitterParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, float width, float height, float depth, EmitterRuleSet emitterRuleSet) {
         super(components, appearance, context, config, x, y, z);
         this.emitterWidth = width;
         this.emitterHeight = height;
         this.emitterDepth = depth;
+        this.emitterRuleSet = emitterRuleSet;
     }
 
     @Override
@@ -40,12 +42,9 @@ public abstract class AbstractEmitterParticle extends ParticleInteractionsPartic
 
     protected abstract void emitterTick();
 
-    /**
-     * Called every time before spawning the next particle
-     *
-     * @return the particle to emit
-     */
-    protected abstract @Nullable PIParticleOptions getParticleToEmit(ParticleContext context, double x, double y, double z);
+    protected Emitter getEmitter(ParticleContext context) {
+        return this.emitterRuleSet.getEmitter(context);
+    }
 
     @Override
     public @NotNull ParticleRenderType getGroup() {

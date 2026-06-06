@@ -7,29 +7,33 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
 public class FluidStatePredicate extends FluidPredicate {
     public static final MapCodec<FluidStatePredicate> CODEC = RecordCodecBuilder.mapCodec(i ->
         i.group(
-            BuiltInRegistries.FLUID.holderByNameCodec().fieldOf("block").forGetter(FluidStatePredicate::getFluid),
+            BuiltInRegistries.FLUID.holderByNameCodec().optionalFieldOf("block").forGetter(predicate -> Optional.ofNullable(predicate.getFluid())),
             StatePropertiesPredicate.CODEC.optionalFieldOf("properties", new StatePropertiesPredicate(List.of())).forGetter(FluidStatePredicate::getPropertiesPredicate)
         ).apply(
             i,
-            FluidStatePredicate::new
+            (fluid, propertiesPredicate) -> {
+                return new FluidStatePredicate(fluid.orElse(null), propertiesPredicate);
+            }
         )
     );
 
-    final Holder<Fluid> fluid;
+    final @Nullable Holder<Fluid> fluid;
     final StatePropertiesPredicate propertiesPredicate;
 
-    public FluidStatePredicate(Holder<Fluid> fluid, StatePropertiesPredicate propertiesPredicate) {
+    public FluidStatePredicate(@Nullable Holder<Fluid> fluid, StatePropertiesPredicate propertiesPredicate) {
         this.fluid = fluid;
         this.propertiesPredicate = propertiesPredicate;
     }
 
-    protected Holder<Fluid> getFluid() {
+    protected @Nullable Holder<Fluid> getFluid() {
         return this.fluid;
     }
 
@@ -44,6 +48,9 @@ public class FluidStatePredicate extends FluidPredicate {
 
     @Override
     public boolean matches(FluidState state) {
+        if(this.getFluid() == null) {
+            return this.propertiesPredicate.matches(state);
+        }
         return this.propertiesPredicate.matches(state) && state.is(this.getFluid());
     }
 }

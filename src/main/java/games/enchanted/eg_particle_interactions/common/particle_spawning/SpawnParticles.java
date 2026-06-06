@@ -11,8 +11,8 @@ import games.enchanted.eg_particle_interactions.common.override_system.OverrideP
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleIDs;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.ParticleInteractionsEmitter;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSet;
-import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSetManager;
 import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.DefaultParticles;
 import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
@@ -42,6 +42,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
+
+import java.util.List;
 
 public class SpawnParticles {
     public static void spawnBlockPlaceParticle(ClientLevel level, BlockPos blockPos, BlockState placedBlockState) {
@@ -322,7 +324,7 @@ public class SpawnParticles {
         BlockState blockState = level.getBlockState(particlePos);
         double sparkIntensity = ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_INTENSITY.getValue() / 12.;
         ParticleContext context = ParticleContext.block(level, blockState, particlePos);
-        EmitterRuleSet emitterRule = EmitterRuleSetManager.getRuleSet(litSomething ? EmitterRuleSetIds.FLINT_AND_STEEL_USE : EmitterRuleSetIds.FIRE_PLACED);
+        EmitterRuleSet emitterRule = litSomething ? EmitterRuleSetIds.FLINT_AND_STEEL_USE.get() : EmitterRuleSetIds.FIRE_PLACED.get();
 
         VoxelShape shape = blockState.getCollisionShape(level, particlePos);
         boolean spawnLess = false;
@@ -355,7 +357,7 @@ public class SpawnParticles {
 
     public static void spawnAmbientCampfireSparks(ClientLevel level, BlockPos particlePos, BlockState campfireState) {
         if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, particlePos)) return;
-        ParticleContext context = ParticleContext.plain(level, particlePos);
+        ParticleContext context = ParticleContext.block(level, campfireState, particlePos);
 
         if (BlockInteractionOptions.CAMPFIRE_SPARK_ENABLED.getValue()) {
             double sparkIntensity = 5 / 12.;
@@ -363,7 +365,7 @@ public class SpawnParticles {
                 for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 3) + 1; i++) {
                     SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
                         context,
-                        campfireState.is(Blocks.SOUL_CAMPFIRE) ? DefaultParticles.FLOATING_SOUL_SPARK.get() : DefaultParticles.FLOATING_SPARK.get(),
+                        EmitterRuleSetIds.CAMPFIRE_SPARKS.get(),
                         (double) particlePos.getX() + 0.5,
                         (double) particlePos.getY() + 0.5,
                         (double) particlePos.getZ() + 0.5,
@@ -395,7 +397,7 @@ public class SpawnParticles {
         double width = Math.abs(minX - maxX);
         double height = Math.abs(minY - maxY);
         double depth = Math.abs(minZ - maxZ);
-        ParticleContext context = ParticleContext.plain(level, particlePos);
+        ParticleContext context = ParticleContext.block(level, fireState, particlePos);
 
         if (BlockInteractionOptions.FIRE_SPARK_ENABLED.getValue()) {
             double sparkIntensity = 5 / 12.;
@@ -403,7 +405,7 @@ public class SpawnParticles {
                 for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 3) + 1; i++) {
                     SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
                         context,
-                        fireState.is(Blocks.SOUL_FIRE) ? DefaultParticles.FLOATING_SOUL_SPARK.get() : DefaultParticles.FLOATING_SPARK.get(),
+                        EmitterRuleSetIds.FIRE_SPARKS.get(),
                         particlePos.getX() + minX + (level.getRandom().nextFloat() * width),
                         particlePos.getY() + minY + (level.getRandom().nextFloat() * height),
                         particlePos.getZ() + minZ + (level.getRandom().nextFloat() * depth),
@@ -571,11 +573,12 @@ public class SpawnParticles {
         double y = blockPos.getY() + 1. + (level.getRandom().nextDouble() / 16f);
         double z = blockPos.getZ() + 0.5f;
         RandomDistributionEmitterOptions emitter = new RandomDistributionEmitterOptions(
-            ParticleTypesRegistry.FLYING_SPARK_EMITTER,
+            ParticleTypesRegistry.DISTRIBUTION_EMITTER,
             3,
             7,
             1,
-            new Vector3f(0.25f, 0, 0.25f)
+            new Vector3f(0.25f, 0, 0.25f),
+            EmitterRuleSetIds.ANVIL_USE_EMISSION.get()
         );
         SpawnParticlesUtil.spawnParticleInCircle(
             emitter,
@@ -658,11 +661,12 @@ public class SpawnParticles {
 
         int amount = BlockInteractionOptions.GRINDSTONE_USE_SPARKS_MAX_ON_USE.getValue();
         return new RandomDistributionEmitterOptions(
-            ParticleTypesRegistry.FLYING_SPARK_EMITTER,
+            ParticleTypesRegistry.DISTRIBUTION_EMITTER,
             amount < 6 ? amount : 6,
             1,
             (int) Math.ceil((double) amount / 6),
-            new Vector3f(width, height, depth)
+            new Vector3f(width, height, depth),
+            EmitterRuleSetIds.GRINDSTONE_USE_EMISSION.get()
         );
     }
 
@@ -756,10 +760,12 @@ public class SpawnParticles {
             double y = (double) blockPos.getY() + (blockState.isSolid() ? 1.05 : level.getRandom().nextDouble());
             double z = (double) blockPos.getZ() + level.getRandom().nextDouble();
             RandomDistributionEmitterOptions emitter = new RandomDistributionEmitterOptions(
-                ParticleTypesRegistry.UNDERWATER_RISING_BUBBLE_SMALL_EMITTER,
+                ParticleTypesRegistry.DISTRIBUTION_EMITTER,
                 MathHelper.randomBetween(9, 30),
                 MathHelper.randomBetween(2, 4),
-                1
+                1,
+                // TODO: move to emitter rule set
+                new EmitterRuleSet(List.of(), ParticleInteractionsEmitter.defaultAppearance(1, DefaultParticles.UNDERWATER_RISING_BUBBLE_SMALL.get()))
             );
             ParticleSpawner.spawnWithDefaultAppearance(emitter, context, x, y, z, 0.0f, 0.0f, 0.0f);
         }
@@ -854,44 +860,32 @@ public class SpawnParticles {
         if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, blockPos)) return;
         if (!BlockInteractionOptions.FURNACE_EMBERS_ENABLED.getValue()) return;
 
-        double[] positions = ParticlePositionHelpers.getRandomFurnaceParticlePosition(blockPos, furnaceState);
-        if ( level.getBlockState(BlockPos.containing(positions[0], positions[1], positions[2])).isSuffocating(level, blockPos) ) return;
-
-        Direction furnaceDirection = furnaceState.getValue(FurnaceBlock.FACING);
-        final boolean spawnSpark = level.getRandom().nextFloat() < 0.7;
-        final float outwardVelocity = MathHelper.randomBetween(0.01f, 0.03f) * (spawnSpark ? 1 : 5);
-        ParticleSpawner.spawnWithDefaultAppearance(
-            spawnSpark ? DefaultParticles.FLOATING_EMBER.get() : DefaultParticles.FLOATING_SPARK.get(),
-            ParticleContext.plain(level, blockPos),
-            positions[0],
-            positions[1],
-            positions[2],
-            furnaceDirection.getStepX() * outwardVelocity,
-            0.05f,
-            furnaceDirection.getStepZ() * outwardVelocity
-        );
+        furnaceFrontSparks(level, furnaceState.getValue(FurnaceBlock.FACING), furnaceState, blockPos, EmitterRuleSetIds.FURNACE_FRONT.get());
     }
 
     public static void spawnAdditionalBlastFurnaceParticles(ClientLevel level, BlockPos blockPos, BlockState furnaceState) {
         if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, blockPos)) return;
         if (!BlockInteractionOptions.BLAST_FURNACE_SPARKS_ENABLED.getValue()) return;
 
-        double[] positions = ParticlePositionHelpers.getRandomFurnaceParticlePosition(blockPos, furnaceState);
-        if ( level.getBlockState(BlockPos.containing(positions[0], positions[1], positions[2])).isSuffocating(level, blockPos) ) return;
+        furnaceFrontSparks(level, furnaceState.getValue(FurnaceBlock.FACING), furnaceState, blockPos, EmitterRuleSetIds.BLAST_FURNACE_FRONT.get());
+    }
 
-        Direction furnaceDirection = furnaceState.getValue(FurnaceBlock.FACING);
-        final boolean spawnSpark = level.getRandom().nextFloat() < 0.2;
-        final float outwardVelocity = MathHelper.randomBetween(0.01f, 0.03f) * (spawnSpark ? 1 : 5);
-        ParticleSpawner.spawnWithDefaultAppearance(
-            spawnSpark ? DefaultParticles.FLOATING_EMBER.get() : DefaultParticles.FLOATING_SPARK.get(),
-            ParticleContext.plain(level, blockPos),
+    private static void furnaceFrontSparks(ClientLevel level, Direction direction, BlockState state, BlockPos pos, EmitterRuleSet ruleSet) {
+        double[] positions = ParticlePositionHelpers.getRandomFurnaceParticlePosition(pos, state);
+        if (level.getBlockState(BlockPos.containing(positions[0], positions[1], positions[2])).isSuffocating(level, pos)) return;
+
+        ParticleContext context = ParticleContext.block(level, state, pos);
+        final float outwardVelocity = MathHelper.randomBetween(0.01f, 0.03f);
+        ruleSet.getEmitter(context).spawnParticle(
+            context,
             positions[0],
-            positions[1] + 0.125,
+            positions[1],
             positions[2],
-            furnaceDirection.getStepX() * outwardVelocity,
+            direction.getStepX() * outwardVelocity,
             0.05f,
-            furnaceDirection.getStepZ() * outwardVelocity
+            direction.getStepZ() * outwardVelocity
         );
+
     }
 
     public static void spawnLightningImpactSparks(ClientLevel level, double x, double y, double z) {
@@ -908,7 +902,8 @@ public class SpawnParticles {
                 MathHelper.randomBetween(4, 6),
                 ArcEmitterOptions.TICK_INTERVAL_DEFAULT,
                 MathHelper.randomBetween(160, 380),
-                null
+                null,
+                EmitterRuleSetIds.LIGHTNING_ARCS.get()
             ),
             context,
             new Vec3(x, y + 0.5, z),

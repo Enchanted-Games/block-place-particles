@@ -3,13 +3,15 @@ package games.enchanted.eg_particle_interactions.common.particle.types.emitter.r
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
-import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.options.RandomDistributionEmitterOptions;
+import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.types.emitter.AbstractEmitterParticle;
-import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
+import net.minecraft.client.particle.Particle;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
-public abstract class AbstractRandomDistributionEmitter extends AbstractEmitterParticle {
+public class RandomDistributionEmitter extends AbstractEmitterParticle {
     protected double emittedXSpeed;
     protected double emittedYSpeed;
     protected double emittedZSpeed;
@@ -19,8 +21,8 @@ public abstract class AbstractRandomDistributionEmitter extends AbstractEmitterP
     protected Vector3f emitterVariance;
     protected boolean emitOnFirstTick;
 
-    protected AbstractRandomDistributionEmitter(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomDistributionEmitterOptions emitterOptions) {
-        super(components, appearance, context, emitterOptions.config(), x, y, z, emitterOptions.getDimensions().x, emitterOptions.getDimensions().y, emitterOptions.getDimensions().z);
+    protected RandomDistributionEmitter(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomDistributionEmitterOptions emitterOptions) {
+        super(components, appearance, context, emitterOptions.config(), x, y, z, emitterOptions.getDimensions().x, emitterOptions.getDimensions().y, emitterOptions.getDimensions().z, emitterOptions.getEmitterRuleSet());
         this.emittedXSpeed = xSpeed;
         this.emittedYSpeed = ySpeed;
         this.emittedZSpeed = zSpeed;
@@ -40,10 +42,7 @@ public abstract class AbstractRandomDistributionEmitter extends AbstractEmitterP
         if ((this.age - (emitOnFirstTick ? 1 : 0)) % emitterInterval == 0) {
             for (int i = 0; i < particlesPerEmission; i++) {
                 double[] emitPos = getRandomPositionInsideBounds();
-                PIParticleOptions particle = this.getParticleToEmit(context, emitPos[0], emitPos[1], emitPos[2]);
-                if (particle == null) continue;
-                ParticleSpawner.spawnWithDefaultAppearance(
-                    particle,
+                this.getEmitter(this.context).spawnParticle(
                     this.context,
                     emitPos[0],
                     emitPos[1],
@@ -56,10 +55,36 @@ public abstract class AbstractRandomDistributionEmitter extends AbstractEmitterP
         }
     }
 
+    @Override
+    protected Emitter getEmitter(ParticleContext context) {
+        return this.emitterRuleSet.getEmitter(this.context);
+    }
+
     protected double[] getRandomPositionInsideBounds() {
         double newX = x + (this.emitterWidth * this.level.getRandom().nextFloat());
         double newY = y + (this.emitterHeight * this.level.getRandom().nextFloat());
         double newZ = z + (this.emitterDepth * this.level.getRandom().nextFloat());
         return new double[]{newX, newY, newZ};
+    }
+
+    public static class Provider implements PIParticleProvider<RandomDistributionEmitterOptions> {
+        public Provider() {
+        }
+
+        @Override
+        public @Nullable Particle createParticle(
+            RandomDistributionEmitterOptions emitterOptions,
+            ParticleComponentMap components,
+            ParticleAppearance appearance,
+            ParticleContext context,
+            double x,
+            double z,
+            double y,
+            double xSpeed,
+            double ySpeed,
+            double zSpeed
+        ) {
+            return new RandomDistributionEmitter(components, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed, emitterOptions);
+        }
     }
 }
