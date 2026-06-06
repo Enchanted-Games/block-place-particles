@@ -11,5 +11,20 @@
     "colour": {
         "type": "eg_particle_interactions:block_texture",
         "tint_index": 0
+    },
+    "spin_config": {
+        "initial_rotation": {
+            "range": [
+                0,
+                360
+            ]
+        },
+        "acceleration": {
+            "values": [
+                -0.2,
+                0.2
+            ]
+        },
+        "max_speed": 0.5
     }
 }

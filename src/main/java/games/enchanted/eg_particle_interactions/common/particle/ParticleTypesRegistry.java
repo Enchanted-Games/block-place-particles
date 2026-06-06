@@ -73,14 +73,6 @@ public class ParticleTypesRegistry {
     );
 
 
-    public static final PIParticleType<SimpleParticleOptions> FLOWER_PETAL = register(
-        FallingSpinningParticle.FlowerPetalProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "flower_petal"),
-        DefaultParticles.FLOWER_PETAL_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
-    );
     public static final PIParticleType<SimpleParticleOptions> GRASS_BLADE = register(
         FallingSpinningParticle.GrassBladeProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "grass_blade"),
