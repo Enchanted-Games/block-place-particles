@@ -9,6 +9,6 @@
         "velocity/decay": [0.98, 0.98, 0.98],
         "physics/friction": 0.5,
         "physics/collision_size": 1.5,
-        "appearance": "simple/falling_cherry_leaves"
+        "appearance": "leaf/generic_leaves"
     }
 }

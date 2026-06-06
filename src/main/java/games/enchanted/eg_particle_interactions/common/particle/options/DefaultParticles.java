@@ -100,9 +100,6 @@ public class DefaultParticles {
     );
 
 
-    public static final ParticleConfig LIGHTNING_FLASH_CONFIG = new ParticleConfig(ParticleConfig.DEFAULT_GRAVITY, new RandomIntProvider(4, 7));
-
-
     public static final ParticleConfig LAVA_POP_CONFIG = new ParticleConfig(
         ParticleConfig.DEFAULT_GRAVITY,
         new RandomIntProvider(30, 36),
@@ -123,24 +120,6 @@ public class DefaultParticles {
     private static final RandomFloatProvider FALLING_SPIN_GRASS_BLADE_COLLISION_SIZE = new RandomFloatProvider(0.10f, 0.12f);
     private static final float FALLING_SPIN_INITIAL_VELOCITY_RANDOMNESS = 0.02f;
     private static final RandomFloatProvider FALLING_SPIN_VELOCITY_DECAY = new RandomFloatProvider(0.06f, 0.1f);
-
-    public static final ParticleConfig GENERIC_LEAF_CONFIG = new ParticleConfig(
-        new RandomFloatProvider(FALLING_SPIN_MIN_BASE_GRAVITY, FALLING_SPIN_MAX_BASE_GRAVITY),
-        FALLING_SPIN_LIFETIME,
-        FALLING_SPIN_COLLISION_SIZE,
-        FALLING_SPIN_INITIAL_VELOCITY_RANDOMNESS,
-        ParticleConfig.DEFAULT_GRAVITY_DECAY,
-        FALLING_SPIN_VELOCITY_DECAY
-    );
-
-    public static final ParticleConfig PALE_OAK_LEAF_CONFIG = new ParticleConfig(
-        new RandomFloatProvider(FALLING_SPIN_MIN_BASE_GRAVITY * 0.6f, FALLING_SPIN_MAX_BASE_GRAVITY * 0.6f),
-        FALLING_SPIN_LIFETIME,
-        FALLING_SPIN_COLLISION_SIZE,
-        FALLING_SPIN_INITIAL_VELOCITY_RANDOMNESS,
-        ParticleConfig.DEFAULT_GRAVITY_DECAY,
-        FALLING_SPIN_VELOCITY_DECAY
-    );
 
     public static final ParticleConfig MOSS_CLUMP_CONFIG = new ParticleConfig(
         new RandomFloatProvider(FALLING_SPIN_MIN_BASE_GRAVITY * 2f, FALLING_SPIN_MAX_BASE_GRAVITY * 2f),

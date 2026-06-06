@@ -1,0 +1,13 @@
+{
+    "components": {
+        "gravity/initial": {
+            "range": [0.25, 0.38]
+        },
+        "lifetime": {
+            "range": [4, 7]
+        },
+        "velocity/initial_randomness": [0.2, 0.2, 0.2],
+        "physics/collision_size": 1,
+        "appearance": "lightning_flash"
+    }
+}

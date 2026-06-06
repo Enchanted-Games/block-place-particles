@@ -19,7 +19,6 @@ import games.enchanted.eg_particle_interactions.common.particle.types.emitter.ra
 import games.enchanted.eg_particle_interactions.common.particle.types.falling_spin.FallingSpinningParticle;
 import games.enchanted.eg_particle_interactions.common.particle.types.physics.StretchyBouncyShapeParticle;
 import games.enchanted.eg_particle_interactions.common.particle.types.shatter.BlockShatter;
-import games.enchanted.eg_particle_interactions.common.particle.types.spark.SparkFlash;
 import games.enchanted.eg_particle_interactions.common.particle.types.splash.BlockSplash;
 import games.enchanted.eg_particle_interactions.common.particle.types.splash.BucketSplash;
 import games.enchanted.eg_particle_interactions.common.particle.types.splash.LavaSplash;
@@ -89,46 +88,6 @@ public class ParticleTypesRegistry {
         DustParticleOptions::codec,
         DustParticleOptions::streamCodec,
         DustParticleOptions::idPrefix
-    );
-    public static final PIParticleType<SimpleParticleOptions> FALLING_GENERIC_LEAVES = register(
-        FallingSpinningParticle.GenericLeafProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_generic_leaves"),
-        DefaultParticles.GENERIC_LEAF_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
-    );
-    public static final PIParticleType<SimpleParticleOptions> FALLING_TINTED_PINE_LEAF = register(
-        FallingSpinningParticle.GenericLeafProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_tinted_pine_leaves"),
-        DefaultParticles.GENERIC_LEAF_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
-    );
-    public static final PIParticleType<SimpleParticleOptions> FALLING_AZALEA_LEAF = register(
-        FallingSpinningParticle.FlowerPetalProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_azalea_leaves"),
-        DefaultParticles.GENERIC_LEAF_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
-    );
-    public static final PIParticleType<SimpleParticleOptions> FALLING_FLOWERING_AZALEA = register(
-        FallingSpinningParticle.FlowerPetalProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_flowering_azalea"),
-        DefaultParticles.GENERIC_LEAF_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
-    );
-    public static final PIParticleType<SimpleParticleOptions> FALLING_PALE_OAK_LEAF = register(
-        FallingSpinningParticle.PaleOakProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_pale_oak_leaf"),
-        DefaultParticles.PALE_OAK_LEAF_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
     );
     public static final PIParticleType<SimpleParticleOptions> FLOWER_PETAL = register(
         FallingSpinningParticle.FlowerPetalProvider::new,
@@ -287,15 +246,6 @@ public class ParticleTypesRegistry {
         BlockSplash.Provider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_splash"),
         DefaultParticles.BLOCK_SPLASH_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
-    );
-
-    public static final PIParticleType<SimpleParticleOptions> LIGHTNING_FLASH = register(
-        SparkFlash.RandomAnimationProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "lightning_flash"),
-        DefaultParticles.LIGHTNING_FLASH_CONFIG,
         SimpleParticleOptions::codec,
         SimpleParticleOptions::streamCodec,
         SimpleParticleOptions::idPrefix

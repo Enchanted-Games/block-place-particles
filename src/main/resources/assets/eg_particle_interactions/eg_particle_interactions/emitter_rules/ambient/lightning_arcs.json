@@ -1,9 +1,6 @@
 {
     "fallback_emitter": {
-        "emitter_type": "particle_interactions",
-        "particle": {
-            "type": "simple/lightning_flash",
-            "simple_options": {}
-        }
+        "emitter_type": "particle_interactions_new",
+        "particle": "lightning_flash"
     }
 }

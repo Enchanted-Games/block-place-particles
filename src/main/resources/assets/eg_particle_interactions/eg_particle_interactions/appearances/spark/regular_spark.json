@@ -1,14 +1,14 @@
 {
-  "texture_config": {
-    "sprites": [
-      "eg_particle_interactions:flying_spark/0",
-      "eg_particle_interactions:flying_spark/1",
-      "eg_particle_interactions:flying_spark/2",
-      "eg_particle_interactions:flying_spark/3",
-      "eg_particle_interactions:flying_spark/4"
-    ],
-    "sprite_cycle_mode": "age_cycle"
-  },
-  "light_emission": 15,
-  "scale": 3
+    "texture_config": {
+        "sprites": [
+            "eg_particle_interactions:flying_spark/0",
+            "eg_particle_interactions:flying_spark/1",
+            "eg_particle_interactions:flying_spark/2",
+            "eg_particle_interactions:flying_spark/3",
+            "eg_particle_interactions:flying_spark/4"
+        ],
+        "sprite_cycle_mode": "age_cycle"
+    },
+    "light_emission": 15,
+    "scale": 3
 }
