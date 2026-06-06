@@ -1,6 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle_spawning;
 
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleDefinition;
 import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
 import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
@@ -49,6 +50,43 @@ public class SpawnParticlesUtil {
             (x, y, z, xSpeed, ySpeed, zSpeed) -> {
                 ParticleSpawner.spawnWithDefaultAppearance(
                     particleOptions,
+                    context,
+                    x,
+                    y,
+                    z,
+                    xSpeed,
+                    ySpeed,
+                    zSpeed
+                );
+            },
+            center,
+            amount,
+            spread,
+            radius,
+            outwardVelocityMultiplier,
+            verticalVelocityBase,
+            verticalVelocityMultiplier
+        );
+    }
+
+    /**
+     * Spawns a particle option in a flat circular shape
+     *
+     * @param particleDefinition         particle to spawn
+     * @param context                    context
+     * @param center                     center of the circle
+     * @param amount                     amount of particles to spawn
+     * @param spread                     how far particles can deviate from the radius (in blocks)
+     * @param radius                     the distance to spawn particles from the center position (in blocks)
+     * @param outwardVelocityMultiplier  how quickly particles should fly out from the center
+     * @param verticalVelocityBase       base vertical velocity for all particles
+     * @param verticalVelocityMultiplier multiplied by particle distance from the center
+     */
+    public static void spawnParticleInCircle(ParticleDefinition particleDefinition, ParticleContext context, Vec3 center, int amount, float spread, float radius, float outwardVelocityMultiplier, float verticalVelocityBase, float verticalVelocityMultiplier) {
+        spawnParticleInCircle(
+            (x, y, z, xSpeed, ySpeed, zSpeed) -> {
+                ParticleSpawner.spawnWithDefaultComponents(
+                    particleDefinition,
                     context,
                     x,
                     y,

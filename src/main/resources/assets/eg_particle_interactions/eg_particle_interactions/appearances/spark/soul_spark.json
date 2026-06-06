@@ -9,5 +9,6 @@
     ],
     "sprite_cycle_mode": "age_cycle"
   },
-  "light_emission": 10
+  "light_emission": 10,
+  "scale": 3
 }

@@ -1,45 +1,23 @@
 {
-  "rules": [
-    {
-      "conditions": [
+    "rules": [
         {
-          "type": "block",
-          "predicate": {
-            "type": "list",
-            "blocks": "interaction/soul_sparks"
-          }
-        }
-      ],
-      "emitter": {
-        "emitter_type": "particle_interactions",
-        "particle": {
-          "type": "spark/flying_soul_spark",
-          "spark_options": {
-            "flash_emitter": {
-              "emitter_type": "particle_interactions",
-              "particle": {
-                "type": "simple/soul_spark_flash",
-                "simple_options": {}
-              }
+            "conditions": [
+                {
+                    "type": "block",
+                    "predicate": {
+                        "type": "list",
+                        "blocks": "interaction/soul_sparks"
+                    }
+                }
+            ],
+            "emitter": {
+                "emitter_type": "particle_interactions_new",
+                "particle": "spark/flying_soul_spark"
             }
-          }
         }
-      }
+    ],
+    "fallback_emitter": {
+        "emitter_type": "particle_interactions_new",
+        "particle": "spark/flying_spark"
     }
-  ],
-  "fallback_emitter": {
-    "emitter_type": "particle_interactions",
-    "particle": {
-      "type": "spark/flying_spark",
-      "spark_options": {
-        "flash_emitter": {
-          "emitter_type": "particle_interactions",
-          "particle": {
-            "type": "simple/spark_flash",
-            "simple_options": {}
-          }
-        }
-      }
-    }
-  }
 }

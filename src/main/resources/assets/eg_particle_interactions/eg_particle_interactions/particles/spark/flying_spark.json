@@ -1,0 +1,63 @@
+{
+    "special_type": "spark_shape",
+    "components": {
+        "gravity/initial": {
+            "range": [0.8, 0.9]
+        },
+        "lifetime": {
+            "range": [20, 60]
+        },
+        "velocity/decay": [0.98, 0.98, 0.98],
+        "physics/friction": 0.1,
+        "physics/bounciness": 0.8,
+        "physics/collision_size": 0.5,
+        "appearance": "spark/regular_spark",
+        "lifetime_events": [
+            {
+                "trigger": {
+                    "type": "random_chance",
+                    "chance": 0.2,
+                    "lifetime_percentage_range": [0, 0.05]
+                },
+                "action": {
+                    "type": "spawn_particle",
+                    "emitter": {
+                        "emitter_type": "particle_interactions_new",
+                        "particle": "spark/flash"
+                    },
+                    "velocity_provider": {
+                        "type": "static",
+                        "value": [0, 0, 0]
+                    }
+                }
+            },
+            {
+                "trigger": {
+                    "type": "random_chance",
+                    "chance": 0.005
+                },
+                "action": {
+                    "type": "spawn_particle",
+                    "emitter": {
+                        "emitter_type": "particle_interactions_new",
+                        "particle": "spark/flash"
+                    },
+                    "velocity_provider": {
+                        "type": "static",
+                        "value": [0, 0, 0]
+                    }
+                }
+            },
+            {
+                "trigger": {
+                    "type": "in_fluid",
+                    "oneshot": true
+                },
+                "action": {
+                    "type": "modify_lifetime",
+                    "divide": 2
+                }
+            }
+        ]
+    }
+}

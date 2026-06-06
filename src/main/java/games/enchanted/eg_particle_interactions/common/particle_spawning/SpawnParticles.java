@@ -10,6 +10,7 @@ import games.enchanted.eg_particle_interactions.common.override_system.override.
 import games.enchanted.eg_particle_interactions.common.override_system.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
+import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleIDs;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSet;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSetManager;
 import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitterOptions;
@@ -258,8 +259,8 @@ public class SpawnParticles {
         ParticleContext context = ParticleContext.plain(level, BlockPos.containing(minecartX, minecartY, minecartZ));
         if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos1 = minecartWheelPoint(rotX, rotY, 0.45f, 0.35f, 0.45f);
-            ParticleSpawner.spawnWithDefaultAppearance(
-                DefaultParticles.FLYING_SPARK.get(),
+            ParticleSpawner.spawnWithDefaultComponents(
+                ParticleIDs.FLYING_SPARK.get(),
                 context,
                 wheelPos1.x + minecartX,
                 wheelPos1.y + minecartY,
@@ -271,8 +272,8 @@ public class SpawnParticles {
         }
         if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos2 = minecartWheelPoint(rotX, rotY, -0.45f, -0.35f, 0.45f);
-            ParticleSpawner.spawnWithDefaultAppearance(
-                DefaultParticles.FLYING_SPARK.get(),
+            ParticleSpawner.spawnWithDefaultComponents(
+                ParticleIDs.FLYING_SPARK.get(),
                 context,
                 wheelPos2.x + minecartX,
                 wheelPos2.y + minecartY,
@@ -284,8 +285,8 @@ public class SpawnParticles {
         }
         if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos3 = minecartWheelPoint(rotX, rotY, 0.45f, 0.35f, -0.45f);
-            ParticleSpawner.spawnWithDefaultAppearance(
-                DefaultParticles.FLYING_SPARK.get(),
+            ParticleSpawner.spawnWithDefaultComponents(
+                ParticleIDs.FLYING_SPARK.get(),
                 context,
                 wheelPos3.x + minecartX,
                 wheelPos3.y + minecartY,
@@ -297,8 +298,8 @@ public class SpawnParticles {
         }
         if (level.getRandom().nextFloat() < sparksChancePerWheel) {
             Vector3f wheelPos4 = minecartWheelPoint(rotX, rotY, -0.45f, -0.35f, -0.45f);
-            ParticleSpawner.spawnWithDefaultAppearance(
-                DefaultParticles.FLYING_SPARK.get(),
+            ParticleSpawner.spawnWithDefaultComponents(
+                ParticleIDs.FLYING_SPARK.get(),
                 context,
                 wheelPos4.x + minecartX,
                 wheelPos4.y + minecartY,
@@ -690,7 +691,16 @@ public class SpawnParticles {
             float xVel = (float) MathHelper.clampOutside(MathHelper.randomBetween(-0.5f, 0.5f), -0.2, 0.2);
             float yVel = MathHelper.randomBetween(0.4f, 0.6f);
             float zVel = (float) MathHelper.clampOutside(MathHelper.randomBetween(-0.5f, 0.5f), -0.2, 0.2);
-            ParticleSpawner.spawnWithDefaultAppearance(DefaultParticles.FLYING_SPARK.get(), ParticleContext.plain(level, pos), x, y, z, xVel, yVel, zVel);
+            ParticleSpawner.spawnWithDefaultComponents(
+                ParticleIDs.FLYING_SPARK.get(),
+                ParticleContext.plain(level, pos),
+                x,
+                y,
+                z,
+                xVel,
+                yVel,
+                zVel
+            );
         }
     }
 
@@ -912,7 +922,7 @@ public class SpawnParticles {
 
         int amountOfSparks = EntityOptions.LIGHTNING_STRIKE_AMOUNT_OF_SPARKS.getValue();
         SpawnParticlesUtil.spawnParticleInCircle(
-            DefaultParticles.FLYING_SPARK.get(),
+            ParticleIDs.FLYING_SPARK.get(),
             context,
             new Vec3(x, y + 0.01, z),
             MathHelper.randomBetween(Math.max(0, amountOfSparks - 4), amountOfSparks),

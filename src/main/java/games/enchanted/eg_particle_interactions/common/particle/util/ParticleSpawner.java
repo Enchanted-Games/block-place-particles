@@ -65,6 +65,30 @@ public class ParticleSpawner {
         spawnParticle(options, components, context, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 
+    public static void spawnWithDefaultComponents(
+        ParticleDefinition definition,
+        ParticleContext context,
+        double x,
+        double y,
+        double z,
+        double xSpeed,
+        double ySpeed,
+        double zSpeed
+    ) {
+        spawn(
+            definition,
+            ParticleComponentMap.EMPTY,
+            null,
+            context,
+            x,
+            y,
+            z,
+            xSpeed,
+            ySpeed,
+            zSpeed
+        );
+    }
+
     public static void spawn(
         ParticleDefinition definition,
         ParticleComponentMap customComponents,
