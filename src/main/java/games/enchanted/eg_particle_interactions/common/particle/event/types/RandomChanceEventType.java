@@ -29,7 +29,7 @@ public class RandomChanceEventType extends ParticleEventType {
     @Override
     public void onParticleTick(ParticleInteractionsParticle particle) {
         float age = particle.getAgePercent();
-        if(this.agePercentRange.inRange(age)) return;
+        if(!this.agePercentRange.inRange(age)) return;
         if(MathHelper.randomBetween(0f, 1f) <= this.chance) {
             this.fire(particle);
         }
