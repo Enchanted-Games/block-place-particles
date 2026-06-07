@@ -30,6 +30,12 @@
                 "type": "list",
                 "blocks": "partial_redstone_dust_partial_vanilla"
             }
+        ],
+        "block/generic": [
+            {
+                "type": "list",
+                "blocks": "partial_snow_dust_partial_vanilla"
+            }
         ]
     }
 }
