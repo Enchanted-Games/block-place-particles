@@ -7,5 +7,25 @@
             "eg_particle_interactions:pale_moss_clump/3",
             "eg_particle_interactions:pale_moss_clump/4"
         ]
+    },
+    "scale": {
+        "range": [
+            3.5,
+            4
+        ]
+    },
+    "spin_config": {
+        "initial_rotation": {
+            "range": [
+                0,
+                360
+            ]
+        },
+        "acceleration": {
+            "values": [
+                -0.2,
+                0.2
+            ]
+        }
     }
 }

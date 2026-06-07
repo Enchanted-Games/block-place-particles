@@ -63,24 +63,7 @@ public class ParticleTypesRegistry {
     // TODO: remove ParticleConfig, replace it all with components
     // TODO: remove all definitions from here and move them to particle json files
     // TODO: PIParticleType only used for currently hardcoded behaviour like stretchy shape particles
-    public static final PIParticleType<SimpleParticleOptions> STRETCHY_CUBE = register(
-        StretchyBouncyShapeParticle.Provider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "stretchy_cube"),
-        DefaultParticles.EMBER_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        () -> ""
-    );
 
-
-    public static final PIParticleType<SimpleParticleOptions> MOSS_CLUMP = register(
-        FallingSpinningParticle.RandomisedSizeMoreGravityProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "moss_clump"),
-        DefaultParticles.MOSS_CLUMP_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
-    );
     public static final PIParticleType<DustParticleOptions> BRUSH_DUST = register(
         Dust.BrushProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "brush_dust"),
