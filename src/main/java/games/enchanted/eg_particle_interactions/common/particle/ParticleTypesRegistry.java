@@ -73,22 +73,6 @@ public class ParticleTypesRegistry {
     );
 
 
-    public static final PIParticleType<SimpleParticleOptions> GRASS_BLADE = register(
-        FallingSpinningParticle.GrassBladeProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "grass_blade"),
-        DefaultParticles.GRASS_BLADE_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
-    );
-    public static final PIParticleType<SimpleParticleOptions> HEAVY_GRASS_BLADE = register(
-        FallingSpinningParticle.HeavyGrassBladeProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "heavy_grass_blade"),
-        DefaultParticles.HEAVY_GRASS_BLADE_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
-    );
     public static final PIParticleType<SimpleParticleOptions> MOSS_CLUMP = register(
         FallingSpinningParticle.RandomisedSizeMoreGravityProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "moss_clump"),

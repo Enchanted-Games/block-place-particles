@@ -1,0 +1,24 @@
+{
+    "components": {
+        "gravity/initial": {
+            "range": [
+                0.5,
+                0.76
+            ]
+        },
+        "lifetime": {
+            "range": [
+                18,
+                82
+            ]
+        },
+        "velocity/decay": [
+            0.98,
+            0.98,
+            0.98
+        ],
+        "physics/friction": 0.8,
+        "physics/collision_size": 1.5,
+        "appearance": "grass_blade"
+    }
+}
