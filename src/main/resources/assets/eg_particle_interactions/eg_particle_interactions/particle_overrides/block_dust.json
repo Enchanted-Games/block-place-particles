@@ -1,51 +1,9 @@
 {
     "emitters": {
         "default": {
-            "emitter_type": "particle_interactions",
-            "particle": {
-                "type": "dust/block_dust",
-                "dust_options": {
-                    "speck_emitter": {
-                        "emitter_type": "particle_interactions",
-                        "particle": {
-                            "type": "dust/block_dust_speck",
-                            "dust_options": {}
-                        }
-                    }
-                }
-            },
-            "velocity_multiplier": 0.13
-        },
-        "block/falling_block_unstable": {
-            "emitter_type": "particle_interactions",
-            "particle": {
-                "type": "dust/block_dust",
-                "dust_options": {
-                    "initial_velocity_randomness": 0.001,
-                    "gravity_decay": 0,
-                    "velocity_decay": 0,
-                    "gravity": {
-                        "range": [
-                            0.04,
-                            0.06
-                        ]
-                    },
-                    "lifetime": {
-                        "range": [
-                            90,
-                            200
-                        ]
-                    },
-                    "speck_emitter": {
-                        "emitter_type": "particle_interactions",
-                        "particle": {
-                            "type": "dust/block_dust_speck",
-                            "dust_options": {}
-                        }
-                    }
-                }
-            },
-            "velocity_multiplier": 0.13
+            "emitter_type": "particle_interactions_new",
+            "particle": "dust/block",
+            "velocity_multiplier": 0.1
         }
     }
 }

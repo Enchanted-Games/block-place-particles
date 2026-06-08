@@ -13,7 +13,21 @@
         "sprite_cycle_mode": "age_cycle"
     },
     "colour": {
-        "type": "eg_particle_interactions:block_texture",
+        "type": "block_texture",
         "tint_index": 0
+    },
+    "scale": {
+        "values": [
+            3.3,
+            3.6
+        ]
+    },
+    "spin_config": {
+        "initial_rotation": {
+            "range": [
+                0,
+                360
+            ]
+        }
     }
 }

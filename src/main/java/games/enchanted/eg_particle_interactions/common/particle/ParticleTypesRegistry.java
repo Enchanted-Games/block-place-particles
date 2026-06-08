@@ -95,22 +95,7 @@ public class ParticleTypesRegistry {
         DustParticleOptions::codec,
         DustParticleOptions::streamCodec,
         DustParticleOptions::idPrefix);
-    public static final PIParticleType<DustParticleOptions> BLOCK_DUST = register(
-        Dust.TintedDustProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_dust"),
-        DefaultParticles.DUST_CONFIG,
-        DustParticleOptions::codec,
-        DustParticleOptions::streamCodec,
-        DustParticleOptions::idPrefix
-    );
-    public static final PIParticleType<DustParticleOptions> BLOCK_DUST_SPECK = register(
-        Dust.TintedDustSpeckProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_dust_speck"),
-        DefaultParticles.DUST_SPECK_CONFIG,
-        DustParticleOptions::codec,
-        DustParticleOptions::streamCodec,
-        DustParticleOptions::idPrefix
-    );
+    
     public static final PIParticleType<DustParticleOptions> REDSTONE_DUST = register(
         Dust.RedstoneProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "redstone_dust"),

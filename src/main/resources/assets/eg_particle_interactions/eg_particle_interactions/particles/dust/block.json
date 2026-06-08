@@ -19,7 +19,7 @@
             0.94,
             0.94
         ],
-        "appearance": "dust/brush",
+        "appearance": "dust/block",
         "lifetime_events": [
             {
                 "trigger": {
@@ -36,7 +36,7 @@
                         "emitter_type": "particle_interactions_new",
                         "particle": "dust/speck",
                         "components": {
-                            "appearance": "dust/brush_speck"
+                            "appearance": "dust/block_speck"
                         }
                     },
                     "velocity_provider": {
