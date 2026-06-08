@@ -51,22 +51,6 @@ public class DefaultParticles {
         DUST_GRAVITY_DECAY,
         DUST_VELOCITY_DECAY
     );
-    public static final ParticleConfig SNOWFLAKE_CONFIG = new ParticleConfig(
-        new RandomFloatProvider(0.275f, 0.418f),
-        DUST_LIFETIME,
-        ParticleConfig.DEFAULT_COLLISION_SIZE,
-        DUST_INITIAL_VELOCITY_RANDOMNESS,
-        DUST_GRAVITY_DECAY,
-        DUST_VELOCITY_DECAY
-    );
-    public static final ParticleConfig SNOWFLAKE_SPECK_CONFIG = new ParticleConfig(
-        new RandomFloatProvider(0.175f, 0.266f),
-        DUST_LIFETIME,
-        ParticleConfig.DEFAULT_COLLISION_SIZE,
-        DUST_INITIAL_VELOCITY_RANDOMNESS,
-        DUST_GRAVITY_DECAY,
-        DUST_VELOCITY_DECAY
-    );
 
     public static final Supplier<DustParticleOptions> GLOW_ITEM_FRAME_DUST_SPECK = () -> new DustParticleOptions(
         ParticleTypesRegistry.GLOW_ITEM_FRAME_DUST_SPECK,
@@ -87,16 +71,6 @@ public class DefaultParticles {
         ParticleTypesRegistry.ITEM_FRAME_DUST,
         DUST_CONFIG,
         ParticleInteractionsEmitter.defaultAppearance(Emitter.VELOCITY_MULTIPLIER_DEFAULT, ITEM_FRAME_DUST_SPECK.get())
-    );
-    public static final Supplier<DustParticleOptions> BRUSH_DUST_SPECK = () -> new DustParticleOptions(
-        ParticleTypesRegistry.BRUSH_DUST_SPECK,
-        DUST_SPECK_CONFIG,
-        null
-    );
-    public static final Supplier<DustParticleOptions> BRUSH_DUST = () -> new DustParticleOptions(
-        ParticleTypesRegistry.BRUSH_DUST,
-        DUST_CONFIG,
-        ParticleInteractionsEmitter.defaultAppearance(Emitter.VELOCITY_MULTIPLIER_DEFAULT, BRUSH_DUST_SPECK.get())
     );
 
 
@@ -121,41 +95,6 @@ public class DefaultParticles {
     private static final float FALLING_SPIN_INITIAL_VELOCITY_RANDOMNESS = 0.02f;
     private static final RandomFloatProvider FALLING_SPIN_VELOCITY_DECAY = new RandomFloatProvider(0.06f, 0.1f);
 
-    public static final ParticleConfig MOSS_CLUMP_CONFIG = new ParticleConfig(
-        new RandomFloatProvider(FALLING_SPIN_MIN_BASE_GRAVITY * 2f, FALLING_SPIN_MAX_BASE_GRAVITY * 2f),
-        FALLING_SPIN_LIFETIME,
-        new RandomFloatProvider(0.08f, 0.12f),
-        FALLING_SPIN_INITIAL_VELOCITY_RANDOMNESS,
-        ParticleConfig.DEFAULT_GRAVITY_DECAY,
-        FALLING_SPIN_VELOCITY_DECAY
-    );
-
-    public static final ParticleConfig FLOWER_PETAL_CONFIG = new ParticleConfig(
-        new RandomFloatProvider(FALLING_SPIN_MIN_BASE_GRAVITY, FALLING_SPIN_MAX_BASE_GRAVITY),
-        FALLING_SPIN_LIFETIME,
-        new RandomFloatProvider(0.07F, 0.08F),
-        FALLING_SPIN_INITIAL_VELOCITY_RANDOMNESS,
-        ParticleConfig.DEFAULT_GRAVITY_DECAY,
-        FALLING_SPIN_VELOCITY_DECAY
-    );
-
-    public static final ParticleConfig GRASS_BLADE_CONFIG = new ParticleConfig(
-        new RandomFloatProvider(FALLING_SPIN_MIN_BASE_GRAVITY, FALLING_SPIN_MAX_BASE_GRAVITY),
-        FALLING_SPIN_LIFETIME,
-        FALLING_SPIN_GRASS_BLADE_COLLISION_SIZE,
-        FALLING_SPIN_INITIAL_VELOCITY_RANDOMNESS,
-        ParticleConfig.DEFAULT_GRAVITY_DECAY,
-        FALLING_SPIN_VELOCITY_DECAY
-    );
-
-    public static final ParticleConfig HEAVY_GRASS_BLADE_CONFIG = new ParticleConfig(
-        new RandomFloatProvider(FALLING_SPIN_MIN_BASE_GRAVITY * 2f, FALLING_SPIN_MAX_BASE_GRAVITY * 2f),
-        FALLING_SPIN_LIFETIME,
-        FALLING_SPIN_GRASS_BLADE_COLLISION_SIZE,
-        FALLING_SPIN_INITIAL_VELOCITY_RANDOMNESS,
-        ParticleConfig.DEFAULT_GRAVITY_DECAY,
-        FALLING_SPIN_VELOCITY_DECAY
-    );
 
     public static final ParticleConfig CHAIN_SNAP_CONFIG = new ParticleConfig(
         new RandomFloatProvider(FALLING_SPIN_MIN_BASE_GRAVITY * 3f, FALLING_SPIN_MAX_BASE_GRAVITY * 3f),

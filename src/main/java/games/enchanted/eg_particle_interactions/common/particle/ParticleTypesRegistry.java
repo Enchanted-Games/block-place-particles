@@ -64,22 +64,6 @@ public class ParticleTypesRegistry {
     // TODO: remove all definitions from here and move them to particle json files
     // TODO: PIParticleType only used for currently hardcoded behaviour like stretchy shape particles
 
-    public static final PIParticleType<DustParticleOptions> BRUSH_DUST = register(
-        Dust.BrushProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "brush_dust"),
-        DefaultParticles.DUST_CONFIG,
-        DustParticleOptions::codec,
-        DustParticleOptions::streamCodec,
-        DustParticleOptions::idPrefix
-    );
-    public static final PIParticleType<DustParticleOptions> BRUSH_DUST_SPECK = register(
-        Dust.BrushSpeckProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "brush_dust_speck"),
-        DefaultParticles.DUST_SPECK_CONFIG,
-        DustParticleOptions::codec,
-        DustParticleOptions::streamCodec,
-        DustParticleOptions::idPrefix
-    );
     public static final PIParticleType<DustParticleOptions> ITEM_FRAME_DUST = register(
         Dust.ItemFrameProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "item_frame_dust"),

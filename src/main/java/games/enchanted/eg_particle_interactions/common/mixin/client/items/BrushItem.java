@@ -13,6 +13,7 @@ import games.enchanted.eg_particle_interactions.common.override_system.OverrideP
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.options.DefaultParticles;
 import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
+import games.enchanted.eg_particle_interactions.common.particle_spawning.EmitterRuleSetIds;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -66,6 +67,7 @@ public abstract class BrushItem {
         OverridePreset preset = BlockOverrideManager.getForBlock(state, origin);
         ParticleOverride override = preset.getRandom();
         Identifier id = ParticleOverrides.getIdOrThrow(override);
+        ParticleContext context = ParticleContext.block(clientLevel, state, blockPos);
 
         boolean isVanillaOrEmptyOverride = id.equals(ParticleOverrides.VANILLA_OVERRIDE_ID) || id.equals(ParticleOverrides.EMPTY_OVERRIDE_ID);
 
@@ -75,7 +77,7 @@ public abstract class BrushItem {
         ) {
             override.spawnParticle(
                 origin,
-                ParticleContext.block(clientLevel, state, blockPos),
+                context,
                 particlePos.x + (brushDirection.getStepX() * outwardVelocity),
                 particlePos.y + (brushDirection.getStepY() * outwardVelocity),
                 particlePos.z + (brushDirection.getStepZ() * outwardVelocity),
@@ -85,16 +87,14 @@ public abstract class BrushItem {
             );
             return;
         } else if(ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.DUST) {
-            double velocityMultiplier = 0.1f;
-            ParticleSpawner.spawnWithDefaultAppearance(
-                DefaultParticles.BRUSH_DUST.get(),
-                ParticleContext.plain(clientLevel, blockPos),
+            EmitterRuleSetIds.BRUSH_DUST.get().getEmitter(context).spawnParticle(
+                context,
                 particlePos.x + (brushDirection.getStepX() * outwardVelocity),
                 particlePos.y + (brushDirection.getStepY() * outwardVelocity),
                 particlePos.z + (brushDirection.getStepZ() * outwardVelocity),
-                (baseDeltaX * (double) armDirection * level.getRandom().nextDouble() * velocityMultiplier) + (brushDirection.getStepX() * outwardVelocity),
-                (baseDeltaY + 1) * level.getRandom().nextDouble() * velocityMultiplier * brushDirection.getStepY(),
-                (baseDeltaZ * (double) armDirection * level.getRandom().nextDouble() * velocityMultiplier) + (brushDirection.getStepZ() * outwardVelocity)
+                (baseDeltaX * (double) armDirection * level.getRandom().nextDouble()) + (brushDirection.getStepX() * outwardVelocity),
+                (baseDeltaY + 1) * level.getRandom().nextDouble() * brushDirection.getStepY(),
+                (baseDeltaZ * (double) armDirection * level.getRandom().nextDouble()) + (brushDirection.getStepZ() * outwardVelocity)
             );
             return;
         }

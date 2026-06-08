@@ -1,0 +1,7 @@
+{
+    "fallback_emitter": {
+        "emitter_type": "particle_interactions_new",
+        "particle": "dust/brush",
+        "velocity_multiplier": 0.1
+    }
+}
