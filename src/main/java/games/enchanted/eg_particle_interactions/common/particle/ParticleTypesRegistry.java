@@ -64,14 +64,6 @@ public class ParticleTypesRegistry {
     // TODO: remove all definitions from here and move them to particle json files
     // TODO: PIParticleType only used for currently hardcoded behaviour like stretchy shape particles
 
-    public static final PIParticleType<DustParticleOptions> REDSTONE_DUST = register(
-        Dust.RedstoneProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "redstone_dust"),
-        DefaultParticles.REDSTONE_DUST_CONFIG,
-        DustParticleOptions::codec,
-        DustParticleOptions::streamCodec,
-        DustParticleOptions::idPrefix
-    );
     public static final PIParticleType<SimpleParticleOptions> BLOCK_SHATTER = register(
         BlockShatter.BlockShatterProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_shatter"),
