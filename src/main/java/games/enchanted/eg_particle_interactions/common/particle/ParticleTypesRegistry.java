@@ -64,38 +64,6 @@ public class ParticleTypesRegistry {
     // TODO: remove all definitions from here and move them to particle json files
     // TODO: PIParticleType only used for currently hardcoded behaviour like stretchy shape particles
 
-    public static final PIParticleType<DustParticleOptions> ITEM_FRAME_DUST = register(
-        Dust.ItemFrameProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "item_frame_dust"),
-        DefaultParticles.DUST_CONFIG,
-        DustParticleOptions::codec,
-        DustParticleOptions::streamCodec,
-        DustParticleOptions::idPrefix
-    );
-    public static final PIParticleType<DustParticleOptions> ITEM_FRAME_DUST_SPECK = register(
-        Dust.ItemFrameSpeckProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "item_frame_dust_speck"),
-        DefaultParticles.DUST_SPECK_CONFIG,
-        DustParticleOptions::codec,
-        DustParticleOptions::streamCodec,
-        DustParticleOptions::idPrefix
-    );
-    public static final PIParticleType<DustParticleOptions> GLOW_ITEM_FRAME_DUST = register(
-        Dust.GlowItemFrameProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glow_item_frame_dust"),
-        DefaultParticles.DUST_CONFIG,
-        DustParticleOptions::codec,
-        DustParticleOptions::streamCodec,
-        DustParticleOptions::idPrefix
-    );
-    public static final PIParticleType<DustParticleOptions> GLOW_ITEM_FRAME_DUST_SPECK = register(
-        Dust.GlowItemFrameSpeckProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glow_item_frame_dust_speck"),
-        DefaultParticles.DUST_SPECK_CONFIG,
-        DustParticleOptions::codec,
-        DustParticleOptions::streamCodec,
-        DustParticleOptions::idPrefix);
-    
     public static final PIParticleType<DustParticleOptions> REDSTONE_DUST = register(
         Dust.RedstoneProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "redstone_dust"),

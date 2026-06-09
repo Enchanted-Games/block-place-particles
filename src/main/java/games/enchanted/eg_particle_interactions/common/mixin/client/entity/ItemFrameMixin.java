@@ -47,7 +47,7 @@ public abstract class ItemFrameMixin extends HangingEntity {
             this.getBoundingBox(),
             this.getDirection(),
             this.shouldDamageDropItem(damageSource) ? SpawnParticles.ItemFrameParticleOrigin.HELD_ITEM_REMOVED : SpawnParticles.ItemFrameParticleOrigin.FRAME_KILLED,
-            (Object)this instanceof GlowItemFrame
+            (ItemFrame) (Object) this
         );
     }
 
@@ -69,7 +69,7 @@ public abstract class ItemFrameMixin extends HangingEntity {
             this.getBoundingBox(),
             this.getDirection(),
             this.getItem().isEmpty() ? SpawnParticles.ItemFrameParticleOrigin.ITEM_PLACED : SpawnParticles.ItemFrameParticleOrigin.ITEM_ROTATED,
-            (Object)this instanceof GlowItemFrame
+            (ItemFrame) (Object) this
         );
     }
 }

@@ -1,0 +1,54 @@
+{
+    "components": {
+        "gravity/initial": {
+            "range": [
+                0.175,
+                0.266
+            ]
+        },
+        "gravity/decay": 0.95,
+        "lifetime": {
+            "range": [
+                22,
+                82
+            ]
+        },
+        "physics/collision_size": 0.5,
+        "velocity/decay": [
+            0.94,
+            0.94,
+            0.94
+        ],
+        "appearance": "dust/glow_item_frame",
+        "lifetime_events": [
+            {
+                "trigger": {
+                    "type": "random_chance",
+                    "chance": 0.02,
+                    "lifetime_percentage_range": [
+                        0.02,
+                        0.5
+                    ]
+                },
+                "action": {
+                    "type": "spawn_particle",
+                    "emitter": {
+                        "emitter_type": "particle_interactions_new",
+                        "particle": "dust/speck",
+                        "components": {
+                            "appearance": "dust/glow_item_frame_speck"
+                        }
+                    },
+                    "velocity_provider": {
+                        "type": "static",
+                        "value": [
+                            0,
+                            0,
+                            0
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

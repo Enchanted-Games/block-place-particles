@@ -12,5 +12,19 @@
         "type": "variable",
         "base_colour": "#fffcf7",
         "variation": 0.18
+    },
+    "scale": {
+        "values": [
+            3.3,
+            3.6
+        ]
+    },
+    "spin_config": {
+        "initial_rotation": {
+            "range": [
+                0,
+                360
+            ]
+        }
     }
 }

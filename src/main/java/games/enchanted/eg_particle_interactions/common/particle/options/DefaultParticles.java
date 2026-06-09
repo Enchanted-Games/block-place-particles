@@ -52,27 +52,6 @@ public class DefaultParticles {
         DUST_VELOCITY_DECAY
     );
 
-    public static final Supplier<DustParticleOptions> GLOW_ITEM_FRAME_DUST_SPECK = () -> new DustParticleOptions(
-        ParticleTypesRegistry.GLOW_ITEM_FRAME_DUST_SPECK,
-        DUST_SPECK_CONFIG,
-        null
-    );
-    public static final Supplier<DustParticleOptions> GLOW_ITEM_FRAME_DUST = () -> new DustParticleOptions(
-        ParticleTypesRegistry.GLOW_ITEM_FRAME_DUST,
-        DUST_CONFIG,
-        ParticleInteractionsEmitter.defaultAppearance(Emitter.VELOCITY_MULTIPLIER_DEFAULT, GLOW_ITEM_FRAME_DUST_SPECK.get())
-    );
-    public static final Supplier<DustParticleOptions> ITEM_FRAME_DUST_SPECK = () -> new DustParticleOptions(
-        ParticleTypesRegistry.ITEM_FRAME_DUST_SPECK,
-        DUST_SPECK_CONFIG,
-        null
-    );
-    public static final Supplier<DustParticleOptions> ITEM_FRAME_DUST = () -> new DustParticleOptions(
-        ParticleTypesRegistry.ITEM_FRAME_DUST,
-        DUST_CONFIG,
-        ParticleInteractionsEmitter.defaultAppearance(Emitter.VELOCITY_MULTIPLIER_DEFAULT, ITEM_FRAME_DUST_SPECK.get())
-    );
-
 
     public static final ParticleConfig LAVA_POP_CONFIG = new ParticleConfig(
         ParticleConfig.DEFAULT_GRAVITY,

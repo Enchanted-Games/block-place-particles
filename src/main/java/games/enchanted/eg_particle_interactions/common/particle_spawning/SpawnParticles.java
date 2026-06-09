@@ -27,6 +27,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -769,18 +770,14 @@ public class SpawnParticles {
         }
     }
 
-    public static void spawnItemFrameInteractionParticles(ClientLevel level, double x, double y, double z, AABB boundingBox, Direction itemFrameDirection, ItemFrameParticleOrigin particleOrigin, boolean glowingItemFrame) {
+    public static void spawnItemFrameInteractionParticles(ClientLevel level, double x, double y, double z, AABB boundingBox, Direction itemFrameDirection, ItemFrameParticleOrigin particleOrigin, ItemFrame frame) {
         if (!EntityOptions.ITEM_FRAME_INTERACTION_ENABLED.getValue()) return;
         if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, x, y, z)) return;
 
-        double particleSpeed = 0.2;
-        ParticleContext context = ParticleContext.plain(level, BlockPos.containing(x, y, z));
+        ParticleContext context = ParticleContext.entity(level, frame);
 
-        PIParticleOptions particleOptionToSpawn;
         if (particleOrigin == ItemFrameParticleOrigin.FRAME_KILLED) {
             return;
-        } else {
-            particleOptionToSpawn = glowingItemFrame ? DefaultParticles.GLOW_ITEM_FRAME_DUST.get() : DefaultParticles.ITEM_FRAME_DUST.get();
         }
 
         for (int i = 0; i < EntityOptions.ITEM_FRAME_INTERACTION_AMOUNT.getValue(); i++) {
@@ -788,15 +785,14 @@ public class SpawnParticles {
             double randomY = boundingBox.minY + (boundingBox.getYsize() * level.getRandom().nextDouble());
             double randomZ = boundingBox.minZ + (boundingBox.getZsize() * level.getRandom().nextDouble());
 
-            ParticleSpawner.spawnWithDefaultAppearance(
-                particleOptionToSpawn,
+            EmitterRuleSetIds.ITEM_FRAME_EMISSION.get().getEmitter(context).spawnParticle(
                 context,
                 (itemFrameDirection.getStepX() * 0.15) + x,
                 (itemFrameDirection.getStepY() * 0.15) + y,
                 (itemFrameDirection.getStepZ() * 0.15) + z,
-                (itemFrameDirection.getStepX() * 0.03) + (randomX - x) * 2 * particleSpeed,
-                (itemFrameDirection.getStepY() * 0.03) + (randomY - y) * 2 * particleSpeed,
-                (itemFrameDirection.getStepZ() * 0.03) + (randomZ - z) * 2 * particleSpeed
+                (itemFrameDirection.getStepX() * 0.03) + (randomX - x) * 2,
+                (itemFrameDirection.getStepY() * 0.03) + (randomY - y) * 2,
+                (itemFrameDirection.getStepZ() * 0.03) + (randomZ - z) * 2
             );
         }
     }

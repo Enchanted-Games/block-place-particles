@@ -17,5 +17,19 @@
         "base_colour": "#ffe9cf",
         "variation": 0.18
     },
-    "light_emission": 13
+    "light_emission": 13,
+    "scale": {
+        "values": [
+            3.3,
+            3.6
+        ]
+    },
+    "spin_config": {
+        "initial_rotation": {
+            "range": [
+                0,
+                360
+            ]
+        }
+    }
 }

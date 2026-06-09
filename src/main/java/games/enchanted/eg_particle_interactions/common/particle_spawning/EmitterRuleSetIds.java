@@ -16,6 +16,8 @@ public class EmitterRuleSetIds {
 
     public static final Supplier<EmitterRuleSet> BRUSH_DUST = ref(ParticleInteractionsMod.id("interaction/brush_dust_emission"));
 
+    public static final Supplier<EmitterRuleSet> ITEM_FRAME_EMISSION = ref(ParticleInteractionsMod.id("interaction/item_frame_emission"));
+
 
     public static final Supplier<EmitterRuleSet> LIGHTNING_ARCS = ref(ParticleInteractionsMod.id("ambient/lightning_arcs"));
 
