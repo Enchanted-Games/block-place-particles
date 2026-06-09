@@ -1,0 +1,16 @@
+{
+    "texture_config": {
+        "type": "block_texture",
+        "layer": "translucent_backface"
+    },
+    "colour": {
+        "type": "block_tint",
+        "tint_index": 0
+    },
+    "scale": 3,
+    "spin": {
+        "initial_rotation": {
+            "values": [0, 90, 180, 270]
+        }
+    }
+}

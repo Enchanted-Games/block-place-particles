@@ -25,7 +25,7 @@ public class BlockTextureConfig implements TextureConfig {
         instance -> instance.group(
             Codec.list(Identifier.CODEC).optionalFieldOf("fallback_sprites", DEFAULT_SPRITES).forGetter(o -> o.fallbackSprites),
             ModCodecs.ATLAS.optionalFieldOf("fallback_atlas", SpritesTextureConfig.DEFAULT_ATLAS).forGetter(o -> o.fallbackAtlas),
-            StringRepresentable.fromEnum(LayerDefinition::values).optionalFieldOf("fallback_layer", SpritesTextureConfig.DEFAULT_LAYER_DEFINITION).forGetter(o -> o.fallbackLayer)
+            StringRepresentable.fromEnum(LayerDefinition::values).optionalFieldOf("layer", SpritesTextureConfig.DEFAULT_LAYER_DEFINITION).forGetter(o -> o.layer)
         ).apply(
             instance,
             BlockTextureConfig::new
@@ -34,12 +34,12 @@ public class BlockTextureConfig implements TextureConfig {
 
     final List<Identifier> fallbackSprites;
     final TextureHelpers.AtlasIdAndTexture fallbackAtlas;
-    final LayerDefinition fallbackLayer;
+    final LayerDefinition layer;
 
-    public BlockTextureConfig(List<Identifier> fallbackSprites, TextureHelpers.AtlasIdAndTexture fallbackAtlas, LayerDefinition fallbackLayer) {
+    public BlockTextureConfig(List<Identifier> fallbackSprites, TextureHelpers.AtlasIdAndTexture fallbackAtlas, LayerDefinition layer) {
         this.fallbackSprites = fallbackSprites;
         this.fallbackAtlas = fallbackAtlas;
-        this.fallbackLayer = fallbackLayer;
+        this.layer = layer;
     }
 
     private Material.Baked getContextMaterial(ParticleContext.BlockContext context) {
@@ -75,8 +75,8 @@ public class BlockTextureConfig implements TextureConfig {
 
     @Override
     public LayerDefinition getLayerDefinition(ParticleContext context) {
-        if(context.blockContext() == null) return this.fallbackLayer;
-        return LayerDefinition.fromVanillaSprite(this.getContextMaterial(context.blockContext()).sprite());
+        if(context.blockContext() == null) return this.layer;
+        return LayerDefinition.fromVanillaSprite(this.getContextMaterial(context.blockContext()).sprite(), this.layer.showBackface());
     }
 
     @Override

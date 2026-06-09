@@ -41,10 +41,6 @@ public class SparkShapeParticleBehaviour extends ParticleInteractionsParticle {
         this.prevPrevY = this.yo;
         this.prevPrevZ = this.zo;
 
-        // TODO: move to particle appearances (scale 3)
-//        float particleSize = (this.random.nextBoolean() ? 0.025f : 0.03f);
-//        this.setScale(particleSize);
-
         this.particleShape = ShapeDefinitions.VERTICAL_CROSS;
         this.particleShapeScale = new Vector3f(1);
         this.particleShapeScale.x = Mth.randomBetween(level.getRandom(), 0.4f, 1.1f);

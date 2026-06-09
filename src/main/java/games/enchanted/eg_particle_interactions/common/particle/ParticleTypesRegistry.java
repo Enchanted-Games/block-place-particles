@@ -64,14 +64,6 @@ public class ParticleTypesRegistry {
     // TODO: remove all definitions from here and move them to particle json files
     // TODO: PIParticleType only used for currently hardcoded behaviour like stretchy shape particles
 
-    public static final PIParticleType<SimpleParticleOptions> BLOCK_SHATTER = register(
-        BlockShatter.BlockShatterProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_shatter"),
-        DefaultParticles.SHATTER_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
-    );
     public static final PIParticleType<SimpleParticleOptions> CHAIN_SNAP = register(
         FallingSpinningParticle.ChainSnapProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "chain_snap"),

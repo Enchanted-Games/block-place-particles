@@ -7,23 +7,29 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.StringRepresentable;
 
 public enum LayerDefinition implements StringRepresentable {
-    CUTOUT("cutout", false, RenderPipelines.OPAQUE_PARTICLE),
-    TRANSLUCENT("translucent", true, RenderPipelines.TRANSLUCENT_PARTICLE),
-    CUTOUT_BACKFACE("cutout_backface", false, ModRenderPipelines.BACKFACE_CUTOUT_PARTICLE),
-    TRANSLUCENT_BACKFACE("translucent_backface", true, ModRenderPipelines.BACKFACE_TRANSLUCENT_PARTICLE);
+    CUTOUT("cutout", false, false, RenderPipelines.OPAQUE_PARTICLE),
+    TRANSLUCENT("translucent", true, false, RenderPipelines.TRANSLUCENT_PARTICLE),
+    CUTOUT_BACKFACE("cutout_backface", false, true, ModRenderPipelines.BACKFACE_CUTOUT_PARTICLE),
+    TRANSLUCENT_BACKFACE("translucent_backface", true, true, ModRenderPipelines.BACKFACE_TRANSLUCENT_PARTICLE);
 
     final String name;
     final boolean translucent;
+    final boolean backface;
     final RenderPipeline pipeline;
 
-    LayerDefinition(String name, boolean translucent, RenderPipeline pipeline) {
+    LayerDefinition(String name, boolean translucent, boolean backface, RenderPipeline pipeline) {
         this.name = name;
         this.translucent = translucent;
+        this.backface = backface;
         this.pipeline = pipeline;
     }
 
     public boolean isTranslucent() {
-        return translucent;
+        return this.translucent;
+    }
+
+    public boolean showBackface() {
+        return this.backface;
     }
 
     public RenderPipeline pipeline() {
@@ -35,7 +41,11 @@ public enum LayerDefinition implements StringRepresentable {
         return this.name;
     }
 
-    public static LayerDefinition fromVanillaSprite(TextureAtlasSprite sprite) {
-        return sprite.transparency().hasTranslucent() ? TRANSLUCENT : CUTOUT;
+    public static LayerDefinition fromVanillaSprite(TextureAtlasSprite sprite, boolean backface) {
+        boolean hasTranslucent = sprite.transparency().hasTranslucent();
+        if(backface) {
+            return hasTranslucent ? TRANSLUCENT_BACKFACE : CUTOUT_BACKFACE;
+        }
+        return hasTranslucent ? TRANSLUCENT : CUTOUT;
     }
 }
