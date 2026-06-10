@@ -1,10 +1,10 @@
 {
     "texture_config": {
         "sprites": [
-            "eg_particle_interactions:chain_snap/0",
-            "eg_particle_interactions:chain_snap/1",
-            "eg_particle_interactions:chain_snap/2",
-            "eg_particle_interactions:chain_snap/3"
+            "eg_particle_interactions:large_stick/0",
+            "eg_particle_interactions:large_stick/1",
+            "eg_particle_interactions:large_stick/2",
+            "eg_particle_interactions:large_stick/3"
         ]
     },
     "colour": {
@@ -12,18 +12,17 @@
         "tint_index": 0
     },
     "scale": {
-        "values": [
-            6
+        "range": [
+            4.9,
+            5.1
         ]
     },
     "spin_config": {
         "max_speed": 0.2,
         "initial_rotation": {
-            "values": [
+            "range": [
                 0,
-                90,
-                180,
-                270
+                360
             ]
         },
         "acceleration": {

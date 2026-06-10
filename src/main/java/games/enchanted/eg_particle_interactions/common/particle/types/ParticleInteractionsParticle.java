@@ -1,34 +1,34 @@
 package games.enchanted.eg_particle_interactions.common.particle.types;
 
-import games.enchanted.eg_particle_interactions.common.duck.ParticleDuck;
-import games.enchanted.eg_particle_interactions.common.particle.VelocityProvider;
-import games.enchanted.eg_particle_interactions.common.particle.appearance.SpinConfig;
-import games.enchanted.eg_particle_interactions.common.particle.behaviour.ParticleBehaviourProvider;
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes;
+import games.enchanted.eg_particle_interactions.common.duck.ParticleDuck;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.ParticleAccessor;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle.VelocityProvider;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.SpinConfig;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.SpriteCycleMode;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.texture.TextureConfig;
+import games.enchanted.eg_particle_interactions.common.particle.behaviour.ParticleBehaviourProvider;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponents;
 import games.enchanted.eg_particle_interactions.common.particle.component.type.*;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.event.EventStack;
 import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomFloatProvider;
-import games.enchanted.eg_particle_interactions.common.util.math.modifier.FloatMathModifier;
-import games.enchanted.eg_particle_interactions.common.util.math.modifier.IntMathModifier;
-import games.enchanted.eg_particle_interactions.common.util.math.modifier.Vector3dMathModifier;
 import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomIntProvider;
 import games.enchanted.eg_particle_interactions.common.particle.render.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.StateQuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.render.layer.ParticleLayer;
 import games.enchanted.eg_particle_interactions.common.particle.render.state.CustomParticleGeometryRenderState;
-import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
+import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
+import games.enchanted.eg_particle_interactions.common.util.math.modifier.FloatMathModifier;
+import games.enchanted.eg_particle_interactions.common.util.math.modifier.IntMathModifier;
+import games.enchanted.eg_particle_interactions.common.util.math.modifier.Vector3dMathModifier;
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.Vector3fMathModifier;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -654,6 +654,10 @@ public class ParticleInteractionsParticle extends Particle {
         this.xd = delta.x();
         this.yd = delta.y();
         this.zd = delta.z();
+    }
+
+    public void modifyGravity(FloatMathModifier modifier) {
+        this.gravity = modifier.apply(this.gravity);
     }
 
     public void modifyLifetime(IntMathModifier modifier) {

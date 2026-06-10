@@ -13,6 +13,7 @@ public class LifetimeEventActions {
     public static final Codec<EventAction> CODEC = EVENT_ACTIONS.codec(ModCodecs.IDENTIFIER).dispatch("type", EventAction::codec, mapCodec -> mapCodec);
 
     static {
+        EVENT_ACTIONS.put(ParticleInteractionsMod.id("modify_gravity"), ModifyGravityAction.CODEC);
         EVENT_ACTIONS.put(ParticleInteractionsMod.id("modify_velocity"), ModifyVelocityAction.CODEC);
         EVENT_ACTIONS.put(ParticleInteractionsMod.id("spawn_particle"), SpawnParticleAction.CODEC);
         EVENT_ACTIONS.put(ParticleInteractionsMod.id("modify_lifetime"), ModifyLifetimeAction.CODEC);
