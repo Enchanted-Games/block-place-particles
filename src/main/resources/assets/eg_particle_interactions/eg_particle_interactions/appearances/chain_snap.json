@@ -1,0 +1,36 @@
+{
+    "texture_config": {
+        "sprites": [
+            "eg_particle_interactions:chain_snap/0",
+            "eg_particle_interactions:chain_snap/1",
+            "eg_particle_interactions:chain_snap/2",
+            "eg_particle_interactions:chain_snap/3"
+        ]
+    },
+    "colour": {
+        "type": "eg_particle_interactions:block_texture",
+        "tint_index": 0
+    },
+    "scale": {
+        "values": [
+            6
+        ]
+    },
+    "spin_config": {
+        "max_speed": 0.2,
+        "initial_rotation": {
+            "values": [
+                0,
+                90,
+                180,
+                270
+            ]
+        },
+        "acceleration": {
+            "values": [
+                -0.7,
+                0.7
+            ]
+        }
+    }
+}

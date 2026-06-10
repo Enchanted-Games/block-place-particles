@@ -75,14 +75,6 @@ public class DefaultParticles {
     private static final RandomFloatProvider FALLING_SPIN_VELOCITY_DECAY = new RandomFloatProvider(0.06f, 0.1f);
 
 
-    public static final ParticleConfig CHAIN_SNAP_CONFIG = new ParticleConfig(
-        new RandomFloatProvider(FALLING_SPIN_MIN_BASE_GRAVITY * 3f, FALLING_SPIN_MAX_BASE_GRAVITY * 3f),
-        FALLING_SPIN_LIFETIME,
-        new RandomFloatProvider(0.14F, 0.15F),
-        FALLING_SPIN_INITIAL_VELOCITY_RANDOMNESS,
-        ParticleConfig.DEFAULT_GRAVITY_DECAY,
-        FALLING_SPIN_VELOCITY_DECAY
-    );
 
     public static final ParticleConfig SUGAR_CANE_CONFIG = new ParticleConfig(
         new RandomFloatProvider(FALLING_SPIN_MIN_BASE_GRAVITY * 2.5f, FALLING_SPIN_MAX_BASE_GRAVITY * 2.5f),
