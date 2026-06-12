@@ -100,7 +100,7 @@ public class ParticleInteractionsParticle extends Particle {
 
     protected boolean updateSpritesAfterFirstCall = true;
     protected TextureAtlasSprite currentSprite;
-    protected UVCoordinates appearanceUV = UVCoordinates.UNIT;
+    protected @Nullable UVCoordinates appearanceUV = null;
     protected UVCoordinates spriteUV = UVCoordinates.UNIT;
 
     private float rCol = 1.0f;
@@ -460,12 +460,14 @@ public class ParticleInteractionsParticle extends Particle {
     }
 
     protected void setCurrentSprite(TextureAtlasSprite sprite) {
+        if(sprite.equals(this.currentSprite)) return;
         this.currentSprite = sprite;
-        this.appearanceUV = this.appearance.uv().getUv(this.appearanceUV, sprite);
+        this.appearanceUV = this.appearance.uv().getUv(this.appearanceUV, sprite, this.initialAppearanceScale);
         this.setSpriteUV(sprite);
     }
 
     protected void setSpriteUV(TextureAtlasSprite sprite) {
+        if(this.appearanceUV == null) return;
         this.spriteUV = this.appearanceUV.remapInUV(
             sprite.getU0(),
             sprite.getV0(),
@@ -690,7 +692,7 @@ public class ParticleInteractionsParticle extends Particle {
     }
 
     public void modifyUV(UVProvider uv) {
-        this.appearanceUV = uv.getUv(this.appearanceUV, this.currentSprite);
+        this.appearanceUV = uv.getUv(this.appearanceUV, this.currentSprite, this.initialAppearanceScale);
         this.setSpriteUV(this.currentSprite);
     }
 

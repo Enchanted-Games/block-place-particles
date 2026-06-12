@@ -16,5 +16,6 @@ public class UVProviders {
 
     static {
         PROVIDERS.put(ParticleInteractionsMod.id("simple"), SimpleUV.MAP_CODEC);
+        PROVIDERS.put(ParticleInteractionsMod.id("random_within_sprite"), RandomScaleUV.MAP_CODEC);
     }
 }

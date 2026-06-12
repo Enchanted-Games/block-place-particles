@@ -27,7 +27,7 @@ public class SimpleUV extends UVProvider {
     }
 
     @Override
-    public UVCoordinates getUv(@Nullable UVCoordinates oldUV, TextureAtlasSprite sprite) {
+    public UVCoordinates getUv(@Nullable UVCoordinates oldUV, TextureAtlasSprite sprite, float particleScale) {
         return this.coords;
     }
 
