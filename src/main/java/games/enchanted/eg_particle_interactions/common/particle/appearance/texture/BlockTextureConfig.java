@@ -55,8 +55,9 @@ public class BlockTextureConfig implements TextureConfig {
     }
 
     @Override
-    public TextureAtlasSprite getAt(ParticleContext context, int age, int max) {
-        return this.lookupSprite(context, this.fallbackSprites.get(age * (this.fallbackSprites.size() - 1) / max));
+    public TextureAtlasSprite getAt(ParticleContext context, float agePercentage) {
+        int i = (int) (agePercentage * (this.fallbackSprites.size()));
+        return this.lookupSprite(context, this.fallbackSprites.get(Math.clamp(i, 0, this.fallbackSprites.size() - 1)));
     }
 
     @Override

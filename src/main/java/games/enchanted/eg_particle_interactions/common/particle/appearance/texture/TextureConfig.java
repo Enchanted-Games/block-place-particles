@@ -12,7 +12,7 @@ import net.minecraft.util.RandomSource;
 import java.util.List;
 
 public interface TextureConfig {
-    TextureAtlasSprite getAt(ParticleContext context, int age, int max);
+    TextureAtlasSprite getAt(ParticleContext context, float agePercentage);
 
     TextureAtlasSprite getRandom(ParticleContext context, RandomSource random);
 

@@ -52,8 +52,9 @@ public class SpritesTextureConfig implements TextureConfig {
     }
 
     @Override
-    public TextureAtlasSprite getAt(ParticleContext context, int age, int max) {
-        return this.lookupSprite(this.sprites.get(age * (this.sprites.size() - 1) / Math.max(1, max)));
+    public TextureAtlasSprite getAt(ParticleContext context, float agePercentage) {
+        int i = (int) (agePercentage * (this.sprites.size()));
+        return this.lookupSprite(this.sprites.get(Math.clamp(i, 0, this.sprites.size() - 1)));
     }
 
     @Override

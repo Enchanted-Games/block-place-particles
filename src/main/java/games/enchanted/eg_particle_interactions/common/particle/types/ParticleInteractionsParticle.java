@@ -452,7 +452,8 @@ public class ParticleInteractionsParticle extends Particle {
             return;
         }
 
-        this.setCurrentSprite(textureConfig.getAt(this.context, this.getAgeForSprite(), this.lifetime));
+
+        this.setCurrentSprite(textureConfig.getAt(this.context, this.getAgePercent()));
     }
 
     protected int getAgeForSprite() {
