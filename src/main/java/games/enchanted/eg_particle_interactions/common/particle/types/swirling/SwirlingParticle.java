@@ -70,7 +70,7 @@ public class SwirlingParticle extends ParticleInteractionsParticle {
         this.prevSpin = this.spin;
         this.spin += this.rotSpeed / 20.0f;
 
-        super.pickSpriteForAppearance();
+        super.pickSpriteAndUVForAppearance();
         super.applyGravityAndVelocityDecays();
     }
 }

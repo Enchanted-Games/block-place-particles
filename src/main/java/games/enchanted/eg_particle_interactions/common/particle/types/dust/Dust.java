@@ -34,7 +34,7 @@ public class Dust extends ParticleInteractionsParticle {
 
     @Override
     public void tick() {
-        this.pickSpriteForAppearance();
+        this.pickSpriteAndUVForAppearance();
         super.tick();
 
         if (!this.spawnSpecks || this.removed || !this.hasPhysics || this.onGround) {

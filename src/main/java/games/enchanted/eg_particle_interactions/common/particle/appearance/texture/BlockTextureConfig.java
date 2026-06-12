@@ -7,7 +7,8 @@ import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.LayerDefinition;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.SpriteCycleMode;
-import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
+import games.enchanted.eg_particle_interactions.common.util.texture.AtlasIdAndTexture;
+import games.enchanted.eg_particle_interactions.common.util.texture.TextureHelpers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -33,10 +34,10 @@ public class BlockTextureConfig implements TextureConfig {
     );
 
     final List<Identifier> fallbackSprites;
-    final TextureHelpers.AtlasIdAndTexture fallbackAtlas;
+    final AtlasIdAndTexture fallbackAtlas;
     final LayerDefinition layer;
 
-    public BlockTextureConfig(List<Identifier> fallbackSprites, TextureHelpers.AtlasIdAndTexture fallbackAtlas, LayerDefinition layer) {
+    public BlockTextureConfig(List<Identifier> fallbackSprites, AtlasIdAndTexture fallbackAtlas, LayerDefinition layer) {
         this.fallbackSprites = fallbackSprites;
         this.fallbackAtlas = fallbackAtlas;
         this.layer = layer;
@@ -91,7 +92,7 @@ public class BlockTextureConfig implements TextureConfig {
     }
 
     @Override
-    public TextureHelpers.AtlasIdAndTexture getAtlas(ParticleContext context) {
+    public AtlasIdAndTexture getAtlas(ParticleContext context) {
         if(context.blockContext() == null) return this.fallbackAtlas;
         return TextureHelpers.getAtlasIdAndTextureFromTexturePath(this.getContextMaterial(context.blockContext()).sprite().atlasLocation());
     }

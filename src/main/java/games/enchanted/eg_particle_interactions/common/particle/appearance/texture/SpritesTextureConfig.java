@@ -7,7 +7,8 @@ import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.LayerDefinition;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.SpriteCycleMode;
-import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
+import games.enchanted.eg_particle_interactions.common.util.texture.AtlasIdAndTexture;
+import games.enchanted.eg_particle_interactions.common.util.texture.TextureHelpers;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.data.AtlasIds;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class SpritesTextureConfig implements TextureConfig {
     public static final SpriteCycleMode DEFAULT_CYCLE_MODE = SpriteCycleMode.RANDOM_ON_SPAWN;
-    public static final TextureHelpers.AtlasIdAndTexture DEFAULT_ATLAS = new TextureHelpers.AtlasIdAndTexture(AtlasIds.PARTICLES, TextureAtlas.LOCATION_PARTICLES);
+    public static final AtlasIdAndTexture DEFAULT_ATLAS = new AtlasIdAndTexture(AtlasIds.PARTICLES, TextureAtlas.LOCATION_PARTICLES);
     public static final LayerDefinition DEFAULT_LAYER_DEFINITION = LayerDefinition.CUTOUT;
 
     public static final MapCodec<? extends TextureConfig> MAP_CODEC = RecordCodecBuilder.<SpritesTextureConfig>mapCodec(
@@ -35,11 +36,11 @@ public class SpritesTextureConfig implements TextureConfig {
     );
 
     final List<Identifier> sprites;
-    final TextureHelpers.AtlasIdAndTexture atlas;
+    final AtlasIdAndTexture atlas;
     final SpriteCycleMode spriteCycleMode;
     final LayerDefinition layer;
 
-    public SpritesTextureConfig(List<Identifier> sprites, TextureHelpers.AtlasIdAndTexture atlas, SpriteCycleMode spriteCycleMode, LayerDefinition layer) {
+    public SpritesTextureConfig(List<Identifier> sprites, AtlasIdAndTexture atlas, SpriteCycleMode spriteCycleMode, LayerDefinition layer) {
         this.sprites = sprites;
         this.atlas = atlas;
         this.spriteCycleMode = spriteCycleMode;
@@ -86,7 +87,7 @@ public class SpritesTextureConfig implements TextureConfig {
     }
 
     @Override
-    public TextureHelpers.AtlasIdAndTexture getAtlas(ParticleContext context) {
+    public AtlasIdAndTexture getAtlas(ParticleContext context) {
         return this.atlas;
     }
 }

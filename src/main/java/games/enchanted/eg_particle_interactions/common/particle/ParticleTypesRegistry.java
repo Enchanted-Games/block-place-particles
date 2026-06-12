@@ -64,14 +64,6 @@ public class ParticleTypesRegistry {
     // TODO: remove all definitions from here and move them to particle json files
     // TODO: PIParticleType only used for currently hardcoded behaviour like stretchy shape particles
 
-    public static final PIParticleType<SimpleParticleOptions> SUGAR_CANE = register(
-        FallingSpinningParticle.SugarCaneProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "sugar_cane"),
-        DefaultParticles.SUGAR_CANE_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
-    );
 
     public static final PIParticleType<DripParticleOption> HONEY_DROP = register(
         DripAndLandParticle.UntintedDropProvider::new,

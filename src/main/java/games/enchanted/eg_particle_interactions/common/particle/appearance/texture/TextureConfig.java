@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.LayerDefinition;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.SpriteCycleMode;
-import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
+import games.enchanted.eg_particle_interactions.common.util.texture.AtlasIdAndTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
@@ -24,7 +24,7 @@ public interface TextureConfig {
 
     List<Identifier> getSpriteIds(ParticleContext context);
 
-    TextureHelpers.AtlasIdAndTexture getAtlas(ParticleContext context);
+    AtlasIdAndTexture getAtlas(ParticleContext context);
 
     MapCodec<? extends TextureConfig> codec();
 }

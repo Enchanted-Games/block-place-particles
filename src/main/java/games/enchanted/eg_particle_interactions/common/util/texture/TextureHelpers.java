@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.util;
+package games.enchanted.eg_particle_interactions.common.util.texture;
 
 import games.enchanted.eg_particle_interactions.common.duck.AtlasManagerAdditions;
 import net.minecraft.client.Minecraft;
@@ -63,8 +63,5 @@ public class TextureHelpers {
         Minecraft.getInstance().getItemModelResolver().updateForTopItem(scratchRenderState, item.create(), ItemDisplayContext.GROUND, level, null, 0);
         Material.Baked material = scratchRenderState.pickParticleMaterial(random);
         return material != null ? material.sprite() : missingParticleSprite();
-    }
-
-    public record AtlasIdAndTexture(Identifier id, Identifier texturePath) {
     }
 }

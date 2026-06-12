@@ -7,6 +7,7 @@ import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.cli
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteAtlasManager;
 import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
+import games.enchanted.eg_particle_interactions.common.util.texture.TextureHelpers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;

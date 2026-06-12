@@ -3,14 +3,12 @@ package games.enchanted.eg_particle_interactions.common.codecs;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
-import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
+import games.enchanted.eg_particle_interactions.common.util.texture.AtlasIdAndTexture;
 import net.minecraft.IdentifierException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
 import org.joml.Vector3d;
-import org.joml.Vector3dc;
-import org.joml.Vector3f;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
@@ -51,12 +49,12 @@ public class ModCodecs {
         }
     }
 
-    public static final Codec<TextureHelpers.AtlasIdAndTexture> ATLAS = Identifier.CODEC.xmap(
+    public static final Codec<AtlasIdAndTexture> ATLAS = Identifier.CODEC.xmap(
         identifier -> {
             var atlas = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(identifier);
-            return new TextureHelpers.AtlasIdAndTexture(identifier, atlas.location());
+            return new AtlasIdAndTexture(identifier, atlas.location());
         },
-        TextureHelpers.AtlasIdAndTexture::id
+        AtlasIdAndTexture::id
     );
 
     public static final Codec<Vector3d> VECTOR3D = Codec.DOUBLE.listOf().comapFlatMap(

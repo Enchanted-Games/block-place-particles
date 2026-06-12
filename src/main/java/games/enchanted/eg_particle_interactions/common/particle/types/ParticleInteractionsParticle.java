@@ -11,6 +11,7 @@ import games.enchanted.eg_particle_interactions.common.particle.appearance.Parti
 import games.enchanted.eg_particle_interactions.common.particle.appearance.SpinConfig;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.SpriteCycleMode;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.texture.TextureConfig;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.uv.UVProvider;
 import games.enchanted.eg_particle_interactions.common.particle.behaviour.ParticleBehaviourProvider;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponents;
@@ -24,12 +25,13 @@ import games.enchanted.eg_particle_interactions.common.particle.render.geometry.
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.StateQuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.render.layer.ParticleLayer;
 import games.enchanted.eg_particle_interactions.common.particle.render.state.CustomParticleGeometryRenderState;
-import games.enchanted.eg_particle_interactions.common.util.TextureHelpers;
+import games.enchanted.eg_particle_interactions.common.util.texture.TextureHelpers;
 import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.FloatMathModifier;
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.IntMathModifier;
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.Vector3dMathModifier;
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.Vector3fMathModifier;
+import games.enchanted.eg_particle_interactions.common.util.texture.UVCoordinates;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
@@ -37,8 +39,6 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
-import net.minecraft.gizmos.Gizmos;
-import net.minecraft.gizmos.TextGizmo;
 import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -100,6 +100,8 @@ public class ParticleInteractionsParticle extends Particle {
 
     protected boolean updateSpritesAfterFirstCall = true;
     protected TextureAtlasSprite currentSprite;
+    protected UVCoordinates appearanceUV = UVCoordinates.UNIT;
+    protected UVCoordinates spriteUV = UVCoordinates.UNIT;
 
     private float rCol = 1.0f;
     private float prevRCol = 1.0f;
@@ -205,7 +207,7 @@ public class ParticleInteractionsParticle extends Particle {
 
         this.updateSpritesAfterFirstCall = true;
         this.currentSprite = TextureHelpers.missingParticleSprite();
-        this.pickSpriteForAppearance();
+        this.pickSpriteAndUVForAppearance();
     }
 
     protected SingleQuadParticle.Layer getVanillaLayer() {
@@ -253,7 +255,7 @@ public class ParticleInteractionsParticle extends Particle {
 //            Gizmos.billboardText("Light Emission: " + this.minLightEmission, new Vec3(lerpedX, lerpedY + 0.4, lerpedZ), TextGizmo.Style.whiteAndCentered());
 //            Gizmos.billboardText("Age: " + this.age, new Vec3(lerpedX, lerpedY + 0.2, lerpedZ), TextGizmo.Style.whiteAndCentered());
 //            Gizmos.billboardText("Lifetime: " + this.lifetime, new Vec3(lerpedX, lerpedY, lerpedZ), TextGizmo.Style.whiteAndCentered());
-            Gizmos.billboardText(this.onGround ? "g" : "", new Vec3(lerpedX, lerpedY, lerpedZ), TextGizmo.Style.whiteAndCentered());
+//            Gizmos.billboardText(this.onGround ? "g" : "", new Vec3(lerpedX, lerpedY, lerpedZ), TextGizmo.Style.whiteAndCentered());
         }
         if (GeneralOptions.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES.getValue()) {
             ParticleDebugShapes.particlePosition(x + cameraPosition.x(), y + cameraPosition.y(), z + cameraPosition.z(), ParticleDebugShapes.PARTICLE_RENDER_POSITION);
@@ -291,7 +293,7 @@ public class ParticleInteractionsParticle extends Particle {
         if(this.age == 0) this.forEventStacks(EventStack::particleSpawn);
 
         this.prevScale = this.scale;
-        this.pickSpriteForAppearance();
+        this.pickSpriteAndUVForAppearance();
 
         this.xo = this.x;
         this.yo = this.y;
@@ -432,11 +434,7 @@ public class ParticleInteractionsParticle extends Particle {
     /**
      * Pick sprite based on particle appearance
      */
-    public void pickSpriteForAppearance() {
-        this.setSpriteForTextureConfig();
-    }
-
-    private void setSpriteForTextureConfig() {
+    protected void pickSpriteAndUVForAppearance() {
         if (this.removed) return;
         if (!this.updateSpritesAfterFirstCall) return;
 
@@ -463,6 +461,17 @@ public class ParticleInteractionsParticle extends Particle {
 
     protected void setCurrentSprite(TextureAtlasSprite sprite) {
         this.currentSprite = sprite;
+        this.appearanceUV = this.appearance.uv().getUv(this.appearanceUV, sprite);
+        this.setSpriteUV(sprite);
+    }
+
+    protected void setSpriteUV(TextureAtlasSprite sprite) {
+        this.spriteUV = this.appearanceUV.remapInUV(
+            sprite.getU0(),
+            sprite.getV0(),
+            sprite.getU1(),
+            sprite.getV1()
+        );
     }
 
 
@@ -521,19 +530,19 @@ public class ParticleInteractionsParticle extends Particle {
 
 
     protected float getU0() {
-        return this.currentSprite.getU0();
+        return this.spriteUV.u0();
     }
 
     protected float getU1() {
-        return this.currentSprite.getU1();
+        return this.spriteUV.u1();
     }
 
     protected float getV0() {
-        return this.currentSprite.getV0();
+        return this.spriteUV.v0();
     }
 
     protected float getV1() {
-        return this.currentSprite.getV1();
+        return this.spriteUV.v1();
     }
 
 
@@ -678,6 +687,11 @@ public class ParticleInteractionsParticle extends Particle {
 
     public void setLightEmission(int lightEmission) {
         this.minLightEmission = lightEmission;
+    }
+
+    public void modifyUV(UVProvider uv) {
+        this.appearanceUV = uv.getUv(this.appearanceUV, this.currentSprite);
+        this.setSpriteUV(this.currentSprite);
     }
 
     public int getInitialAppearanceLightEmission() {
