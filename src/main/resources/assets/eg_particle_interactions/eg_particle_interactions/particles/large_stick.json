@@ -17,13 +17,6 @@
             0.98,
             0.98
         ],
-        "physics/bounciness": {
-            "values": [
-                0,
-                0,
-                0.6
-            ]
-        },
         "physics/friction": 0.7,
         "physics/collision_size": 1.5,
         "appearance": "large_stick",
@@ -35,7 +28,7 @@
                 },
                 "action": {
                     "type": "modify_velocity",
-                    "multiply": [0.98, 0.78, 0.98]
+                    "multiply": [0.98, 0.68, 0.98]
                 }
             },
             {
