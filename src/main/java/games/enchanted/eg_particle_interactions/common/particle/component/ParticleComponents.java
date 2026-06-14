@@ -33,6 +33,11 @@ public class ParticleComponents {
         Vec3Component.CODEC,
         Vec3Component.STREAM_CODEC
     );
+    public static final ParticleComponentRegistry.ComponentReference<FloatProviderComponent> BUOYANCY = register(
+        ParticleInteractionsMod.id("physics/buoyancy"),
+        FloatProviderComponent.CODEC,
+        FloatProviderComponent.STREAM_CODEC
+    );
     public static final ParticleComponentRegistry.ComponentReference<FloatProviderComponent> PHYSICS_COLLISION_SIZE = register(
         ParticleInteractionsMod.id("physics/collision_size"),
         FloatProviderComponent.CODEC,

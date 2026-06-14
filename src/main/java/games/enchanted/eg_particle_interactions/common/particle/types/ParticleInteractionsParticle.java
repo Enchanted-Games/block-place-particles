@@ -25,12 +25,13 @@ import games.enchanted.eg_particle_interactions.common.particle.render.geometry.
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.StateQuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.render.layer.ParticleLayer;
 import games.enchanted.eg_particle_interactions.common.particle.render.state.CustomParticleGeometryRenderState;
-import games.enchanted.eg_particle_interactions.common.util.texture.TextureHelpers;
+import games.enchanted.eg_particle_interactions.common.util.FluidHelpers;
 import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.FloatMathModifier;
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.IntMathModifier;
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.Vector3dMathModifier;
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.Vector3fMathModifier;
+import games.enchanted.eg_particle_interactions.common.util.texture.TextureHelpers;
 import games.enchanted.eg_particle_interactions.common.util.texture.UVCoordinates;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -39,6 +40,8 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
+import net.minecraft.gizmos.Gizmos;
+import net.minecraft.gizmos.TextGizmo;
 import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -83,7 +86,9 @@ public class ParticleInteractionsParticle extends Particle {
     protected final float maxYFlow;
     protected final float maxZFlow;
 
+    protected float buoyancy;
     protected float bounciness = 0f;
+    protected boolean onFluid = false;
     protected FluidState inFluid = Fluids.EMPTY.defaultFluidState();
     protected FluidState inFluidLastTick = this.inFluid;
     protected boolean onGroundLastTick = false;
@@ -144,6 +149,9 @@ public class ParticleInteractionsParticle extends Particle {
 
         IntProviderComponent lifetimeComponent = components.getOrFallback(ParticleComponents.LIFETIME, new IntProviderComponent(new RandomIntProvider(List.of(20))));
         this.lifetime = lifetimeComponent.provider().getValue(context);
+
+        FloatProviderComponent buoyancyComponent = components.getOrFallback(ParticleComponents.BUOYANCY, FloatProviderComponent.MINUS_ONE);
+        this.buoyancy = buoyancyComponent.provider().getValue(context);
 
         FloatProviderComponent collisionSizeComponent = components.getOrFallback(ParticleComponents.PHYSICS_COLLISION_SIZE, FloatProviderComponent.ZERO);
         float collisionSize = collisionSizeComponent.provider().getValue(context) / 16;
@@ -255,6 +263,7 @@ public class ParticleInteractionsParticle extends Particle {
 //            Gizmos.billboardText("Light Emission: " + this.minLightEmission, new Vec3(lerpedX, lerpedY + 0.4, lerpedZ), TextGizmo.Style.whiteAndCentered());
 //            Gizmos.billboardText("Age: " + this.age, new Vec3(lerpedX, lerpedY + 0.2, lerpedZ), TextGizmo.Style.whiteAndCentered());
 //            Gizmos.billboardText("Lifetime: " + this.lifetime, new Vec3(lerpedX, lerpedY, lerpedZ), TextGizmo.Style.whiteAndCentered());
+            Gizmos.billboardText("onfluid: " + this.onFluid, new Vec3(lerpedX, lerpedY, lerpedZ), TextGizmo.Style.whiteAndCentered());
 //            Gizmos.billboardText(this.onGround ? "g" : "", new Vec3(lerpedX, lerpedY, lerpedZ), TextGizmo.Style.whiteAndCentered());
         }
         if (GeneralOptions.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES.getValue()) {
@@ -304,14 +313,10 @@ public class ParticleInteractionsParticle extends Particle {
         }
 
         this.inFluidLastTick = this.inFluid;
-        this.inFluid = this.level.getFluidState(BlockPos.containing(this.x, this.y, this.z));
+        this.inFluid = FluidHelpers.fluidAtPosition(this.level, this.x, this.y, this.z);
 
         this.doWind();
-
-        if(!this.onGround) {
-            this.yd -= 0.04 * this.gravity;
-        }
-
+        this.applyGravity();
         this.doCollisions();
         this.move(this.xd, this.yd, this.zd);
 
@@ -342,6 +347,31 @@ public class ParticleInteractionsParticle extends Particle {
         if (!this.onGround && !((ParticleAccessor) this).eg_particle_interactions$getStoppedByCollision()) {
             this.spin += this.spinSpeed / 6.5f;
         }
+    }
+
+    protected void applyGravity() {
+        this.checkFluid();
+
+        if(this.onFluid) {
+            this.yd *= 0.5;
+            return;
+        }
+
+        if(this.onGround && this.inFluid.isEmpty()) {
+            return;
+        }
+
+        this.yd -= 0.04 * this.gravity * (!this.inFluid.isEmpty() ? -this.buoyancy : 1);
+    }
+
+    private void checkFluid() {
+        if(this.age > 0 && this.yd < 0.08 && this.yd > -0.08 && !this.inFluid.isEmpty() && this.inFluidLastTick.isEmpty()) {
+            this.onFluid = true;
+        }
+
+        this.onFluid = FluidHelpers.fluidAtPosition(this.level, this.x, this.y + 0.06, this.z).isEmpty() &&
+            !FluidHelpers.fluidAtPosition(this.level, this.x, this.y - 0.06, this.z).isEmpty() &&
+            this.onFluid;
     }
 
     protected void doWind() {

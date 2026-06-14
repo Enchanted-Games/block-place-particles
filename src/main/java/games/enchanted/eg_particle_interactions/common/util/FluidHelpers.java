@@ -1,8 +1,12 @@
 package games.enchanted.eg_particle_interactions.common.util;
 
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class FluidHelpers {
     public static boolean isSurroundedByWater(Level level, BlockPos blockPos, int minWaterBlocks) {
@@ -51,5 +55,15 @@ public class FluidHelpers {
             }
         }
         return false;
+    }
+
+    public static FluidState fluidAtPosition(ClientLevel level, double x, double y, double z) {
+        BlockPos blockPos = BlockPos.containing(x, y, z);
+        FluidState stateAtBlockpos = level.getFluidState(blockPos);
+        VoxelShape shape = stateAtBlockpos.getShape(level, blockPos);
+        if(shape.isEmpty()) return Fluids.EMPTY.defaultFluidState();
+
+        if(shape.bounds().move(blockPos).contains(x, y, z)) return stateAtBlockpos;
+        return Fluids.EMPTY.defaultFluidState();
     }
 }

@@ -7,9 +7,12 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
+import java.util.List;
+
 public record FloatProviderComponent(RandomFloatProvider provider) {
-    public static final FloatProviderComponent ZERO = new FloatProviderComponent(new RandomFloatProvider(0f, 0f));
-    public static final FloatProviderComponent ONE = new FloatProviderComponent(new RandomFloatProvider(1f, 1f));
+    public static final FloatProviderComponent MINUS_ONE = new FloatProviderComponent(new RandomFloatProvider(List.of(-1f)));
+    public static final FloatProviderComponent ZERO = new FloatProviderComponent(new RandomFloatProvider(List.of(0f)));
+    public static final FloatProviderComponent ONE = new FloatProviderComponent(new RandomFloatProvider(List.of(1f)));
 
     public static final Codec<FloatProviderComponent> CODEC = RandomFloatProvider.CODEC.xmap(
         FloatProviderComponent::new,

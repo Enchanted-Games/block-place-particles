@@ -17,6 +17,7 @@
             0.98,
             0.98
         ],
+        "physics/buoyancy": 0.2,
         "physics/friction": 0.7,
         "physics/collision_size": 1.5,
         "appearance": "large_stick",
@@ -28,26 +29,7 @@
                 },
                 "action": {
                     "type": "modify_velocity",
-                    "multiply": [0.98, 0.68, 0.98]
-                }
-            },
-            {
-                "trigger": {
-                    "type": "in_fluid",
-                    "oneshot": true
-                },
-                "action": {
-                    "type": "modify_gravity",
-                    "subtract": 1
-                }
-            },
-            {
-                "trigger": {
-                    "type": "exited_fluid"
-                },
-                "action": {
-                    "type": "modify_gravity",
-                    "add": 1
+                    "multiply": [0.98, 1, 0.98]
                 }
             },
             {
