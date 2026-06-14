@@ -8,25 +8,32 @@ import net.minecraft.resources.Identifier;
 import java.util.function.Supplier;
 
 public class EmitterRuleSetIds {
-    public static final Supplier<EmitterRuleSet> FIRE_PLACED = ref(ParticleInteractionsMod.id("interaction/fire_placed"));
-    public static final Supplier<EmitterRuleSet> FLINT_AND_STEEL_USE = ref(ParticleInteractionsMod.id("interaction/flint_and_steel_use"));
+    private static final String INTERACTION_DIR = "interaction/";
+    private static final String AMBIENT_DIR = "ambient/";
 
-    public static final Supplier<EmitterRuleSet> ANVIL_USE_EMISSION = ref(ParticleInteractionsMod.id("interaction/anvil_use_emission"));
-    public static final Supplier<EmitterRuleSet> GRINDSTONE_USE_EMISSION = ref(ParticleInteractionsMod.id("interaction/grindstone_use_emission"));
+    public static final Supplier<EmitterRuleSet> FIRE_PLACED = ref(ParticleInteractionsMod.id(INTERACTION_DIR + "fire_placed"));
+    public static final Supplier<EmitterRuleSet> FLINT_AND_STEEL_USE = ref(ParticleInteractionsMod.id(INTERACTION_DIR + "flint_and_steel_use"));
 
-    public static final Supplier<EmitterRuleSet> BRUSH_DUST = ref(ParticleInteractionsMod.id("interaction/brush_dust_emission"));
+    public static final Supplier<EmitterRuleSet> ANVIL_USE_EMISSION = ref(ParticleInteractionsMod.id(INTERACTION_DIR + "anvil_use_emission"));
+    public static final Supplier<EmitterRuleSet> GRINDSTONE_USE_EMISSION = ref(ParticleInteractionsMod.id(INTERACTION_DIR + "grindstone_use_emission"));
 
-    public static final Supplier<EmitterRuleSet> ITEM_FRAME_EMISSION = ref(ParticleInteractionsMod.id("interaction/item_frame_emission"));
+    public static final Supplier<EmitterRuleSet> BRUSH_DUST = ref(ParticleInteractionsMod.id(INTERACTION_DIR + "brush_dust_emission"));
+
+    public static final Supplier<EmitterRuleSet> ITEM_FRAME_EMISSION = ref(ParticleInteractionsMod.id(INTERACTION_DIR + "item_frame_emission"));
+
+    public static final Supplier<EmitterRuleSet> HONEY_COLLECTION = ref(ParticleInteractionsMod.id(INTERACTION_DIR + "honey_collection"));
 
 
-    public static final Supplier<EmitterRuleSet> LIGHTNING_ARCS = ref(ParticleInteractionsMod.id("ambient/lightning_arcs"));
+    public static final Supplier<EmitterRuleSet> LIGHTNING_ARCS = ref(ParticleInteractionsMod.id(AMBIENT_DIR + "lightning_arcs"));
 
-    public static final Supplier<EmitterRuleSet> CAMPFIRE_SPARKS = ref(ParticleInteractionsMod.id("ambient/campfire/sparks"));
+    public static final Supplier<EmitterRuleSet> CAMPFIRE_SPARKS = ref(ParticleInteractionsMod.id(AMBIENT_DIR + "campfire/sparks"));
 
-    public static final Supplier<EmitterRuleSet> FIRE_SPARKS = ref(ParticleInteractionsMod.id("ambient/fire/sparks"));
+    public static final Supplier<EmitterRuleSet> FIRE_SPARKS = ref(ParticleInteractionsMod.id(AMBIENT_DIR + "fire/sparks"));
 
-    public static final Supplier<EmitterRuleSet> FURNACE_FRONT = ref(ParticleInteractionsMod.id("ambient/furnace/furnace_front"));
-    public static final Supplier<EmitterRuleSet> BLAST_FURNACE_FRONT = ref(ParticleInteractionsMod.id("ambient/furnace/blast_furnace_front"));
+    public static final Supplier<EmitterRuleSet> FURNACE_FRONT = ref(ParticleInteractionsMod.id(AMBIENT_DIR + "furnace/furnace_front"));
+    public static final Supplier<EmitterRuleSet> BLAST_FURNACE_FRONT = ref(ParticleInteractionsMod.id(AMBIENT_DIR + "furnace/blast_furnace_front"));
+
+    public static final Supplier<EmitterRuleSet> BEEHIVE_DRIP = ref(ParticleInteractionsMod.id(AMBIENT_DIR + "beehive_drip"));
 
 
     private static Supplier<EmitterRuleSet> ref(Identifier id) {

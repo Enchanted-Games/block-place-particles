@@ -6,6 +6,7 @@ import games.enchanted.eg_particle_interactions.common.config.categories.ItemInt
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.options.DefaultParticles;
 import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
+import games.enchanted.eg_particle_interactions.common.particle_spawning.EmitterRuleSetIds;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -59,9 +60,10 @@ public abstract class BeehiveBlockMixin extends BaseEntityBlock {
             original.call(instance, particleData, x, y, z, xSpeed, ySpeed, zSpeed);
             return;
         }
-        ParticleSpawner.spawnWithDefaultAppearance(
-            DefaultParticles.HANGING_HONEY_DROP.get(),
-            ParticleContext.plain(clientLevel, BlockPos.containing(x, y, z)),
+        BlockPos pos = BlockPos.containing(x, y, z);
+        ParticleContext context = ParticleContext.block(clientLevel, clientLevel.getBlockState(pos), pos);
+        EmitterRuleSetIds.BEEHIVE_DRIP.get().getEmitter(context).spawnParticle(
+            context,
             x,
             y + 0.047,
             z,

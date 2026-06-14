@@ -891,13 +891,13 @@ public class SpawnParticles {
         if (!ItemInteractionOptions.HONEY_COLLECTION_ENABLED.getValue()) return;
         int amount = ItemInteractionOptions.HONEY_COLLECTION_AMOUNT.getValue();
         ParticleContext context = ParticleContext.plain(level, BlockPos.containing(x, y, z));
+        EmitterRuleSet emitters = EmitterRuleSetIds.HONEY_COLLECTION.get();
 
         for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(Math.max(amount - 2, 0), Math.max(amount, 1)); i++) {
             double xOffset = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 + Math.abs(faceDirection.getStepX()));
             double yOffset = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 + Math.abs(faceDirection.getStepY()));
             double zOffset = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 + Math.abs(faceDirection.getStepZ()));
-            ParticleSpawner.spawnWithDefaultAppearance(
-                DefaultParticles.FALLING_HONEY_DROP.get(),
+            emitters.getEmitter(context).spawnParticle(
                 context,
                 x + xOffset,
                 y + yOffset,
@@ -912,10 +912,10 @@ public class SpawnParticles {
         if (!ItemInteractionOptions.HONEY_COLLECTION_ENABLED.getValue()) return;
         int amount = ItemInteractionOptions.HONEY_COLLECTION_AMOUNT.getValue();
         ParticleContext context = ParticleContext.plain(level, player.blockPosition());
+        EmitterRuleSet emitters = EmitterRuleSetIds.HONEY_COLLECTION.get();
 
         for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(Math.max(amount / 2, 0), Math.max(amount / 2, 1)); i++) {
-            ParticleSpawner.spawnWithDefaultAppearance(
-                DefaultParticles.FALLING_HONEY_DROP.get(),
+            emitters.getEmitter(context).spawnParticle(
                 context,
                 player.getX() - 0.25 + (level.getRandom().nextDouble() / 2),
                 player.getY() + 0.85 + (level.getRandom().nextDouble() / 5),

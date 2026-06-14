@@ -1,0 +1,82 @@
+{
+    "texture_config": {
+        "sprites": [
+            "eg_particle_interactions:honey_drop/0",
+            "eg_particle_interactions:honey_drop/1",
+            "eg_particle_interactions:honey_drop/2"
+        ],
+        "layer": "translucent"
+    },
+    "scale": {
+        "range": [
+            5.9,
+            6.1
+        ]
+    },
+    "uv": [
+        0,
+        0,
+        1,
+        0.5
+    ],
+    "events": [
+        {
+            "trigger": {
+                "type": "in_air",
+                "oneshot": true
+            },
+            "action": {
+                "type": "set_uv",
+                "uv": [
+                    0,
+                    0,
+                    1,
+                    0.5
+                ]
+            }
+        },
+        {
+            "trigger": {
+                "type": "in_air",
+                "oneshot": true
+            },
+            "action": {
+                "type": "set_model_offset",
+                "value": [
+                    0,
+                    0,
+                    0
+                ]
+            }
+        },
+        {
+            "trigger": {
+                "type": "on_ground",
+                "oneshot": true
+            },
+            "action": {
+                "type": "set_uv",
+                "uv": [
+                    0,
+                    0.5,
+                    1,
+                    1
+                ]
+            }
+        },
+        {
+            "trigger": {
+                "type": "on_ground",
+                "oneshot": true
+            },
+            "action": {
+                "type": "set_model_offset",
+                "value": [
+                    0,
+                    0.5,
+                    0
+                ]
+            }
+        }
+    ]
+}
