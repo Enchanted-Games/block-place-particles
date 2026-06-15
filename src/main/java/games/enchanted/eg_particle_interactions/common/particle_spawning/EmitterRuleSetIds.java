@@ -23,6 +23,9 @@ public class EmitterRuleSetIds {
 
     public static final Supplier<EmitterRuleSet> HONEY_COLLECTION = ref(ParticleInteractionsMod.id(INTERACTION_DIR + "honey_collection"));
 
+    public static final Supplier<EmitterRuleSet> BLOCK_PLACED_UNDERWATER = ref(ParticleInteractionsMod.id(INTERACTION_DIR + "block_placed_underwater"));
+    public static final Supplier<EmitterRuleSet> BLOCK_BROKEN_UNDERWATER = ref(ParticleInteractionsMod.id(INTERACTION_DIR + "block_broken_underwater"));
+
 
     public static final Supplier<EmitterRuleSet> LIGHTNING_ARCS = ref(ParticleInteractionsMod.id(AMBIENT_DIR + "lightning_arcs"));
 
@@ -34,6 +37,8 @@ public class EmitterRuleSetIds {
     public static final Supplier<EmitterRuleSet> BLAST_FURNACE_FRONT = ref(ParticleInteractionsMod.id(AMBIENT_DIR + "furnace/blast_furnace_front"));
 
     public static final Supplier<EmitterRuleSet> BEEHIVE_DRIP = ref(ParticleInteractionsMod.id(AMBIENT_DIR + "beehive_drip"));
+
+    public static final Supplier<EmitterRuleSet> UNDERWATER_BUBBLE_STREAM = ref(ParticleInteractionsMod.id(AMBIENT_DIR + "underwater_bubble_stream"));
 
 
     private static Supplier<EmitterRuleSet> ref(Identifier id) {

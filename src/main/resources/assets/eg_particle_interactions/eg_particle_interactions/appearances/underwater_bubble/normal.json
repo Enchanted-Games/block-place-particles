@@ -3,5 +3,11 @@
         "sprites": [
             "minecraft:bubble"
         ]
+    },
+    "scale": {
+        "range": [
+            3,
+            4
+        ]
     }
 }

@@ -4,10 +4,10 @@ import games.enchanted.eg_particle_interactions.common.config.categories.BlockIn
 import games.enchanted.eg_particle_interactions.common.config.categories.EntityOptions;
 import games.enchanted.eg_particle_interactions.common.config.categories.FluidInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.config.categories.ItemInteractionOptions;
+import games.enchanted.eg_particle_interactions.common.override_system.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
 import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
 import games.enchanted.eg_particle_interactions.common.override_system.override.FluidOverrideManager;
-import games.enchanted.eg_particle_interactions.common.override_system.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleIDs;
@@ -15,7 +15,6 @@ import games.enchanted.eg_particle_interactions.common.particle.emitter.Particle
 import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSet;
 import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.DefaultParticles;
-import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.options.RandomDistributionEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
 import games.enchanted.eg_particle_interactions.common.registry.ObjectOrTagLocation;
@@ -52,9 +51,11 @@ public class SpawnParticles {
 
         if (maxParticlesPerEdge <= 0) return;
         if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.BLOCK_PLACE_OR_BREAK, blockPos)) return;
-        
+
+        ParticleContext context = ParticleContext.block(level, placedBlockState, blockPos);
+
         int underwaterBubbleAmount = BlockInteractionOptions.UNDERWATER_BUBBLES_MAX_ON_PLACE.getValue();
-        if (underwaterBubbleAmount > 0) spawnUnderwaterBubbles(underwaterBubbleAmount, level, blockPos);
+        if (underwaterBubbleAmount > 0) spawnUnderwaterBubbles(underwaterBubbleAmount, level, blockPos, context, EmitterRuleSetIds.BLOCK_PLACED_UNDERWATER.get());
 
         ParticleOrigin origin = ParticleOrigin.BLOCK_PLACED;
         OverridePreset override = BlockOverrideManager.getForBlock(placedBlockState, origin);
@@ -96,7 +97,7 @@ public class SpawnParticles {
 
                     override.getRandom().spawnParticle(
                         origin,
-                        ParticleContext.block(level, placedBlockState, blockPos),
+                        context,
                         (double) blockPos.getX() + MathHelper.expandWhenOutOfBound(particleXOffset, 0, 1),
                         (double) blockPos.getY() + MathHelper.expandWhenOutOfBound(particleYOffset, 0, 1),
                         (double) blockPos.getZ() + MathHelper.expandWhenOutOfBound(particleZOffset, 0, 1),
@@ -115,8 +116,10 @@ public class SpawnParticles {
         if (maxParticlesPerLength <= 0) return;
         if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.BLOCK_PLACE_OR_BREAK, blockPos)) return;
 
+        ParticleContext context = ParticleContext.block(level, brokenBlockState, blockPos);
+
         int underwaterBubbleAmount = BlockInteractionOptions.UNDERWATER_BUBBLES_MAX_ON_BREAK.getValue();
-        if (underwaterBubbleAmount > 0) spawnUnderwaterBubbles(underwaterBubbleAmount, level, blockPos);
+        if (underwaterBubbleAmount > 0) spawnUnderwaterBubbles(underwaterBubbleAmount, level, blockPos, context, EmitterRuleSetIds.BLOCK_BROKEN_UNDERWATER.get());
 
         ParticleOrigin origin = ParticleOrigin.BLOCK_BROKEN;
         OverridePreset override = BlockOverrideManager.getForBlock(brokenBlockState, origin);
@@ -142,7 +145,7 @@ public class SpawnParticles {
 
                             override.getRandom().spawnParticle(
                                 origin,
-                                ParticleContext.block(level, brokenBlockState, blockPos),
+                                context,
                                 blockPos.getX() + (particleXOffset * width + x1),
                                 blockPos.getY() + (particleYOffset * height + y1),
                                 blockPos.getZ() + (particleZOffset * depth + z1),
@@ -157,7 +160,7 @@ public class SpawnParticles {
         }
     }
 
-    private static void spawnUnderwaterBubbles(int amountOfBubbles, ClientLevel level, BlockPos blockPos) {
+    private static void spawnUnderwaterBubbles(int amountOfBubbles, ClientLevel level, BlockPos blockPos, ParticleContext context, EmitterRuleSet emitterRuleSet) {
         if (!FluidHelpers.probablyPlacedUnderwater(level, blockPos)) return;
         var random = level.getRandom();
         for (int i = 0; i < Math.max(amountOfBubbles + random.nextIntBetweenInclusive(-2, 0), 1); i++) {
@@ -167,15 +170,14 @@ public class SpawnParticles {
             boolean blockAboveIsWater = level.getFluidState(blockPos.above()).is(FluidTags.WATER);
             double verticalVelocity = (y - 0.5) * (blockAboveIsWater ? 0.2 : 0);
             double horizontalVelocityMul = !blockAboveIsWater ? 0.35 : 0.25;
-            ParticleSpawner.spawnWithDefaultAppearance(
-                DefaultParticles.UNDERWATER_RISING_BUBBLE.get(),
-                ParticleContext.plain(level, blockPos),
+            emitterRuleSet.getEmitter(context).spawnParticle(
+                context,
                 blockPos.getX() + x,
                 blockPos.getY() + y,
                 blockPos.getZ() + z,
-                (x - 0.5) * 2 * horizontalVelocityMul,
+                (x - 0.5) * horizontalVelocityMul,
                 level.getBlockState(blockPos.below()).isSolid() ? Math.abs(verticalVelocity) + 0.1 : verticalVelocity,
-                (z - 0.5) * 2 * horizontalVelocityMul
+                (z - 0.5) * horizontalVelocityMul
             );
         }
     }
@@ -717,6 +719,7 @@ public class SpawnParticles {
         if (!FluidHelpers.probablyPlacedUnderwater(level, blockPos)) return;
 
         ParticleContext context = ParticleContext.plain(level, blockPos);
+        var emitterRuleSet = EmitterRuleSetIds.UNDERWATER_BUBBLE_STREAM.get();
 
         if (level.getRandom().nextFloat() < (float) FluidInteractionOptions.UNDERWATER_BUBBLE_STREAM_SPAWN_CHANCE.getValue() / 2500) {
             double x = (double) blockPos.getX() + level.getRandom().nextDouble();
@@ -724,11 +727,10 @@ public class SpawnParticles {
             double z = (double) blockPos.getZ() + level.getRandom().nextDouble();
             RandomDistributionEmitterOptions emitter = new RandomDistributionEmitterOptions(
                 ParticleTypesRegistry.DISTRIBUTION_EMITTER,
-                MathHelper.randomBetween(9, 30),
+                MathHelper.randomBetween(9, 20),
                 MathHelper.randomBetween(2, 4),
                 1,
-                // TODO: move to emitter rule set
-                new EmitterRuleSet(List.of(), ParticleInteractionsEmitter.defaultAppearance(1, DefaultParticles.UNDERWATER_RISING_BUBBLE_SMALL.get()))
+                emitterRuleSet
             );
             ParticleSpawner.spawnWithDefaultAppearance(emitter, context, x, y, z, 0.0f, 0.0f, 0.0f);
         }

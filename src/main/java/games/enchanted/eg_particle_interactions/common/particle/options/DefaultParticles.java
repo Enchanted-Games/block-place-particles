@@ -63,7 +63,6 @@ public class DefaultParticles {
     private static final RandomFloatProvider FALLING_SPIN_VELOCITY_DECAY = new RandomFloatProvider(0.06f, 0.1f);
 
 
-
     public static final ParticleConfig SUGAR_CANE_CONFIG = new ParticleConfig(
         new RandomFloatProvider(FALLING_SPIN_MIN_BASE_GRAVITY * 2.5f, FALLING_SPIN_MAX_BASE_GRAVITY * 2.5f),
         FALLING_SPIN_LIFETIME,
@@ -150,15 +149,5 @@ public class DefaultParticles {
         new RandomIntProvider(100, 600),
         new RandomFloatProvider(0.02f, 0.02f),
         0.02f
-    );
-
-    public static final Supplier<SimpleParticleOptions> UNDERWATER_RISING_BUBBLE = () -> new SimpleParticleOptions(
-        ParticleTypesRegistry.UNDERWATER_RISING_BUBBLE,
-        UNDERWATER_RISING_BUBBLE_CONFIG
-    );
-
-    public static final Supplier<SimpleParticleOptions> UNDERWATER_RISING_BUBBLE_SMALL = () -> new SimpleParticleOptions(
-        ParticleTypesRegistry.UNDERWATER_RISING_BUBBLE_SMALL,
-        UNDERWATER_RISING_BUBBLE_CONFIG
     );
 }

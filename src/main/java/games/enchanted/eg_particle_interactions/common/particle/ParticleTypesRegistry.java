@@ -63,25 +63,7 @@ public class ParticleTypesRegistry {
     // TODO: remove ParticleConfig, replace it all with components
     // TODO: remove all definitions from here and move them to particle json files
     // TODO: PIParticleType only used for currently hardcoded behaviour like stretchy shape particles
-
-
-
-    public static final PIParticleType<SimpleParticleOptions> UNDERWATER_RISING_BUBBLE = register(
-        UnderwaterRisingBubble.Provider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "underwater_rising_bubble"),
-        DefaultParticles.UNDERWATER_RISING_BUBBLE_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
-    );
-    public static final PIParticleType<SimpleParticleOptions> UNDERWATER_RISING_BUBBLE_SMALL = register(
-        UnderwaterRisingBubble.SmallProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "underwater_rising_bubble_small"),
-        DefaultParticles.UNDERWATER_RISING_BUBBLE_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
-    );
+    
 
     public static final PIParticleType<SimpleParticleOptions> FLOATING_EMBER = register(
         Ember.EmberProvider::new,
