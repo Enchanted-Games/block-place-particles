@@ -14,19 +14,19 @@ import net.minecraft.resources.Identifier;
 import java.util.ArrayList;
 import java.util.List;
 
-public record FluidList(List<ObjectOrTagLocation> blocksAndTags, List<FluidStatePredicate> statePredicates) implements ObjectList<FluidList.File> {
-    private static final Codec<List<ObjectOrTagLocation>> BLOCKS_AND_TAGS_CODEC = Codec.list(ObjectOrTagLocation.CODEC);
+public record FluidList(List<ObjectOrTagLocation> fluidsAndTags, List<FluidStatePredicate> statePredicates) implements ObjectList<FluidList.File> {
+    private static final Codec<List<ObjectOrTagLocation>> FLUIDS_AND_TAGS_CODEC = Codec.list(ObjectOrTagLocation.CODEC);
 
-    public static final Codec<FluidList.Reference> REFERENCE_CODEC = BLOCKS_AND_TAGS_CODEC.comapFlatMap(
+    public static final Codec<FluidList.Reference> REFERENCE_CODEC = FLUIDS_AND_TAGS_CODEC.comapFlatMap(
         list -> DataResult.success(new InlineRef(new FluidList(list, List.of()))),
-        ref -> ref.get().blocksAndTags()
+        ref -> ref.get().fluidsAndTags()
     );
 
-    public record File(List<ObjectOrTagLocation> blocksAndTags, List<ObjectOrTagLocation> removals, List<FluidStatePredicate> fluidPredicates) implements ObjectListFile {
+    public record File(List<ObjectOrTagLocation> fluidsAndTags, List<ObjectOrTagLocation> removals, List<FluidStatePredicate> fluidPredicates) implements ObjectListFile {
         public static final Codec<FluidList.File> CODEC = RecordCodecBuilder.create(i ->
             i.group(
-                BLOCKS_AND_TAGS_CODEC.optionalFieldOf("blocks", List.of()).forGetter(FluidList.File::blocksAndTags),
-                BLOCKS_AND_TAGS_CODEC.optionalFieldOf("remove_blocks", List.of()).forGetter(FluidList.File::removals),
+                FLUIDS_AND_TAGS_CODEC.optionalFieldOf("fluids", List.of()).forGetter(FluidList.File::fluidsAndTags),
+                FLUIDS_AND_TAGS_CODEC.optionalFieldOf("remove_fluids", List.of()).forGetter(FluidList.File::removals),
                 Codec.list(FluidStatePredicate.CODEC.codec()).optionalFieldOf("fluid_states", List.of()).forGetter(FluidList.File::fluidPredicates)
             ).apply(
                 i,
@@ -39,7 +39,7 @@ public record FluidList(List<ObjectOrTagLocation> blocksAndTags, List<FluidState
             List<FluidStatePredicate> statePredicates = new ArrayList<>();
 
             for (FluidList.File file : files) {
-                blocksAndTags.addAll(file.blocksAndTags());
+                blocksAndTags.addAll(file.fluidsAndTags());
                 for (ObjectOrTagLocation location : file.removals()) {
                     blocksAndTags.remove(location);
                 }

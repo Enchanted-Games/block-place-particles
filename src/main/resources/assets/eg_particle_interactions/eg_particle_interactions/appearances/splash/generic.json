@@ -1,0 +1,21 @@
+{
+    "texture_config": {
+        "sprites": [
+            "eg_particle_interactions:generic_splash/0",
+            "eg_particle_interactions:generic_splash/1",
+            "eg_particle_interactions:generic_splash/2",
+            "eg_particle_interactions:generic_splash/3"
+        ],
+        "layer": "translucent"
+    },
+    "colour": {
+        "type": "fluid_texture",
+        "tint_index": 0
+    },
+    "scale": {
+        "range": [
+            3.9,
+            4.1
+        ]
+    }
+}

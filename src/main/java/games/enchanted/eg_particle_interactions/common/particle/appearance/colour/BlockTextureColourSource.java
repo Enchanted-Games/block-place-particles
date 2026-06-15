@@ -5,10 +5,9 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.codecs.ColourCodecs;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
+import games.enchanted.eg_particle_interactions.common.util.texture.TexturePalettes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ExtraCodecs;
-
-import java.util.Optional;
 
 public class BlockTextureColourSource implements ColourSource {
     public static final MapCodec<BlockTextureColourSource> CODEC = RecordCodecBuilder.mapCodec(instance ->
@@ -56,7 +55,7 @@ public class BlockTextureColourSource implements ColourSource {
         }
 
         int[] tintColourARGB = ColourUtil.RGBint_to_ARGB(tintColour);
-        return ColourUtil.getRandomBlockColour(bContext.state(), tintColourARGB);
+        return TexturePalettes.getRandomBlockColour(bContext.state(), tintColourARGB);
     }
 
     @Override

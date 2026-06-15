@@ -23,9 +23,9 @@ public class RandomDistributionEmitterOptions implements PIParticleOptions {
     private final boolean emitOnFirstTick;
     private final Vector3f dimensions;
     private final Vector3f velocityVariance;
-    private final EmitterRuleSet emitterRuleSet;
+    private final EmitterRuleSet.Reference emitterRuleSet;
 
-    public RandomDistributionEmitterOptions(PIParticleType<RandomDistributionEmitterOptions> type, int tickIterations, int tickInvertal, int particlesPerEmission, boolean emitOnFirstTick, Vector3fc dimensions, Vector3fc velocityVariance, EmitterRuleSet emitterRuleSet) {
+    public RandomDistributionEmitterOptions(PIParticleType<RandomDistributionEmitterOptions> type, int tickIterations, int tickInvertal, int particlesPerEmission, boolean emitOnFirstTick, Vector3fc dimensions, Vector3fc velocityVariance, EmitterRuleSet.Reference emitterRuleSet) {
         this.type = type;
         this.repeat = tickIterations;
         this.tickInterval = tickInvertal;
@@ -37,11 +37,11 @@ public class RandomDistributionEmitterOptions implements PIParticleOptions {
     }
 
     public RandomDistributionEmitterOptions(PIParticleType<RandomDistributionEmitterOptions> type, int repeat, int tickInvertal, int particlesPerEmission, EmitterRuleSet emitterRuleSet) {
-        this(type, repeat, tickInvertal, particlesPerEmission, true, new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), emitterRuleSet);
+        this(type, repeat, tickInvertal, particlesPerEmission, true, new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new EmitterRuleSet.InlineRef(emitterRuleSet));
     }
 
     public RandomDistributionEmitterOptions(PIParticleType<RandomDistributionEmitterOptions> type, int repeat, int tickInvertal, int particlesPerEmission, Vector3f dimensions, EmitterRuleSet emitterRuleSet) {
-        this(type, repeat, tickInvertal, particlesPerEmission, true, dimensions, new Vector3f(0, 0, 0), emitterRuleSet);
+        this(type, repeat, tickInvertal, particlesPerEmission, true, dimensions, new Vector3f(0, 0, 0), new EmitterRuleSet.InlineRef(emitterRuleSet));
     }
 
     private static Codec<RandomDistributionEmitterOptions> createCodec(PIParticleType<RandomDistributionEmitterOptions> type) {
@@ -53,7 +53,7 @@ public class RandomDistributionEmitterOptions implements PIParticleOptions {
                 Codec.BOOL.optionalFieldOf("emit_on_first_tick", true).forGetter(RandomDistributionEmitterOptions::getEmitOnFirstTick),
                 ExtraCodecs.VECTOR3F.optionalFieldOf("dimensions", new Vector3f(0f, 0f, 0f)).forGetter(RandomDistributionEmitterOptions::getDimensions),
                 ExtraCodecs.VECTOR3F.optionalFieldOf("velocity_variance", new Vector3f(0f, 0f, 0f)).forGetter(RandomDistributionEmitterOptions::getVelocityVariance),
-                EmitterRuleSetManager.INLINE_OR_ID_CODEC.fieldOf("emitter").forGetter(RandomDistributionEmitterOptions::getEmitterRuleSet)
+                EmitterRuleSetManager.INLINE_OR_REFERENCE_CODEC.fieldOf("emitter").forGetter(RandomDistributionEmitterOptions::getEmitterRuleSet)
             ).apply(
                 instance,
                 (
@@ -63,7 +63,7 @@ public class RandomDistributionEmitterOptions implements PIParticleOptions {
                     Boolean emitOnFirstTick,
                     Vector3fc dimensions,
                     Vector3fc velocityVariance,
-                    EmitterRuleSet emitterRuleSet
+                    EmitterRuleSet.Reference emitterRuleSet
                 ) -> new RandomDistributionEmitterOptions(
                     type,
                     tickIterations,
@@ -124,7 +124,7 @@ public class RandomDistributionEmitterOptions implements PIParticleOptions {
         return this.velocityVariance;
     }
 
-    public EmitterRuleSet getEmitterRuleSet() {
+    public EmitterRuleSet.Reference getEmitterRuleSet() {
         return this.emitterRuleSet;
     }
 }

@@ -22,7 +22,7 @@ public class RandomDistributionEmitter extends AbstractEmitterParticle {
     protected boolean emitOnFirstTick;
 
     protected RandomDistributionEmitter(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomDistributionEmitterOptions emitterOptions) {
-        super(components, appearance, context, emitterOptions.config(), x, y, z, emitterOptions.getDimensions().x, emitterOptions.getDimensions().y, emitterOptions.getDimensions().z, emitterOptions.getEmitterRuleSet());
+        super(components, appearance, context, emitterOptions.config(), x, y, z, emitterOptions.getDimensions().x, emitterOptions.getDimensions().y, emitterOptions.getDimensions().z, emitterOptions.getEmitterRuleSet().get());
         this.emittedXSpeed = xSpeed;
         this.emittedYSpeed = ySpeed;
         this.emittedZSpeed = zSpeed;

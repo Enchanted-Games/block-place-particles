@@ -2,20 +2,28 @@ package games.enchanted.eg_particle_interactions.common.particle.emitter.rule;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitters;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.EmptyEmitter;
+import games.enchanted.eg_particle_interactions.common.util.ObjectReference;
+import net.minecraft.resources.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public record EmitterRuleSet(List<EmitterRule> rules, Emitter fallbackEmitter) {
-    public static final EmitterRuleSet EMPTY = new EmitterRuleSet(List.of(), EmptyEmitter.INSTANCE);
+    public static final EmitterRuleSet.InlineRef EMPTY = new InlineRef(new EmitterRuleSet(List.of(), EmptyEmitter.INSTANCE));
 
     public static final Codec<EmitterRuleSet> CODEC = File.CODEC.xmap(
         file -> combineFiles(List.of(file)),
         emitterRuleSet -> new File(emitterRuleSet.rules, emitterRuleSet.fallbackEmitter)
+    );
+
+    public static final Codec<EmitterRuleSet.Reference> INLINE_REFERENCE_CODEC = CODEC.xmap(
+        InlineRef::new,
+        Reference::lookupObject
     );
 
     public Emitter getEmitter(ParticleContext context) {
@@ -50,5 +58,30 @@ public record EmitterRuleSet(List<EmitterRule> rules, Emitter fallbackEmitter) {
                 EmitterRuleSet.File::new
             )
         );
+    }
+
+    public static class Reference extends ObjectReference<EmitterRuleSet> {
+        public Reference(Identifier id) {
+            super(id);
+        }
+
+        @Override
+        protected EmitterRuleSet lookupObject() {
+            return EmitterRuleSetManager.getRuleSet(id());
+        }
+    }
+
+    public static class InlineRef extends Reference {
+        final EmitterRuleSet value;
+
+        public InlineRef(EmitterRuleSet value) {
+            super(ParticleInteractionsMod.id("inline_" + value.hashCode()));
+            this.value = value;
+        }
+
+        @Override
+        protected EmitterRuleSet lookupObject() {
+            return this.value;
+        }
     }
 }

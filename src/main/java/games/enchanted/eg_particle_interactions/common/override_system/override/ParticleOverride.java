@@ -16,14 +16,14 @@ import java.util.Map;
 public class ParticleOverride {
     public static final ParticleOverride EMPTY = new ParticleOverride(Map.of(ParticleOrigin.DEFAULT, EmitterRuleSet.EMPTY));
 
-    public static final Codec<EmitterRuleSet> EMITTER_CODEC = EmitterRuleSetManager.INLINE_OR_ID_CODEC.withAlternative(
+    public static final Codec<EmitterRuleSet.Reference> EMITTER_CODEC = EmitterRuleSetManager.INLINE_OR_REFERENCE_CODEC.withAlternative(
         Emitters.CODEC.xmap(
-            emitter -> new EmitterRuleSet(List.of(), emitter),
+            emitter -> new EmitterRuleSet.InlineRef(new EmitterRuleSet(List.of(), emitter)),
             emitterRuleSet -> {
-                if(emitterRuleSet.rules().isEmpty()) {
+                if(emitterRuleSet.get().rules().isEmpty()) {
                     throw new IllegalArgumentException("Cannot convert emitter rule set with rules to emitter");
                 }
-                return emitterRuleSet.fallbackEmitter();
+                return emitterRuleSet.get().fallbackEmitter();
             }
         )
     );
@@ -37,16 +37,16 @@ public class ParticleOverride {
         )
     );
 
-    private final Map<ParticleOrigin, EmitterRuleSet> emitterByOrigin;
+    private final Map<ParticleOrigin, EmitterRuleSet.Reference> emitterByOrigin;
 
-    public ParticleOverride(Map<ParticleOrigin, EmitterRuleSet> emitterByOriginMap) {
+    public ParticleOverride(Map<ParticleOrigin, EmitterRuleSet.Reference> emitterByOriginMap) {
         this.emitterByOrigin = emitterByOriginMap;
     }
 
     public Emitter getEmitter(ParticleOrigin origin, ParticleContext context) {
         ParticleOrigin effectiveOrigin = this.emitterByOrigin.containsKey(origin) ? origin : ParticleOrigin.DEFAULT;
         if(!this.emitterByOrigin.containsKey(effectiveOrigin)) return EmptyEmitter.INSTANCE;
-        return this.emitterByOrigin.get(effectiveOrigin).getEmitter(context);
+        return this.emitterByOrigin.get(effectiveOrigin).get().getEmitter(context);
     }
 
     public void spawnParticle(ParticleOrigin origin, ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
@@ -57,7 +57,7 @@ public class ParticleOverride {
         return this.getEmitter(origin, context) instanceof EmptyEmitter;
     }
 
-    protected Map<ParticleOrigin, EmitterRuleSet> getEmittersByOrigin() {
+    protected Map<ParticleOrigin, EmitterRuleSet.Reference> getEmittersByOrigin() {
         return this.emitterByOrigin;
     }
 }

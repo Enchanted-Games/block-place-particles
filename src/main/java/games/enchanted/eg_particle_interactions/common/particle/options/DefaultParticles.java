@@ -10,18 +10,6 @@ import games.enchanted.eg_particle_interactions.common.particle.options.value.Ra
 import java.util.function.Supplier;
 
 public class DefaultParticles {
-    public static final ParticleConfig HONEY_DROP_CONFIG = new ParticleConfig(
-        new RandomFloatProvider(0.02f, 0.03f),
-        new RandomIntProvider(350, 500),
-        new RandomFloatProvider(0.01f, 0.01f),
-        ParticleConfig.DEFAULT_INITIAL_VELOCITY_RANDOMNESS,
-        ParticleConfig.DEFAULT_VELOCITY_DECAY,
-        new RandomFloatProvider(0.02f, 0.02f)
-    );
-
-    public static final Supplier<DripParticleOption> FALLING_HONEY_DROP = () -> new DripParticleOption(ParticleTypesRegistry.HONEY_DROP, HONEY_DROP_CONFIG, new RandomIntProvider(0, 0));
-    public static final Supplier<DripParticleOption> HANGING_HONEY_DROP = () -> new DripParticleOption(ParticleTypesRegistry.HONEY_DROP, HONEY_DROP_CONFIG, new RandomIntProvider(28, 30));
-
 
     private static final RandomIntProvider DUST_LIFETIME = new RandomIntProvider(22, 82);
     private static final float DUST_INITIAL_VELOCITY_RANDOMNESS = 0.05f;

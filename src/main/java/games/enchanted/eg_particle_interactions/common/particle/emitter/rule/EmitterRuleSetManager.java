@@ -24,9 +24,9 @@ import java.util.Map;
 public class EmitterRuleSetManager extends SimplePreparableReloadListener<EmitterRuleSetManager.Preparation> {
     public static final EmitterRuleSetManager INSTANCE = new EmitterRuleSetManager();
 
-    public static final Codec<EmitterRuleSet> INLINE_OR_ID_CODEC = EmitterRuleSet.CODEC.withAlternative(
+    public static final Codec<EmitterRuleSet.Reference> INLINE_OR_REFERENCE_CODEC = EmitterRuleSet.INLINE_REFERENCE_CODEC.withAlternative(
         ModCodecs.IDENTIFIER.xmap(
-            EmitterRuleSetManager::getRuleSetOrThrow,
+            EmitterRuleSet.Reference::new,
             emitterRuleSet -> {
                 throw new IllegalStateException("Cannot serialise emitter rule set to id");
             }
@@ -82,7 +82,7 @@ public class EmitterRuleSetManager extends SimplePreparableReloadListener<Emitte
             Logging.warn("Unknown emitter rule '{}'", ruleId);
             MISSING_LOGGED.add(ruleId);
         }
-        return EmitterRuleSet.EMPTY;
+        return EmitterRuleSet.EMPTY.get();
     }
 
     public static EmitterRuleSet getRuleSetOrThrow(Identifier ruleId) {

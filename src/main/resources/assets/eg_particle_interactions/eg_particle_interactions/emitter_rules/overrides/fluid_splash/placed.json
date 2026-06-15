@@ -1,0 +1,23 @@
+{
+    "rules": [
+        {
+            "conditions": [
+                {
+                    "type": "fluid",
+                    "predicate": {
+                        "type": "list",
+                        "fluids": "fluid_splash/lava"
+                    }
+                }
+            ],
+            "emitter": {
+                "emitter_type": "particle_interactions_new",
+                "particle": "splash/lava"
+            }
+        }
+    ],
+    "fallback_emitter": {
+        "emitter_type": "particle_interactions_new",
+        "particle": "splash/generic"
+    }
+}

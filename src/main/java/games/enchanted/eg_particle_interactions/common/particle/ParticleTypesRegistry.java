@@ -65,31 +65,7 @@ public class ParticleTypesRegistry {
     // TODO: PIParticleType only used for currently hardcoded behaviour like stretchy shape particles
 
 
-    public static final PIParticleType<DripParticleOption> HONEY_DROP = register(
-        DripAndLandParticle.UntintedDropProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "honey_drop"),
-        DefaultParticles.HONEY_DROP_CONFIG,
-        DripParticleOption::codec,
-        DripParticleOption::streamCodec,
-        DripParticleOption::idPrefix
-    );
 
-    public static final PIParticleType<SimpleParticleOptions> TINTED_BUCKET_SPLASH = register(
-        BucketSplash.Provider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "tinted_bucket_splash"),
-        DefaultParticles.BUCKET_SPLASH_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
-    );
-    public static final PIParticleType<SimpleParticleOptions> LAVA_BUCKET_SPLASH = register(
-        LavaSplash.Provider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "lava_bucket_splash"),
-        DefaultParticles.BUCKET_SPLASH_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
-    );
     public static final PIParticleType<SimpleParticleOptions> BLOCK_SPLASH = register(
         BlockSplash.Provider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_splash"),

@@ -32,7 +32,7 @@ public class ArcEmitter extends AbstractEmitterParticle {
     protected final float initialAngleYRad;
 
     public ArcEmitter(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, double x, double y, double z, ArcEmitterOptions options) {
-        super(components, appearance, context, options.config(), x, y, z, 0, 0, 0, options.getEmitterRuleSet());
+        super(components, appearance, context, options.config(), x, y, z, 0, 0, 0, options.getEmitterRuleSet().get());
 
         this.length = options.getLength();
         this.splitAmount = options.getSplits();

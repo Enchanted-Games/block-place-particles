@@ -1,12 +1,11 @@
 package games.enchanted.eg_particle_interactions.common.resource;
 
 import games.enchanted.eg_particle_interactions.common.Logging;
-import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
-import net.minecraft.server.packs.resources.ResourceManager;
+import games.enchanted.eg_particle_interactions.common.util.texture.TexturePalettes;
 
 public class CacheClearer {
     public static void clear() {
-        ColourUtil.invalidateCaches();
+        TexturePalettes.invalidateCaches();
         Logging.info("Cleared particle palette cache");
     }
 }

@@ -28,9 +28,9 @@ public class ArcEmitterOptions implements PIParticleOptions {
     private final int repeat;
     @Nullable private final Integer initialAngleXDeg;
     @Nullable private final Integer initialAngleYDeg;
-    private final EmitterRuleSet emitterRuleSet;
+    private final EmitterRuleSet.Reference emitterRuleSet;
 
-    public ArcEmitterOptions(PIParticleType<ArcEmitterOptions> type, int length, int splits, int angleVariance, int repeat, int tickInterval, @Nullable Integer initialAngleXDeg, @Nullable Integer initialAngleYDeg, EmitterRuleSet emitterRuleSet) {
+    public ArcEmitterOptions(PIParticleType<ArcEmitterOptions> type, int length, int splits, int angleVariance, int repeat, int tickInterval, @Nullable Integer initialAngleXDeg, @Nullable Integer initialAngleYDeg, EmitterRuleSet.Reference emitterRuleSet) {
         this.type = type;
         this.length = length;
         this.splits = splits;
@@ -40,6 +40,10 @@ public class ArcEmitterOptions implements PIParticleOptions {
         this.initialAngleXDeg = initialAngleXDeg;
         this.initialAngleYDeg = initialAngleYDeg;
         this.emitterRuleSet = emitterRuleSet;
+    }
+
+    public ArcEmitterOptions(PIParticleType<ArcEmitterOptions> type, int length, int splits, int angleVariance, int repeat, int tickInterval, @Nullable Integer initialAngleXDeg, @Nullable Integer initialAngleYDeg, EmitterRuleSet emitterRuleSet) {
+        this(type, length, splits, angleVariance, repeat, tickInterval, initialAngleXDeg, initialAngleYDeg, new EmitterRuleSet.InlineRef(emitterRuleSet));
     }
 
     private static Codec<ArcEmitterOptions> createCodec(PIParticleType<ArcEmitterOptions> type) {
@@ -52,7 +56,7 @@ public class ArcEmitterOptions implements PIParticleOptions {
                 ExtraCodecs.POSITIVE_INT.optionalFieldOf("interval", TICK_INTERVAL_DEFAULT).forGetter(ArcEmitterOptions::getTickInterval),
                 Codec.INT.optionalFieldOf("initial_x_angle").forGetter(ArcEmitterOptions::getInitialAngleXDeg),
                 Codec.INT.optionalFieldOf("initial_y_angle").forGetter(ArcEmitterOptions::getInitialAngleYDeg),
-                EmitterRuleSetManager.INLINE_OR_ID_CODEC.fieldOf("emitter").forGetter(ArcEmitterOptions::getEmitterRuleSet)
+                EmitterRuleSetManager.INLINE_OR_REFERENCE_CODEC.fieldOf("emitter").forGetter(ArcEmitterOptions::getEmitterRuleSet)
             ).apply(
                 instance,
                 (
@@ -63,7 +67,7 @@ public class ArcEmitterOptions implements PIParticleOptions {
                     Integer tickInterval,
                     Optional<Integer> initialAngleXDeg,
                     Optional<Integer> initialAngleYDeg,
-                    EmitterRuleSet emitterRuleSet
+                    EmitterRuleSet.Reference emitterRuleSet
                 ) -> new ArcEmitterOptions(
                     type,
                     length,
@@ -129,7 +133,7 @@ public class ArcEmitterOptions implements PIParticleOptions {
         return Optional.ofNullable(this.initialAngleYDeg);
     }
 
-    public EmitterRuleSet getEmitterRuleSet() {
+    public EmitterRuleSet.Reference getEmitterRuleSet() {
         return this.emitterRuleSet;
     }
 }

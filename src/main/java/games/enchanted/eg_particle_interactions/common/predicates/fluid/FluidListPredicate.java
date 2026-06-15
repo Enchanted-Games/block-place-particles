@@ -34,7 +34,7 @@ public class FluidListPredicate extends FluidPredicate {
 
     @Override
     public boolean matches(FluidState state) {
-        return ObjectOrTagLocation.doesListContainFluid(fluidList.get().blocksAndTags(), state) ||
+        return ObjectOrTagLocation.doesListContainFluid(fluidList.get().fluidsAndTags(), state) ||
             fluidList.get().statePredicates().stream().anyMatch(p -> p.matches(state));
     }
 }

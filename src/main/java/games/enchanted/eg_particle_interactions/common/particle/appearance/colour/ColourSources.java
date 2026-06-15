@@ -17,6 +17,8 @@ public class ColourSources {
         SOURCES.put(ParticleInteractionsMod.id("constant"), StaticColourSource.CODEC);
         SOURCES.put(ParticleInteractionsMod.id("block_texture"), BlockTextureColourSource.CODEC);
         SOURCES.put(ParticleInteractionsMod.id("block_tint"), BlockTintColourSource.CODEC);
+        SOURCES.put(ParticleInteractionsMod.id("fluid_texture"), FluidTextureColourSource.CODEC);
+        SOURCES.put(ParticleInteractionsMod.id("fluid_tint"), FluidTintColourSource.CODEC);
         SOURCES.put(ParticleInteractionsMod.id("multiply"), MultiplyColourSource.CODEC);
         SOURCES.put(ParticleInteractionsMod.id("variable"), VariableColourSource.CODEC);
         SOURCES.put(ParticleInteractionsMod.id("redstone_power"), RedstonePowerLevelSource.CODEC);
