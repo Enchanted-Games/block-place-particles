@@ -33,5 +33,6 @@ public class TextureConfigs {
     static {
         SOURCES.put(ParticleInteractionsMod.id("sprites"), SpritesTextureConfig.MAP_CODEC);
         SOURCES.put(ParticleInteractionsMod.id("block_texture"), BlockTextureConfig.MAP_CODEC);
+        SOURCES.put(ParticleInteractionsMod.id("fluid_texture"), FluidTextureConfig.MAP_CODEC);
     }
 }

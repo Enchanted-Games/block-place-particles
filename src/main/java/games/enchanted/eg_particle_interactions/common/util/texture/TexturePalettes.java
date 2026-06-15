@@ -13,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.FluidModel;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.level.block.state.BlockState;
@@ -154,13 +155,15 @@ public class TexturePalettes {
         }
     }
 
-    public record FluidStateMaterialSource(Function<FluidModel, TextureAtlasSprite> converter) {
-        public static final FluidStateMaterialSource STILL = new FluidStateMaterialSource(fluidModel ->
-            fluidModel.stillMaterial().sprite()
+    public record FluidStateMaterialSource(Function<FluidModel, TextureAtlasSprite> spriteConverter, Function<FluidModel, Material.Baked> materialConverter) {
+        public static final FluidStateMaterialSource STILL = new FluidStateMaterialSource(
+            fluidModel -> fluidModel.stillMaterial().sprite(),
+            FluidModel::stillMaterial
         );
 
-        public static final FluidStateMaterialSource FLOWING = new FluidStateMaterialSource(fluidModel ->
-            fluidModel.flowingMaterial().sprite()
+        public static final FluidStateMaterialSource FLOWING = new FluidStateMaterialSource(
+            fluidModel -> fluidModel.flowingMaterial().sprite(),
+            FluidModel::flowingMaterial
         );
 
         public static Codec<FluidStateMaterialSource> CODEC = Codec.STRING.xmap(

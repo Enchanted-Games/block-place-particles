@@ -66,15 +66,6 @@ public class ParticleTypesRegistry {
 
 
 
-    public static final PIParticleType<SimpleParticleOptions> BLOCK_SPLASH = register(
-        BlockSplash.Provider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_splash"),
-        DefaultParticles.BLOCK_SPLASH_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
-    );
-
     public static final PIParticleType<SimpleParticleOptions> UNDERWATER_RISING_BUBBLE = register(
         UnderwaterRisingBubble.Provider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "underwater_rising_bubble"),
