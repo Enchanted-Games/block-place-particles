@@ -29,7 +29,11 @@ public abstract class FlintAndSteelItem {
         at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/world/level/Level;setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)Z",
+            //? if fabric {
             ordinal = 1,
+            //? } else {
+            /*ordinal = 0,
+            *///? }
             shift = At.Shift.AFTER
         )
     )
@@ -49,7 +53,11 @@ public abstract class FlintAndSteelItem {
         at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/world/level/Level;setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)Z",
+            //? if fabric {
             ordinal = 0,
+            //? } else {
+            /*ordinal = 1,
+            *///? }
             shift = At.Shift.AFTER
         )
     )

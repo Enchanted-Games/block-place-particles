@@ -30,11 +30,13 @@ deps.fabric-api = "0.152.1+26.1.2"
 dep_str.fabric-api = ">=0.146.1+26.1.2"
 
 deps.modmenu = "18.0.0-beta.1"
+deps.yacl = "3.9.4+26.1-fabric"
 
 [neoforge."26.1"]
 dep_str.minecraft = "[26.1,26.2)"
 
 deps.neoforge = "26.1.2.76"
+deps.yacl = "3.9.4+26.1-neoforge"
 
 
 ["26.2"]
@@ -47,8 +49,10 @@ deps.fabric-api = "0.152.1+26.2"
 dep_str.fabric-api = ">=0.152.1+26.2"
 
 deps.modmenu = "20.0.0-beta.2"
+deps.yacl = "3.9.4+26.2-fabric"
 
 [neoforge."26.2"]
 dep_str.minecraft = "[26.2,26.3)"
 
 deps.neoforge = "26.2.0.0-beta"
+deps.yacl = "3.9.4+26.2-neoforge"
