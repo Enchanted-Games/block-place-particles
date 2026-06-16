@@ -1,7 +1,7 @@
 {
     "emitters": {
         "default": {
-            "type": "particle_interactions_new",
+            "type": "particle_interactions",
             "particle": "dust/redstone",
             "velocity_multiplier": [0.08, 0.14, 0.08]
         }

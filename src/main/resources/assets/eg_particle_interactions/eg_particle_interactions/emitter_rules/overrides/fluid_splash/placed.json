@@ -11,13 +11,13 @@
                 }
             ],
             "emitter": {
-                "type": "particle_interactions_new",
+                "type": "particle_interactions",
                 "particle": "splash/lava"
             }
         }
     ],
     "fallback_emitter": {
-        "type": "particle_interactions_new",
+        "type": "particle_interactions",
         "particle": "splash/generic"
     }
 }

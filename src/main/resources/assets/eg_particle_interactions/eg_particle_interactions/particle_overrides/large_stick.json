@@ -1,7 +1,7 @@
 {
     "emitters": {
         "default": {
-            "type": "particle_interactions_new",
+            "type": "particle_interactions",
             "particle": "large_stick",
             "velocity_multiplier": 0.14
         }

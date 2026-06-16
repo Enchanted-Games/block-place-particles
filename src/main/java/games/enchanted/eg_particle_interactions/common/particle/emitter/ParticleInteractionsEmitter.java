@@ -4,58 +4,38 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.particle.types.ParticleTypesRegistry;
-import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
-import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearanceManager;
-import games.enchanted.eg_particle_interactions.common.particle.types.options.PIParticleOptions;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
+import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleDefinition;
+import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleDefinitionManager;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleSpawner;
 import org.joml.Vector3d;
-import org.jspecify.annotations.Nullable;
-
-import java.util.Optional;
 
 public class ParticleInteractionsEmitter extends Emitter {
     public static final MapCodec<ParticleInteractionsEmitter> CODEC = RecordCodecBuilder.mapCodec(instance ->
         instance.group(
             ModCodecs.COMPACT_VECTOR3D.optionalFieldOf(Emitter.VELOCITY_MULTIPLIER_NAME, Emitter.VELOCITY_MULTIPLIER_DEFAULT).forGetter(Emitter::getVelocityMultiplier),
-            ParticleTypesRegistry.CODEC.fieldOf("particle").forGetter(ParticleInteractionsEmitter::getParticleOptions),
-            ParticleAppearanceManager.referenceCodec().optionalFieldOf("appearance").forGetter(particleInteractionsEmitter -> Optional.ofNullable(particleInteractionsEmitter.getAppearance()))
+            ParticleDefinitionManager.REFERENCE_CODEC.fieldOf("particle").forGetter(ParticleInteractionsEmitter::getParticleDefinition),
+            ParticleComponentMap.CODEC.optionalFieldOf("components", ParticleComponentMap.EMPTY).forGetter(ParticleInteractionsEmitter::getCustomComponents)
         ).apply(
             instance,
-            (
-                velocityMultiplier,
-                particleOptions,
-                appearance
-            ) -> new ParticleInteractionsEmitter(
-                velocityMultiplier,
-                particleOptions,
-                appearance.orElse(null)
-            )
+            ParticleInteractionsEmitter::new
         )
     );
 
-    final PIParticleOptions particleOptions;
-    final ParticleAppearance.@Nullable Reference appearance;
+    final ParticleDefinition.Reference particleDefinition;
+    final ParticleComponentMap customComponents;
 
-    public ParticleInteractionsEmitter(Vector3d velocityMultiplier, PIParticleOptions particleOptions, ParticleAppearance.@Nullable Reference appearance) {
+    public ParticleInteractionsEmitter(Vector3d velocityMultiplier, ParticleDefinition.Reference particleDefinition, ParticleComponentMap customComponents) {
         super(velocityMultiplier);
-        this.particleOptions = particleOptions;
-        this.appearance = appearance;
-    }
-
-    public static Emitter defaultAppearance(double velocityMultiplierScalar, PIParticleOptions options) {
-        return new ParticleInteractionsEmitter(new Vector3d(velocityMultiplierScalar), options, null);
-    }
-
-    public static Emitter defaultAppearance(Vector3d velocityMultiplier, PIParticleOptions options) {
-        return new ParticleInteractionsEmitter(velocityMultiplier, options, null);
+        this.particleDefinition = particleDefinition;
+        this.customComponents = customComponents;
     }
 
     @Override
     public void spawnParticle(ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        ParticleSpawner.spawnWithAppearance(
-            this.particleOptions,
-            this.appearance == null ? null : this.appearance.get(),
+        ParticleSpawner.spawn(
+            this.particleDefinition.get(),
+            this.customComponents,
             context,
             x,
             y,
@@ -66,16 +46,24 @@ public class ParticleInteractionsEmitter extends Emitter {
         );
     }
 
+    public static ParticleInteractionsEmitter simple(ParticleDefinition definition) {
+        return new ParticleInteractionsEmitter(
+            VELOCITY_MULTIPLIER_DEFAULT,
+            new ParticleDefinition.InlineRef(definition),
+            ParticleComponentMap.EMPTY
+        );
+    }
+
     @Override
     public MapCodec<? extends Emitter> codec() {
         return CODEC;
     }
 
-    protected PIParticleOptions getParticleOptions() {
-        return this.particleOptions;
+    protected ParticleDefinition.Reference getParticleDefinition() {
+        return this.particleDefinition;
     }
 
-    protected ParticleAppearance.@Nullable Reference getAppearance() {
-        return this.appearance;
+    protected ParticleComponentMap getCustomComponents() {
+        return this.customComponents;
     }
 }

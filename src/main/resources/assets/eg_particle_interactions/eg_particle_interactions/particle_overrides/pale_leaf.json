@@ -1,7 +1,7 @@
 {
     "emitters": {
         "default": {
-            "type": "particle_interactions_new",
+            "type": "particle_interactions",
             "particle": "leaf/falling_leaf",
             "components": {
                 "appearance": "leaf/pale_oak_leaves"

@@ -1,6 +1,6 @@
 {
     "fallback_emitter": {
-        "type": "particle_interactions_new",
+        "type": "particle_interactions",
         "particle": "lava_bubble_pop"
     }
 }

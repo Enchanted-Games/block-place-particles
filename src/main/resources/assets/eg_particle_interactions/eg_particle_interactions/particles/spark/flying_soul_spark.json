@@ -35,7 +35,7 @@
                 "action": {
                     "type": "spawn_particle",
                     "emitter": {
-                        "type": "particle_interactions_new",
+                        "type": "particle_interactions",
                         "particle": "spark/flash",
                         "components": {
                             "appearance": "spark/soul_flash"
@@ -59,7 +59,7 @@
                 "action": {
                     "type": "spawn_particle",
                     "emitter": {
-                        "type": "particle_interactions_new",
+                        "type": "particle_interactions",
                         "particle": "spark/flash",
                         "components": {
                             "appearance": "spark/soul_flash"

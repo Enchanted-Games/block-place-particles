@@ -5,7 +5,7 @@
             "emitters": [
                 {
                     "emitter": {
-                        "type": "particle_interactions_new",
+                        "type": "particle_interactions",
                         "particle": "chain_snap",
                         "velocity_multiplier": 0.25
                     },
@@ -13,7 +13,7 @@
                 },
                 {
                     "emitter": {
-                        "type": "particle_interactions_new",
+                        "type": "particle_interactions",
                         "particle": "spark/flash",
                         "velocity_multiplier": 0.05
                     },

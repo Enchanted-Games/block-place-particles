@@ -11,7 +11,7 @@
                 }
             ],
             "emitter": {
-                "type": "particle_interactions_new",
+                "type": "particle_interactions",
                 "particle": "ember",
                 "components": {
                     "appearance": "ember/soul"
@@ -20,7 +20,7 @@
         }
     ],
     "fallback_emitter": {
-        "type": "particle_interactions_new",
+        "type": "particle_interactions",
         "particle": "ember"
     }
 }

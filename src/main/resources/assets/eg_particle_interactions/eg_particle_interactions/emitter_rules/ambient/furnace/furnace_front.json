@@ -17,7 +17,7 @@
                 "emitters": [
                     {
                         "emitter": {
-                            "type": "particle_interactions_new",
+                            "type": "particle_interactions",
                             "particle": "spark/floating_spark",
                             "velocity_multiplier": [
                                 5,
@@ -29,7 +29,7 @@
                     },
                     {
                         "emitter": {
-                            "type": "particle_interactions_new",
+                            "type": "particle_interactions",
                             "particle": "ember",
                             "velocity_multiplier": 1
                         },

@@ -35,7 +35,7 @@
                             {
                                 "weight": 14,
                                 "emitter": {
-                                    "type": "particle_interactions_new",
+                                    "type": "particle_interactions",
                                     "particle": "grass_blade/blade",
                                     "velocity_multiplier": 0.13
                                 }
@@ -78,7 +78,7 @@
                             {
                                 "weight": 4,
                                 "emitter": {
-                                    "type": "particle_interactions_new",
+                                    "type": "particle_interactions",
                                     "particle": "grass_blade/blade",
                                     "velocity_multiplier": 0.13
                                 }
@@ -97,7 +97,7 @@
                 }
             ],
             "fallback_emitter": {
-                "type": "particle_interactions_new",
+                "type": "particle_interactions",
                 "particle": "grass_blade/blade",
                 "velocity_multiplier": 0.13
             }
