@@ -1,0 +1,43 @@
+{
+    "components": {
+        "gravity/initial": {
+            "range": [
+                -0.08,
+                -0.03
+            ]
+        },
+        "lifetime": {
+            "range": [
+                20,
+                100
+            ]
+        },
+        "velocity/decay": [
+            0.98,
+            0.98,
+            0.98
+        ],
+        "physics/collision_size": 0.5,
+        "physics/wind_config": {
+            "swirl": {
+                "period": {
+                    "range": [
+                        708,
+                        720
+                    ]
+                },
+                "strength": {
+                    "values": [
+                        0.7,
+                        0.8,
+                        0.9,
+                        -0.7,
+                        -0.8,
+                        -0.9
+                    ]
+                }
+            }
+        },
+        "appearance": "ember/normal"
+    }
+}

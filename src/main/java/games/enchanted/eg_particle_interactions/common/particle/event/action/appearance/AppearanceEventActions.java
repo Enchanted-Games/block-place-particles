@@ -21,5 +21,6 @@ public class AppearanceEventActions {
         EVENT_ACTIONS.put(ParticleInteractionsMod.id("age_based_scale"), SetScaleBasedOnAge.CODEC);
         EVENT_ACTIONS.put(ParticleInteractionsMod.id("age_based_light_emission"), SetLightBasedOnAge.CODEC);
         EVENT_ACTIONS.put(ParticleInteractionsMod.id("set_uv"), SetUVAction.CODEC);
+        EVENT_ACTIONS.put(ParticleInteractionsMod.id("age_based_alpha"), SetAlphaBasedOnAge.CODEC);
     }
 }

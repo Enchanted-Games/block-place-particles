@@ -1,0 +1,30 @@
+{
+    "texture_config": {
+        "sprites": [
+            "eg_particle_interactions:floating_ember/0",
+            "eg_particle_interactions:floating_ember/1",
+            "eg_particle_interactions:floating_ember/2",
+            "eg_particle_interactions:floating_ember/3",
+            "eg_particle_interactions:floating_ember/4"
+        ],
+        "layer": "translucent"
+    },
+    "light_emission": 15,
+    "scale": {
+        "range": [
+            4,
+            5
+        ]
+    },
+    "events": [
+        {
+            "trigger": {
+                "type": "tick"
+            },
+            "action": {
+                "type": "age_based_alpha",
+                "lifetime_percentage_range": [0.5, 1]
+            }
+        }
+    ]
+}

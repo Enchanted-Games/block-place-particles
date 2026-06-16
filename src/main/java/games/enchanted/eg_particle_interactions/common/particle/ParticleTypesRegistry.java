@@ -63,24 +63,8 @@ public class ParticleTypesRegistry {
     // TODO: remove ParticleConfig, replace it all with components
     // TODO: remove all definitions from here and move them to particle json files
     // TODO: PIParticleType only used for currently hardcoded behaviour like stretchy shape particles
-    
 
-    public static final PIParticleType<SimpleParticleOptions> FLOATING_EMBER = register(
-        Ember.EmberProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "floating_ember"),
-        DefaultParticles.EMBER_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
-    );
-    public static final PIParticleType<SimpleParticleOptions> FLOATING_SOUL_EMBER = register(
-        Ember.EmberProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "floating_soul_ember"),
-        DefaultParticles.EMBER_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
-    );
+
     public static final PIParticleType<SimpleParticleOptions> WATER_VAPOUR = register(
         WaterVapour.WaterVapourProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "water_vapour"),

@@ -6,7 +6,7 @@
                     "type": "block",
                     "predicate": {
                         "type": "list",
-                        "blocks": "interaction/soul_sparks"
+                        "blocks": "group/soul_sparks"
                     }
                 }
             ],

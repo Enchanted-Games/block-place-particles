@@ -128,15 +128,6 @@ public class DefaultParticles {
         SWIRLING_VELOCITY_DECAY
     );
 
-    public static Supplier<SimpleParticleOptions> FLOATING_EMBER = () -> new SimpleParticleOptions(
-        ParticleTypesRegistry.FLOATING_EMBER,
-        EMBER_CONFIG
-    );
-
-    public static Supplier<SimpleParticleOptions> FLOATING_SOUL_EMBER = () -> new SimpleParticleOptions(
-        ParticleTypesRegistry.FLOATING_SOUL_EMBER,
-        EMBER_CONFIG
-    );
 
     public static Supplier<SimpleParticleOptions> WATER_VAPOUR = () -> new SimpleParticleOptions(
         ParticleTypesRegistry.WATER_VAPOUR,

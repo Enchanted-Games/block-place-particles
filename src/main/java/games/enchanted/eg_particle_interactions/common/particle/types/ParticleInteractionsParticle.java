@@ -100,6 +100,7 @@ public class ParticleInteractionsParticle extends Particle {
     protected ParticleLayer layer;
     protected float initialAppearanceScale;
     protected int initialLightEmission;
+    protected float initialAppearanceAlpha;
 
     protected final EventStack lifetimeEventStack;
     protected EventStack appearanceEventStack;
@@ -201,6 +202,7 @@ public class ParticleInteractionsParticle extends Particle {
             (float) colour[3] / 255f,
             (float) colour[0] / 255f
         );
+        this.initialAppearanceAlpha = colour[0] / 255f;
 
         this.minLightEmission = appearance.lightEmission();
         this.initialLightEmission = this.minLightEmission;
@@ -615,6 +617,10 @@ public class ParticleInteractionsParticle extends Particle {
 
     public float getAlpha() {
         return this.alpha;
+    }
+
+    public float getInitialAppearanceAlpha() {
+        return this.initialAppearanceAlpha;
     }
 
     public void setAlpha(float a) {

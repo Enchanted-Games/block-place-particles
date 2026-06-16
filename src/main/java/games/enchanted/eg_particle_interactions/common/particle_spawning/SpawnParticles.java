@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle_spawning;
 
+import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.config.categories.BlockInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.config.categories.EntityOptions;
 import games.enchanted.eg_particle_interactions.common.config.categories.FluidInteractionOptions;
@@ -10,6 +11,8 @@ import games.enchanted.eg_particle_interactions.common.override_system.override.
 import games.enchanted.eg_particle_interactions.common.override_system.override.FluidOverrideManager;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
+import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleDefinitionManager;
 import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleIDs;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.ParticleInteractionsEmitter;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSet;
@@ -380,8 +383,8 @@ public class SpawnParticles {
         if (BlockInteractionOptions.CAMPFIRE_EMBER_ENABLED.getValue()) {
             if (level.getRandom().nextFloat() * 101 <= BlockInteractionOptions.CAMPFIRE_EMBER_SPAWN_CHANCE.getValue()) {
                 for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 4); i++) {
-                    ParticleSpawner.spawnWithDefaultAppearance(
-                        campfireState.is(Blocks.SOUL_CAMPFIRE) ? DefaultParticles.FLOATING_SOUL_EMBER.get() : DefaultParticles.FLOATING_EMBER.get(),
+                    EmitterRuleSet emitterRuleSet = EmitterRuleSetIds.CAMPFIRE_EMBERS.get();
+                    emitterRuleSet.getEmitter(context).spawnParticle(
                         context,
                         (double) particlePos.getX() + (level.getRandom().nextFloat() * 0.75) + 0.125f,
                         (double) particlePos.getY() + (level.getRandom().nextFloat() * 0.75) + 0.125f,
@@ -419,9 +422,9 @@ public class SpawnParticles {
         }
         if (BlockInteractionOptions.FIRE_EMBER_ENABLED.getValue()) {
             if (level.getRandom().nextFloat() * 101 <= BlockInteractionOptions.FIRE_EMBER_SPAWN_CHANCE.getValue()) {
+                EmitterRuleSet emitterRuleSet = EmitterRuleSetIds.FIRE_EMBERS.get();
                 for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 4); i++) {
-                    ParticleSpawner.spawnWithDefaultAppearance(
-                        fireState.is(Blocks.SOUL_FIRE) ? DefaultParticles.FLOATING_SOUL_EMBER.get() : DefaultParticles.FLOATING_EMBER.get(),
+                    emitterRuleSet.getEmitter(context).spawnParticle(
                         context,
                         particlePos.getX() + minX + (level.getRandom().nextFloat() * width),
                         particlePos.getY() + minY + (level.getRandom().nextFloat() * height),

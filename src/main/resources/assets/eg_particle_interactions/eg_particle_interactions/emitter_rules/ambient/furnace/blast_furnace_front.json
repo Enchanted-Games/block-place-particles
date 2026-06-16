@@ -29,11 +29,8 @@
                     },
                     {
                         "emitter": {
-                            "emitter_type": "particle_interactions",
-                            "particle": {
-                                "type": "simple/floating_ember",
-                                "simple_options": {}
-                            },
+                            "emitter_type": "particle_interactions_new",
+                            "particle": "ember",
                             "velocity_multiplier": 1
                         },
                         "weight": 3

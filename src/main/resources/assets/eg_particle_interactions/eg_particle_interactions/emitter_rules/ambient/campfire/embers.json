@@ -6,18 +6,21 @@
                     "type": "block",
                     "predicate": {
                         "type": "list",
-                        "blocks": "group/soul_sparks"
+                        "blocks": "group/soul_embers"
                     }
                 }
             ],
             "emitter": {
                 "emitter_type": "particle_interactions_new",
-                "particle": "spark/floating_soul_spark"
+                "particle": "ember",
+                "components": {
+                    "appearance": "ember/soul"
+                }
             }
         }
     ],
     "fallback_emitter": {
         "emitter_type": "particle_interactions_new",
-        "particle": "spark/floating_spark"
+        "particle": "ember"
     }
 }

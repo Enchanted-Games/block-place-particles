@@ -30,8 +30,10 @@ public class EmitterRuleSetIds {
     public static final Supplier<EmitterRuleSet> LIGHTNING_ARCS = ref(ParticleInteractionsMod.id(AMBIENT_DIR + "lightning_arcs"));
 
     public static final Supplier<EmitterRuleSet> CAMPFIRE_SPARKS = ref(ParticleInteractionsMod.id(AMBIENT_DIR + "campfire/sparks"));
+    public static final Supplier<EmitterRuleSet> CAMPFIRE_EMBERS = ref(ParticleInteractionsMod.id(AMBIENT_DIR + "campfire/embers"));
 
     public static final Supplier<EmitterRuleSet> FIRE_SPARKS = ref(ParticleInteractionsMod.id(AMBIENT_DIR + "fire/sparks"));
+    public static final Supplier<EmitterRuleSet> FIRE_EMBERS = ref(ParticleInteractionsMod.id(AMBIENT_DIR + "fire/embers"));
 
     public static final Supplier<EmitterRuleSet> FURNACE_FRONT = ref(ParticleInteractionsMod.id(AMBIENT_DIR + "furnace/furnace_front"));
     public static final Supplier<EmitterRuleSet> BLAST_FURNACE_FRONT = ref(ParticleInteractionsMod.id(AMBIENT_DIR + "furnace/blast_furnace_front"));
