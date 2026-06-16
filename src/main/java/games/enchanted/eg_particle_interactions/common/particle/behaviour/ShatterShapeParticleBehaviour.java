@@ -1,6 +1,5 @@
 package games.enchanted.eg_particle_interactions.common.particle.behaviour;
 
-import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
@@ -24,8 +23,8 @@ public class ShatterShapeParticleBehaviour extends ParticleInteractionsParticle 
     protected final boolean inverseSlicePositions;
     protected final @Nullable Direction facingDirection;
 
-    protected ShatterShapeParticleBehaviour(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        super(components, appearance, context, config, x, y, z, ySpeed, zSpeed, xSpeed);
+    protected ShatterShapeParticleBehaviour(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        super(components, appearance, context, x, y, z, ySpeed, zSpeed, xSpeed);
 
         int spriteWidth = this.currentSprite.contents().width();
         int randomSize = MathHelper.randomBetween(3, 5);
@@ -150,7 +149,7 @@ public class ShatterShapeParticleBehaviour extends ParticleInteractionsParticle 
     public static class Provider implements ParticleBehaviourProvider {
         @Override
         public @Nullable Particle createParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, double x, double z, double y, double xSpeed, double ySpeed, double zSpeed) {
-            return new ShatterShapeParticleBehaviour(components, appearance, context, ParticleConfig.DEFAULT, x, y, z, xSpeed, ySpeed, zSpeed);
+            return new ShatterShapeParticleBehaviour(components, appearance, context, x, y, z, xSpeed, ySpeed, zSpeed);
         }
     }
 }

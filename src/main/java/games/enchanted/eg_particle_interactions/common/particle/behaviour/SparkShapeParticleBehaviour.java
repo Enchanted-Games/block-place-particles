@@ -3,7 +3,6 @@ package games.enchanted.eg_particle_interactions.common.particle.behaviour;
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.ParticleAccessor;
-import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
@@ -34,8 +33,8 @@ public class SparkShapeParticleBehaviour extends ParticleInteractionsParticle {
     protected float prevPitch;
     protected float prevYaw;
 
-    protected SparkShapeParticleBehaviour(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, double ySpeed, double zSpeed, double xSpeed) {
-        super(components, appearance, context, config, x, y, z, ySpeed, zSpeed, xSpeed);
+    protected SparkShapeParticleBehaviour(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, double x, double y, double z, double ySpeed, double zSpeed, double xSpeed) {
+        super(components, appearance, context, x, y, z, ySpeed, zSpeed, xSpeed);
 
         this.prevPrevX = this.xo;
         this.prevPrevY = this.yo;
@@ -158,7 +157,7 @@ public class SparkShapeParticleBehaviour extends ParticleInteractionsParticle {
     public static class Provider implements ParticleBehaviourProvider {
         @Override
         public @Nullable Particle createParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, double x, double z, double y, double xSpeed, double ySpeed, double zSpeed) {
-            return new SparkShapeParticleBehaviour(components, appearance, context, ParticleConfig.DEFAULT, x, y, z, ySpeed, zSpeed, xSpeed);
+            return new SparkShapeParticleBehaviour(components, appearance, context, x, y, z, ySpeed, zSpeed, xSpeed);
         }
     }
 }

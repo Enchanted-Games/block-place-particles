@@ -3,7 +3,6 @@ package games.enchanted.eg_particle_interactions.common.particle.types.options;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.types.PIParticleType;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSet;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSetManager;
@@ -83,22 +82,17 @@ public class ArcEmitterOptions implements PIParticleOptions {
         );
     }
 
-    public static MapCodec<ArcEmitterOptions> codec(PIParticleType<ArcEmitterOptions> type, ParticleConfig defaultConfig) {
+    public static MapCodec<ArcEmitterOptions> codec(PIParticleType<ArcEmitterOptions> type) {
         return createCodec(type).fieldOf("emitter_options");
     }
 
-    public static StreamCodec<? super RegistryFriendlyByteBuf, ArcEmitterOptions> streamCodec(PIParticleType<ArcEmitterOptions> type, ParticleConfig defaultConfig) {
+    public static StreamCodec<? super RegistryFriendlyByteBuf, ArcEmitterOptions> streamCodec(PIParticleType<ArcEmitterOptions> type) {
         return ByteBufCodecs.fromCodec(createCodec(type));
     }
 
     @Override
     public @NotNull PIParticleType<ArcEmitterOptions> type() {
         return this.type;
-    }
-
-    @Override
-    public ParticleConfig config() {
-        return ParticleConfig.DEFAULT;
     }
 
     public static String idPrefix() {

@@ -7,14 +7,13 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
-import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.types.options.ArcEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.types.options.PIParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.types.options.RandomDistributionEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.types.options.SimpleParticleOptions;
-import games.enchanted.eg_particle_interactions.common.particle.types.emitter.arc.ArcEmitter;
-import games.enchanted.eg_particle_interactions.common.particle.types.emitter.random_distribution.RandomDistributionEmitter;
+import games.enchanted.eg_particle_interactions.common.particle.types.emitter.ArcEmitter;
+import games.enchanted.eg_particle_interactions.common.particle.types.emitter.RandomDistributionEmitter;
 import games.enchanted.eg_particle_interactions.common.particle.types.vanilla.BlockParticleOptionWrapper;
 import games.enchanted.eg_particle_interactions.common.particle.types.vanilla.CustomMovementTerrainParticle;
 import net.minecraft.core.particles.ParticleTypes;
@@ -53,14 +52,12 @@ public class ParticleTypesRegistry {
     public static final PIParticleType<RandomDistributionEmitterOptions> DISTRIBUTION_EMITTER = register(
         RandomDistributionEmitter.Provider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "distribution_emitter"),
-        ParticleConfig.DEFAULT,
         RandomDistributionEmitterOptions::codec,
         RandomDistributionEmitterOptions::streamCodec
     );
     public static final PIParticleType<ArcEmitterOptions> ARC_EMITTER = register(
         ArcEmitter.Provider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "arc_emitter"),
-        ParticleConfig.DEFAULT,
         ArcEmitterOptions::codec,
         ArcEmitterOptions::streamCodec
     );
@@ -69,21 +66,18 @@ public class ParticleTypesRegistry {
     public static final PIParticleType<SimpleParticleOptions> BLOCK_CRACK = register(
         CustomMovementTerrainParticle.CrackingProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block_crack"),
-        ParticleConfig.DEFAULT,
         SimpleParticleOptions::codec,
         SimpleParticleOptions::streamCodec
     );
     public static final PIParticleType<SimpleParticleOptions> BLOCK = register(
         CustomMovementTerrainParticle.BlockProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block"),
-        ParticleConfig.DEFAULT,
         SimpleParticleOptions::codec,
         SimpleParticleOptions::streamCodec
     );
     public static final PIParticleType<SimpleParticleOptions> FALLING_DUST = register(
         () -> new BlockParticleOptionWrapper(() -> ParticleTypes.FALLING_DUST),
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_dust"),
-        ParticleConfig.DEFAULT,
         SimpleParticleOptions::codec,
         SimpleParticleOptions::streamCodec
     );
@@ -92,24 +86,22 @@ public class ParticleTypesRegistry {
     private static <T extends PIParticleOptions> PIParticleType<T> register(
         PIProviderCreator<T> providerCreator,
         Identifier id,
-        ParticleConfig defaultConfig,
         CodecGetter<T> codecGetter,
         StreamCodecGetter<T> streamCodecGetter
     ) {
-        return register(providerCreator, id, defaultConfig, ParticleComponentMap.EMPTY, codecGetter, streamCodecGetter);
+        return register(providerCreator, id, ParticleComponentMap.EMPTY, codecGetter, streamCodecGetter);
     }
 
     private static <T extends PIParticleOptions> PIParticleType<T> register(
         PIProviderCreator<T> providerCreator,
         Identifier id,
-        ParticleConfig defaultConfig,
         ParticleComponentMap components,
         CodecGetter<T> codecGetter,
         StreamCodecGetter<T> streamCodecGetter
     ) {
         PIParticleType<T> type = new PIParticleType<>(components) {
             public MapCodec<T> codec() {
-                return codecGetter.create(this, defaultConfig);
+                return codecGetter.create(this);
             }
         };
         registerType(type, id, providerCreator.create());
@@ -128,12 +120,12 @@ public class ParticleTypesRegistry {
 
     @FunctionalInterface
     public interface CodecGetter<T extends PIParticleOptions> {
-        MapCodec<T> create(PIParticleType<T> type, ParticleConfig defaultConfig);
+        MapCodec<T> create(PIParticleType<T> type);
     }
 
     @FunctionalInterface
     public interface StreamCodecGetter<T extends PIParticleOptions> {
-        StreamCodec<? super RegistryFriendlyByteBuf, T> create(PIParticleType<T> type, ParticleConfig defaultConfig);
+        StreamCodec<? super RegistryFriendlyByteBuf, T> create(PIParticleType<T> type);
     }
 
 

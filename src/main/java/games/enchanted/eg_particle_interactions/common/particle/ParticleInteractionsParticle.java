@@ -115,14 +115,14 @@ public class ParticleInteractionsParticle extends Particle {
 
     protected final float randomRenderOffset;
 
-    protected ParticleInteractionsParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z) {
-        this(components, appearance, context, config, x, y, z, 0, 0, 0);
+    protected ParticleInteractionsParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, double x, double y, double z) {
+        this(components, appearance, context, x, y, z, 0, 0, 0);
         this.xd = 0;
         this.yd = 0;
         this.zd = 0;
     }
 
-    protected ParticleInteractionsParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, ParticleConfig config, double x, double y, double z, double ySpeed, double zSpeed, double xSpeed) {
+    protected ParticleInteractionsParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, double x, double y, double z, double ySpeed, double zSpeed, double xSpeed) {
         super(context.level(), x, y, z, xSpeed, ySpeed, zSpeed);
         ClientLevel level = context.level();
 
@@ -798,7 +798,7 @@ public class ParticleInteractionsParticle extends Particle {
     public static class Provider implements ParticleBehaviourProvider {
         @Override
         public @Nullable Particle createParticle(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, double x, double z, double y, double xSpeed, double ySpeed, double zSpeed) {
-            return new ParticleInteractionsParticle(components, appearance, context, ParticleConfig.DEFAULT, x, y, z, ySpeed, zSpeed, xSpeed);
+            return new ParticleInteractionsParticle(components, appearance, context, x, y, z, ySpeed, zSpeed, xSpeed);
         }
     }
 }

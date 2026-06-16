@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.particle.types.emitter.random_distribution;
+package games.enchanted.eg_particle_interactions.common.particle.types.emitter;
 
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
@@ -6,7 +6,6 @@ import games.enchanted.eg_particle_interactions.common.particle.component.Partic
 import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.types.options.RandomDistributionEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.types.PIParticleProvider;
-import games.enchanted.eg_particle_interactions.common.particle.types.emitter.AbstractEmitterParticle;
 import net.minecraft.client.particle.Particle;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
@@ -22,7 +21,7 @@ public class RandomDistributionEmitter extends AbstractEmitterParticle {
     protected boolean emitOnFirstTick;
 
     protected RandomDistributionEmitter(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomDistributionEmitterOptions emitterOptions) {
-        super(components, appearance, context, emitterOptions.config(), x, y, z, emitterOptions.getDimensions().x, emitterOptions.getDimensions().y, emitterOptions.getDimensions().z, emitterOptions.getEmitterRuleSet().get());
+        super(components, appearance, context, x, y, z, emitterOptions.getDimensions().x, emitterOptions.getDimensions().y, emitterOptions.getDimensions().z, emitterOptions.getEmitterRuleSet().get());
         this.emittedXSpeed = xSpeed;
         this.emittedYSpeed = ySpeed;
         this.emittedZSpeed = zSpeed;

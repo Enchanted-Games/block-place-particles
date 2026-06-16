@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.particle.types.emitter.arc;
+package games.enchanted.eg_particle_interactions.common.particle.types.emitter;
 
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
@@ -7,7 +7,6 @@ import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.EmptyEmitter;
 import games.enchanted.eg_particle_interactions.common.particle.types.options.ArcEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.types.PIParticleProvider;
-import games.enchanted.eg_particle_interactions.common.particle.types.emitter.AbstractEmitterParticle;
 import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import net.minecraft.client.particle.Particle;
 import org.jetbrains.annotations.Nullable;
@@ -32,7 +31,7 @@ public class ArcEmitter extends AbstractEmitterParticle {
     protected final float initialAngleYRad;
 
     public ArcEmitter(ParticleComponentMap components, ParticleAppearance appearance, ParticleContext context, double x, double y, double z, ArcEmitterOptions options) {
-        super(components, appearance, context, options.config(), x, y, z, 0, 0, 0, options.getEmitterRuleSet().get());
+        super(components, appearance, context, x, y, z, 0, 0, 0, options.getEmitterRuleSet().get());
 
         this.length = options.getLength();
         this.splitAmount = options.getSplits();
