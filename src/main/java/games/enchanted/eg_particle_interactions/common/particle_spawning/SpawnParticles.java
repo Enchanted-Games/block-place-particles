@@ -321,7 +321,6 @@ public class SpawnParticles {
         if (!ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_ENABLED.getValue()) return;
 
         BlockState blockState = level.getBlockState(particlePos);
-        double sparkIntensity = ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_INTENSITY.getValue() / 12.;
         ParticleContext context = ParticleContext.block(level, blockState, particlePos);
         EmitterRuleSet emitterRule = litSomething ? EmitterRuleSetIds.FLINT_AND_STEEL_USE.get() : EmitterRuleSetIds.FIRE_PLACED.get();
 
@@ -347,9 +346,9 @@ public class SpawnParticles {
                 x,
                 y,
                 z,
-                (level.getRandom().nextDouble() - 0.5) * sparkIntensity,
-                (level.getRandom().nextDouble() + 0.8) * sparkIntensity * 0.8,
-                (level.getRandom().nextDouble() - 0.5) * sparkIntensity
+                (level.getRandom().nextDouble() - 0.5) * 0.25,
+                (level.getRandom().nextDouble() + 0.8) * 0.25 * 0.8,
+                (level.getRandom().nextDouble() - 0.5) * 0.25
             );
         }
     }
@@ -359,7 +358,6 @@ public class SpawnParticles {
         ParticleContext context = ParticleContext.block(level, campfireState, particlePos);
 
         if (BlockInteractionOptions.CAMPFIRE_SPARK_ENABLED.getValue()) {
-            double sparkIntensity = 5 / 12.;
             if (level.getRandom().nextFloat() * 101 <= BlockInteractionOptions.CAMPFIRE_SPARK_SPAWN_CHANCE.getValue()) {
                 for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 3) + 1; i++) {
                     SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
@@ -368,7 +366,7 @@ public class SpawnParticles {
                         (double) particlePos.getX() + 0.5,
                         (double) particlePos.getY() + 0.5,
                         (double) particlePos.getZ() + 0.5,
-                        sparkIntensity
+                        0.05
                     );
                 }
             }
@@ -399,7 +397,6 @@ public class SpawnParticles {
         ParticleContext context = ParticleContext.block(level, fireState, particlePos);
 
         if (BlockInteractionOptions.FIRE_SPARK_ENABLED.getValue()) {
-            double sparkIntensity = 5 / 12.;
             if (level.getRandom().nextFloat() * 101 <= BlockInteractionOptions.FIRE_SPARK_SPAWN_CHANCE.getValue()) {
                 for (int i = 0; i < level.getRandom().nextIntBetweenInclusive(1, 3) + 1; i++) {
                     SpawnParticlesUtil.spawnMostlyUpwardsMotionParticleOption(
@@ -408,7 +405,7 @@ public class SpawnParticles {
                         particlePos.getX() + minX + (level.getRandom().nextFloat() * width),
                         particlePos.getY() + minY + (level.getRandom().nextFloat() * height),
                         particlePos.getZ() + minZ + (level.getRandom().nextFloat() * depth),
-                        sparkIntensity
+                        0.05
                     );
                 }
             }
@@ -586,9 +583,9 @@ public class SpawnParticles {
             BlockInteractionOptions.ANVIL_USE_SPARKS_MAX_ON_USE.getValue(),
             0.32f,
             0.16f,
-            2f,
+            1f,
             0.2f,
-            2f
+            1f
         );
     }
 
@@ -616,8 +613,8 @@ public class SpawnParticles {
         RandomDistributionEmitterOptions emitter = getGrindstoneSparkEmitter(attachFace, facing);
         ParticleContext context = ParticleContext.plain(level, blockPos);
         final float HORIZONTAL_MIN_SPEED = 0.05f;
-        final float HORIZONTAL_MAX_SPEED = 0.3f;
-        final float UPWARDS_SPEED = 0.5f;
+        final float HORIZONTAL_MAX_SPEED = 0.25f;
+        final float UPWARDS_SPEED = 0.3f;
         final float DOWNWARDS_SPEED = 0.1f;
 
         ParticleSpawner.spawnWithAppearance(
