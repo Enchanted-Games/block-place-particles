@@ -78,16 +78,6 @@ public class FlyingSpark extends StretchyBouncyShapeParticle {
             this.hasSpawnedSmokeParticle = true;
         }
         if (this.hasEnteredWater && !this.hasSpawnedSmokeParticle) {
-            ParticleSpawner.spawnWithDefaultAppearance(
-                DefaultParticles.WATER_VAPOUR.get(),
-                this.context,
-                this.xo,
-                this.yo,
-                this.zo,
-                this.xd / 6,
-                -this.yd / 2,
-                this.zd / 6
-            );
             this.level.playLocalSound(this.xo, this.yo, this.zo, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.AMBIENT, 0.15f, 1.2f, false);
             this.hasSpawnedSmokeParticle = true;
         }

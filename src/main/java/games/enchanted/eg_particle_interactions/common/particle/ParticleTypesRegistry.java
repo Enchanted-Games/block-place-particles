@@ -65,15 +65,6 @@ public class ParticleTypesRegistry {
     // TODO: PIParticleType only used for currently hardcoded behaviour like stretchy shape particles
 
 
-    public static final PIParticleType<SimpleParticleOptions> WATER_VAPOUR = register(
-        WaterVapour.WaterVapourProvider::new,
-        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "water_vapour"),
-        DefaultParticles.WATER_VAPOUR_CONFIG,
-        SimpleParticleOptions::codec,
-        SimpleParticleOptions::streamCodec,
-        SimpleParticleOptions::idPrefix
-    );
-
     public static final PIParticleType<SimpleParticleOptions> LAVA_POP = register(
         LavaPop.LavaPopProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "lava_pop"),

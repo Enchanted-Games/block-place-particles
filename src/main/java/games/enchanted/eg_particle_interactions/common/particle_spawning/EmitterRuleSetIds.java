@@ -42,6 +42,8 @@ public class EmitterRuleSetIds {
 
     public static final Supplier<EmitterRuleSet> UNDERWATER_BUBBLE_STREAM = ref(ParticleInteractionsMod.id(AMBIENT_DIR + "underwater_bubble_stream"));
 
+    public static final Supplier<EmitterRuleSet> LAVA_SURFACE = ref(ParticleInteractionsMod.id(AMBIENT_DIR + "lava_surface"));
+
 
     private static Supplier<EmitterRuleSet> ref(Identifier id) {
         return () -> EmitterRuleSetManager.getRuleSet(id);

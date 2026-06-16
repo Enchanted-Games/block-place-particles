@@ -1,6 +1,5 @@
 package games.enchanted.eg_particle_interactions.common.particle_spawning;
 
-import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.config.categories.BlockInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.config.categories.EntityOptions;
 import games.enchanted.eg_particle_interactions.common.config.categories.FluidInteractionOptions;
@@ -11,13 +10,9 @@ import games.enchanted.eg_particle_interactions.common.override_system.override.
 import games.enchanted.eg_particle_interactions.common.override_system.override.FluidOverrideManager;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
-import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
-import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleDefinitionManager;
 import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleIDs;
-import games.enchanted.eg_particle_interactions.common.particle.emitter.ParticleInteractionsEmitter;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSet;
 import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitterOptions;
-import games.enchanted.eg_particle_interactions.common.particle.options.DefaultParticles;
 import games.enchanted.eg_particle_interactions.common.particle.options.RandomDistributionEmitterOptions;
 import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
 import games.enchanted.eg_particle_interactions.common.registry.ObjectOrTagLocation;
@@ -33,7 +28,6 @@ import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FurnaceBlock;
 import net.minecraft.world.level.block.GrindstoneBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -45,8 +39,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
-
-import java.util.List;
 
 public class SpawnParticles {
     public static void spawnBlockPlaceParticle(ClientLevel level, BlockPos blockPos, BlockState placedBlockState) {
@@ -709,7 +701,16 @@ public class SpawnParticles {
             double d0 = (double) fluidPos.getX() + level.getRandom().nextDouble();
             double d1 = (double) fluidPos.getY() + fluidState.getOwnHeight();
             double d2 = (double) fluidPos.getZ() + level.getRandom().nextDouble();
-            ParticleSpawner.spawnWithDefaultAppearance(DefaultParticles.LAVA_POP.get(), ParticleContext.plain(level, fluidPos), d0, d1, d2, 0.0f, 0.0f, 0.0f);
+            ParticleContext context = ParticleContext.fluid(level, fluidState, fluidPos);
+            EmitterRuleSetIds.LAVA_SURFACE.get().getEmitter(context).spawnParticle(
+                context,
+                d0,
+                d1,
+                d2,
+                0.0f,
+                0.0f,
+                0.0f
+            );
         }
     }
 
