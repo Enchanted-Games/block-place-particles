@@ -11,14 +11,14 @@
                 }
             ],
             "emitter": {
-                "emitter_type": "particle_interactions_new",
+                "type": "particle_interactions_new",
                 "particle": "dust/glow_item_frame",
                 "velocity_multiplier": 0.2
             }
         }
     ],
     "fallback_emitter": {
-        "emitter_type": "particle_interactions_new",
+        "type": "particle_interactions_new",
         "particle": "dust/item_frame",
         "velocity_multiplier": 0.2
     }

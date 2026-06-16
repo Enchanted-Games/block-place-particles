@@ -1,7 +1,7 @@
 {
     "emitters": {
         "block/redstone_interacted_with": {
-            "emitter_type": "particle_interactions_new",
+            "type": "particle_interactions_new",
             "particle": "dust/redstone",
             "velocity_multiplier": [0.08, 0.14, 0.08]
         }

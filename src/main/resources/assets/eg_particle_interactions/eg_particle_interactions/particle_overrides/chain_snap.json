@@ -1,11 +1,11 @@
 {
     "emitters": {
         "default": {
-            "emitter_type": "random",
+            "type": "random",
             "emitters": [
                 {
                     "emitter": {
-                        "emitter_type": "particle_interactions_new",
+                        "type": "particle_interactions_new",
                         "particle": "chain_snap",
                         "velocity_multiplier": 0.25
                     },
@@ -13,7 +13,7 @@
                 },
                 {
                     "emitter": {
-                        "emitter_type": "particle_interactions_new",
+                        "type": "particle_interactions_new",
                         "particle": "spark/flash",
                         "velocity_multiplier": 0.05
                     },

@@ -1,7 +1,7 @@
 {
     "emitters": {
         "default": {
-            "emitter_type": "particle_interactions_new",
+            "type": "particle_interactions_new",
             "particle": "grass_blade/heavy_blade",
             "velocity_multiplier": 0.13
         }

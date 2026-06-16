@@ -11,13 +11,13 @@
                 }
             ],
             "emitter": {
-                "emitter_type": "particle_interactions_new",
+                "type": "particle_interactions_new",
                 "particle": "spark/flying_soul_spark"
             }
         }
     ],
     "fallback_emitter": {
-        "emitter_type": "particle_interactions_new",
+        "type": "particle_interactions_new",
         "particle": "spark/flying_spark"
     }
 }

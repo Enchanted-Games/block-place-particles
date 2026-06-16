@@ -33,7 +33,7 @@
                 "action": {
                     "type": "spawn_particle",
                     "emitter": {
-                        "emitter_type": "particle_interactions_new",
+                        "type": "particle_interactions_new",
                         "particle": "snowflake/speck"
                     },
                     "velocity_provider": {

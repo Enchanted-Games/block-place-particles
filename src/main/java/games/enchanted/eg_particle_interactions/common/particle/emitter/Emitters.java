@@ -9,7 +9,7 @@ import net.minecraft.util.ExtraCodecs;
 
 public class Emitters {
     public static final ExtraCodecs.LateBoundIdMapper<Identifier, MapCodec<? extends Emitter>> EMITTER_TYPES = new ExtraCodecs.LateBoundIdMapper<>();
-    public static final Codec<Emitter> CODEC = EMITTER_TYPES.codec(ModCodecs.IDENTIFIER).dispatch("emitter_type", Emitter::codec, mapCodec -> mapCodec);
+    public static final Codec<Emitter> CODEC = EMITTER_TYPES.codec(ModCodecs.IDENTIFIER).dispatch("type", Emitter::codec, mapCodec -> mapCodec);
 
     static {
         EMITTER_TYPES.put(ParticleInteractionsMod.id("vanilla"), VanillaEmitter.CODEC);

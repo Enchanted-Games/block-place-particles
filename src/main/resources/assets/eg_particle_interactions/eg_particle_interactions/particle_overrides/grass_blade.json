@@ -30,12 +30,12 @@
                         }
                     ],
                     "emitter": {
-                        "emitter_type": "random",
+                        "type": "random",
                         "emitters": [
                             {
                                 "weight": 14,
                                 "emitter": {
-                                    "emitter_type": "particle_interactions_new",
+                                    "type": "particle_interactions_new",
                                     "particle": "grass_blade/blade",
                                     "velocity_multiplier": 0.13
                                 }
@@ -43,7 +43,7 @@
                             {
                                 "weight": 1,
                                 "emitter": {
-                                    "emitter_type": "vanilla",
+                                    "type": "vanilla",
                                     "particle": {
                                         "type": "firefly"
                                     }
@@ -73,12 +73,12 @@
                         }
                     ],
                     "emitter": {
-                        "emitter_type": "random",
+                        "type": "random",
                         "emitters": [
                             {
                                 "weight": 4,
                                 "emitter": {
-                                    "emitter_type": "particle_interactions_new",
+                                    "type": "particle_interactions_new",
                                     "particle": "grass_blade/blade",
                                     "velocity_multiplier": 0.13
                                 }
@@ -86,7 +86,7 @@
                             {
                                 "weight": 1,
                                 "emitter": {
-                                    "emitter_type": "vanilla",
+                                    "type": "vanilla",
                                     "particle": {
                                         "type": "firefly"
                                     }
@@ -97,7 +97,7 @@
                 }
             ],
             "fallback_emitter": {
-                "emitter_type": "particle_interactions_new",
+                "type": "particle_interactions_new",
                 "particle": "grass_blade/blade",
                 "velocity_multiplier": 0.13
             }

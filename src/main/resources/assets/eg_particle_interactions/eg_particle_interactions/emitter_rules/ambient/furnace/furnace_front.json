@@ -13,11 +13,11 @@
                 }
             ],
             "emitter": {
-                "emitter_type": "random",
+                "type": "random",
                 "emitters": [
                     {
                         "emitter": {
-                            "emitter_type": "particle_interactions_new",
+                            "type": "particle_interactions_new",
                             "particle": "spark/floating_spark",
                             "velocity_multiplier": [
                                 5,
@@ -29,7 +29,7 @@
                     },
                     {
                         "emitter": {
-                            "emitter_type": "particle_interactions_new",
+                            "type": "particle_interactions_new",
                             "particle": "ember",
                             "velocity_multiplier": 1
                         },
@@ -40,6 +40,6 @@
         }
     ],
     "fallback_emitter": {
-        "emitter_type": "empty"
+        "type": "empty"
     }
 }

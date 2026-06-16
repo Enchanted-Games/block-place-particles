@@ -32,7 +32,7 @@
                 "action": {
                     "type": "spawn_particle",
                     "emitter": {
-                        "emitter_type": "vanilla",
+                        "type": "vanilla",
                         "particle": {
                             "type": "bubble_pop"
                         }
