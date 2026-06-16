@@ -1,6 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle_spawning;
 
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleDefinition;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSet;
 import games.enchanted.eg_particle_interactions.common.particle.types.options.PIParticleOptions;
@@ -49,8 +50,9 @@ public class SpawnParticlesUtil {
     public static void spawnParticleInCircle(PIParticleOptions particleOptions, ParticleContext context, Vec3 center, int amount, float spread, float radius, float outwardVelocityMultiplier, float verticalVelocityBase, float verticalVelocityMultiplier) {
         spawnParticleInCircle(
             (x, y, z, xSpeed, ySpeed, zSpeed) -> {
-                ParticleSpawner.spawnWithDefaultAppearance(
+                ParticleSpawner.spawnWithAppearance(
                     particleOptions,
+                    ParticleAppearance.MISSING_APPEARANCE.get(),
                     context,
                     x,
                     y,
@@ -138,20 +140,6 @@ public class SpawnParticlesUtil {
                 Math.clamp(distZ, -1, 1) * outwardVelocityMultiplier
             );
         }
-    }
-
-    public static void spawnMostlyUpwardsMotionParticleOption(ParticleContext context, PIParticleOptions particleOptions, double xPos, double yPos, double zPos, double velocityIntensity) {
-        RandomSource random = context.level().getRandom();
-        ParticleSpawner.spawnWithDefaultAppearance(
-            particleOptions,
-            context,
-            xPos,
-            yPos,
-            zPos,
-            (random.nextDouble() - 0.5) * velocityIntensity * 0.4,
-            Math.abs((random.nextDouble() - 0.25) * velocityIntensity) + 0.25,
-            (random.nextDouble() - 0.5) * velocityIntensity * 0.4
-        );
     }
 
     public static void spawnMostlyUpwardsMotionParticleOption(ParticleContext context, EmitterRuleSet emitterRuleSet, double xPos, double yPos, double zPos, double velocityIntensity) {

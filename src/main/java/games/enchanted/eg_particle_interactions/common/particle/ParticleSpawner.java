@@ -17,19 +17,6 @@ import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.Nullable;
 
 public class ParticleSpawner {
-    public static void spawnWithDefaultAppearance(
-        PIParticleOptions options,
-        ParticleContext context,
-        double x,
-        double y,
-        double z,
-        double xSpeed,
-        double ySpeed,
-        double zSpeed
-    ) {
-        spawnWithAppearance(options, null, context, x, y, z, xSpeed, ySpeed, zSpeed);
-    }
-
     public static void spawnWithAppearance(
         PIParticleOptions options,
         @Nullable ParticleAppearance appearance,

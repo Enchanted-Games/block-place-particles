@@ -9,6 +9,7 @@ import games.enchanted.eg_particle_interactions.common.override_system.ParticleO
 import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
 import games.enchanted.eg_particle_interactions.common.override_system.override.FluidOverrideManager;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleIDs;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSet;
@@ -619,8 +620,9 @@ public class SpawnParticles {
         final float UPWARDS_SPEED = 0.5f;
         final float DOWNWARDS_SPEED = 0.1f;
 
-        ParticleSpawner.spawnWithDefaultAppearance(
+        ParticleSpawner.spawnWithAppearance(
             emitter,
+            ParticleAppearance.MISSING_APPEARANCE.get(),
             context,
             x,
             y,
@@ -629,8 +631,9 @@ public class SpawnParticles {
             attachFace == AttachFace.WALL ? UPWARDS_SPEED : 0,
             facing.getStepZ() * (attachFace == AttachFace.WALL ? HORIZONTAL_MIN_SPEED : HORIZONTAL_MAX_SPEED)
         );
-        ParticleSpawner.spawnWithDefaultAppearance(
+        ParticleSpawner.spawnWithAppearance(
             emitter,
+            ParticleAppearance.MISSING_APPEARANCE.get(),
             context,
             x,
             y,
@@ -660,7 +663,7 @@ public class SpawnParticles {
         int amount = BlockInteractionOptions.GRINDSTONE_USE_SPARKS_MAX_ON_USE.getValue();
         return new RandomDistributionEmitterOptions(
             ParticleTypesRegistry.DISTRIBUTION_EMITTER,
-            amount < 6 ? amount : 6,
+            Math.min(amount, 6),
             1,
             (int) Math.ceil((double) amount / 6),
             new Vector3f(width, height, depth),
@@ -736,7 +739,17 @@ public class SpawnParticles {
                 1,
                 emitterRuleSet
             );
-            ParticleSpawner.spawnWithDefaultAppearance(emitter, context, x, y, z, 0.0f, 0.0f, 0.0f);
+            ParticleSpawner.spawnWithAppearance(
+                emitter,
+                ParticleAppearance.MISSING_APPEARANCE.get(),
+                context,
+                x,
+                y,
+                z,
+                0.0f,
+                0.0f,
+                0.0f
+            );
         }
     }
 
