@@ -6,6 +6,11 @@ plugins {
     id("maven-publish")
 }
 
+stonecutter {
+    val (version, loader) = current.project.split('-', limit = 2)
+    properties.tags(version, loader)
+}
+
 val minecraft = stonecutter.current.version
 val mcVersion = stonecutter.current.project.substringBeforeLast('-')
 val accessWidenerFilepath = "src/main/resources/${property("mod.id")}.classtweaker"
@@ -52,9 +57,6 @@ dependencies {
     } else {
         compileOnly("dev.isxander:yet-another-config-lib:3.9.1+26.1-fabric")
     }
-}
-
-stonecutter {
 }
 
 loom {
