@@ -33,7 +33,14 @@ public abstract class OptionsScreenMixin extends Screen {
             this.addRenderableWidget(
                 Button.builder(
                     Component.literal(Constants.MOD_NAME),
-                    (button) -> this.minecraft.setScreen(ConfigScreenCreator.getScreenCreator().createScreen(this))
+                    (button) -> {
+                        Screen screen = ConfigScreenCreator.getScreenCreator().createScreen(this);
+                        //? if <= 26.1 {
+                        /*this.minecraft.setScreen(screen);
+                         *///? } else {
+                        this.minecraft.gui.setScreen(screen);
+                        //? }
+                    }
                 ).bounds( 2, 2, width, height).build()
             );
         }

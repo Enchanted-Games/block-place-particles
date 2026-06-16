@@ -50,17 +50,23 @@ public class Logging {
     }
 
     protected static void toggleDebugLogs(Consumer<Boolean> fieldSetter, Supplier<Boolean> fieldGetter, SystemToast.SystemToastId toastId, String debugLoggingName, String debugPrefix, String enabledTranslationKey, String disabledTranslationKey) {
+        var toastManager =
+            //? if <= 26.1 {
+            /*Minecraft.getInstance().getToastManager();
+            *///? } else {
+            Minecraft.getInstance().gui.toastManager();
+            //? }
         if(fieldGetter.get()) {
             // toggle debug logs off
             fieldSetter.accept(false);
             LOG.info(debugPrefix + debugLoggingName + " disabled");
-            SystemToast.addOrUpdate(Minecraft.getInstance().getToastManager(), toastId, Component.literal(Constants.MOD_NAME), Component.translatable(disabledTranslationKey));
+            SystemToast.addOrUpdate(toastManager, toastId, Component.literal(Constants.MOD_NAME), Component.translatable(disabledTranslationKey));
             return;
         }
         // toggle debug logs on
         fieldSetter.accept(true);
         LOG.info(debugPrefix + debugLoggingName + " enabled");
-        SystemToast.addOrUpdate(Minecraft.getInstance().getToastManager(), toastId, Component.literal(Constants.MOD_NAME), Component.translatable(enabledTranslationKey));
+        SystemToast.addOrUpdate(toastManager, toastId, Component.literal(Constants.MOD_NAME), Component.translatable(enabledTranslationKey));
     }
 
     public static void toggleInteractionDebugLogging() {

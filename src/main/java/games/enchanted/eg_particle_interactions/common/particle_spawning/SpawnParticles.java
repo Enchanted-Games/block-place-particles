@@ -830,7 +830,13 @@ public class SpawnParticles {
         if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, blockPos)) return;
 
         if (level.getRandom().nextFloat() > 0.3) {
-            Vec3 centerPos = blockPos.getCenter();
+            Vec3 centerPos =
+                //? if <= 26.1 {
+                /*blockPos.getCenter();
+                *///? } else {
+                Vec3.atCenterOf(blockPos);
+                //? }
+
             level.addParticle(net.minecraft.core.particles.ParticleTypes.CAMPFIRE_COSY_SMOKE, centerPos.x, blockPos.getY() + .8, centerPos.z, 0, 0.07f, 0);
         }
     }

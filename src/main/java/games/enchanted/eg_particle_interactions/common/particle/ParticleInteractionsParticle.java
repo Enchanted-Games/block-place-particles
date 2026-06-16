@@ -44,6 +44,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
@@ -412,7 +413,7 @@ public class ParticleInteractionsParticle extends Particle {
             final boolean yVelInCutoffRange = MathHelper.isInRange(yVel, -MIN_BOUNCE_CUTOFF, MIN_BOUNCE_CUTOFF);
             final boolean zVelInCutoffRange = MathHelper.isInRange(zVel, -MIN_BOUNCE_CUTOFF, MIN_BOUNCE_CUTOFF);
 
-            this.collisionResult = Entity.collideBoundingBox(null, new Vec3(xVel, yVel, zVel), this.getBoundingBox(), this.level, List.of());
+            this.collisionResult = this.collide(xVel, yVel, zVel);
             this.xd = this.collisionResult.x == 0.0 && !xVelInCutoffRange ? -xVel * this.bounciness * 0.99999 : xVel;
             this.yd = this.collisionResult.y == 0.0 && !yVelInCutoffRange ? -yVel * this.bounciness * 0.99999 : yVel;
             this.zd = this.collisionResult.z == 0.0 && !zVelInCutoffRange ? -zVel * this.bounciness * 0.99999 : zVel;
@@ -459,12 +460,20 @@ public class ParticleInteractionsParticle extends Particle {
             }
 
             if(this.onGround) {
-                Vec3 downCollision = Entity.collideBoundingBox(null, new Vec3(xa, ya - 1, za), this.getBoundingBox(), this.level, List.of());
+                Vec3 downCollision = this.collide(xa, ya - 1, za);
                 if(downCollision.y() == 0d) return;
             }
 
             this.onGround = originalYa != ya && originalYa < 0d;
         }
+    }
+
+    protected Vec3 collide(double xa, double ya, double za) {
+        //? if <= 26.1 {
+        /*return Entity.collideBoundingBox(null, new Vec3(xa, ya, za), this.getBoundingBox(), this.level, List.of());
+        *///? } else {
+        return Entity.collideBoundingBox(CollisionContext.positionContext(this.y), new Vec3(xa, ya, za), this.getBoundingBox(), this.level, List.of());
+        //? }
     }
 
     /**

@@ -2,7 +2,6 @@ package games.enchanted.eg_particle_interactions.common.predicates.fluid;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.material.Fluid;
@@ -11,6 +10,12 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
+
+//? if <= 26.1 {
+/*import net.minecraft.advancements.criterion.StatePropertiesPredicate;
+*///? } else {
+import net.minecraft.advancements.predicates.StatePropertiesPredicate;
+//? }
 
 public class FluidStatePredicate extends FluidPredicate {
     public static final MapCodec<FluidStatePredicate> CODEC = RecordCodecBuilder.mapCodec(i ->
