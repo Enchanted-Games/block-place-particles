@@ -44,15 +44,13 @@ public class ConfigTranslation {
     public static final String FIREFLY_FIXES = "firefly_fixes";
     public static final String SHOW_BUTTON_IN_OPTIONS_SCREEN = "show_button_in_options_screen";
 
-    public static final String PARTICLE_PHYSICS_ENABLED = "particle_physics_enabled";
-
     public static final String RENDER_DISTANCE_INTERACTION = "render_distance_interaction";
     public static final String RENDER_DISTANCE_BLOCK = "render_distance_block";
     public static final String RENDER_DISTANCE_AMBIENT = "render_distance_ambient";
 
-    public static final String SPARKS_ADDITIONAL_FLASH_EFFECT = "sparks_additional_flash_effect";
-    public static final String SPARKS_WATER_EVAPORATION = "sparks_water_evaporation";
-    public static final String DUST_ADDITIONAL_SPECKS = "dust_additional_specks";
+    public static final String PARTICLE_FLUID_REACTIVITY = "particle_fluid_reactivity";
+    public static final String PARTICLE_BOUNCE_PHYSICS_ENABLED = "particle_bounce_physics_enabled";
+    public static final String PARTICLE_ALLOW_EMISSIONS_ENABLED = "particle_allow_emissions_enabled";
 
     public static final String DEBUG_SHOW_EMITTER_BOUNDS = "debug_show_emitter_bounds";
     public static final String DEBUG_PARTICLE_TICK_BOUNDING_BOXES = "debug_particle_tick_bounding_boxes";

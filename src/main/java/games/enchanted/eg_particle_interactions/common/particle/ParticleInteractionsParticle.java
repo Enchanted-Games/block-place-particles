@@ -168,7 +168,7 @@ public class ParticleInteractionsParticle extends Particle {
         this.maxZFlow = windComponent.maxFlowSpeed().z() / 100;
 
         FloatProviderComponent bouncinessComponent = components.getOrFallback(ParticleComponents.PHYSICS_BOUNCINESS, FloatProviderComponent.ZERO);
-        this.bounciness = bouncinessComponent.provider().getValue(context);
+        this.bounciness = GeneralOptions.PARTICLE_BOUNCE_PHYSICS.getValue() ? bouncinessComponent.provider().getValue(context) : 0f;
 
         BooleanComponent bypassCollisionCheckComponent = components.get(ParticleComponents.PHYSICS_BYPASS_COLLISION_CHECK);
         ((ParticleDuck) this).eg_particle_interactions$setBypassMovementCollisionCheck(bypassCollisionCheckComponent == null ? this.friction < 0.99 : bypassCollisionCheckComponent.value());
@@ -309,8 +309,10 @@ public class ParticleInteractionsParticle extends Particle {
             return;
         }
 
-        this.inFluidLastTick = this.inFluid;
-        this.inFluid = FluidHelpers.fluidAtPosition(this.level, this.x, this.y, this.z);
+        if(GeneralOptions.PARTICLE_FLUID_REACTIVITY.getValue()) {
+            this.inFluidLastTick = this.inFluid;
+            this.inFluid = FluidHelpers.fluidAtPosition(this.level, this.x, this.y, this.z);
+        }
 
         this.doWind();
         this.applyGravity();
@@ -362,6 +364,8 @@ public class ParticleInteractionsParticle extends Particle {
     }
 
     private void checkFluid() {
+        if(!GeneralOptions.PARTICLE_FLUID_REACTIVITY.getValue()) return;
+
         if(this.age > 0 && this.yd < 0.08 && this.yd > -0.08 && !this.inFluid.isEmpty() && this.inFluidLastTick.isEmpty()) {
             this.onFluid = true;
         }
@@ -742,6 +746,8 @@ public class ParticleInteractionsParticle extends Particle {
     }
 
     public void emit(Emitter emitter, Vector3d positionOffset, VelocityProvider velocityProvider) {
+        if(!GeneralOptions.PARTICLE_ALLOW_EMISSIONS.getValue()) return;
+
         Vector3d vel = velocityProvider.getVelocity(this.velocityAsVector());
         emitter.spawnParticle(
             this.context,

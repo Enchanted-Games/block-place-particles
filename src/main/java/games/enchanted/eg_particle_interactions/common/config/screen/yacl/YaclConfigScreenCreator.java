@@ -88,10 +88,6 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                     1,
                     32,
                     1
-                ),
-                ConfigScreenHelper.genericBooleanOption(
-                    ConfigTranslation.PARTICLE_PHYSICS_ENABLED,
-                    GeneralOptions.ADVANCED_PARTICLE_PHYSICS
                 )
             ))
 
@@ -100,16 +96,16 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 ConfigTranslation.GENERAL_CATEGORY,
                 false,
                 ConfigScreenHelper.genericBooleanOption(
-                    ConfigTranslation.SPARKS_ADDITIONAL_FLASH_EFFECT,
-                    GeneralOptions.ADDITIONAL_SPARK_FLASH_EFFECT
+                    ConfigTranslation.PARTICLE_FLUID_REACTIVITY,
+                    GeneralOptions.PARTICLE_FLUID_REACTIVITY
                 ),
                 ConfigScreenHelper.genericBooleanOption(
-                    ConfigTranslation.SPARKS_WATER_EVAPORATION,
-                    GeneralOptions.SPARK_WATER_EVAPORATION
+                    ConfigTranslation.PARTICLE_BOUNCE_PHYSICS_ENABLED,
+                    GeneralOptions.PARTICLE_BOUNCE_PHYSICS
                 ),
                 ConfigScreenHelper.genericBooleanOption(
-                    ConfigTranslation.DUST_ADDITIONAL_SPECKS,
-                    GeneralOptions.DUST_SPECKS
+                    ConfigTranslation.PARTICLE_ALLOW_EMISSIONS_ENABLED,
+                    GeneralOptions.PARTICLE_ALLOW_EMISSIONS
                 )
             ))
 

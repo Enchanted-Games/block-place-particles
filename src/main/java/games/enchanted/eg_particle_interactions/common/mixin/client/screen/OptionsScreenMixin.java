@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.client.screen;
 
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
+import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.config.compat.ConfigScreenCreator;
 import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
 import net.minecraft.client.Minecraft;
@@ -25,6 +26,7 @@ public abstract class OptionsScreenMixin extends Screen {
         method = "init()V"
     )
     private void eg_particle_interactions$addParticleInteractionsConfigButton(CallbackInfo ci) {
+        if(!GeneralOptions.SHOW_BUTTON_IN_OPTIONS_SCREEN.getValue()) return;
         if(PlatformHelper.isDevelopmentEnvironment() || (Minecraft.getInstance().level != null && !ParticleInteractionsMod.isModMenuPresent())) {
             final int width = 120;
             final int height = 16;

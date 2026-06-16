@@ -131,17 +131,12 @@
   "eg_particle_interactions.config.global_option.render_distance_ambient": "§oRender Distance:§r Ambient Particles",
   "eg_particle_interactions.config.global_option.render_distance_ambient.desc": "The maximum distance in chunks that ambient particles are visible from. This includes particles that arent included in the previous two render distance settings, such as ambient fire embers.\n\nHigh values may result in worse performance, the final render distance is capped at Minecraft's render distance",
 
-  "eg_particle_interactions.config.global_option.particle_physics_enabled": "Advanced particle physics",
-  "eg_particle_interactions.config.global_option.particle_physics_enabled.desc": "Controls whether some particles have advanced physics, such as sparks bouncing.\n\nDisabling this may improve performance when a lot of physics particles are in the world",
-
-  "eg_particle_interactions.config.global_option.sparks_additional_flash_effect": "§oSparks:§r Additional flash effect",
-  "eg_particle_interactions.config.global_option.sparks_additional_flash_effect.desc": "Disabling this will prevent sparks from spawning extra flash effect particles.\n\nDisabling this may very slightly improve performance",
-
-  "eg_particle_interactions.config.global_option.sparks_water_evaporation": "§oSparks:§r Evaporation effect in water",
-  "eg_particle_interactions.config.global_option.sparks_water_evaporation.desc": "Disabling this will prevent sparks from playing a fizzing sound and spawning steam particles when entering water\n\nDisabling this may very slightly improve performance",
-
-  "eg_particle_interactions.config.global_option.dust_additional_specks": "§oDust:§r Spawn extra dust specks",
-  "eg_particle_interactions.config.global_option.dust_additional_specks.desc": "Disabling this will prevent dust particles from spawning additional small bits of dust\n\nDisabling this may very slightly improve performance",
+  "eg_particle_interactions.config.global_option.particle_fluid_reactivity": "Particle fluid reactivity",
+  "eg_particle_interactions.config.global_option.particle_fluid_reactivity.desc": "Whether or not particles can interact with fluids in the world.\n\nMay improve performance when a lot of particles are in the world around fluids",
+  "eg_particle_interactions.config.global_option.particle_bounce_physics_enabled": "Particle bounce physics",
+  "eg_particle_interactions.config.global_option.particle_bounce_physics_enabled.desc": "May slightly improve performance when a lot of particles are in the world",
+  "eg_particle_interactions.config.global_option.particle_allow_emissions_enabled": "Allow additional particle emissions",
+  "eg_particle_interactions.config.global_option.particle_allow_emissions_enabled.desc": "Whether or not particles can spawn other particles occasionally.\n\nMay improve performance when a lot of particles are in the world or if you are reaching the particle limit",
 
   "eg_particle_interactions.config.general.debug": "Debug",
   "eg_particle_interactions.config.general.debug.desc": "CAUTION: Don't change these options unless you have been told to or know what you are doing",

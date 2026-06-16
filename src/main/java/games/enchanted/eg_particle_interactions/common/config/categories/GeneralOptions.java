@@ -36,17 +36,16 @@ public class GeneralOptions {
     public static final ConfigOption<Integer> AMBIENT_RENDER_DISTANCE = registerOption(
         new IntOption(3, "ambient_render_distance")
     );
-    public static final ConfigOption<Boolean> ADVANCED_PARTICLE_PHYSICS = registerOption(
-        new BoolOption(true, "advanced_particle_physics")
+
+    // - particle performance
+    public static final ConfigOption<Boolean> PARTICLE_BOUNCE_PHYSICS = registerOption(
+        new BoolOption(true, "particle_bounce_physics")
     );
-    public static final ConfigOption<Boolean> ADDITIONAL_SPARK_FLASH_EFFECT = registerOption(
-        new BoolOption(true, "additional_spark_flash_effect")
+    public static final ConfigOption<Boolean> PARTICLE_FLUID_REACTIVITY = registerOption(
+        new BoolOption(true, "fluid_reactivity")
     );
-    public static final ConfigOption<Boolean> SPARK_WATER_EVAPORATION = registerOption(
-        new BoolOption(true, "spark_water_evaporation")
-    );
-    public static final ConfigOption<Boolean> DUST_SPECKS = registerOption(
-        new BoolOption(true, "dust_specks")
+    public static final ConfigOption<Boolean> PARTICLE_ALLOW_EMISSIONS = registerOption(
+        new BoolOption(true, "particle_allow_emissions")
     );
 
     // - debug
