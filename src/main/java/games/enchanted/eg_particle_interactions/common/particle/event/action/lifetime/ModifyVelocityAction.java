@@ -3,7 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.event.action.li
 import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.particle.event.action.EventAction;
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.Vector3dMathModifier;
-import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
 
 public class ModifyVelocityAction extends EventAction {
     public static final MapCodec<ModifyVelocityAction> CODEC = Vector3dMathModifier.CODEC.xmap(

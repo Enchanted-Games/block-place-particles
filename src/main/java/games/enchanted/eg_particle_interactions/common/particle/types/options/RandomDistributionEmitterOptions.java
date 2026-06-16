@@ -1,10 +1,10 @@
-package games.enchanted.eg_particle_interactions.common.particle.options;
+package games.enchanted.eg_particle_interactions.common.particle.types.options;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
-import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
+import games.enchanted.eg_particle_interactions.common.particle.types.PIParticleType;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSet;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSetManager;
 import net.minecraft.network.RegistryFriendlyByteBuf;

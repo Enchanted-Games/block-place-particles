@@ -3,21 +3,21 @@
         "default": {
             "type": "particle_interactions",
             "particle": {
-                "type": "simple/block"
+                "type": "block"
             },
             "velocity_multiplier": 4
         },
         "block/crack": {
             "type": "particle_interactions",
             "particle": {
-                "type": "simple/block_crack"
+                "type": "block_crack"
             },
             "velocity_multiplier": 4
         },
         "block/falling_block_unstable": {
             "type": "particle_interactions",
             "particle": {
-                "type": "simple/falling_dust"
+                "type": "falling_dust"
             }
         }
     }

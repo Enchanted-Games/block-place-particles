@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.particle.options.value;
+package games.enchanted.eg_particle_interactions.common.particle.value;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

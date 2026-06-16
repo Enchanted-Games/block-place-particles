@@ -4,11 +4,11 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
+import games.enchanted.eg_particle_interactions.common.particle.types.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearanceManager;
-import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
-import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
+import games.enchanted.eg_particle_interactions.common.particle.types.options.PIParticleOptions;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleSpawner;
 import org.joml.Vector3d;
 import org.jspecify.annotations.Nullable;
 

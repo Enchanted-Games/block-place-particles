@@ -3,7 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.behaviour;
 import com.mojang.serialization.Codec;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
-import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 

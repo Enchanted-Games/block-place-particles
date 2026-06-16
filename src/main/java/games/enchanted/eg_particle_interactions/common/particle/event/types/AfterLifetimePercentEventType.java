@@ -3,7 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle.event.types;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
 
 public class AfterLifetimePercentEventType extends ParticleEventType {
     public static final MapCodec<AfterLifetimePercentEventType> CODEC = RecordCodecBuilder.mapCodec(i -> i

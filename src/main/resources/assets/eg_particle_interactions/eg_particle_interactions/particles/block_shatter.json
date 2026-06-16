@@ -1,5 +1,5 @@
 {
-    "special_type": "shatter_shape",
+    "behaviour": "shatter_shape",
     "components": {
         "gravity/initial": {
             "range": [

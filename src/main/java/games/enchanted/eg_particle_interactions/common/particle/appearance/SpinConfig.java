@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common.particle.appearance;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomFloatProvider;
+import games.enchanted.eg_particle_interactions.common.particle.value.RandomFloatProvider;
 
 public record SpinConfig(RandomFloatProvider startingRotation, RandomFloatProvider startingSpeed, RandomFloatProvider maxSpeed, RandomFloatProvider acceleration) {
     private static final RandomFloatProvider ZERO = new RandomFloatProvider(0, 0);

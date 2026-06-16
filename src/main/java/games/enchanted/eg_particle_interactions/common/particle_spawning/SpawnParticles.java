@@ -9,12 +9,12 @@ import games.enchanted.eg_particle_interactions.common.override_system.ParticleO
 import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
 import games.enchanted.eg_particle_interactions.common.override_system.override.FluidOverrideManager;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
+import games.enchanted.eg_particle_interactions.common.particle.types.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleIDs;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSet;
-import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitterOptions;
-import games.enchanted.eg_particle_interactions.common.particle.options.RandomDistributionEmitterOptions;
-import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
+import games.enchanted.eg_particle_interactions.common.particle.types.options.ArcEmitterOptions;
+import games.enchanted.eg_particle_interactions.common.particle.types.options.RandomDistributionEmitterOptions;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleSpawner;
 import games.enchanted.eg_particle_interactions.common.registry.ObjectOrTagLocation;
 import games.enchanted.eg_particle_interactions.common.util.BiomeHelpers;
 import games.enchanted.eg_particle_interactions.common.util.FluidHelpers;

@@ -7,7 +7,7 @@ import games.enchanted.eg_particle_interactions.common.particle.appearance.Parti
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSet;
-import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.particles.DustParticleOptions;
 import org.jetbrains.annotations.NotNull;

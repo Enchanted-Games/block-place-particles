@@ -1,8 +1,8 @@
-package games.enchanted.eg_particle_interactions.common.particle;
+package games.enchanted.eg_particle_interactions.common.particle.types;
 
 import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
-import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
+import games.enchanted.eg_particle_interactions.common.particle.types.options.PIParticleOptions;
 
 public abstract class PIParticleType<T extends PIParticleOptions> {
     final ParticleComponentMap defaultComponents;

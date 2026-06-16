@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common.particle.event.types;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
 import games.enchanted.eg_particle_interactions.common.predicates.fluid.FluidPredicate;
 import games.enchanted.eg_particle_interactions.common.predicates.fluid.FluidPredicates;
 import net.minecraft.world.level.material.Fluids;

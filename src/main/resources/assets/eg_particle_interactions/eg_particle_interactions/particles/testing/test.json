@@ -1,5 +1,5 @@
 {
-    "special_type": "simple",
+    "behaviour": "simple",
     "components": {
         "gravity/initial": 0.5,
         "lifetime": {

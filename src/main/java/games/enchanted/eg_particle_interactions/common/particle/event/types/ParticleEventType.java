@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common.particle.event.types;
 
 import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.particle.event.action.EventAction;
-import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
 
 public abstract class ParticleEventType {
     private EventAction action;

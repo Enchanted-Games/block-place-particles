@@ -2,9 +2,8 @@ package games.enchanted.eg_particle_interactions.common.particle.event.action.li
 
 import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.particle.event.action.EventAction;
-import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.FloatMathModifier;
-import games.enchanted.eg_particle_interactions.common.util.math.modifier.Vector3dMathModifier;
 
 public class ModifyGravityAction extends EventAction {
     public static final MapCodec<ModifyGravityAction> CODEC = FloatMathModifier.CODEC.xmap(

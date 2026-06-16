@@ -5,8 +5,8 @@ import games.enchanted.eg_particle_interactions.common.particle.appearance.Parti
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.EmptyEmitter;
-import games.enchanted.eg_particle_interactions.common.particle.options.ArcEmitterOptions;
-import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
+import games.enchanted.eg_particle_interactions.common.particle.types.options.ArcEmitterOptions;
+import games.enchanted.eg_particle_interactions.common.particle.types.PIParticleProvider;
 import games.enchanted.eg_particle_interactions.common.particle.types.emitter.AbstractEmitterParticle;
 import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import net.minecraft.client.particle.Particle;

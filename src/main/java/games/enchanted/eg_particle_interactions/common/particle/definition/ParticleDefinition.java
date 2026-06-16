@@ -23,7 +23,7 @@ public record ParticleDefinition(ParticleComponentMap defaultComponents, Particl
     public static final Codec<ParticleDefinition> CODEC = RecordCodecBuilder.create(
         i -> i.group(
             ParticleComponentMap.CODEC.optionalFieldOf("components", ParticleComponentMap.EMPTY).forGetter(ParticleDefinition::defaultComponents),
-            ParticleBehaviours.CODEC.optionalFieldOf("special_type", ParticleBehaviours.SIMPLE).forGetter(ParticleDefinition::behaviourProvider)
+            ParticleBehaviours.CODEC.optionalFieldOf("behaviour", ParticleBehaviours.SIMPLE).forGetter(ParticleDefinition::behaviourProvider)
         ).apply(
             i,
             ParticleDefinition::new

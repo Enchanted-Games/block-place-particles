@@ -8,7 +8,7 @@ import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
-import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
 import games.enchanted.eg_particle_interactions.common.shapes.QuadFaceShape;
 import games.enchanted.eg_particle_interactions.common.shapes.ShapeDefinitions;
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;

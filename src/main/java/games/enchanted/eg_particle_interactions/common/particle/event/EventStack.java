@@ -8,7 +8,7 @@ import games.enchanted.eg_particle_interactions.common.particle.event.action.lif
 import games.enchanted.eg_particle_interactions.common.particle.event.types.OnBounceEventType;
 import games.enchanted.eg_particle_interactions.common.particle.event.types.ParticleEventType;
 import games.enchanted.eg_particle_interactions.common.particle.event.types.ParticleEventTypes;
-import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
 
 import java.util.ArrayList;
 import java.util.List;

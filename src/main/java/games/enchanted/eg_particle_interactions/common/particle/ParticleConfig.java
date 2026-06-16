@@ -3,9 +3,8 @@ package games.enchanted.eg_particle_interactions.common.particle;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import games.enchanted.eg_particle_interactions.common.particle.options.DustParticleOptions;
-import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomFloatProvider;
-import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomIntProvider;
+import games.enchanted.eg_particle_interactions.common.particle.value.RandomFloatProvider;
+import games.enchanted.eg_particle_interactions.common.particle.value.RandomIntProvider;
 
 public class ParticleConfig {
     public static final RandomFloatProvider DEFAULT_GRAVITY = new RandomFloatProvider(0.25F, 0.38F);

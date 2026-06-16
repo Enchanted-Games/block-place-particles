@@ -1,5 +1,5 @@
 {
-    "special_type": "spark_shape",
+    "behaviour": "spark_shape",
     "components": {
         "gravity/initial": {
             "range": [

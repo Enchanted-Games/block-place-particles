@@ -1,12 +1,10 @@
-package games.enchanted.eg_particle_interactions.common.particle.types;
+package games.enchanted.eg_particle_interactions.common.particle;
 
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes;
 import games.enchanted.eg_particle_interactions.common.duck.ParticleDuck;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.ParticleAccessor;
-import games.enchanted.eg_particle_interactions.common.particle.ParticleConfig;
-import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.particle.VelocityProvider;
+import games.enchanted.eg_particle_interactions.common.particle.value.VelocityProvider;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.SpinConfig;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.SpriteCycleMode;
@@ -18,8 +16,8 @@ import games.enchanted.eg_particle_interactions.common.particle.component.Partic
 import games.enchanted.eg_particle_interactions.common.particle.component.type.*;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.event.EventStack;
-import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomFloatProvider;
-import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomIntProvider;
+import games.enchanted.eg_particle_interactions.common.particle.value.RandomFloatProvider;
+import games.enchanted.eg_particle_interactions.common.particle.value.RandomIntProvider;
 import games.enchanted.eg_particle_interactions.common.particle.render.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.StateQuadConsumer;

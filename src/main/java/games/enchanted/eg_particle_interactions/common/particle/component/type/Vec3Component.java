@@ -1,7 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.component.type;
 
 import com.mojang.serialization.Codec;
-import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomIntProvider;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;

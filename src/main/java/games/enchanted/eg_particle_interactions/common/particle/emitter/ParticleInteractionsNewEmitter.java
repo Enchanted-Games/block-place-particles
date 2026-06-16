@@ -7,7 +7,7 @@ import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleDefinition;
 import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleDefinitionManager;
-import games.enchanted.eg_particle_interactions.common.particle.util.ParticleSpawner;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleSpawner;
 import org.joml.Vector3d;
 
 public class ParticleInteractionsNewEmitter extends Emitter {

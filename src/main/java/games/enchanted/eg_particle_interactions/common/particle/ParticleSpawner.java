@@ -1,8 +1,7 @@
-package games.enchanted.eg_particle_interactions.common.particle.util;
+package games.enchanted.eg_particle_interactions.common.particle;
 
-import games.enchanted.eg_particle_interactions.common.particle.PIParticleType;
-import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.particle.ParticleTypesRegistry;
+import games.enchanted.eg_particle_interactions.common.particle.types.PIParticleType;
+import games.enchanted.eg_particle_interactions.common.particle.types.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearanceManager;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
@@ -10,8 +9,8 @@ import games.enchanted.eg_particle_interactions.common.particle.component.Partic
 import games.enchanted.eg_particle_interactions.common.particle.component.type.AppearanceComponent;
 import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleDefinition;
 import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleDefinitionManager;
-import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
-import games.enchanted.eg_particle_interactions.common.particle.provider.PIParticleProvider;
+import games.enchanted.eg_particle_interactions.common.particle.types.options.PIParticleOptions;
+import games.enchanted.eg_particle_interactions.common.particle.types.PIParticleProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.resources.Identifier;

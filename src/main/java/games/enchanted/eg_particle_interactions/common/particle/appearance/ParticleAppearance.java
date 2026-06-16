@@ -11,9 +11,8 @@ import games.enchanted.eg_particle_interactions.common.particle.appearance.uv.Si
 import games.enchanted.eg_particle_interactions.common.particle.appearance.uv.UVProvider;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.uv.UVProviders;
 import games.enchanted.eg_particle_interactions.common.particle.event.EventStack;
-import games.enchanted.eg_particle_interactions.common.particle.options.value.RandomFloatProvider;
+import games.enchanted.eg_particle_interactions.common.particle.value.RandomFloatProvider;
 import games.enchanted.eg_particle_interactions.common.util.ObjectReference;
-import games.enchanted.eg_particle_interactions.common.util.texture.UVCoordinates;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import org.joml.Vector3f;

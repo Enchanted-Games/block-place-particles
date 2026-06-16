@@ -1,7 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.event.types;
 
 import com.mojang.serialization.MapCodec;
-import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
 
 public class TickEventType extends ParticleEventType {
     public static final MapCodec<TickEventType> CODEC = MapCodec.unit(TickEventType::new);

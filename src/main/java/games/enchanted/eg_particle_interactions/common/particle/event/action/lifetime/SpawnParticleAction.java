@@ -3,12 +3,11 @@ package games.enchanted.eg_particle_interactions.common.particle.event.action.li
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
-import games.enchanted.eg_particle_interactions.common.particle.VelocityProvider;
+import games.enchanted.eg_particle_interactions.common.particle.value.VelocityProvider;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitters;
-import games.enchanted.eg_particle_interactions.common.particle.emitter.EmptyEmitter;
 import games.enchanted.eg_particle_interactions.common.particle.event.action.EventAction;
-import games.enchanted.eg_particle_interactions.common.particle.types.ParticleInteractionsParticle;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
 import org.joml.Vector3d;
 
 public class SpawnParticleAction extends EventAction {

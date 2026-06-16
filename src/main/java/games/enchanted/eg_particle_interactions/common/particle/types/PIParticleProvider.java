@@ -1,8 +1,8 @@
-package games.enchanted.eg_particle_interactions.common.particle.provider;
+package games.enchanted.eg_particle_interactions.common.particle.types;
 
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
-import games.enchanted.eg_particle_interactions.common.particle.options.PIParticleOptions;
+import games.enchanted.eg_particle_interactions.common.particle.types.options.PIParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import net.minecraft.client.particle.Particle;
 import org.jspecify.annotations.Nullable;
