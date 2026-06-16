@@ -50,13 +50,9 @@
   "eg_particle_interactions.config.global_option.disable_all_block_breaking_particles": "Disable all %s particles",
   "eg_particle_interactions.config.global_option.disable_all_block_breaking_particles.desc": "Enabling this option will prevent any particles from spawning when breaking blocks",
 
-  "eg_particle_interactions.config.global_option.spawn_block_particle_on_place": "Spawn when block placed",
-  "eg_particle_interactions.config.global_option.spawn_block_particle_on_place.desc": "Should %s particles spawn when a block is placed?",
   "eg_particle_interactions.config.global_option.max_particles_block_place": "Max particles when block placed",
   "eg_particle_interactions.config.global_option.max_particles_block_place.desc": "The maximum amount of particles that can spawn when a block is placed",
 
-  "eg_particle_interactions.config.global_option.spawn_block_particle_on_break": "Spawn when block broken",
-  "eg_particle_interactions.config.global_option.spawn_block_particle_on_break.desc": "Should %s particles spawn when a block is broken?",
   "eg_particle_interactions.config.global_option.max_particles_block_break": "Max particles when block broken",
   "eg_particle_interactions.config.global_option.max_particles_block_break.desc": "The maximum amount of particles that can spawn when a block is broken",
 
@@ -64,8 +60,6 @@
   "eg_particle_interactions.config.global_option.spawn_particle_on_item_use.desc": "Should %s particles spawn when the item is used?",
   "eg_particle_interactions.config.global_option.max_particles_item_use": "Amount of particles when item used",
   "eg_particle_interactions.config.global_option.max_particles_item_use.desc": "The amount of %s particles that spawn when the item is used",
-  "eg_particle_interactions.config.global_option.item_use_particle_intensity": "Particle Intensity",
-  "eg_particle_interactions.config.global_option.item_use_particle_intensity.desc": "The speed that the %s particles have when spawned",
 
   "eg_particle_interactions.config.global_option.particle_effect_render_distance": "Render distance (blocks)",
   "eg_particle_interactions.config.global_option.particle_effect_render_distance.desc": "The maximum distance that %s particles will be visible from, in blocks",
@@ -95,13 +89,6 @@
   "eg_particle_interactions.config.global_option.minecart_wheel_particle_amount.desc": "The chance for %s particles to be spawned each tick for each minecart wheel. This is scaled based on the minecart speed",
   "eg_particle_interactions.config.global_option.minecart_only_with_passenger": "Spawn only with passenger?",
   "eg_particle_interactions.config.global_option.minecart_only_with_passenger.desc": "Should %s particles only be spawned if there is a passenger riding the minecart? A passenger counts as any entity riding the minecart or a block inside the minecart, e.g: a chest for chest minecarts",
-
-  "eg_particle_interactions.config.global_option.entity_ambient_particle_spawn_chance": "Ambient particle spawn chance",
-  "eg_particle_interactions.config.global_option.entity_ambient_particle_spawn_chance.desc": "The chance for %s particles to be spawned from the entity each tick",
-  "eg_particle_interactions.config.global_option.spawn_particle_on_entity_hurt": "Spawn when entity is damaged?",
-  "eg_particle_interactions.config.global_option.spawn_particle_on_entity_hurt.desc": "Should %s particles be spawned when the entity is damaged?",
-  "eg_particle_interactions.config.global_option.amount_to_spawn_on_entity_hurt": "Amount of particles on damage",
-  "eg_particle_interactions.config.global_option.amount_to_spawn_on_entity_hurt.desc": "How many %s particles should spawn when the entity is damaged",
 
   "eg_particle_interactions.config.global_option.amount_to_spawn_on_lightning_strike": "Amount of %s particles on lightning strike",
   "eg_particle_interactions.config.global_option.amount_to_spawn_on_lightning_strike.desc": "The maximum amount of %s particles that can spawn when a lightning bolt hits something",

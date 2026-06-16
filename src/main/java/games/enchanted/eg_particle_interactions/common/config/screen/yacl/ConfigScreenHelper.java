@@ -104,9 +104,9 @@ class ConfigScreenHelper {
     }
 
     // groups
-    public static OptionGroup createParticleToggleAndMaxAndIntensityConfigGroup(String particleTypeKey, String groupName, String category, ConfigOption<Boolean> particleEnabledOption, String particleEnabledTranslationOption, Option<Integer> maxParticlesOnUseOption, Option<Integer> particleIntensityOption) {
+    public static OptionGroup createParticleToggleAndMaxConfigGroup(String particleTypeKey, String groupName, String category, ConfigOption<Boolean> particleEnabledOption, String particleEnabledTranslationOption, Option<Integer> maxParticlesOnUseOption) {
         Option<Boolean> particleToggleOption = booleanOption(particleEnabledTranslationOption, particleTypeKey, particleEnabledOption);
-        return createMultipleOptionsConfigGroup(particleTypeKey, groupName, category, particleToggleOption, maxParticlesOnUseOption, particleIntensityOption);
+        return createMultipleOptionsConfigGroup(particleTypeKey, groupName, category, particleToggleOption, maxParticlesOnUseOption);
     }
     public static OptionGroup createParticleToggleAndIntSliderConfigGroup(String particleTypeKey, String groupName, String category, ConfigOption<Boolean> particleEnabledOption, String particleEnabledTranslationOption, Option<Integer> intSlider) {
         Option<Boolean> particleToggleOption = booleanOption(particleEnabledTranslationOption, particleTypeKey, particleEnabledOption);

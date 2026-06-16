@@ -431,8 +431,8 @@ public class SpawnParticles {
     public static void spawnFireChargeSmokeParticle(Level level, BlockPos particlePos) {
         if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, particlePos)) return;
         if (!ItemInteractionOptions.FIRE_CHARGE_PARTICLES_ENABLED.getValue()) return;
-        double lavaIntensity = ItemInteractionOptions.FIRE_CHARGE_PARTICLES_INTENSITY.getValue() / 24.;
-        double smokeIntensity = ItemInteractionOptions.FIRE_CHARGE_PARTICLES_INTENSITY.getValue() / 58.;
+        double lavaIntensity = 5 / 24.;
+        double smokeIntensity = 5 / 58.;
         for (int i = 0; i < ItemInteractionOptions.FIRE_CHARGE_PARTICLES_AMOUNT.getValue(); i++) {
             double x = particlePos.getX() + 0.25 + (level.getRandom().nextDouble() / 2);
             double y = particlePos.getY() + 0.25 + (level.getRandom().nextDouble() / 2);

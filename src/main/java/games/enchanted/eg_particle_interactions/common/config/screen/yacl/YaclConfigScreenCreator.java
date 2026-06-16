@@ -351,14 +351,13 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
             )
 
             // flint and steel spark
-            .group( ConfigScreenHelper.createParticleToggleAndMaxAndIntensityConfigGroup(
+            .group( ConfigScreenHelper.createParticleToggleAndMaxConfigGroup(
                 "flint_and_steel_sparks",
                 "flint_and_steel_sparks",
                 ConfigTranslation.ITEMS_CONFIG_CATEGORY,
                 ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_ENABLED,
                 ConfigTranslation.SPAWN_PARTICLE_ON_ITEM_USE,
-                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE, "flint_and_steel_sparks", ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_AMOUNT, 1, 32, 1),
-                ConfigScreenHelper.integerSliderOption(ConfigTranslation.ITEM_USE_PARTICLE_INTENSITY, "flint_and_steel_sparks", ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_INTENSITY, 1, 8, 1)
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE, "flint_and_steel_sparks", ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_AMOUNT, 1, 32, 1)
             ))
 
             .group(
@@ -366,14 +365,13 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
             )
 
             // fire charge smoke
-            .group( ConfigScreenHelper.createParticleToggleAndMaxAndIntensityConfigGroup(
+            .group( ConfigScreenHelper.createParticleToggleAndMaxConfigGroup(
                 "fire_charge_smoke",
                 "fire_charge_smoke",
                 ConfigTranslation.ITEMS_CONFIG_CATEGORY,
                 ItemInteractionOptions.FIRE_CHARGE_PARTICLES_ENABLED,
                 ConfigTranslation.SPAWN_PARTICLE_ON_ITEM_USE,
-                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE, "fire_charge_smoke", ItemInteractionOptions.FIRE_CHARGE_PARTICLES_AMOUNT, 1, 32, 1),
-                ConfigScreenHelper.integerSliderOption(ConfigTranslation.ITEM_USE_PARTICLE_INTENSITY, "fire_charge_smoke", ItemInteractionOptions.FIRE_CHARGE_PARTICLES_INTENSITY, 1, 8, 1)
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE, "fire_charge_smoke", ItemInteractionOptions.FIRE_CHARGE_PARTICLES_AMOUNT, 1, 32, 1)
             ))
 
             .group(
