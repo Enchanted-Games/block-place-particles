@@ -1,0 +1,37 @@
+{
+    "fallback_emitter": {
+        "type": "random",
+        "emitters": [
+            {
+                "emitter": {
+                    "type": "vanilla",
+                    "particle": {
+                        "type": "large_smoke"
+                    },
+                    "velocity_multiplier": 0.08
+                },
+                "weight": 7
+            },
+            {
+                "emitter": {
+                    "type": "vanilla",
+                    "particle": {
+                        "type": "smoke"
+                    },
+                    "velocity_multiplier": 0.08
+                },
+                "weight": 3
+            },
+            {
+                "emitter": {
+                    "type": "vanilla",
+                    "particle": {
+                        "type": "lava"
+                    },
+                    "velocity_multiplier": 0.2
+                },
+                "weight": 10
+            }
+        ]
+    }
+}

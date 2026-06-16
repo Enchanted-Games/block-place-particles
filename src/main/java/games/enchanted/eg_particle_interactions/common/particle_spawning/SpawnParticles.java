@@ -428,20 +428,25 @@ public class SpawnParticles {
         }
     }
 
-    public static void spawnFireChargeSmokeParticle(Level level, BlockPos particlePos) {
+    public static void spawnFireChargeSmokeParticle(ClientLevel level, BlockPos particlePos) {
         if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, particlePos)) return;
         if (!ItemInteractionOptions.FIRE_CHARGE_PARTICLES_ENABLED.getValue()) return;
-        double lavaIntensity = 5 / 24.;
-        double smokeIntensity = 5 / 58.;
+        EmitterRuleSet emitterRuleSet = EmitterRuleSetIds.FIRE_CHARGE_USE.get();
+        ParticleContext context = ParticleContext.block(level, level.getBlockState(particlePos), particlePos);
+
         for (int i = 0; i < ItemInteractionOptions.FIRE_CHARGE_PARTICLES_AMOUNT.getValue(); i++) {
             double x = particlePos.getX() + 0.25 + (level.getRandom().nextDouble() / 2);
             double y = particlePos.getY() + 0.25 + (level.getRandom().nextDouble() / 2);
             double z = particlePos.getZ() + 0.25 + (level.getRandom().nextDouble() / 2);
-            if (level.getRandom().nextFloat() > 0.2) {
-                level.addParticle(level.getRandom().nextFloat() > 0.3 ? net.minecraft.core.particles.ParticleTypes.SMOKE : net.minecraft.core.particles.ParticleTypes.LARGE_SMOKE, x, y, z, (level.getRandom().nextDouble() - 0.5) * smokeIntensity, (level.getRandom().nextDouble() + 0.5) * smokeIntensity, (level.getRandom().nextDouble() - 0.5) * smokeIntensity);
-                continue;
-            }
-            level.addParticle(net.minecraft.core.particles.ParticleTypes.LAVA, x, y, z, (level.getRandom().nextDouble() - 0.5) * lavaIntensity, (level.getRandom().nextDouble() + 0.5) * lavaIntensity, (level.getRandom().nextDouble() - 0.5) * lavaIntensity);
+            emitterRuleSet.getEmitter(context).spawnParticle(
+                context,
+                x,
+                y,
+                z,
+                (level.getRandom().nextDouble() - 0.5),
+                (level.getRandom().nextDouble() + 0.5),
+                (level.getRandom().nextDouble() - 0.5)
+            );
         }
     }
 

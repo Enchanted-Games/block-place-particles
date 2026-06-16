@@ -13,6 +13,7 @@ public class EmitterRuleSetIds {
 
     public static final Supplier<EmitterRuleSet> FIRE_PLACED = ref(ParticleInteractionsMod.id(INTERACTION_DIR + "fire_placed"));
     public static final Supplier<EmitterRuleSet> FLINT_AND_STEEL_USE = ref(ParticleInteractionsMod.id(INTERACTION_DIR + "flint_and_steel_use"));
+    public static final Supplier<EmitterRuleSet> FIRE_CHARGE_USE = ref(ParticleInteractionsMod.id(INTERACTION_DIR + "fire_charge_use"));
 
     public static final Supplier<EmitterRuleSet> ANVIL_USE_EMISSION = ref(ParticleInteractionsMod.id(INTERACTION_DIR + "anvil_use_emission"));
     public static final Supplier<EmitterRuleSet> GRINDSTONE_USE_EMISSION = ref(ParticleInteractionsMod.id(INTERACTION_DIR + "grindstone_use_emission"));
