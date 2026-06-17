@@ -37,7 +37,7 @@ dependencies {
     minecraft("com.mojang:minecraft:${property("deps.minecraft")}")
     implementation("net.fabricmc:fabric-loader:${property("deps.fabric-loader")}")
 
-    if (boolProperty("deps.fabric-api.compileonly")) {
+    if (boolProperty("deps.fabric-api_compileonly")) {
         compileOnly("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric-api")}")
     } else {
         implementation("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric-api")}")

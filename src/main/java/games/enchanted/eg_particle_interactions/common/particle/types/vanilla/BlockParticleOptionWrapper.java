@@ -26,14 +26,15 @@ public class BlockParticleOptionWrapper implements PIParticleProvider<SimplePart
     }
 
     private ParticleProvider<BlockParticleOption> getProvider() {
-        ParticleProvider<?> provider = ((MinecraftAccessor) Minecraft.getInstance()).eg_particle_interactions$getParticleResources()
-            .getProviders().get(BuiltInRegistries.PARTICLE_TYPE.getId(this.dustType.get()));
-        try {
-            //noinspection unchecked
-            return (ParticleProvider<BlockParticleOption>) provider;
-        } catch (Exception e) {
-            throw new IllegalStateException("Somehow got a particle provider of incorrect type '" + Arrays.toString(provider.getClass().getTypeParameters()) + "'. Expected ParticleProvider<BlockParticleOption>");
-        }
+//        ParticleProvider<?> provider = ((MinecraftAccessor) Minecraft.getInstance()).eg_particle_interactions$getParticleResources()
+//            .getProviders().get(BuiltInRegistries.PARTICLE_TYPE.getId(this.dustType.get()));
+//        try {
+//            //noinspection unchecked
+//            return (ParticleProvider<BlockParticleOption>) provider;
+//        } catch (Exception e) {
+//            throw new IllegalStateException("Somehow got a particle provider of incorrect type '" + Arrays.toString(provider.getClass().getTypeParameters()) + "'. Expected ParticleProvider<BlockParticleOption>");
+//        }
+        return null;
     }
 
     @Override

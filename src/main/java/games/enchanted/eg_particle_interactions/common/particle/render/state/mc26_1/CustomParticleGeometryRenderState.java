@@ -1,10 +1,14 @@
-package games.enchanted.eg_particle_interactions.common.particle.render.state;
+//? if minecraft: >= 26.1 < 26.2 {
+/*package games.enchanted.eg_particle_interactions.common.particle.render.state.mc26_1;
 
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import games.enchanted.eg_particle_interactions.common.Logging;
+import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
+import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumerProvider;
+import games.enchanted.eg_particle_interactions.common.particle.render.geometry.mc26_1.CustomParticleGeometryQuadConsumer;
+import games.enchanted.eg_particle_interactions.common.particle.render.state.QuadStorage;
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.feature.ParticleFeatureRenderer;
@@ -13,23 +17,16 @@ import net.minecraft.client.renderer.state.level.ParticleGroupRenderState;
 import net.minecraft.client.renderer.state.level.QuadParticleRenderState;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.util.ARGB;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CustomParticleGeometryRenderState implements SubmitNodeCollector.ParticleGroupRenderer, ParticleGroupRenderState {
-    private static final int INITIAL_CAPACITY = 512;
-    private static final int ADDITION_CAPACITY = 512;
-    private static final int VERTS_PER_QUAD = 4;
-    private static final int INTS_PER_QUAD = 2;
-    private static final int FLOATS_PER_QUAD = 5;
+public class CustomParticleGeometryRenderState implements SubmitNodeCollector.ParticleGroupRenderer, ParticleGroupRenderState, QuadConsumerProvider {
     private final Map<SingleQuadParticle.Layer, QuadStorage> quadStoragePerLayer = new HashMap<>();
     private int vertexAmount = 0;
 
@@ -44,12 +41,7 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
         try (ByteBufferBuilder byteBufferBuilder = ByteBufferBuilder.exactlySized(this.vertexAmount * DefaultVertexFormat.PARTICLE.getVertexSize())) {
             BufferBuilder vertexBuffer = new BufferBuilder(byteBufferBuilder, VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
 
-            HashMap<SingleQuadParticle.Layer, QuadParticleRenderState.PreparedLayer> layerToPreparedMap = prepareLayers(
-                vertexBuffer
-                //? if minecraft: >= 26.1 {
-                , translucentOnly
-                //? }
-            );
+            HashMap<SingleQuadParticle.Layer, QuadParticleRenderState.PreparedLayer> layerToPreparedMap = prepareLayers(vertexBuffer, translucentOnly);
 
             MeshData meshData = vertexBuffer.build();
 
@@ -74,9 +66,7 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
         int vertexOffset = 0;
 
         for (Map.Entry<SingleQuadParticle.Layer, QuadStorage> entry : this.quadStoragePerLayer.entrySet()) {
-            //? if minecraft: >= 26.1 {
             if(entry.getKey().translucent() != translucentOnly) continue;
-            //? }
 
             QuadStorage storage = entry.getValue();
 
@@ -96,6 +86,7 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
         renderPass.setVertexBuffer(0, particleBufferCache.get());
         renderPass.setIndexBuffer(quadIndexBuffer.getBuffer(preparedBuffers.indexCount()), quadIndexBuffer.type());
         renderPass.setUniform("DynamicTransforms", preparedBuffers.dynamicTransforms());
+        RenderSystem.bindDefaultUniforms(renderPass);
 
         for (Map.Entry<SingleQuadParticle.Layer, QuadParticleRenderState.PreparedLayer> entry : preparedBuffers.layers().entrySet()) {
             renderPass.setPipeline(entry.getKey().pipeline());
@@ -124,25 +115,6 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
         this.quadStoragePerLayer.computeIfAbsent(layer, (l) -> new QuadStorage()).finishQuad();
     }
 
-    public void addVertex(SingleQuadParticle.Layer layer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, int packedLight) {
-        this.addVertex(
-            layer,
-            quaternion,
-            x,
-            y,
-            z,
-            xOffset,
-            yOffset,
-            scale,
-            u,
-            v,
-            packedLight,
-            1.0f,
-            1.0f,
-            1.0f,
-            1.0f
-        );
-    }
     public void addVertex(SingleQuadParticle.Layer layer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, int packedLight, float rCol, float gCol, float bCol, float alpha) {
         this.quadStoragePerLayer.computeIfAbsent(layer, (l) -> new QuadStorage()).addVertex(
             quaternion,
@@ -163,92 +135,9 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
         this.vertexAmount++;
     }
 
-    static class QuadStorage {
-        private int capacity = INITIAL_CAPACITY * VERTS_PER_QUAD;
-        private float[] floats = new float[capacity * FLOATS_PER_QUAD];
-        private int[] ints = new int[capacity * INTS_PER_QUAD];
-
-        private int currentVertexIndex = 0;
-        private int currentQuadVertCount = -1;
-
-        public void startQuad() {
-            if(this.currentQuadVertCount != -1) {
-                throw new IllegalStateException("Cannot start new quad before previous quad has 4 vertices");
-            }
-            this.currentQuadVertCount = 0;
-        }
-
-        public void finishQuad() {
-            if(this.currentQuadVertCount != 4) {
-                throw new IllegalStateException("Cannot finish quad without 4 vertices");
-            }
-            this.currentQuadVertCount = -1;
-        }
-
-        public boolean validStateForAddingVertex() {
-            return this.currentQuadVertCount >= 0 && this.currentQuadVertCount < 4;
-        }
-
-        public void addVertex(Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, int packedLight, float rCol, float gCol, float bCol, float alpha) {
-            if(!validStateForAddingVertex()) {
-                throw new IllegalStateException("Cannot add vertex, make sure to finish the previous quad or start a new quad");
-            }
-            Vector3f vertexPos = (new Vector3f(xOffset, yOffset, 0.0F)).rotate(quaternion).mul(scale).add(x, y, z);
-            this.putData(vertexPos.x(), vertexPos.y(), vertexPos.z(), u, v, packedLight, ARGB.colorFromFloat(alpha, rCol, gCol, bCol));
-        }
-
-        private void putData(float x, float y, float z, float u, float v, int packedLight, int argb) {
-            if(this.currentVertexIndex + 1 > this.capacity) {
-                expandCapacity();
-            }
-            this.currentQuadVertCount++;
-            int i = this.currentVertexIndex * FLOATS_PER_QUAD;
-            this.floats[i++] = x;
-            this.floats[i++] = y;
-            this.floats[i++] = z;
-            this.floats[i++] = u;
-            this.floats[i] = v;
-            i = this.currentVertexIndex * INTS_PER_QUAD;
-            this.ints[i++] = packedLight;
-            this.ints[i] = argb;
-            this.currentVertexIndex++;
-        }
-
-        public void forEachVertex(QuadConsumer consumer) {
-            for (int i = 0; i < this.currentVertexIndex; i++) {
-                int floatsIndex = i * FLOATS_PER_QUAD;
-                int intsIndex = i * INTS_PER_QUAD;
-                consumer.consume(
-                    this.floats[floatsIndex++],
-                    this.floats[floatsIndex++],
-                    this.floats[floatsIndex++],
-                    this.floats[floatsIndex++],
-                    this.floats[floatsIndex],
-                    this.ints[intsIndex++],
-                    this.ints[intsIndex]
-                );
-            }
-        }
-
-        public int vertexAmount() {
-            return this.currentVertexIndex;
-        }
-
-        public void clear() {
-            this.currentQuadVertCount = -1;
-            this.currentVertexIndex = 0;
-        }
-
-        private void expandCapacity() {
-            int oldCapacity = this.capacity;
-            this.capacity += ADDITION_CAPACITY * VERTS_PER_QUAD;
-            this.floats = Arrays.copyOf(this.floats, capacity * FLOATS_PER_QUAD);
-            this.ints = Arrays.copyOf(this.ints, capacity * INTS_PER_QUAD);
-            Logging.info("Expanding QuadStorage: old capacity [{} quads], new capacity: [{} quads]", oldCapacity / VERTS_PER_QUAD, this.capacity / VERTS_PER_QUAD);
-        }
-    }
-
-    interface QuadConsumer {
-        void consume(float x, float y, float z, float u, float v, int packedLight, int argb);
+    @Override
+    public QuadConsumer getConsumer(SingleQuadParticle.Layer layer) {
+        return new CustomParticleGeometryQuadConsumer(this, layer);
     }
 }
+*///? }

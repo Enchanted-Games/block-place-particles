@@ -1,8 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.render.group;
 
-//? if minecraft: > 1.21.8 {
 import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
-import games.enchanted.eg_particle_interactions.common.particle.render.state.CustomParticleGeometryRenderState;
 import net.minecraft.CrashReport;
 import net.minecraft.CrashReportCategory;
 import net.minecraft.ReportedException;
@@ -12,7 +10,12 @@ import net.minecraft.client.particle.ParticleGroup;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.state.level.ParticleGroupRenderState;
 import net.minecraft.world.phys.AABB;
-import org.jetbrains.annotations.NotNull;
+
+//? if minecraft: >= 26.1 < 26.2 {
+/*import games.enchanted.eg_particle_interactions.common.particle.render.state.mc26_1.CustomParticleGeometryRenderState;
+*///? } else {
+import games.enchanted.eg_particle_interactions.common.particle.render.state.mc26_2.CustomParticleGeometryRenderState;
+//? }
 
 public class CustomGeometryParticleGroup extends ParticleGroup<ParticleInteractionsParticle> {
     private final CustomParticleGeometryRenderState state = new CustomParticleGeometryRenderState();
@@ -22,7 +25,7 @@ public class CustomGeometryParticleGroup extends ParticleGroup<ParticleInteracti
     }
 
     @Override
-    public @NotNull ParticleGroupRenderState extractRenderState(Frustum frustum, Camera camera, float partialTicks) {
+    public ParticleGroupRenderState extractRenderState(Frustum frustum, Camera camera, float partialTicks) {
         for (ParticleInteractionsParticle particle : this.particles) {
             AABB bb = particle.getCullingBox(partialTicks);
             if (!frustum.isVisible(bb)) continue;
@@ -39,4 +42,3 @@ public class CustomGeometryParticleGroup extends ParticleGroup<ParticleInteracti
         return this.state;
     }
 }
-//?}

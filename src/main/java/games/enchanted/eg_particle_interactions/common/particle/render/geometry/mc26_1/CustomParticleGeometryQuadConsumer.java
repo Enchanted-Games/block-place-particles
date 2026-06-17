@@ -1,15 +1,16 @@
-//? if minecraft: > 1.21.8 {
-package games.enchanted.eg_particle_interactions.common.particle.render.geometry;
+//? if minecraft: > 1.21.8 && minecraft: <= 26.1 {
+/*package games.enchanted.eg_particle_interactions.common.particle.render.geometry.mc26_1;
 
-import games.enchanted.eg_particle_interactions.common.particle.render.state.CustomParticleGeometryRenderState;
+import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
+import games.enchanted.eg_particle_interactions.common.particle.render.state.mc26_1.CustomParticleGeometryRenderState;
 import net.minecraft.client.particle.SingleQuadParticle;
 import org.joml.Quaternionf;
 
-public class StateQuadConsumer implements QuadConsumer {
+public class CustomParticleGeometryQuadConsumer implements QuadConsumer {
     final CustomParticleGeometryRenderState state;
     final SingleQuadParticle.Layer layer;
 
-    public StateQuadConsumer(CustomParticleGeometryRenderState state, SingleQuadParticle.Layer layer) {
+    public CustomParticleGeometryQuadConsumer(CustomParticleGeometryRenderState state, SingleQuadParticle.Layer layer) {
         this.state = state;
         this.layer = layer;
     }
@@ -45,4 +46,4 @@ public class StateQuadConsumer implements QuadConsumer {
         this.state.finishQuad(this.layer);
     }
 }
-//?}
+*///?}

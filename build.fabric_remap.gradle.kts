@@ -58,7 +58,7 @@ dependencies {
     })
     modImplementation("net.fabricmc:fabric-loader:${property("deps.fabric-loader")}")
 
-    if (boolProperty("deps.fabric-api.compileonly")) {
+    if (boolProperty("deps.fabric-api_compileonly")) {
         modCompileOnly("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric-api")}")
     } else {
         modImplementation("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric-api")}")

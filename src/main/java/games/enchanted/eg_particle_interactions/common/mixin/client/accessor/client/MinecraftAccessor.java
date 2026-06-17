@@ -8,8 +8,10 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(Minecraft.class)
 public interface MinecraftAccessor {
-    @Accessor("particleResources")
+    //? if minecraft: <= 26.1 {
+    /*@Accessor("particleResources")
     ParticleResources eg_particle_interactions$getParticleResources();
+    *///? }
 
     @Accessor("resourceManager")
     ReloadableResourceManager eg_particle_interactions$getResourceManager();

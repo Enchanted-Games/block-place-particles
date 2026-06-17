@@ -25,6 +25,7 @@
   ${accesswidener_field}
   "mixins": [
     "${id}.mixins.json",
+    "${id}.26_2.mixins.json",
     "mod_compat.${id}.mixins.json"
   ],
   "depends": {

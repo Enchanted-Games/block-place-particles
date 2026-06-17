@@ -4,6 +4,7 @@ import games.enchanted.eg_particle_interactions.common.config.categories.General
 import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes;
 import games.enchanted.eg_particle_interactions.common.duck.ParticleDuck;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.ParticleAccessor;
+import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumerProvider;
 import games.enchanted.eg_particle_interactions.common.particle.value.VelocityProvider;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.SpinConfig;
@@ -20,9 +21,7 @@ import games.enchanted.eg_particle_interactions.common.particle.value.RandomFloa
 import games.enchanted.eg_particle_interactions.common.particle.value.RandomIntProvider;
 import games.enchanted.eg_particle_interactions.common.particle.render.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
-import games.enchanted.eg_particle_interactions.common.particle.render.geometry.StateQuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.render.layer.ParticleLayer;
-import games.enchanted.eg_particle_interactions.common.particle.render.state.CustomParticleGeometryRenderState;
 import games.enchanted.eg_particle_interactions.common.util.FluidHelpers;
 import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.FloatMathModifier;
@@ -44,7 +43,6 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.CollisionContext;
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
@@ -52,6 +50,10 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Consumer;
+
+//? if minecraft: >= 26.2 {
+import net.minecraft.world.phys.shapes.CollisionContext;
+//? }
 
 public class ParticleInteractionsParticle extends Particle {
     protected static final double MAXIMUM_COLLISION_VELOCITY_SQUARED = Mth.square(100.0F);
@@ -227,15 +229,14 @@ public class ParticleInteractionsParticle extends Particle {
     }
 
 
-    public void extract(CustomParticleGeometryRenderState state, Camera camera, float partialTicks) {
+    public void extract(QuadConsumerProvider quadConsumerProvider, Camera camera, float partialTicks) {
         Quaternionf quaternionf = new Quaternionf();
         this.getBillboardMode().rotate(quaternionf, camera, partialTicks);
         if (this.spin != 0.0F) {
             quaternionf.rotateZ(Mth.lerp(partialTicks, this.prevSpin, this.spin));
         }
 
-        StateQuadConsumer consumer = new StateQuadConsumer(state, this.getVanillaLayer());
-        this.adjustPositionBeforeExtraction(consumer, camera, quaternionf, partialTicks);
+        this.adjustPositionBeforeExtraction(quadConsumerProvider.getConsumer(this.getVanillaLayer()), camera, quaternionf, partialTicks);
     }
 
     protected void adjustPositionBeforeExtraction(QuadConsumer consumer, Camera camera, Quaternionf quaternionf, float partialTicks) {
