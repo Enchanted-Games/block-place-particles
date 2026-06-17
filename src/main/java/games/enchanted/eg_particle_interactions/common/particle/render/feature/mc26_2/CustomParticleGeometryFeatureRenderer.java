@@ -1,5 +1,5 @@
+//? if minecraft: >= 26.2 {
 package games.enchanted.eg_particle_interactions.common.particle.render.feature.mc26_2;
-
 
 import com.mojang.blaze3d.PrimitiveTopology;
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
@@ -117,3 +117,4 @@ public class CustomParticleGeometryFeatureRenderer implements FeatureRenderer<Cu
         }
     }
 }
+//? }

@@ -14,7 +14,7 @@ public class VersionPlugin26_2 implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        //? if minecraft: >= 26.2 < 26.3 {
+        //? if minecraft: >= 26.2 {
         return true;
         //? } else {
         /*return false;
@@ -32,7 +32,15 @@ public class VersionPlugin26_2 implements IMixinConfigPlugin {
 
     @Override
     public List<String> getMixins() {
-        return null;
+        //? if minecraft: >= 26.2 {
+        return List.of(
+            "FeatureRendererDispatcherMixin",
+            "SubmitNodeCollectionMixin",
+            "SubmitNodeStorageMixin"
+        );
+        //? } else {
+        /*return null;
+        *///? }
     }
 
     @Override

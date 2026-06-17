@@ -10,9 +10,6 @@
     "mixins": [
     ],
     "client": [
-        "FeatureRendererDispatcherMixin",
-        "SubmitNodeCollectionMixin",
-        "SubmitNodeStorageMixin"
     ],
     "injectors": {
         "defaultRequire": 1
