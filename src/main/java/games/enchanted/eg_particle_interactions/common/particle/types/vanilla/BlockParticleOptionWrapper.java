@@ -26,6 +26,7 @@ public class BlockParticleOptionWrapper implements PIParticleProvider<SimplePart
     }
 
     private ParticleProvider<BlockParticleOption> getProvider() {
+        // TODO: fix this
 //        ParticleProvider<?> provider = ((MinecraftAccessor) Minecraft.getInstance()).eg_particle_interactions$getParticleResources()
 //            .getProviders().get(BuiltInRegistries.PARTICLE_TYPE.getId(this.dustType.get()));
 //        try {
