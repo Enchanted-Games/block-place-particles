@@ -76,7 +76,7 @@ public class ParticleTypesRegistry {
         SimpleParticleOptions::streamCodec
     );
     public static final PIParticleType<SimpleParticleOptions> FALLING_DUST = register(
-        () -> new BlockParticleOptionWrapper(() -> ParticleTypes.FALLING_DUST),
+        BlockParticleOptionWrapper.FallingDustProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "falling_dust"),
         SimpleParticleOptions::codec,
         SimpleParticleOptions::streamCodec
