@@ -477,6 +477,18 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 ConfigScreenHelper.booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "item_frame_dust", EntityOptions.ITEM_FRAME_INTERACTION_ENABLED),
                 ConfigScreenHelper.integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_INTERACT, "item_frame_dust", EntityOptions.ITEM_FRAME_INTERACTION_AMOUNT, 1, 30, 1)
             ))
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            // item frame interactions
+            .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
+                "sulfur_cube_consume",
+                "sulfur_cube_consume",
+                ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY,
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_CUBE_CONSUME, "sulfur_cube_consume", EntityOptions.SULFUR_CUBE_AMOUNT_ON_CONSUME, 0, 20, 1)
+            ))
         .build());
 
         // fluid interactions / ambient config category

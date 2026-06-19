@@ -34,8 +34,8 @@
   "eg_particle_interactions.config.particle_type.honey_collection": "Honey Collection",
 
   "eg_particle_interactions.config.particle_type.minecart_sparks": "Minecart Wheel Spark",
-  "eg_particle_interactions.config.particle_type.blaze_sparks": "Blaze Spark",
   "eg_particle_interactions.config.particle_type.item_frame_dust": "Item Frame Interaction",
+  "eg_particle_interactions.config.particle_type.sulfur_cube_consume": "Sulfur Cube",
 
   "eg_particle_interactions.config.particle_type.tinted_splash": "Tinted Splash",
   "eg_particle_interactions.config.particle_type.lava_splash": "Lava Splash",
@@ -51,10 +51,10 @@
   "eg_particle_interactions.config.global_option.disable_all_block_breaking_particles.desc": "Enabling this option will prevent any particles from spawning when breaking blocks",
 
   "eg_particle_interactions.config.global_option.max_particles_block_place": "Max particles when block placed",
-  "eg_particle_interactions.config.global_option.max_particles_block_place.desc": "The maximum amount of particles that can spawn when a block is placed",
+  "eg_particle_interactions.config.global_option.max_particles_block_place.desc": "The maximum amount of particles that can spawn per edge of the block when a block is placed",
 
   "eg_particle_interactions.config.global_option.max_particles_block_break": "Max particles when block broken",
-  "eg_particle_interactions.config.global_option.max_particles_block_break.desc": "The maximum amount of particles that can spawn when a block is broken",
+  "eg_particle_interactions.config.global_option.max_particles_block_break.desc": "The maximum amount of particles that can spawn per length of the block when a block is broken",
 
   "eg_particle_interactions.config.global_option.spawn_particle_on_item_use": "Spawn when item used",
   "eg_particle_interactions.config.global_option.spawn_particle_on_item_use.desc": "Should %s particles spawn when the item is used?",
@@ -215,12 +215,13 @@
   "eg_particle_interactions.config.entity.lightning_strike": "%s Particles",
   "eg_particle_interactions.config.entity.lightning_strike.desc": "Configure if %s particles should be spawned when a lightning bold hits something, and how many spark and arc particles can appear",
 
-  "eg_particle_interactions.config.entity.blaze_sparks": "%s Particles",
-  "eg_particle_interactions.config.entity.blaze_sparks.desc": "Configure if %s particles should be spawned randomly, if the entity is hurt, and the chance for them to spawn each tick",
-
   "eg_particle_interactions.config.entity.item_frame_dust": "%s Particles",
   "eg_particle_interactions.config.entity.item_frame_dust.desc": "Configure if dust particles should be spawned whenever an item frame is interacted with. This includes, rotating an item, removing an item, or placing an item in an item frame",
 
+  "eg_particle_interactions.config.entity.sulfur_cube_consume": "%s Particles",
+  "eg_particle_interactions.config.entity.sulfur_cube_consume.desc": "Configure if particles should be spawned whenever a sulfur cube consumes a block",
+  "eg_particle_interactions.config.global_option.amount_to_spawn_cube_consume": "Amount of %s particles on block consume",
+  "eg_particle_interactions.config.global_option.amount_to_spawn_cube_consume.desc": "The maximum amount of particles that can spawn per length of the entity when a sulfur cube consumes a block",
 
   "eg_particle_interactions.config.items": "Item Interactions",
   "eg_particle_interactions.config.items.desc": "Configure how particles are spawned when using or interacting with items",

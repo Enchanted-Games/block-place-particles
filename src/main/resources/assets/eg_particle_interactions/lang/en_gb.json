@@ -34,8 +34,8 @@
   "eg_particle_interactions.config.particle_type.honey_collection": "Honey Collection",
 
   "eg_particle_interactions.config.particle_type.minecart_sparks": "Minecart Wheel Spark",
-  "eg_particle_interactions.config.particle_type.blaze_sparks": "Blaze Spark",
   "eg_particle_interactions.config.particle_type.item_frame_dust": "Item Frame Interaction",
+  "eg_particle_interactions.config.particle_type.sulfur_cube_consume": "Sulphur Cube",
 
   "eg_particle_interactions.config.particle_type.tinted_splash": "Tinted Splash",
   "eg_particle_interactions.config.particle_type.lava_splash": "Lava Splash",
@@ -215,11 +215,13 @@
   "eg_particle_interactions.config.entity.lightning_strike": "%s Particles",
   "eg_particle_interactions.config.entity.lightning_strike.desc": "Configure if %s particles should be spawned when a lightning bold hits something, and how many spark and arc particles can appear",
 
-  "eg_particle_interactions.config.entity.blaze_sparks": "%s Particles",
-  "eg_particle_interactions.config.entity.blaze_sparks.desc": "Configure if %s particles should be spawned randomly, if the entity is hurt, and the chance for them to spawn each tick",
-
   "eg_particle_interactions.config.entity.item_frame_dust": "%s Particles",
   "eg_particle_interactions.config.entity.item_frame_dust.desc": "Configure if dust particles should be spawned whenever an item frame is interacted with. This includes, rotating an item, removing an item, or placing an item in an item frame",
+
+  "eg_particle_interactions.config.entity.sulfur_cube_consume": "%s Particles",
+  "eg_particle_interactions.config.entity.sulfur_cube_consume.desc": "Configure if particles should be spawned whenever a sulphur cube consumes a block",
+  "eg_particle_interactions.config.global_option.amount_to_spawn_cube_consume": "Amount of %s particles on block consume",
+  "eg_particle_interactions.config.global_option.amount_to_spawn_cube_consume.desc": "The maximum amount of particles that can spawn per length of the entity when a sulfur cube consumes a block",
 
 
   "eg_particle_interactions.config.items": "Item Interactions",

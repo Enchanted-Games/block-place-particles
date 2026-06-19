@@ -34,6 +34,10 @@ public class EntityOptions {
         new IntOption(4, "item_frame_interaction_amount")
     );
 
+    public static final ConfigOption<Integer> SULFUR_CUBE_AMOUNT_ON_CONSUME = registerOption(
+        new IntOption(4, "sulfer_cube_amount_on_consume")
+    );
+
     private static <T> ConfigOption<T> registerOption(ConfigOption<T> option) {
         return ConfigOptions.registerOption(ConfigCategory.ENTITY, option);
     }

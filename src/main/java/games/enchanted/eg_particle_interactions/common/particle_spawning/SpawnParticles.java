@@ -28,7 +28,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.FurnaceBlock;
 import net.minecraft.world.level.block.GrindstoneBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -40,6 +39,10 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
+
+//? if minecraft: >= 26.2 {
+import net.minecraft.world.entity.monster.cubemob.SulfurCube;
+//? }
 
 public class SpawnParticles {
     public static void spawnBlockPlaceParticle(ClientLevel level, BlockPos blockPos, BlockState placedBlockState) {
@@ -953,4 +956,58 @@ public class SpawnParticles {
             );
         }
     }
+
+//? if minecraft: >= 26.2 {
+    public static void spawnSulfurCubeConsumeParticles(ClientLevel level, SulfurCube sulfurCube, BlockState consumedBlock) {
+        int maxParticlesPerWidth = EntityOptions.SULFUR_CUBE_AMOUNT_ON_CONSUME.getValue();
+        if (maxParticlesPerWidth <= 0) return;
+
+        if (consumedBlock.isAir() || !consumedBlock.shouldSpawnTerrainParticles()) return;
+
+        BlockPos blockPos = sulfurCube.blockPosition();
+        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, blockPos)) return;
+
+
+        ParticleContext context = ParticleContext.block(level, consumedBlock, blockPos);
+
+        ParticleOrigin origin = ParticleOrigin.BLOCK_SULFUR_CUBE_CONSUMED;
+        OverridePreset override = BlockOverrideManager.getForBlock(consumedBlock, origin);
+
+        AABB hitbox = sulfurCube.getBoundingBox().move(sulfurCube.position().multiply(-1, -1, -1));
+        Vec3 originRelativeCenter = hitbox.getMinPosition();
+
+        double width = Math.abs(hitbox.minX - hitbox.maxX);
+        double height = Math.abs(hitbox.minY - hitbox.maxY);
+        double depth = Math.abs(hitbox.minZ - hitbox.maxZ);
+
+        double x = sulfurCube.getX() - (width / 2);
+        double y = sulfurCube.getY();
+        double z = sulfurCube.getZ() - (depth / 2);
+
+        int amountAlongWidth = Math.max(Mth.ceil(width * maxParticlesPerWidth), 1);
+        int amountAlongHeight = Math.max(Mth.ceil(height * maxParticlesPerWidth), 1);
+        int amountAlongDepth = Math.max(Mth.ceil(depth * maxParticlesPerWidth), 1);
+
+        for (int i_W = 0; i_W < amountAlongWidth; ++i_W) {
+            for (int i_H = 0; i_H < amountAlongHeight; ++i_H) {
+                for (int i_D = 0; i_D < amountAlongDepth; ++i_D) {
+                    double particleXOffset = (((double) i_W + 0.5) / (double) amountAlongWidth);
+                    double particleYOffset = (((double) i_H + 0.5) / (double) amountAlongHeight);
+                    double particleZOffset = (((double) i_D + 0.5) / (double) amountAlongDepth);
+
+                    override.getRandom().spawnParticle(
+                        origin,
+                        context,
+                        x + (particleXOffset * width),
+                        y + (particleYOffset * height),
+                        z + (particleZOffset * depth),
+                        (particleXOffset + originRelativeCenter.x()) * 1.3,
+                        (particleYOffset + originRelativeCenter.y()) * 1.3,
+                        (particleZOffset + originRelativeCenter.z()) * 1.3
+                    );
+                }
+            }
+        }
+    }
+//? }
 }

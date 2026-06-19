@@ -36,7 +36,8 @@ public class VersionPlugin26_2 implements IMixinConfigPlugin {
         return List.of(
             "FeatureRendererDispatcherMixin",
             "SubmitNodeCollectionMixin",
-            "SubmitNodeStorageMixin"
+            "SubmitNodeStorageMixin",
+            "entity.SulfurCubeMixin"
         );
         //? } else {
         /*return null;

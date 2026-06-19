@@ -34,6 +34,7 @@ public class ConfigTranslation {
     public static final String AMOUNT_TO_SPAWN_ON_INTERACT = "amount_to_spawn_on_interact";
     public static final String AMOUNT_TO_SPAWN_ON_LIGHTNING_STRIKE = "amount_to_spawn_on_lightning_strike";
     public static final String ARE_VANILLA_FURNACE_PARTICLES_ENABLED = "are_vanilla_furnace_particles_enabled";
+    public static final String AMOUNT_TO_SPAWN_ON_CUBE_CONSUME = "amount_to_spawn_cube_consume";
 
     public static final String BRUSH_PARTICLE_BEHAVIOUR = "brush_particle_behaviour";
 
