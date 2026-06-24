@@ -1,6 +1,5 @@
 package games.enchanted.eg_particle_interactions.common.mixin.client.items;
 
-import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -33,12 +32,10 @@ public abstract class FireChargeItem {
                 // probably placed a fire
                 BlockPos firePos = clickedPos.relative(useOnContext.getClickedFace());
                 if(BaseFireBlock.canBePlacedAt(clientLevel, firePos, useOnContext.getHorizontalDirection())) {
-                    Logging.interactionDebugInfo("Fire placed by '" + this + "' at " + firePos.toShortString() + ". (interacted at " + clickedPos.toShortString() + ")");
                     SpawnParticles.spawnFireChargeSmokeParticle(clientLevel, firePos);
                 }
             }else {
                 // probably lit a block
-                Logging.interactionDebugInfo("Block lit by '" + this + "' at " + clickedPos.toShortString());
                 SpawnParticles.spawnFireChargeSmokeParticle(clientLevel, clickedPos);
             }
         }

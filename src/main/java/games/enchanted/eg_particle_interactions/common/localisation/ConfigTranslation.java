@@ -57,6 +57,7 @@ public class ConfigTranslation {
     public static final String DEBUG_PARTICLE_TICK_BOUNDING_BOXES = "debug_particle_tick_bounding_boxes";
     public static final String DEBUG_PARTICLE_RENDER_BOUNDING_BOXES = "debug_particle_render_bounding_boxes";
     public static final String DEBUG_EXTRA_INFO_ON_PARTICLE_PACKET_ERROR = "debug_info_on_particle_packet_error";
+    public static final String DEBUG_TEXTURE_LOGGING = "debug_texture_logging";
 
     public static Component createDesc(TranslationKey translationKey) {
         return translationKey.copy().append(".desc").toComponent();

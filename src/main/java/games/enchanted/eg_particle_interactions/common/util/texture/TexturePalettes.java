@@ -18,6 +18,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
+import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,9 +71,11 @@ public class TexturePalettes {
         }
 
         var model = Minecraft.getInstance().getModelManager().getFluidStateModelSet().get(fluidState);
-        TextureAtlasSprite sprite = model.flowingMaterial().sprite();
+        TextureAtlasSprite sprite = materialSource.spriteConverter().apply(model);
 
         Palette palette = getOrGeneratePalette(sprite, fluidState, FLUIDSTATE_TO_PALETTE_CACHE);
+
+        Logging.textureDebugInfo("Created fluid texture palette for '{}' size {}x{}. palette: {}", sprite.contents().name(), sprite.contents().width(), sprite.contents().height(), palette.debugEntriesString());
 
         return palette.getRandomColour(tintColour);
     }
@@ -110,7 +113,7 @@ public class TexturePalettes {
         if(colours.isEmpty()) {
             // image has no valid palette colours
             Logging.textureDebugInfo("Sprite {} contains no valid pixels for palette", paletteSprite.name());
-            return Palette.BLANK;
+            return Palette.CACHEABLE_BLANK;
         }
 
         Logging.textureDebugInfo("Sprite {} has {} valid palette pixels", paletteSprite.name(), colours.size());
@@ -138,6 +141,7 @@ public class TexturePalettes {
 
     private record Palette(PaletteEntry[] entries, boolean cacheable, boolean hasTint) {
         static final Palette BLANK = new Palette(new PaletteEntry[]{new PaletteEntry(-1)}, false);
+        static final Palette CACHEABLE_BLANK = new Palette(new PaletteEntry[]{new PaletteEntry(-1)}, true);
 
         Palette(PaletteEntry[] entries, boolean cacheable) {
             this(entries, cacheable, false);
@@ -152,6 +156,24 @@ public class TexturePalettes {
                 return ColourUtil.multiplyColours(this.getRandomEntry().argbAsArray(), tintColour);
             }
             return this.getRandomEntry().argbAsArray();
+        }
+
+        public @NonNull String debugEntriesString() {
+            StringBuilder builder = new StringBuilder("(");
+            for (PaletteEntry entry : entries) {
+                int[] argb = entry.argbAsArray();
+                builder.append("[");
+                builder.append(argb[0]);
+                builder.append(", ");
+                builder.append(argb[1]);
+                builder.append(", ");
+                builder.append(argb[2]);
+                builder.append(", ");
+                builder.append(argb[3]);
+                builder.append("], ");
+            }
+            builder.append(")");
+            return builder.toString();
         }
     }
 

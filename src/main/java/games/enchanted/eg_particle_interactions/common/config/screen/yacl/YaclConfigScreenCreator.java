@@ -129,6 +129,10 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 ConfigScreenHelper.genericBooleanOption(
                     ConfigTranslation.DEBUG_EXTRA_INFO_ON_PARTICLE_PACKET_ERROR,
                     GeneralOptions.DEBUG_EXTRA_INFO_ON_PARTICLE_PACKET_ERROR
+                ),
+                ConfigScreenHelper.genericBooleanOption(
+                    ConfigTranslation.DEBUG_TEXTURE_LOGGING,
+                    GeneralOptions.DEBUG_TEXTURE_LOGGING
                 )
             ))
         .build());

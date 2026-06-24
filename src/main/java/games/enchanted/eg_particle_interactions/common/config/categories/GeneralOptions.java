@@ -61,6 +61,9 @@ public class GeneralOptions {
     public static final ConfigOption<Boolean> DEBUG_EXTRA_INFO_ON_PARTICLE_PACKET_ERROR = registerOption(
         new BoolOption(false, false)
     );
+    public static final ConfigOption<Boolean> DEBUG_TEXTURE_LOGGING = registerOption(
+        new BoolOption(false, false)
+    );
 
     private static <T> ConfigOption<T> registerOption(ConfigOption<T> option) {
         return ConfigOptions.registerOption(ConfigCategory.GENERAL, option);

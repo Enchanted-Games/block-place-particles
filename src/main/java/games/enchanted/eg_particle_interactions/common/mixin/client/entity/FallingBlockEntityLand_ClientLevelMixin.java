@@ -43,11 +43,8 @@ public abstract class FallingBlockEntityLand_ClientLevelMixin extends Level {
         }
 
         BlockState fallingState = fallingBlockEntity.getBlockState();
-        BlockPos fallingBlockPos = fallingBlockEntity.blockPosition();
-
         SpawnParticles.spawnFallingBlockLandParticles((ClientLevel) (Object) this, fallingState, fallingBlockEntity.getX(), fallingBlockEntity.getY(), fallingBlockEntity.getZ(), fallingBlockEntity.getDeltaMovement());
 
-        Logging.interactionDebugInfo("Falling block ({}) was removed at {}", fallingBlockEntity, fallingBlockPos);
         return original.call(instance, i);
     }
 }
