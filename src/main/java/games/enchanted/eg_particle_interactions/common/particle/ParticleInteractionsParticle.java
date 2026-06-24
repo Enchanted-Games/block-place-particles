@@ -313,7 +313,7 @@ public class ParticleInteractionsParticle extends Particle {
 
         if(GeneralOptions.PARTICLE_FLUID_REACTIVITY.getValue()) {
             this.inFluidLastTick = this.inFluid;
-            this.inFluid = FluidHelpers.fluidAtPosition(this.level, this.x, this.y, this.z);
+            this.inFluid = FluidHelpers.fluidAtPosition(this.level, this.x, this.y + 0.125, this.z);
         }
 
         this.doWind();
