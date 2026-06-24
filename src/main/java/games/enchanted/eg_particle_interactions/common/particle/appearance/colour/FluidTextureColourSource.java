@@ -5,7 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.codecs.ColourCodecs;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
-import games.enchanted.eg_particle_interactions.common.util.texture.TexturePalettes;
+import games.enchanted.eg_particle_interactions.common.resource.texture.TexturePalettes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ExtraCodecs;
 

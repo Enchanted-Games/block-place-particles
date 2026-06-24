@@ -28,8 +28,8 @@ import games.enchanted.eg_particle_interactions.common.util.math.modifier.FloatM
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.IntMathModifier;
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.Vector3dMathModifier;
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.Vector3fMathModifier;
-import games.enchanted.eg_particle_interactions.common.util.texture.TextureHelpers;
-import games.enchanted.eg_particle_interactions.common.util.texture.UVCoordinates;
+import games.enchanted.eg_particle_interactions.common.resource.texture.TextureHelpers;
+import games.enchanted.eg_particle_interactions.common.resource.texture.UVCoordinates;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;

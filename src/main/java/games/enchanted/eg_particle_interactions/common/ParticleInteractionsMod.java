@@ -14,6 +14,8 @@ import games.enchanted.eg_particle_interactions.common.predicates.biome.list.Bio
 import games.enchanted.eg_particle_interactions.common.predicates.block.list.BlockListManager;
 import games.enchanted.eg_particle_interactions.common.predicates.entity.list.EntityListManager;
 import games.enchanted.eg_particle_interactions.common.predicates.fluid.list.FluidListManager;
+import games.enchanted.eg_particle_interactions.common.resource.texture.palette.BlockPaletteManager;
+import games.enchanted.eg_particle_interactions.common.resource.texture.palette.FluidPaletteManager;
 import net.minecraft.resources.Identifier;
 
 public class ParticleInteractionsMod {
@@ -27,6 +29,8 @@ public class ParticleInteractionsMod {
     public static Identifier BIOME_LIST_RELOAD_LISTENER = ParticleInteractionsMod.id("biome_lists");
     public static Identifier ENTITY_LIST_RELOAD_LISTENER = ParticleInteractionsMod.id("entity_lists");
     public static Identifier EMITTER_RULES_RELOAD_LISTENER = ParticleInteractionsMod.id("emitter_rules");
+    public static Identifier BLOCK_PALETTES_RELOAD_LISTENER = ParticleInteractionsMod.id("block_palettes");
+    public static Identifier FLUID_PALETTES_RELOAD_LISTENER = ParticleInteractionsMod.id("fluid_palettes");
 
     public static void startOfModLoading() {
         Logging.info("Mod init started. Compiled for {}", Constants.TARGET_PLATFORM);
@@ -61,6 +65,8 @@ public class ParticleInteractionsMod {
         PlatformHelper.registerResourceReloadListener(EntityListManager.INSTANCE, ENTITY_LIST_RELOAD_LISTENER);
         PlatformHelper.registerResourceReloadListener(EmitterRuleSetManager.INSTANCE, EMITTER_RULES_RELOAD_LISTENER);
         PlatformHelper.registerResourceReloadListener(ParticleDefinitionManager.INSTANCE, PARTICLE_DEFINITIONS_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(BlockPaletteManager.INSTANCE, BLOCK_PALETTES_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(FluidPaletteManager.INSTANCE, FLUID_PALETTES_RELOAD_LISTENER);
     }
 
     public static boolean isFabricResourceLoaderPresent() {

@@ -3,7 +3,7 @@ package games.enchanted.eg_particle_interactions.common.codecs;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
-import games.enchanted.eg_particle_interactions.common.util.texture.AtlasIdAndTexture;
+import games.enchanted.eg_particle_interactions.common.resource.texture.AtlasIdAndTexture;
 import net.minecraft.IdentifierException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;

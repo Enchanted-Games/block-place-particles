@@ -2,7 +2,7 @@ package games.enchanted.eg_particle_interactions.common.particle.appearance.uv;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import games.enchanted.eg_particle_interactions.common.util.texture.UVCoordinates;
+import games.enchanted.eg_particle_interactions.common.resource.texture.UVCoordinates;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import org.jspecify.annotations.Nullable;
 

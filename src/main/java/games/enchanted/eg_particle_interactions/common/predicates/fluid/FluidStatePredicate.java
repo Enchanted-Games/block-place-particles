@@ -20,7 +20,7 @@ import net.minecraft.advancements.predicates.StatePropertiesPredicate;
 public class FluidStatePredicate extends FluidPredicate {
     public static final MapCodec<FluidStatePredicate> CODEC = RecordCodecBuilder.mapCodec(i ->
         i.group(
-            BuiltInRegistries.FLUID.holderByNameCodec().optionalFieldOf("block").forGetter(predicate -> Optional.ofNullable(predicate.getFluid())),
+            BuiltInRegistries.FLUID.holderByNameCodec().optionalFieldOf("fluid").forGetter(predicate -> Optional.ofNullable(predicate.getFluid())),
             StatePropertiesPredicate.CODEC.optionalFieldOf("properties", new StatePropertiesPredicate(List.of())).forGetter(FluidStatePredicate::getPropertiesPredicate)
         ).apply(
             i,

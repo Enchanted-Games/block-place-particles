@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.util.texture;
+package games.enchanted.eg_particle_interactions.common.resource.texture;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.util.Mth;

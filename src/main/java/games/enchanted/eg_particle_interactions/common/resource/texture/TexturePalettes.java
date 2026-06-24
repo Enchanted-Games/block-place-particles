@@ -1,24 +1,24 @@
-package games.enchanted.eg_particle_interactions.common.util.texture;
+package games.enchanted.eg_particle_interactions.common.resource.texture;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.serialization.Codec;
 import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.NativeImageAccessor;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.SpriteContentsAccessor;
-import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
-import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteAtlasManager;
-import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
-import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
+import games.enchanted.eg_particle_interactions.common.predicates.block.BlockStatePredicate;
+import games.enchanted.eg_particle_interactions.common.predicates.fluid.FluidStatePredicate;
+import games.enchanted.eg_particle_interactions.common.resource.texture.palette.BlockPaletteManager;
+import games.enchanted.eg_particle_interactions.common.resource.texture.palette.FluidPaletteManager;
+import games.enchanted.eg_particle_interactions.common.resource.texture.palette.Palette;
+import games.enchanted.eg_particle_interactions.common.resource.texture.palette.PaletteDefinition;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.FluidModel;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.sprite.Material;
-import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
-import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,18 +42,25 @@ public class TexturePalettes {
             return palette.getRandomColour(tintColour);
         }
 
+        PaletteDefinition<BlockState, BlockStatePredicate> paletteDefinition = BlockPaletteManager.INSTANCE.getOrNull(blockState);
+        if(paletteDefinition != null) {
+            Palette palette = paletteDefinition.getPalette(blockState);
+            BLOCKSTATE_TO_PALETTE_CACHE.put(blockState, palette);
+            Logging.textureDebugInfo("Blockstate {} has a palette override, using that instead of generating a new palette", blockState);
+            return palette.getRandomColour(tintColour);
+        }
+
         var model = Minecraft.getInstance().getModelManager().getBlockStateModelSet().get(blockState);
-        TextureAtlasSprite particleSprite =
+        TextureAtlasSprite sprite =
             //? if minecraft: >= 26.1 {
             model.particleMaterial().sprite();
             //? } else {
             /*model.particleIcon();
             *///? }
 
-        Identifier particleSpriteLocation = particleSprite.contents().name();
-        particleSprite = TextureHelpers.getParticlePaletteOrBlockSprite(RegistryHelpers.getLocationFromBlock(blockState.getBlock()), particleSpriteLocation);
+        Palette palette = getOrGeneratePalette(sprite, blockState, BLOCKSTATE_TO_PALETTE_CACHE);
 
-        Palette palette = getOrGeneratePalette(particleSprite, blockState, BLOCKSTATE_TO_PALETTE_CACHE);
+        Logging.textureDebugInfo("Created texture palette for block state {}. sprite '{}' size {}x{}. palette: {}", blockState, sprite.contents().name(), sprite.contents().width(), sprite.contents().height(), palette.debugEntriesString());
 
         return palette.getRandomColour(tintColour);
     }
@@ -70,27 +77,34 @@ public class TexturePalettes {
             return palette.getRandomColour(tintColour);
         }
 
+        PaletteDefinition<FluidState, FluidStatePredicate> paletteDefinition = FluidPaletteManager.INSTANCE.getOrNull(fluidState);
+        if(paletteDefinition != null) {
+            Palette palette = paletteDefinition.getPalette(fluidState);
+            FLUIDSTATE_TO_PALETTE_CACHE.put(fluidState, palette);
+            Logging.textureDebugInfo("Fluidstate {} has a palette override, using that instead of generating a new palette", fluidState);
+            return palette.getRandomColour(tintColour);
+        }
+
         var model = Minecraft.getInstance().getModelManager().getFluidStateModelSet().get(fluidState);
         TextureAtlasSprite sprite = materialSource.spriteConverter().apply(model);
 
         Palette palette = getOrGeneratePalette(sprite, fluidState, FLUIDSTATE_TO_PALETTE_CACHE);
 
-        Logging.textureDebugInfo("Created fluid texture palette for '{}' size {}x{}. palette: {}", sprite.contents().name(), sprite.contents().width(), sprite.contents().height(), palette.debugEntriesString());
+        Logging.textureDebugInfo("Created texture palette for fluid state {}. sprite '{}' size {}x{}. palette: {}", fluidState, sprite.contents().name(), sprite.contents().width(), sprite.contents().height(), palette.debugEntriesString());
 
         return palette.getRandomColour(tintColour);
     }
 
     private static <T> Palette getOrGeneratePalette(TextureAtlasSprite sprite, T state, Map<T, Palette> paletteCache) {
         SpriteContents spriteContents = sprite.contents();
-        ParticlePaletteAtlasManager.ParticlePaletteSettingsMetadataSection paletteMetadata = ParticlePaletteAtlasManager.getMetadataFromSprite(sprite);
-        Palette palette = collectValidPalettePixels(spriteContents, paletteMetadata.useBiomeTint());
+        Palette palette = generatePalette(spriteContents);
         if(palette.cacheable()) {
             paletteCache.put(state, palette);
         }
         return palette;
     }
 
-    private static Palette collectValidPalettePixels(SpriteContents paletteSprite, boolean hasTint) {
+    public static Palette generatePalette(SpriteContents paletteSprite) {
         ArrayList<Integer> colours = new ArrayList<>();
         NativeImage image = ((SpriteContentsAccessor) paletteSprite).eg_particle_interactions$getOriginalImage();
 
@@ -118,11 +132,11 @@ public class TexturePalettes {
 
         Logging.textureDebugInfo("Sprite {} has {} valid palette pixels", paletteSprite.name(), colours.size());
 
-        PaletteEntry[] paletteEntries = new PaletteEntry[colours.size()];
+        Palette.Entry[] paletteEntries = new Palette.Entry[colours.size()];
         for (int i = 0; i < colours.size(); i++) {
-            paletteEntries[i] = new PaletteEntry(colours.get(i));
+            paletteEntries[i] = new Palette.Entry(colours.get(i));
         }
-        return new Palette(paletteEntries, true, hasTint);
+        return new Palette(paletteEntries, true);
     }
 
     /**
@@ -131,50 +145,7 @@ public class TexturePalettes {
     public static void invalidateCaches() {
         BLOCKSTATE_TO_PALETTE_CACHE.clear();
         FLUIDSTATE_TO_PALETTE_CACHE.clear();
-    }
-
-    private record PaletteEntry(int argb) {
-        int[] argbAsArray() {
-            return ColourUtil.ARGBint_to_ARGB(argb());
-        }
-    }
-
-    private record Palette(PaletteEntry[] entries, boolean cacheable, boolean hasTint) {
-        static final Palette BLANK = new Palette(new PaletteEntry[]{new PaletteEntry(-1)}, false);
-        static final Palette CACHEABLE_BLANK = new Palette(new PaletteEntry[]{new PaletteEntry(-1)}, true);
-
-        Palette(PaletteEntry[] entries, boolean cacheable) {
-            this(entries, cacheable, false);
-        }
-
-        PaletteEntry getRandomEntry() {
-            return entries()[MathHelper.randomBetween(0, entries().length - 1)];
-        }
-
-        int[] getRandomColour(int[] tintColour) {
-            if(this.hasTint()) {
-                return ColourUtil.multiplyColours(this.getRandomEntry().argbAsArray(), tintColour);
-            }
-            return this.getRandomEntry().argbAsArray();
-        }
-
-        public @NonNull String debugEntriesString() {
-            StringBuilder builder = new StringBuilder("(");
-            for (PaletteEntry entry : entries) {
-                int[] argb = entry.argbAsArray();
-                builder.append("[");
-                builder.append(argb[0]);
-                builder.append(", ");
-                builder.append(argb[1]);
-                builder.append(", ");
-                builder.append(argb[2]);
-                builder.append(", ");
-                builder.append(argb[3]);
-                builder.append("], ");
-            }
-            builder.append(")");
-            return builder.toString();
-        }
+        Logging.info("Cleared particle palette cache");
     }
 
     public record FluidStateMaterialSource(Function<FluidModel, TextureAtlasSprite> spriteConverter, Function<FluidModel, Material.Baked> materialConverter) {

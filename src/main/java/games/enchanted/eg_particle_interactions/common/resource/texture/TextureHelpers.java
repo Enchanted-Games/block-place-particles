@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.util.texture;
+package games.enchanted.eg_particle_interactions.common.resource.texture;
 
 import games.enchanted.eg_particle_interactions.common.duck.AtlasManagerAdditions;
 import net.minecraft.client.Minecraft;

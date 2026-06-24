@@ -7,8 +7,6 @@ import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.util.ColourUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ExtraCodecs;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluids;
 
 public class FluidTintColourSource implements ColourSource {
     public static final MapCodec<FluidTintColourSource> CODEC = RecordCodecBuilder.mapCodec(instance ->
