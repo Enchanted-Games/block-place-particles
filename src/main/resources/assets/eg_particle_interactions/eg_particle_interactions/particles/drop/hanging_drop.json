@@ -22,7 +22,7 @@
             0.98
         ],
         "physics/friction": 0.6,
-        "physics/collision_size": 1,
+        "physics/collision_size": 0.1,
         "appearance": "drop/honey_drop",
         "lifetime_events": [
             {
