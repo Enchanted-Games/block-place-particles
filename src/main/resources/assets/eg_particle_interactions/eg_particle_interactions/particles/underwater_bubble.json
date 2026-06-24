@@ -60,6 +60,22 @@
                 "action": {
                     "type": "kill"
                 }
+            },
+            {
+                "trigger": {
+                    "type": "in_fluid",
+                    "oneshot": false,
+                    "minimum_particle_age": 2,
+                    "fluid_predicate": {
+                        "type": "list",
+                        "fluids": [
+                            "empty"
+                        ]
+                    }
+                },
+                "action": {
+                    "type": "kill"
+                }
             }
         ]
     }
