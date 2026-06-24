@@ -3,14 +3,14 @@ id = "eg_particle_interactions"
 name = "Particle Interactions"
 description = """A client side mod that adds particles to various interactions in the game that dont normally have particles.
 
-New in v0.10.0-alpha.2
+New in v0.10.0-alpha.3
 
 This version comes with an absolute ton of internal changes and many new resourcepack features! See the GitHub page for full changelog
 
 This is the second alpha release of v0.10, with a couple bug fixes introduced in the previous version
 """
 group = "games.enchanted"
-version = "0.10.0-alpha.2"
+version = "0.10.0-alpha.3"
 license = "CC BY-NC 4.0"
 source_url = "https://github.com/Enchanted-Games/block-place-particles"
 issue_tracker = "https://github.com/Enchanted-Games/block-place-particles/issues"
