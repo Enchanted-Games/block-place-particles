@@ -370,14 +370,15 @@ public class ParticleInteractionsParticle extends Particle {
 
     private void checkOnFluid() {
         if(!GeneralOptions.PARTICLE_FLUID_REACTIVITY.getValue()) return;
-//        if(!this.emptyFluidAbove) return;
+        if(this.buoyancy < 0) return;
+        if(!this.emptyFluidAbove) return;
 
-        if(this.age > 0 && this.yd < 0.08 && this.yd > -0.08 && !this.inFluid.isEmpty() && this.inFluidLastTick.isEmpty()) {
+        if(this.age > 0 && this.yd < 0.05 && this.yd > -0.05 && !this.inFluid.isEmpty() && this.inFluidLastTick.isEmpty()) {
             this.onFluid = true;
         }
 
-        this.onFluid = FluidHelpers.fluidAtPosition(this.level, this.x, this.y + 0.06, this.z).isEmpty() &&
-            !FluidHelpers.fluidAtPosition(this.level, this.x, this.y - 0.06, this.z).isEmpty() &&
+        this.onFluid = FluidHelpers.fluidAtPosition(this.level, this.x, this.y + FLUID_Y_OFFSET + 0.06, this.z).isEmpty() &&
+            !FluidHelpers.fluidAtPosition(this.level, this.x, this.y + FLUID_Y_OFFSET - 0.06, this.z).isEmpty() &&
             this.onFluid;
     }
 
