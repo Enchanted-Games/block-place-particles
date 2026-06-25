@@ -18,6 +18,7 @@ public class SpecialParticlesEmitter extends Emitter {
     public static final MapCodec<SpecialParticlesEmitter> CODEC = RecordCodecBuilder.mapCodec(instance ->
         instance.group(
             ModCodecs.COMPACT_VECTOR3D.optionalFieldOf(Emitter.VELOCITY_MULTIPLIER_NAME, Emitter.VELOCITY_MULTIPLIER_DEFAULT).forGetter(Emitter::getVelocityMultiplier),
+            ModCodecs.VECTOR3D.optionalFieldOf(Emitter.POSITION_OFFSET_NAME, Emitter.POSITION_OFFSET_DEFAULT).forGetter(Emitter::getVelocityMultiplier),
             ParticleTypesRegistry.CODEC.fieldOf("particle").forGetter(SpecialParticlesEmitter::getParticleOptions)
         ).apply(
             instance,
@@ -27,13 +28,13 @@ public class SpecialParticlesEmitter extends Emitter {
 
     final PIParticleOptions particleOptions;
 
-    public SpecialParticlesEmitter(Vector3d velocityMultiplier, PIParticleOptions particleOptions) {
-        super(velocityMultiplier);
+    public SpecialParticlesEmitter(Vector3d velocityMultiplier, Vector3d positionOffset, PIParticleOptions particleOptions) {
+        super(velocityMultiplier, positionOffset);
         this.particleOptions = particleOptions;
     }
 
     @Override
-    public void spawnParticle(ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+    protected void emit(ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         ParticleSpawner.spawnWithAppearance(
             this.particleOptions,
             ParticleAppearance.MISSING_APPEARANCE.get(),

@@ -8,11 +8,11 @@ public class EmptyEmitter extends Emitter {
     static final MapCodec<? extends Emitter> EMPTY_CODEC = MapCodec.unit(INSTANCE);
 
     EmptyEmitter() {
-        super(0);
+        super(0, POSITION_OFFSET_DEFAULT);
     }
 
     @Override
-    public void spawnParticle(ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+    protected void emit(ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
     }
 
     @Override

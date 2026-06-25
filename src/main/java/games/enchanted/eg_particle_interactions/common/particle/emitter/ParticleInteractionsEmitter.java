@@ -14,6 +14,7 @@ public class ParticleInteractionsEmitter extends Emitter {
     public static final MapCodec<ParticleInteractionsEmitter> CODEC = RecordCodecBuilder.mapCodec(instance ->
         instance.group(
             ModCodecs.COMPACT_VECTOR3D.optionalFieldOf(Emitter.VELOCITY_MULTIPLIER_NAME, Emitter.VELOCITY_MULTIPLIER_DEFAULT).forGetter(Emitter::getVelocityMultiplier),
+            ModCodecs.VECTOR3D.optionalFieldOf(Emitter.POSITION_OFFSET_NAME, Emitter.POSITION_OFFSET_DEFAULT).forGetter(Emitter::getPositionOffset),
             ParticleDefinitionManager.REFERENCE_CODEC.fieldOf("particle").forGetter(ParticleInteractionsEmitter::getParticleDefinition),
             ParticleComponentMap.CODEC.optionalFieldOf("components", ParticleComponentMap.EMPTY).forGetter(ParticleInteractionsEmitter::getCustomComponents)
         ).apply(
@@ -25,14 +26,14 @@ public class ParticleInteractionsEmitter extends Emitter {
     final ParticleDefinition.Reference particleDefinition;
     final ParticleComponentMap customComponents;
 
-    public ParticleInteractionsEmitter(Vector3d velocityMultiplier, ParticleDefinition.Reference particleDefinition, ParticleComponentMap customComponents) {
-        super(velocityMultiplier);
+    public ParticleInteractionsEmitter(Vector3d velocityMultiplier, Vector3d offset, ParticleDefinition.Reference particleDefinition, ParticleComponentMap customComponents) {
+        super(velocityMultiplier, offset);
         this.particleDefinition = particleDefinition;
         this.customComponents = customComponents;
     }
 
     @Override
-    public void spawnParticle(ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+    protected void emit(ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         ParticleSpawner.spawn(
             this.particleDefinition.get(),
             this.customComponents,
@@ -49,6 +50,7 @@ public class ParticleInteractionsEmitter extends Emitter {
     public static ParticleInteractionsEmitter simple(ParticleDefinition definition) {
         return new ParticleInteractionsEmitter(
             VELOCITY_MULTIPLIER_DEFAULT,
+            POSITION_OFFSET_DEFAULT,
             new ParticleDefinition.InlineRef(definition),
             ParticleComponentMap.EMPTY
         );

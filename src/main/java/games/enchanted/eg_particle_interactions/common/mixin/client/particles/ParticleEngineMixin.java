@@ -24,6 +24,8 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -39,6 +41,10 @@ import java.util.Map;
 public abstract class ParticleEngineMixin implements PreparableReloadListener {
     @Shadow protected ClientLevel level;
     @Shadow @Final private Map<ParticleRenderType, ParticleGroup<?>> particles;
+
+    @Shadow
+    @Final
+    private RandomSource random;
 
     // override item and block particles if they have a particle override
     @WrapOperation(
@@ -99,28 +105,30 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
 
         BlockState blockState = ((BlockParticleOption) originalParticleOption).getState();
 
-        ParticleOrigin origin = ParticleOrigin.BLOCK_PARTICLE_OVERRIDDEN;
+        boolean isDustPillarParticle = originalParticleOption.getType() == ParticleTypes.DUST_PILLAR;
+        ParticleOrigin origin = isDustPillarParticle ? ParticleOrigin.BLOCK_MACE_SMASH : ParticleOrigin.BLOCK_GENERIC;
         OverridePreset overridePreset = BlockOverrideManager.getForBlock(blockState, origin);
         ParticleOverride override = overridePreset.getRandom();
         Identifier id = ParticleOverrides.getIdOrThrow(override);
 
-        if(id == ParticleOverrides.VANILLA_OVERRIDE_ID) {
+        if(id.equals(ParticleOverrides.VANILLA_OVERRIDE_ID)) {
             return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);
         }
 
         ParticleContext context = ParticleContext.block(level, blockState, BlockPos.containing(x, y, z));
-        boolean isDustPillarParticle = originalParticleOption.getType() == ParticleTypes.DUST_PILLAR;
-        double newYSpeed = (ySpeed * 0.5) + (ySpeed < 0.02 ? 0.08 : 0.);
+        double newYSpeed = ySpeed + this.random.nextGaussian() * 5.0;
+
+        boolean closeToSurface = Mth.frac(y) < 0.01;
 
         override.spawnParticle(
             origin,
             context,
             x,
-            y,
+            closeToSurface ? y + 0.1 : y,
             z,
-            xSpeed * (Math.random() * 0.75 + 0.6),
-            isDustPillarParticle ? (ySpeed * 2) + 0.45 : newYSpeed,
-            zSpeed * (Math.random() * 0.75 + 0.6)
+            xSpeed,
+            isDustPillarParticle ? newYSpeed : ySpeed,
+            zSpeed
         );
 
         return null;

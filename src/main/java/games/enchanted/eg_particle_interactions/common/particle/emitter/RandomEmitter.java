@@ -22,7 +22,7 @@ public class RandomEmitter extends Emitter {
     final int totalWeights;
 
     public RandomEmitter(List<EmitterAndWeight> emitters) {
-        super(0);
+        super(0, POSITION_OFFSET_DEFAULT);
         this.emitters = emitters;
 
         final int[] x = {0};
@@ -31,7 +31,7 @@ public class RandomEmitter extends Emitter {
     }
 
     @Override
-    public void spawnParticle(ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+    protected void emit(ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         if(this.emitters.isEmpty()) {
             return;
         }

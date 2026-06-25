@@ -12,6 +12,7 @@ public class VanillaEmitter extends Emitter {
     public static final MapCodec<VanillaEmitter> CODEC = RecordCodecBuilder.mapCodec(instance ->
         instance.group(
             ModCodecs.COMPACT_VECTOR3D.optionalFieldOf(Emitter.VELOCITY_MULTIPLIER_NAME, Emitter.VELOCITY_MULTIPLIER_DEFAULT).forGetter(Emitter::getVelocityMultiplier),
+            ModCodecs.VECTOR3D.optionalFieldOf(Emitter.POSITION_OFFSET_NAME, Emitter.POSITION_OFFSET_DEFAULT).forGetter(Emitter::getVelocityMultiplier),
             ParticleTypes.CODEC.fieldOf("particle").forGetter(VanillaEmitter::getParticleOptions)
         ).apply(
             instance,
@@ -21,13 +22,13 @@ public class VanillaEmitter extends Emitter {
 
     protected final ParticleOptions particleOptions;
 
-    public VanillaEmitter(Vector3d velocityMultiplier, ParticleOptions particleOptions) {
-        super(velocityMultiplier);
+    public VanillaEmitter(Vector3d velocityMultiplier, Vector3d positionOffset, ParticleOptions particleOptions) {
+        super(velocityMultiplier, positionOffset);
         this.particleOptions = particleOptions;
     }
 
     @Override
-    public void spawnParticle(ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+    protected void emit(ParticleContext context, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         context.level().addParticle(
             this.particleOptions,
             x,
