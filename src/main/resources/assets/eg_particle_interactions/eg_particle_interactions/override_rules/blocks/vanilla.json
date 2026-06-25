@@ -31,7 +31,7 @@
                 "blocks": "partial_redstone_dust_partial_vanilla"
             }
         ],
-        "block/generic": [
+        "block/sprinted_on": [
             {
                 "type": "list",
                 "blocks": "partial_snow_dust_partial_vanilla"
