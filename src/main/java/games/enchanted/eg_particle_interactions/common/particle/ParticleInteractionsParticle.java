@@ -59,6 +59,7 @@ public class ParticleInteractionsParticle extends Particle {
     protected static final double MAXIMUM_COLLISION_VELOCITY_SQUARED = Mth.square(100.0F);
     private static final double MIN_BOUNCE_CUTOFF = 0.05;
     private static final double EPSILON = 1.0E-5d;
+    private static final double FLUID_Y_OFFSET = 0.125;
 
     protected final float gravityDecay;
     protected final Vec3 velocityDecay;
@@ -87,6 +88,7 @@ public class ParticleInteractionsParticle extends Particle {
     protected float buoyancy;
     protected float bounciness = 0f;
     protected boolean onFluid = false;
+    protected boolean emptyFluidAbove = false;
     protected FluidState inFluid = Fluids.EMPTY.defaultFluidState();
     protected FluidState inFluidLastTick = this.inFluid;
     protected boolean onGroundLastTick = false;
@@ -313,8 +315,8 @@ public class ParticleInteractionsParticle extends Particle {
 
         if(GeneralOptions.PARTICLE_FLUID_REACTIVITY.getValue()) {
             this.inFluidLastTick = this.inFluid;
-            boolean emptyAbove = FluidHelpers.fluidAtPosition(this.level, this.x, this.y + 0.875, this.z).isEmpty();
-            this.inFluid = FluidHelpers.fluidAtPosition(this.level, this.x, this.y + (emptyAbove ? 0.125 : 0), this.z);
+            this.emptyFluidAbove = FluidHelpers.fluidAtPosition(this.level, this.x, this.y + 0.875, this.z).isEmpty();
+            this.inFluid = FluidHelpers.fluidAtPosition(this.level, this.x, this.y + (this.emptyFluidAbove ? FLUID_Y_OFFSET : 0), this.z);
         }
 
         this.doWind();
@@ -352,7 +354,7 @@ public class ParticleInteractionsParticle extends Particle {
     }
 
     protected void applyGravity() {
-        this.checkFluid();
+        this.checkOnFluid();
 
         if(this.onFluid) {
             this.yd *= 0.5;
@@ -366,8 +368,9 @@ public class ParticleInteractionsParticle extends Particle {
         this.yd -= 0.04 * this.gravity * (!this.inFluid.isEmpty() ? -this.buoyancy : 1);
     }
 
-    private void checkFluid() {
+    private void checkOnFluid() {
         if(!GeneralOptions.PARTICLE_FLUID_REACTIVITY.getValue()) return;
+//        if(!this.emptyFluidAbove) return;
 
         if(this.age > 0 && this.yd < 0.08 && this.yd > -0.08 && !this.inFluid.isEmpty() && this.inFluidLastTick.isEmpty()) {
             this.onFluid = true;
