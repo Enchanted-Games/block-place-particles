@@ -1,26 +1,28 @@
 package games.enchanted.eg_particle_interactions.common.platform;
 
-import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
+import games.enchanted.eg_particle_interactions.common.Constants;
 //? if neoforge {
-/*import games.enchanted.eg_particle_interactions.neoforge.registry.NeoParticleProviderRegistry;
+/*import games.enchanted.eg_particle_interactions.neoforge.NeoForgeEntry;
+import games.enchanted.eg_particle_interactions.neoforge.registry.NeoReloadListenerRegistry;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.fml.loading.LoadingModList;
 *///?} else {
-//? if minecraft: < 26.1 {
-/*import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
-*///? } else {
-import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
-//? }
-import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
+import games.enchanted.eg_particle_interactions.fabric.resource.FabricResourceLoaderRegisterer;
 import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
 //?}
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
+import org.apache.commons.lang3.NotImplementedException;
+import org.jspecify.annotations.Nullable;
 
+import java.net.URI;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
 
 public class PlatformHelper {
     /**
@@ -92,29 +94,6 @@ public class PlatformHelper {
     }
 
     /**
-     * Creates and returns a new instance of net.minecraft.core.particles.SimpleParticleType
-     */
-    public static SimpleParticleType createNewSimpleParticle(boolean alwaysShow) {
-        //? if fabric {
-        return FabricParticleTypes.simple(alwaysShow);
-        //?} else {
-        /*return new SimpleParticleType(alwaysShow);
-         *///?}
-    }
-
-    /**
-     * Registers a particle to a particle provider
-     */
-    public static <T extends ParticleOptions> void registerParticleProvider(ParticleType<T> particleType, ModParticleTypes.SpriteProviderReg<T> particleProvider) {
-        //? if fabric {
-        /*? if minecraft: < 26.1 {*/ /*ParticleFactoryRegistry *//*? } else {*/ ParticleProviderRegistry /*?}*/
-            .getInstance().register(particleType, particleProvider::create);
-        //?} else {
-        /*NeoParticleProviderRegistry.registerProviderWhenReady(particleType, particleProvider);
-         *///?}
-    }
-
-    /**
      * Returns the path where configuration files are stored within the .minecraft directory
      */
     public static Path getConfigPath() {
@@ -123,5 +102,32 @@ public class PlatformHelper {
         //?} else {
         /*return FMLPaths.CONFIGDIR.get();
          *///?}
+    }
+
+    /**
+     * Register a resource reload listener
+     */
+    public static void registerResourceReloadListener(PreparableReloadListener listener, Identifier id) {
+        //? if fabric {
+        FabricResourceLoaderRegisterer.getInstance().registerResourceLoader(listener, id);
+        //? } else {
+        /*NeoReloadListenerRegistry.registerListener(listener, id);
+        *///? }
+    }
+
+    /**
+     * Get the path to something in the mod jar
+     */
+    public static Path getResourcePathFromModJar(String... strings) {
+        //? if fabric {
+        Optional<ModContainer> container = Objects.requireNonNull(
+            FabricLoader.getInstance().getModContainer(Constants.MOD_ID),
+            "Could not get mod container '" + Constants.MOD_ID + "'"
+        );
+        Optional<Path> path = container.flatMap(modContainer -> modContainer.findPath(String.join("/", strings)));
+        return path.orElseThrow(() -> new NullPointerException("Could not find path in particle interactions mod jar '" + Arrays.toString(strings) + "'"));
+        //? } else {
+        /*throw new NotImplementedException("getResourcePathFromModJar not implemented on neoforge platform");
+        *///? }
     }
 }

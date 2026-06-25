@@ -1,0 +1,90 @@
+{
+    "behaviour": "spark_shape",
+    "components": {
+        "gravity/initial": {
+            "range": [
+                0.2,
+                0.3
+            ]
+        },
+        "lifetime": {
+            "range": [
+                4,
+                12
+            ]
+        },
+        "velocity/decay": [
+            0.98,
+            0.98,
+            0.98
+        ],
+        "physics/friction": 0.1,
+        "physics/bounciness": 0.8,
+        "physics/collision_size": 0.5,
+        "appearance": "spark/soul_spark",
+        "lifetime_events": [
+            {
+                "trigger": {
+                    "type": "random_chance",
+                    "chance": 0.2,
+                    "lifetime_percentage_range": [
+                        0,
+                        0.05
+                    ]
+                },
+                "action": {
+                    "type": "spawn_particle",
+                    "emitter": {
+                        "type": "particle_interactions",
+                        "particle": "spark/flash",
+                        "components": {
+                            "appearance": "spark/soul_flash"
+                        }
+                    },
+                    "velocity_provider": {
+                        "type": "static",
+                        "value": [
+                            0,
+                            0,
+                            0
+                        ]
+                    }
+                }
+            },
+            {
+                "trigger": {
+                    "type": "random_chance",
+                    "chance": 0.005
+                },
+                "action": {
+                    "type": "spawn_particle",
+                    "emitter": {
+                        "type": "particle_interactions",
+                        "particle": "spark/flash",
+                        "components": {
+                            "appearance": "spark/soul_flash"
+                        }
+                    },
+                    "velocity_provider": {
+                        "type": "static",
+                        "value": [
+                            0,
+                            0,
+                            0
+                        ]
+                    }
+                }
+            },
+            {
+                "trigger": {
+                    "type": "in_fluid",
+                    "oneshot": true
+                },
+                "action": {
+                    "type": "modify_lifetime",
+                    "divide": 2
+                }
+            }
+        ]
+    }
+}

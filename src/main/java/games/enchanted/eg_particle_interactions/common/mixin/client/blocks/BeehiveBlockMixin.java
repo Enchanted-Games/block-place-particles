@@ -3,7 +3,8 @@ package games.enchanted.eg_particle_interactions.common.mixin.client.blocks;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import games.enchanted.eg_particle_interactions.common.config.categories.ItemInteractionOptions;
-import games.enchanted.eg_particle_interactions.common.particle.options.DripParticleOption;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle_spawning.EmitterRuleSetIds;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -34,7 +35,7 @@ public abstract class BeehiveBlockMixin extends BaseEntityBlock {
         at = @At(value = "FIELD", target = "Lnet/minecraft/sounds/SoundEvents;BOTTLE_FILL:Lnet/minecraft/sounds/SoundEvent;", opcode = Opcodes.GETSTATIC),
         method = "useItemOn"
     )
-    private void block_place_particle$spawnHoneyCollectionParticles(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
+    private void eg_particle_interactions$spawnHoneyCollectionParticles(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
         if(!(level instanceof ClientLevel clientLevel)) return;
         SpawnParticles.spawnHoneyCollectionParticlesOnPlayer(clientLevel, player);
         Direction hitFace = hitResult.getDirection();
@@ -52,11 +53,21 @@ public abstract class BeehiveBlockMixin extends BaseEntityBlock {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addParticle(Lnet/minecraft/core/particles/ParticleOptions;DDDDDD)V"),
         method = "spawnFluidParticle"
     )
-    private void block_place_particles$replaceHoneyDropParticles(Level instance, ParticleOptions particleData, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, Operation<Void> original) {
-        if(!ItemInteractionOptions.HONEY_COLLECTION_REPLACE_VANILLA.getValue()) {
+    private void eg_particle_interactions$replaceHoneyDropParticles(Level instance, ParticleOptions particleData, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, Operation<Void> original) {
+        if(!ItemInteractionOptions.HONEY_COLLECTION_REPLACE_VANILLA.getValue() || !(instance instanceof ClientLevel clientLevel)) {
             original.call(instance, particleData, x, y, z, xSpeed, ySpeed, zSpeed);
             return;
         }
-        original.call(instance, DripParticleOption.HANGING_HONEY_DROP, x, y + 0.047, z, xSpeed, ySpeed, zSpeed);
+        BlockPos pos = BlockPos.containing(x, y, z);
+        ParticleContext context = ParticleContext.block(clientLevel, clientLevel.getBlockState(pos), pos);
+        EmitterRuleSetIds.BEEHIVE_DRIP.get().getEmitter(context).spawnParticle(
+            context,
+            x,
+            y + 0.047,
+            z,
+            xSpeed,
+            ySpeed,
+            zSpeed
+        );
     }
 }

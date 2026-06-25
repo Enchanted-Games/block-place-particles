@@ -1,0 +1,27 @@
+{
+    "components": {
+        "gravity/initial": {
+            "values": [
+                0.5
+            ]
+        },
+        "lifetime": {
+            "range": [
+                350,
+                500
+            ]
+        },
+        "velocity/initial_randomness": [
+            0,
+            0,
+            0
+        ],
+        "velocity/decay": [
+            0.98,
+            0.98,
+            0.98
+        ],
+        "physics/collision_size": 0.1,
+        "appearance": "drop/honey_drop"
+    }
+}

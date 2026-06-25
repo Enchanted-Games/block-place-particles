@@ -9,12 +9,12 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(RenderPipelines.class)
 public interface RenderPipelinesAccessor {
     @Invoker("register")
-    static RenderPipeline block_place_particle$invokeRegister(RenderPipeline p_404995_) {
+    static RenderPipeline eg_particle_interactions$invokeRegister(RenderPipeline p_404995_) {
         throw new AssertionError("Mixin not applied");
     }
 
     @Accessor("PARTICLE_SNIPPET")
-    static RenderPipeline.Snippet block_place_particle$getParticleSnippet() {
+    static RenderPipeline.Snippet eg_particle_interactions$getParticleSnippet() {
         throw new AssertionError("Mixin not applied");
     }
 }

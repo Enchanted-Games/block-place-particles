@@ -1,0 +1,175 @@
+package games.enchanted.eg_particle_interactions.common.util.math;
+
+import org.joml.Quaternionf;
+import org.joml.Vector3d;
+import org.joml.Vector3f;
+
+public class MathHelper {
+    public static boolean isInRange(double value, double min, double max) {
+        return min <= value && value <= max;
+    }
+
+    public static double clampIfInRange(double value, double clamp, double min, double max) {
+        return !isInRange(value, min, max) ? value : clamp;
+    }
+
+    public static int clampInt(int val, int min, int max) {
+        return Math.max(min, Math.min(max, val));
+    }
+
+    public static double expandWhenOutOfBound(double value, double minBound, double maxBound) {
+        if (value >= maxBound) {
+            return value + 0.005;
+        } else if (value <= minBound) {
+            return value - 0.005;
+        }
+        return value;
+    }
+
+    /**
+     * Returns the largest value from a {@link Vector3f}
+     *
+     * @param abs converts all values to positive before finding the maximum value
+     */
+    public static double maxVec3(Vector3f vector, boolean abs) {
+        if(abs) vector = new Vector3f(Math.abs(vector.x), Math.abs(vector.y), Math.abs(vector.z));
+        return Math.max(Math.max(vector.x, vector.y), vector.z);
+    }
+
+    /**
+     * Rotates a vector in 3D space around the origin
+     *
+     * @param point       the point to rotate
+     * @param roll  the roll in radians
+     * @param pitch the pitch in radians
+     * @param yaw   the yaw in radians
+     * @return the rotated point
+     */
+    public static Vector3d rotate3DPoint(Vector3d point, float pitch, float yaw, float roll) {
+        Quaternionf quaternionf = eulerAnglesToQuaternion(pitch, yaw, roll);
+        return quaternionf.transform(new Vector3d(point));
+    }
+
+    /**
+     * Converts yaw and pitch to a vector
+     *
+     * @param pitch the pitch in radians
+     * @param yaw   the yaw in radians
+     * @return facing vector
+     */
+    public static Vector3f directionVectorFromPitchYaw(float pitch, float yaw) {
+        float cosPitch = (float) Math.cos(pitch);
+        return new Vector3f((float) Math.sin(-yaw) * cosPitch, -(float) Math.sin(pitch), (float) Math.cos(-yaw) * cosPitch);
+    }
+
+    /**
+     * Converts euler angles to a quaternion
+     *
+     * @param roll  the roll in radians
+     * @param pitch the pitch in radians
+     * @param yaw   the yaw in radians
+     */
+    public static Quaternionf eulerAnglesToQuaternion(float roll, float pitch, float yaw) {
+        float cr = (float) Math.cos(roll * 0.5);
+        float sr = (float) Math.sin(roll * 0.5);
+        float cp = (float) Math.cos(pitch * 0.5);
+        float sp = (float) Math.sin(pitch * 0.5);
+        float cy = (float) Math.cos(yaw * 0.5);
+        float sy = (float) Math.sin(yaw * 0.5);
+
+        Quaternionf q = new Quaternionf();
+        q.w = cr * cp * cy + sr * sp * sy;
+        q.x = sr * cp * cy - cr * sp * sy;
+        q.y = cr * sp * cy + sr * cp * sy;
+        q.z = cr * cp * sy - sr * sp * cy;
+
+        return q;
+    }
+
+    /**
+     * Returns the distance in a straight line between two vectors
+     */
+    public static float getDistanceBetweenVectors(Vector3f pointA, Vector3f pointB) {
+        return (float) new Vector3d(pointA).distance(pointB.x, pointB.y, pointB.z);
+    }
+
+    /**
+     * Returns the distance in a straight line between two positions
+     */
+    public static double getDistanceBetweenPoints(double x1, double y1, double z1, double x2, double y2, double z2) {
+        double distX = x1 - x2;
+        double distY = y1 - y2;
+        double distZ = z1 - z2;
+        return Math.sqrt(distX * distX + distY * distY + distZ * distZ);
+    }
+
+    /**
+     * Returns the position in 3D space between two points
+     */
+    public static Vector3f getPosBetween3DPoints(Vector3f pointA, Vector3f pointB) {
+        float diffX = pointA.x - pointB.x;
+        float diffY = pointA.y - pointB.y;
+        float diffZ = pointA.z - pointB.z;
+        return new Vector3f(pointA).sub(diffX / 2, diffY / 2, diffZ / 2);
+    }
+
+    /**
+     * Tests if the value is within the min and max bounds, if it is the value will be clamped to the closest value
+     * If 10, 5, and 8 are passed, it will return 10
+     * If 10, 5, and 15 are passed, it will return 10
+     */
+    public static double clampOutside(double value, double min, double max) {
+        if (value > min && value < max) {
+            double mid = (max - min) / 2 + min;
+            return value < mid ? min : max;
+        }
+        return value;
+    }
+
+    /**
+     * Returns a random float between a bound
+     */
+    public static float randomBetween(float min, float max) {
+        return (float) (Math.random() * (max - min)) + min;
+    }
+
+    /**
+     * Returns a random int between a bound (inclusive)
+     */
+    public static int randomBetween(int min, int max) {
+        return (int) Math.round((Math.random() * (max - min)) + min);
+    }
+
+    /**
+     * Multiply a number by resolution, floor it, and return the result divided by resolution
+     *
+     * @param number     the number to floor
+     * @param resolution the resolution
+     * @return floored result
+     */
+    public static float floorWithResolution(double number, double resolution) {
+        return (float) (Math.floor(number * resolution) / resolution);
+    }
+
+    /**
+     * Multiply a number by resolution, ceil it, and return the result divided by resolution
+     *
+     * @param number     the number to ceil
+     * @param resolution the resolution
+     * @return ceiled result
+     */
+    public static float ceilWithResolution(double number, double resolution) {
+        return (float) (Math.ceil(number * resolution) / resolution);
+    }
+
+    /**
+     * Multiply a number by resolution, round it, and return the result divided by resolution
+     *
+     * @param number     the number to round
+     * @param resolution the resolution
+     * @return rounded result
+     */
+    public static float roundWithResolution(double number, double resolution) {
+        return (float) (Math.round(number * resolution) / resolution);
+    }
+}

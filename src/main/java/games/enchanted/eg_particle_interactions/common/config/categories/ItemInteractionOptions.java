@@ -16,18 +16,12 @@ public class ItemInteractionOptions {
     public static final ConfigOption<Boolean> FLINT_AND_STEEL_SPARKS_ENABLED = registerOption(
         new BoolOption(true, "flint_and_steel_sparks_enabled")
     );
-    public static final ConfigOption<Integer> FLINT_AND_STEEL_SPARKS_INTENSITY = registerOption(
-        new IntOption(5, "flint_and_steel_sparks_intensity")
-    );
     public static final ConfigOption<Integer> FLINT_AND_STEEL_SPARKS_AMOUNT = registerOption(
         new IntOption(12, "flint_and_steel_sparks_amount")
     );
 
     public static final ConfigOption<Boolean> FIRE_CHARGE_PARTICLES_ENABLED = registerOption(
         new BoolOption(true, "fire_charge_particles_enabled")
-    );
-    public static final ConfigOption<Integer> FIRE_CHARGE_PARTICLES_INTENSITY = registerOption(
-        new IntOption(5, "fire_charge_particles_intensity")
     );
     public static final ConfigOption<Integer> FIRE_CHARGE_PARTICLES_AMOUNT = registerOption(
         new IntOption(12, "fire_charge_particles_amount")

@@ -1,0 +1,7 @@
+{
+    "default": {
+        "type": "texture",
+        "texture": "eg_particle_interactions:bamboo",
+        "atlas": "eg_particle_interactions:particle_palettes"
+    }
+}

@@ -1,0 +1,106 @@
+{
+    "emitters": {
+        "default": {
+            "rules": [
+                {
+                    "conditions": [
+                        {
+                            "type": "logic/and",
+                            "conditions": [
+                                {
+                                    "type": "block",
+                                    "predicate": {
+                                        "type": "list",
+                                        "blocks": "partial_grass_blade_partial_firefly_in_swamp"
+                                    }
+                                },
+                                {
+                                    "type": "raw_light",
+                                    "min": 0,
+                                    "max": 12
+                                },
+                                {
+                                    "type": "biome",
+                                    "predicate": {
+                                        "type": "list",
+                                        "biomes": "swampy"
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "emitter": {
+                        "type": "random",
+                        "emitters": [
+                            {
+                                "weight": 14,
+                                "emitter": {
+                                    "type": "particle_interactions",
+                                    "particle": "grass_blade/blade",
+                                    "velocity_multiplier": 0.13
+                                }
+                            },
+                            {
+                                "weight": 1,
+                                "emitter": {
+                                    "type": "vanilla",
+                                    "particle": {
+                                        "type": "firefly"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "conditions": [
+                        {
+                            "type": "logic/and",
+                            "conditions": [
+                                {
+                                    "type": "block",
+                                    "predicate": {
+                                        "type": "list",
+                                        "blocks": "partial_grass_blade_partial_firefly"
+                                    }
+                                },
+                                {
+                                    "type": "raw_light",
+                                    "min": 0,
+                                    "max": 12
+                                }
+                            ]
+                        }
+                    ],
+                    "emitter": {
+                        "type": "random",
+                        "emitters": [
+                            {
+                                "weight": 4,
+                                "emitter": {
+                                    "type": "particle_interactions",
+                                    "particle": "grass_blade/blade",
+                                    "velocity_multiplier": 0.13
+                                }
+                            },
+                            {
+                                "weight": 1,
+                                "emitter": {
+                                    "type": "vanilla",
+                                    "particle": {
+                                        "type": "firefly"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            ],
+            "fallback_emitter": {
+                "type": "particle_interactions",
+                "particle": "grass_blade/blade",
+                "velocity_multiplier": 0.13
+            }
+        }
+    }
+}

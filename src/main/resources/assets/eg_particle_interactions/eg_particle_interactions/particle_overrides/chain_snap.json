@@ -1,0 +1,25 @@
+{
+    "emitters": {
+        "default": {
+            "type": "random",
+            "emitters": [
+                {
+                    "emitter": {
+                        "type": "particle_interactions",
+                        "particle": "chain_snap",
+                        "velocity_multiplier": 0.25
+                    },
+                    "weight": 12
+                },
+                {
+                    "emitter": {
+                        "type": "particle_interactions",
+                        "particle": "spark/flash",
+                        "velocity_multiplier": 0.05
+                    },
+                    "weight": 1
+                }
+            ]
+        }
+    }
+}

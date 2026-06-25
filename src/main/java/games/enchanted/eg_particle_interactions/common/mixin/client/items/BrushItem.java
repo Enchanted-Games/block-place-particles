@@ -1,51 +1,102 @@
 package games.enchanted.eg_particle_interactions.common.mixin.client.items;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import games.enchanted.eg_particle_interactions.common.Logging;
-import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
 import games.enchanted.eg_particle_interactions.common.config.categories.ItemInteractionOptions;
-import games.enchanted.eg_particle_interactions.common.particle.overrides.ParticleOrigin;
-import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
-import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverride;
+import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
+import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
+import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
+import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverride;
+import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
+import games.enchanted.eg_particle_interactions.common.override_system.OverridePreset;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.particle_spawning.EmitterRuleSetIds;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.BrushItem.DustParticlesDelta;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(net.minecraft.world.item.BrushItem.class)
+@Mixin(value = net.minecraft.world.item.BrushItem.class, priority = 1010)
 public abstract class BrushItem {
-    @Inject(
-        method = "spawnDustParticles(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/phys/BlockHitResult;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/entity/HumanoidArm;)V",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/BlockHitResult;getLocation()Lnet/minecraft/world/phys/Vec3;", shift = At.Shift.AFTER),
-        cancellable = true
+    @WrapOperation(
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addParticle(Lnet/minecraft/core/particles/ParticleOptions;DDDDDD)V"),
+        method = "spawnDustParticles"
     )
-    private void disableOrReplaceDustParticles(Level level, BlockHitResult hitResult, BlockState blockState, Vec3 pos, HumanoidArm arm, CallbackInfo ci, @Local(ordinal = 0) net.minecraft.world.item.BrushItem.DustParticlesDelta particlesDelta, @Local(ordinal = 0) int armDirection, @Local(ordinal = 1) int amountOfParticles) {
-        if(!level.isClientSide()) return;
-        if(ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.NONE) {
-            ci.cancel();
+    private void eg_particle_interactions$replaceBrushDustParticlesConditionally(
+        Level instance,
+        ParticleOptions particle,
+        double x,
+        double y,
+        double z,
+        double xSpeed,
+        double ySpeed,
+        double zSpeed,
+        Operation<Void> original,
+        Level level,
+        BlockHitResult hitResult,
+        BlockState state,
+        @Local(ordinal = 0) DustParticlesDelta particlesDelta,
+        @Local(ordinal = 0) int armDirection
+    ) {
+        if(!(instance instanceof ClientLevel clientLevel)) {
+            original.call(instance, particle, x, y, z, xSpeed, ySpeed, zSpeed);
             return;
-        };
+        }
+        if(ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.NONE) return;
 
+        final double outwardVelocity = 0.05;
+        BlockPos blockPos = hitResult.getBlockPos();
+        Direction brushDirection = hitResult.getDirection();
         Vec3 particlePos = hitResult.getLocation();
-        Logging.interactionDebugInfo("Blockstate brushed {} at {}", blockState, particlePos);
+        double baseDeltaX = particlesDelta.xd();
+        double baseDeltaY = particlesDelta.yd();
+        double baseDeltaZ = particlesDelta.zd();
 
-        BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockState, ParticleOrigin.BLOCK_BRUSHED);
-        final boolean isOverrideNoneOrVanilla = (override == BlockParticleOverride.VANILLA || override == BlockParticleOverride.NONE);
+        ParticleOrigin origin = ParticleOrigin.BLOCK_BRUSHED;
+        OverridePreset preset = BlockOverrideManager.getForBlock(state, origin);
+        ParticleOverride override = preset.getRandom();
+        Identifier id = ParticleOverrides.getIdOrThrow(override);
+        ParticleContext context = ParticleContext.block(clientLevel, state, blockPos);
 
-        // use vanilla particles if brush particle behaviour is "block override" and particle override is none or vanilla
-        if(ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.VANILLA_LIKE && isOverrideNoneOrVanilla) {
+        boolean isVanillaOrEmptyOverride = id.equals(ParticleOverrides.VANILLA_OVERRIDE_ID) || id.equals(ParticleOverrides.EMPTY_OVERRIDE_ID);
+
+        if (
+            ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.VANILLA_LIKE ||
+            (ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.DUST && !isVanillaOrEmptyOverride)
+        ) {
+            override.spawnParticle(
+                origin,
+                context,
+                particlePos.x + (brushDirection.getStepX() * outwardVelocity),
+                particlePos.y + (brushDirection.getStepY() * outwardVelocity),
+                particlePos.z + (brushDirection.getStepZ() * outwardVelocity),
+                (baseDeltaX * (double) armDirection * level.getRandom().nextDouble()) + (brushDirection.getStepX() * outwardVelocity),
+                (baseDeltaY + 1) * level.getRandom().nextDouble() * brushDirection.getStepY(),
+                (baseDeltaZ * (double) armDirection * level.getRandom().nextDouble()) + (brushDirection.getStepZ() * outwardVelocity)
+            );
+            return;
+        } else if(ItemInteractionOptions.BRUSH_PARTICLE_BEHAVIOUR.getValue() == BrushParticleBehaviour.DUST) {
+            EmitterRuleSetIds.BRUSH_DUST.get().getEmitter(context).spawnParticle(
+                context,
+                particlePos.x + (brushDirection.getStepX() * outwardVelocity),
+                particlePos.y + (brushDirection.getStepY() * outwardVelocity),
+                particlePos.z + (brushDirection.getStepZ() * outwardVelocity),
+                (baseDeltaX * (double) armDirection * level.getRandom().nextDouble()) + (brushDirection.getStepX() * outwardVelocity),
+                (baseDeltaY + 1) * level.getRandom().nextDouble() * brushDirection.getStepY(),
+                (baseDeltaZ * (double) armDirection * level.getRandom().nextDouble()) + (brushDirection.getStepZ() * outwardVelocity)
+            );
             return;
         }
 
-        Direction brushDirection = hitResult.getDirection();
-        SpawnParticles.spawnBrushingParticles((ClientLevel) level, override, blockState, brushDirection, particlePos, armDirection, amountOfParticles, particlesDelta.xd(), particlesDelta.yd(), particlesDelta.zd());
-        ci.cancel();
+        original.call(instance, particle, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 }

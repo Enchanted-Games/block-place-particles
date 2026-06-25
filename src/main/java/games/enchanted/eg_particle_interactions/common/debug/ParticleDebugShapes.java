@@ -23,4 +23,8 @@ public class ParticleDebugShapes {
     public static void box(AABB aabb, int argb) {
         Gizmos.cuboid(aabb, GizmoStyle.stroke(argb, 2));
     }
+
+    public static void onGroundMarker(AABB aabb, boolean onGround) {
+        Gizmos.point(aabb.getCenter().add(new Vec3(0, aabb.getYsize(), 0)), onGround ? 0xffbb00bb : 0xffffccff, 8);
+    }
 }

@@ -14,7 +14,7 @@ pluginManagement {
 }
 
 plugins {
-    id("dev.kikugie.stonecutter") version "0.8"
+    id("dev.kikugie.stonecutter") version "0.9.2"
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.9.0"
 }
 
@@ -22,16 +22,17 @@ stonecutter {
     create(rootProject) {
         fun ver(version: String, vararg loaders: String) = loaders
             .forEach {
-                version("$version-${it.replace("_remap", "")}", version).buildscript = "build.$it.gradle.kts"
+                val loaderName = it.replace("_remap", "")
+                version("$version-${loaderName}", version).buildscript = "build.$it.gradle.kts"
             }
 
         // use fabric_remap as the loader for obfuscated minecraft versions (1.21.11 or below)
 
         ver("26.1", "fabric", "neoforge")
+        ver("26.2", "fabric", "neoforge")
 
-        vcsVersion = "26.1-fabric"
+        vcsVersion = "26.2-fabric"
     }
 }
 
-rootProject.name = "Particle Interactions"
-
+rootProject.name = "eg_particle_interactions"

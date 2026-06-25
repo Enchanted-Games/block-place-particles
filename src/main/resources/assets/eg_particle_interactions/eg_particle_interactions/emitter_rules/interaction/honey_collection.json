@@ -1,0 +1,6 @@
+{
+    "fallback_emitter": {
+        "type": "particle_interactions",
+        "particle": "drop/falling_drop"
+    }
+}

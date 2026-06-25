@@ -1,6 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.mixin.client.entity;
 
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
@@ -30,14 +31,14 @@ public abstract class AbstractMinecartMixin extends VehicleEntity {
     }
 
     @Unique
-    private boolean block_place_particle$shouldSpawnSparks() {
+    private boolean eg_particle_interactions$shouldSpawnSparks() {
         BlockPos blockPos = BlockPos.containing(this.getX(), this.getY(),this.getZ());
         BlockState blockState = this.level().getBlockState(blockPos);
         return !blockState.getFluidState().is(FluidTags.WATER);
     }
 
     @Unique
-    private double block_place_particle$maxSpeed() {
+    private double eg_particle_interactions$maxSpeed() {
         return this.isInWater() ? 0.2 : 0.4;
     }
 
@@ -45,16 +46,28 @@ public abstract class AbstractMinecartMixin extends VehicleEntity {
         at = @At("HEAD"),
         method = "tick"
     )
-    protected void spawnSparksWhileMovingOnRails(CallbackInfo ci) {
-        if (block_place_particle$shouldSpawnSparks() && this.level().isClientSide()) {
+    protected void eg_particle_interactions$spawnSparksWhileMovingOnRails(CallbackInfo ci) {
+        if (eg_particle_interactions$shouldSpawnSparks() && this.level() instanceof ClientLevel clientLevel) {
             float horizontalRot = this.getYRot();
             float verticalRot = this.getXRot();
 
             BlockPos blockPos = BlockPos.containing(this.getX(), this.getY(),this.getZ());
-            BlockState blockState = this.level().getBlockState(blockPos);
+            BlockState blockState = clientLevel.getBlockState(blockPos);
             boolean hasBlock = !this.getDisplayBlockState().is(BlockTags.AIR);
 
-            SpawnParticles.spawnSparksAtMinecartWheels(this.getX(), this.getY(),this.getZ(), horizontalRot, verticalRot, BaseRailBlock.isRail(blockState), !this.getPassengers().isEmpty(), hasBlock, this.getDeltaMovement(), block_place_particle$maxSpeed(), this.level());
+            SpawnParticles.spawnSparksAtMinecartWheels(
+                this.getX(),
+                this.getY(),
+                this.getZ(),
+                horizontalRot,
+                verticalRot,
+                BaseRailBlock.isRail(blockState),
+                !this.getPassengers().isEmpty(),
+                hasBlock,
+                this.getDeltaMovement(),
+                eg_particle_interactions$maxSpeed(),
+                clientLevel
+            );
         }
     }
 }

@@ -1,0 +1,5 @@
+{
+    "emitters": {
+        "fluid/placed": "overrides/fluid_splash/placed"
+    }
+}

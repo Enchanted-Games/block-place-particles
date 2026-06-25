@@ -1,0 +1,104 @@
+package games.enchanted.eg_particle_interactions.common.override_system.override;
+
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonSyntaxException;
+import com.mojang.serialization.JsonOps;
+import games.enchanted.eg_particle_interactions.common.Constants;
+import games.enchanted.eg_particle_interactions.common.Logging;
+import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
+import net.minecraft.resources.FileToIdConverter;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
+import net.minecraft.util.StrictJsonParser;
+import net.minecraft.util.profiling.ProfilerFiller;
+
+import java.io.Reader;
+import java.util.HashMap;
+import java.util.Map;
+
+public class ParticleOverrides extends SimplePreparableReloadListener<ParticleOverrides.Preparation> {
+    public static final Identifier VANILLA_OVERRIDE_ID = ParticleInteractionsMod.id("vanilla");
+    public static final Identifier EMPTY_OVERRIDE_ID = ParticleInteractionsMod.id("empty");
+    public static final Identifier FALLBACK_OVERRIDE_ID = ParticleInteractionsMod.id("internal/fallback");
+
+    private static final BiMap<Identifier, ParticleOverride> OVERRIDE_BY_ID = HashBiMap.create();
+    private static final FileToIdConverter OVERRIDE_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/particle_overrides");
+
+    public static final ParticleOverrides INSTANCE = new ParticleOverrides();
+    
+    @Override
+    protected Preparation prepare(ResourceManager manager, ProfilerFiller profiler) {
+        Map<Identifier, ParticleOverride> overrideList = new HashMap<>();
+
+        for (Map.Entry<Identifier, Resource> overrideResource : OVERRIDE_ID_CONVERTER.listMatchingResources(manager).entrySet()) {
+            Identifier fileId = overrideResource.getKey();
+            parseOverride(fileId, overrideResource.getValue(), overrideList);
+        }
+
+        return new Preparation(overrideList);
+    }
+
+    protected static void parseOverride(Identifier fileId, Resource resource, Map<Identifier, ParticleOverride> output) {
+        try (Reader reader = resource.openAsReader()) {
+            JsonElement json = StrictJsonParser.parse(reader);
+            output.put(OVERRIDE_ID_CONVERTER.fileToId(fileId), ParticleOverride.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
+        } catch (Exception e) {
+            Logging.error("Failed to parse particle override '{}'", fileId, e);
+        }
+    }
+
+    @Override
+    protected void apply(Preparation preparations, ResourceManager manager, ProfilerFiller profiler) {
+        clearRegisteredOverrides();
+        registerOverride(FALLBACK_OVERRIDE_ID, ParticleOverride.EMPTY);
+
+        Map<Identifier, ParticleOverride> preparedOverrides = preparations.overrideList();
+        for (Map.Entry<Identifier, ParticleOverride> overrideEntry : preparedOverrides.entrySet()) {
+            if(overrideEntry.getKey().equals(FALLBACK_OVERRIDE_ID)) continue;
+            registerOverride(overrideEntry.getKey(), overrideEntry.getValue());
+        }
+    }
+
+
+    static void registerOverride(Identifier id, ParticleOverride override) {
+        OVERRIDE_BY_ID.put(id, override);
+    }
+
+    public static ParticleOverride getOverrideOrFallback(Identifier id) {
+        ParticleOverride override = OVERRIDE_BY_ID.get(id);
+        if(override == null) {
+            if(!OVERRIDE_BY_ID.containsKey(FALLBACK_OVERRIDE_ID)) {
+                throw new IllegalStateException("Fallback particle override does not exist. that should not happen brh");
+            }
+            return OVERRIDE_BY_ID.get(FALLBACK_OVERRIDE_ID);
+        }
+        return override;
+    }
+
+    public static ParticleOverride getOverrideOrThrow(Identifier id) {
+        ParticleOverride override = OVERRIDE_BY_ID.get(id);
+        if(override == null) {
+            throw new IllegalStateException("Tried to get non-existent particle override '" + id + "'");
+        }
+        return override;
+    }
+
+    public static Identifier getIdOrThrow(ParticleOverride override) {
+        Identifier id = OVERRIDE_BY_ID.inverse().get(override);
+        if(id == null) {
+            throw new IllegalStateException("Tried to get id for unregistered particle override '" + override + "'");
+        }
+        return id;
+    }
+
+    private static void clearRegisteredOverrides() {
+        OVERRIDE_BY_ID.clear();
+    }
+
+    protected record Preparation(Map<Identifier, ParticleOverride> overrideList) {
+    }
+}

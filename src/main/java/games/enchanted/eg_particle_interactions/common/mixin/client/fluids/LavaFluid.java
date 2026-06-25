@@ -17,7 +17,7 @@ public class LavaFluid {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/util/RandomSource;nextInt(I)I"),
         method = "animateTick"
     )
-    public void spawnBubblePoppingParticles(Level level, BlockPos blockPos, FluidState fluidState, RandomSource randomSource, CallbackInfo ci) {
+    public void eg_particle_interactions$spawnBubblePoppingParticles(Level level, BlockPos blockPos, FluidState fluidState, RandomSource randomSource, CallbackInfo ci) {
         if(!(level instanceof ClientLevel clientLevel)) return;
         SpawnParticles.spawnLavaBubblePopParticles(clientLevel, blockPos, fluidState);
     }

@@ -1,0 +1,10 @@
+{
+    "block_states": [
+        {
+            "block": "grass_block",
+            "properties": {
+                "snowy": "true"
+            }
+        }
+    ]
+}

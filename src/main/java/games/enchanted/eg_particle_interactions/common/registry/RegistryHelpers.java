@@ -8,9 +8,10 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
@@ -18,18 +19,13 @@ import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class RegistryHelpers {
-    @SuppressWarnings("unchecked")
-    public static <R, T extends R> T register(ResourceKey<? extends Registry<R>> registryKey, Supplier<T> entry, Identifier key) {
-        Registry<R> registry = Objects.requireNonNull( BuiltInRegistries.REGISTRY.getValue((ResourceKey) registryKey));
-        return Registry.register(registry, key, entry.get());
+    public static <R, T extends R> T register(Registry<R> registry, T entry, Identifier key) {
+        return Registry.register(registry, key, entry);
     }
 
     public static <T> Stream<Identifier> getMatchingLocations(String search, DefaultedRegistry<T> registryToSearch) {
@@ -115,10 +111,10 @@ public class RegistryHelpers {
         return fallback;
     }
 
-    public static BlockOrTagLocation validateBlockOrTagLocationWithFallback(String location, BlockOrTagLocation fallback) {
+    public static ObjectOrTagLocation validateBlockOrTagLocationWithFallback(String location, ObjectOrTagLocation fallback) {
         try {
             if(location.startsWith("#")) {
-                return new BlockOrTagLocation(Identifier.parse(location.replace("#", "").toLowerCase()), true);
+                return new ObjectOrTagLocation(Identifier.parse(location.replace("#", "").toLowerCase()), true);
             }
 
             Identifier blockLocation = Identifier.parse(location.toLowerCase());
@@ -129,7 +125,7 @@ public class RegistryHelpers {
             if(blockFromLoc.get().defaultBlockState().isAir()) {
                 return fallback;
             }
-            return new BlockOrTagLocation(blockLocation);
+            return new ObjectOrTagLocation(blockLocation);
         } catch (IdentifierException ignored) {}
 
         return fallback;
@@ -161,63 +157,37 @@ public class RegistryHelpers {
     public static Identifier getLocationFromBlock(Block block) {
         return BuiltInRegistries.BLOCK.getKey(block);
     }
-    public static BlockOrTagLocation getBlockLocationFromBlock(Block block) {
-        return new BlockOrTagLocation(getLocationFromBlock(block));
+    public static ObjectOrTagLocation getBlockLocationFromBlock(Block block) {
+        return new ObjectOrTagLocation(getLocationFromBlock(block));
     }
     public static Block getBlockFromLocation(Identifier location) {
         return BuiltInRegistries.BLOCK.getValue(location);
     }
-    public static Holder<Block> getBlockHolderFromLocation(Identifier location) {
-        return BuiltInRegistries.BLOCK.wrapAsHolder(getBlockFromLocation(location));
+
+
+    public static <T> Identifier getIdFromHolder(Holder<T> holder, Registry<T> registry) {
+        return registry.getKey(holder.value());
+    }
+    public static <T> T lookupObject(Identifier id, Registry<T> registry) {
+        return registry.getValue(id);
+    }
+    public static <T> Holder<T> createHolder(Identifier id, Registry<T> registry) {
+        return registry.wrapAsHolder(lookupObject(id, registry));
     }
 
-    public static boolean isBlockInTag(Identifier blockLocation, TagKey<Block> tagKey) {
-        Optional<HolderSet.Named<Block>> tagHolder = BuiltInRegistries.BLOCK.get(tagKey);
+    public static <T> boolean isObjectInTag(Identifier objectId, TagKey<T> tagKey, Registry<T> registry) {
+        Optional<HolderSet.Named<T>> tagHolder = registry.get(tagKey);
         if(tagHolder.isEmpty()) return false;
 
-        Holder<Block> blockHolder = getBlockHolderFromLocation(blockLocation);
-        return tagHolder.get().contains(blockHolder);
+        Holder<T> holder = createHolder(objectId, registry);
+        return tagHolder.get().contains(holder);
     }
-    public static TagKey<Block> getBlockTagKey(Identifier tagLocation) {
-        return TagKey.create(Registries.BLOCK, tagLocation);
-    }
-
-    public static List<Identifier> getLoadedBlockTags() {
-        return BuiltInRegistries.BLOCK.getTags().map(t -> t.key().location()).toList();
+    public static <T> TagKey<T> createTagKey(Identifier tagId, ResourceKey<? extends Registry<T>> registryKey) {
+        return TagKey.create(registryKey, tagId);
     }
 
 
-    public static @Nullable Registry<Biome> getBiomeRegistry() {
-        if(Minecraft.getInstance().level == null) return null;
-        return Minecraft.getInstance().level.registryAccess().lookupOrThrow(Registries.BIOME);
+    public static Registry<Biome> getBiomeRegistry(Level level) {
+        return level.registryAccess().lookupOrThrow(Registries.BIOME);
     }
-    public static @Nullable Biome getBiomeFromLocation(Identifier location) {
-        Registry<Biome> biomeReg = getBiomeRegistry();
-        if(biomeReg == null) return null;
-        return biomeReg.getValue(location);
-    }
-    public static @Nullable Identifier getLocationFromBiome(Biome biome) {
-        Registry<Biome> biomeReg = getBiomeRegistry();
-        if(biomeReg == null) return null;
-        return biomeReg.getKey(biome);
-    }
-    public static @Nullable Holder<Biome> getBiomeHolderFromLocation(Identifier location) {
-        Registry<Biome> biomeReg = getBiomeRegistry();
-        Biome biome = getBiomeFromLocation(location);
-        if(biomeReg == null || biome == null) return null;
-        return biomeReg.wrapAsHolder(biome);
-    }
-    public static boolean isBiomeInTag(Identifier biomeLocation, TagKey<Biome> tagKey) {
-        if(Minecraft.getInstance().level == null) return false;
-        Optional<HolderSet.Named<Biome>> tagHolder = Minecraft.getInstance().level.registryAccess().lookupOrThrow(Registries.BIOME).get(tagKey);
-        if(tagHolder.isEmpty()) return false;
-
-        Holder<Biome> biomeHolder = getBiomeHolderFromLocation(biomeLocation);
-        if(biomeHolder == null) return false;
-        return tagHolder.get().contains(biomeHolder);
-    }
-    public static TagKey<Biome> getBiomeTagKey(Identifier tagLocation) {
-        return TagKey.create(Registries.BIOME, tagLocation);
-    }
-
 }

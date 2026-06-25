@@ -13,7 +13,7 @@ public abstract class StringControllerElementMixin {
         at = @At(value = "INVOKE", target = "Ldev/isxander/yacl3/gui/controllers/string/StringControllerElement;isHovered()Z", ordinal = 0),
         method = "extractValueText"
     )
-    private boolean bypassHoverCheckForGenericListControllerElements(StringControllerElement instance, Operation<Boolean> original) {
+    private boolean eg_particle_interactions$bypassComponentShorteningWhenUnhovered(StringControllerElement instance, Operation<Boolean> original) {
         if((Object) this instanceof GenericListControllerElement<?,?>) return true;
         return original.call(instance);
     }

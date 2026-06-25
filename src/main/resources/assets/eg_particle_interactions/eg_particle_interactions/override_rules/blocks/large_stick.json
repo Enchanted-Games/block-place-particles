@@ -1,0 +1,13 @@
+{
+    "weights": {
+        "default": [
+            {
+                "weight": 1,
+                "block_predicate": {
+                    "type": "list",
+                    "blocks": "large_stick"
+                }
+            }
+        ]
+    }
+}

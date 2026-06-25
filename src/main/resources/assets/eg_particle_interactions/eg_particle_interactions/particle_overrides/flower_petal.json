@@ -1,0 +1,9 @@
+{
+    "emitters": {
+        "default": {
+            "type": "particle_interactions",
+            "particle": "petal",
+            "velocity_multiplier": 0.1
+        }
+    }
+}

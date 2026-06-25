@@ -3,14 +3,19 @@ package games.enchanted.eg_particle_interactions.common.mixin.client.particles;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverride;
-import games.enchanted.eg_particle_interactions.common.particle.overrides.ParticleOrigin;
+import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
+import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverride;
+import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
+import games.enchanted.eg_particle_interactions.common.override_system.OverridePreset;
+import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
+import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -22,21 +27,19 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(ClientLevel.class)
 public class BlockBreakAndCrackingParticle_ClientLevelMixin {
-    //? if minecraft: > 1.21.8 {
     @Inject(
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/shapes/VoxelShape;"),
         method = "addDestroyBlockEffect"
     )
-    public void useParticleInteractionsDestroyParticleLogic(BlockPos brokenBlockPos, BlockState brokenBlockState, CallbackInfo ci) {
-        BlockParticleOverride particleOverride = BlockParticleOverride.getOverrideForBlockState(brokenBlockState, ParticleOrigin.BLOCK_BROKEN);
-        SpawnParticles.spawnBlockBreakParticle((ClientLevel) (Object) this, brokenBlockState, brokenBlockPos, particleOverride);
+    public void eg_particle_interactions$useParticleInteractionsDestroyParticleLogic(BlockPos brokenBlockPos, BlockState brokenBlockState, CallbackInfo ci) {
+        SpawnParticles.spawnBlockBreakParticle((ClientLevel) (Object) this, brokenBlockState, brokenBlockPos);
     }
 
     @WrapOperation(
         method = "addDestroyBlockEffect",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/shapes/VoxelShape;forAllBoxes(Lnet/minecraft/world/phys/shapes/Shapes$DoubleLineConsumer;)V")
     )
-    public void skipSpawningVanillaDestroyParticles(VoxelShape instance, Shapes.DoubleLineConsumer action, Operation<Void> original) {
+    public void eg_particle_interactions$skipSpawningVanillaDestroyParticles(VoxelShape instance, Shapes.DoubleLineConsumer action, Operation<Void> original) {
     }
 
 
@@ -53,13 +56,14 @@ public class BlockBreakAndCrackingParticle_ClientLevelMixin {
         locals = LocalCapture.CAPTURE_FAILSOFT,
         cancellable = true
     )
-    public void replaceCrackingParticlesConditionally(
+    public void eg_particle_interactions$replaceCrackingParticlesConditionally(
         BlockPos blockPos,
         Direction side,
         //? if neoforge {
-        /*HitResult hitResult,
+        /*HitResult result,
         *///?}
         CallbackInfo ci,
+        BlockState blockState, int x, int y, int z, float r, AABB shape, double xp, double yp, double zp,
         @Local(ordinal = 0) double xPos,
         @Local(ordinal = 1) double yPos,
         @Local(ordinal = 2) double zPos
@@ -67,25 +71,24 @@ public class BlockBreakAndCrackingParticle_ClientLevelMixin {
         ClientLevel level = (ClientLevel) (Object) this;
         BlockState blockstate = level.getBlockState(blockPos);
 
-        ParticleOrigin overrideOrigin = ParticleOrigin.BLOCK_CRACK;
-        BlockParticleOverride override = BlockParticleOverride.getOverrideForBlockState(blockstate, overrideOrigin);
+        ParticleOrigin origin = ParticleOrigin.BLOCK_CRACK;
+        OverridePreset overridePreset = BlockOverrideManager.getForBlock(blockstate, origin);
+        ParticleOverride override = overridePreset.getRandom();
+        Identifier id = ParticleOverrides.getIdOrThrow(override);
 
-        if(override == BlockParticleOverride.VANILLA) return;
+        if(id == ParticleOverrides.VANILLA_OVERRIDE_ID) return;
 
-        if(override != BlockParticleOverride.NONE) {
-            ParticleOptions newParticleOption = override.getParticleOptionForState(blockstate, level, blockPos, overrideOrigin);
-            if (newParticleOption == null) return;
-            level.addParticle(
-                newParticleOption,
-                xPos,
-                yPos,
-                zPos,
-                0,
-                0,
-                0
-            );
-        }
         ci.cancel();
+
+        override.spawnParticle(
+            origin,
+            ParticleContext.block(level, blockstate, blockPos),
+            xPos,
+            yPos,
+            zPos,
+            0,
+            0,
+            0
+        );
     }
-    //?}
 }

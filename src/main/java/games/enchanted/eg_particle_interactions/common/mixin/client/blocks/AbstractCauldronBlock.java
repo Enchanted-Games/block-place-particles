@@ -1,9 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.mixin.client.blocks;
 
-import games.enchanted.eg_particle_interactions.common.Logging;
-import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.BucketItemAccessor;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
-import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -28,19 +25,18 @@ public abstract class AbstractCauldronBlock {
         at = @At("TAIL"),
         method = "useItemOn(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/InteractionHand;Lnet/minecraft/world/phys/BlockHitResult;)Lnet/minecraft/world/InteractionResult;"
     )
-    protected void spawnFluidOrBlockPlaceParticlesOnItemUse(ItemStack itemStack, BlockState blockState, Level level, BlockPos pos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult, CallbackInfoReturnable<InteractionResult> cir) {
-        if(!level.isClientSide()) return;
+    protected void eg_particle_interactions$spawnPlaceParticlesOnItemUse(ItemStack itemStack, BlockState blockState, Level level, BlockPos pos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult, CallbackInfoReturnable<InteractionResult> cir) {
+        if(!(level instanceof ClientLevel clientLevel)) return;
+
         InteractionResult result = cir.getReturnValue();
         Item usedItem = itemStack.getItem();
         if(result != InteractionResult.SUCCESS) return;
-        if(usedItem instanceof BucketItem) {
-            Fluid placedFluid = ((BucketItemAccessor) usedItem).block_place_particle$getContent();
-            Logging.interactionDebugInfo("Bucket of " + RegistryHelpers.getLocationFromFluid(placedFluid) + " placed in a cauldron at " + pos.toShortString());
-            SpawnParticles.spawnFluidPlacedParticle(level, pos, placedFluid);
+        if(usedItem instanceof BucketItem bucketItem) {
+            Fluid placedFluid = bucketItem.getContent();
+            SpawnParticles.spawnFluidPlacedParticle(clientLevel, pos, placedFluid.defaultFluidState());
         } else if(usedItem instanceof BlockItem) {
             BlockState placedState = ((BlockItem) usedItem).getBlock().defaultBlockState();
-            Logging.interactionDebugInfo("Block '" + RegistryHelpers.getLocationFromBlock(placedState.getBlock()) + "' placed in a cauldron at " + pos.toShortString());
-            SpawnParticles.spawnBlockPlaceParticle((ClientLevel) level, pos, placedState);
+            SpawnParticles.spawnBlockPlaceParticle(clientLevel, pos, placedState);
         }
     }
 }

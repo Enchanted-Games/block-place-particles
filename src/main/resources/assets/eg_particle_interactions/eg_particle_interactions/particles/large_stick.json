@@ -1,0 +1,47 @@
+{
+    "components": {
+        "gravity/initial": {
+            "range": [
+                0.625,
+                0.95
+            ]
+        },
+        "lifetime": {
+            "range": [
+                80,
+                120
+            ]
+        },
+        "velocity/decay": [
+            0.98,
+            0.98,
+            0.98
+        ],
+        "physics/buoyancy": 0.2,
+        "physics/friction": 0.7,
+        "physics/collision_size": 1.5,
+        "appearance": "large_stick",
+        "lifetime_events": [
+            {
+                "trigger": {
+                    "type": "in_fluid",
+                    "oneshot": false
+                },
+                "action": {
+                    "type": "modify_velocity",
+                    "multiply": [0.98, 1, 0.98]
+                }
+            },
+            {
+                "trigger": {
+                    "type": "on_ground",
+                    "oneshot": true
+                },
+                "action": {
+                    "type": "modify_lifetime",
+                    "divide": 2
+                }
+            }
+        ]
+    }
+}

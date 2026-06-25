@@ -1,0 +1,21 @@
+{
+    "behaviour": "shatter_shape",
+    "components": {
+        "gravity/initial": {
+            "range": [
+                0.75,
+                0.9
+            ]
+        },
+        "gravity/decay": 0.97,
+        "lifetime": {
+            "range": [
+                5,
+                25
+            ]
+        },
+        "physics/friction": 0.7,
+        "physics/collision_size": 0.1,
+        "appearance": "block_shatter"
+    }
+}

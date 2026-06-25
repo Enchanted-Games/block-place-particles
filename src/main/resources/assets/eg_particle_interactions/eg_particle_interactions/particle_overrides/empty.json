@@ -1,0 +1,7 @@
+{
+    "emitters": {
+        "default": {
+            "type": "empty"
+        }
+    }
+}

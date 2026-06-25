@@ -1,16 +1,11 @@
 package games.enchanted.eg_particle_interactions.common.mixin.client.items;
 
-import games.enchanted.eg_particle_interactions.common.Logging;
+import com.llamalad7.mixinextras.sugar.Local;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseFireBlock;
-import net.minecraft.world.level.block.CampfireBlock;
-import net.minecraft.world.level.block.CandleBlock;
-import net.minecraft.world.level.block.CandleCakeBlock;
-import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,26 +15,47 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class FlintAndSteelItem {
     @Inject(
         method = "useOn",
-        at = @At(value = "HEAD")
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/level/Level;setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)Z",
+            //? if fabric {
+            ordinal = 1,
+            //? } else {
+            /*ordinal = 0,
+            *///? }
+            shift = At.Shift.AFTER
+        )
     )
-    private void spawnParticlesOnUse(UseOnContext useOnContext, CallbackInfoReturnable<InteractionResult> cir) {
-        Level level = useOnContext.getLevel();
-        if(level.isClientSide()) {
-            BlockPos clickedPos = useOnContext.getClickedPos();
-            BlockState clickedState = level.getBlockState(clickedPos);
+    private void eg_particle_interactions$spawnParticlesOnFirePlace(
+        UseOnContext useOnContext,
+        CallbackInfoReturnable<InteractionResult> cir,
+        @Local(name = "relativePos") BlockPos relativePos
+    ) {
+        if(useOnContext.getLevel() instanceof ClientLevel level) {
+            SpawnParticles.spawnFlintAndSteelSparkParticle(level, relativePos, false);
+        }
+    }
 
-            if(!CampfireBlock.canLight(clickedState) && !CandleBlock.canLight(clickedState) && !CandleCakeBlock.canLight(clickedState)) {
-                // placed a fire
-                BlockPos firePos = clickedPos.relative(useOnContext.getClickedFace());
-                if(BaseFireBlock.canBePlacedAt(level, firePos, useOnContext.getHorizontalDirection())) {
-                    Logging.interactionDebugInfo("Fire placed by '" + this + "' at " + firePos.toShortString() + ". (interacted at " + clickedPos.toShortString() + ")");
-                    SpawnParticles.spawnFlintAndSteelSparkParticle(level, firePos);
-                }
-            }else {
-                // lit a block
-                Logging.interactionDebugInfo("Block lit by '" + this + "' at " + clickedPos.toShortString());
-                SpawnParticles.spawnFlintAndSteelSparkParticle(level, clickedPos);
-            }
+    @Inject(
+        method = "useOn",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/level/Level;setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)Z",
+            //? if fabric {
+            ordinal = 0,
+            //? } else {
+            /*ordinal = 1,
+            *///? }
+            shift = At.Shift.AFTER
+        )
+    )
+    private void eg_particle_interactions$spawnParticlesOnLitSomething(
+        UseOnContext useOnContext,
+        CallbackInfoReturnable<InteractionResult> cir,
+        @Local(name = "pos") BlockPos pos
+    ) {
+        if(useOnContext.getLevel() instanceof ClientLevel level) {
+            SpawnParticles.spawnFlintAndSteelSparkParticle(level, pos, true);
         }
     }
 }

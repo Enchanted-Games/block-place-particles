@@ -1,0 +1,25 @@
+{
+    "rules": [
+        {
+            "conditions": [
+                {
+                    "type": "entity",
+                    "predicate": {
+                        "type": "list",
+                        "entities": "glow_item_frames"
+                    }
+                }
+            ],
+            "emitter": {
+                "type": "particle_interactions",
+                "particle": "dust/glow_item_frame",
+                "velocity_multiplier": 0.2
+            }
+        }
+    ],
+    "fallback_emitter": {
+        "type": "particle_interactions",
+        "particle": "dust/item_frame",
+        "velocity_multiplier": 0.2
+    }
+}

@@ -1,0 +1,38 @@
+{
+    "texture_config": {
+        "sprites": [
+            "minecraft:cherry_0",
+            "minecraft:cherry_1",
+            "minecraft:cherry_2",
+            "minecraft:cherry_3",
+            "minecraft:cherry_4",
+            "minecraft:cherry_5",
+            "minecraft:cherry_6",
+            "minecraft:cherry_7",
+            "minecraft:cherry_8",
+            "minecraft:cherry_9",
+            "minecraft:cherry_10",
+            "minecraft:cherry_11"
+        ]
+    },
+    "scale": {
+        "range": [
+            2.2,
+            2.9
+        ]
+    },
+    "spin_config": {
+        "initial_rotation": {
+            "range": [
+                0,
+                360
+            ]
+        },
+        "acceleration": {
+            "values": [
+                -0.2,
+                0.2
+            ]
+        }
+    }
+}

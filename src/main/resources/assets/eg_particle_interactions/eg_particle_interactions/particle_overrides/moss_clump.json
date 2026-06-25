@@ -1,0 +1,9 @@
+{
+    "emitters": {
+        "default": {
+            "type": "particle_interactions",
+            "particle": "moss_clump",
+            "velocity_multiplier": 0.16
+        }
+    }
+}

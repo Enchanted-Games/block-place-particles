@@ -1,86 +1,80 @@
 package games.enchanted.eg_particle_interactions.common;
 
 import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
-import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverrides;
+import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
+import games.enchanted.eg_particle_interactions.common.override_system.override.FluidOverrideManager;
+import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
+import games.enchanted.eg_particle_interactions.common.particle.types.ParticleTypesRegistry;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearanceManager;
+import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponents;
+import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleDefinitionManager;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSetManager;
 import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
-import games.enchanted.eg_particle_interactions.common.resource.ParticlePaletteAtlasManager;
-import it.unimi.dsi.fastutil.Pair;
-import net.minecraft.client.renderer.texture.TextureManager;
+import games.enchanted.eg_particle_interactions.common.predicates.biome.list.BiomeListManager;
+import games.enchanted.eg_particle_interactions.common.predicates.block.list.BlockListManager;
+import games.enchanted.eg_particle_interactions.common.predicates.entity.list.EntityListManager;
+import games.enchanted.eg_particle_interactions.common.predicates.fluid.list.FluidListManager;
+import games.enchanted.eg_particle_interactions.common.resource.texture.palette.BlockPaletteManager;
+import games.enchanted.eg_particle_interactions.common.resource.texture.palette.FluidPaletteManager;
 import net.minecraft.resources.Identifier;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.resources.PreparableReloadListener;
 
-//? if minecraft: > 1.21.8 && fabric {
-import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
-//?}
-//? if minecraft: <= 1.21.8 && fabric {
-/*import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.minecraft.server.packs.resources.ResourceManager;
-import org.jetbrains.annotations.NotNull;
-*///?}
-
-import java.util.List;
-
-/**
- * This is the entry point for your mod's common side, called by each modloader specific side.
- */
 public class ParticleInteractionsMod {
-    //? if minecraft: > 1.21.8 {
-    @Deprecated
-    //?}
-    public static ParticlePaletteAtlasManager particlePaletteAtlas;
+    public static Identifier PARTICLE_DEFINITIONS_RELOAD_LISTENER = ParticleInteractionsMod.id("particle_definitions");
+    public static Identifier PARTICLE_OVERRIDES_RELOAD_LISTENER = ParticleInteractionsMod.id("particle_overrides");
+    public static Identifier BLOCK_OVERRIDE_RULE_RELOAD_LISTENER = ParticleInteractionsMod.id("block_override_rules");
+    public static Identifier FLUID_OVERRIDE_RULE_RELOAD_LISTENER = ParticleInteractionsMod.id("fluid_override_rules");
+    public static Identifier PARTICLE_APPEARANCE_RELOAD_LISTENER = ParticleInteractionsMod.id("particle_appearances");
+    public static Identifier BLOCK_LIST_RELOAD_LISTENER = ParticleInteractionsMod.id("block_lists");
+    public static Identifier FLUID_LIST_RELOAD_LISTENER = ParticleInteractionsMod.id("fluid_lists");
+    public static Identifier BIOME_LIST_RELOAD_LISTENER = ParticleInteractionsMod.id("biome_lists");
+    public static Identifier ENTITY_LIST_RELOAD_LISTENER = ParticleInteractionsMod.id("entity_lists");
+    public static Identifier EMITTER_RULES_RELOAD_LISTENER = ParticleInteractionsMod.id("emitter_rules");
+    public static Identifier BLOCK_PALETTES_RELOAD_LISTENER = ParticleInteractionsMod.id("block_palettes");
+    public static Identifier FLUID_PALETTES_RELOAD_LISTENER = ParticleInteractionsMod.id("fluid_palettes");
 
     public static void startOfModLoading() {
-        Logging.info("Mod is loading on a {} environment!", Constants.TARGET_PLATFORM);
+        Logging.info("Mod init started. Compiled for {}", Constants.TARGET_PLATFORM);
+
+        ParticleComponents.init();
+        ParticleTypesRegistry.init();
+
+        // register reload listeners here if fabric api is installed or if targeting neoforge
+        // if no fabric api reload listeners are registered in Minecraft init
+        //? if fabric {
+        if (isFabricResourceLoaderPresent()) {
+            registerResourceReloadListeners();
+        }
+        //?} else {
+        /*registerResourceReloadListeners();
+        *///? }
     }
 
     public static void endOfModLoading() {
         ConfigOptions.readConfig();
-        BlockParticleOverrides.registerOverrides();
-        Logging.info("Loaded Successfully!");
+        Logging.info("Init done!");
     }
 
-    public static void registerAtlases(TextureManager textureManager) {
-        List<Pair<Identifier, PreparableReloadListener>> reloadListeners = createReloadListeners(textureManager);
-        //? if fabric {
-        reloadListeners.forEach(resourceLocationAndReloadListenerPair -> {
-            //? if minecraft: > 1.21.8 {
-            ResourceLoader.get(PackType.CLIENT_RESOURCES).
-                //? if minecraft: < 26.1 {
-                /*registerReloader
-                *///? } else {
-                registerReloadListener
-                //?}
-                (resourceLocationAndReloadListenerPair.key(), resourceLocationAndReloadListenerPair.value());
-            //?} else {
-            /*ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new IdentifiableResourceReloadListener() {
-                @Override
-                public @NotNull CompletableFuture<Void> reload(PreparationBarrier barrier, ResourceManager manager, Executor backgroundExecutor, Executor gameExecutor) {
-                    return resourceLocationAndReloadListenerPair.value().reload(barrier, manager, backgroundExecutor, gameExecutor);
-                }
-
-                @Override
-                public Identifier getFabricId() {
-                    return resourceLocationAndReloadListenerPair.key();
-                }
-            });
-            *///?}
-        });
-        //?}
+    public static void registerResourceReloadListeners() {
+        PlatformHelper.registerResourceReloadListener(ParticleOverrides.INSTANCE, PARTICLE_OVERRIDES_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(BlockOverrideManager.INSTANCE, BLOCK_OVERRIDE_RULE_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(FluidOverrideManager.INSTANCE, FLUID_OVERRIDE_RULE_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(ParticleAppearanceManager.INSTANCE, PARTICLE_APPEARANCE_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(BlockListManager.INSTANCE, BLOCK_LIST_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(FluidListManager.INSTANCE, FLUID_LIST_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(BiomeListManager.INSTANCE, BIOME_LIST_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(EntityListManager.INSTANCE, ENTITY_LIST_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(EmitterRuleSetManager.INSTANCE, EMITTER_RULES_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(ParticleDefinitionManager.INSTANCE, PARTICLE_DEFINITIONS_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(BlockPaletteManager.INSTANCE, BLOCK_PALETTES_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(FluidPaletteManager.INSTANCE, FLUID_PALETTES_RELOAD_LISTENER);
     }
 
-    public static List<Pair<Identifier, PreparableReloadListener>> createReloadListeners(TextureManager textureManager) {
-        //? if minecraft: <= 1.21.8 {
-        /*particlePaletteAtlas = new ParticlePaletteAtlasManager(textureManager);
-        return List.of(Pair.of(ParticlePaletteAtlasManager.ATLAS_LOCATION, particlePaletteAtlas));
-        *///?} else {
-        return List.of();
-        //?}
+    public static boolean isFabricResourceLoaderPresent() {
+        return PlatformHelper.isModLoaded(Constants.FABRIC_RESOURCE_LOADER_ID);
     }
 
     public static boolean isModMenuPresent() {
-        return PlatformHelper.isModLoaded("modmenu");
+        return PlatformHelper.isModLoaded(Constants.MOD_MENU_ID);
     }
 
     public static Identifier id(String path) {

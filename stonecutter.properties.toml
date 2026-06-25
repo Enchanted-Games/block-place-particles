@@ -1,0 +1,60 @@
+[mod]
+id = "eg_particle_interactions"
+name = "Particle Interactions"
+description = """A client side mod that adds particles to various interactions in the game that dont normally have particles.
+
+New in v0.10.0
+- This version comes with an absolute ton of internal changes and many new resourcepack features! As always make sure to report any bugs you may find!
+- See the GitHub page for full changelog
+"""
+group = "games.enchanted"
+version = "0.10.0"
+license = "CC BY-NC 4.0"
+source_url = "https://github.com/Enchanted-Games/block-place-particles"
+issue_tracker = "https://github.com/Enchanted-Games/block-place-particles/issues"
+icon = "assets/eg_particle_interactions/icon.png"
+
+# neoforge versions: https://projects.neoforged.net/neoforged/neoforge
+# fabric versions: https://fabricmc.net/develop/
+
+[fabric]
+deps.fabric-loader = "0.19.3"
+dep_str.fabric-loader = ">=0.19"
+
+
+["26.1"]
+deps.minecraft = "26.1.2"
+
+[fabric."26.1"]
+dep_str.minecraft = ">=26.1 <26.2"
+
+deps.fabric-api = "0.152.1+26.1.2"
+dep_str.fabric-api = ">=0.146.1+26.1.2"
+
+deps.modmenu = "18.0.0-beta.1"
+deps.yacl = "3.9.4+26.1-fabric"
+
+[neoforge."26.1"]
+dep_str.minecraft = "[26.1,26.2)"
+
+deps.neoforge = "26.1.2.76"
+deps.yacl = "3.9.4+26.1-neoforge"
+
+
+["26.2"]
+deps.minecraft = "26.2"
+
+[fabric."26.2"]
+dep_str.minecraft = ">=26.2 <26.3"
+
+deps.fabric-api = "0.152.1+26.2"
+dep_str.fabric-api = ">=0.152.1+26.2"
+
+deps.modmenu = "20.0.0-beta.2"
+deps.yacl = "3.9.4+26.2-fabric"
+
+[neoforge."26.2"]
+dep_str.minecraft = "[26.2,26.3)"
+
+deps.neoforge = "26.2.0.0-beta"
+deps.yacl = "3.9.4+26.2-neoforge"

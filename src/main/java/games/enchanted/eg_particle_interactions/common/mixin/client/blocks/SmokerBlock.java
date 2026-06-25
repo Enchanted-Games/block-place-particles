@@ -14,15 +14,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(net.minecraft.world.level.block.SmokerBlock.class)
 public abstract class SmokerBlock extends AbstractFurnaceBlock {
-    protected SmokerBlock(Properties p_48687_) {
-        super(p_48687_);
+    protected SmokerBlock(Properties properties) {
+        super(properties);
     }
 
     @Inject(
         at = @At("HEAD"),
         method = "animateTick"
     )
-    public void animateTick(BlockState smokerState, Level level, BlockPos blockPos, RandomSource randomSource, CallbackInfo ci) {
+    public void eg_particle_interactions$spawnAdditionalParticles(BlockState smokerState, Level level, BlockPos blockPos, RandomSource randomSource, CallbackInfo ci) {
         if(!smokerState.getValue(AbstractFurnaceBlock.LIT)) return;
         if(level instanceof ClientLevel clientLevel) {
             SpawnParticles.spawnSmokerSmokeParticles(clientLevel, blockPos);

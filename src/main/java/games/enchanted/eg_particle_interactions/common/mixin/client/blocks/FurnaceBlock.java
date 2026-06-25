@@ -18,26 +18,24 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(net.minecraft.world.level.block.FurnaceBlock.class)
 public abstract class FurnaceBlock extends AbstractFurnaceBlock {
-    protected FurnaceBlock(Properties p_48687_) {
-        super(p_48687_);
+    protected FurnaceBlock(Properties properties) {
+        super(properties);
     }
 
     @Inject(
         at = @At("TAIL"),
         method = "animateTick"
     )
-    private void spawnAdditionalParticles(BlockState blockState, Level level, BlockPos blockPos, RandomSource randomSource, CallbackInfo ci) {
+    private void eg_particle_interactions$spawnAdditionalParticles(BlockState blockState, Level level, BlockPos blockPos, RandomSource randomSource, CallbackInfo ci) {
         if (!(level instanceof ClientLevel clientLevel)) return;
-        if (blockState.getValue(LIT)) {
-            SpawnParticles.spawnAdditionalFurnaceParticles(clientLevel, blockPos, blockState);
-        }
+        SpawnParticles.spawnAdditionalFurnaceParticles(clientLevel, blockPos, blockState);
     }
 
     @WrapOperation(
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addParticle(Lnet/minecraft/core/particles/ParticleOptions;DDDDDD)V"),
         method = "animateTick"
     )
-    private void conditionallySkipSpawningVanillaParticles(Level level, ParticleOptions particleOptions, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, Operation<Void> original) {
+    private void eg_particle_interactions$conditionallySkipSpawningVanillaParticles(Level level, ParticleOptions particleOptions, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, Operation<Void> original) {
         if(!BlockInteractionOptions.VANILLA_FURNACE_PARTICLES_ENABLED.getValue()) return;
         original.call(level, particleOptions, x, y, z, xSpeed, ySpeed, zSpeed);
     }

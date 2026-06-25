@@ -9,6 +9,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BrushableBlock;
@@ -26,12 +27,11 @@ public abstract class FallingBlockEntityLand_ClientLevelMixin extends Level {
         super(writableLevelData, resourceKey, registryAccess, dimensionTypeHolder, isClientSide, isDebug, p_270248_, p_270466_);
     }
 
-    @SuppressWarnings("UnreachableCode")
     @WrapOperation(
         method = "removeEntity",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/entity/LevelEntityGetter;get(I)Lnet/minecraft/world/level/entity/EntityAccess;")
     )
-    public EntityAccess removeEntity(LevelEntityGetter instance, int i, Operation<EntityAccess> original) {
+    public EntityAccess eg_particle_interactions$onRemoveFallingBlock(LevelEntityGetter<Entity> instance, int i, Operation<EntityAccess> original) {
         EntityAccess entity = original.call(instance, i);
         if(!(entity instanceof FallingBlockEntity fallingBlockEntity)) {
             // not a falling block so return early
@@ -43,11 +43,8 @@ public abstract class FallingBlockEntityLand_ClientLevelMixin extends Level {
         }
 
         BlockState fallingState = fallingBlockEntity.getBlockState();
-        BlockPos fallingBlockPos = fallingBlockEntity.blockPosition();
-
         SpawnParticles.spawnFallingBlockLandParticles((ClientLevel) (Object) this, fallingState, fallingBlockEntity.getX(), fallingBlockEntity.getY(), fallingBlockEntity.getZ(), fallingBlockEntity.getDeltaMovement());
 
-        Logging.interactionDebugInfo("Falling block ({}) was removed at {}", fallingBlockEntity, fallingBlockPos);
         return original.call(instance, i);
     }
 }

@@ -1,0 +1,26 @@
+{
+    "rules": [
+        {
+            "conditions": [
+                {
+                    "type": "block",
+                    "predicate": {
+                        "type": "list",
+                        "blocks": "group/soul_embers"
+                    }
+                }
+            ],
+            "emitter": {
+                "type": "particle_interactions",
+                "particle": "ember",
+                "components": {
+                    "appearance": "ember/soul"
+                }
+            }
+        }
+    ],
+    "fallback_emitter": {
+        "type": "particle_interactions",
+        "particle": "ember"
+    }
+}

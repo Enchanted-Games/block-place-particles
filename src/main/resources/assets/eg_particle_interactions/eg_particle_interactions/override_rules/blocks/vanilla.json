@@ -1,0 +1,41 @@
+{
+    "weights": {
+        "default": [
+            {
+                "weight": 3,
+                "block_predicate": {
+                    "type": "list",
+                    "blocks": "partial_redstone_dust_partial_vanilla"
+                }
+            },
+            {
+                "weight": 1,
+                "block_predicate": {
+                    "type": "list",
+                    "blocks": "partial_grass_blade_partial_vanilla"
+                }
+            },
+            {
+                "weight": 1,
+                "block_predicate": {
+                    "type": "list",
+                    "blocks": "partial_snow_dust_partial_vanilla"
+                }
+            }
+        ]
+    },
+    "exclusions": {
+        "block/redstone_interacted_with": [
+            {
+                "type": "list",
+                "blocks": "partial_redstone_dust_partial_vanilla"
+            }
+        ],
+        "block/sprinted_on": [
+            {
+                "type": "list",
+                "blocks": "partial_snow_dust_partial_vanilla"
+            }
+        ]
+    }
+}

@@ -15,15 +15,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Block.class)
 public abstract class SeagrassBlock_BlockMixin extends BlockBehaviour {
-    protected SeagrassBlock_BlockMixin(Properties p_51021_) {
-        super(p_51021_);
+    protected SeagrassBlock_BlockMixin(Properties properties) {
+        super(properties);
     }
 
     @Inject(
         at = @At("HEAD"),
         method = "animateTick"
     )
-    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random, CallbackInfo ci) {
+    public void eg_particle_interactions$spawnUnderwaterBubbleStreams(BlockState state, Level level, BlockPos pos, RandomSource random, CallbackInfo ci) {
         if(!(level instanceof ClientLevel clientLevel)) return;
         SpawnParticles.spawnRandomUnderwaterBubbleStreams(clientLevel, pos, state);
     }

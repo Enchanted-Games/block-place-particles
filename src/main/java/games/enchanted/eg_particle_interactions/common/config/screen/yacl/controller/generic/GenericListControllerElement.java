@@ -87,7 +87,7 @@ public abstract class GenericListControllerElement<T, R extends AbstractDropdown
     @Override
     public boolean charTyped(@NonNull CharacterEvent event) {
         if(this.dropdownWidget != null) {
-            ((DropdownWidgetAccessor) this.dropdownWidget).block_place_particle$setFirstVisibleIndex(0);
+            ((DropdownWidgetAccessor) this.dropdownWidget).eg_particle_interactions$setFirstVisibleIndex(0);
             this.dropdownWidget.scrollUp();
         }
         return super.charTyped(event);

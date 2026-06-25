@@ -1,0 +1,9 @@
+{
+    "fallback_emitter": {
+        "type": "particle_interactions",
+        "particle": "underwater_bubble",
+        "components": {
+            "appearance": "underwater_bubble/small"
+        }
+    }
+}

@@ -1,0 +1,35 @@
+{
+    "texture_config": {
+        "sprites": [
+            "eg_particle_interactions:large_stick/0",
+            "eg_particle_interactions:large_stick/1",
+            "eg_particle_interactions:large_stick/2",
+            "eg_particle_interactions:large_stick/3"
+        ]
+    },
+    "colour": {
+        "type": "block_texture",
+        "tint_index": 0
+    },
+    "scale": {
+        "range": [
+            4.9,
+            5.1
+        ]
+    },
+    "spin_config": {
+        "max_speed": 0.2,
+        "initial_rotation": {
+            "range": [
+                0,
+                360
+            ]
+        },
+        "acceleration": {
+            "values": [
+                -0.7,
+                0.7
+            ]
+        }
+    }
+}

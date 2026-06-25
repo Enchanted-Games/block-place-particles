@@ -1,0 +1,18 @@
+{
+    "components": {
+        "gravity/initial": 0,
+        "lifetime": {
+            "range": [
+                30,
+                36
+            ]
+        },
+        "velocity/initial_randomness": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "physics/friction": 0,
+        "appearance": "lava_bubble_pop"
+    }
+}

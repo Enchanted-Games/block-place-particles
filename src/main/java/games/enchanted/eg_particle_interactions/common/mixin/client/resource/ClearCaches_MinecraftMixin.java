@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.mixin.client.resource;
 
-import games.enchanted.eg_particle_interactions.common.resource.CacheClearer;
+import games.enchanted.eg_particle_interactions.common.resource.texture.TexturePalettes;
 import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,6 +15,6 @@ public class ClearCaches_MinecraftMixin {
         method = "onResourceLoadFinished"
     )
     private void eg_particle_interactions$clearCachesOnReload(@Coerce Object gameLoadCookie, CallbackInfo ci) {
-        CacheClearer.clear();
+        TexturePalettes.invalidateCaches();
     }
 }

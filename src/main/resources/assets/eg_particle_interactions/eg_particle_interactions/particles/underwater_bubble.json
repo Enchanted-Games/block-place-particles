@@ -1,0 +1,82 @@
+{
+    "components": {
+        "gravity/initial": {
+            "range": [
+                0.4,
+                0.47
+            ]
+        },
+        "lifetime": {
+            "range": [
+                100,
+                600
+            ]
+        },
+        "velocity/decay": [
+            0.95,
+            0.9,
+            0.95
+        ],
+        "velocity/initial_randomness": [
+            0.02,
+            0.02,
+            0.02
+        ],
+        "physics/buoyancy": 1,
+        "physics/collision_size": 0.5,
+        "appearance": "underwater_bubble/normal",
+        "lifetime_events": [
+            {
+                "trigger": {
+                    "type": "exited_fluid"
+                },
+                "action": {
+                    "type": "spawn_particle",
+                    "emitter": {
+                        "type": "vanilla",
+                        "particle": {
+                            "type": "bubble_pop"
+                        }
+                    },
+                    "velocity_provider": {
+                        "type": "static",
+                        "value": [
+                            0,
+                            0,
+                            0
+                        ]
+                    },
+                    "pos_offset": [
+                        0,
+                        -0.1,
+                        0
+                    ]
+                }
+            },
+            {
+                "trigger": {
+                    "type": "exited_fluid"
+                },
+                "action": {
+                    "type": "kill"
+                }
+            },
+            {
+                "trigger": {
+                    "type": "in_fluid",
+                    "oneshot": false,
+                    "minimum_particle_age": 2,
+                    "fluid_predicate": {
+                        "type": "list",
+                        "fluids": [
+                            "empty"
+                        ]
+                    }
+                },
+                "action": {
+                    "type": "kill"
+                }
+            }
+        ]
+    }
+}

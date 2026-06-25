@@ -24,7 +24,7 @@ public abstract class FallingBlockEntity extends Entity {
         at = @At("HEAD"),
         method = "tick()V"
     )
-    public void tick(CallbackInfo ci) {
+    public void eg_particle_interactions$spawnMovementParticles(CallbackInfo ci) {
         if(!(this.level() instanceof ClientLevel clientLevel)) return;
 
         float particleChance = Math.clamp((float) this.getDeltaMovement().length(), 0f, 0.98f);

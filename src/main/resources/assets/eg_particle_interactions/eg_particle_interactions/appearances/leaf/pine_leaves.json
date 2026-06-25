@@ -1,0 +1,34 @@
+{
+    "texture_config": {
+        "sprites": [
+            "eg_particle_interactions:falling_tinted_pine_leaves/0",
+            "eg_particle_interactions:falling_tinted_pine_leaves/1",
+            "eg_particle_interactions:falling_tinted_pine_leaves/2",
+            "eg_particle_interactions:falling_tinted_pine_leaves/3"
+        ]
+    },
+    "colour": {
+        "type": "block_texture",
+        "tint_index": 0
+    },
+    "scale": {
+        "values": [
+            3.92,
+            3.6
+        ]
+    },
+    "spin_config": {
+        "initial_rotation": {
+            "range": [
+                0,
+                360
+            ]
+        },
+        "acceleration": {
+            "values": [
+                -0.2,
+                0.2
+            ]
+        }
+    }
+}

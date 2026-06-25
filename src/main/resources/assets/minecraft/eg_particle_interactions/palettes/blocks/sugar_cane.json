@@ -1,0 +1,7 @@
+{
+    "default": {
+        "type": "texture",
+        "texture": "eg_particle_interactions:sugar_cane",
+        "atlas": "eg_particle_interactions:particle_palettes"
+    }
+}

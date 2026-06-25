@@ -1,0 +1,6 @@
+{
+    "default": {
+        "type": "texture",
+        "texture": "block/dirt_path_top"
+    }
+}

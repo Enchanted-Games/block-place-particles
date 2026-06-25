@@ -24,16 +24,15 @@
   },
   ${accesswidener_field}
   "mixins": [
-    {
-      "config": "${id}.mixins.json"
-    },
-    {
-      "config": "mod_compat.${id}.mixins.json"
-    }
+    "${id}.mixins.json",
+    "${id}.26_2.mixins.json",
+    "mod_compat.${id}.mixins.json"
   ],
   "depends": {
     "minecraft": "${minecraft}",
-    "fabricloader": "${fabric_loader_dep_str}",
+    "fabricloader": "${fabric_loader_dep_str}"
+  },
+  "recommends": {
     "fabric-api": "${fabric_api_dep_str}"
   }
 }

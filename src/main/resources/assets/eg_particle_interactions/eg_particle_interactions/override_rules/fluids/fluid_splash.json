@@ -1,0 +1,13 @@
+{
+    "weights": {
+        "default": [
+            {
+                "weight": 1,
+                "fluid_predicate": {
+                    "type": "list",
+                    "fluids": "fluid_splash"
+                }
+            }
+        ]
+    }
+}

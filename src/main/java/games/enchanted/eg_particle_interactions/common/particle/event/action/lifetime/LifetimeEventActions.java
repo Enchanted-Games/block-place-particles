@@ -1,0 +1,22 @@
+package games.enchanted.eg_particle_interactions.common.particle.event.action.lifetime;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
+import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
+import games.enchanted.eg_particle_interactions.common.particle.event.action.EventAction;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.ExtraCodecs;
+
+public class LifetimeEventActions {
+    public static final ExtraCodecs.LateBoundIdMapper<Identifier, MapCodec<? extends EventAction>> EVENT_ACTIONS = new ExtraCodecs.LateBoundIdMapper<>();
+    public static final Codec<EventAction> CODEC = EVENT_ACTIONS.codec(ModCodecs.IDENTIFIER).dispatch("type", EventAction::codec, mapCodec -> mapCodec);
+
+    static {
+        EVENT_ACTIONS.put(ParticleInteractionsMod.id("modify_gravity"), ModifyGravityAction.CODEC);
+        EVENT_ACTIONS.put(ParticleInteractionsMod.id("modify_velocity"), ModifyVelocityAction.CODEC);
+        EVENT_ACTIONS.put(ParticleInteractionsMod.id("spawn_particle"), SpawnParticleAction.CODEC);
+        EVENT_ACTIONS.put(ParticleInteractionsMod.id("modify_lifetime"), ModifyLifetimeAction.CODEC);
+        EVENT_ACTIONS.put(ParticleInteractionsMod.id("kill"), KillParticleAction.CODEC);
+    }
+}

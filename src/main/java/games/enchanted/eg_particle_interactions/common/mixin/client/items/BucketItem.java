@@ -1,39 +1,33 @@
 package games.enchanted.eg_particle_interactions.common.mixin.client.items;
 
-import games.enchanted.eg_particle_interactions.common.Logging;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
-import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
-import games.enchanted.eg_particle_interactions.common.util.BiomeHelpers;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(net.minecraft.world.item.BucketItem.class)
 public abstract class BucketItem {
-    @Shadow @Final private Fluid content;
-
-    @Inject(
-        method = "playEmptySound",
-        at = @At(value = "HEAD")
+    @WrapOperation(
+        method =
+            //? if fabric {
+            "emptyContents"
+            //? } else {
+            /*"emptyContents(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/BlockHitResult;Lnet/minecraft/world/item/ItemStack;)Z"
+            *///? }
+        ,
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/BucketItem;playEmptySound(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;)V")
     )
-    private void spawnFluidParticlesOnBucketEmpty(LivingEntity livingEntity, LevelAccessor levelAccessor, BlockPos fluidPos, CallbackInfo ci) {
-        if(levelAccessor.isClientSide()) {
-            Fluid placedFluid = this.content;
-            FluidState placedFluidState = content.defaultFluidState();
+    private void eg_particle_interactions$spawnFluidParticlesOnBucketEmpty(net.minecraft.world.item.BucketItem instance, LivingEntity user, LevelAccessor level, BlockPos pos, Operation<Void> original) {
+        original.call(instance, user, level, pos);
+        if(!(level instanceof ClientLevel clientLevel)) return;
 
-            if(!(BiomeHelpers.isWarmDimension(levelAccessor.dimensionType()) && placedFluidState.is(FluidTags.WATER))) {
-                Logging.interactionDebugInfo("Bucket of " + RegistryHelpers.getLocationFromFluid(placedFluid) + " placed at " + fluidPos.toShortString());
-                SpawnParticles.spawnFluidPlacedParticle(levelAccessor, fluidPos, placedFluid);
-            }
-        }
+        FluidState placedFluid = clientLevel.getFluidState(pos);
+        SpawnParticles.spawnFluidPlacedParticle(clientLevel, pos, placedFluid);
     }
 }

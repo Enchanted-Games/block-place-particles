@@ -1,17 +1,17 @@
 //? if neoforge {
 /*package games.enchanted.eg_particle_interactions.neoforge;
 
+import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.config.compat.ConfigScreenCreator;
-import games.enchanted.eg_particle_interactions.common.particle.ModParticleTypes;
-import games.enchanted.eg_particle_interactions.neoforge.registry.NeoParticleProviderRegistry;
-import net.minecraft.client.Minecraft;
+import games.enchanted.eg_particle_interactions.common.particle.types.ParticleTypesRegistry;
+import games.enchanted.eg_particle_interactions.neoforge.registry.NeoReloadListenerRegistry;
 import net.minecraft.core.registries.Registries;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
@@ -20,30 +20,19 @@ import java.util.Objects;
 /^*
  * This is the entry point for your mod's forge side.
  ^/
-@Mod(value = "eg_particle_interactions", dist = Dist.CLIENT)
+@Mod(value = Constants.MOD_ID, dist = Dist.CLIENT)
 public class NeoForgeEntry {
     public final IEventBus eventBus;
+    public static ModContainer CONTAINER;
 
-    public NeoForgeEntry(IEventBus bus) {
+    public NeoForgeEntry(IEventBus bus, ModContainer container) {
         this.eventBus = bus;
+        CONTAINER = container;
         ParticleInteractionsMod.startOfModLoading();
 
-        // register stuff
-        bus.addListener((RegisterEvent event) -> {
-            if(event.getRegistry().key().equals(Registries.PARTICLE_TYPE)) {
-                ModParticleTypes.registerParticles();
-            }
-        });
-
         // register client resource reload listener
-        bus.addListener((AddClientReloadListenersEvent event) -> {
-            ParticleInteractionsMod.createReloadListeners(Minecraft.getInstance().getTextureManager()).forEach(resourceLocationAndListenerPair -> {
-                event.addListener(resourceLocationAndListenerPair.key(), resourceLocationAndListenerPair.value());
-            });
-        });
+        bus.addListener(NeoReloadListenerRegistry::register);
 
-        // register particle providers
-        bus.addListener(NeoParticleProviderRegistry::registerParticleProviders);
         // register config screen
         ConfigScreenCreator screenCreator = ConfigScreenCreator.getScreenCreator();
         if(screenCreator.canCreateScreen()) {

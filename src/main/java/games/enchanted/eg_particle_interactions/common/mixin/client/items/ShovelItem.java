@@ -1,12 +1,11 @@
 package games.enchanted.eg_particle_interactions.common.mixin.client.items;
 
-import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,14 +17,11 @@ public abstract class ShovelItem {
         method = "useOn",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;playSound(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/core/BlockPos;Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FF)V")
     )
-    private void spawnParticlesOnBlockFlatten(UseOnContext useOnContext, CallbackInfoReturnable<InteractionResult> cir) {
+    private void eg_particle_interactions$spawnParticlesOnBlockFlatten(UseOnContext useOnContext, CallbackInfoReturnable<InteractionResult> cir) {
         Level level = useOnContext.getLevel();
-        if(level.isClientSide()) {
+        if(level instanceof ClientLevel clientLevel) {
             BlockPos flattenedBlockPos = useOnContext.getClickedPos();
-            BlockState blockState = level.getBlockState(flattenedBlockPos);
-
-            Logging.interactionDebugInfo("Shovel used (" + this + ") at " + flattenedBlockPos.toShortString() + " to flatten " + blockState.getBlock());
-            SpawnParticles.spawnShovelFlattenParticle(level, flattenedBlockPos, useOnContext);
+            SpawnParticles.spawnShovelFlattenParticle(clientLevel, flattenedBlockPos, useOnContext);
         }
     }
 }

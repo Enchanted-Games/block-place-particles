@@ -1,0 +1,30 @@
+{
+    "texture_config": {
+        "sprites": [
+            "eg_particle_interactions:flower_petal/0",
+            "eg_particle_interactions:flower_petal/1",
+            "eg_particle_interactions:flower_petal/2",
+            "eg_particle_interactions:flower_petal/3",
+            "eg_particle_interactions:flower_petal/4"
+        ]
+    },
+    "colour": {
+        "type": "eg_particle_interactions:block_texture",
+        "tint_index": 0
+    },
+    "spin_config": {
+        "initial_rotation": {
+            "range": [
+                0,
+                360
+            ]
+        },
+        "acceleration": {
+            "values": [
+                -0.2,
+                0.2
+            ]
+        },
+        "max_speed": 0.5
+    }
+}

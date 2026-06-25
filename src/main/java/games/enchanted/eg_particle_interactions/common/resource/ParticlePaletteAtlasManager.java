@@ -15,41 +15,21 @@ import net.minecraft.server.packs.metadata.MetadataSectionType;
 
 import java.util.Set;
 
-public class ParticlePaletteAtlasManager
-    //? if minecraft: <= 1.21.8 {
-    /*extends TextureAtlasHolder
-    *///?}
-{
+public class ParticlePaletteAtlasManager {
     private static final String ID = "particle_palettes";
-    public static final Identifier ATLAS_LOCATION = Identifier.fromNamespaceAndPath(Constants.MOD_ID, "textures/atlas/" + ID);
+    public static final Identifier ATLAS_TEXTURE_ID = Identifier.fromNamespaceAndPath(Constants.MOD_ID, "textures/atlas/" + ID + ".png");
     public static final Identifier ATLAS_ID = Identifier.fromNamespaceAndPath(Constants.MOD_ID, ID);
     public static final Set<MetadataSectionType<?>> METADATA_SECTIONS = Set.of(ParticlePaletteSettingsMetadataSection.TYPE);
 
-    public ParticlePaletteAtlasManager(TextureManager textureManager) {
-        //? if minecraft: <= 1.21.8 {
-        /*super(
-            textureManager,
-            ATLAS_LOCATION,
-            ATLAS_ID,
-            METADATA_SECTIONS
-        );
-        *///?}
+    public ParticlePaletteAtlasManager() {
     }
 
     public TextureAtlasSprite get(Identifier location) {
-        //? if minecraft: <= 1.21.8 {
-        /*return this.getSprite(location);
-        *///?} else {
         return Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(ATLAS_ID).getSprite(location);
-        //?}
     }
 
     public static ParticlePaletteSettingsMetadataSection getMetadataFromSprite(TextureAtlasSprite sprite) {
-        //? if minecraft: <= 1.21.8 {
-        /*return sprite.contents().metadata().getSection(ParticlePaletteSettingsMetadataSection.TYPE).orElse(ParticlePaletteSettingsMetadataSection.DEFAULT);
-        *///?} else {
         return sprite.contents().getAdditionalMetadata(ParticlePaletteSettingsMetadataSection.TYPE).orElse(ParticlePaletteSettingsMetadataSection.DEFAULT);
-        //?}
     }
 
     public record ParticlePaletteSettingsMetadataSection(boolean useBiomeTint) {

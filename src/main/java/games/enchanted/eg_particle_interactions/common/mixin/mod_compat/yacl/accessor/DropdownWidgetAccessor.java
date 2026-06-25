@@ -7,5 +7,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(DropdownWidget.class)
 public interface DropdownWidgetAccessor {
     @Accessor(value = "firstVisibleIndex", remap = false)
-    void block_place_particle$setFirstVisibleIndex(int newIndex);
+    void eg_particle_interactions$setFirstVisibleIndex(int newIndex);
 }

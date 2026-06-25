@@ -22,7 +22,7 @@ public abstract class BlastFurnaceBlock extends AbstractFurnaceBlock {
         at = @At("TAIL"),
         method = "animateTick"
     )
-    private void spawnAdditionalParticles(BlockState blockState, Level level, BlockPos blockPos, RandomSource randomSource, CallbackInfo ci) {
+    private void eg_particle_interactions$spawnAdditionalParticles(BlockState blockState, Level level, BlockPos blockPos, RandomSource randomSource, CallbackInfo ci) {
         if (!(level instanceof ClientLevel clientLevel)) return;
         if (blockState.getValue(LIT)) {
             SpawnParticles.spawnAdditionalBlastFurnaceParticles(clientLevel, blockPos, blockState);

@@ -6,6 +6,11 @@ plugins {
     id("maven-publish")
 }
 
+stonecutter {
+    val (version, loader) = current.project.split('-', limit = 2)
+    properties.tags(version, loader)
+}
+
 val minecraft = stonecutter.current.version
 val mcVersion = stonecutter.current.project.substringBeforeLast('-')
 val accessWidenerFilepath = "src/main/resources/${property("mod.id")}.classtweaker"
@@ -52,7 +57,12 @@ dependencies {
             mappings("dev.lambdaurora:yalmm-mojbackward:${property("deps.minecraft")}+build.${property("deps.mojbackward")}")
     })
     modImplementation("net.fabricmc:fabric-loader:${property("deps.fabric-loader")}")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric-api")}")
+
+    if (boolProperty("deps.fabric-api_compileonly")) {
+        modCompileOnly("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric-api")}")
+    } else {
+        modImplementation("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric-api")}")
+    }
 
     // Mod Menu
     if (hasProperty("deps.modmenu")) {
@@ -63,9 +73,10 @@ dependencies {
 
     // yacl
     if(hasProperty("deps.yacl")) {
-        modImplementation("dev.isxander:yet-another-config-lib:${property("deps.yacl")}")
+        modCompileOnly("dev.isxander:yet-another-config-lib:${property("deps.yacl")}")
+        modRuntimeOnly("dev.isxander:yet-another-config-lib:${property("deps.yacl")}")
     } else {
-        modImplementation("dev.isxander:yet-another-config-lib:3.8.2+1.21.11-fabric")
+        modCompileOnly("dev.isxander:yet-another-config-lib:3.8.2+1.21.11-fabric")
     }
 }
 

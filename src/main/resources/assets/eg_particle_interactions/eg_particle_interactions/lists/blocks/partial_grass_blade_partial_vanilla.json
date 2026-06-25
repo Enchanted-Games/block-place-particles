@@ -1,0 +1,13 @@
+{
+    "blocks": [
+        "dirt_path"
+    ],
+    "block_states": [
+        {
+            "block": "grass_block",
+            "properties": {
+                "snowy": "false"
+            }
+        }
+    ]
+}

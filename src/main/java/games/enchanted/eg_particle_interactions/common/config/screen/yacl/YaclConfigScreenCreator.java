@@ -6,9 +6,6 @@ import games.enchanted.eg_particle_interactions.common.config.categories.*;
 import games.enchanted.eg_particle_interactions.common.config.compat.ConfigScreenCreator;
 import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
 import games.enchanted.eg_particle_interactions.common.localisation.ConfigTranslation;
-import games.enchanted.eg_particle_interactions.common.particle.overrides.BlockParticleOverride;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.AlertScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -68,6 +65,10 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 ConfigScreenHelper.genericBooleanOption(
                     ConfigTranslation.FIREFLY_FIXES,
                     GeneralOptions.FIREFLY_FIXES
+                ),
+                ConfigScreenHelper.genericBooleanOption(
+                    ConfigTranslation.SHOW_BUTTON_IN_OPTIONS_SCREEN,
+                    GeneralOptions.SHOW_BUTTON_IN_OPTIONS_SCREEN
                 )
             ))
 
@@ -96,10 +97,6 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                     1,
                     32,
                     1
-                ),
-                ConfigScreenHelper.genericBooleanOption(
-                    ConfigTranslation.PARTICLE_PHYSICS_ENABLED,
-                    GeneralOptions.ADVANCED_PARTICLE_PHYSICS
                 )
             ))
 
@@ -108,16 +105,16 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 ConfigTranslation.GENERAL_CATEGORY,
                 false,
                 ConfigScreenHelper.genericBooleanOption(
-                    ConfigTranslation.SPARKS_ADDITIONAL_FLASH_EFFECT,
-                    GeneralOptions.ADDITIONAL_SPARK_FLASH_EFFECT
+                    ConfigTranslation.PARTICLE_FLUID_REACTIVITY,
+                    GeneralOptions.PARTICLE_FLUID_REACTIVITY
                 ),
                 ConfigScreenHelper.genericBooleanOption(
-                    ConfigTranslation.SPARKS_WATER_EVAPORATION,
-                    GeneralOptions.SPARK_WATER_EVAPORATION
+                    ConfigTranslation.PARTICLE_BOUNCE_PHYSICS_ENABLED,
+                    GeneralOptions.PARTICLE_BOUNCE_PHYSICS
                 ),
                 ConfigScreenHelper.genericBooleanOption(
-                    ConfigTranslation.DUST_ADDITIONAL_SPECKS,
-                    GeneralOptions.DUST_SPECKS
+                    ConfigTranslation.PARTICLE_ALLOW_EMISSIONS_ENABLED,
+                    GeneralOptions.PARTICLE_ALLOW_EMISSIONS
                 )
             ))
 
@@ -137,51 +134,16 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 ConfigScreenHelper.genericBooleanOption(
                     ConfigTranslation.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES,
                     GeneralOptions.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES
+                ),
+                ConfigScreenHelper.genericBooleanOption(
+                    ConfigTranslation.DEBUG_EXTRA_INFO_ON_PARTICLE_PACKET_ERROR,
+                    GeneralOptions.DEBUG_EXTRA_INFO_ON_PARTICLE_PACKET_ERROR
+                ),
+                ConfigScreenHelper.genericBooleanOption(
+                    ConfigTranslation.DEBUG_TEXTURE_LOGGING,
+                    GeneralOptions.DEBUG_TEXTURE_LOGGING
                 )
             ))
-        .build());
-
-
-        // block override category
-        yaclBuilder.category(ConfigScreenHelper.createBlockParticleOverrideConfigWidgets(
-            ConfigCategory.createBuilder()
-                .name(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY).toComponent())
-                .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY)))
-
-                .group(
-                    OptionGroup.createBuilder()
-                        .option(ConfigScreenHelper.booleanOption(
-                            "disable_all_block_placing_particles",
-                            "block_placing",
-                            BlockOverrideOptions.DISABLE_ALL_PLACING_PARTICLES
-                        ))
-                        .option(ConfigScreenHelper.booleanOption(
-                            "disable_all_block_breaking_particles",
-                            "block_breaking",
-                            BlockOverrideOptions.DISABLE_ALL_BREAKING_PARTICLES
-                        ))
-                    .build()
-                )
-                .group(
-                    ConfigScreenHelper.createSeparator()
-                )
-
-                // vanilla block particles
-                .group(
-                    ConfigScreenHelper.createOptionsForBlockOverride(BlockParticleOverride.VANILLA)
-                )
-                .group(
-                    ConfigScreenHelper.createSeparator()
-                )
-
-                // block config info
-                .group(OptionGroup.createBuilder()
-                    .name( ConfigTranslation.getGroupName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY, "info").toComponent() )
-                    .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.BLOCKS_CONFIG_CATEGORY, "info")) ))
-                    .collapsed(true)
-                    .option(LabelOption.createBuilder().line(Component.empty()).build())
-                .build())
-            )
         .build());
 
 
@@ -196,7 +158,19 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY, "info")) ))
                 .collapsed(true)
                 .option(LabelOption.createBuilder().line(Component.empty()).build())
-                .build())
+            .build())
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
+                "block_place_or_break",
+                "block_place_or_break",
+                ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_PLACE, "block_place", BlockInteractionOptions.BLOCK_MAX_ON_PLACE, 0, 20, 1),
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK, "block_break", BlockInteractionOptions.BLOCK_MAX_ON_BREAK, 0, 20, 1)
+            ))
 
             .group(
                 ConfigScreenHelper.createSeparator()
@@ -207,10 +181,8 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 "underwater_block_bubbles",
                 "underwater_block_bubbles",
                 ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
-                ConfigScreenHelper.booleanOption(ConfigTranslation.SPAWN_BLOCK_PARTICLE_ON_PLACE, "underwater_block_bubbles", BlockInteractionOptions.UNDERWATER_BUBBLES_ON_PLACE_ENABLED),
-                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_PLACE, "underwater_block_bubbles", BlockInteractionOptions.UNDERWATER_BUBBLES_MAX_ON_PLACE, 1, 50, 1),
-                ConfigScreenHelper.booleanOption(ConfigTranslation.SPAWN_BLOCK_PARTICLE_ON_BREAK, "underwater_block_bubbles", BlockInteractionOptions.UNDERWATER_BUBBLES_ON_BREAK_ENABLED),
-                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK, "underwater_block_bubbles", BlockInteractionOptions.UNDERWATER_BUBBLES_MAX_ON_BREAK, 1, 50, 1)
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_PLACE, "underwater_block_bubbles", BlockInteractionOptions.UNDERWATER_BUBBLES_MAX_ON_PLACE, 0, 50, 1),
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_BLOCK_BREAK, "underwater_block_bubbles", BlockInteractionOptions.UNDERWATER_BUBBLES_MAX_ON_BREAK, 0, 50, 1)
             ))
 
             .group(
@@ -388,14 +360,13 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
             )
 
             // flint and steel spark
-            .group( ConfigScreenHelper.createParticleToggleAndMaxAndIntensityConfigGroup(
+            .group( ConfigScreenHelper.createParticleToggleAndMaxConfigGroup(
                 "flint_and_steel_sparks",
                 "flint_and_steel_sparks",
                 ConfigTranslation.ITEMS_CONFIG_CATEGORY,
                 ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_ENABLED,
                 ConfigTranslation.SPAWN_PARTICLE_ON_ITEM_USE,
-                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE, "flint_and_steel_sparks", ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_AMOUNT, 1, 32, 1),
-                ConfigScreenHelper.integerSliderOption(ConfigTranslation.ITEM_USE_PARTICLE_INTENSITY, "flint_and_steel_sparks", ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_INTENSITY, 1, 8, 1)
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE, "flint_and_steel_sparks", ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_AMOUNT, 1, 32, 1)
             ))
 
             .group(
@@ -403,14 +374,13 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
             )
 
             // fire charge smoke
-            .group( ConfigScreenHelper.createParticleToggleAndMaxAndIntensityConfigGroup(
+            .group( ConfigScreenHelper.createParticleToggleAndMaxConfigGroup(
                 "fire_charge_smoke",
                 "fire_charge_smoke",
                 ConfigTranslation.ITEMS_CONFIG_CATEGORY,
                 ItemInteractionOptions.FIRE_CHARGE_PARTICLES_ENABLED,
                 ConfigTranslation.SPAWN_PARTICLE_ON_ITEM_USE,
-                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE, "fire_charge_smoke", ItemInteractionOptions.FIRE_CHARGE_PARTICLES_AMOUNT, 1, 32, 1),
-                ConfigScreenHelper.integerSliderOption(ConfigTranslation.ITEM_USE_PARTICLE_INTENSITY, "fire_charge_smoke", ItemInteractionOptions.FIRE_CHARGE_PARTICLES_INTENSITY, 1, 8, 1)
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_ITEM_USE, "fire_charge_smoke", ItemInteractionOptions.FIRE_CHARGE_PARTICLES_AMOUNT, 1, 32, 1)
             ))
 
             .group(
@@ -512,20 +482,6 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 ConfigScreenHelper.createSeparator()
             )
 
-            // blaze sparks
-            .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
-                "blaze_sparks",
-                "blaze_sparks",
-                ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY,
-                ConfigScreenHelper.integerSliderOption(ConfigTranslation.ENTITY_AMBIENT_PARTICLE_SPAWN_CHANCE, "blaze_sparks", EntityOptions.BLAZE_SPARKS_SPAWN_CHANCE, 1, 100, 1),
-                ConfigScreenHelper.booleanOption(ConfigTranslation.SPAWN_PARTICLE_ON_ENTITY_HURT, "blaze_sparks", EntityOptions.BLAZE_SPARKS_SPAWN_ON_HURT),
-                ConfigScreenHelper.integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_ENTITY_HURT, "blaze_sparks", EntityOptions.BLAZE_SPARKS_AMOUNT_ON_HURT, 1, 32, 1)
-            ))
-
-            .group(
-                ConfigScreenHelper.createSeparator()
-            )
-
             // item frame interactions
             .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
                 "item_frame_dust",
@@ -534,92 +490,44 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 ConfigScreenHelper.booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "item_frame_dust", EntityOptions.ITEM_FRAME_INTERACTION_ENABLED),
                 ConfigScreenHelper.integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_INTERACT, "item_frame_dust", EntityOptions.ITEM_FRAME_INTERACTION_AMOUNT, 1, 30, 1)
             ))
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            // item frame interactions
+            .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
+                "sulfur_cube_consume",
+                "sulfur_cube_consume",
+                ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY,
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_CUBE_CONSUME, "sulfur_cube_consume", EntityOptions.SULFUR_CUBE_AMOUNT_ON_CONSUME, 0, 20, 1)
+            ))
         .build());
 
-        // fluid placement config category
+        // fluid interactions / ambient config category
         yaclBuilder.category( ConfigCategory.createBuilder()
             .name(ConfigTranslation.getCategoryName(ConfigTranslation.FLUIDS_CONFIG_CATEGORY).toComponent())
             .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.FLUIDS_CONFIG_CATEGORY)))
 
-            // fluid placement config info
+            // fluid interactions / ambient info
             .group(OptionGroup.createBuilder()
                 .name( ConfigTranslation.getGroupName(ConfigTranslation.FLUIDS_CONFIG_CATEGORY, "info").toComponent() )
                 .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.FLUIDS_CONFIG_CATEGORY, "info")) ))
                 .collapsed(true)
                 .option(LabelOption.createBuilder().line(Component.empty()).build())
-                .build())
+            .build())
 
             .group(
                 ConfigScreenHelper.createSeparator()
             )
 
-            // tinted water splash
-            .group( ConfigScreenHelper.createFluidParticleToggleAndMaxConfigGroup(
-                "tinted_splash",
-                "tinted_splash",
+            // fluid placement
+            .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
+                "fluid_placement",
+                "fluid_placement",
                 ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
-                FluidPlacementOptions.WATER_SPLASH_ENABLED,
-                ConfigScreenHelper.maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_FLUID_PLACE, FluidPlacementOptions.WATER_SPLASH_AMOUNT_ON_PLACE)
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_FLUID_PLACE, "max_particles_fluid_place", FluidInteractionOptions.AMOUNT_ON_PLACE, 0, 30, 1)
             ))
-            .group( ConfigScreenHelper.createFluidListOption(
-                "tinted_splash",
-                "tinted_splash_fluids",
-                ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
-                FluidPlacementOptions.WATER_SPLASH_FLUIDS
-            ))
-
-            .group(
-                ConfigScreenHelper.createSeparator()
-            )
-
-            // lava splash
-            .group( ConfigScreenHelper.createFluidParticleToggleAndMaxConfigGroup(
-                "lava_splash",
-                "generic_particle_fluids",
-                ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
-                FluidPlacementOptions.LAVA_SPLASH_ENABLED,
-                ConfigScreenHelper.maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_FLUID_PLACE, FluidPlacementOptions.LAVA_SPLASH_AMOUNT_ON_PLACE)
-            ))
-            .group( ConfigScreenHelper.createFluidListOption(
-                "lava_splash",
-                "generic_particle",
-                ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
-                FluidPlacementOptions.LAVA_SPLASH_FLUIDS
-            ))
-
-            .group(
-                ConfigScreenHelper.createSeparator()
-            )
-
-            // generic splash
-            .group( ConfigScreenHelper.createFluidParticleToggleAndMaxConfigGroup(
-                "generic_splash",
-                "generic_splash",
-                ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
-                FluidPlacementOptions.GENERIC_SPLASH_ENABLED,
-                ConfigScreenHelper.maxParticlesOnPlaceOption(ConfigTranslation.MAX_PARTICLES_ON_FLUID_PLACE, FluidPlacementOptions.GENERIC_SPLASH_AMOUNT_ON_PLACE)
-            ))
-            .group( ConfigScreenHelper.createFluidListOption(
-                "generic_splash",
-                "generic_splash_fluids",
-                ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
-                FluidPlacementOptions.GENERIC_SPLASH_FLUIDS
-            ))
-        .build());
-
-
-        // fluid ambient config category
-        yaclBuilder.category( ConfigCategory.createBuilder()
-            .name(ConfigTranslation.getCategoryName(ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY).toComponent())
-            .tooltip(ConfigTranslation.createDesc(ConfigTranslation.getCategoryName(ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY)))
-
-            // fluid ambient config info
-            .group(OptionGroup.createBuilder()
-                .name( ConfigTranslation.getGroupName(ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY, "info").toComponent() )
-                .description(OptionDescription.of( ConfigTranslation.createDesc(ConfigTranslation.getGroupName(ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY, "info")) ))
-                .collapsed(true)
-                .option(LabelOption.createBuilder().line(Component.empty()).build())
-                .build())
 
             .group(
                 ConfigScreenHelper.createSeparator()
@@ -629,9 +537,9 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
             .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
                 "lava_bubble_pop",
                 "lava_bubble_pop",
-                ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY,
-                ConfigScreenHelper.booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "lava_bubble_pop", FluidAmbientOptions.LAVA_BUBBLE_POP_ENABLED),
-                ConfigScreenHelper.integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE_WITH_TYPE, "lava_bubble_pop", FluidAmbientOptions.LAVA_BUBBLE_POP_SPAWN_CHANCE, 1, 100, 1)
+                ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
+                ConfigScreenHelper.booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "lava_bubble_pop", FluidInteractionOptions.LAVA_BUBBLE_POP_ENABLED),
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE_WITH_TYPE, "lava_bubble_pop", FluidInteractionOptions.LAVA_BUBBLE_POP_SPAWN_CHANCE, 1, 100, 1)
             ))
 
             .group(
@@ -642,19 +550,18 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
             .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
                 "underwater_bubble_streams",
                 "underwater_bubble_streams",
-                ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY,
-                ConfigScreenHelper.booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "underwater_bubble_streams", FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_ENABLED),
-                ConfigScreenHelper.integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE_WITH_TYPE, "underwater_bubble_streams", FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_SPAWN_CHANCE, 1, 100, 1)
+                ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
+                ConfigScreenHelper.booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "underwater_bubble_streams", FluidInteractionOptions.UNDERWATER_BUBBLE_STREAM_ENABLED),
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.PARTICLE_SPAWN_CHANCE_WITH_TYPE, "underwater_bubble_streams", FluidInteractionOptions.UNDERWATER_BUBBLE_STREAM_SPAWN_CHANCE, 1, 100, 1)
             ))
             .group(
                 ConfigScreenHelper.createBlockLocationListOption(
                     "underwater_bubble_streams",
                     "underwater_bubble_streams_blocks",
-                    ConfigTranslation.FLUID_AMBIENT_CONFIG_CATEGORY,
-                    FluidAmbientOptions.UNDERWATER_BUBBLE_STREAM_BLOCKS
+                    ConfigTranslation.FLUIDS_CONFIG_CATEGORY,
+                    FluidInteractionOptions.UNDERWATER_BUBBLE_STREAM_BLOCKS
                 )
             )
-
         .build());
         
         return yaclBuilder.build();

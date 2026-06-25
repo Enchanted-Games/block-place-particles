@@ -26,7 +26,7 @@ public abstract class ComparatorBlock extends DiodeBlock implements EntityBlock 
         at = @At(shift = At.Shift.AFTER, value = "INVOKE", target = "Lnet/minecraft/world/level/Level;setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)Z"),
         method = "useWithoutItem"
     )
-    protected void spawnDustParticlesOnInteraction(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
+    protected void eg_particle_interactions$spawnDustParticlesOnInteraction(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
         if(!(level instanceof ClientLevel)) return;
         float[] interactionPos = ParticlePositionHelpers.getRedstoneComparatorInteractionPos(level.getBlockState(pos));
         SpawnParticles.spawnRedstoneInteractionParticles(

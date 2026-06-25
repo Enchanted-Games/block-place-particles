@@ -1,0 +1,45 @@
+{
+    "rules": [
+        {
+            "conditions": [
+                {
+                    "type": "block",
+                    "predicate": {
+                        "type": "block_state",
+                        "properties": {
+                            "lit": "true"
+                        }
+                    }
+                }
+            ],
+            "emitter": {
+                "type": "random",
+                "emitters": [
+                    {
+                        "emitter": {
+                            "type": "particle_interactions",
+                            "particle": "spark/floating_spark",
+                            "velocity_multiplier": [
+                                5,
+                                1,
+                                5
+                            ]
+                        },
+                        "weight": 7
+                    },
+                    {
+                        "emitter": {
+                            "type": "particle_interactions",
+                            "particle": "ember",
+                            "velocity_multiplier": 1
+                        },
+                        "weight": 3
+                    }
+                ]
+            }
+        }
+    ],
+    "fallback_emitter": {
+        "type": "empty"
+    }
+}

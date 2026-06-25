@@ -1,0 +1,12 @@
+{
+    "emitters": {
+        "default": {
+            "type": "particle_interactions",
+            "particle": "leaf/falling_leaf",
+            "components": {
+                "appearance": "leaf/pine_leaves"
+            },
+            "velocity_multiplier": 0.1
+        }
+    }
+}

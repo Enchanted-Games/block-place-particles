@@ -1,0 +1,7 @@
+{
+    "fallback_emitter": {
+        "type": "particle_interactions",
+        "particle": "underwater_bubble",
+        "velocity_multiplier": 0.7
+    }
+}

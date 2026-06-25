@@ -4,6 +4,9 @@ public class Constants {
     public static final String MOD_NAME = "Particle Interactions";
     public static final String MOD_ID = "eg_particle_interactions";
 
+    public static final String FABRIC_RESOURCE_LOADER_ID = "fabric-resource-loader-v1";
+    public static final String MOD_MENU_ID = "modmenu";
+
     public static final String TARGET_PLATFORM =
     //? if fabric {
         "fabric";

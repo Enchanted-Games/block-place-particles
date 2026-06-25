@@ -1,0 +1,19 @@
+{
+    "blocks": [
+        "vine",
+        "short_grass",
+        "tall_grass",
+        "fern",
+        "large_fern",
+        "sweet_berry_bush",
+        "dead_bush",
+        "seagrass",
+        "tall_seagrass",
+        "hay_block",
+        "glow_lichen",
+        "short_dry_grass",
+        "tall_dry_grass",
+        "#crops",
+        "firefly_bush"
+    ]
+}

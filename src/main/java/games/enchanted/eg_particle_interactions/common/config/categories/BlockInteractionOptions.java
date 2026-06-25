@@ -6,7 +6,7 @@ import games.enchanted.eg_particle_interactions.common.config.option.BlockOrTagL
 import games.enchanted.eg_particle_interactions.common.config.option.BoolOption;
 import games.enchanted.eg_particle_interactions.common.config.option.ConfigOption;
 import games.enchanted.eg_particle_interactions.common.config.option.IntOption;
-import games.enchanted.eg_particle_interactions.common.registry.BlockOrTagLocation;
+import games.enchanted.eg_particle_interactions.common.registry.ObjectOrTagLocation;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
@@ -15,14 +15,15 @@ import net.minecraft.world.level.block.Blocks;
 import java.util.List;
 
 public class BlockInteractionOptions {
-    public static final ConfigOption<Boolean> UNDERWATER_BUBBLES_ON_PLACE_ENABLED = registerOption(
-        new BoolOption(true, "underwater_bubbles_on_place_enabled")
+    public static final ConfigOption<Integer> BLOCK_MAX_ON_PLACE = registerOption(
+        new IntOption(3, "block_max_on_place")
     );
+    public static final ConfigOption<Integer> BLOCK_MAX_ON_BREAK = registerOption(
+        new IntOption(4, "block_max_on_break")
+    );
+
     public static final ConfigOption<Integer> UNDERWATER_BUBBLES_MAX_ON_PLACE = registerOption(
         new IntOption(12, "underwater_bubbles_max_on_place")
-    );
-    public static final ConfigOption<Boolean> UNDERWATER_BUBBLES_ON_BREAK_ENABLED = registerOption(
-        new BoolOption(true, "underwater_bubbles_on_break_enabled")
     );
     public static final ConfigOption<Integer> UNDERWATER_BUBBLES_MAX_ON_BREAK = registerOption(
         new IntOption(6, "underwater_bubbles_max_on_break")
@@ -57,7 +58,7 @@ public class BlockInteractionOptions {
     public static final ConfigOption<Boolean> BLOCK_RUSTLE_ENABLED = registerOption(
         new BoolOption(true, "block_rustle_enabled")
     );
-    public static final ConfigOption<List<BlockOrTagLocation>> BLOCK_RUSTLE_BLOCKS = registerOption(
+    public static final ConfigOption<List<ObjectOrTagLocation>> BLOCK_RUSTLE_BLOCKS = registerOption(
         new BlockOrTagLocationListOption(
             List.of(
                 RegistryHelpers.getBlockLocationFromBlock(Blocks.SUGAR_CANE),
@@ -87,12 +88,12 @@ public class BlockInteractionOptions {
                 RegistryHelpers.getBlockLocationFromBlock(Blocks.COBWEB),
                 RegistryHelpers.getBlockLocationFromBlock(Blocks.SNOW),
                 RegistryHelpers.getBlockLocationFromBlock(Blocks.REDSTONE_WIRE),
-                new BlockOrTagLocation(BlockTags.CAVE_VINES.location(), true),
-                new BlockOrTagLocation(BlockTags.FLOWERS.location(), true),
-                new BlockOrTagLocation(Identifier.fromNamespaceAndPath("c", "flowers"), true),
-                new BlockOrTagLocation(Identifier.fromNamespaceAndPath("c", "flowers/small"), true),
-                new BlockOrTagLocation(Identifier.fromNamespaceAndPath("c", "flowers/tall"), true),
-                new BlockOrTagLocation(BlockTags.CROPS.location(), true)
+                new ObjectOrTagLocation(BlockTags.CAVE_VINES.location(), true),
+                new ObjectOrTagLocation(BlockTags.FLOWERS.location(), true),
+                new ObjectOrTagLocation(Identifier.fromNamespaceAndPath("c", "flowers"), true),
+                new ObjectOrTagLocation(Identifier.fromNamespaceAndPath("c", "flowers/small"), true),
+                new ObjectOrTagLocation(Identifier.fromNamespaceAndPath("c", "flowers/tall"), true),
+                new ObjectOrTagLocation(BlockTags.CROPS.location(), true)
             ),
             "block_rustle_blocks"
         )

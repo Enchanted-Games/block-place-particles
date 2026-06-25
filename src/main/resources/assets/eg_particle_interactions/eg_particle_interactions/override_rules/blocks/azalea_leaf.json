@@ -1,0 +1,13 @@
+{
+    "weights": {
+        "default": [
+            {
+                "weight": 6,
+                "block_predicate": {
+                    "type": "list",
+                    "blocks": "azalea_leaf"
+                }
+            }
+        ]
+    }
+}

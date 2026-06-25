@@ -1,0 +1,12 @@
+{
+    "emitters": {
+        "default": {
+            "type": "particle_interactions",
+            "particle": "leaf/falling_leaf",
+            "components": {
+                "appearance": "leaf/azalea_flowers"
+            },
+            "velocity_multiplier": 0.1
+        }
+    }
+}

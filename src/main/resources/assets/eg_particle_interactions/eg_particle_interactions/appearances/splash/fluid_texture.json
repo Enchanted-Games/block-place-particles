@@ -1,0 +1,18 @@
+{
+    "texture_config": {
+        "type": "fluid_texture"
+    },
+    "colour": {
+        "type": "fluid_tint",
+        "tint_index": 0
+    },
+    "uv": {
+        "type": "random_within_sprite"
+    },
+    "scale": {
+        "range": [
+            3.9,
+            4.1
+        ]
+    }
+}

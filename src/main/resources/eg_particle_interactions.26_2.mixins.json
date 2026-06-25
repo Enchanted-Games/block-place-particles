@@ -1,0 +1,17 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "mixinextras": {
+        "minVersion": "0.5.0"
+    },
+    "package": "games.enchanted.eg_particle_interactions.common.mixin.mc26_2",
+    "plugin": "games.enchanted.eg_particle_interactions.common.mixin.plugin.VersionPlugin26_2",
+    "compatibilityLevel": "JAVA_${java_ver}",
+    "mixins": [
+    ],
+    "client": [
+    ],
+    "injectors": {
+        "defaultRequire": 1
+  }
+}

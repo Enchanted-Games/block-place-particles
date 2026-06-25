@@ -20,7 +20,11 @@ public class FallbackConfigScreenCreator implements ConfigScreenCreator {
                 if(confirmed) {
                     ConfirmLinkScreen.confirmLinkNow(parent, URI.create("https://modrinth.com/mod/yacl"));
                 } else {
-                    Minecraft.getInstance().setScreen(parent);
+                    //? if <= 26.1 {
+                    /*Minecraft.getInstance().setScreen(parent);
+                    *///? } else {
+                    Minecraft.getInstance().gui.setScreen(parent);
+                    //? }
                 }
             },
             ConfigTranslation.getFallbackConfigTitle().toComponent().copy().withStyle(Style.EMPTY.withBold(true)),

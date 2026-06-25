@@ -1,0 +1,9 @@
+{
+    "emitters": {
+        "default": {
+            "type": "particle_interactions",
+            "particle": "snowflake/snowflake",
+            "velocity_multiplier": 0.15
+        }
+    }
+}

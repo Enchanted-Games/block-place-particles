@@ -1,0 +1,24 @@
+{
+    "emitters": {
+        "default": {
+            "type": "special_particle",
+            "particle": {
+                "type": "block"
+            },
+            "velocity_multiplier": 4
+        },
+        "block/crack": {
+            "type": "special_particle",
+            "particle": {
+                "type": "block_crack"
+            },
+            "velocity_multiplier": 4
+        },
+        "block/falling_block_unstable": {
+            "type": "special_particle",
+            "particle": {
+                "type": "falling_dust"
+            }
+        }
+    }
+}

@@ -20,17 +20,15 @@ public class ConfigOptions {
     private static Map<ConfigCategory, List<ConfigOption<?>>> TEMPORARY_REGISTRATION_MAP;
 
     public static final String CONFIG_VERSION_KEY = "config_version";
-    public static final int CONFIG_VERSION = 1;
+    public static final int CONFIG_VERSION = 2;
 
     static {
         TEMPORARY_REGISTRATION_MAP = new HashMap<>();
         GeneralOptions.init();
-        BlockOverrideOptions.init();
         BlockInteractionOptions.init();
         ItemInteractionOptions.init();
         EntityOptions.init();
-        FluidPlacementOptions.init();
-        FluidAmbientOptions.init();
+        FluidInteractionOptions.init();
         OPTIONS = Map.copyOf(TEMPORARY_REGISTRATION_MAP);
         TEMPORARY_REGISTRATION_MAP = null;
     }
