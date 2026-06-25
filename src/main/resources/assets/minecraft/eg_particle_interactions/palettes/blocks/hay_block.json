@@ -1,0 +1,6 @@
+{
+    "default": {
+        "type": "texture",
+        "texture": "block/hay_block_top"
+    }
+}
