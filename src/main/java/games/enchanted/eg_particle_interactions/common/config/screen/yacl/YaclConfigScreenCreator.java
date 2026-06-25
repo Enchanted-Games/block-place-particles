@@ -8,19 +8,10 @@ import games.enchanted.eg_particle_interactions.common.config.type.BrushParticle
 import games.enchanted.eg_particle_interactions.common.localisation.ConfigTranslation;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 
 public class YaclConfigScreenCreator implements ConfigScreenCreator {
     @Override
     public Screen createScreen(Screen parent) {
-        if(Minecraft.getInstance().level == null) {
-            return new AlertScreen(
-                () -> Minecraft.getInstance().setScreen(parent),
-                ConfigTranslation.getNotInLevelConfigTitle().toComponent().copy().withStyle(Style.EMPTY.withBold(true)),
-                ConfigTranslation.getNotInLevelConfigBody().toComponent()
-            );
-        }
-
         YetAnotherConfigLib.Builder yaclBuilder = YetAnotherConfigLib.createBuilder()
             .save(ConfigOptions::applyAndSaveConfig)
             .title(ConfigTranslation.getConfigTitle().toComponent());
