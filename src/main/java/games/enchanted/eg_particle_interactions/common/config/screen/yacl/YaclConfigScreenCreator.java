@@ -426,6 +426,18 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_HONEY_COLLECTED, "honey_collection", ItemInteractionOptions.HONEY_COLLECTION_AMOUNT, 1, 50, 1),
                 ConfigScreenHelper.booleanOption(ConfigTranslation.REPLACE_VANILLA_PARTICLES, "honey_collection", ItemInteractionOptions.HONEY_COLLECTION_REPLACE_VANILLA)
             ))
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            // accurate mace smash
+            .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
+                "mace",
+                "mace",
+                ConfigTranslation.ITEMS_CONFIG_CATEGORY,
+                ConfigScreenHelper.booleanOption(ConfigTranslation.ACCURATE_MACE_SMASH, "mace", ItemInteractionOptions.ACCURATE_MACE_SMASH_ENABLED)
+            ))
         .build());
 
         // entity category

@@ -35,6 +35,7 @@
   "eg_particle_interactions.config.particle_type.hoe_till_particles": "Hoe Till",
   "eg_particle_interactions.config.particle_type.shovel_flatten_particles": "Shovel Flatten",
   "eg_particle_interactions.config.particle_type.honey_collection": "Honey Collection",
+  "eg_particle_interactions.config.particle_type.mace": "Mace Smash",
 
   "eg_particle_interactions.config.particle_type.minecart_sparks": "Minecart Wheel Spark",
   "eg_particle_interactions.config.particle_type.item_frame_dust": "Item Frame Interaction",
@@ -259,6 +260,11 @@
   "eg_particle_interactions.config.global_option.max_particles_on_honey_collected.desc": "The amount of %s particles that spawn when collecting honey bottles from a beehive",
   "eg_particle_interactions.config.global_option.replace_vanilla_honey_particles": "Replace vanilla honey drops",
   "eg_particle_interactions.config.global_option.replace_vanilla_honey_particles.desc": "Should vanilla honey drop particles be replaced with Particle Interaction's custom honey drop particles?",
+
+  "eg_particle_interactions.config.items.mace": "Mace Particle Options",
+  "eg_particle_interactions.config.items.mace.desc": "Configure how mace particles should behave",
+  "eg_particle_interactions.config.global_option.accurate_mace_smash": "Accurate mace smash particles",
+  "eg_particle_interactions.config.global_option.accurate_mace_smash.desc": "When enabled, mace smash particles will use the particle of the block below them instead of always using the block under the hit entity",
 
 
   "eg_particle_interactions.config.fluids": "Fluid Interactions / Ambient",

@@ -58,6 +58,10 @@ public class ItemInteractionOptions {
         new BoolOption(true, "honey_collection_replace_vanilla")
     );
 
+    public static final ConfigOption<Boolean> ACCURATE_MACE_SMASH_ENABLED = registerOption(
+        new BoolOption(true, "accurate_mace_smash")
+    );
+
     private static <T> ConfigOption<T> registerOption(ConfigOption<T> option) {
         return ConfigOptions.registerOption(ConfigCategory.ITEM_INTERACTIONS, option);
     }

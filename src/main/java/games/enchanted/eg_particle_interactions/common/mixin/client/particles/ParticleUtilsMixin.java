@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.client.particles;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import games.enchanted.eg_particle_interactions.common.config.categories.ItemInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.override_system.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
 import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
@@ -41,7 +42,7 @@ public class ParticleUtilsMixin {
         BlockPos particleBlockPos = BlockPos.containing(x, y, z);
         BlockState blockState = blockParticleOption.getState();
         BlockState belowParticleState = clientLevel.getBlockState(particleBlockPos.below());
-        if(!belowParticleState.isAir()) {
+        if(!belowParticleState.isAir() && ItemInteractionOptions.ACCURATE_MACE_SMASH_ENABLED.getValue()) {
             blockState = belowParticleState;
         }
 
