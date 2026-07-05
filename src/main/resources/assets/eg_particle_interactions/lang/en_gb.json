@@ -146,22 +146,21 @@
   "eg_particle_interactions.config.general.debug": "Debug",
   "eg_particle_interactions.config.general.debug.desc": "CAUTION: Don't change these options unless you have been told to or know what you are doing",
 
-  "eg_particle_interactions.config.global_option.toggle_debug_logs": "Toggle interaction debug logs",
-  "eg_particle_interactions.config.global_option.toggle_debug_logs.desc": "Logs information to the log when you interact with certain things.\n\nThis will be disabled the next time you open the game",
-  "eg_particle_interactions.toast.debug_logs_enabled": "Debug Logs Enabled",
-  "eg_particle_interactions.toast.debug_logs_disabled": "Debug Logs Disabled",
-
-  "eg_particle_interactions.config.global_option.toggle_texture_debug_logs": "Toggle texture debug logs",
-  "eg_particle_interactions.config.global_option.toggle_texture_debug_logs.desc": "Logs extra texture information to the log for debugging purposes.\n\nThis will be disabled the next time you open the game",
-  "eg_particle_interactions.toast.texture_debug_logs_enabled": "Texture Debug Logs Enabled",
-  "eg_particle_interactions.toast.texture_debug_logs_disabled": "Texture Debug Logs Disabled",
-
   "eg_particle_interactions.config.global_option.debug_show_emitter_bounds": "Show particle emitter bounds",
   "eg_particle_interactions.config.global_option.debug_show_emitter_bounds.desc": "Visualises particle emitter bounding boxes with a particle in the bottom north-west corner and top south-east corner.\n\nThis will be disabled the next time you open the game",
+
+  "eg_particle_interactions.config.global_option.debug_particle_tick_bounding_boxes": "Show particle tick position",
+  "eg_particle_interactions.config.global_option.debug_particle_tick_bounding_boxes.desc": "Renders a green bounding box visualising a particles tick position and collision size. Also renders a pink square when the particle is in the air, or purple when on the ground.\n\nThis will be disabled the next time you open the game",
+
+  "eg_particle_interactions.config.global_option.debug_particle_render_bounding_boxes": "Show particle render position",
+  "eg_particle_interactions.config.global_option.debug_particle_render_bounding_boxes.desc": "Renders a red bounding box visualising a particles render culling box.\n\nThis will be disabled the next time you open the game",
 
   "eg_particle_interactions.config.global_option.debug_info_on_particle_packet_error": "Log extra particle packet error info",
   "eg_particle_interactions.config.global_option.debug_info_on_particle_packet_error.desc": "Logs extra debugging information to the log if an error occurs while handling client-bound particle packets.\n\nThis will be disabled the next time you open the game",
 
+  "eg_particle_interactions.config.global_option.debug_texture_logging": "Texture palette logging",
+  "eg_particle_interactions.config.global_option.debug_texture_logging.desc": "Logs extra debugging information about texture palettes.\n\nThis will be disabled the next time you open the game",
+  
 
   "eg_particle_interactions.config.block_ambient": "Block Interactions / Ambient",
   "eg_particle_interactions.config.block_ambient.desc": "Configure how particles are spawned from blocks in the world or when interacting with blocks",
