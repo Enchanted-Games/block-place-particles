@@ -99,8 +99,10 @@
 
   "eg_particle_interactions.config.general": "General / Compatibility",
   "eg_particle_interactions.config.general.desc": "General config options for the mod",
-  "eg_particle_interactions.config.general.general": "General / Compatibility Options",
+  "eg_particle_interactions.config.general.general": "General Options",
   "eg_particle_interactions.config.general.general.desc": "General config options for the mod",
+  "eg_particle_interactions.config.general.compatibility": "Compatibility Options",
+  "eg_particle_interactions.config.general.compatibility.desc": "Options which may conflict with other mods or resource packs. You may need to disable some of these when using Particle Interactions in combination with other mods for the best experience",
 
   "eg_particle_interactions.config.global_option.pixel_consistent_terrain_particles": "Pixel consistent block / item particles",
   "eg_particle_interactions.config.global_option.pixel_consistent_terrain_particles.desc": "Makes the particles that appear when mining blocks, placing blocks, or eating food be pixel consistent.\n\nTry disabling this if you are having visual issues with other mods or resourcepacks",

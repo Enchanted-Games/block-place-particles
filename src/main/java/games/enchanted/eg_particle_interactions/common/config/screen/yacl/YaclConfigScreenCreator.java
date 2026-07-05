@@ -38,24 +38,12 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 ConfigTranslation.GENERAL_CATEGORY,
                 false,
                 ConfigScreenHelper.genericBooleanOption(
-                    ConfigTranslation.PIXEL_CONSISTENT_TERRAIN_PARTICLES,
-                    GeneralOptions.PIXEL_CONSISTENT_TERRAIN_PARTICLES
-                ),
-                ConfigScreenHelper.genericBooleanOption(
-                    ConfigTranslation.PARTICLE_ZFIGHTING_FIX,
-                    GeneralOptions.PARTICLE_Z_FIGHTING_FIX
-                ),
-                ConfigScreenHelper.genericBooleanOption(
                     ConfigTranslation.PROJECTILE_PARTICLE_VELOCITY_FIX,
                     GeneralOptions.PROJECTILE_BREAKING_PARTICLE_VELOCITY_FIX
                 ),
                 ConfigScreenHelper.genericBooleanOption(
                     ConfigTranslation.AUTO_COLLAPSE_CONFIG_LISTS,
                     GeneralOptions.AUTO_COLLAPSE_CONFIG_LISTS
-                ),
-                ConfigScreenHelper.genericBooleanOption(
-                    ConfigTranslation.FIREFLY_FIXES,
-                    GeneralOptions.FIREFLY_FIXES
                 ),
                 ConfigScreenHelper.genericBooleanOption(
                     ConfigTranslation.SHOW_BUTTON_IN_OPTIONS_SCREEN,
@@ -65,30 +53,42 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
 
             // performance: general
             .group(  ConfigScreenHelper.createGenericConfigGroup(
-                "performance_general",
+                "compatibility",
                 ConfigTranslation.GENERAL_CATEGORY,
                 false,
-                ConfigScreenHelper.integerSliderOption(
-                    ConfigTranslation.RENDER_DISTANCE_INTERACTION,
-                    GeneralOptions.INTERACTION_RENDER_DISTANCE,
-                    1,
-                    32,
-                    1
+                ConfigScreenHelper.genericBooleanOption(
+                    ConfigTranslation.PIXEL_CONSISTENT_TERRAIN_PARTICLES,
+                    GeneralOptions.PIXEL_CONSISTENT_TERRAIN_PARTICLES
                 ),
-                ConfigScreenHelper.integerSliderOption(
-                    ConfigTranslation.RENDER_DISTANCE_BLOCK,
-                    GeneralOptions.BLOCK_RENDER_DISTANCE,
-                    1,
-                    32,
-                    1
+                ConfigScreenHelper.genericBooleanOption(
+                    ConfigTranslation.PARTICLE_ZFIGHTING_FIX,
+                    GeneralOptions.PARTICLE_Z_FIGHTING_FIX
                 ),
-                ConfigScreenHelper.integerSliderOption(
-                    ConfigTranslation.RENDER_DISTANCE_AMBIENT,
-                    GeneralOptions.AMBIENT_RENDER_DISTANCE,
-                    1,
-                    32,
-                    1
+                ConfigScreenHelper.genericBooleanOption(
+                    ConfigTranslation.FIREFLY_FIXES,
+                    GeneralOptions.FIREFLY_FIXES
                 )
+//                ConfigScreenHelper.integerSliderOption(
+//                    ConfigTranslation.RENDER_DISTANCE_INTERACTION,
+//                    GeneralOptions.INTERACTION_RENDER_DISTANCE,
+//                    1,
+//                    32,
+//                    1
+//                ),
+//                ConfigScreenHelper.integerSliderOption(
+//                    ConfigTranslation.RENDER_DISTANCE_BLOCK,
+//                    GeneralOptions.BLOCK_RENDER_DISTANCE,
+//                    1,
+//                    32,
+//                    1
+//                ),
+//                ConfigScreenHelper.integerSliderOption(
+//                    ConfigTranslation.RENDER_DISTANCE_AMBIENT,
+//                    GeneralOptions.AMBIENT_RENDER_DISTANCE,
+//                    1,
+//                    32,
+//                    1
+//                )
             ))
 
             .group( ConfigScreenHelper.createGenericConfigGroup(
