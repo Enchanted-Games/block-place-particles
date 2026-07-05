@@ -63,6 +63,11 @@ public class ParticleComponents {
         WindConfigComponent.CODEC,
         WindConfigComponent.STREAM_CODEC
     );
+    public static final ParticleComponentRegistry.ComponentReference<IntangibleLayersComponent> PHYSICS_INTANGIBLE_LAYERS = register(
+        ParticleInteractionsMod.id("physics/intangible_layers"),
+        IntangibleLayersComponent.CODEC,
+        IntangibleLayersComponent.STREAM_CODEC
+    );
     public static final ParticleComponentRegistry.ComponentReference<AppearanceComponent> APPEARANCE = register(
         ParticleInteractionsMod.id("appearance"),
         AppearanceComponent.CODEC,

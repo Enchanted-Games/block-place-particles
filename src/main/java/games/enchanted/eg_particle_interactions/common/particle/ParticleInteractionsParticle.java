@@ -93,6 +93,8 @@ public class ParticleInteractionsParticle extends Particle {
     protected FluidState inFluidLastTick = this.inFluid;
     protected boolean onGroundLastTick = false;
     protected Vec3 collisionResult = Vec3.ZERO;
+    protected final boolean intangibleTerrain;
+    protected final boolean intangibleFluids;
 
     protected ParticleContext context;
     protected ParticleAppearance appearance;
@@ -171,6 +173,10 @@ public class ParticleInteractionsParticle extends Particle {
         this.maxXFlow = windComponent.maxFlowSpeed().x() / 100;
         this.maxYFlow = windComponent.maxFlowSpeed().y() / 100;
         this.maxZFlow = windComponent.maxFlowSpeed().z() / 100;
+
+        IntangibleLayersComponent intangibleLayersComponent = components.getOrFallback(ParticleComponents.PHYSICS_INTANGIBLE_LAYERS, IntangibleLayersComponent.COLLIDE_WITH_ALL);
+        this.intangibleTerrain = intangibleLayersComponent.terrain();
+        this.intangibleFluids = intangibleLayersComponent.fluids();
 
         FloatProviderComponent bouncinessComponent = components.getOrFallback(ParticleComponents.PHYSICS_BOUNCINESS, FloatProviderComponent.ZERO);
         this.bounciness = GeneralOptions.PARTICLE_BOUNCE_PHYSICS.getValue() ? bouncinessComponent.provider().getValue(context) : 0f;
@@ -313,7 +319,7 @@ public class ParticleInteractionsParticle extends Particle {
             return;
         }
 
-        if(GeneralOptions.PARTICLE_FLUID_REACTIVITY.getValue()) {
+        if(GeneralOptions.PARTICLE_FLUID_REACTIVITY.getValue() && !this.intangibleFluids) {
             this.inFluidLastTick = this.inFluid;
             this.emptyFluidAbove = FluidHelpers.fluidAtPosition(this.level, this.x, this.y + 0.875, this.z).isEmpty();
             this.inFluid = FluidHelpers.fluidAtPosition(this.level, this.x, this.y + (this.emptyFluidAbove ? FLUID_Y_OFFSET : 0), this.z);
@@ -368,6 +374,7 @@ public class ParticleInteractionsParticle extends Particle {
     }
 
     private void checkOnFluid() {
+        if(this.intangibleFluids) return;
         if(!GeneralOptions.PARTICLE_FLUID_REACTIVITY.getValue()) return;
         if(this.buoyancy < 0) return;
         if(!this.emptyFluidAbove) return;
@@ -474,6 +481,10 @@ public class ParticleInteractionsParticle extends Particle {
     }
 
     protected Vec3 collide(double xa, double ya, double za) {
+        if(this.intangibleTerrain) {
+            return new Vec3(xa, ya, za);
+        }
+
         //? if <= 26.1 {
         /*return Entity.collideBoundingBox(null, new Vec3(xa, ya, za), this.getBoundingBox(), this.level, List.of());
         *///? } else {
