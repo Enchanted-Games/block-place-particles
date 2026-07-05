@@ -31,7 +31,7 @@ public class OverridePreset {
 
     public ParticleOverride getRandom() {
         if(this.isEmpty()) {
-            return ParticleOverrides.getOverrideOrFallback(ParticleOverrides.FALLBACK_OVERRIDE_ID);
+            return ParticleOverrides.overrideOrFallback(ParticleOverrides.FALLBACK_OVERRIDE_ID);
         }
 
         int rand = (int) Math.round(Math.random() * this.totalWeights);
@@ -44,7 +44,7 @@ public class OverridePreset {
             rand -= randomOverride.weight();
         }
 
-        return ParticleOverrides.getOverrideOrFallback(overrideID);
+        return ParticleOverrides.overrideOrFallback(overrideID);
     }
 
     public static OverridePreset getOrCreate(List<OverrideAndWeight> overrides) {

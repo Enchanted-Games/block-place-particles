@@ -4,7 +4,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import games.enchanted.eg_particle_interactions.common.override_system.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
-import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
 import games.enchanted.eg_particle_interactions.common.override_system.override.FluidOverrideManager;
 import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverride;
 import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
@@ -15,9 +14,7 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluids;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -61,7 +58,7 @@ public class FluidBubbles_EntityMixin {
         ParticleOverride override = overridePreset.getRandom();
         ParticleContext context = ParticleContext.fluid(clientLevel, Fluids.WATER.defaultFluidState(), BlockPos.containing(x, y, z));
 
-        if(override.hasNoEmitter(origin, context) || ParticleOverrides.getIdOrThrow(override).equals(ParticleOverrides.VANILLA_OVERRIDE_ID)) {
+        if(override.hasNoEmitter(origin, context) || ParticleOverrides.idOrThrow(override).equals(ParticleOverrides.VANILLA_OVERRIDE_ID)) {
             original.call(instance, particle, x, y, z, xd, yd, zd);
             return;
         }

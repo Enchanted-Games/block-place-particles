@@ -6,8 +6,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.JsonOps;
 import games.enchanted.eg_particle_interactions.common.Constants;
-import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
+import games.enchanted.eg_particle_interactions.common.util.ExceptionReporter;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
@@ -25,8 +25,9 @@ public class ParticleOverrides extends SimplePreparableReloadListener<ParticleOv
     public static final Identifier EMPTY_OVERRIDE_ID = ParticleInteractionsMod.id("empty");
     public static final Identifier FALLBACK_OVERRIDE_ID = ParticleInteractionsMod.id("internal/fallback");
 
-    private static final BiMap<Identifier, ParticleOverride> OVERRIDE_BY_ID = HashBiMap.create();
-    private static final FileToIdConverter OVERRIDE_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/particle_overrides");
+    private final BiMap<Identifier, ParticleOverride> OVERRIDE_BY_ID = HashBiMap.create();
+    private final FileToIdConverter OVERRIDE_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/particle_overrides");
+    private final ExceptionReporter EXCEPTION_REPORTER = new ExceptionReporter("Particle Overrides");
 
     public static final ParticleOverrides INSTANCE = new ParticleOverrides();
     
@@ -34,20 +35,20 @@ public class ParticleOverrides extends SimplePreparableReloadListener<ParticleOv
     protected Preparation prepare(ResourceManager manager, ProfilerFiller profiler) {
         Map<Identifier, ParticleOverride> overrideList = new HashMap<>();
 
-        for (Map.Entry<Identifier, Resource> overrideResource : OVERRIDE_ID_CONVERTER.listMatchingResources(manager).entrySet()) {
+        for (Map.Entry<Identifier, Resource> overrideResource : this.OVERRIDE_ID_CONVERTER.listMatchingResources(manager).entrySet()) {
             Identifier fileId = overrideResource.getKey();
-            parseOverride(fileId, overrideResource.getValue(), overrideList);
+            this.parseOverride(fileId, overrideResource.getValue(), overrideList);
         }
 
         return new Preparation(overrideList);
     }
 
-    protected static void parseOverride(Identifier fileId, Resource resource, Map<Identifier, ParticleOverride> output) {
+    protected void parseOverride(Identifier fileId, Resource resource, Map<Identifier, ParticleOverride> output) {
         try (Reader reader = resource.openAsReader()) {
             JsonElement json = StrictJsonParser.parse(reader);
-            output.put(OVERRIDE_ID_CONVERTER.fileToId(fileId), ParticleOverride.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
+            output.put(this.OVERRIDE_ID_CONVERTER.fileToId(fileId), ParticleOverride.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
         } catch (Exception e) {
-            Logging.error("Failed to parse particle override '{}'", fileId, e);
+            this.EXCEPTION_REPORTER.consumeException(fileId, e);
         }
     }
 
@@ -61,42 +62,45 @@ public class ParticleOverrides extends SimplePreparableReloadListener<ParticleOv
             if(overrideEntry.getKey().equals(FALLBACK_OVERRIDE_ID)) continue;
             registerOverride(overrideEntry.getKey(), overrideEntry.getValue());
         }
+
+        this.EXCEPTION_REPORTER.logExceptions();
+    }
+
+    private void clearRegisteredOverrides() {
+        this.OVERRIDE_BY_ID.clear();
     }
 
 
-    static void registerOverride(Identifier id, ParticleOverride override) {
-        OVERRIDE_BY_ID.put(id, override);
+    void registerOverride(Identifier id, ParticleOverride override) {
+        this.OVERRIDE_BY_ID.put(id, override);
     }
 
-    public static ParticleOverride getOverrideOrFallback(Identifier id) {
-        ParticleOverride override = OVERRIDE_BY_ID.get(id);
+    public ParticleOverride getOverrideOrFallback(Identifier id) {
+        ParticleOverride override = this.OVERRIDE_BY_ID.get(id);
         if(override == null) {
-            if(!OVERRIDE_BY_ID.containsKey(FALLBACK_OVERRIDE_ID)) {
+            if(!this.OVERRIDE_BY_ID.containsKey(FALLBACK_OVERRIDE_ID)) {
                 throw new IllegalStateException("Fallback particle override does not exist. that should not happen brh");
             }
-            return OVERRIDE_BY_ID.get(FALLBACK_OVERRIDE_ID);
+            return this.OVERRIDE_BY_ID.get(FALLBACK_OVERRIDE_ID);
         }
         return override;
     }
 
-    public static ParticleOverride getOverrideOrThrow(Identifier id) {
-        ParticleOverride override = OVERRIDE_BY_ID.get(id);
-        if(override == null) {
-            throw new IllegalStateException("Tried to get non-existent particle override '" + id + "'");
-        }
-        return override;
-    }
-
-    public static Identifier getIdOrThrow(ParticleOverride override) {
-        Identifier id = OVERRIDE_BY_ID.inverse().get(override);
+    public Identifier getIdOrThrow(ParticleOverride override) {
+        Identifier id = this.OVERRIDE_BY_ID.inverse().get(override);
         if(id == null) {
             throw new IllegalStateException("Tried to get id for unregistered particle override '" + override + "'");
         }
         return id;
     }
 
-    private static void clearRegisteredOverrides() {
-        OVERRIDE_BY_ID.clear();
+
+    public static ParticleOverride overrideOrFallback(Identifier id) {
+        return INSTANCE.getOverrideOrFallback(id);
+    }
+
+    public static Identifier idOrThrow(ParticleOverride override) {
+        return INSTANCE.getIdOrThrow(override);
     }
 
     protected record Preparation(Map<Identifier, ParticleOverride> overrideList) {

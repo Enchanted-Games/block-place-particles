@@ -46,7 +46,7 @@ public class EntityMixin {
         ParticleOrigin origin = ParticleOrigin.BLOCK_SPRINTED_ON;
         OverridePreset overridePreset = BlockOverrideManager.getForBlock(blockState, origin);
         ParticleOverride override = overridePreset.getRandom();
-        Identifier id = ParticleOverrides.getIdOrThrow(override);
+        Identifier id = ParticleOverrides.idOrThrow(override);
 
         if(id.equals(ParticleOverrides.VANILLA_OVERRIDE_ID)) {
             original.call(level, particle, x, y, z, xd, yd, zd);

@@ -49,7 +49,7 @@ public class ParticleUtilsMixin {
         ParticleOrigin origin = ParticleOrigin.BLOCK_MACE_SMASH;
         OverridePreset overridePreset = BlockOverrideManager.getForBlock(blockState, origin);
         ParticleOverride override = overridePreset.getRandom();
-        Identifier id = ParticleOverrides.getIdOrThrow(override);
+        Identifier id = ParticleOverrides.idOrThrow(override);
         boolean isVanilla = id.equals(ParticleOverrides.VANILLA_OVERRIDE_ID);
 
         double newYSpeed = ySpeed + clientLevel.getRandom().nextGaussian() * (isVanilla ? 1.0 : 3.5);
