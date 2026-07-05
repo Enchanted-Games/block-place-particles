@@ -187,7 +187,7 @@ public class ParticleInteractionsParticle extends Particle {
         LifetimeEventsComponent lifetimeEventsComponent = components.get(ParticleComponents.LIFETIME_EVENTS);
         this.lifetimeEventStack = new EventStack(lifetimeEventsComponent == null ? List.of() : lifetimeEventsComponent.events(), this);
 
-        this.randomRenderOffset = GeneralOptions.PARTICLE_Z_FIGHTING_FIX.getValue() ? level.getRandom().nextFloat() * 0.005f : 0f;
+        this.randomRenderOffset = level.getRandom().nextFloat() * 0.005f;
     }
 
     public void setAppearance(ParticleAppearance appearance) {
