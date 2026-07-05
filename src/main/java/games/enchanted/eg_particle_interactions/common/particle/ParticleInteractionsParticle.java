@@ -331,7 +331,6 @@ public class ParticleInteractionsParticle extends Particle {
         if (this.onGround && this.velocityAsVector().length() > EPSILON) {
             final float effectiveFriction = 1 - this.friction;
             this.xd *= effectiveFriction;
-            this.yd *= effectiveFriction;
             this.zd *= effectiveFriction;
         }
 
