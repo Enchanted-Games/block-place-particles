@@ -3,6 +3,10 @@
         "fluid/placed": {
             "type": "particle_interactions",
             "particle": "splash/generic"
+        },
+        "fluid/water/entity_entered": {
+            "type": "particle_interactions",
+            "particle": "splash/generic"
         }
     }
 }

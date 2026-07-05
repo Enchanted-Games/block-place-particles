@@ -15,7 +15,9 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluids;
+import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -64,6 +66,10 @@ public class FluidBubbles_EntityMixin {
             return;
         }
 
+        double newYd = yd == 0.0 && (xd != 0.0 || zd != 0.0) ?
+            0.1d :
+            clientLevel.getRandom().nextFloat() * 0.2d + 0.05d;
+
         override.spawnParticle(
             origin,
             context,
@@ -71,7 +77,7 @@ public class FluidBubbles_EntityMixin {
             y,
             z,
             xd,
-            yd,
+            newYd,
             zd
         );
     }
