@@ -16,7 +16,6 @@ import games.enchanted.eg_particle_interactions.common.particle.types.emitter.Ar
 import games.enchanted.eg_particle_interactions.common.particle.types.emitter.RandomDistributionEmitter;
 import games.enchanted.eg_particle_interactions.common.particle.types.vanilla.BlockParticleOptionWrapper;
 import games.enchanted.eg_particle_interactions.common.particle.types.vanilla.CustomMovementTerrainParticle;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
@@ -72,6 +71,12 @@ public class ParticleTypesRegistry {
     public static final PIParticleType<SimpleParticleOptions> BLOCK = register(
         CustomMovementTerrainParticle.BlockProvider::new,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block"),
+        SimpleParticleOptions::codec,
+        SimpleParticleOptions::streamCodec
+    );
+    public static final PIParticleType<SimpleParticleOptions> DUST_PILLAR = register(
+        BlockParticleOptionWrapper.DustPillarProvider::new,
+        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "dust_pillar"),
         SimpleParticleOptions::codec,
         SimpleParticleOptions::streamCodec
     );

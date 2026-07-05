@@ -24,7 +24,7 @@ public class BlockParticleOptionWrapper extends ParticleOptionWrapper {
     protected @Nullable ParticleOptions makeParticle(ParticleContext context) {
         ParticleContext.BlockContext blockContext = context.blockContext();
         if (blockContext == null) return null;
-        return new BlockParticleOption(ParticleTypes.FALLING_DUST, context.blockContext().state());
+        return new BlockParticleOption(this.type, context.blockContext().state());
     }
 
     public static class FallingDustProvider implements PIParticleProvider<SimpleParticleOptions> {
@@ -44,6 +44,33 @@ public class BlockParticleOptionWrapper extends ParticleOptionWrapper {
             return new BlockParticleOptionWrapper(
                 context,
                 ParticleTypes.FALLING_DUST,
+                x,
+                y,
+                z,
+                xSpeed,
+                ySpeed,
+                zSpeed
+            );
+        }
+    }
+
+    public static class DustPillarProvider implements PIParticleProvider<SimpleParticleOptions> {
+        @Override
+        public @Nullable Particle createParticle(
+            SimpleParticleOptions options,
+            ParticleComponentMap components,
+            ParticleAppearance appearance,
+            ParticleContext context,
+            double x,
+            double z,
+            double y,
+            double xSpeed,
+            double ySpeed,
+            double zSpeed
+        ) {
+            return new BlockParticleOptionWrapper(
+                context,
+                ParticleTypes.DUST_PILLAR,
                 x,
                 y,
                 z,

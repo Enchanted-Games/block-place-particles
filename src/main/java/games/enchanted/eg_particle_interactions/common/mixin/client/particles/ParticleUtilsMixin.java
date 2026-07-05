@@ -33,8 +33,7 @@ public class ParticleUtilsMixin {
             return;
         }
 
-        boolean isDustPillarParticle = options.getType() == ParticleTypes.DUST_PILLAR;
-        if(!isDustPillarParticle) {
+        if(options.getType() != ParticleTypes.DUST_PILLAR) {
             original.call(levelAccessor, options, x, y, z, xSpeed, ySpeed, zSpeed);
             return;
         }
@@ -49,11 +48,13 @@ public class ParticleUtilsMixin {
         ParticleOrigin origin = ParticleOrigin.BLOCK_MACE_SMASH;
         OverridePreset overridePreset = BlockOverrideManager.getForBlock(blockState, origin);
         ParticleOverride override = overridePreset.getRandom();
+        Identifier id = ParticleOverrides.getIdOrThrow(override);
+        boolean isVanilla = id.equals(ParticleOverrides.VANILLA_OVERRIDE_ID);
+
+        double newYSpeed = ySpeed + clientLevel.getRandom().nextGaussian() * (isVanilla ? 1.0 : 3.5);
+        boolean closeToSurface = Mth.frac(y) < 0.01;
 
         ParticleContext context = ParticleContext.block(clientLevel, blockState, particleBlockPos);
-        double newYSpeed = ySpeed + clientLevel.getRandom().nextGaussian() * 3.0;
-
-        boolean closeToSurface = Mth.frac(y) < 0.01;
 
         override.spawnParticle(
             origin,

@@ -7,6 +7,13 @@
             },
             "velocity_multiplier": 4
         },
+        "block/mace_smash": {
+            "type": "special_particle",
+            "particle": {
+                "type": "dust_pillar"
+            },
+            "velocity_multiplier": 1
+        },
         "block/crack": {
             "type": "special_particle",
             "particle": {
