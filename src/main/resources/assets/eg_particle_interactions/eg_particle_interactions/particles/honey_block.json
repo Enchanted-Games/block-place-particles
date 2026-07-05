@@ -1,0 +1,22 @@
+{
+    "components": {
+        "gravity/initial": 0.7,
+        "lifetime": {
+            "range": [
+                30,
+                60
+            ]
+        },
+        "physics/bounciness": {
+            "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.1
+            ]
+        },
+        "physics/friction": 0.1,
+        "physics/collision_size": 1.5,
+        "appearance": "block_texture"
+    }
+}

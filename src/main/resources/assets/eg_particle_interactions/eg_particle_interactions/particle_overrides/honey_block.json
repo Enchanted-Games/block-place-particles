@@ -1,0 +1,9 @@
+{
+    "emitters": {
+        "default": {
+            "type": "particle_interactions",
+            "particle": "honey_block",
+            "velocity_multiplier": 0.2
+        }
+    }
+}
