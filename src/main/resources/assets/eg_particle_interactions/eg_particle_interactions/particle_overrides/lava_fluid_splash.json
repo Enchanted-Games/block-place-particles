@@ -1,0 +1,8 @@
+{
+    "emitters": {
+        "fluid/placed": {
+            "type": "particle_interactions",
+            "particle": "splash/lava"
+        }
+    }
+}
