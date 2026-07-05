@@ -160,7 +160,7 @@
 
   "eg_particle_interactions.config.global_option.debug_texture_logging": "Texture palette logging",
   "eg_particle_interactions.config.global_option.debug_texture_logging.desc": "Logs extra debugging information about texture palettes.\n\nThis will be disabled the next time you open the game",
-  
+
 
   "eg_particle_interactions.config.block_ambient": "Block Interactions / Ambient",
   "eg_particle_interactions.config.block_ambient.desc": "Configure how particles are spawned from blocks in the world or when interacting with blocks",

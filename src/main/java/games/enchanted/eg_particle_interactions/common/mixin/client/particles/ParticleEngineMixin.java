@@ -93,7 +93,6 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
         // Override block particles
         if(
             originalParticleOption.getType() != ParticleTypes.BLOCK &&
-            originalParticleOption.getType() != ParticleTypes.DUST_PILLAR &&
             originalParticleOption.getType() != ParticleTypes.BLOCK_CRUMBLE
         ) {
             return (original).call(instance, originalParticleOption, x, y, z, xSpeed, ySpeed, zSpeed);
@@ -105,8 +104,7 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
 
         BlockState blockState = ((BlockParticleOption) originalParticleOption).getState();
 
-        boolean isDustPillarParticle = originalParticleOption.getType() == ParticleTypes.DUST_PILLAR;
-        ParticleOrigin origin = isDustPillarParticle ? ParticleOrigin.BLOCK_MACE_SMASH : ParticleOrigin.BLOCK_GENERIC;
+        ParticleOrigin origin = ParticleOrigin.BLOCK_GENERIC;
         OverridePreset overridePreset = BlockOverrideManager.getForBlock(blockState, origin);
         ParticleOverride override = overridePreset.getRandom();
         Identifier id = ParticleOverrides.getIdOrThrow(override);
@@ -116,8 +114,6 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
         }
 
         ParticleContext context = ParticleContext.block(level, blockState, BlockPos.containing(x, y, z));
-        double newYSpeed = ySpeed + this.random.nextGaussian() * 5.0;
-
         boolean closeToSurface = Mth.frac(y) < 0.01;
 
         override.spawnParticle(
@@ -127,7 +123,7 @@ public abstract class ParticleEngineMixin implements PreparableReloadListener {
             closeToSurface ? y + 0.1 : y,
             z,
             xSpeed,
-            isDustPillarParticle ? newYSpeed : ySpeed,
+            ySpeed,
             zSpeed
         );
 
