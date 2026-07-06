@@ -2,6 +2,7 @@ modLoader="javafml"
 loaderVersion="[2,)"
 license="${license}"
 issueTrackerURL="${issue_tracker}"
+displayURL="${website_url}"
 
 [[mods]]
 modId="${id}"

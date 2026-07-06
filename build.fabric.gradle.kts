@@ -86,6 +86,7 @@ tasks.named<ProcessResources>("processResources") {
         this["group"] = prop("mod.group")
         this["description"] = prop("mod.description")
         this["name"] = prop("mod.name")
+        this["website_url"] = prop("mod.website_url")
         this["source_url"] = prop("mod.source_url")
         this["issue_tracker"] = prop("mod.issue_tracker")
         this["icon"] = prop("mod.icon")

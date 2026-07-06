@@ -13,6 +13,7 @@ New in v0.10.1
 group = "games.enchanted"
 version = "0.10.1"
 license = "CC BY-NC 4.0"
+website_url = "https://particle-interactions.enchanted.games/"
 source_url = "https://github.com/Enchanted-Games/block-place-particles"
 issue_tracker = "https://github.com/Enchanted-Games/block-place-particles/issues"
 icon = "assets/eg_particle_interactions/icon.png"
