@@ -17,7 +17,7 @@ public class BlockOverrideManager extends AbstractOverrideRuleLoader<BlockState,
     public static final BlockOverrideManager INSTANCE = new BlockOverrideManager();
 
     protected BlockOverrideManager() {
-        super(FileToIdConverter.json(Constants.MOD_ID + "/override_rules/blocks"));
+        super(FileToIdConverter.json(Constants.MOD_ID + "/override_rules/blocks"), "Block Override Rules");
     }
 
     @Override

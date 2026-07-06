@@ -17,7 +17,7 @@ public class FluidOverrideManager extends AbstractOverrideRuleLoader<FluidState,
     public static final FluidOverrideManager INSTANCE = new FluidOverrideManager();
 
     protected FluidOverrideManager() {
-        super(FileToIdConverter.json(Constants.MOD_ID + "/override_rules/fluids"));
+        super(FileToIdConverter.json(Constants.MOD_ID + "/override_rules/fluids"), "Fluid Override Rules");
     }
 
     @Override

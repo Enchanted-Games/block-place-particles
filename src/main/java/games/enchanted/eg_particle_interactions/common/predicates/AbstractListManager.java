@@ -7,6 +7,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.registry.ObjectOrTagLocation;
+import games.enchanted.eg_particle_interactions.common.util.ExceptionReporter;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
@@ -16,19 +17,18 @@ import net.minecraft.util.StrictJsonParser;
 import net.minecraft.util.profiling.ProfilerFiller;
 
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class AbstractListManager<F extends ObjectListFile, T extends ObjectList<F>> extends SimplePreparableReloadListener<AbstractListManager.Preparation<F>> {
     private final Map<Identifier, T> listById = new HashMap<>();
     private final FileToIdConverter fileToIdConverter;
     private final String typeName;
+    private final ExceptionReporter exceptionReporter;
 
     public AbstractListManager(FileToIdConverter fileToIdConverter, String typeName) {
         this.fileToIdConverter = fileToIdConverter;
         this.typeName = typeName;
+        this.exceptionReporter = new ExceptionReporter(typeName.substring(0, 1).toUpperCase(Locale.ROOT) + typeName.substring(1) + " Lists");
     }
 
     @Override
@@ -54,7 +54,7 @@ public abstract class AbstractListManager<F extends ObjectListFile, T extends Ob
                 JsonElement json = StrictJsonParser.parse(reader);
                 output.add(this.fileCodec().parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
             } catch (Exception e) {
-                Logging.error("Failed to parse {} list '{}', {}", this.typeName, fileId, e);
+                this.exceptionReporter.consumeException(fileId, e);
             }
         }
     }
@@ -73,6 +73,8 @@ public abstract class AbstractListManager<F extends ObjectListFile, T extends Ob
             T combined = this.combineFiles(entry.getValue());
             listById.put(entry.getKey(), combined);
         }
+
+        this.exceptionReporter.logExceptions();
     }
 
     public T getOrDefault(Identifier id) {

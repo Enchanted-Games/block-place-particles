@@ -25,9 +25,9 @@ public class ParticleOverrides extends SimplePreparableReloadListener<ParticleOv
     public static final Identifier EMPTY_OVERRIDE_ID = ParticleInteractionsMod.id("empty");
     public static final Identifier FALLBACK_OVERRIDE_ID = ParticleInteractionsMod.id("internal/fallback");
 
-    private final BiMap<Identifier, ParticleOverride> OVERRIDE_BY_ID = HashBiMap.create();
-    private final FileToIdConverter OVERRIDE_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/particle_overrides");
-    private final ExceptionReporter EXCEPTION_REPORTER = new ExceptionReporter("Particle Overrides");
+    private final BiMap<Identifier, ParticleOverride> overrideById = HashBiMap.create();
+    private final FileToIdConverter fileToIdConverter = FileToIdConverter.json(Constants.MOD_ID + "/particle_overrides");
+    private final ExceptionReporter exceptionReporter = new ExceptionReporter("Particle Overrides");
 
     public static final ParticleOverrides INSTANCE = new ParticleOverrides();
     
@@ -35,7 +35,7 @@ public class ParticleOverrides extends SimplePreparableReloadListener<ParticleOv
     protected Preparation prepare(ResourceManager manager, ProfilerFiller profiler) {
         Map<Identifier, ParticleOverride> overrideList = new HashMap<>();
 
-        for (Map.Entry<Identifier, Resource> overrideResource : this.OVERRIDE_ID_CONVERTER.listMatchingResources(manager).entrySet()) {
+        for (Map.Entry<Identifier, Resource> overrideResource : this.fileToIdConverter.listMatchingResources(manager).entrySet()) {
             Identifier fileId = overrideResource.getKey();
             this.parseOverride(fileId, overrideResource.getValue(), overrideList);
         }
@@ -46,9 +46,9 @@ public class ParticleOverrides extends SimplePreparableReloadListener<ParticleOv
     protected void parseOverride(Identifier fileId, Resource resource, Map<Identifier, ParticleOverride> output) {
         try (Reader reader = resource.openAsReader()) {
             JsonElement json = StrictJsonParser.parse(reader);
-            output.put(this.OVERRIDE_ID_CONVERTER.fileToId(fileId), ParticleOverride.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
+            output.put(this.fileToIdConverter.fileToId(fileId), ParticleOverride.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
         } catch (Exception e) {
-            this.EXCEPTION_REPORTER.consumeException(fileId, e);
+            this.exceptionReporter.consumeException(fileId, e);
         }
     }
 
@@ -63,31 +63,31 @@ public class ParticleOverrides extends SimplePreparableReloadListener<ParticleOv
             registerOverride(overrideEntry.getKey(), overrideEntry.getValue());
         }
 
-        this.EXCEPTION_REPORTER.logExceptions();
+        this.exceptionReporter.logExceptions();
     }
 
     private void clearRegisteredOverrides() {
-        this.OVERRIDE_BY_ID.clear();
+        this.overrideById.clear();
     }
 
 
     void registerOverride(Identifier id, ParticleOverride override) {
-        this.OVERRIDE_BY_ID.put(id, override);
+        this.overrideById.put(id, override);
     }
 
     public ParticleOverride getOverrideOrFallback(Identifier id) {
-        ParticleOverride override = this.OVERRIDE_BY_ID.get(id);
+        ParticleOverride override = this.overrideById.get(id);
         if(override == null) {
-            if(!this.OVERRIDE_BY_ID.containsKey(FALLBACK_OVERRIDE_ID)) {
+            if(!this.overrideById.containsKey(FALLBACK_OVERRIDE_ID)) {
                 throw new IllegalStateException("Fallback particle override does not exist. that should not happen brh");
             }
-            return this.OVERRIDE_BY_ID.get(FALLBACK_OVERRIDE_ID);
+            return this.overrideById.get(FALLBACK_OVERRIDE_ID);
         }
         return override;
     }
 
     public Identifier getIdOrThrow(ParticleOverride override) {
-        Identifier id = this.OVERRIDE_BY_ID.inverse().get(override);
+        Identifier id = this.overrideById.inverse().get(override);
         if(id == null) {
             throw new IllegalStateException("Tried to get id for unregistered particle override '" + override + "'");
         }

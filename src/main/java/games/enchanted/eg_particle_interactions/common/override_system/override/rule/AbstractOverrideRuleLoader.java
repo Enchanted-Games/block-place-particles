@@ -8,6 +8,7 @@ import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.predicates.ObjectPredicate;
 import games.enchanted.eg_particle_interactions.common.override_system.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
+import games.enchanted.eg_particle_interactions.common.util.ExceptionReporter;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
@@ -28,8 +29,11 @@ public abstract class AbstractOverrideRuleLoader<T, P extends ObjectPredicate<T>
 
     private final FileToIdConverter fileToIdConverter;
 
-    protected AbstractOverrideRuleLoader(FileToIdConverter fileToIdConverter) {
+    private final ExceptionReporter exceptionReporter;
+
+    protected AbstractOverrideRuleLoader(FileToIdConverter fileToIdConverter, String name) {
         this.fileToIdConverter = fileToIdConverter;
+        this.exceptionReporter = new ExceptionReporter(name);
     }
 
     @Override
@@ -55,7 +59,7 @@ public abstract class AbstractOverrideRuleLoader<T, P extends ObjectPredicate<T>
                 JsonElement json = StrictJsonParser.parse(reader);
                 output.add(this.fileCodec().parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
             } catch (Exception e) {
-                Logging.error("Failed to parse override rule '{}'", fileId, e);
+                this.exceptionReporter.consumeException(fileId, e);
             }
         }
     }
@@ -66,6 +70,8 @@ public abstract class AbstractOverrideRuleLoader<T, P extends ObjectPredicate<T>
         for (Map.Entry<Identifier, List<OverrideRuleFile<T, P>>> preparedRules : preparation.ruleFilesByOverrideId().entrySet()) {
             this.OVERRIDE_RULES.add(new OverrideRule<>(preparedRules.getValue(), preparedRules.getKey()));
         }
+
+        this.exceptionReporter.logExceptions();
     }
 
     void clearOverrideRules() {

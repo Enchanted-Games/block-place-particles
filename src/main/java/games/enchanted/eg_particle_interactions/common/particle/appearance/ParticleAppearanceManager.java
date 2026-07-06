@@ -7,6 +7,7 @@ import com.mojang.serialization.JsonOps;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
+import games.enchanted.eg_particle_interactions.common.util.ExceptionReporter;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
@@ -31,9 +32,10 @@ public class ParticleAppearanceManager extends SimplePreparableReloadListener<Pa
     @Nullable
     private static Codec<ParticleAppearance.Reference> REFERENCE_CODEC;
 
-    private static final Map<Identifier, ParticleAppearance> SOURCE_BY_ID = new HashMap<>();
-    private static final FileToIdConverter FILE_TO_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/appearances");
-    private static final List<Identifier> MISSING_LOGGED = new ArrayList<>();
+    private final Map<Identifier, ParticleAppearance> sourceById = new HashMap<>();
+    private final FileToIdConverter fileToIdConverter = FileToIdConverter.json(Constants.MOD_ID + "/appearances");
+    private final List<Identifier> missingLogged = new ArrayList<>();
+    private final ExceptionReporter exceptionReporter = new ExceptionReporter("Particle Appearances");
 
     public static final ParticleAppearanceManager INSTANCE = new ParticleAppearanceManager();
 
@@ -41,39 +43,45 @@ public class ParticleAppearanceManager extends SimplePreparableReloadListener<Pa
     protected Prepare prepare(ResourceManager manager, ProfilerFiller profiler) {
         Map<Identifier, ParticleAppearance> textureSourceMap = new HashMap<>();
 
-        for (Map.Entry<Identifier, Resource> overrideResource : FILE_TO_ID_CONVERTER.listMatchingResources(manager).entrySet()) {
+        for (Map.Entry<Identifier, Resource> overrideResource : this.fileToIdConverter.listMatchingResources(manager).entrySet()) {
             Identifier fileId = overrideResource.getKey();
-            parseSource(fileId, overrideResource.getValue(), textureSourceMap);
+            this.parseAppearance(fileId, overrideResource.getValue(), textureSourceMap);
         }
 
         return new Prepare(textureSourceMap);
     }
 
-    protected static void parseSource(Identifier fileId, Resource resource, Map<Identifier, ParticleAppearance> output) {
+    protected void parseAppearance(Identifier fileId, Resource resource, Map<Identifier, ParticleAppearance> output) {
         try (Reader reader = resource.openAsReader()) {
             JsonElement json = StrictJsonParser.parse(reader);
-            output.put(FILE_TO_ID_CONVERTER.fileToId(fileId), ParticleAppearance.codec().parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
+            output.put(this.fileToIdConverter.fileToId(fileId), ParticleAppearance.codec().parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
         } catch (Exception e) {
-            Logging.error("Failed to parse particle appearance '{}'", fileId, e);
+            this.exceptionReporter.consumeException(fileId, e);
         }
     }
 
     @Override
     protected void apply(Prepare preparations, ResourceManager manager, ProfilerFiller profiler) {
-        SOURCE_BY_ID.clear();
-        SOURCE_BY_ID.putAll(preparations.textureSourceMap());
-        MISSING_LOGGED.clear();
+        this.sourceById.clear();
+        this.sourceById.putAll(preparations.textureSourceMap());
+        this.missingLogged.clear();
+
+        this.exceptionReporter.logExceptions();
     }
 
-    public static ParticleAppearance get(Identifier sourceId) {
-        if(!(SOURCE_BY_ID.containsKey(sourceId))) {
-            if(!MISSING_LOGGED.contains(sourceId)) {
-                MISSING_LOGGED.add(sourceId);
+    public ParticleAppearance getById(Identifier sourceId) {
+        if(!(this.sourceById.containsKey(sourceId))) {
+            if(!this.missingLogged.contains(sourceId)) {
+                this.missingLogged.add(sourceId);
                 Logging.warn("Unknown particle appearance '" + sourceId + "'");
             }
             return ParticleAppearance.MISSING_APPEARANCE.get();
         }
-        return SOURCE_BY_ID.get(sourceId);
+        return this.sourceById.get(sourceId);
+    }
+
+    public static ParticleAppearance get(Identifier id) {
+        return INSTANCE.getById(id);
     }
 
     public static Codec<ParticleAppearance.Reference> referenceCodec() {
