@@ -17,6 +17,8 @@ This version comes with some fixes to bugs that were introduced in v0.10 as well
 - Added a new particle component `physics/intangible_layers` which controls whether the particle can collide with terrain or fluids
 - Friction no longer applies to the y velocity value, only x and z.
 - The `fluid_splash` particle override has been split into `water_fluid_splash` and `lava_fluid_splash`, this also applies to the respective block lists
+- There are now notifications ingame if some resourcepack feature have failed to load
+- Resourcepack errors are now logged to the output log in a clearer and more organised way
 - **Proper documentation is still being worked on for resourcepack features!** However feel free to poke around the mod files if you're curious how it all works
 
 ## Fixes
