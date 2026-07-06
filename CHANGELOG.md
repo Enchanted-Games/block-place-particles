@@ -13,6 +13,7 @@ This version comes with some fixes to bugs that were introduced in v0.10 as well
 - Z-fighting fix now always applies to particle interactions' particles, the toggle only works on vanilla and most other mod particles now
 - Split the 'General / Compatibility' config group into separate groups
 - Added a link to the Particle Interactions documentation site, note that this is still a WIP but is being actively worked on
+- The config screen can now be opened when not loaded into a world. If you do this item icons in the config screen do not load until you enter a world, this can not and will not be fixed
 
 ## Resourcepack changes
 - Added a new particle component `physics/intangible_layers` which controls whether the particle can collide with terrain or fluids

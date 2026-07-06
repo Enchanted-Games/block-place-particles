@@ -27,22 +27,21 @@ public abstract class OptionsScreenMixin extends Screen {
     )
     private void eg_particle_interactions$addParticleInteractionsConfigButton(CallbackInfo ci) {
         if(!GeneralOptions.SHOW_BUTTON_IN_OPTIONS_SCREEN.getValue()) return;
-        if(PlatformHelper.isDevelopmentEnvironment() || (Minecraft.getInstance().level != null && !ParticleInteractionsMod.isModMenuPresent())) {
-            final int width = 120;
-            final int height = 16;
-            this.addRenderableWidget(
-                Button.builder(
-                    Component.literal(Constants.MOD_NAME),
-                    (button) -> {
-                        Screen screen = ConfigScreenCreator.getScreenCreator().createScreen(this);
-                        //? if <= 26.1 {
-                        /*this.minecraft.setScreen(screen);
-                         *///? } else {
-                        this.minecraft.gui.setScreen(screen);
-                        //? }
-                    }
-                ).bounds( 2, 2, width, height).build()
-            );
-        }
+        if(ParticleInteractionsMod.isModMenuPresent()) return;
+        final int width = 120;
+        final int height = 16;
+        this.addRenderableWidget(
+            Button.builder(
+                Component.literal(Constants.MOD_NAME),
+                (button) -> {
+                    Screen screen = ConfigScreenCreator.getScreenCreator().createScreen(this);
+                    //? if <= 26.1 {
+                    /*this.minecraft.setScreen(screen);
+                     *///? } else {
+                    this.minecraft.gui.setScreen(screen);
+                    //? }
+                }
+            ).bounds( 2, 2, width, height).build()
+        );
     }
 }
