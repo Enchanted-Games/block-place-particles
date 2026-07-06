@@ -1,6 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.util;
 
 import games.enchanted.eg_particle_interactions.common.Constants;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,12 +28,13 @@ public class ExceptionReporter {
     public void logExceptions() {
         if(this.exceptionEntries.isEmpty()) return;
 
-        Iterator<ExceptionEntry> it = this.exceptionEntries.iterator();
+        Toaster.showToast(
+            Component.translatable("eg_particle_interactions.toast.errors_in_resource.title", this.name),
+            Component.translatable("eg_particle_interactions.toast.errors_in_resource.desc")
+        );
+        this.logger.error("-- One or more {} failed to load! Listing all reasons below:", this.name);
 
-        this.logger.error("-- One or more {} failed to load! Listing all reasons below:", name);
-
-        while (it.hasNext()) {
-            var next = it.next();
+        for (ExceptionEntry next : this.exceptionEntries) {
             this.logger.error("Failed to load '{}', reason: \n{}", next.resourceId, next.exception.getMessage());
         }
 

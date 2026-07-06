@@ -6,6 +6,9 @@
   "eg_particle_interactions.not_in_level.title": "Particle Interactions",
   "eg_particle_interactions.not_in_level.body": "Particle Interactions cannot be safely configured from the title screen.\nPlease join a world to continue",
 
+  "eg_particle_interactions.toast.errors_in_resource.title": "Errors found in some %s",
+  "eg_particle_interactions.toast.errors_in_resource.desc": "Please check the log for more details",
+
   "eg_particle_interactions.config.title": "Particle Interactions Config",
   "eg_particle_interactions.config.category_separator": "---------------------",
 
