@@ -67,7 +67,7 @@ public record EmitterRuleSet(List<EmitterRule> rules, Emitter fallbackEmitter) {
 
         @Override
         protected EmitterRuleSet lookupObject() {
-            return EmitterRuleSetManager.getRuleSet(id());
+            return EmitterRuleSetManager.get(id());
         }
     }
 

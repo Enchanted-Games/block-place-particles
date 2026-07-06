@@ -47,6 +47,6 @@ public class EmitterRuleSetIds {
 
 
     private static Supplier<EmitterRuleSet> ref(Identifier id) {
-        return () -> EmitterRuleSetManager.getRuleSet(id);
+        return () -> EmitterRuleSetManager.get(id);
     }
 }

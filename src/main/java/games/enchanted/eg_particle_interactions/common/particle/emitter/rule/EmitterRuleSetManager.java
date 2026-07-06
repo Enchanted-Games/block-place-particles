@@ -7,6 +7,7 @@ import com.mojang.serialization.JsonOps;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
+import games.enchanted.eg_particle_interactions.common.util.ExceptionReporter;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
@@ -33,20 +34,21 @@ public class EmitterRuleSetManager extends SimplePreparableReloadListener<Emitte
         )
     );
 
-    private static final HashMap<Identifier, EmitterRuleSet> RULE_SET_BY_ID = new HashMap<>();
-    private static final FileToIdConverter RULE_ID_CONVERTER = FileToIdConverter.json(Constants.MOD_ID + "/emitter_rules");
-    private static final List<Identifier> MISSING_LOGGED = new ArrayList<>();
+    private final HashMap<Identifier, EmitterRuleSet> ruleSetById = new HashMap<>();
+    private final FileToIdConverter fileToIdConverter = FileToIdConverter.json(Constants.MOD_ID + "/emitter_rules");
+    private final List<Identifier> missingLogged = new ArrayList<>();
+    private final ExceptionReporter exceptionReporter = new ExceptionReporter("Emitter Rules");
 
     @Override
     protected Preparation prepare(ResourceManager manager, ProfilerFiller profiler) {
         Map<Identifier, List<EmitterRuleSet.File>> ruleFiles = new HashMap<>();
 
-        for (Map.Entry<Identifier, List<Resource>> ruleResources : RULE_ID_CONVERTER.listMatchingResourceStacks(manager).entrySet()) {
+        for (Map.Entry<Identifier, List<Resource>> ruleResources : fileToIdConverter.listMatchingResourceStacks(manager).entrySet()) {
             Identifier fileId = ruleResources.getKey();
-            Identifier ruleId = RULE_ID_CONVERTER.fileToId(fileId);
+            Identifier ruleId = fileToIdConverter.fileToId(fileId);
 
             List<EmitterRuleSet.File> parsedFiles = new ArrayList<>();
-            parseRuleFile(fileId, ruleResources.getValue(), parsedFiles);
+            this.parseRuleFile(fileId, ruleResources.getValue(), parsedFiles);
 
             ruleFiles.put(ruleId, parsedFiles);
         }
@@ -54,42 +56,52 @@ public class EmitterRuleSetManager extends SimplePreparableReloadListener<Emitte
         return new Preparation(ruleFiles);
     }
 
-    protected static void parseRuleFile(Identifier fileId, List<Resource> resources, List<EmitterRuleSet.File> output) {
+    protected void parseRuleFile(Identifier fileId, List<Resource> resources, List<EmitterRuleSet.File> output) {
         for (Resource resource : resources) {
             try (Reader reader = resource.openAsReader()) {
                 JsonElement json = StrictJsonParser.parse(reader);
                 output.add(EmitterRuleSet.File.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
             } catch (Exception e) {
-                Logging.error("Failed to parse emitter rule '{}'", fileId, e);
+                this.exceptionReporter.consumeException(fileId, e);
             }
         }
     }
 
     @Override
     protected void apply(Preparation preparations, ResourceManager manager, ProfilerFiller profiler) {
-        RULE_SET_BY_ID.clear();
+        this.ruleSetById.clear();
         for (Map.Entry<Identifier, List<EmitterRuleSet.File>> ruleFiles : preparations.filesById().entrySet()) {
-            RULE_SET_BY_ID.put(ruleFiles.getKey(), EmitterRuleSet.combineFiles(ruleFiles.getValue()));
+            this.ruleSetById.put(ruleFiles.getKey(), EmitterRuleSet.combineFiles(ruleFiles.getValue()));
         }
-        MISSING_LOGGED.clear();
+        this.missingLogged.clear();
+
+        this.exceptionReporter.logExceptions();
     }
 
-    public static EmitterRuleSet getRuleSet(Identifier ruleId) {
-        if(RULE_SET_BY_ID.containsKey(ruleId)) {
-            return RULE_SET_BY_ID.get(ruleId);
+    public EmitterRuleSet getById(Identifier ruleId) {
+        if(this.ruleSetById.containsKey(ruleId)) {
+            return this.ruleSetById.get(ruleId);
         }
-        if(!MISSING_LOGGED.contains(ruleId)) {
+        if(!this.missingLogged.contains(ruleId)) {
             Logging.warn("Unknown emitter rule '{}'", ruleId);
-            MISSING_LOGGED.add(ruleId);
+            this.missingLogged.add(ruleId);
         }
         return EmitterRuleSet.EMPTY.get();
     }
 
-    public static EmitterRuleSet getRuleSetOrThrow(Identifier ruleId) {
-        if(RULE_SET_BY_ID.containsKey(ruleId)) {
-            return RULE_SET_BY_ID.get(ruleId);
+    public EmitterRuleSet getByIdSetOrThrow(Identifier ruleId) {
+        if(this.ruleSetById.containsKey(ruleId)) {
+            return this.ruleSetById.get(ruleId);
         }
         throw new IllegalArgumentException("Tried to get non-existent emitter rule '" + ruleId + "'!");
+    }
+
+    public static EmitterRuleSet get(Identifier ruleId) {
+        return INSTANCE.getById(ruleId);
+    }
+
+    public static EmitterRuleSet getOrThrow(Identifier ruleId) {
+        return INSTANCE.getByIdSetOrThrow(ruleId);
     }
 
     protected record Preparation(Map<Identifier, List<EmitterRuleSet.File>> filesById) {
