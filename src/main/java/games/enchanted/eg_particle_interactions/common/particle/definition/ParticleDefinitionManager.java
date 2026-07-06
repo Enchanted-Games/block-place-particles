@@ -9,6 +9,7 @@ import com.mojang.serialization.JsonOps;
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
+import games.enchanted.eg_particle_interactions.common.util.ExceptionReporter;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
@@ -36,6 +37,7 @@ public class ParticleDefinitionManager extends SimplePreparableReloadListener<Pa
 
     private final BiMap<Identifier, ParticleDefinition> definitionById = HashBiMap.create();
     private final List<Identifier> missingLogged = new ArrayList<>();
+    private final ExceptionReporter exceptionReporter = new ExceptionReporter("Particle Definitions");
 
     @Override
     protected Preparation prepare(ResourceManager manager, ProfilerFiller profiler) {
@@ -43,18 +45,18 @@ public class ParticleDefinitionManager extends SimplePreparableReloadListener<Pa
 
         for (Map.Entry<Identifier, Resource> overrideResource : FILE_TO_ID_CONVERTER.listMatchingResources(manager).entrySet()) {
             Identifier fileId = overrideResource.getKey();
-            parseDefinition(fileId, overrideResource.getValue(), preparedDefinitions);
+            this.parseDefinition(fileId, overrideResource.getValue(), preparedDefinitions);
         }
 
         return new Preparation(preparedDefinitions);
     }
 
-    protected static void parseDefinition(Identifier fileId, Resource resource, Map<Identifier, ParticleDefinition> output) {
+    protected void parseDefinition(Identifier fileId, Resource resource, Map<Identifier, ParticleDefinition> output) {
         try (Reader reader = resource.openAsReader()) {
             JsonElement json = StrictJsonParser.parse(reader);
             output.put(FILE_TO_ID_CONVERTER.fileToId(fileId), ParticleDefinition.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new));
         } catch (Exception e) {
-            Logging.error("Failed to parse particle definition '{}'", fileId, e);
+            this.exceptionReporter.consumeException(fileId, e);
         }
     }
 
@@ -62,6 +64,7 @@ public class ParticleDefinitionManager extends SimplePreparableReloadListener<Pa
     protected void apply(Preparation preparations, ResourceManager manager, ProfilerFiller profiler) {
         this.clear();
         this.definitionById.putAll(preparations.preparedDefinitionsById);
+        this.exceptionReporter.logExceptions();
     }
 
     private void clear() {
