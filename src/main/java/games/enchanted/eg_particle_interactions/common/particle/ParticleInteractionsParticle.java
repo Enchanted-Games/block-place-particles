@@ -59,7 +59,6 @@ public class ParticleInteractionsParticle extends Particle {
     protected static final double MAXIMUM_COLLISION_VELOCITY_SQUARED = Mth.square(100.0F);
     private static final double MIN_BOUNCE_CUTOFF = 0.05;
     private static final double EPSILON = 1.0E-5d;
-    private static final double FLUID_Y_OFFSET = 0.125;
 
     protected final float gravityDecay;
     protected final Vec3 velocityDecay;
@@ -322,7 +321,7 @@ public class ParticleInteractionsParticle extends Particle {
         if(GeneralOptions.PARTICLE_FLUID_REACTIVITY.getValue() && !this.intangibleFluids) {
             this.inFluidLastTick = this.inFluid;
             this.emptyFluidAbove = FluidHelpers.fluidAtPosition(this.level, this.x, this.y + 0.875, this.z).isEmpty();
-            this.inFluid = FluidHelpers.fluidAtPosition(this.level, this.x, this.y + (this.emptyFluidAbove ? FLUID_Y_OFFSET : 0), this.z);
+            this.inFluid = FluidHelpers.fluidAtPosition(this.level, this.x, this.y, this.z);
         }
 
         this.doWind();
@@ -383,8 +382,8 @@ public class ParticleInteractionsParticle extends Particle {
             this.onFluid = true;
         }
 
-        this.onFluid = FluidHelpers.fluidAtPosition(this.level, this.x, this.y + FLUID_Y_OFFSET + 0.06, this.z).isEmpty() &&
-            !FluidHelpers.fluidAtPosition(this.level, this.x, this.y + FLUID_Y_OFFSET - 0.06, this.z).isEmpty() &&
+        this.onFluid = FluidHelpers.fluidAtPosition(this.level, this.x, this.y + 0.06, this.z).isEmpty() &&
+            !FluidHelpers.fluidAtPosition(this.level, this.x, this.y - 0.06, this.z).isEmpty() &&
             this.onFluid;
     }
 

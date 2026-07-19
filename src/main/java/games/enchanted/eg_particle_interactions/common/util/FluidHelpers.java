@@ -59,11 +59,14 @@ public class FluidHelpers {
 
     public static FluidState fluidAtPosition(ClientLevel level, double x, double y, double z) {
         BlockPos blockPos = BlockPos.containing(x, y, z);
-        FluidState stateAtBlockpos = level.getFluidState(blockPos);
-        VoxelShape shape = stateAtBlockpos.getShape(level, blockPos);
-        if(shape.isEmpty()) return Fluids.EMPTY.defaultFluidState();
+        FluidState fluidState = level.getFluidState(blockPos);
+        double fluidBottom = blockPos.getY();
+        double fluidTop = fluidBottom + fluidState.getHeight(level, blockPos);
 
-        if(shape.bounds().move(blockPos).contains(x, y, z)) return stateAtBlockpos;
+        if(fluidBottom <= y && y <= fluidTop) {
+            return fluidState;
+        }
+
         return Fluids.EMPTY.defaultFluidState();
     }
 }
