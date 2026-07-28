@@ -391,17 +391,17 @@ public class ParticleInteractionsParticle extends Particle {
         if(!this.hasPhysics || this.onGround) return;
 
         float windStrength = (float) Math.pow(this.getAgePercent(), 1.25f);
-        if(this.xFlowScale > 0) {
+        if(this.xFlowScale != 0) {
             double power = this.xFlowScale * windStrength;
-            this.xd += power > this.maxXFlow ? 0 : power;
+            this.xd += Math.abs(power) > this.maxXFlow ? 0 : power;
         }
-        if(this.yFlowScale > 0) {
+        if(this.yFlowScale != 0) {
             double power = this.yFlowScale * windStrength;
-            this.yd += power > this.maxYFlow ? 0 : power;
+            this.yd += Math.abs(power) > this.maxYFlow ? 0 : power;
         }
-        if(this.zFlowScale > 0) {
+        if(this.zFlowScale != 0) {
             double power = this.zFlowScale * windStrength;
-            this.zd += power > this.maxZFlow ? 0 : power;
+            this.zd += Math.abs(power) > this.maxZFlow ? 0 : power;
         }
 
         if(!shouldSwirl) return;
