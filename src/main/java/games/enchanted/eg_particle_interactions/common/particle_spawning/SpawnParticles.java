@@ -62,9 +62,13 @@ public class SpawnParticles {
         if (!placedBlockState.isAir() && placedBlockState.shouldSpawnTerrainParticles()) {
             VoxelShape blockShape = placedBlockState.getShape(level, blockPos);
             if (blockShape.isEmpty()) return;
+
             Vec3 blockCenter = blockShape.bounds().getCenter();
             //noinspection deprecation
-            double verticalAxisOffset = level.getBlockState(blockPos.offset(0, -1, 0)).isSolid() ? 0.01 : 0; // move particles up out the block below them if it is solid
+            boolean solidBelow = level.getBlockState(blockPos.below()).isSolid();
+            //noinspection deprecation
+            boolean solidAbove = level.getBlockState(blockPos.above()).isSolid();
+
             blockShape.forAllEdges((x1, y1, z1, x2, y2, z2) -> {
                 double width = Math.abs(x1 - x2);
                 double height = Math.abs(y1 - y2);
@@ -91,15 +95,25 @@ public class SpawnParticles {
                     double particlePos = ((double) i + 0.5) / (double) amountOfParticlesAlongEdge;
                     if (particlePos > edgeLength + (double) 1 / 16) continue;
                     double particleXOffset = (biggestEdge == Direction.Axis.X ? particlePos : width) + x1;
-                    double particleYOffset = (biggestEdge == Direction.Axis.Y ? particlePos : height) + y1 + verticalAxisOffset;
+                    double particleYOffset = (biggestEdge == Direction.Axis.Y ? particlePos : height) + y1;
                     double particleZOffset = (biggestEdge == Direction.Axis.Z ? particlePos : depth) + z1;
+
+                    double xOffsetExpanded = MathHelper.expandWhenOutOfBound(particleXOffset, 0, 1);
+                    double yOffsetExpanded = MathHelper.expandWhenOutOfBound(particleYOffset, 0, 1);
+                    double zOffsetExpanded = MathHelper.expandWhenOutOfBound(particleZOffset, 0, 1);
+
+                    if(solidBelow && yOffsetExpanded < 0) {
+                        yOffsetExpanded = 0.1;
+                    } else if(solidAbove && yOffsetExpanded > 1) {
+                        yOffsetExpanded = 0.9;
+                    }
 
                     override.getRandom().spawnParticle(
                         origin,
                         context,
-                        (double) blockPos.getX() + MathHelper.expandWhenOutOfBound(particleXOffset, 0, 1),
-                        (double) blockPos.getY() + MathHelper.expandWhenOutOfBound(particleYOffset, 0, 1),
-                        (double) blockPos.getZ() + MathHelper.expandWhenOutOfBound(particleZOffset, 0, 1),
+                        (double) blockPos.getX() + xOffsetExpanded,
+                        (double) blockPos.getY() + yOffsetExpanded,
+                        (double) blockPos.getZ() + zOffsetExpanded,
                         (particleXOffset - blockCenter.x()),
                         (particleYOffset - blockCenter.y()),
                         (particleZOffset - blockCenter.z())
