@@ -4,10 +4,12 @@ import games.enchanted.eg_particle_interactions.common.config.categories.BlockIn
 import games.enchanted.eg_particle_interactions.common.config.categories.EntityOptions;
 import games.enchanted.eg_particle_interactions.common.config.categories.FluidInteractionOptions;
 import games.enchanted.eg_particle_interactions.common.config.categories.ItemInteractionOptions;
+import games.enchanted.eg_particle_interactions.common.config.type.LeavesParticleBehaviour;
 import games.enchanted.eg_particle_interactions.common.override_system.OverridePreset;
 import games.enchanted.eg_particle_interactions.common.override_system.ParticleOrigin;
 import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
 import games.enchanted.eg_particle_interactions.common.override_system.override.FluidOverrideManager;
+import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverride;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.types.ParticleTypesRegistry;
@@ -25,9 +27,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.FurnaceBlock;
 import net.minecraft.world.level.block.GrindstoneBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -969,6 +974,33 @@ public class SpawnParticles {
                 0
             );
         }
+    }
+
+    /**
+     * @return true to spawn original leaves particles, false to prevent them
+     */
+    public static boolean spawnFallingLeavesParticles(ClientLevel level, BlockPos pos, RandomSource random) {
+        if(BlockInteractionOptions.LEAVES_PARTICLE_BEHAVIOUR.getValue() == LeavesParticleBehaviour.NONE) return false;
+        if(BlockInteractionOptions.LEAVES_PARTICLE_BEHAVIOUR.getValue() == LeavesParticleBehaviour.VANILLA_ONLY) return true;
+
+        ParticleOrigin origin = ParticleOrigin.AMBIENT_LEAVES;
+        BlockState state = level.getBlockState(pos);
+        ParticleContext context = ParticleContext.block(level, state, pos);
+        OverridePreset overridePreset = BlockOverrideManager.getForBlock(state, origin);
+        ParticleOverride override = overridePreset.getRandom();
+
+        if(override.hasNoEmitter(origin, context)) {
+            return true;
+        }
+
+        SpawnParticlesUtil.spawnBelow(
+            context,
+            override.getEmitter(origin, context),
+            pos,
+            random
+        );
+
+        return false;
     }
 
 //? if minecraft: >= 26.2 {

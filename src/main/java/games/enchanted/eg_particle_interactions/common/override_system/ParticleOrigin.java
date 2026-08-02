@@ -39,7 +39,7 @@ public record ParticleOrigin(Identifier id) {
     public static final ParticleOrigin FALLING_BLOCK_LANDED = register(ParticleInteractionsMod.id("block/falling_block_landed"), ParticleOrigin::new);
     public static final ParticleOrigin FALLING_BLOCK_FALLING = register(ParticleInteractionsMod.id("block/falling_block_falling"), ParticleOrigin::new);
     public static final ParticleOrigin FALLING_BLOCK_UNSTABLE = register(ParticleInteractionsMod.id("block/falling_block_unstable"), ParticleOrigin::new);
-    public static final ParticleOrigin AMBIENT_LEAVES = register(ParticleInteractionsMod.id("block/ambient_leaves"), ParticleOrigin::new); // TODO
+    public static final ParticleOrigin AMBIENT_LEAVES = register(ParticleInteractionsMod.id("block/ambient_leaves"), ParticleOrigin::new);
     public static final ParticleOrigin BLOCK_REDSTONE_INTERACTED_WITH = register(ParticleInteractionsMod.id("block/redstone_interacted_with"), ParticleOrigin::new);
     public static final ParticleOrigin BLOCK_WALKED_THROUGH = register(ParticleInteractionsMod.id("block/walked_through"), ParticleOrigin::new);
     public static final ParticleOrigin BLOCK_GENERIC = register(ParticleInteractionsMod.id("block/generic"), ParticleOrigin::new);

@@ -7,6 +7,14 @@
                 "appearance": "leaf/pine_leaves"
             },
             "velocity_multiplier": 0.1
+        },
+        "block/ambient_leaves": {
+            "type": "particle_interactions",
+            "particle": "leaf/ambient/swirl",
+            "components": {
+                "gravity/initial": 0.08,
+                "appearance": "leaf/pine_leaves"
+            }
         }
     }
 }

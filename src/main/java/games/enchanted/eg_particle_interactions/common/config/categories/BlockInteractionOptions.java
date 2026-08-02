@@ -6,10 +6,13 @@ import games.enchanted.eg_particle_interactions.common.config.option.BlockOrTagL
 import games.enchanted.eg_particle_interactions.common.config.option.BoolOption;
 import games.enchanted.eg_particle_interactions.common.config.option.ConfigOption;
 import games.enchanted.eg_particle_interactions.common.config.option.IntOption;
+import games.enchanted.eg_particle_interactions.common.config.option.EnumOption;
+import games.enchanted.eg_particle_interactions.common.config.type.LeavesParticleBehaviour;
 import games.enchanted.eg_particle_interactions.common.registry.ObjectOrTagLocation;
 import games.enchanted.eg_particle_interactions.common.registry.RegistryHelpers;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.Blocks;
 
 import java.util.List;
@@ -140,6 +143,16 @@ public class BlockInteractionOptions {
 
     public static final ConfigOption<Boolean> BLAST_FURNACE_SPARKS_ENABLED = registerOption(
         new BoolOption(true, "blast_furnace_sparks_enabled")
+    );
+
+
+    public static final ConfigOption<LeavesParticleBehaviour> LEAVES_PARTICLE_BEHAVIOUR = registerOption(
+        new EnumOption<>(LeavesParticleBehaviour.CUSTOM_OR_VANILLA, "leaves_particle_behaviour") {
+            @Override
+            protected StringRepresentable.EnumCodec<LeavesParticleBehaviour> getCodec() {
+                return StringRepresentable.fromEnum(LeavesParticleBehaviour::values);
+            }
+        }
     );
 
 

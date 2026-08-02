@@ -5,6 +5,7 @@ import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
 import games.enchanted.eg_particle_interactions.common.config.categories.*;
 import games.enchanted.eg_particle_interactions.common.config.compat.ConfigScreenCreator;
 import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
+import games.enchanted.eg_particle_interactions.common.config.type.LeavesParticleBehaviour;
 import games.enchanted.eg_particle_interactions.common.localisation.ConfigTranslation;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -317,6 +318,18 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 "blast_furnace_sparks",
                 ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
                 ConfigScreenHelper.booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED_WITH_TYPE, "blast_furnace_sparks", BlockInteractionOptions.BLAST_FURNACE_SPARKS_ENABLED)
+            ))
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            // brushing particles
+            .group( ConfigScreenHelper.createGenericConfigGroup(
+                "leaves_ambient",
+                ConfigTranslation.BLOCK_AMBIENT_CONFIG_CATEGORY,
+                false,
+                ConfigScreenHelper.enumCycleOption(ConfigTranslation.LEAVES_PARTICLE_BEHAVIOUR, BlockInteractionOptions.LEAVES_PARTICLE_BEHAVIOUR, LeavesParticleBehaviour.class)
             ))
         .build());
         

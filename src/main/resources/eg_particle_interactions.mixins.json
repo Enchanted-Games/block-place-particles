@@ -7,8 +7,6 @@
     "package": "games.enchanted.eg_particle_interactions.common.mixin.client",
     "compatibilityLevel": "JAVA_${java_ver}",
     "mixins": [
-        "entity.EntityMixin",
-        "particles.ParticleUtilsMixin"
     ],
     "client": [
         "ClientBoundPacketListenerMixin",
@@ -26,12 +24,14 @@
         "blocks.ComparatorBlock",
         "blocks.FallingBlockMixin",
         "blocks.FurnaceBlock",
+        "blocks.ParticleLeavesBlockMixin",
         "blocks.RedstoneWireBlock",
         "blocks.RepeaterBlock",
         "blocks.SeagrassBlock_BlockMixin",
         "blocks.SmokerBlock",
         "blocks.TntBlock",
         "entity.AbstractMinecartMixin",
+        "entity.EntityMixin",
         "entity.FallingBlockEntity",
         "entity.FallingBlockEntityLand_ClientLevelMixin",
         "entity.FluidBubbles_EntityMixin",
@@ -54,6 +54,7 @@
         "particles.FireflyParticleMixin",
         "particles.ParticleEngineMixin",
         "particles.ParticleMixin",
+        "particles.ParticleUtilsMixin",
         "particles.TerrainParticle",
         "resource.AtlasManagerMixin",
         "resource.ClearCaches_MinecraftMixin",

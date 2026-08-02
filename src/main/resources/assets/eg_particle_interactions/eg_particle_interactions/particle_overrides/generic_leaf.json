@@ -7,6 +7,9 @@
                 "appearance": "leaf/generic_leaves"
             },
             "velocity_multiplier": 0.1
+        },
+        "block/ambient_leaves": {
+            "type": "empty"
         }
     }
 }

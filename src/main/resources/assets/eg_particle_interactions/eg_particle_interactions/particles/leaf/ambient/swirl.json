@@ -1,0 +1,51 @@
+{
+    "components": {
+        "gravity/initial": 0.015,
+        "lifetime": {
+            "range": [
+                200,
+                300
+            ]
+        },
+        "velocity/initial_randomness": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "physics/collision_size": 1,
+        "physics/friction": 1,
+        "physics/bounciness": 0,
+        "physics/wind_config": {
+            "swirl": {
+                "period": {
+                    "range": [
+                        1,
+                        4
+                    ]
+                },
+                "strength": {
+                    "values": [
+                        0.1,
+                        0.2,
+                        0.2,
+                        0.1,
+                        0.1,
+                        0.6,
+                        0.9
+                    ]
+                }
+            }
+        },
+        "appearance": "test",
+        "lifetime_events": [
+            {
+                "trigger": {
+                    "type": "on_ground"
+                },
+                "action": {
+                    "type": "kill"
+                }
+            }
+        ]
+    }
+}

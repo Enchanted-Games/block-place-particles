@@ -1,16 +1,22 @@
 package games.enchanted.eg_particle_interactions.common.config.categories;
 
+import games.enchanted.eg_particle_interactions.common.config.option.EnumOption;
 import games.enchanted.eg_particle_interactions.common.config.type.BrushParticleBehaviour;
 import games.enchanted.eg_particle_interactions.common.config.ConfigCategory;
 import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
 import games.enchanted.eg_particle_interactions.common.config.option.BoolOption;
 import games.enchanted.eg_particle_interactions.common.config.option.ConfigOption;
 import games.enchanted.eg_particle_interactions.common.config.option.IntOption;
-import games.enchanted.eg_particle_interactions.common.config.option.enums.BrushParticleBehaviourOption;
+import net.minecraft.util.StringRepresentable;
 
 public class ItemInteractionOptions {
     public static final ConfigOption<BrushParticleBehaviour> BRUSH_PARTICLE_BEHAVIOUR = registerOption(
-        new BrushParticleBehaviourOption(BrushParticleBehaviour.DUST, "brush_particle_behaviour")
+        new EnumOption<>(BrushParticleBehaviour.DUST, "brush_particle_behaviour") {
+            @Override
+            protected StringRepresentable.EnumCodec<BrushParticleBehaviour> getCodec() {
+                return StringRepresentable.fromEnum(BrushParticleBehaviour::values);
+            }
+        }
     );
 
     public static final ConfigOption<Boolean> FLINT_AND_STEEL_SPARKS_ENABLED = registerOption(

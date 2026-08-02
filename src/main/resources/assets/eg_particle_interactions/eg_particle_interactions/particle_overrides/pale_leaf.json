@@ -7,6 +7,9 @@
                 "appearance": "leaf/pale_oak_leaves"
             },
             "velocity_multiplier": 0.1
+        },
+        "block/ambient_leaves": {
+            "type": "empty"
         }
     }
 }

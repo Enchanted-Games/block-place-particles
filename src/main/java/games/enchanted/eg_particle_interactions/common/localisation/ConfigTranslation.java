@@ -39,6 +39,7 @@ public class ConfigTranslation {
     public static final String ACCURATE_MACE_SMASH = "accurate_mace_smash";
 
     public static final String BRUSH_PARTICLE_BEHAVIOUR = "brush_particle_behaviour";
+    public static final String LEAVES_PARTICLE_BEHAVIOUR = "leaves_particle_behaviour";
 
     public static final String PIXEL_CONSISTENT_TERRAIN_PARTICLES = "pixel_consistent_terrain_particles";
     public static final String PARTICLE_ZFIGHTING_FIX = "particle_zfighting_fix";

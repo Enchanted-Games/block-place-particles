@@ -3,6 +3,7 @@ package games.enchanted.eg_particle_interactions.common.particle_spawning;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleDefinition;
+import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSet;
 import games.enchanted.eg_particle_interactions.common.particle.types.options.PIParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleSpawner;
@@ -152,6 +153,22 @@ public class SpawnParticlesUtil {
             (random.nextDouble() - 0.5) * velocityIntensity * 0.4,
             Math.abs((random.nextDouble() - 0.25) * velocityIntensity) + 0.25,
             (random.nextDouble() - 0.5) * velocityIntensity * 0.4
+        );
+    }
+
+    public static void spawnBelow(ParticleContext context, Emitter emitter, BlockPos pos, RandomSource random) {
+        double x = pos.getX() + random.nextDouble();
+        double y = pos.getY() - 0.05;
+        double z = pos.getZ() + random.nextDouble();
+
+        emitter.spawnParticle(
+            context,
+            x,
+            y,
+            z,
+            0,
+            0,
+            0
         );
     }
 }
