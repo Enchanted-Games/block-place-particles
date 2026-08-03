@@ -3,6 +3,7 @@ package games.enchanted.eg_particle_interactions.common.override_system;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.mojang.serialization.Codec;
+import games.enchanted.eg_particle_interactions.common.Logging;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
 import net.minecraft.resources.Identifier;
@@ -10,12 +11,18 @@ import net.minecraft.resources.Identifier;
 import java.util.function.Function;
 
 public record ParticleOrigin(Identifier id) {
+    /**
+     * When the user references an unknown particle origin in a resourcepack, it is represented by DUMMY.
+     */
+    public static final ParticleOrigin DUMMY = new ParticleOrigin(ParticleInteractionsMod.id("dummy"));
+
     private static final BiMap<Identifier, ParticleOrigin> ORIGIN_BY_ID = HashBiMap.create();
 
     public static final Codec<ParticleOrigin> CODEC = ModCodecs.IDENTIFIER.xmap(
         id -> {
             if(!ORIGIN_BY_ID.containsKey(id)) {
-                throw new RuntimeException("Invalid particle origin: '" + id + "'");
+                Logging.warn("Invalid particle origin '{}'", id);
+                return DUMMY;
             }
             return ORIGIN_BY_ID.get(id);
         },
