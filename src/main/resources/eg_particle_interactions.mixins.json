@@ -61,6 +61,8 @@
         "resource.RegisterAtlasConfig_AtlasManagerMixin",
         "resource.vanilla.RegisterListeners_MinecraftMixin",
         "resource.vanilla.RegisterModAssets_BuiltinPackSourceMixin",
+        "resource.version.IntermediateOverlayEntryMixin",
+        "resource.version.OverlayEntryMixin",
         "screen.OptionsScreenMixin"
     ],
     "injectors": {
