@@ -86,6 +86,7 @@ public class ParticleInteractionsParticle extends Particle {
 
     protected float buoyancy;
     protected float bounciness = 0f;
+    protected float bouncinessDecay = 0f;
     protected boolean onFluid = false;
     protected boolean emptyFluidAbove = false;
     protected FluidState inFluid = Fluids.EMPTY.defaultFluidState();
@@ -179,6 +180,8 @@ public class ParticleInteractionsParticle extends Particle {
 
         FloatProviderComponent bouncinessComponent = components.getOrFallback(ParticleComponents.PHYSICS_BOUNCINESS, FloatProviderComponent.ZERO);
         this.bounciness = GeneralOptions.PARTICLE_BOUNCE_PHYSICS.getValue() ? bouncinessComponent.provider().getValue(context) : 0f;
+        FloatProviderComponent bouncinessDecayComponent = components.getOrFallback(ParticleComponents.PHYSICS_BOUNCINESS_DECAY, FloatProviderComponent.ONE);
+        this.bouncinessDecay = bouncinessDecayComponent.provider().getValue(context);
 
         BooleanComponent bypassCollisionCheckComponent = components.get(ParticleComponents.PHYSICS_BYPASS_COLLISION_CHECK);
         ((ParticleDuck) this).eg_particle_interactions$setBypassMovementCollisionCheck(bypassCollisionCheckComponent == null ? this.friction < 0.99 : bypassCollisionCheckComponent.value());
@@ -437,6 +440,7 @@ public class ParticleInteractionsParticle extends Particle {
                 )
             ) {
                 this.forEventStacks(EventStack::particleBounce);
+                this.bounciness *= this.bouncinessDecay;
             }
         }
     }

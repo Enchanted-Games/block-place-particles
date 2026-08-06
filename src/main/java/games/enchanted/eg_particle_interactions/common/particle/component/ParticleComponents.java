@@ -53,6 +53,11 @@ public class ParticleComponents {
         FloatProviderComponent.CODEC,
         FloatProviderComponent.STREAM_CODEC
     );
+    public static final ParticleComponentRegistry.ComponentReference<FloatProviderComponent> PHYSICS_BOUNCINESS_DECAY = register(
+        ParticleInteractionsMod.id("physics/bounciness_decay"),
+        FloatProviderComponent.CODEC,
+        FloatProviderComponent.STREAM_CODEC
+    );
     public static final ParticleComponentRegistry.ComponentReference<BooleanComponent> PHYSICS_BYPASS_COLLISION_CHECK = register(
         ParticleInteractionsMod.id("physics/bypass_collision_check"),
         BooleanComponent.CODEC,
