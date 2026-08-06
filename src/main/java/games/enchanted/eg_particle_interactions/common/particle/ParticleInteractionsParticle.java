@@ -757,7 +757,7 @@ public class ParticleInteractionsParticle extends Particle {
     }
 
     public void setLightEmission(int lightEmission) {
-        this.minLightEmission = lightEmission;
+        this.minLightEmission = Math.clamp(lightEmission, 0, 15);
     }
 
     public void modifyUV(UVProvider uv) {

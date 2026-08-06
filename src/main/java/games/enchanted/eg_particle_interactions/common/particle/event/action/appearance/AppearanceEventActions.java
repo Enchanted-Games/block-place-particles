@@ -18,9 +18,9 @@ public class AppearanceEventActions {
         EVENT_ACTIONS.put(ParticleInteractionsMod.id("modify_model_offset"), ModifyModelOffsetAction.CODEC);
         EVENT_ACTIONS.put(ParticleInteractionsMod.id("set_model_offset"), SetModelOffsetAction.CODEC);
         EVENT_ACTIONS.put(ParticleInteractionsMod.id("modify_light_emission"), ModifyLightEmissionAction.CODEC);
-        EVENT_ACTIONS.put(ParticleInteractionsMod.id("age_based_scale"), SetScaleBasedOnAge.CODEC);
-        EVENT_ACTIONS.put(ParticleInteractionsMod.id("age_based_light_emission"), SetLightBasedOnAge.CODEC);
+        EVENT_ACTIONS.put(ParticleInteractionsMod.id("age_based_scale"), AgeBasedScale.CODEC);
+        EVENT_ACTIONS.put(ParticleInteractionsMod.id("age_based_light_emission"), AgeBasedLightEmission.CODEC);
+        EVENT_ACTIONS.put(ParticleInteractionsMod.id("age_based_alpha"), AgeBasedAlpha.CODEC);
         EVENT_ACTIONS.put(ParticleInteractionsMod.id("set_uv"), SetUVAction.CODEC);
-        EVENT_ACTIONS.put(ParticleInteractionsMod.id("age_based_alpha"), SetAlphaBasedOnAge.CODEC);
     }
 }

@@ -1,29 +1,19 @@
 package games.enchanted.eg_particle_interactions.common.particle.event.action.appearance;
 
+import com.mojang.datafixers.util.Function3;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import games.enchanted.eg_particle_interactions.common.particle.event.action.EventAction;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
+import games.enchanted.eg_particle_interactions.common.particle.event.action.EventAction;
 import games.enchanted.eg_particle_interactions.common.util.math.range.FloatRange;
 
-public class SetScaleBasedOnAge extends EventAction {
-    public static final MapCodec<SetScaleBasedOnAge> CODEC = RecordCodecBuilder.mapCodec(i -> i
-        .group(
-            Codec.FLOAT.optionalFieldOf("multiplier", 1f).forGetter(SetScaleBasedOnAge::getMultiplier),
-            Codec.BOOL.optionalFieldOf("use_initial_value", true).forGetter(SetScaleBasedOnAge::useInitialValue),
-            FloatRange.CODEC.fieldOf("lifetime_percentage_range").forGetter(SetScaleBasedOnAge::getAgePercentageRange)
-        ).apply(
-            i,
-            SetScaleBasedOnAge::new
-        )
-    );
-
+public abstract class AgeBasedFieldSet extends EventAction {
     final float multiplier;
     final boolean useInitialValue;
     final FloatRange agePercentageRange;
 
-    SetScaleBasedOnAge(float multiplier, boolean useInitialValue, FloatRange agePercentageRange) {
+    AgeBasedFieldSet(float multiplier, boolean useInitialValue, FloatRange agePercentageRange) {
         this.multiplier = multiplier;
         this.useInitialValue = useInitialValue;
         this.agePercentageRange = agePercentageRange;
@@ -47,13 +37,25 @@ public class SetScaleBasedOnAge extends EventAction {
 
         float percentageAlongRange = 1 - this.agePercentageRange.remapValueToPercentageAlongRange(particle.getAgePercent());
         if(this.useInitialValue) {
-            percentageAlongRange *= particle.getInitialAppearanceScale();
+            percentageAlongRange *= this.initialValue(particle);
         }
-        particle.setScale(percentageAlongRange * this.multiplier, true);
+        this.setValue(particle, percentageAlongRange * this.multiplier);
     }
 
-    @Override
-    public MapCodec<? extends EventAction> codec() {
-        return null;
+    protected abstract float initialValue(ParticleInteractionsParticle particle);
+
+    protected abstract void setValue(ParticleInteractionsParticle particle, float value);
+
+    public static <T extends AgeBasedFieldSet> MapCodec<T> createCodec(Function3<Float, Boolean, FloatRange, T> ctor) {
+        return RecordCodecBuilder.mapCodec(i -> i
+            .group(
+                Codec.FLOAT.optionalFieldOf("multiplier", 1f).forGetter(AgeBasedFieldSet::getMultiplier),
+                Codec.BOOL.optionalFieldOf("use_initial_value", true).forGetter(AgeBasedFieldSet::useInitialValue),
+                FloatRange.CODEC.fieldOf("lifetime_percentage_range").forGetter(AgeBasedFieldSet::getAgePercentageRange)
+            ).apply(
+                i,
+                ctor
+            )
+        );
     }
 }
