@@ -21,10 +21,13 @@
             "values": [
                 0,
                 0,
-                0.3,
-                0.4
+                0,
+                0,
+                0.4,
+                0.5
             ]
         },
+        "physics/bounciness_decay": 0.2,
         "physics/friction": 0.6,
         "physics/collision_size": 1.5,
         "appearance": "moss_clump/moss"

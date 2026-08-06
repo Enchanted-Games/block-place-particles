@@ -20,6 +20,7 @@
         ],
         "physics/friction": 0.1,
         "physics/bounciness": 0.8,
+        "physics/bounciness_decay": 0.75,
         "physics/collision_size": 0.5,
         "appearance": "spark/soul_spark",
         "lifetime_events": [
