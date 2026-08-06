@@ -16,6 +16,9 @@ import games.enchanted.eg_particle_interactions.common.predicates.entity.list.En
 import games.enchanted.eg_particle_interactions.common.predicates.fluid.list.FluidListManager;
 import games.enchanted.eg_particle_interactions.common.resource.texture.palette.BlockPaletteManager;
 import games.enchanted.eg_particle_interactions.common.resource.texture.palette.FluidPaletteManager;
+import games.enchanted.eg_particle_interactions.common.resource.version.PackVersion;
+import games.enchanted.eg_particle_interactions.common.util.Toaster;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
 public class ParticleInteractionsMod {
@@ -52,6 +55,12 @@ public class ParticleInteractionsMod {
     public static void endOfModLoading() {
         ConfigOptions.readConfig();
         Logging.info("Init done!");
+    }
+
+    public static void clientInitFinished() {
+        if(Constants.CURRENT_PACK_VERSION.is(PackVersion.UNSPECIFIED)) {
+            Toaster.showToast(Component.literal("Failed to load pack version"), Component.literal("Some resourcepacks made for Particle Interactions may not work correctly. Please report this"));
+        }
     }
 
     public static void registerResourceReloadListeners() {

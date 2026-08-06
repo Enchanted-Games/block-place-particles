@@ -4,16 +4,13 @@
 import games.enchanted.eg_particle_interactions.common.Constants;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.config.compat.ConfigScreenCreator;
-import games.enchanted.eg_particle_interactions.common.particle.types.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.neoforge.registry.NeoReloadListenerRegistry;
-import net.minecraft.core.registries.Registries;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
-import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.Objects;
 

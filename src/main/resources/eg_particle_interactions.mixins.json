@@ -11,6 +11,7 @@
     "client": [
         "ClientBoundPacketListenerMixin",
         "LevelEventHandlerMixin",
+        "MinecraftInitFinishedMixin",
         "accessor.client.MinecraftAccessor",
         "accessor.client.NativeImageAccessor",
         "accessor.client.ParticleAccessor",

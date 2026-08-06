@@ -33,7 +33,7 @@ public record PackVersion(int major, int minor, int patch) {
         )
     );
 
-    private static final Codec<PackVersion> LIST_CODEC = Codec.list(COMPONENT_CODEC, 3, 3).xmap(
+    public static final Codec<PackVersion> LIST_CODEC = Codec.list(COMPONENT_CODEC, 3, 3).xmap(
         ints -> new PackVersion(ints.get(0), ints.get(1), ints.get(2)),
         packVersion -> List.of(packVersion.major(), packVersion.minor(), packVersion.patch())
     );
@@ -85,5 +85,11 @@ public record PackVersion(int major, int minor, int patch) {
         MAJOR,
         MINOR,
         PATCH
+    }
+
+    @Override
+    public String toString() {
+        if(this.is(UNSPECIFIED)) return "UNSPECIFIED";
+        return "%s.%s.%s".formatted(this.major(), this.minor(), this.patch());
     }
 }

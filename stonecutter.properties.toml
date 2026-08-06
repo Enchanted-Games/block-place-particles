@@ -11,7 +11,10 @@ New in v0.10.1
 - See the GitHub page for full changelog
 """
 group = "games.enchanted"
-version = "0.10.1"
+version_major = "0"
+version_minor = "10"
+version_patch = "1"
+version_suffix = ""
 license = "CC BY-NC 4.0"
 website_url = "https://particle-interactions.enchanted.games/"
 source_url = "https://github.com/Enchanted-Games/block-place-particles"

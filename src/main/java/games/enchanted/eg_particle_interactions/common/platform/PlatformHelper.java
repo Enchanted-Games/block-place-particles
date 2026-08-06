@@ -8,6 +8,7 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.fml.loading.LoadingModList;
+import org.apache.commons.lang3.NotImplementedException;
 *///?} else {
 import games.enchanted.eg_particle_interactions.fabric.resource.FabricResourceLoaderRegisterer;
 import net.fabricmc.loader.api.FabricLoader;
@@ -15,10 +16,9 @@ import net.fabricmc.loader.api.ModContainer;
 //?}
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
-import org.apache.commons.lang3.NotImplementedException;
-import org.jspecify.annotations.Nullable;
 
-import java.net.URI;
+import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Objects;
@@ -116,18 +116,32 @@ public class PlatformHelper {
     }
 
     /**
-     * Get the path to something in the mod jar
+     * Get the path to something in the mod jar. Not supported on neoforge
      */
-    public static Path getResourcePathFromModJar(String... strings) {
+    public static Path getResourcePathFromModJar(String... pathSegments) {
         //? if fabric {
         Optional<ModContainer> container = Objects.requireNonNull(
             FabricLoader.getInstance().getModContainer(Constants.MOD_ID),
             "Could not get mod container '" + Constants.MOD_ID + "'"
         );
-        Optional<Path> path = container.flatMap(modContainer -> modContainer.findPath(String.join("/", strings)));
-        return path.orElseThrow(() -> new NullPointerException("Could not find path in particle interactions mod jar '" + Arrays.toString(strings) + "'"));
+        Optional<Path> path = container.flatMap(modContainer -> modContainer.findPath(String.join("/", pathSegments)));
+        return path.orElseThrow(() -> new NullPointerException("Could not find path in particle interactions mod jar '" + Arrays.toString(pathSegments) + "'"));
         //? } else {
         /*throw new NotImplementedException("getResourcePathFromModJar not implemented on neoforge platform");
         *///? }
+    }
+
+    public static byte[] readFileFromJar(String... pathSegments) throws IOException {
+        //? if neoforge {
+        /*String relativePath = String.join("/", pathSegments);
+        byte[] fileBytes = NeoForgeEntry.CONTAINER.getModInfo().getOwningFile().getFile().getContents().readFile(relativePath);
+        if(fileBytes == null) {
+            throw new FileNotFoundException(relativePath);
+        }
+        return fileBytes;
+        *///? } else {
+        Path resourcePath = getResourcePathFromModJar(pathSegments);
+        return Files.readAllBytes(resourcePath);
+        //? }
     }
 }

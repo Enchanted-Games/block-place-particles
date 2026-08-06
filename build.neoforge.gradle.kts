@@ -14,7 +14,10 @@ stonecutter {
 val minecraft = stonecutter.current.version
 val mcVersion = stonecutter.current.project.substringBeforeLast('-')
 
-version = "${property("mod.version")}+${property("deps.minecraft")}-neoforge"
+
+val rawModVersion = "${property("mod.version_major")}.${property("mod.version_minor")}.${property("mod.version_patch")}${property("mod.version_suffix")}"
+val modVersion = "$rawModVersion+${property("deps.minecraft")}-neoforge"
+version = modVersion
 base.archivesName = property("mod.id") as String
 
 repositories {
@@ -94,7 +97,10 @@ tasks.named<ProcessResources>("processResources") {
     fun prop(name: String) = project.property(name) as String
 
     val props = HashMap<String, String>().apply {
-        this["version"] = prop("mod.version") + "+" + prop("deps.minecraft")
+        this["version"] = modVersion
+        this["version_major"] = prop("mod.version_major")
+        this["version_minor"] = prop("mod.version_minor")
+        this["version_patch"] = prop("mod.version_patch")
         this["minecraft"] = prop("dep_str.minecraft")
         this["id"] = prop("mod.id")
         this["group"] = prop("mod.group")
@@ -108,7 +114,7 @@ tasks.named<ProcessResources>("processResources") {
         this["java_ver"] = java.targetCompatibility.majorVersion
     }
 
-    filesMatching(listOf("fabric.mod.json", "META-INF/neoforge.mods.toml", "META-INF/mods.toml", "*.mixins.json")) {
+    filesMatching(listOf("pack_version.json", "fabric.mod.json", "META-INF/neoforge.mods.toml", "META-INF/mods.toml", "*.mixins.json")) {
         expand(props)
     }
 }
@@ -156,8 +162,8 @@ publishMods {
 
     // one of BETA, ALPHA, STABLE
     type = BETA
-    displayName = "[NF] v${property("mod.version")} for mc ${stonecutter.current.version}"
-    version = "${property("mod.version")}+${property("deps.minecraft")}-neoforge"
+    displayName = "[NF] v$rawModVersion for mc ${stonecutter.current.version}"
+    version = modVersion
     changelog = provider { rootProject.file("CHANGELOG.md").readText() }
     modLoaders.add("neoforge")
 
