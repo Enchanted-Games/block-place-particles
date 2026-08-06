@@ -92,7 +92,7 @@ public class ParticleInteractionsParticle extends Particle {
     protected FluidState inFluid = Fluids.EMPTY.defaultFluidState();
     protected FluidState inFluidLastTick = this.inFluid;
     protected boolean onGroundLastTick = false;
-    protected Vec3 collisionResult = Vec3.ZERO;
+    protected Vec3 downCollision = Vec3.ZERO;
     protected final boolean intangibleTerrain;
     protected final boolean intangibleFluids;
 
@@ -417,31 +417,31 @@ public class ParticleInteractionsParticle extends Particle {
     }
 
     protected void doCollisions() {
-        if (this.age > 0 && this.hasPhysics) {
-            final double xVel = this.xd;
-            final double yVel = this.yd;
-            final double zVel = this.zd;
-            if (xVel * xVel + yVel * yVel + zVel * zVel > MAXIMUM_COLLISION_VELOCITY_SQUARED) return;
+        if (this.age <= 0 || !this.hasPhysics) return;
 
-            final boolean xVelInCutoffRange = MathHelper.isInRange(xVel, -MIN_BOUNCE_CUTOFF, MIN_BOUNCE_CUTOFF);
-            final boolean yVelInCutoffRange = MathHelper.isInRange(yVel, -MIN_BOUNCE_CUTOFF, MIN_BOUNCE_CUTOFF);
-            final boolean zVelInCutoffRange = MathHelper.isInRange(zVel, -MIN_BOUNCE_CUTOFF, MIN_BOUNCE_CUTOFF);
+        final double xVel = this.xd;
+        final double yVel = this.yd;
+        final double zVel = this.zd;
+        if (xVel * xVel + yVel * yVel + zVel * zVel > MAXIMUM_COLLISION_VELOCITY_SQUARED) return;
 
-            this.collisionResult = this.collide(xVel, yVel, zVel);
-            this.xd = this.collisionResult.x == 0.0 && !xVelInCutoffRange ? -xVel * this.bounciness * 0.99999 : xVel;
-            this.yd = this.collisionResult.y == 0.0 && !yVelInCutoffRange ? -yVel * this.bounciness * 0.99999 : yVel;
-            this.zd = this.collisionResult.z == 0.0 && !zVelInCutoffRange ? -zVel * this.bounciness * 0.99999 : zVel;
+        final boolean xVelInCutoffRange = MathHelper.isInRange(xVel, -MIN_BOUNCE_CUTOFF, MIN_BOUNCE_CUTOFF);
+        final boolean yVelInCutoffRange = MathHelper.isInRange(yVel, -MIN_BOUNCE_CUTOFF, MIN_BOUNCE_CUTOFF);
+        final boolean zVelInCutoffRange = MathHelper.isInRange(zVel, -MIN_BOUNCE_CUTOFF, MIN_BOUNCE_CUTOFF);
 
-            if(
-                this.bounciness > 0 && (
-                    (!xVelInCutoffRange && this.collisionResult.x == 0.0) ||
-                    (!yVelInCutoffRange && this.collisionResult.y == 0.0) ||
-                    (!zVelInCutoffRange && this.collisionResult.z == 0.0)
-                )
-            ) {
-                this.forEventStacks(EventStack::particleBounce);
-                this.bounciness *= this.bouncinessDecay;
-            }
+        this.downCollision = this.collide(xVel, yVel - 1, zVel);
+        this.xd = Math.abs(this.downCollision.x) <= EPSILON && !xVelInCutoffRange ? -xVel * this.bounciness * 0.99999 : xVel;
+        this.yd = Math.abs(this.downCollision.y) <= EPSILON && !yVelInCutoffRange ? -yVel * this.bounciness * 0.99999 : yVel;
+        this.zd = Math.abs(this.downCollision.z) <= EPSILON && !zVelInCutoffRange ? -zVel * this.bounciness * 0.99999 : zVel;
+
+        if(
+            this.bounciness > 0 && (
+                (!xVelInCutoffRange && this.downCollision.x == 0.0) ||
+                (!yVelInCutoffRange && this.downCollision.y == 0.0) ||
+                (!zVelInCutoffRange && this.downCollision.z == 0.0)
+            )
+        ) {
+            this.forEventStacks(EventStack::particleBounce);
+            this.bounciness *= this.bouncinessDecay;
         }
     }
 
@@ -459,7 +459,7 @@ public class ParticleInteractionsParticle extends Particle {
         if (!((ParticleAccessor) this).eg_particle_interactions$getStoppedByCollision()) {
             final double originalYa = ya;
             if (this.hasPhysics && (xa != 0.0 || ya != 0.0 || za != 0.0) && xa * xa + ya * ya + za * za < MAXIMUM_COLLISION_VELOCITY_SQUARED) {
-                Vec3 movement = this.collisionResult;
+                Vec3 movement = this.collide(xa, ya, za);
                 xa = movement.x;
                 ya = movement.y;
                 za = movement.z;
@@ -475,8 +475,7 @@ public class ParticleInteractionsParticle extends Particle {
             }
 
             if(this.onGround) {
-                Vec3 downCollision = this.collide(xa, ya - 1, za);
-                if(downCollision.y() == 0d) return;
+                if(this.downCollision.y() == 0d) return;
             }
 
             this.onGround = originalYa != ya && originalYa < 0d;
