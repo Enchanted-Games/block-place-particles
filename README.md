@@ -1,17 +1,23 @@
 # Particle Interactions
-A mod that adds particles to more interactions in the game, such as when placing a block or stripping a log. The mod aims to be as configurable as possible and doesn't need to be installed on the server!
+A mod that adds particles to more interactions in the game, such as when placing a block or stripping a log. The aim of this mod is to add particles to almost every interaction in the game while staying as close as possible to the vanilla design and aesthetic!
 
-**This mod is fully client side**, however, a few particles added by the mod won't spawn when other players use certain items, place certain blocks, etc. Better multiplayer support is planned in the future, which may require the mod to be installed server-side
+**This mod is fully client side**, however, a few particles added by the mod won't spawn when other players use certain items, place certain blocks, etc. Better multiplayer support is planned in the future, which may optionally require the mod to be installed server-side
 
-Every single feature added by this mod can be adjusted or disabled entirely in the mods' config menu! To access this, click the Mods button on the title or pause screen (on Fabric you need [Mod Menu](https://modrinth.com/mod/modmenu)), click on the Particle Interactions mod, and click the config button
+Every single feature added by this mod can be adjusted or disabled in the mods' config menu or with a resourcepack! To access the config menu, click the Mods button on the title or pause screen (on Fabric you need [Mod Menu](https://modrinth.com/mod/modmenu)), click on the Particle Interactions mod, and click the config button
 
-The mod is currently only being updated for the latest Minecraft version (1.21.5 as of writing). Mod updates will not be backported to older versions until at least the full 1.0 release (or until i have more time to do so)
+The mod is currently only being actively updated for Minecraft 26.1.2 and 26.2.
 
 ## This mod is in beta!
-Some things may be changed or removed entirely before the full release. The config may break between versions before the full release. If you spot bugs / crashes / other mod incompatibilities, you can report them on [the GitHub issue tracker](https://github.com/Enchanted-Games/block-place-particles/issues)!
+Some things may be changed or removed entirely before the full release. If you spot bugs / crashes / other mod incompatibilities, you can report them on [the GitHub issue tracker](https://github.com/Enchanted-Games/block-place-particles/issues)!
 Please test this with your favourite mods and report any issues or unexpected behaviour on the issue tracker!
 
+## Resourcepack Support
+
+As of v0.10, this mod allows resourcepacks to define custom particles for blocks and fluids! The particles that spawn for each type of interaction can also be configured. [See the docs](https://particle-interactions.enchanted.games/) for more info
+
 ## Current Features as of v0.7
+**! NOTE !: Not all of these features are present in all versions! Check the changelogs for further detail.** This section is in the process of being moved to the [docs website](https://particle-interactions.enchanted.games/mod-features.html) to be much clearer and with images showcasing each feature.
+
 ### Particles
 - Unique block breaking/placement particles which appear when breaking, placing or sprinting on certain blocks (Block Particle Overrides)
 
@@ -61,7 +67,7 @@ Please test this with your favourite mods and report any issues or unexpected be
 - A toggle to disable some extra physics calculations done by the mod to slightly improve performance
 
 ## Planned Features
-You can view the full list of planned features [here!](https://github.com/Enchanted-Games/block-place-particles/issues/6)
+You can view the full list of planned features [here!](https://github.com/Enchanted-Games/block-place-particles/issues/6). Note that features may be added or removed at any time, however feel free to discuss or suggest new features on the GitHub page!
 
 ## License
 <p xmlns:cc="http://creativecommons.org/ns#" >Particle Interactions by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://enchanted.games">ioblackshaw (a.k.a. Enchanted_Games)</a> is licensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-NC 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1"></a></p> 
