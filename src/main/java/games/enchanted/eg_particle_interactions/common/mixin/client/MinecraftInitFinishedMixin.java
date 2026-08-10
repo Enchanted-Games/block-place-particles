@@ -14,7 +14,7 @@ public class MinecraftInitFinishedMixin {
         at = @At("TAIL"),
         method = "<init>"
     )
-    private static void a(GameConfig gameConfig, CallbackInfo ci) {
+    private static void eg_particle_interactions$onClientInitFinish(GameConfig gameConfig, CallbackInfo ci) {
         ParticleInteractionsMod.clientInitFinished();
     }
 }
