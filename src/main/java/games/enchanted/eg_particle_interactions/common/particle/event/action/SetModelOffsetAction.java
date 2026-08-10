@@ -1,7 +1,6 @@
-package games.enchanted.eg_particle_interactions.common.particle.event.action.appearance;
+package games.enchanted.eg_particle_interactions.common.particle.event.action;
 
 import com.mojang.serialization.MapCodec;
-import games.enchanted.eg_particle_interactions.common.particle.event.action.EventAction;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
 import net.minecraft.util.ExtraCodecs;
 import org.joml.Vector3f;

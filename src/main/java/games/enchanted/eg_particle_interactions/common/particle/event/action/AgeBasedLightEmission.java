@@ -1,25 +1,24 @@
-package games.enchanted.eg_particle_interactions.common.particle.event.action.appearance;
+package games.enchanted.eg_particle_interactions.common.particle.event.action;
 
 import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
-import games.enchanted.eg_particle_interactions.common.particle.event.action.EventAction;
 import games.enchanted.eg_particle_interactions.common.util.math.range.FloatRange;
 
-public class AgeBasedScale extends AgeBasedFieldSet {
-    public static MapCodec<AgeBasedScale> CODEC = AgeBasedFieldSet.createCodec(AgeBasedScale::new);
+public class AgeBasedLightEmission extends AgeBasedFieldSet {
+    public static MapCodec<AgeBasedLightEmission> CODEC = AgeBasedFieldSet.createCodec(AgeBasedLightEmission::new);
 
-    AgeBasedScale(float multiplier, boolean useInitialValue, FloatRange agePercentageRange) {
+    AgeBasedLightEmission(float multiplier, boolean useInitialValue, FloatRange agePercentageRange) {
         super(multiplier, useInitialValue, agePercentageRange);
     }
 
     @Override
     protected float initialValue(ParticleInteractionsParticle particle) {
-        return particle.getInitialAppearanceScale();
+        return particle.getInitialAppearanceLightEmission();
     }
 
     @Override
     protected void setValue(ParticleInteractionsParticle particle, float value) {
-        particle.setScale(value, true);
+        particle.setLightEmission((int) value);
     }
 
     @Override

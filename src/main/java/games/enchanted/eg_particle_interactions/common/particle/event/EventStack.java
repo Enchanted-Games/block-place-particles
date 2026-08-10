@@ -3,11 +3,10 @@ package games.enchanted.eg_particle_interactions.common.particle.event;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.particle.event.action.EventAction;
-import games.enchanted.eg_particle_interactions.common.particle.event.action.appearance.AppearanceEventActions;
-import games.enchanted.eg_particle_interactions.common.particle.event.action.lifetime.LifetimeEventActions;
-import games.enchanted.eg_particle_interactions.common.particle.event.types.OnBounceEventType;
-import games.enchanted.eg_particle_interactions.common.particle.event.types.ParticleEventType;
-import games.enchanted.eg_particle_interactions.common.particle.event.types.ParticleEventTypes;
+import games.enchanted.eg_particle_interactions.common.particle.event.action.EventActions;
+import games.enchanted.eg_particle_interactions.common.particle.event.trigger.OnBounceEventType;
+import games.enchanted.eg_particle_interactions.common.particle.event.trigger.ParticleEventType;
+import games.enchanted.eg_particle_interactions.common.particle.event.trigger.ParticleEventTypes;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
 
 import java.util.ArrayList;
@@ -44,21 +43,11 @@ public class EventStack {
     }
 
     public record Event(ParticleEventType eventType, EventAction action) {
-        public static Codec<Event> LIFETIME_CODEC = RecordCodecBuilder.create(i ->
-            i.group(
-                ParticleEventTypes.CODEC.fieldOf("trigger").forGetter(Event::eventType),
-                LifetimeEventActions.CODEC.fieldOf("action").forGetter(Event::action)
-            ).apply(
-                i,
-                Event::new
-            )
-        );
-
-        public static Codec<Event> appearanceCodec() {
+        public static Codec<Event> codec() {
             return RecordCodecBuilder.create(i ->
                 i.group(
                     ParticleEventTypes.CODEC.fieldOf("trigger").forGetter(Event::eventType),
-                    AppearanceEventActions.CODEC.fieldOf("action").forGetter(Event::action)
+                    EventActions.CODEC.fieldOf("action").forGetter(Event::action)
                 ).apply(
                     i,
                     Event::new

@@ -58,7 +58,7 @@ public record ParticleAppearance(TextureConfig textureConfig, ColourSource colou
                 RandomFloatProvider.CODEC.optionalFieldOf("scale", DEFAULT_SCALE).forGetter(ParticleAppearance::scale),
                 ExtraCodecs.VECTOR3F.optionalFieldOf("model_offset", MODEL_OFFSET_DEFAULT).forGetter(ParticleAppearance::modelOffset),
                 UVProviders.CODEC.optionalFieldOf("uv", DEFAULT_UV).forGetter(ParticleAppearance::uv),
-                EventStack.Event.appearanceCodec().listOf().optionalFieldOf("events", List.of()).forGetter(ParticleAppearance::events)
+                EventStack.Event.codec().listOf().optionalFieldOf("events", List.of()).forGetter(ParticleAppearance::events)
             ).apply(
                 i,
                 ParticleAppearance::new

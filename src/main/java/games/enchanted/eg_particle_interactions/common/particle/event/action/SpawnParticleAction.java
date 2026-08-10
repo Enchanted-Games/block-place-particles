@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.particle.event.action.lifetime;
+package games.enchanted.eg_particle_interactions.common.particle.event.action;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -6,7 +6,6 @@ import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
 import games.enchanted.eg_particle_interactions.common.particle.value.VelocityProvider;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitters;
-import games.enchanted.eg_particle_interactions.common.particle.event.action.EventAction;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
 import org.joml.Vector3d;
 

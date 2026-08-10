@@ -1,10 +1,9 @@
-package games.enchanted.eg_particle_interactions.common.particle.event.action.appearance;
+package games.enchanted.eg_particle_interactions.common.particle.event.action;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.uv.UVProvider;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.uv.UVProviders;
-import games.enchanted.eg_particle_interactions.common.particle.event.action.EventAction;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
 
 public class SetUVAction extends EventAction {

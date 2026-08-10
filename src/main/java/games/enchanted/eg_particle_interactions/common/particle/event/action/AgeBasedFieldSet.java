@@ -1,11 +1,10 @@
-package games.enchanted.eg_particle_interactions.common.particle.event.action.appearance;
+package games.enchanted.eg_particle_interactions.common.particle.event.action;
 
 import com.mojang.datafixers.util.Function3;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
-import games.enchanted.eg_particle_interactions.common.particle.event.action.EventAction;
 import games.enchanted.eg_particle_interactions.common.util.math.range.FloatRange;
 
 public abstract class AgeBasedFieldSet extends EventAction {

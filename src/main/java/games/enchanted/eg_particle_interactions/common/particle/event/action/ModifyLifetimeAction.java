@@ -1,19 +1,18 @@
-package games.enchanted.eg_particle_interactions.common.particle.event.action.appearance;
+package games.enchanted.eg_particle_interactions.common.particle.event.action;
 
 import com.mojang.serialization.MapCodec;
-import games.enchanted.eg_particle_interactions.common.particle.event.action.EventAction;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.IntMathModifier;
 
-public class ModifyLightEmissionAction extends EventAction {
-    public static final MapCodec<ModifyLightEmissionAction> CODEC = IntMathModifier.CODEC.xmap(
-        ModifyLightEmissionAction::new,
-        ModifyLightEmissionAction::getModifier
+public class ModifyLifetimeAction extends EventAction {
+    public static final MapCodec<ModifyLifetimeAction> CODEC = IntMathModifier.CODEC.xmap(
+        ModifyLifetimeAction::new,
+        ModifyLifetimeAction::getModifier
     );
 
     final IntMathModifier modifier;
 
-    ModifyLightEmissionAction(IntMathModifier modifier) {
+    ModifyLifetimeAction(IntMathModifier modifier) {
         this.modifier = modifier;
     }
 
@@ -23,7 +22,7 @@ public class ModifyLightEmissionAction extends EventAction {
 
     @Override
     public void onFire(ParticleInteractionsParticle particle) {
-        particle.modifyLightEmission(this.modifier);
+        particle.modifyLifetime(this.modifier);
     }
 
     @Override

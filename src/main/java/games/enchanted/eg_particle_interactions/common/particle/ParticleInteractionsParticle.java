@@ -186,8 +186,8 @@ public class ParticleInteractionsParticle extends Particle {
         BooleanComponent bypassCollisionCheckComponent = components.get(ParticleComponents.PHYSICS_BYPASS_COLLISION_CHECK);
         ((ParticleDuck) this).eg_particle_interactions$setBypassMovementCollisionCheck(bypassCollisionCheckComponent == null ? this.friction < 0.99 : bypassCollisionCheckComponent.value());
 
-        LifetimeEventsComponent lifetimeEventsComponent = components.get(ParticleComponents.LIFETIME_EVENTS);
-        this.lifetimeEventStack = new EventStack(lifetimeEventsComponent == null ? List.of() : lifetimeEventsComponent.events(), this);
+        EventsComponent eventsComponent = components.get(ParticleComponents.EVENTS);
+        this.lifetimeEventStack = new EventStack(eventsComponent == null ? List.of() : eventsComponent.events(), this);
 
         this.randomRenderOffset = level.getRandom().nextFloat() * 0.005f;
     }

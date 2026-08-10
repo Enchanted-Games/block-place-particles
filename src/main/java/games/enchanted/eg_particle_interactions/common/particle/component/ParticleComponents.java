@@ -78,10 +78,10 @@ public class ParticleComponents {
         AppearanceComponent.CODEC,
         AppearanceComponent.STREAM_CODEC
     );
-    public static final ParticleComponentRegistry.ComponentReference<LifetimeEventsComponent> LIFETIME_EVENTS = register(
+    public static final ParticleComponentRegistry.ComponentReference<EventsComponent> EVENTS = register(
         ParticleInteractionsMod.id("lifetime_events"),
-        LifetimeEventsComponent.CODEC,
-        LifetimeEventsComponent.STREAM_CODEC
+        EventsComponent.CODEC,
+        EventsComponent.STREAM_CODEC
     );
 
     public static <T> ParticleComponentRegistry.ComponentReference<T> register(

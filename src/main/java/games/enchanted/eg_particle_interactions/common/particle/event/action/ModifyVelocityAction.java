@@ -1,7 +1,6 @@
-package games.enchanted.eg_particle_interactions.common.particle.event.action.lifetime;
+package games.enchanted.eg_particle_interactions.common.particle.event.action;
 
 import com.mojang.serialization.MapCodec;
-import games.enchanted.eg_particle_interactions.common.particle.event.action.EventAction;
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.Vector3dMathModifier;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
 

@@ -1,29 +1,29 @@
-package games.enchanted.eg_particle_interactions.common.particle.event.types;
+package games.enchanted.eg_particle_interactions.common.particle.event.trigger;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
 
-public class InAirEventType extends ParticleEventType {
-    public static final MapCodec<InAirEventType> CODEC = RecordCodecBuilder.mapCodec(i -> i
+public class OnGroundEventType extends ParticleEventType {
+    public static final MapCodec<OnGroundEventType> CODEC = RecordCodecBuilder.mapCodec(i -> i
         .group(
-            Codec.BOOL.optionalFieldOf("oneshot", true).forGetter(InAirEventType::isOneShot)
+            Codec.BOOL.optionalFieldOf("oneshot", true).forGetter(OnGroundEventType::isOneShot)
         ).apply(
             i,
-            InAirEventType::new
+            OnGroundEventType::new
         )
     );
 
     final boolean oneshot;
 
-    InAirEventType(boolean oneshot) {
+    OnGroundEventType(boolean oneshot) {
         this.oneshot = oneshot;
     }
 
     @Override
     public void onParticleTick(ParticleInteractionsParticle particle) {
-        if(this.isOneShot() ? particle.isInAirOneshot() : !particle.isOnGround()) this.fire(particle);
+        if(this.isOneShot() ? particle.isOnGroundOneshot() : particle.isOnGround()) this.fire(particle);
     }
 
     protected boolean isOneShot() {
