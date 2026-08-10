@@ -1,8 +1,8 @@
 package games.enchanted.eg_particle_interactions.common.mixin.client;
 
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
+import net.minecraft.client.GameLoadCookie;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.main.GameConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -12,9 +12,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MinecraftInitFinishedMixin {
     @Inject(
         at = @At("TAIL"),
-        method = "<init>"
+        method = "onGameLoadFinished"
     )
-    private static void eg_particle_interactions$onClientInitFinish(GameConfig gameConfig, CallbackInfo ci) {
-        ParticleInteractionsMod.clientInitFinished();
+    private static void eg_particle_interactions$onClientInitFinish(GameLoadCookie loadCookie, CallbackInfo ci) {
+        ParticleInteractionsMod.showVersionLoadFailedToast();
     }
 }

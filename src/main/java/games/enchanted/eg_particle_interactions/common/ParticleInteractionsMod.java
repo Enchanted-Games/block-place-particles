@@ -57,9 +57,12 @@ public class ParticleInteractionsMod {
         Logging.info("Init done!");
     }
 
-    public static void clientInitFinished() {
+    public static void showVersionLoadFailedToast() {
         if(Constants.CURRENT_PACK_VERSION.is(PackVersion.UNSPECIFIED)) {
-            Toaster.showToast(Component.literal("Failed to load pack version"), Component.literal("Some resourcepacks made for Particle Interactions may not work correctly. Please report this"));
+            Toaster.showToast(
+                Component.translatable("eg_particle_interactions.toast.version_load_failed.title"),
+                Component.translatable("eg_particle_interactions.toast.version_load_failed.desc")
+            );
         }
     }
 

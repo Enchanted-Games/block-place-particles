@@ -64,7 +64,8 @@
         "resource.vanilla.RegisterModAssets_BuiltinPackSourceMixin",
         "resource.version.IntermediateOverlayEntryMixin",
         "resource.version.OverlayEntryMixin",
-        "screen.OptionsScreenMixin"
+        "screen.OptionsScreenMixin",
+        "screen.ResourcepackScreenMixin"
     ],
     "injectors": {
         "defaultRequire": 1

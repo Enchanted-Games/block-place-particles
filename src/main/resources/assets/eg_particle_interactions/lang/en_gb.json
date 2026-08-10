@@ -9,6 +9,9 @@
   "eg_particle_interactions.toast.errors_in_resource.title": "Errors found in some %s",
   "eg_particle_interactions.toast.errors_in_resource.desc": "Please check the log for more details",
 
+  "eg_particle_interactions.toast.version_load_failed.title": "Failed to load pack version",
+  "eg_particle_interactions.toast.version_load_failed.desc": "Some resourcepacks made for Particle Interactions may not work correctly. Please report this to Particle Interactions!",
+
   "eg_particle_interactions.config.title": "Particle Interactions Config",
   "eg_particle_interactions.config.category_separator": "---------------------",
 
