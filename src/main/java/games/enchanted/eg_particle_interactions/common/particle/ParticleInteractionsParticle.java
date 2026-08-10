@@ -428,7 +428,7 @@ public class ParticleInteractionsParticle extends Particle {
         final boolean yVelInCutoffRange = MathHelper.isInRange(yVel, -MIN_BOUNCE_CUTOFF, MIN_BOUNCE_CUTOFF);
         final boolean zVelInCutoffRange = MathHelper.isInRange(zVel, -MIN_BOUNCE_CUTOFF, MIN_BOUNCE_CUTOFF);
 
-        this.downCollision = this.collide(xVel, yVel - 1, zVel);
+        this.downCollision = this.collide(xVel * 2, yVel * 2, zVel * 2);
         this.xd = Math.abs(this.downCollision.x) <= EPSILON && !xVelInCutoffRange ? -xVel * this.bounciness * 0.99999 : xVel;
         this.yd = Math.abs(this.downCollision.y) <= EPSILON && !yVelInCutoffRange ? -yVel * this.bounciness * 0.99999 : yVel;
         this.zd = Math.abs(this.downCollision.z) <= EPSILON && !zVelInCutoffRange ? -zVel * this.bounciness * 0.99999 : zVel;
