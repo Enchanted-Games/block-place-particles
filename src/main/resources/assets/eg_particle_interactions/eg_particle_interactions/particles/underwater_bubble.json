@@ -25,7 +25,7 @@
         "physics/buoyancy": 1,
         "physics/collision_size": 0.5,
         "appearance": "underwater_bubble/normal",
-        "lifetime_events": [
+        "events": [
             {
                 "trigger": {
                     "type": "exited_fluid"

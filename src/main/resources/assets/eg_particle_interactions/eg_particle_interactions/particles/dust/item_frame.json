@@ -20,7 +20,7 @@
             0.94
         ],
         "appearance": "dust/item_frame",
-        "lifetime_events": [
+        "events": [
             {
                 "trigger": {
                     "type": "random_chance",

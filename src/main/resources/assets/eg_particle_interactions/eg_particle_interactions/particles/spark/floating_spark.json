@@ -23,7 +23,7 @@
         "physics/bounciness_decay": 0.75,
         "physics/collision_size": 0.5,
         "appearance": "spark/regular_spark",
-        "lifetime_events": [
+        "events": [
             {
                 "trigger": {
                     "type": "random_chance",

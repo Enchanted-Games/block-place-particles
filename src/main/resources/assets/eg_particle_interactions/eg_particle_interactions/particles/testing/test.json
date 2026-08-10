@@ -17,7 +17,7 @@
         "physics/friction": 0,
         "physics/bounciness": 0.9,
         "appearance": "test",
-        "lifetime_events": [
+        "events": [
         ]
     }
 }

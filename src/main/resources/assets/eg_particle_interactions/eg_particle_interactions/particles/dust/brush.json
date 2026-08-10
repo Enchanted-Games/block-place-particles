@@ -20,7 +20,7 @@
             0.94
         ],
         "appearance": "dust/brush",
-        "lifetime_events": [
+        "events": [
             {
                 "trigger": {
                     "type": "random_chance",

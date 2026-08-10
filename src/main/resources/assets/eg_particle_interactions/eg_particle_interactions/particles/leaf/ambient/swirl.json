@@ -37,7 +37,7 @@
             }
         },
         "appearance": "test",
-        "lifetime_events": [
+        "events": [
             {
                 "trigger": {
                     "type": "on_ground"
