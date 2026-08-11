@@ -213,7 +213,7 @@ public class ParticleInteractionsParticle extends Particle {
         );
         this.initialAppearanceAlpha = colour[0] / 255f;
 
-        this.facingCameraMode = appearance.facingCameraModeDefinition().facingCameraMode();
+        this.facingCameraMode = appearance.customFacingCameraMode().mode();
 
         this.minLightEmission = appearance.lightEmission();
         this.initialLightEmission = this.minLightEmission;
@@ -245,22 +245,23 @@ public class ParticleInteractionsParticle extends Particle {
 
     public void extract(QuadConsumerProvider quadConsumerProvider, Camera camera, float partialTicks) {
         Quaternionf quaternionf = new Quaternionf();
-        this.getBillboardMode().rotate(quaternionf, camera);
+        double lerpedX = (float) Mth.lerp(partialTicks, this.xo, this.x);
+        double lerpedY = (float) Mth.lerp(partialTicks, this.yo, this.y + (this.onGround ? this.randomRenderOffset : 0));
+        double lerpedZ = (float) Mth.lerp(partialTicks, this.zo, this.z);
+        Vec3 lerpedPos = new Vec3(lerpedX, lerpedY, lerpedZ);
+        this.getBillboardMode().rotate(quaternionf, camera, lerpedPos);
         if (this.spin != 0.0F) {
             quaternionf.rotateZ(Mth.lerp(partialTicks, this.prevSpin, this.spin));
         }
 
-        this.adjustPositionBeforeExtraction(quadConsumerProvider.getConsumer(this.getVanillaLayer()), camera, quaternionf, partialTicks);
+        this.adjustPositionBeforeExtraction(quadConsumerProvider.getConsumer(this.getVanillaLayer()), camera, quaternionf, lerpedPos, partialTicks);
     }
 
-    protected void adjustPositionBeforeExtraction(QuadConsumer consumer, Camera camera, Quaternionf quaternionf, float partialTicks) {
+    protected void adjustPositionBeforeExtraction(QuadConsumer consumer, Camera camera, Quaternionf quaternionf, Vec3 lerpedPos, float partialTicks) {
         Vec3 cameraPosition = camera.position();
-        float lerpedX = (float) Mth.lerp(partialTicks, this.xo, this.x);
-        float lerpedY = (float) Mth.lerp(partialTicks, this.yo, this.y) + (this.onGround ? this.randomRenderOffset : 0);
-        float lerpedZ = (float) Mth.lerp(partialTicks, this.zo, this.z);
-        float x = (float) (lerpedX - cameraPosition.x());
-        float y = (float) (lerpedY - cameraPosition.y());
-        float z = (float) (lerpedZ - cameraPosition.z());
+        float x = (float) (lerpedPos.x() - cameraPosition.x());
+        float y = (float) (lerpedPos.y() - cameraPosition.y());
+        float z = (float) (lerpedPos.z() - cameraPosition.z());
         this.extractGeometry(consumer, quaternionf, x, y, z, partialTicks);
 
         if (GeneralOptions.DEBUG_PARTICLE_TICK_BOUNDING_BOXES.getValue()) {

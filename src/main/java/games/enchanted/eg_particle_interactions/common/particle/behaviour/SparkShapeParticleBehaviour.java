@@ -63,13 +63,13 @@ public class SparkShapeParticleBehaviour extends ParticleInteractionsParticle {
     }
 
     @Override
-    protected void adjustPositionBeforeExtraction(QuadConsumer consumer, Camera camera, Quaternionf quaternionf, float partialTicks) {
+    protected void adjustPositionBeforeExtraction(QuadConsumer consumer, Camera camera, Quaternionf quaternionf, Vec3 lerpedPos, float partialTicks) {
         Vector3f cameraPosition = camera.position().toVector3f();
 
-        float xPos = (float) Mth.lerp(partialTicks, this.xo, this.x);
-        float yPos = (float) Mth.lerp(partialTicks, this.yo, this.y);
-        float zPos = (float) Mth.lerp(partialTicks, this.zo, this.z);
-        Vector3f pos = new Vector3f(xPos, yPos, zPos).sub(cameraPosition);
+        double xPos = lerpedPos.x();
+        double yPos = lerpedPos.y();
+        double zPos = lerpedPos.z();
+        Vector3f pos = new Vector3f((float) xPos, (float) yPos, (float) zPos).sub(cameraPosition);
         float prevXPos = (float) Mth.lerp(partialTicks, this.prevPrevX, this.xo);
         float prevYPos = (float) Mth.lerp(partialTicks, this.prevPrevY, this.yo);
         float prevZPos = (float) Mth.lerp(partialTicks, this.prevPrevZ, this.zo);

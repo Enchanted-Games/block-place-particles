@@ -1,8 +1,9 @@
 package games.enchanted.eg_particle_interactions.common.util.math;
 
-import org.joml.Quaternionf;
-import org.joml.Vector3d;
-import org.joml.Vector3f;
+import net.minecraft.world.phys.Vec3;
+import org.joml.*;
+
+import java.lang.Math;
 
 public class MathHelper {
     public static boolean isInRange(double value, double min, double max) {
@@ -60,6 +61,22 @@ public class MathHelper {
     public static Vector3f directionVectorFromPitchYaw(float pitch, float yaw) {
         float cosPitch = (float) Math.cos(pitch);
         return new Vector3f((float) Math.sin(-yaw) * cosPitch, -(float) Math.sin(pitch), (float) Math.cos(-yaw) * cosPitch);
+    }
+
+    /**
+     * Gets angles between two points
+     *
+     * @param a first point
+     * @param b second point
+     * @return the altitude and azimuth angle in radians
+     */
+    public static Vector2f getAnglesBetweenPoints(Vector3f a, Vector3f b) {
+        float x = a.x() - b.x();
+        float y = a.y() - b.y();
+        float z = a.z() - b.z();
+        float altitude = (float) Math.atan2(y, Math.sqrt(x*x + z*z));
+        float azimuth = (float) Math.atan2(-x, -z);
+        return new Vector2f(altitude, azimuth);
     }
 
     /**

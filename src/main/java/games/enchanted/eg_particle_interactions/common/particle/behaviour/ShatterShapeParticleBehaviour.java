@@ -71,22 +71,22 @@ public class ShatterShapeParticleBehaviour extends ParticleInteractionsParticle 
         Direction facingDirection = this.getParticleFacingDirection();
         switch (facingDirection) {
             case NORTH -> {
-                return (quaternion, camera) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(270), 0f));
+                return (quaternion, camera, pos) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(270), 0f));
             }
             case EAST -> {
-                return (quaternion, camera) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(180), 0f));
+                return (quaternion, camera, pos) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(180), 0f));
             }
             case SOUTH -> {
-                return (quaternion, camera) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(90), 0f));
+                return (quaternion, camera, pos) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(90), 0f));
             }
             case WEST -> {
-                return (quaternion, camera) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, 0f, 0f));
+                return (quaternion, camera, pos) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, 0f, 0f));
             }
             case UP -> {
-                return (quaternion, camera) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(90), (float) Math.toRadians(90)));
+                return (quaternion, camera, pos) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(90), (float) Math.toRadians(90)));
             }
             case DOWN -> {
-                return (quaternion, camera) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(90), (float) Math.toRadians(-90)));
+                return (quaternion, camera, pos) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(90), (float) Math.toRadians(-90)));
             }
             case null, default -> {
                 return FacingCameraMode.XYZ;

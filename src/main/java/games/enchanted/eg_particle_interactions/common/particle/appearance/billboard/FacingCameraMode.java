@@ -2,12 +2,13 @@ package games.enchanted.eg_particle_interactions.common.particle.appearance.bill
 
 import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import net.minecraft.client.Camera;
+import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 
 public interface FacingCameraMode {
-    FacingCameraMode NONE = (quaternion, camera) -> quaternion.set(0.0f, 0.0f, 0.0f, camera.rotation().w);
-    FacingCameraMode XYZ = (quaternion, camera) -> quaternion.set(camera.rotation());
-    FacingCameraMode HORIZONTAL = (quaternion, camera) -> quaternion.set(
+    FacingCameraMode NONE = (quaternion, camera, pos) -> quaternion.set(0.0f, 0.0f, 0.0f, camera.rotation().w);
+    FacingCameraMode XYZ = (quaternion, camera, pos) -> quaternion.set(camera.rotation());
+    FacingCameraMode HORIZONTAL = (quaternion, camera, pos) -> quaternion.set(
         MathHelper.eulerAnglesToQuaternion(
             0f,
             (float) Math.toRadians(180 - camera.yRot()),
@@ -15,5 +16,5 @@ public interface FacingCameraMode {
         )
     );
 
-    void rotate(Quaternionf quaternion, Camera camera);
+    void rotate(Quaternionf quaternion, Camera camera, Vec3 pos);
 }
