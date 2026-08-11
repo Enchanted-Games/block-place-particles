@@ -4,6 +4,7 @@ import games.enchanted.eg_particle_interactions.common.config.categories.General
 import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes;
 import games.enchanted.eg_particle_interactions.common.duck.ParticleDuck;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.ParticleAccessor;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.billboard.FacingCameraMode;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumerProvider;
 import games.enchanted.eg_particle_interactions.common.particle.value.VelocityProvider;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
@@ -102,6 +103,7 @@ public class ParticleInteractionsParticle extends Particle {
     protected float initialAppearanceScale;
     protected int initialLightEmission;
     protected float initialAppearanceAlpha;
+    protected FacingCameraMode facingCameraMode;
 
     protected final EventStack lifetimeEventStack;
     protected EventStack appearanceEventStack;
@@ -211,6 +213,8 @@ public class ParticleInteractionsParticle extends Particle {
         );
         this.initialAppearanceAlpha = colour[0] / 255f;
 
+        this.facingCameraMode = appearance.facingCameraModeDefinition().facingCameraMode();
+
         this.minLightEmission = appearance.lightEmission();
         this.initialLightEmission = this.minLightEmission;
 
@@ -241,7 +245,7 @@ public class ParticleInteractionsParticle extends Particle {
 
     public void extract(QuadConsumerProvider quadConsumerProvider, Camera camera, float partialTicks) {
         Quaternionf quaternionf = new Quaternionf();
-        this.getBillboardMode().rotate(quaternionf, camera, partialTicks);
+        this.getBillboardMode().rotate(quaternionf, camera);
         if (this.spin != 0.0F) {
             quaternionf.rotateZ(Mth.lerp(partialTicks, this.prevSpin, this.spin));
         }
@@ -301,8 +305,8 @@ public class ParticleInteractionsParticle extends Particle {
         consumer.finishQuad();
     }
 
-    public BillboardMode getBillboardMode() {
-        return BillboardMode.XYZ;
+    public FacingCameraMode getBillboardMode() {
+        return this.facingCameraMode;
     }
 
     @Override
@@ -818,14 +822,6 @@ public class ParticleInteractionsParticle extends Particle {
     protected void forEventStacks(Consumer<EventStack> eventStackConsumer) {
         eventStackConsumer.accept(this.lifetimeEventStack);
         eventStackConsumer.accept(this.appearanceEventStack);
-    }
-
-
-    public interface BillboardMode {
-        BillboardMode FIXED = (quaternion, camera, partialTicks) -> quaternion.set(0.0f, 0.0f, 0.0f, camera.rotation().w);
-        BillboardMode XYZ = (quaternion, camera, partialTicks) -> quaternion.set(camera.rotation());
-
-        void rotate(Quaternionf quaternion, Camera camera, float partialTicks);
     }
 
     public static class Provider implements ParticleBehaviourProvider {

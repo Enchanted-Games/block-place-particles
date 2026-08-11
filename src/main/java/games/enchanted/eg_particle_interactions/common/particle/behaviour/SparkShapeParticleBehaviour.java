@@ -5,6 +5,7 @@ import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.ParticleAccessor;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.billboard.FacingCameraMode;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
@@ -53,11 +54,6 @@ public class SparkShapeParticleBehaviour extends ParticleInteractionsParticle {
         this.prevPrevZ = this.zo;
 
         super.tick();
-    }
-
-    @Override
-    public BillboardMode getBillboardMode() {
-        return BillboardMode.FIXED;
     }
 
     protected Vector3f getShapeOffset() {

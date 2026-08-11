@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.particle.behaviour;
 
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.billboard.FacingCameraMode;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
@@ -66,29 +67,29 @@ public class ShatterShapeParticleBehaviour extends ParticleInteractionsParticle 
     }
 
     @Override
-    public BillboardMode getBillboardMode() {
+    public FacingCameraMode getBillboardMode() {
         Direction facingDirection = this.getParticleFacingDirection();
         switch (facingDirection) {
             case NORTH -> {
-                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(270), 0f));
+                return (quaternion, camera) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(270), 0f));
             }
             case EAST -> {
-                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(180), 0f));
+                return (quaternion, camera) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(180), 0f));
             }
             case SOUTH -> {
-                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(90), 0f));
+                return (quaternion, camera) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(90), 0f));
             }
             case WEST -> {
-                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, 0f, 0f));
+                return (quaternion, camera) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, 0f, 0f));
             }
             case UP -> {
-                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(90), (float) Math.toRadians(90)));
+                return (quaternion, camera) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(90), (float) Math.toRadians(90)));
             }
             case DOWN -> {
-                return (quaternion, camera, partialTicks) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(90), (float) Math.toRadians(-90)));
+                return (quaternion, camera) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(0f, (float) Math.toRadians(90), (float) Math.toRadians(-90)));
             }
             case null, default -> {
-                return BillboardMode.XYZ;
+                return FacingCameraMode.XYZ;
             }
         }
     }

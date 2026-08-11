@@ -3,6 +3,9 @@ package games.enchanted.eg_particle_interactions.common.particle.appearance;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.billboard.FacingCameraModeDefinition;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.billboard.FacingCameraModes;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.billboard.PresetCameraMode;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.colour.ColourSource;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.colour.ColourSources;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.texture.TextureConfig;
@@ -20,11 +23,22 @@ import org.joml.Vector3fc;
 
 import java.util.List;
 
-public record ParticleAppearance(TextureConfig textureConfig, ColourSource colourSource, int lightEmission, SpinConfig spinConfig, RandomFloatProvider scale, Vector3fc modelOffset, UVProvider uv, List<EventStack.Event> events) {
+public record ParticleAppearance(
+    TextureConfig textureConfig,
+    ColourSource colourSource,
+    int lightEmission,
+    SpinConfig spinConfig,
+    RandomFloatProvider scale,
+    Vector3fc modelOffset,
+    UVProvider uv,
+    FacingCameraModeDefinition facingCameraModeDefinition,
+    List<EventStack.Event> events
+) {
     private static final int DEFAULT_LIGHT_EMISSION = 0;
     private static final RandomFloatProvider DEFAULT_SCALE = new RandomFloatProvider(List.of(3f));
     private static final Vector3fc MODEL_OFFSET_DEFAULT = new Vector3f(0);
     private static final UVProvider DEFAULT_UV = SimpleUV.UNIT;
+    private static final FacingCameraModeDefinition DEFAULT_CAMERA_MODE = PresetCameraMode.XYZ;
 
     public static final ParticleAppearance.Reference MISSING_APPEARANCE = new InlineRef(new ParticleAppearance(
         TextureConfigs.MISSING_APPEARANCE,
@@ -34,6 +48,7 @@ public record ParticleAppearance(TextureConfig textureConfig, ColourSource colou
         DEFAULT_SCALE,
         MODEL_OFFSET_DEFAULT,
         DEFAULT_UV,
+        DEFAULT_CAMERA_MODE,
         List.of()
     ));
 
@@ -45,6 +60,7 @@ public record ParticleAppearance(TextureConfig textureConfig, ColourSource colou
         DEFAULT_SCALE,
         MODEL_OFFSET_DEFAULT,
         DEFAULT_UV,
+        DEFAULT_CAMERA_MODE,
         List.of()
     ));
 
@@ -58,6 +74,7 @@ public record ParticleAppearance(TextureConfig textureConfig, ColourSource colou
                 RandomFloatProvider.CODEC.optionalFieldOf("scale", DEFAULT_SCALE).forGetter(ParticleAppearance::scale),
                 ExtraCodecs.VECTOR3F.optionalFieldOf("model_offset", MODEL_OFFSET_DEFAULT).forGetter(ParticleAppearance::modelOffset),
                 UVProviders.CODEC.optionalFieldOf("uv", DEFAULT_UV).forGetter(ParticleAppearance::uv),
+                FacingCameraModes.CODEC.optionalFieldOf("facing_camera_mode", DEFAULT_CAMERA_MODE).forGetter(ParticleAppearance::facingCameraModeDefinition),
                 EventStack.Event.codec().listOf().optionalFieldOf("events", List.of()).forGetter(ParticleAppearance::events)
             ).apply(
                 i,
