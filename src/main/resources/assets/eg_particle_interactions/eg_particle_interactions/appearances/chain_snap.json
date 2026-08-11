@@ -7,11 +7,6 @@
             "eg_particle_interactions:chain_snap/3"
         ]
     },
-    "facing_camera_mode": {
-        "type": "fixed",
-        "pitch": "camera_yaw",
-        "yaw": "camera_pitch"
-    },
     "colour": {
         "type": "block_texture",
         "tint_index": 0

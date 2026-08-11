@@ -1,7 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.mixin.client;
 
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
-import net.minecraft.client.GameLoadCookie;
 import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,7 +13,7 @@ public class MinecraftInitFinishedMixin {
         at = @At("TAIL"),
         method = "onGameLoadFinished"
     )
-    private static void eg_particle_interactions$onClientInitFinish(GameLoadCookie loadCookie, CallbackInfo ci) {
+    private static void eg_particle_interactions$onClientInitFinish(CallbackInfo ci) {
         ParticleInteractionsMod.showVersionLoadFailedToast();
     }
 }
