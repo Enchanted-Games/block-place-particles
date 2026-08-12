@@ -1,11 +1,16 @@
 package games.enchanted.eg_particle_interactions.common.particle.appearance.billboard;
 
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.JavaOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import net.minecraft.client.Camera;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector2f;
+import org.jspecify.annotations.NonNull;
 
 public class CustomFacingCameraMode {
     public static final CustomFacingCameraMode XYZ = new CustomFacingCameraMode(new RotationComponent(-1, CameraValue.PITCH), new RotationComponent(-1, CameraValue.YAW));
@@ -16,18 +21,17 @@ public class CustomFacingCameraMode {
     ).withAlternative(
         Codec.STRING.xmap(
             s -> {
-                if(s.equals(CameraValue.PITCH.serializedName())) {
-                    return new RotationComponent(-1, CameraValue.PITCH);
-                } else if(s.equals(CameraValue.YAW.serializedName())) {
-                    return new RotationComponent(-1, CameraValue.YAW);
-                } else if(s.equals(CameraValue.PITCH_POINT_TOWARDS.serializedName())) {
-                    return new RotationComponent(-1, CameraValue.PITCH_POINT_TOWARDS);
-                } else if(s.equals(CameraValue.YAW_POINT_TOWARDS.serializedName())) {
-                    return new RotationComponent(-1, CameraValue.YAW_POINT_TOWARDS);
+                DataResult<Pair<CameraValue, Object>> decodedCameraValue = CameraValue.CODEC.decode(JavaOps.INSTANCE, s);
+                if(!decodedCameraValue.isSuccess() || decodedCameraValue.result().isEmpty()) {
+                    throw new IllegalArgumentException("Invalid variable '" + s + "'.");
                 }
-                throw new IllegalArgumentException("Invalid variable '" + s + "'.");
+                CameraValue val = decodedCameraValue.result().get().getFirst();
+                if(!val.isACameraVariable) {
+                    throw new IllegalArgumentException("Invalid variable '" + s + "'.");
+                }
+                return new RotationComponent(-1, val);
             },
-            rotationComponent -> rotationComponent.cameraValue().serializedName()
+            rotationComponent -> rotationComponent.cameraValue().getSerializedName()
         )
     );
 
@@ -71,27 +75,31 @@ public class CustomFacingCameraMode {
         }
     }
 
-    private enum CameraValue {
-        NONE("none"),
-        PITCH("camera_pitch"),
-        YAW("camera_yaw"),
-        PITCH_POINT_TOWARDS("camera_pitch_point", true),
-        YAW_POINT_TOWARDS("camera_yaw_point", true);
+    private enum CameraValue implements StringRepresentable {
+        NONE("none", false),
+        PITCH("camera_pitch", true),
+        YAW("camera_yaw", true),
+        PITCH_POINT_TOWARDS("point_towards_camera_pitch", true, true),
+        YAW_POINT_TOWARDS("point_towards_camera_yaw", true, true);
+
+        static final Codec<CameraValue> CODEC = StringRepresentable.fromEnum(CameraValue::values);
 
         final String name;
+        final boolean isACameraVariable;
         final boolean pointTowards;
 
-        CameraValue(String name) {
-            this(name, false);
+        CameraValue(String name, boolean isACameraVariable) {
+            this(name, isACameraVariable, false);
         }
 
-        CameraValue(String name, boolean pointTowards) {
+        CameraValue(String name, boolean isACameraVariable, boolean pointTowards) {
             this.name = name;
+            this.isACameraVariable = isACameraVariable;
             this.pointTowards = pointTowards;
         }
 
-
-        public String serializedName() {
+        @Override
+        public @NonNull String getSerializedName() {
             return this.name;
         }
     }
