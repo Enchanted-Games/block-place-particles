@@ -53,8 +53,8 @@ public class CustomFacingCameraMode {
         this.pitch = pitch;
         this.yaw = yaw;
         this.mode = (quaternion, camera, pos) -> quaternion.set(MathHelper.eulerAnglesToQuaternion(
-            (float) Math.toRadians(pitch.getValueDegrees(camera, pos)),
-            (float) Math.toRadians(yaw.getValueDegrees(camera, pos)),
+            (float) Math.toRadians(pitch.getDegrees(camera, pos)),
+            (float) Math.toRadians(yaw.getDegrees(camera, pos)),
             0f
         ));
     }
@@ -64,43 +64,69 @@ public class CustomFacingCameraMode {
     }
 
     private record RotationComponent(float value, CameraValue cameraValue) {
-        float getValueDegrees(Camera camera, Vec3 pos) {
-            if(this.cameraValue() == CameraValue.PITCH) return 360 - camera.xRot();
-            else if(this.cameraValue() == CameraValue.YAW) return 180 - camera.yRot();
-            else if(this.cameraValue().pointTowards) {
-                Vector2f angles = MathHelper.getAnglesBetweenPoints(pos.toVector3f(), camera.position().toVector3f());
-                return (float) (this.cameraValue() == CameraValue.PITCH_POINT_TOWARDS ? Math.toDegrees(angles.x()) : Math.toDegrees(angles.y()));
-            }
-            return this.value;
+        float getDegrees(Camera camera, Vec3 pos) {
+            if(!this.cameraValue().isACameraVariable) return this.value;
+            return cameraValue().rotationVariable().getDegrees(camera, pos);
         }
     }
 
     private enum CameraValue implements StringRepresentable {
-        NONE("none", false),
-        PITCH("camera_pitch", true),
-        YAW("camera_yaw", true),
-        PITCH_POINT_TOWARDS("point_towards_camera_pitch", true, true),
-        YAW_POINT_TOWARDS("point_towards_camera_yaw", true, true);
+        NONE(
+            "none",
+            false,
+            (camera, pos) -> 0f
+        ),
+        PITCH(
+            "camera_pitch",
+            true,
+            (camera, pos) -> 360 - camera.xRot()
+        ),
+        YAW(
+            "camera_yaw",
+            true,
+            (camera, pos) -> 180 - camera.yRot()
+        ),
+        PITCH_POINT_TOWARDS(
+            "point_towards_camera_pitch",
+            true,
+            (camera, pos) -> {
+                Vector2f angles = MathHelper.getAnglesBetweenPoints(pos.toVector3f(), camera.position().toVector3f());
+                return (float) Math.toDegrees(angles.x());
+            }
+        ),
+        YAW_POINT_TOWARDS(
+            "point_towards_camera_yaw",
+            true,
+            (camera, pos) -> {
+                Vector2f angles = MathHelper.getAnglesBetweenPoints(pos.toVector3f(), camera.position().toVector3f());
+                return (float) Math.toDegrees(angles.y());
+            }
+        );
 
         static final Codec<CameraValue> CODEC = StringRepresentable.fromEnum(CameraValue::values);
 
         final String name;
         final boolean isACameraVariable;
-        final boolean pointTowards;
+        final RotationVariable rotationVariable;
 
-        CameraValue(String name, boolean isACameraVariable) {
-            this(name, isACameraVariable, false);
-        }
-
-        CameraValue(String name, boolean isACameraVariable, boolean pointTowards) {
+        CameraValue(String name, boolean isACameraVariable, RotationVariable rotationVariable) {
             this.name = name;
             this.isACameraVariable = isACameraVariable;
-            this.pointTowards = pointTowards;
+            this.rotationVariable = rotationVariable;
+        }
+
+        public RotationVariable rotationVariable() {
+            return this.rotationVariable;
         }
 
         @Override
         public @NonNull String getSerializedName() {
             return this.name;
         }
+    }
+
+    @FunctionalInterface
+    interface RotationVariable {
+        float getDegrees(Camera camera, Vec3 pos);
     }
 }
