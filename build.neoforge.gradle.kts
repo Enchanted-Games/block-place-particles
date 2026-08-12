@@ -162,7 +162,7 @@ publishMods {
     additionalFiles.from(tasks.named<org.gradle.jvm.tasks.Jar>("sourcesJar").map { it.archiveFile.get() })
 
     // one of BETA, ALPHA, STABLE
-    type = BETA
+    type = STABLE
     displayName = "[NF] v$rawModVersion for mc ${stonecutter.current.version}"
     version = modVersion
     changelog = provider { rootProject.file("CHANGELOG.md").readText() }
@@ -176,6 +176,7 @@ publishMods {
             accessToken = env.MODRINTH_API_KEY.orNull()
             minecraftVersions.add(property("deps.minecraft").toString())
             minecraftVersions.addAll(additionalVersions)
+            environment = CLIENT_ONLY
         }
     }
 
@@ -185,6 +186,8 @@ publishMods {
             accessToken = env.CURSEFORGE_API_KEY.orNull()
             minecraftVersions.add(stonecutter.current.version)
             minecraftVersions.addAll(additionalVersions)
+            client = true
+            server = false
         }
     }
 }
