@@ -35,7 +35,7 @@ public class OverlayEntryMixin implements PackOverlayDuck {
         method = "isApplicable"
     )
     private boolean eg_particle_interactions$wrapApplicable(PackFormat formatToTest, Operation<Boolean> original) {
-        if(this.eg_particle_interactions$customOverlay == null) {
+        if(this.eg_particle_interactions$customOverlay == null || this.eg_particle_interactions$customOverlay.isUnspecified()) {
             return original.call(formatToTest);
         }
         boolean withinSpecifiedVersion = this.eg_particle_interactions$customOverlay.range().containsVersion(Constants.CURRENT_PACK_VERSION);

@@ -17,6 +17,10 @@ public record ParticleInteractionsPackOverlay(PackVersionRange range, boolean ig
         )
     );
 
+    public boolean isUnspecified() {
+        return this.range().min().is(PackVersion.UNSPECIFIED);
+    }
+
     private static final Codec<ParticleInteractionsPackOverlay> CODEC = VERSION_AND_BYPASS_FORMAT
         .optionalFieldOf(Constants.MOD_ID, new ParticleInteractionsPackOverlay(new PackVersionRange(PackVersion.UNSPECIFIED, PackVersion.UNSPECIFIED), false))
         .codec();
