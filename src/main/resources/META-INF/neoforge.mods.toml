@@ -2,14 +2,14 @@ modLoader="javafml"
 loaderVersion="[2,)"
 license="${license}"
 issueTrackerURL="${issue_tracker}"
-displayURL="${website_url}"
 
 [[mods]]
 modId="${id}"
 version="${version}"
 displayName="${name}"
-logoFile="${icon}"
+${neo_icon_property}="${icon}"
 logoBlur=false
+displayURL="${website_url}"
 authors="Enchanted_Games"
 description='''
 ${description}

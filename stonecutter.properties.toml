@@ -30,6 +30,8 @@ icon = "assets/eg_particle_interactions/icon.png"
 deps.fabric-loader = "0.19.3"
 dep_str.fabric-loader = ">=0.19"
 
+[neoforge]
+neo_icon_property = "iconFile"
 
 ["26.1"]
 deps.minecraft = "26.1.2"
@@ -49,6 +51,8 @@ dep_str.minecraft = "[26.1,26.2)"
 deps.neoforge = "26.1.2.76"
 deps.yacl = "3.9.4+26.1-neoforge"
 
+neo_icon_property = "logoFile"
+
 
 ["26.2"]
 deps.minecraft = "26.2"
@@ -65,5 +69,5 @@ deps.yacl = "3.9.4+26.2-fabric"
 [neoforge."26.2"]
 dep_str.minecraft = "[26.2,26.3)"
 
-deps.neoforge = "26.2.0.0-beta"
+deps.neoforge = "26.2.0.59"
 deps.yacl = "3.9.4+26.2-neoforge"

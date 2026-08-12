@@ -111,6 +111,7 @@ tasks.named<ProcessResources>("processResources") {
         this["issue_tracker"] = prop("mod.issue_tracker")
         this["icon"] = prop("mod.icon")
         this["license"] = prop("mod.license")
+        this["neo_icon_property"] = prop("neo_icon_property")
         this["java_ver"] = java.targetCompatibility.majorVersion
     }
 
