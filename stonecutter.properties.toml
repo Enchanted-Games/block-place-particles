@@ -3,17 +3,19 @@ id = "eg_particle_interactions"
 name = "Particle Interactions"
 description = """A client side mod that adds particles to various interactions in the game that dont normally have particles.
 
-New in v0.10.1
-- This version comes with some fixes to bugs that were introduced in v0.10 as well as some smaller new features!
-- Water splash particles are now biome tinted when an entity enters water
-- Mace smash particles now use the block particle of the block below the particle, instead of always using the block below the entity that was hit
-- New particles for honey and slime blocks
+New in v0.10.2
+- Ambient leaf particles now use the particle override specified for that leaf block
+    - Spruce leaves now have falling needles, and azalea leaves now have appropriate falling leaf particles
+- Honey block particles are no longer bouncy
+- Fixed block placement particles sometimes clipping into the block directly above or below
+- Fixed bouncy particles taking an extra tick to bounce instead of immediately after colliding something
+- Particle collision and interaction with fluids should now be much more accurate
 - See the GitHub page for full changelog
 """
 group = "games.enchanted"
 version_major = "0"
 version_minor = "10"
-version_patch = "1"
+version_patch = "2"
 version_suffix = ""
 license = "CC BY-NC 4.0"
 website_url = "https://particle-interactions.enchanted.games/"
