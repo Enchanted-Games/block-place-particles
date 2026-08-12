@@ -1,15 +1,15 @@
 {
     "texture_config": {
         "sprites": [
-            "eg_particle_interactions:flying_soul_spark/0",
-            "eg_particle_interactions:flying_soul_spark/1",
-            "eg_particle_interactions:flying_soul_spark/2",
-            "eg_particle_interactions:flying_soul_spark/3",
-            "eg_particle_interactions:flying_soul_spark/4"
+            "eg_particle_interactions:flying_spark/0",
+            "eg_particle_interactions:flying_spark/1",
+            "eg_particle_interactions:flying_spark/2",
+            "eg_particle_interactions:flying_spark/3",
+            "eg_particle_interactions:flying_spark/4"
         ],
         "sprite_cycle_mode": "age_cycle"
     },
-    "light_emission": 10,
+    "light_emission": 15,
     "scale": 3,
     "events": [
         {
@@ -25,10 +25,7 @@
                 "type": "spawn_particle",
                 "emitter": {
                     "type": "particle_interactions",
-                    "particle": "spark/flash",
-                    "components": {
-                        "appearance": "spark/soul_flash"
-                    }
+                    "particle": "spark/flash"
                 },
                 "velocity_provider": {
                     "type": "static",
@@ -49,10 +46,7 @@
                 "type": "spawn_particle",
                 "emitter": {
                     "type": "particle_interactions",
-                    "particle": "spark/flash",
-                    "components": {
-                        "appearance": "spark/soul_flash"
-                    }
+                    "particle": "spark/flash"
                 },
                 "velocity_provider": {
                     "type": "static",

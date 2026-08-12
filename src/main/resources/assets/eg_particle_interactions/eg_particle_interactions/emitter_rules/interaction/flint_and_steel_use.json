@@ -12,7 +12,10 @@
             ],
             "emitter": {
                 "type": "particle_interactions",
-                "particle": "spark/flying_soul_spark"
+                "particle": "spark/flying_spark",
+                "components": {
+                    "appearance": "spark/soul_spark"
+                }
             }
         }
     ],

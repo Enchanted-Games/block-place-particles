@@ -18,6 +18,20 @@
             0.2
         ],
         "physics/collision_size": 1,
-        "appearance": "spark/flash"
+        "appearance": "spark/flash",
+        "events": [
+            {
+                "trigger": {
+                    "type": "tick"
+                },
+                "action": {
+                    "type": "age_based_scale",
+                    "lifetime_percentage_range": [
+                        0,
+                        1
+                    ]
+                }
+            }
+        ]
     }
 }

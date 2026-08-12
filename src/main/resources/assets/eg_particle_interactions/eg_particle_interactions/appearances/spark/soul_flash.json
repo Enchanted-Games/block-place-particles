@@ -14,19 +14,5 @@
             4,
             5
         ]
-    },
-    "events": [
-        {
-            "trigger": {
-                "type": "tick"
-            },
-            "action": {
-                "type": "age_based_scale",
-                "lifetime_percentage_range": [
-                    0,
-                    1
-                ]
-            }
-        }
-    ]
+    }
 }
