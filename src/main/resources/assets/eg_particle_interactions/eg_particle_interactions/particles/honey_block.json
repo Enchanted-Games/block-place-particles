@@ -14,15 +14,7 @@
                 60
             ]
         },
-        "physics/bounciness": {
-            "values": [
-                0.0,
-                0.0,
-                0.0,
-                0.15
-            ]
-        },
-        "physics/friction": 0.3,
+        "physics/friction": 0.2,
         "physics/collision_size": 1.5,
         "appearance": "block_texture"
     }
