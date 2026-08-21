@@ -5,6 +5,9 @@ import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
+import games.enchanted.eg_particle_interactions.common.duck.CustomSubmits;
+import games.enchanted.eg_particle_interactions.common.particle.render.feature.mc26_1.CustomParticleGeometryFeatureRenderer;
+import games.enchanted.eg_particle_interactions.common.particle.render.feature.mc26_1.CustomParticleGroupRenderer;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumerProvider;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.mc26_1.CustomParticleGeometryQuadConsumer;
@@ -26,7 +29,7 @@ import org.joml.Vector4f;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CustomParticleGeometryRenderState implements SubmitNodeCollector.ParticleGroupRenderer, ParticleGroupRenderState, QuadConsumerProvider {
+public class CustomParticleGeometryRenderState implements ParticleGroupRenderState, CustomParticleGroupRenderer, QuadConsumerProvider {
     private final Map<SingleQuadParticle.Layer, QuadStorage> quadStoragePerLayer = new HashMap<>();
     private int vertexAmount = 0;
 
@@ -37,7 +40,7 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
     }
 
     @Override
-    public @Nullable QuadParticleRenderState.PreparedBuffers prepare(ParticleFeatureRenderer.ParticleBufferCache particleBufferCache, boolean translucentOnly) {
+    public @Nullable QuadParticleRenderState.PreparedBuffers prepare(CustomParticleGeometryFeatureRenderer.BufferCache particleBufferCache, boolean translucentOnly) {
         try (ByteBufferBuilder byteBufferBuilder = ByteBufferBuilder.exactlySized(this.vertexAmount * DefaultVertexFormat.PARTICLE.getVertexSize())) {
             BufferBuilder vertexBuffer = new BufferBuilder(byteBufferBuilder, VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
 
@@ -81,7 +84,7 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
     }
 
     @Override
-    public void render(QuadParticleRenderState.PreparedBuffers preparedBuffers, ParticleFeatureRenderer.ParticleBufferCache particleBufferCache, RenderPass renderPass, TextureManager textureManager) {
+    public void render(QuadParticleRenderState.PreparedBuffers preparedBuffers, CustomParticleGeometryFeatureRenderer.BufferCache particleBufferCache, RenderPass renderPass, TextureManager textureManager) {
         RenderSystem.AutoStorageIndexBuffer quadIndexBuffer = RenderSystem.getSequentialBuffer(VertexFormat.Mode.QUADS);
         renderPass.setVertexBuffer(0, particleBufferCache.get());
         renderPass.setIndexBuffer(quadIndexBuffer.getBuffer(preparedBuffers.indexCount()), quadIndexBuffer.type());
@@ -99,7 +102,7 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
     @Override
     public void submit(SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
         if (this.vertexAmount > 0) {
-            submitNodeCollector.submitParticleGroup(this);
+            ((CustomSubmits) submitNodeCollector).eg_particle_interactions$submitCustomGeometryParticles(this);
         }
     }
 
@@ -115,7 +118,7 @@ public class CustomParticleGeometryRenderState implements SubmitNodeCollector.Pa
         this.quadStoragePerLayer.computeIfAbsent(layer, (l) -> new QuadStorage()).finishQuad();
     }
 
-    public void addVertex(SingleQuadParticle.Layer layer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, int packedLight, float rCol, float gCol, float bCol, float alpha) {
+    public void addVertex(SingleQuadParticle.Layer layer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, float maskU, float maskV, int packedLight, float rCol, float gCol, float bCol, float alpha) {
         this.quadStoragePerLayer.computeIfAbsent(layer, (l) -> new QuadStorage()).addVertex(
             quaternion,
             x,

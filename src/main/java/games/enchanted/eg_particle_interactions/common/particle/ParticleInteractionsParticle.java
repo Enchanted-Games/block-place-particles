@@ -303,10 +303,10 @@ public class ParticleInteractionsParticle extends Particle {
         final float billboardYOffset = this.modelOffset.y();
 
         consumer.startQuad();
-        consumer.addVertex(quaternion, x, y, z, 0.5f + billboardXOffset, -0.5f + billboardYOffset, scale, getU1(), getV1(), light, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z, 0.5f + billboardXOffset, 0.5f + billboardYOffset, scale, getU1(), getV0(), light, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z, -0.5f + billboardXOffset, 0.5f + billboardYOffset, scale, getU0(), getV0(), light, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z, -0.5f + billboardXOffset, -0.5f + billboardYOffset, scale, getU0(), getV1(), light, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, 0.5f + billboardXOffset, -0.5f + billboardYOffset, scale, getU1(), getV1(), getMaskU1(), getMaskV1(), light, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, 0.5f + billboardXOffset, 0.5f + billboardYOffset, scale, getU1(), getV0(), getMaskU1(), getMaskV0(), light, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, -0.5f + billboardXOffset, 0.5f + billboardYOffset, scale, getU0(), getV0(), getMaskU0(), getMaskV0(), light, r, g, b, a);
+        consumer.addVertex(quaternion, x, y, z, -0.5f + billboardXOffset, -0.5f + billboardYOffset, scale, getU0(), getV1(), getMaskU0(), getMaskV1(), light, r, g, b, a);
         consumer.finishQuad();
     }
 

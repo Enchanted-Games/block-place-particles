@@ -45,7 +45,7 @@ public class QuadFaceShape {
             consumer.startQuad();
 
             Vector3d vertex1 = MathHelper.rotate3DPoint(new Vector3d(this.vertices[i]).mul(scale), pitchRad, yawRad, rollRad).mul(size).add(pos.x, pos.y, pos.z);
-            consumer.addVertex(
+            consumer.addVertexNoMask(
                 new Quaternionf(),
                 (float) vertex1.x(),
                 (float) vertex1.y(),
@@ -63,7 +63,7 @@ public class QuadFaceShape {
             );
 
             Vector3d vertex2 = MathHelper.rotate3DPoint(new Vector3d(this.vertices[i + 1]).mul(scale), pitchRad, yawRad, rollRad).mul(size).add(pos.x, pos.y, pos.z);
-            consumer.addVertex(
+            consumer.addVertexNoMask(
                 new Quaternionf(),
                 (float) vertex2.x(),
                 (float) vertex2.y(),
@@ -81,7 +81,7 @@ public class QuadFaceShape {
             );
 
             Vector3d vertex3 = MathHelper.rotate3DPoint(new Vector3d(this.vertices[i + 2]).mul(scale), pitchRad, yawRad, rollRad).mul(size).add(pos.x, pos.y, pos.z);
-            consumer.addVertex(
+            consumer.addVertexNoMask(
                 new Quaternionf(),
                 (float) vertex3.x(),
                 (float) vertex3.y(),
@@ -99,7 +99,7 @@ public class QuadFaceShape {
             );
 
             Vector3d vertex4 = MathHelper.rotate3DPoint(new Vector3d(this.vertices[i + 3]).mul(scale), pitchRad, yawRad, rollRad).mul(size).add(pos.x, pos.y, pos.z);
-            consumer.addVertex(
+            consumer.addVertexNoMask(
                 new Quaternionf(),
                 (float) vertex4.x(),
                 (float) vertex4.y(),

@@ -19,6 +19,9 @@ ${description}
 config="${id}.mixins.json"
 
 [[mixins]]
+config="${id}.26_1.mixins.json"
+
+[[mixins]]
 config="${id}.26_2.mixins.json"
 
 [[mixins]]

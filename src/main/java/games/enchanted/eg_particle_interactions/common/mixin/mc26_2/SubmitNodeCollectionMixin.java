@@ -1,7 +1,7 @@
 //? if minecraft: >= 26.2 {
 package games.enchanted.eg_particle_interactions.common.mixin.mc26_2;
 
-import games.enchanted.eg_particle_interactions.common.duck.mc26_2.CustomSubmits;
+import games.enchanted.eg_particle_interactions.common.duck.CustomSubmits;
 import games.enchanted.eg_particle_interactions.common.particle.render.feature.mc26_2.CustomParticleGeometryFeatureRenderer;
 import games.enchanted.eg_particle_interactions.common.particle.render.state.mc26_2.CustomParticleGeometryRenderState;
 import net.minecraft.client.renderer.SubmitNodeCollection;

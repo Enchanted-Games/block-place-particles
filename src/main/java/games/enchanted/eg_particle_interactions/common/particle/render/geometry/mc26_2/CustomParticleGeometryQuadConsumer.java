@@ -16,7 +16,7 @@ public class CustomParticleGeometryQuadConsumer implements QuadConsumer {
     }
 
     @Override
-    public void addVertex(Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, int packedLight, float rCol, float gCol, float bCol, float alpha) {
+    public void addVertex(Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, float maskU, float maskV, int packedLight, float rCol, float gCol, float bCol, float alpha) {
         this.state.addVertex(
             this.layer,
             quaternion,
@@ -28,6 +28,8 @@ public class CustomParticleGeometryQuadConsumer implements QuadConsumer {
             scale,
             u,
             v,
+            maskU,
+            maskV,
             packedLight,
             rCol,
             gCol,

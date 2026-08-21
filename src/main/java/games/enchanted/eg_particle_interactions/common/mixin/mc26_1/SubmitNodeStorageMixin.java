@@ -1,8 +1,8 @@
-//? if minecraft: >= 26.2 {
-package games.enchanted.eg_particle_interactions.common.mixin.mc26_2;
+//? if minecraft: < 26.2 {
+/*package games.enchanted.eg_particle_interactions.common.mixin.mc26_1;
 
 import games.enchanted.eg_particle_interactions.common.duck.CustomSubmits;
-import games.enchanted.eg_particle_interactions.common.particle.render.state.mc26_2.CustomParticleGeometryRenderState;
+import games.enchanted.eg_particle_interactions.common.particle.render.state.mc26_1.CustomParticleGeometryRenderState;
 import net.minecraft.client.renderer.OrderedSubmitNodeCollector;
 import net.minecraft.client.renderer.SubmitNodeStorage;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,4 +18,4 @@ public abstract class SubmitNodeStorageMixin implements CustomSubmits {
         ((CustomSubmits) this.order(0)).eg_particle_interactions$submitCustomGeometryParticles(customParticleGeometryRenderState);
     }
 }
-//? }
+*///? }

@@ -2,7 +2,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.render.state.mc26_2;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import games.enchanted.eg_particle_interactions.common.duck.mc26_2.CustomSubmits;
+import games.enchanted.eg_particle_interactions.common.duck.CustomSubmits;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumerProvider;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.mc26_2.CustomParticleGeometryQuadConsumer;
@@ -56,7 +56,7 @@ public class CustomParticleGeometryRenderState implements ParticleGroupRenderSta
         this.quadStoragePerLayer.computeIfAbsent(layer, (l) -> new QuadStorage()).finishQuad();
     }
 
-    public void addVertex(SingleQuadParticle.Layer layer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, int packedLight, float rCol, float gCol, float bCol, float alpha) {
+    public void addVertex(SingleQuadParticle.Layer layer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, float maskU, float maskV, int packedLight, float rCol, float gCol, float bCol, float alpha) {
         this.quadStoragePerLayer.computeIfAbsent(layer, (l) -> new QuadStorage()).addVertex(
             quaternion,
             x,

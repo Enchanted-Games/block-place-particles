@@ -114,10 +114,10 @@ public class ShatterShapeParticleBehaviour extends ParticleInteractionsParticle 
         float a = this.getLerpedAlpha(partialTicks);
 
         consumer.startQuad();
-        consumer.addVertex(quaternion, x, y, z, this.slice0X, this.inverseSlicePositions ? 0 : 1 - this.slice0Y, scale, u1, v1, lightColour, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z, this.slice0X, this.inverseSlicePositions ? this.slice0Y : 1, scale, u1, v0, lightColour, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z, 0, this.inverseSlicePositions ? this.slice0Y : 1, scale, u0, v0, lightColour, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z, 0, this.inverseSlicePositions ? 0 : 1 - this.slice0Y, scale, u0, v1, lightColour, r, g, b, a);
+        consumer.addVertexNoMask(quaternion, x, y, z, this.slice0X, this.inverseSlicePositions ? 0 : 1 - this.slice0Y, scale, u1, v1, lightColour, r, g, b, a);
+        consumer.addVertexNoMask(quaternion, x, y, z, this.slice0X, this.inverseSlicePositions ? this.slice0Y : 1, scale, u1, v0, lightColour, r, g, b, a);
+        consumer.addVertexNoMask(quaternion, x, y, z, 0, this.inverseSlicePositions ? this.slice0Y : 1, scale, u0, v0, lightColour, r, g, b, a);
+        consumer.addVertexNoMask(quaternion, x, y, z, 0, this.inverseSlicePositions ? 0 : 1 - this.slice0Y, scale, u0, v1, lightColour, r, g, b, a);
         consumer.finishQuad();
 
         scale = this.getLerpedScale(partialTicks);
@@ -127,10 +127,10 @@ public class ShatterShapeParticleBehaviour extends ParticleInteractionsParticle 
         v1 = this.currentSprite.getV(this.getScaledUVCoord(1));
 
         consumer.startQuad();
-        consumer.addVertex(quaternion, x, y, z, this.slice1X, 0, scale, u1, v1, lightColour, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z, this.slice1X, 1, scale, u1, v0, lightColour, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z, this.slice0X, 1, scale, u0, v0, lightColour, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z, this.slice0X, 0, scale, u0, v1, lightColour, r, g, b, a);
+        consumer.addVertexNoMask(quaternion, x, y, z, this.slice1X, 0, scale, u1, v1, lightColour, r, g, b, a);
+        consumer.addVertexNoMask(quaternion, x, y, z, this.slice1X, 1, scale, u1, v0, lightColour, r, g, b, a);
+        consumer.addVertexNoMask(quaternion, x, y, z, this.slice0X, 1, scale, u0, v0, lightColour, r, g, b, a);
+        consumer.addVertexNoMask(quaternion, x, y, z, this.slice0X, 0, scale, u0, v1, lightColour, r, g, b, a);
         consumer.finishQuad();
 
         scale = this.getLerpedScale(partialTicks);
@@ -140,10 +140,10 @@ public class ShatterShapeParticleBehaviour extends ParticleInteractionsParticle 
         v1 = this.currentSprite.getV(this.getScaledUVCoord(this.inverseSlicePositions ? 1 - this.slice1Y : 1));
 
         consumer.startQuad();
-        consumer.addVertex(quaternion, x, y, z, 1, this.inverseSlicePositions ? this.slice1Y : 0, scale, u1, v1, lightColour, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z, 1, this.inverseSlicePositions ? 1 : 1 - this.slice1Y, scale, u1, v0, lightColour, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z, this.slice1X, this.inverseSlicePositions ? 1 : 1 - this.slice1Y, scale, u0, v0, lightColour, r, g, b, a);
-        consumer.addVertex(quaternion, x, y, z, this.slice1X, this.inverseSlicePositions ? this.slice1Y : 0, scale, u0, v1, lightColour, r, g, b, a);
+        consumer.addVertexNoMask(quaternion, x, y, z, 1, this.inverseSlicePositions ? this.slice1Y : 0, scale, u1, v1, lightColour, r, g, b, a);
+        consumer.addVertexNoMask(quaternion, x, y, z, 1, this.inverseSlicePositions ? 1 : 1 - this.slice1Y, scale, u1, v0, lightColour, r, g, b, a);
+        consumer.addVertexNoMask(quaternion, x, y, z, this.slice1X, this.inverseSlicePositions ? 1 : 1 - this.slice1Y, scale, u0, v0, lightColour, r, g, b, a);
+        consumer.addVertexNoMask(quaternion, x, y, z, this.slice1X, this.inverseSlicePositions ? this.slice1Y : 0, scale, u0, v1, lightColour, r, g, b, a);
         consumer.finishQuad();
     }
 
