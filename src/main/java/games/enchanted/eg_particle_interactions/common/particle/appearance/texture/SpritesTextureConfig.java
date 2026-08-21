@@ -22,10 +22,11 @@ public class SpritesTextureConfig implements TextureConfig {
     public static final SpriteCycleMode DEFAULT_CYCLE_MODE = SpriteCycleMode.RANDOM_ON_SPAWN;
     public static final AtlasIdAndTexture DEFAULT_ATLAS = new AtlasIdAndTexture(AtlasIds.PARTICLES, TextureAtlas.LOCATION_PARTICLES);
     public static final LayerDefinition DEFAULT_LAYER_DEFINITION = LayerDefinition.CUTOUT;
+    public static final int MAX_LIST_LENGTH = 1024;
 
     public static final MapCodec<? extends TextureConfig> MAP_CODEC = RecordCodecBuilder.<SpritesTextureConfig>mapCodec(
         instance -> instance.group(
-            Codec.list(Identifier.CODEC).fieldOf("sprites").forGetter(o -> o.sprites),
+            Codec.list(Identifier.CODEC, 1, MAX_LIST_LENGTH).fieldOf("sprites").forGetter(o -> o.sprites),
             ModCodecs.ATLAS.optionalFieldOf("atlas", DEFAULT_ATLAS).forGetter(o -> o.atlas),
             StringRepresentable.fromEnum(SpriteCycleMode::values).optionalFieldOf("sprite_cycle_mode", DEFAULT_CYCLE_MODE).forGetter(o -> o.spriteCycleMode),
             StringRepresentable.fromEnum(LayerDefinition::values).optionalFieldOf("layer", DEFAULT_LAYER_DEFINITION).forGetter(o -> o.layer)
@@ -58,8 +59,9 @@ public class SpritesTextureConfig implements TextureConfig {
     }
 
     @Override
-    public TextureAtlasSprite getRandom(ParticleContext context, RandomSource random) {
-        return this.lookupSprite(this.sprites.get(random.nextInt(this.sprites.size())));
+    public TextureAtlasSprite getRandom(ParticleContext context, float randomValue) {
+        int i = (int) (randomValue * (this.sprites.size()));
+        return this.lookupSprite(this.sprites.get(Math.clamp(i, 0, this.sprites.size() - 1)));
     }
 
     @Override

@@ -23,6 +23,12 @@ public class TextureConfigs {
         SpritesTextureConfig.DEFAULT_CYCLE_MODE,
         SpritesTextureConfig.DEFAULT_LAYER_DEFINITION
     );
+    public static final TextureConfig NO_MASK = new SpritesTextureConfig(
+        List.of(MissingTextureAtlasSprite.getLocation()),
+        SpritesTextureConfig.DEFAULT_ATLAS,
+        SpritesTextureConfig.DEFAULT_CYCLE_MODE,
+        SpritesTextureConfig.DEFAULT_LAYER_DEFINITION
+    );
 
     public static final ExtraCodecs.LateBoundIdMapper<Identifier, MapCodec<? extends TextureConfig>> SOURCES = new ExtraCodecs.LateBoundIdMapper<>();
     public static final Codec<TextureConfig> CODEC = Codec.withAlternative(

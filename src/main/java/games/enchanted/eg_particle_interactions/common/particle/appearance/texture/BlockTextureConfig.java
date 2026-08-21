@@ -24,7 +24,7 @@ public class BlockTextureConfig implements TextureConfig {
 
     public static final MapCodec<? extends TextureConfig> MAP_CODEC = RecordCodecBuilder.<BlockTextureConfig>mapCodec(
         instance -> instance.group(
-            Codec.list(Identifier.CODEC).optionalFieldOf("fallback_sprites", DEFAULT_SPRITES).forGetter(o -> o.fallbackSprites),
+            Codec.list(Identifier.CODEC, 1, SpritesTextureConfig.MAX_LIST_LENGTH).optionalFieldOf("fallback_sprites", DEFAULT_SPRITES).forGetter(o -> o.fallbackSprites),
             ModCodecs.ATLAS.optionalFieldOf("fallback_atlas", SpritesTextureConfig.DEFAULT_ATLAS).forGetter(o -> o.fallbackAtlas),
             StringRepresentable.fromEnum(LayerDefinition::values).optionalFieldOf("layer", SpritesTextureConfig.DEFAULT_LAYER_DEFINITION).forGetter(o -> o.layer)
         ).apply(
@@ -61,8 +61,9 @@ public class BlockTextureConfig implements TextureConfig {
     }
 
     @Override
-    public TextureAtlasSprite getRandom(ParticleContext context, RandomSource random) {
-        return this.lookupSprite(context, this.fallbackSprites.get(random.nextInt(this.fallbackSprites.size())));
+    public TextureAtlasSprite getRandom(ParticleContext context, float randomValue) {
+        int i = (int) (randomValue * (this.fallbackSprites.size()));
+        return this.lookupSprite(context, this.fallbackSprites.get(Math.clamp(i, 0, this.fallbackSprites.size() - 1)));
     }
 
     @Override

@@ -14,7 +14,11 @@ import java.util.List;
 public interface TextureConfig {
     TextureAtlasSprite getAt(ParticleContext context, float agePercentage);
 
-    TextureAtlasSprite getRandom(ParticleContext context, RandomSource random);
+    default TextureAtlasSprite getRandom(ParticleContext context, RandomSource random) {
+        return getRandom(context, random.nextFloat());
+    }
+
+    TextureAtlasSprite getRandom(ParticleContext context, float randomValue);
 
     TextureAtlasSprite getFirst(ParticleContext context);
 

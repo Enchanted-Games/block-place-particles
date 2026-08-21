@@ -36,6 +36,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
@@ -109,9 +110,11 @@ public class ParticleInteractionsParticle extends Particle {
     protected EventStack appearanceEventStack;
 
     protected boolean updateSpritesAfterFirstCall = true;
-    protected TextureAtlasSprite currentSprite;
     protected @Nullable UVCoordinates appearanceUV = null;
+    protected TextureAtlasSprite currentSprite;
     protected UVCoordinates spriteUV = UVCoordinates.UNIT;
+    protected TextureAtlasSprite currentMaskSprite;
+    protected UVCoordinates maskUV = UVCoordinates.UNIT;
 
     private float rCol = 1.0f;
     private float prevRCol = 1.0f;
@@ -198,13 +201,13 @@ public class ParticleInteractionsParticle extends Particle {
         this.appearance = appearance;
         this.appearanceEventStack = new EventStack(appearance.events(), this);
 
-        this.initialAppearanceScale = appearance.scale().getValue(context) / 16f;
+        this.initialAppearanceScale = appearance.scale().getValue(this.context) / 16f;
         this.scale = this.initialAppearanceScale;
         this.prevScale = this.initialAppearanceScale;
 
         this.modelOffset = new Vector3f(appearance.modelOffset());
 
-        int[] colour = appearance.colourSource().getARGB(context);
+        int[] colour = appearance.colourSource().getARGB(this.context);
         this.setRGBA(
             (float) colour[1] / 255f,
             (float) colour[2] / 255f,
@@ -219,16 +222,17 @@ public class ParticleInteractionsParticle extends Particle {
         this.initialLightEmission = this.minLightEmission;
 
         SpinConfig spinConfig = appearance.spinConfig();
-        this.spin = (float) Math.toRadians(spinConfig.startingRotation().getValue(context));
+        this.spin = (float) Math.toRadians(spinConfig.startingRotation().getValue(this.context));
         this.prevSpin = spin;
-        this.spinSpeed = spinConfig.startingSpeed().getValue(context);
-        this.maxSpinSpeed = spinConfig.maxSpeed().getValue(context);
-        this.spinAcceleration = spinConfig.acceleration().getValue(context);
+        this.spinSpeed = spinConfig.startingSpeed().getValue(this.context);
+        this.maxSpinSpeed = spinConfig.maxSpeed().getValue(this.context);
+        this.spinAcceleration = spinConfig.acceleration().getValue(this.context);
 
-        this.layer = ParticleLayer.fromAppearance(context, appearance);
+        this.layer = ParticleLayer.fromAppearance(this.context, appearance);
 
         this.updateSpritesAfterFirstCall = true;
         this.currentSprite = TextureHelpers.missingParticleSprite();
+        this.currentMaskSprite = TextureHelpers.missingParticleSprite();
         this.pickSpriteAndUVForAppearance();
     }
 
@@ -512,37 +516,36 @@ public class ParticleInteractionsParticle extends Particle {
         if (!this.updateSpritesAfterFirstCall) return;
 
         TextureConfig textureConfig = this.appearance.textureConfig();
+        TextureConfig maskConfig = this.appearance.maskConfig();
+        float r = this.random.nextFloat();
         SpriteCycleMode cycleMode = textureConfig.getSpriteCycleMode(this.context);
 
         if (cycleMode == SpriteCycleMode.RANDOM_ON_SPAWN) {
             this.updateSpritesAfterFirstCall = false;
-            this.setCurrentSprite(textureConfig.getRandom(this.context, this.random));
+            this.setCurrentSprite(textureConfig.getRandom(this.context, r), maskConfig.getRandom(this.context, r));
             return;
         }
 
         if (cycleMode == SpriteCycleMode.RANDOM_PER_TICK) {
-            this.setCurrentSprite(textureConfig.getRandom(this.context, this.random));
+            this.setCurrentSprite(textureConfig.getRandom(this.context, r), maskConfig.getRandom(this.context, r));
             return;
         }
 
-
-        this.setCurrentSprite(textureConfig.getAt(this.context, this.getAgePercent()));
+        this.setCurrentSprite(textureConfig.getAt(this.context, this.getAgePercent()), maskConfig.getAt(this.context, this.getAgePercent()));
     }
 
-    protected int getAgeForSprite() {
-        return this.age;
-    }
-
-    protected void setCurrentSprite(TextureAtlasSprite sprite) {
+    protected void setCurrentSprite(TextureAtlasSprite sprite, TextureAtlasSprite mask) {
         if(sprite.equals(this.currentSprite)) return;
         this.currentSprite = sprite;
+        this.currentMaskSprite = mask;
         this.appearanceUV = this.appearance.uv().getUv(this.appearanceUV, sprite, this.initialAppearanceScale);
-        this.setSpriteUV(sprite);
+        this.spriteUV = this.calculateSpriteUV(sprite);
+        this.maskUV = this.calculateSpriteUV(mask);
     }
 
-    protected void setSpriteUV(TextureAtlasSprite sprite) {
-        if(this.appearanceUV == null) return;
-        this.spriteUV = this.appearanceUV.remapInUV(
+    protected UVCoordinates calculateSpriteUV(TextureAtlasSprite sprite) {
+        if(this.appearanceUV == null) return UVCoordinates.UNIT;
+        return this.appearanceUV.remapInUV(
             sprite.getU0(),
             sprite.getV0(),
             sprite.getU1(),
@@ -619,6 +622,27 @@ public class ParticleInteractionsParticle extends Particle {
 
     protected float getV1() {
         return this.spriteUV.v1();
+    }
+
+
+    protected boolean hasMask() {
+        return !this.currentMaskSprite.contents().name().equals(MissingTextureAtlasSprite.getLocation());
+    }
+
+    protected float getMaskU0() {
+        return this.maskUV.u0();
+    }
+
+    protected float getMaskU1() {
+        return this.maskUV.u1();
+    }
+
+    protected float getMaskV0() {
+        return this.maskUV.v0();
+    }
+
+    protected float getMaskV1() {
+        return this.maskUV.v1();
     }
 
 
@@ -775,7 +799,8 @@ public class ParticleInteractionsParticle extends Particle {
 
     public void modifyUV(UVProvider uv) {
         this.appearanceUV = uv.getUv(this.appearanceUV, this.currentSprite, this.initialAppearanceScale);
-        this.setSpriteUV(this.currentSprite);
+        this.spriteUV = this.calculateSpriteUV(this.currentSprite);
+        this.maskUV = this.currentMaskSprite == null ? UVCoordinates.UNIT : this.calculateSpriteUV(this.currentMaskSprite);
     }
 
     public int getInitialAppearanceLightEmission() {

@@ -23,6 +23,7 @@ import java.util.List;
 
 public record ParticleAppearance(
     TextureConfig textureConfig,
+    TextureConfig maskConfig,
     ColourSource colourSource,
     int lightEmission,
     SpinConfig spinConfig,
@@ -40,6 +41,7 @@ public record ParticleAppearance(
 
     public static final ParticleAppearance.Reference MISSING_APPEARANCE = new InlineRef(new ParticleAppearance(
         TextureConfigs.MISSING_APPEARANCE,
+        TextureConfigs.NO_MASK,
         ColourSources.WHITE,
         DEFAULT_LIGHT_EMISSION,
         SpinConfig.NO_SPIN,
@@ -52,6 +54,7 @@ public record ParticleAppearance(
 
     public static final ParticleAppearance.Reference MISSING_DEFINITION = new InlineRef(new ParticleAppearance(
         TextureConfigs.MISSING_DEFINITION,
+        TextureConfigs.NO_MASK,
         ColourSources.WHITE,
         DEFAULT_LIGHT_EMISSION,
         SpinConfig.NO_SPIN,
@@ -66,6 +69,7 @@ public record ParticleAppearance(
         return RecordCodecBuilder.create(i -> i
             .group(
                 TextureConfigs.CODEC.optionalFieldOf("texture_config", TextureConfigs.MISSING_APPEARANCE).forGetter(ParticleAppearance::textureConfig),
+                TextureConfigs.CODEC.optionalFieldOf("mask_texture_config", TextureConfigs.NO_MASK).forGetter(ParticleAppearance::textureConfig),
                 ColourSources.CODEC.optionalFieldOf("colour", ColourSources.WHITE).forGetter(ParticleAppearance::colourSource),
                 Codec.intRange(0, 15).optionalFieldOf("light_emission", DEFAULT_LIGHT_EMISSION).forGetter(ParticleAppearance::lightEmission),
                 SpinConfig.CODEC.optionalFieldOf("spin_config", SpinConfig.NO_SPIN).forGetter(ParticleAppearance::spinConfig),
