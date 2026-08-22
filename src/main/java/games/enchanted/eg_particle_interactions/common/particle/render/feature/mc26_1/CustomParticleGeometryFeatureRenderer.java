@@ -9,10 +9,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.FilterMode;
 import com.mojang.blaze3d.textures.GpuTextureView;
 import games.enchanted.eg_particle_interactions.common.duck.mc26_1.CustomSubmitsAccess;
+import games.enchanted.eg_particle_interactions.common.particle.render.state.mc26_1.CustomParticleGeometryRenderState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MappableRingBuffer;
 import net.minecraft.client.renderer.SubmitNodeCollection;
-import net.minecraft.client.renderer.state.level.QuadParticleRenderState;
 import net.minecraft.client.renderer.texture.TextureManager;
 import org.jspecify.annotations.Nullable;
 
@@ -50,23 +50,21 @@ public class CustomParticleGeometryFeatureRenderer implements AutoCloseable {
             }
 
             this.usedBuffers.add(buffer);
-            QuadParticleRenderState.PreparedBuffers prepared = particleGroupRenderer.prepare(buffer, translucent);
-            if (prepared != null) {
-                boolean useParticleTarget = particleTarget != null && translucent;
-                GpuTextureView colorTextureView = useParticleTarget ? particleTarget.getColorTextureView() : mainTarget.getColorTextureView();
-                GpuTextureView depthTextureView = useParticleTarget ? particleTarget.getDepthTextureView() : mainTarget.getDepthTextureView();
+            CustomParticleGeometryRenderState.PreparedBufferPair prepared = particleGroupRenderer.prepare(buffer, translucent);
+            boolean useParticleTarget = particleTarget != null && translucent;
+            GpuTextureView colorTextureView = useParticleTarget ? particleTarget.getColorTextureView() : mainTarget.getColorTextureView();
+            GpuTextureView depthTextureView = useParticleTarget ? particleTarget.getDepthTextureView() : mainTarget.getDepthTextureView();
 
-                try (RenderPass renderPass = device.createCommandEncoder()
-                    .createRenderPass(
-                        () -> "[Particle Interactions] Particles - " + (translucent ? "Translucent" : "Solid"),
-                        colorTextureView,
-                        OptionalInt.empty(),
-                        depthTextureView,
-                        OptionalDouble.empty()
-                    )) {
-                    this.prepareRenderPass(renderPass);
-                    particleGroupRenderer.render(prepared, buffer, renderPass, textureManager);
-                }
+            try (RenderPass renderPass = device.createCommandEncoder()
+                .createRenderPass(
+                    () -> "[Particle Interactions] Particles - " + (translucent ? "Translucent" : "Solid"),
+                    colorTextureView,
+                    OptionalInt.empty(),
+                    depthTextureView,
+                    OptionalDouble.empty()
+                )) {
+                this.prepareRenderPass(renderPass);
+                particleGroupRenderer.render(prepared, buffer, renderPass, textureManager);
             }
         }
     }

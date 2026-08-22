@@ -36,7 +36,9 @@ public class VersionPlugin26_1 implements IMixinConfigPlugin {
         /*return List.of(
             "FeatureRendererDispatcherMixin",
             "SubmitNodeCollectionMixin",
-            "SubmitNodeStorageMixin"
+            "SubmitNodeStorageMixin",
+            "VertexFormatElementMixin",
+            "VertexFormatMixin"
         );
         *///? } else {
         return null;

@@ -1,22 +1,31 @@
 package games.enchanted.eg_particle_interactions.common.particle.render;
 
-import com.mojang.blaze3d.pipeline.BindGroupLayout;
 import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.RenderPipelinesAccessor;
 import games.enchanted.eg_particle_interactions.common.particle.render.vertex.PIVertexFormats;
-import net.minecraft.client.renderer.BindGroupLayouts;
 import net.minecraft.resources.Identifier;
+
+//? if minecraft: < 26.2 {
+import com.mojang.blaze3d.vertex.VertexFormat;
+//? } else {
+import com.mojang.blaze3d.pipeline.BindGroupLayout;
+//? }
 
 public class PIRenderPipelines {
     private static final Identifier MASK_PARTICLE_SHADER = ParticleInteractionsMod.id("core/mask_particle");
     public static final String MASK_SAMPLER_SEMANTIC_NAME = "MaskSampler";
 
     private static final RenderPipeline.Snippet MASK_PARTICLE_SNIPPET = RenderPipeline.builder()
+        //? if minecraft: < 26.2 {
+        /*.withVertexFormat(PIVertexFormats.MASK_PARTICLE_VERTEX_FORMAT, VertexFormat.Mode.QUADS)
+        .withSampler(MASK_SAMPLER_SEMANTIC_NAME)
+        *///? } else {
         .withVertexBinding(0, PIVertexFormats.MASK_PARTICLE_VERTEX_FORMAT)
         .withBindGroupLayout(BindGroupLayout.builder().withSampler(MASK_SAMPLER_SEMANTIC_NAME).build())
+        //? }
         .withVertexShader(MASK_PARTICLE_SHADER)
         .withFragmentShader(MASK_PARTICLE_SHADER)
         .buildSnippet();

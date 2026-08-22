@@ -18,7 +18,6 @@
         "accessor.client.ParticleAccessor",
         "accessor.client.RenderPipelinesAccessor",
         "accessor.client.SpriteContentsAccessor",
-        "accessor.client.StagedVertexBufferDrawAccessor",
         "blocks.AbstractCauldronBlock",
         "blocks.BaseFireBlock",
         "blocks.BeehiveBlockMixin",
@@ -67,8 +66,7 @@
         "resource.version.IntermediateOverlayEntryMixin",
         "resource.version.OverlayEntryMixin",
         "screen.OptionsScreenMixin",
-        "screen.ResourcepackScreenMixin",
-        "vertex.StagedVertexBufferMixin"
+        "screen.ResourcepackScreenMixin"
     ],
     "injectors": {
         "defaultRequire": 1

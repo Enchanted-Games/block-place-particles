@@ -1,4 +1,5 @@
-package games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client;
+//? if minecraft: >= 26.2 {
+package games.enchanted.eg_particle_interactions.common.mixin.mc26_2.accessor;
 
 import com.mojang.blaze3d.PrimitiveTopology;
 import com.mojang.blaze3d.vertex.VertexFormat;
@@ -14,3 +15,4 @@ public interface StagedVertexBufferDrawAccessor {
     @Accessor("format")
     VertexFormat eg_particle_interactions$format();
 }
+//? }

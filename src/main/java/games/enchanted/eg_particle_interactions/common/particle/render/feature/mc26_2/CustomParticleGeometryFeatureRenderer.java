@@ -9,7 +9,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.FilterMode;
 import com.mojang.blaze3d.textures.GpuTextureView;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import games.enchanted.eg_particle_interactions.common.duck.StagedVertexBufferAdditions;
+import games.enchanted.eg_particle_interactions.common.duck.mc26_2.StagedVertexBufferAdditions;
 import games.enchanted.eg_particle_interactions.common.particle.render.PIRenderPipelines;
 import games.enchanted.eg_particle_interactions.common.particle.render.vertex.PIBufferBuilder;
 import games.enchanted.eg_particle_interactions.common.particle.render.vertex.PIVertexFormats;

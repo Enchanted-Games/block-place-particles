@@ -37,7 +37,9 @@ public class VersionPlugin26_2 implements IMixinConfigPlugin {
             "FeatureRendererDispatcherMixin",
             "SubmitNodeCollectionMixin",
             "SubmitNodeStorageMixin",
-            "entity.SulfurCubeMixin"
+            "entity.SulfurCubeMixin",
+            "StagedVertexBufferMixin",
+            "accessor.StagedVertexBufferDrawAccessor"
         );
         //? } else {
         /*return null;

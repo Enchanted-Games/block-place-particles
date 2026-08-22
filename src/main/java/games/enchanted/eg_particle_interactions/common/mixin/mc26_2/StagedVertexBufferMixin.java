@@ -1,11 +1,12 @@
-package games.enchanted.eg_particle_interactions.common.mixin.client.vertex;
+//? if minecraft: >= 26.2 {
+package games.enchanted.eg_particle_interactions.common.mixin.mc26_2;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import games.enchanted.eg_particle_interactions.common.duck.StagedVertexBufferAdditions;
-import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.StagedVertexBufferDrawAccessor;
+import games.enchanted.eg_particle_interactions.common.duck.mc26_2.StagedVertexBufferAdditions;
+import games.enchanted.eg_particle_interactions.common.mixin.mc26_2.accessor.StagedVertexBufferDrawAccessor;
 import games.enchanted.eg_particle_interactions.common.particle.render.vertex.PIBufferBuilder;
 import net.minecraft.client.renderer.StagedVertexBuffer;
 import org.jspecify.annotations.Nullable;
@@ -51,3 +52,4 @@ public abstract class StagedVertexBufferMixin implements StagedVertexBufferAddit
         }
     }
 }
+//? }
