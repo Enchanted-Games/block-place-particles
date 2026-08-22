@@ -246,7 +246,7 @@ public class ParticleInteractionsParticle extends Particle {
     public void extract(QuadConsumerProvider quadConsumerProvider, Camera camera, float partialTicks) {
         Quaternionf quaternionf = new Quaternionf();
         double lerpedX = (float) Mth.lerp(partialTicks, this.xo, this.x);
-        double lerpedY = (float) Mth.lerp(partialTicks, this.yo, this.y + (this.onGround ? this.randomRenderOffset : 0));
+        double lerpedY = (float) Mth.lerp(partialTicks, this.yo, this.y) + (this.onGround ? this.randomRenderOffset : 0);
         double lerpedZ = (float) Mth.lerp(partialTicks, this.zo, this.z);
         Vec3 lerpedPos = new Vec3(lerpedX, lerpedY, lerpedZ);
         this.getBillboardMode().rotate(quaternionf, camera, lerpedPos);
