@@ -1,7 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.render.geometry;
 
-import net.minecraft.client.particle.SingleQuadParticle;
+import games.enchanted.eg_particle_interactions.common.particle.render.layer.ParticleLayer;
 
 public interface QuadConsumerProvider {
-    QuadConsumer getConsumer(SingleQuadParticle.Layer layer);
+    QuadConsumer getConsumer(ParticleLayer layer);
 }

@@ -2,15 +2,16 @@
 package games.enchanted.eg_particle_interactions.common.particle.render.geometry.mc26_2;
 
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
+import games.enchanted.eg_particle_interactions.common.particle.render.layer.ParticleLayer;
 import games.enchanted.eg_particle_interactions.common.particle.render.state.mc26_2.CustomParticleGeometryRenderState;
 import net.minecraft.client.particle.SingleQuadParticle;
 import org.joml.Quaternionf;
 
 public class CustomParticleGeometryQuadConsumer implements QuadConsumer {
     final CustomParticleGeometryRenderState state;
-    final SingleQuadParticle.Layer layer;
+    final ParticleLayer layer;
 
-    public CustomParticleGeometryQuadConsumer(CustomParticleGeometryRenderState state, SingleQuadParticle.Layer layer) {
+    public CustomParticleGeometryQuadConsumer(CustomParticleGeometryRenderState state, ParticleLayer layer) {
         this.state = state;
         this.layer = layer;
     }

@@ -9,6 +9,7 @@ import games.enchanted.eg_particle_interactions.common.particle.appearance.Layer
 import games.enchanted.eg_particle_interactions.common.particle.appearance.SpriteCycleMode;
 import games.enchanted.eg_particle_interactions.common.resource.texture.AtlasIdAndTexture;
 import games.enchanted.eg_particle_interactions.common.resource.texture.TextureHelpers;
+import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.data.AtlasIds;
@@ -92,5 +93,10 @@ public class SpritesTextureConfig implements TextureConfig {
     @Override
     public AtlasIdAndTexture getAtlas(ParticleContext context) {
         return this.atlas;
+    }
+
+    @Override
+    public boolean containsValidMaskSprites() {
+        return !(this.sprites.size() == 1 && this.sprites.getFirst().equals(MissingTextureAtlasSprite.getLocation()));
     }
 }

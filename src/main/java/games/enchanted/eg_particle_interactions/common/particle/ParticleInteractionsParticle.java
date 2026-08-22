@@ -236,11 +236,6 @@ public class ParticleInteractionsParticle extends Particle {
         this.pickSpriteAndUVForAppearance();
     }
 
-    protected SingleQuadParticle.Layer getVanillaLayer() {
-        ParticleLayer layer = this.getParticleLayer();
-        return layer.vanillaLayer();
-    }
-
     @Override
     public ParticleRenderType getGroup() {
         return ModParticleRenderTypes.PARTICLE_INTERACTIONS;
@@ -258,7 +253,7 @@ public class ParticleInteractionsParticle extends Particle {
             quaternionf.rotateZ(Mth.lerp(partialTicks, this.prevSpin, this.spin));
         }
 
-        this.adjustPositionBeforeExtraction(quadConsumerProvider.getConsumer(this.getVanillaLayer()), camera, quaternionf, lerpedPos, partialTicks);
+        this.adjustPositionBeforeExtraction(quadConsumerProvider.getConsumer(this.getParticleLayer()), camera, quaternionf, lerpedPos, partialTicks);
     }
 
     protected void adjustPositionBeforeExtraction(QuadConsumer consumer, Camera camera, Quaternionf quaternionf, Vec3 lerpedPos, float partialTicks) {

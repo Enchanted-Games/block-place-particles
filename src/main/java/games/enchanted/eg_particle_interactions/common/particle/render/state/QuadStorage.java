@@ -12,7 +12,7 @@ public class QuadStorage {
     private static final int ADDITION_CAPACITY = 512;
     private static final int VERTS_PER_QUAD = 4;
     private static final int INTS_PER_QUAD = 2;
-    private static final int FLOATS_PER_QUAD = 5;
+    private static final int FLOATS_PER_QUAD = 7;
 
     private int capacity = INITIAL_CAPACITY * VERTS_PER_QUAD;
     private float[] floats = new float[capacity * FLOATS_PER_QUAD];
@@ -39,15 +39,15 @@ public class QuadStorage {
         return this.currentQuadVertCount >= 0 && this.currentQuadVertCount < 4;
     }
 
-    public void addVertex(Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, int packedLight, float rCol, float gCol, float bCol, float alpha) {
+    public void addVertex(Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, float maskU, float maskV, int packedLight, float rCol, float gCol, float bCol, float alpha) {
         if (!validStateForAddingVertex()) {
             throw new IllegalStateException("Cannot add vertex, make sure to finish the previous quad or start a new quad");
         }
         Vector3f vertexPos = (new Vector3f(xOffset, yOffset, 0.0F)).rotate(quaternion).mul(scale).add(x, y, z);
-        this.putData(vertexPos.x(), vertexPos.y(), vertexPos.z(), u, v, packedLight, ARGB.colorFromFloat(alpha, rCol, gCol, bCol));
+        this.putData(vertexPos.x(), vertexPos.y(), vertexPos.z(), u, v, maskU, maskV, packedLight, ARGB.colorFromFloat(alpha, rCol, gCol, bCol));
     }
 
-    private void putData(float x, float y, float z, float u, float v, int packedLight, int argb) {
+    private void putData(float x, float y, float z, float u, float v, float maskU, float maskV, int packedLight, int argb) {
         if (this.currentVertexIndex + 1 > this.capacity) {
             expandCapacity();
         }
@@ -57,7 +57,9 @@ public class QuadStorage {
         this.floats[i++] = y;
         this.floats[i++] = z;
         this.floats[i++] = u;
-        this.floats[i] = v;
+        this.floats[i++] = v;
+        this.floats[i++] = maskU;
+        this.floats[i] = maskV;
         i = this.currentVertexIndex * INTS_PER_QUAD;
         this.ints[i++] = packedLight;
         this.ints[i] = argb;
@@ -69,6 +71,8 @@ public class QuadStorage {
             int floatsIndex = i * FLOATS_PER_QUAD;
             int intsIndex = i * INTS_PER_QUAD;
             consumer.consume(
+                this.floats[floatsIndex++],
+                this.floats[floatsIndex++],
                 this.floats[floatsIndex++],
                 this.floats[floatsIndex++],
                 this.floats[floatsIndex++],
@@ -98,6 +102,6 @@ public class QuadStorage {
     }
 
     public interface VertexConsumer {
-        void consume(float x, float y, float z, float u, float v, int packedLight, int argb);
+        void consume(float x, float y, float z, float u, float v, float maskU, float maskV, int packedLight, int argb);
     }
 }

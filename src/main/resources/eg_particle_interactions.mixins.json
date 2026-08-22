@@ -12,11 +12,13 @@
         "ClientBoundPacketListenerMixin",
         "LevelEventHandlerMixin",
         "MinecraftInitFinishedMixin",
+        "accessor.client.BufferBuilderAccess",
         "accessor.client.MinecraftAccessor",
         "accessor.client.NativeImageAccessor",
         "accessor.client.ParticleAccessor",
         "accessor.client.RenderPipelinesAccessor",
         "accessor.client.SpriteContentsAccessor",
+        "accessor.client.StagedVertexBufferDrawAccessor",
         "blocks.AbstractCauldronBlock",
         "blocks.BaseFireBlock",
         "blocks.BeehiveBlockMixin",
@@ -65,7 +67,8 @@
         "resource.version.IntermediateOverlayEntryMixin",
         "resource.version.OverlayEntryMixin",
         "screen.OptionsScreenMixin",
-        "screen.ResourcepackScreenMixin"
+        "screen.ResourcepackScreenMixin",
+        "vertex.StagedVertexBufferMixin"
     ],
     "injectors": {
         "defaultRequire": 1

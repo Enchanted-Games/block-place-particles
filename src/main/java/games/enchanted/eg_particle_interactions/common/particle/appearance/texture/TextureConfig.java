@@ -30,5 +30,9 @@ public interface TextureConfig {
 
     AtlasIdAndTexture getAtlas(ParticleContext context);
 
+    default boolean containsValidMaskSprites() {
+        return false;
+    }
+
     MapCodec<? extends TextureConfig> codec();
 }

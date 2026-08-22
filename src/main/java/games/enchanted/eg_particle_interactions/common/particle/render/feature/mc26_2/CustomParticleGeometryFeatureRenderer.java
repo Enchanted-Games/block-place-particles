@@ -9,9 +9,13 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.FilterMode;
 import com.mojang.blaze3d.textures.GpuTextureView;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import games.enchanted.eg_particle_interactions.common.duck.StagedVertexBufferAdditions;
+import games.enchanted.eg_particle_interactions.common.particle.render.PIRenderPipelines;
+import games.enchanted.eg_particle_interactions.common.particle.render.vertex.PIBufferBuilder;
+import games.enchanted.eg_particle_interactions.common.particle.render.vertex.PIVertexFormats;
+import games.enchanted.eg_particle_interactions.common.particle.render.layer.ParticleLayer;
 import games.enchanted.eg_particle_interactions.common.particle.render.state.mc26_2.CustomParticleGeometryRenderState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.renderer.StagedVertexBuffer;
 import net.minecraft.client.renderer.feature.FeatureFrameContext;
 import net.minecraft.client.renderer.feature.FeatureRenderer;
@@ -34,19 +38,26 @@ public class CustomParticleGeometryFeatureRenderer implements FeatureRenderer<Cu
         if(submits.isEmpty()) return;
 
         StagedVertexBuffer stagedVertexBuffer = context.stagedVertexBuffer();
-        Map<SingleQuadParticle.Layer, StagedVertexBuffer.Draw> drawByLayer = new IdentityHashMap<>();
+        Map<ParticleLayer, StagedVertexBuffer.Draw> drawByLayer = new IdentityHashMap<>();
 
         for (CustomParticleGeometryFeatureRenderer.Submit submit : submits) {
             CustomParticleGeometryRenderState particles = submit.particles();
             if(particles.isEmpty()) continue;
 
-            for (SingleQuadParticle.Layer layer : particles.layers()) {
+            for (ParticleLayer layer : particles.layers()) {
                 if(layer.translucent() != submit.translucent()) continue;
 
-                StagedVertexBuffer.Draw draw = drawByLayer.computeIfAbsent(
-                    layer, _ -> stagedVertexBuffer.appendDraw(DefaultVertexFormat.PARTICLE, PrimitiveTopology.QUADS, null)
-                );
-                particles.buildLayer(layer, stagedVertexBuffer.getVertexBuilder(draw));
+                if(layer.maskAtlasTexture() == null) {
+                    StagedVertexBuffer.Draw draw = drawByLayer.computeIfAbsent(
+                        layer, _ -> stagedVertexBuffer.appendDraw(DefaultVertexFormat.PARTICLE, PrimitiveTopology.QUADS, null)
+                    );
+                    particles.buildLayer(layer, stagedVertexBuffer.getVertexBuilder(draw));
+                } else {
+                    StagedVertexBuffer.Draw draw = drawByLayer.computeIfAbsent(
+                        layer, _ -> stagedVertexBuffer.appendDraw(PIVertexFormats.MASK_PARTICLE_VERTEX_FORMAT, PrimitiveTopology.QUADS, null)
+                    );
+                    particles.buildMaskLayer(layer, (PIBufferBuilder) ((StagedVertexBufferAdditions) stagedVertexBuffer).eg_particle_interactions$getCustomBuffer(draw));
+                }
             }
         }
 
@@ -87,16 +98,21 @@ public class CustomParticleGeometryFeatureRenderer implements FeatureRenderer<Cu
         }
     }
 
-    private static void drawLayers(final StagedVertexBuffer stagedBuffer, final Map<SingleQuadParticle.Layer, StagedVertexBuffer.Draw> layers, final RenderPass renderPass, final TextureManager textureManager) {
-        for (Map.Entry<SingleQuadParticle.Layer, StagedVertexBuffer.Draw> entry : layers.entrySet()) {
+    private static void drawLayers(final StagedVertexBuffer stagedBuffer, final Map<ParticleLayer, StagedVertexBuffer.Draw> layers, final RenderPass renderPass, final TextureManager textureManager) {
+        for (Map.Entry<ParticleLayer, StagedVertexBuffer.Draw> entry : layers.entrySet()) {
             StagedVertexBuffer.ExecuteInfo executeInfo = stagedBuffer.getExecuteInfo(entry.getValue());
             if(executeInfo == null) continue;
 
             renderPass.setPipeline(entry.getKey().pipeline());
             renderPass.setVertexBuffer(0, executeInfo.vertexBuffer().slice());
             renderPass.setIndexBuffer(executeInfo.indexBuffer(), executeInfo.indexType());
-            AbstractTexture texture = textureManager.getTexture(entry.getKey().textureAtlasLocation());
+            AbstractTexture texture = textureManager.getTexture(entry.getKey().atlasTexture());
             renderPass.bindTexture("Sampler0", texture.getTextureView(), texture.getSampler());
+            if(entry.getKey().maskAtlasTexture() != null) {
+                AbstractTexture maskTexture = textureManager.getTexture(entry.getKey().maskAtlasTexture());
+                renderPass.bindTexture(PIRenderPipelines.MASK_SAMPLER_SEMANTIC_NAME, maskTexture.getTextureView(), maskTexture.getSampler());
+            }
+
             renderPass.drawIndexed(executeInfo.indexCount(), 1, executeInfo.firstIndex(), executeInfo.baseVertex(), 0);
         }
     }
@@ -107,7 +123,7 @@ public class CustomParticleGeometryFeatureRenderer implements FeatureRenderer<Cu
         this.dynamicTransforms = null;
     }
 
-    private record PreparedGroup(Map<SingleQuadParticle.Layer, StagedVertexBuffer.Draw> layers, boolean translucent) {
+    private record PreparedGroup(Map<ParticleLayer, StagedVertexBuffer.Draw> layers, boolean translucent) {
     }
 
     public record Submit(CustomParticleGeometryRenderState particles, boolean translucent) implements SubmitNode {

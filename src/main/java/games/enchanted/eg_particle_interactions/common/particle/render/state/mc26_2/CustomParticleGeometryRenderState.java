@@ -6,7 +6,9 @@ import games.enchanted.eg_particle_interactions.common.duck.CustomSubmits;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumerProvider;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.mc26_2.CustomParticleGeometryQuadConsumer;
+import games.enchanted.eg_particle_interactions.common.particle.render.layer.ParticleLayer;
 import games.enchanted.eg_particle_interactions.common.particle.render.state.QuadStorage;
+import games.enchanted.eg_particle_interactions.common.particle.render.vertex.PIBufferBuilder;
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
@@ -18,7 +20,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class CustomParticleGeometryRenderState implements ParticleGroupRenderState, QuadConsumerProvider {
-    private final Map<SingleQuadParticle.Layer, QuadStorage> quadStoragePerLayer = new HashMap<>();
+    private final Map<ParticleLayer, QuadStorage> quadStoragePerLayer = new HashMap<>();
     private int vertexAmount = 0;
 
     @Override
@@ -38,25 +40,45 @@ public class CustomParticleGeometryRenderState implements ParticleGroupRenderSta
         return this.vertexAmount <= 0;
     }
 
-    public void buildLayer(SingleQuadParticle.Layer layer, VertexConsumer buffer) {
+    public void buildLayer(ParticleLayer layer, VertexConsumer buffer) {
         QuadStorage storage = this.quadStoragePerLayer.get(layer);
         if (storage != null) {
-            storage.forEachVertex((x, y, z, u, v, packedLight, argb) -> buffer.addVertex(x, y, z).setUv(u, v).setColor(argb).setLight(packedLight));
+            storage.forEachVertex((x, y, z, u, v, maskU, maskV, packedLight, argb) -> {
+                buffer
+                    .addVertex(x, y, z)
+                    .setUv(u, v)
+                    .setColor(argb)
+                    .setLight(packedLight);
+            });
         }
     }
 
-    public Set<SingleQuadParticle.Layer> layers() {
+    public void buildMaskLayer(ParticleLayer layer, PIBufferBuilder buffer) {
+        QuadStorage storage = this.quadStoragePerLayer.get(layer);
+        if (storage != null) {
+            storage.forEachVertex((x, y, z, u, v, maskU, maskV, packedLight, argb) -> {
+                VertexConsumer b = buffer
+                    .addVertex(x, y, z)
+                    .setUv(u, v)
+                    .setColor(argb);
+                ((PIBufferBuilder) b).setMaskUv(maskU, maskV)
+                    .setLight(packedLight);
+            });
+        }
+    }
+
+    public Set<ParticleLayer> layers() {
         return this.quadStoragePerLayer.keySet();
     }
 
-    public void startQuad(SingleQuadParticle.Layer layer) {
+    public void startQuad(ParticleLayer layer) {
         this.quadStoragePerLayer.computeIfAbsent(layer, (l) -> new QuadStorage()).startQuad();
     }
-    public void finishQuad(SingleQuadParticle.Layer layer) {
+    public void finishQuad(ParticleLayer layer) {
         this.quadStoragePerLayer.computeIfAbsent(layer, (l) -> new QuadStorage()).finishQuad();
     }
 
-    public void addVertex(SingleQuadParticle.Layer layer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, float maskU, float maskV, int packedLight, float rCol, float gCol, float bCol, float alpha) {
+    public void addVertex(ParticleLayer layer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float scale, float u, float v, float maskU, float maskV, int packedLight, float rCol, float gCol, float bCol, float alpha) {
         this.quadStoragePerLayer.computeIfAbsent(layer, (l) -> new QuadStorage()).addVertex(
             quaternion,
             x,
@@ -67,6 +89,8 @@ public class CustomParticleGeometryRenderState implements ParticleGroupRenderSta
             scale,
             u,
             v,
+            maskU,
+            maskV,
             packedLight,
             rCol,
             gCol,
@@ -77,7 +101,7 @@ public class CustomParticleGeometryRenderState implements ParticleGroupRenderSta
     }
 
     @Override
-    public QuadConsumer getConsumer(SingleQuadParticle.Layer layer) {
+    public QuadConsumer getConsumer(ParticleLayer layer) {
         return new CustomParticleGeometryQuadConsumer(this, layer);
     }
 }

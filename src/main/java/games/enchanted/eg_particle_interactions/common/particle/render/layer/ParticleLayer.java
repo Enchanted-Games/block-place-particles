@@ -1,49 +1,44 @@
 package games.enchanted.eg_particle_interactions.common.particle.render.layer;
 
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.LayerDefinition;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.texture.TextureConfig;
-import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.resources.Identifier;
+import org.jspecify.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ParticleLayer {
+public record ParticleLayer(boolean translucent, Identifier atlasTexture, @Nullable Identifier maskAtlasTexture, RenderPipeline pipeline) {
     private static final Map<Identity, ParticleLayer> EXISTING_LAYERS = new HashMap<>();
-
-    final SingleQuadParticle.Layer layer;
-
-    ParticleLayer(SingleQuadParticle.Layer layer) {
-        this.layer = layer;
-    }
-
-    public SingleQuadParticle.Layer vanillaLayer() {
-        return this.layer;
-    }
 
     public static ParticleLayer fromAppearance(ParticleContext context, ParticleAppearance appearance) {
         TextureConfig config = appearance.textureConfig();
+        TextureConfig maskConfig = appearance.maskConfig();
+        boolean hasMask = appearance.maskConfig().containsValidMaskSprites();
 
-        Identity identity = new Identity(config.getAtlas(context).texturePath(), config.getLayerDefinition(context));
+        Identity identity = new Identity(
+            config.getAtlas(context).texturePath(),
+            maskConfig.getAtlas(context).texturePath(),
+            config.getLayerDefinition(context)
+        );
         if(EXISTING_LAYERS.containsKey(identity)) {
             return EXISTING_LAYERS.get(identity);
         }
 
-        ParticleLayer layer = new ParticleLayer(createVanillaLayer(context, config));
+        LayerDefinition layerDefinition = config.getLayerDefinition(context);
+        ParticleLayer layer = new ParticleLayer(
+            layerDefinition.isTranslucent(),
+            config.getAtlas(context).texturePath(),
+            hasMask ? maskConfig.getAtlas(context).texturePath() : null,
+            hasMask ? layerDefinition.maskPipeline() : layerDefinition.pipeline()
+        );
         EXISTING_LAYERS.put(identity, layer);
         return layer;
     }
 
-    private static SingleQuadParticle.Layer createVanillaLayer(ParticleContext context, TextureConfig config) {
-        return new SingleQuadParticle.Layer(
-            config.getLayerDefinition(context).isTranslucent(),
-            config.getAtlas(context).texturePath(),
-            config.getLayerDefinition(context).pipeline()
-        );
-    }
-
-    private record Identity(Identifier atlasTexture, LayerDefinition layerDefinition) {
+    private record Identity(Identifier atlasTexture, @Nullable Identifier maskAtlasTexture, LayerDefinition layerDefinition) {
     }
 }
