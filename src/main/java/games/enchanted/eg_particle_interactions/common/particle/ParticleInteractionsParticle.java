@@ -111,6 +111,7 @@ public class ParticleInteractionsParticle extends Particle {
 
     protected boolean updateSpritesAfterFirstCall = true;
     protected @Nullable UVCoordinates appearanceUV = null;
+    protected @Nullable UVCoordinates appearanceMaskUV = null;
     protected TextureAtlasSprite currentSprite;
     protected UVCoordinates spriteUV = UVCoordinates.UNIT;
     protected TextureAtlasSprite currentMaskSprite;
@@ -534,13 +535,14 @@ public class ParticleInteractionsParticle extends Particle {
         this.currentSprite = sprite;
         this.currentMaskSprite = mask;
         this.appearanceUV = this.appearance.uv().getUv(this.appearanceUV, sprite, this.initialAppearanceScale);
-        this.spriteUV = this.calculateSpriteUV(sprite);
-        this.maskUV = this.calculateSpriteUV(mask);
+        this.spriteUV = this.calculateSpriteUV(sprite, this.appearanceUV);
+        this.appearanceMaskUV = this.appearance.uv().getUv(this.appearanceUV, mask, this.initialAppearanceScale);
+        this.maskUV = this.calculateSpriteUV(mask, this.appearanceMaskUV);
     }
 
-    protected UVCoordinates calculateSpriteUV(TextureAtlasSprite sprite) {
-        if(this.appearanceUV == null) return UVCoordinates.UNIT;
-        return this.appearanceUV.remapInUV(
+    protected UVCoordinates calculateSpriteUV(TextureAtlasSprite sprite, @Nullable UVCoordinates uv) {
+        if(uv == null) return UVCoordinates.UNIT;
+        return uv.remapInUV(
             sprite.getU0(),
             sprite.getV0(),
             sprite.getU1(),
@@ -794,8 +796,9 @@ public class ParticleInteractionsParticle extends Particle {
 
     public void modifyUV(UVProvider uv) {
         this.appearanceUV = uv.getUv(this.appearanceUV, this.currentSprite, this.initialAppearanceScale);
-        this.spriteUV = this.calculateSpriteUV(this.currentSprite);
-        this.maskUV = this.currentMaskSprite == null ? UVCoordinates.UNIT : this.calculateSpriteUV(this.currentMaskSprite);
+        this.spriteUV = this.calculateSpriteUV(this.currentSprite, this.appearanceUV);
+        this.appearanceMaskUV = uv.getUv(this.appearanceUV, this.currentSprite, this.initialAppearanceScale);
+        this.maskUV = this.calculateSpriteUV(this.currentMaskSprite, this.appearanceMaskUV);
     }
 
     public int getInitialAppearanceLightEmission() {
