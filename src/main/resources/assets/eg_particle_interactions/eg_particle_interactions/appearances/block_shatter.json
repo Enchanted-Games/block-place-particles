@@ -1,16 +1,47 @@
 {
     "texture_config": {
-        "type": "block_texture",
-        "layer": "translucent_backface"
+        "type": "block_texture"
+    },
+    "mask_texture_config": {
+        "sprites": [
+            "eg_particle_interactions:masks/shatter"
+        ]
     },
     "colour": {
-        "type": "block_tint",
-        "tint_index": 0
+        "type": "multiply",
+        "colours": [
+            {
+                "type": "block_tint",
+                "tint_index": 0
+            },
+            {
+                "type": "constant",
+                "value": [
+                    255,
+                    190,
+                    190,
+                    190
+                ]
+            }
+        ]
     },
-    "scale": 3,
-    "spin": {
+    "uv": {
+        "type": "random_within_sprite"
+    },
+    "scale": {
+        "values": [
+            2,
+            3,
+            3,
+            3
+        ]
+    },
+    "spin_config": {
         "initial_rotation": {
-            "values": [0, 90, 180, 270]
+            "range": [
+                0,
+                360
+            ]
         }
     }
 }
