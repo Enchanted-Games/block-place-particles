@@ -2,15 +2,14 @@
     "components": {
         "gravity/initial": {
             "range": [
-                0.75,
-                0.95
+                0.9,
+                1.0
             ]
         },
-        "gravity/decay": 0.97,
         "lifetime": {
             "range": [
-                30,
-                60
+                20,
+                40
             ]
         },
         "physics/friction": 0.7,

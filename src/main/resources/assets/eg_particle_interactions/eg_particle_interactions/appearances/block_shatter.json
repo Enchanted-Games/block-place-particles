@@ -2,10 +2,19 @@
     "texture_config": {
         "type": "block_texture"
     },
+    "uv": {
+        "type": "random_within_sprite"
+    },
     "mask_texture_config": {
         "sprites": [
-            "eg_particle_interactions:masks/shatter"
+            "eg_particle_interactions:masks/shatter/0",
+            "eg_particle_interactions:masks/shatter/1",
+            "eg_particle_interactions:masks/shatter/2"
         ]
+    },
+    "mask_uv": {
+        "type": "random_within_sprite",
+        "scale": 5.3333333333
     },
     "colour": {
         "type": "multiply",
@@ -24,9 +33,6 @@
                 ]
             }
         ]
-    },
-    "uv": {
-        "type": "random_within_sprite"
     },
     "scale": {
         "values": [
