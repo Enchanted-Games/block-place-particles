@@ -534,9 +534,13 @@ public class ParticleInteractionsParticle extends Particle {
         if(sprite.equals(this.currentSprite)) return;
         this.currentSprite = sprite;
         this.currentMaskSprite = mask;
-        this.appearanceUV = this.appearance.uv().getUv(this.appearanceUV, sprite, this.initialAppearanceScale);
+
+        UVProvider uv = this.appearance.uv();
+        this.appearanceUV = uv.getUv(this.appearanceUV, sprite, this.initialAppearanceScale);
         this.spriteUV = this.calculateSpriteUV(sprite, this.appearanceUV);
-        this.appearanceMaskUV = this.appearance.uv().getUv(this.appearanceUV, mask, this.initialAppearanceScale);
+
+        UVProvider maskUv = this.appearance.maskUv();
+        this.appearanceMaskUV = maskUv.getUv(this.appearanceMaskUV, mask, this.initialAppearanceScale);
         this.maskUV = this.calculateSpriteUV(mask, this.appearanceMaskUV);
     }
 
@@ -794,11 +798,14 @@ public class ParticleInteractionsParticle extends Particle {
         this.minLightEmission = Math.clamp(lightEmission, 0, 15);
     }
 
-    public void modifyUV(UVProvider uv) {
-        this.appearanceUV = uv.getUv(this.appearanceUV, this.currentSprite, this.initialAppearanceScale);
-        this.spriteUV = this.calculateSpriteUV(this.currentSprite, this.appearanceUV);
-        this.appearanceMaskUV = uv.getUv(this.appearanceUV, this.currentSprite, this.initialAppearanceScale);
-        this.maskUV = this.calculateSpriteUV(this.currentMaskSprite, this.appearanceMaskUV);
+    public void modifyUV(UVProvider uv, boolean modifyMaskUv) {
+        if(modifyMaskUv) {
+            this.appearanceMaskUV = uv.getUv(this.appearanceMaskUV, this.currentSprite, this.initialAppearanceScale);
+            this.maskUV = this.calculateSpriteUV(this.currentMaskSprite, this.appearanceMaskUV);
+        } else {
+            this.appearanceUV = uv.getUv(this.appearanceUV, this.currentSprite, this.initialAppearanceScale);
+            this.spriteUV = this.calculateSpriteUV(this.currentSprite, this.appearanceUV);
+        }
     }
 
     public int getInitialAppearanceLightEmission() {

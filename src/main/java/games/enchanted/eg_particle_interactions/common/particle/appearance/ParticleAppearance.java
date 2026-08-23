@@ -18,18 +18,21 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
 public record ParticleAppearance(
     TextureConfig textureConfig,
+    UVProvider uv,
     TextureConfig maskConfig,
+    UVProvider maskUv,
     ColourSource colourSource,
     int lightEmission,
     SpinConfig spinConfig,
     RandomFloatProvider scale,
     Vector3fc modelOffset,
-    UVProvider uv,
     CustomFacingCameraMode customFacingCameraMode,
     List<EventStack.Event> events
 ) {
@@ -41,26 +44,28 @@ public record ParticleAppearance(
 
     public static final ParticleAppearance.Reference MISSING_APPEARANCE = new InlineRef(new ParticleAppearance(
         TextureConfigs.MISSING_APPEARANCE,
+        DEFAULT_UV,
         TextureConfigs.NO_MASK,
+        DEFAULT_UV,
         ColourSources.WHITE,
         DEFAULT_LIGHT_EMISSION,
         SpinConfig.NO_SPIN,
         DEFAULT_SCALE,
         MODEL_OFFSET_DEFAULT,
-        DEFAULT_UV,
         DEFAULT_CAMERA_MODE,
         List.of()
     ));
 
     public static final ParticleAppearance.Reference MISSING_DEFINITION = new InlineRef(new ParticleAppearance(
         TextureConfigs.MISSING_DEFINITION,
+        DEFAULT_UV,
         TextureConfigs.NO_MASK,
+        DEFAULT_UV,
         ColourSources.WHITE,
         DEFAULT_LIGHT_EMISSION,
         SpinConfig.NO_SPIN,
         DEFAULT_SCALE,
         MODEL_OFFSET_DEFAULT,
-        DEFAULT_UV,
         DEFAULT_CAMERA_MODE,
         List.of()
     ));
@@ -69,13 +74,14 @@ public record ParticleAppearance(
         return RecordCodecBuilder.create(i -> i
             .group(
                 TextureConfigs.CODEC.optionalFieldOf("texture_config", TextureConfigs.MISSING_APPEARANCE).forGetter(ParticleAppearance::textureConfig),
+                UVProviders.CODEC.optionalFieldOf("uv", DEFAULT_UV).forGetter(ParticleAppearance::uv),
                 TextureConfigs.CODEC.optionalFieldOf("mask_texture_config", TextureConfigs.NO_MASK).forGetter(ParticleAppearance::textureConfig),
+                UVProviders.CODEC.optionalFieldOf("mask_uv", DEFAULT_UV).forGetter(ParticleAppearance::maskUv),
                 ColourSources.CODEC.optionalFieldOf("colour", ColourSources.WHITE).forGetter(ParticleAppearance::colourSource),
                 Codec.intRange(0, 15).optionalFieldOf("light_emission", DEFAULT_LIGHT_EMISSION).forGetter(ParticleAppearance::lightEmission),
                 SpinConfig.CODEC.optionalFieldOf("spin_config", SpinConfig.NO_SPIN).forGetter(ParticleAppearance::spinConfig),
                 RandomFloatProvider.CODEC.optionalFieldOf("scale", DEFAULT_SCALE).forGetter(ParticleAppearance::scale),
                 ExtraCodecs.VECTOR3F.optionalFieldOf("model_offset", MODEL_OFFSET_DEFAULT).forGetter(ParticleAppearance::modelOffset),
-                UVProviders.CODEC.optionalFieldOf("uv", DEFAULT_UV).forGetter(ParticleAppearance::uv),
                 CustomFacingCameraMode.CODEC.optionalFieldOf("facing_camera_mode", DEFAULT_CAMERA_MODE).forGetter(ParticleAppearance::customFacingCameraMode),
                 EventStack.Event.codec().listOf().optionalFieldOf("events", List.of()).forGetter(ParticleAppearance::events)
             ).apply(
