@@ -1,6 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.render.layer;
 
 import com.mojang.blaze3d.pipeline.RenderPipeline;
+import games.enchanted.eg_particle_interactions.common.compat.iris.IrisApiUser;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.LayerDefinition;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
@@ -11,7 +12,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public record ParticleLayer(boolean translucent, Identifier atlasTexture, @Nullable Identifier maskAtlasTexture, RenderPipeline pipeline) {
+public record ParticleLayer(boolean translucent, Identifier atlasTexture, @Nullable Identifier maskAtlasTexture, RenderPipeline pipeline, RenderPipeline maskPipeline) {
     private static final Map<Identity, ParticleLayer> EXISTING_LAYERS = new HashMap<>();
 
     public static ParticleLayer fromAppearance(ParticleContext context, ParticleAppearance appearance) {
@@ -33,10 +34,15 @@ public record ParticleLayer(boolean translucent, Identifier atlasTexture, @Nulla
             layerDefinition.isTranslucent(),
             config.getAtlas(context).texturePath(),
             hasMask ? maskConfig.getAtlas(context).texturePath() : null,
-            hasMask ? layerDefinition.maskPipeline() : layerDefinition.pipeline()
+            layerDefinition.pipeline(),
+            layerDefinition.maskPipeline()
         );
         EXISTING_LAYERS.put(identity, layer);
         return layer;
+    }
+
+    public boolean renderWithMask() {
+        return this.maskAtlasTexture != null && !IrisApiUser.INSTANCE.shaderpackActive();
     }
 
     private record Identity(Identifier atlasTexture, @Nullable Identifier maskAtlasTexture, LayerDefinition layerDefinition) {

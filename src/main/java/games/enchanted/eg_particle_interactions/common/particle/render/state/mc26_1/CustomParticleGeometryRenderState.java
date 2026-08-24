@@ -48,7 +48,7 @@ public class CustomParticleGeometryRenderState implements ParticleGroupRenderSta
         PreparedBuffer maskBuffer = null;
 
         if(this.vertexAmount > 0) {
-            try (ByteBufferBuilder byteBufferBuilder = ByteBufferBuilder.exactlySized(this.vertexAmount * DefaultVertexFormat.PARTICLE.getVertexSize())) {
+            try (ByteBufferBuilder byteBufferBuilder = new ByteBufferBuilder(this.vertexAmount * DefaultVertexFormat.PARTICLE.getVertexSize())) {
                 BufferBuilder vertexBuffer = new BufferBuilder(byteBufferBuilder, VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
 
                 HashMap<ParticleLayer, PreparedLayer> layerToPreparedMap = prepareLayers(vertexBuffer, false, translucentOnly);
@@ -59,7 +59,7 @@ public class CustomParticleGeometryRenderState implements ParticleGroupRenderSta
         }
 
         if(this.maskVertexAmount > 0) {
-            try (ByteBufferBuilder byteBufferBuilder = ByteBufferBuilder.exactlySized(this.maskVertexAmount * PIVertexFormats.MASK_PARTICLE_VERTEX_FORMAT.getVertexSize())) {
+            try (ByteBufferBuilder byteBufferBuilder = new ByteBufferBuilder(this.maskVertexAmount * PIVertexFormats.MASK_PARTICLE_VERTEX_FORMAT.getVertexSize())) {
                 BufferBuilder vertexBuffer = new PIBufferBuilder(byteBufferBuilder, VertexFormat.Mode.QUADS);
 
                 HashMap<ParticleLayer, PreparedLayer> layerToPreparedMap = prepareLayers(vertexBuffer, true, translucentOnly);
@@ -93,7 +93,7 @@ public class CustomParticleGeometryRenderState implements ParticleGroupRenderSta
             if(entry.getKey().translucent() != translucentOnly) continue;
 
             QuadStorage storage = entry.getValue();
-            boolean isMaskLayer = entry.getKey().maskAtlasTexture() != null;
+            boolean isMaskLayer = entry.getKey().renderWithMask();
 
             if(!isMaskLayer && !maskLayers) {
                 storage.forEachVertex((x, y, z, u, v, maskU, maskV, packedLight, argb) -> {
@@ -141,10 +141,12 @@ public class CustomParticleGeometryRenderState implements ParticleGroupRenderSta
         RenderSystem.bindDefaultUniforms(renderPass);
 
         for (Map.Entry<ParticleLayer, PreparedLayer> entry : preparedBuffer.layers().entrySet()) {
-            renderPass.setPipeline(entry.getKey().pipeline());
+            boolean renderWithMask = entry.getKey().renderWithMask();
+
+            renderPass.setPipeline(renderWithMask ? entry.getKey().maskPipeline() : entry.getKey().pipeline());
             AbstractTexture atlas = textureManager.getTexture(entry.getKey().atlasTexture());
             renderPass.bindTexture("Sampler0", atlas.getTextureView(), atlas.getSampler());
-            if(entry.getKey().maskAtlasTexture() != null) {
+            if(entry.getKey().maskAtlasTexture() != null && renderWithMask) {
                 AbstractTexture maskTexture = textureManager.getTexture(entry.getKey().maskAtlasTexture());
                 renderPass.bindTexture(PIRenderPipelines.MASK_SAMPLER_SEMANTIC_NAME, maskTexture.getTextureView(), maskTexture.getSampler());
             }
@@ -191,7 +193,7 @@ public class CustomParticleGeometryRenderState implements ParticleGroupRenderSta
             bCol,
             alpha
         );
-        if(layer.maskAtlasTexture() == null) {
+        if(!layer.renderWithMask()) {
             this.vertexAmount++;
         } else {
             this.maskVertexAmount++;

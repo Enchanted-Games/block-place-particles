@@ -47,16 +47,16 @@ public class CustomParticleGeometryFeatureRenderer implements FeatureRenderer<Cu
             for (ParticleLayer layer : particles.layers()) {
                 if(layer.translucent() != submit.translucent()) continue;
 
-                if(layer.maskAtlasTexture() == null) {
-                    StagedVertexBuffer.Draw draw = drawByLayer.computeIfAbsent(
-                        layer, _ -> stagedVertexBuffer.appendDraw(DefaultVertexFormat.PARTICLE, PrimitiveTopology.QUADS, null)
-                    );
-                    particles.buildLayer(layer, stagedVertexBuffer.getVertexBuilder(draw));
-                } else {
+                if(layer.renderWithMask()) {
                     StagedVertexBuffer.Draw draw = drawByLayer.computeIfAbsent(
                         layer, _ -> stagedVertexBuffer.appendDraw(PIVertexFormats.MASK_PARTICLE_VERTEX_FORMAT, PrimitiveTopology.QUADS, null)
                     );
                     particles.buildMaskLayer(layer, (PIBufferBuilder) ((StagedVertexBufferAdditions) stagedVertexBuffer).eg_particle_interactions$getCustomBuffer(draw));
+                } else {
+                    StagedVertexBuffer.Draw draw = drawByLayer.computeIfAbsent(
+                        layer, _ -> stagedVertexBuffer.appendDraw(DefaultVertexFormat.PARTICLE, PrimitiveTopology.QUADS, null)
+                    );
+                    particles.buildLayer(layer, stagedVertexBuffer.getVertexBuilder(draw));
                 }
             }
         }
@@ -103,12 +103,13 @@ public class CustomParticleGeometryFeatureRenderer implements FeatureRenderer<Cu
             StagedVertexBuffer.ExecuteInfo executeInfo = stagedBuffer.getExecuteInfo(entry.getValue());
             if(executeInfo == null) continue;
 
-            renderPass.setPipeline(entry.getKey().pipeline());
+            boolean renderWithMask = entry.getKey().renderWithMask();
+            renderPass.setPipeline(renderWithMask ? entry.getKey().maskPipeline() : entry.getKey().pipeline());
             renderPass.setVertexBuffer(0, executeInfo.vertexBuffer().slice());
             renderPass.setIndexBuffer(executeInfo.indexBuffer(), executeInfo.indexType());
             AbstractTexture texture = textureManager.getTexture(entry.getKey().atlasTexture());
             renderPass.bindTexture("Sampler0", texture.getTextureView(), texture.getSampler());
-            if(entry.getKey().maskAtlasTexture() != null) {
+            if(entry.getKey().maskAtlasTexture() != null && renderWithMask) {
                 AbstractTexture maskTexture = textureManager.getTexture(entry.getKey().maskAtlasTexture());
                 renderPass.bindTexture(PIRenderPipelines.MASK_SAMPLER_SEMANTIC_NAME, maskTexture.getTextureView(), maskTexture.getSampler());
             }

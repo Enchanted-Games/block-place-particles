@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common;
 
+import games.enchanted.eg_particle_interactions.common.compat.iris.IrisApiUser;
 import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
 import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
 import games.enchanted.eg_particle_interactions.common.override_system.override.FluidOverrideManager;
@@ -50,6 +51,8 @@ public class ParticleInteractionsMod {
         //?} else {
         /*registerResourceReloadListeners();
         *///? }
+
+        IrisApiUser.INSTANCE.doIrisStuff();
     }
 
     public static void endOfModLoading() {

@@ -47,6 +47,13 @@ repositories {
         name = "Xander Maven (yacl)"
         url = uri("https://maven.isxander.dev/releases")
     }
+    maven {
+        name = "Modrinth"
+        url = uri("https://api.modrinth.com/maven")
+        content {
+            includeGroupAndSubgroups("maven.modrinth")
+        }
+    }
 }
 
 dependencies {
@@ -58,6 +65,11 @@ dependencies {
         }
     } else {
         implementation("dev.isxander:yet-another-config-lib:3.8.2+1.21.11-neoforge")
+    }
+
+    // iris (compile only for the api)
+    if(hasProperty("deps.iris")) {
+        compileOnly("maven.modrinth:iris:${property("deps.iris")}")
     }
 }
 

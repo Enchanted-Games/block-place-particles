@@ -9,8 +9,8 @@ import games.enchanted.eg_particle_interactions.common.particle.render.vertex.PI
 import net.minecraft.resources.Identifier;
 
 //? if minecraft: < 26.2 {
-import com.mojang.blaze3d.vertex.VertexFormat;
-//? } else {
+/*import com.mojang.blaze3d.vertex.VertexFormat;
+*///? } else {
 import com.mojang.blaze3d.pipeline.BindGroupLayout;
 //? }
 
