@@ -626,10 +626,6 @@ public class ParticleInteractionsParticle extends Particle {
     }
 
 
-    protected boolean hasMask() {
-        return !this.currentMaskSprite.contents().name().equals(MissingTextureAtlasSprite.getLocation());
-    }
-
     protected float getMaskU0() {
         return this.maskUV.u0();
     }

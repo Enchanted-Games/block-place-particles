@@ -17,7 +17,6 @@ public record ParticleLayer(boolean translucent, Identifier atlasTexture, @Nulla
     public static ParticleLayer fromAppearance(ParticleContext context, ParticleAppearance appearance) {
         TextureConfig config = appearance.textureConfig();
         TextureConfig maskConfig = appearance.maskConfig();
-        boolean hasMask = appearance.maskConfig().containsValidMaskSprites();
 
         Identity identity = new Identity(
             config.getAtlas(context).texturePath(),
@@ -28,6 +27,7 @@ public record ParticleLayer(boolean translucent, Identifier atlasTexture, @Nulla
             return EXISTING_LAYERS.get(identity);
         }
 
+        boolean hasMask = appearance.maskConfig().containsValidMaskSprites();
         LayerDefinition layerDefinition = config.getLayerDefinition(context);
         ParticleLayer layer = new ParticleLayer(
             layerDefinition.isTranslucent(),
