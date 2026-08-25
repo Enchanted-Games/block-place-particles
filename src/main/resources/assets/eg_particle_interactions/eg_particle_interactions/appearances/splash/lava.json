@@ -12,10 +12,25 @@
         ],
         "sprite_cycle_mode": "age_cycle"
     },
+    "light_emission": 15,
     "scale": {
         "range": [
             4.9,
             5.1
         ]
-    }
+    },
+    "events": [
+        {
+            "trigger": {
+                "type": "tick"
+            },
+            "action": {
+                "type": "age_based_light_emission",
+                "lifetime_percentage_range": [
+                    0.4,
+                    1
+                ]
+            }
+        }
+    ]
 }
