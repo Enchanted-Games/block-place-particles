@@ -1,8 +1,10 @@
 package games.enchanted.eg_particle_interactions.common.platform;
 
+import games.enchanted.eg_particle_interactions.common.particle.vanilla.PIVanillaParticles;
 import games.enchanted.eg_particle_interactions.common.Constants;
 //? if neoforge {
 /*import games.enchanted.eg_particle_interactions.neoforge.NeoForgeEntry;
+import games.enchanted.eg_particle_interactions.neoforge.registry.NeoParticleProviderRegistry;
 import games.enchanted.eg_particle_interactions.neoforge.registry.NeoReloadListenerRegistry;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
@@ -10,10 +12,14 @@ import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.fml.loading.LoadingModList;
 import org.apache.commons.lang3.NotImplementedException;
 *///?} else {
+
 import games.enchanted.eg_particle_interactions.fabric.resource.FabricResourceLoaderRegisterer;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 //?}
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 
@@ -113,6 +119,17 @@ public class PlatformHelper {
         //? } else {
         /*NeoReloadListenerRegistry.registerListener(listener, id);
         *///? }
+    }
+
+    /**
+     * Registers a particle to a particle provider
+     */
+    public static <T extends ParticleOptions> void registerParticleProvider(ParticleType<T> particleType, PIVanillaParticles.SpriteProviderReg<T> particleProvider) {
+        //? if fabric {
+        ParticleProviderRegistry.getInstance().register(particleType, particleProvider::create);
+        //?} else {
+        /*NeoParticleProviderRegistry.registerProviderWhenReady(particleType, particleProvider);
+         *///?}
     }
 
     /**

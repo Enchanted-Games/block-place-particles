@@ -26,6 +26,10 @@ public class GeneralOptions {
         new BoolOption(true, "show_button_in_options_screen")
     );
 
+    public static final ConfigOption<Boolean> PRESERVE_VANILLA_NETWORK_COMPATIBILITY = registerOption(
+        new BoolOption(false, "preserve_vanilla_network_compatibility")
+    );
+
     // - performance
     public static final ConfigOption<Integer> INTERACTION_RENDER_DISTANCE = registerOption(
         new IntOption(6, "interaction_render_distance")

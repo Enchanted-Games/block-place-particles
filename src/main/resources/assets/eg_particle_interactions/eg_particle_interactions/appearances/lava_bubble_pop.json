@@ -21,7 +21,7 @@
         ],
         "sprite_cycle_mode": "age_cycle"
     },
-    "light_emission": 15,
+    "light_emission": 0,
     "scale": {
         "range": [
             6,
@@ -32,5 +32,35 @@
         0,
         0.5,
         0
+    ],
+    "events": [
+        {
+            "trigger": {
+                "type": "tick"
+            },
+            "action": {
+                "type": "age_based_light_emission",
+                "remap_min": 0,
+                "remap_max": 15,
+                "lifetime_percentage_range": [
+                    0,
+                    0.4
+                ]
+            }
+        },
+        {
+            "trigger": {
+                "type": "tick"
+            },
+            "action": {
+                "type": "age_based_light_emission",
+                "remap_min": 15,
+                "remap_max": 0,
+                "lifetime_percentage_range": [
+                    0.6,
+                    1
+                ]
+            }
+        }
     ]
 }

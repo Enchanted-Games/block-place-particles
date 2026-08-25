@@ -10,6 +10,7 @@ import games.enchanted.eg_particle_interactions.common.particle.appearance.Parti
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponents;
 import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleDefinitionManager;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSetManager;
+import games.enchanted.eg_particle_interactions.common.particle.vanilla.PIVanillaParticles;
 import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
 import games.enchanted.eg_particle_interactions.common.predicates.biome.list.BiomeListManager;
 import games.enchanted.eg_particle_interactions.common.predicates.block.list.BlockListManager;
@@ -38,6 +39,7 @@ public class ParticleInteractionsMod {
 
     public static void startOfModLoading() {
         Logging.info("Mod init started. Compiled for {}", Constants.TARGET_PLATFORM);
+        ConfigOptions.readConfig();
 
         ParticleComponents.init();
         ParticleTypesRegistry.init();
@@ -56,7 +58,6 @@ public class ParticleInteractionsMod {
     }
 
     public static void endOfModLoading() {
-        ConfigOptions.readConfig();
         Logging.info("Init done!");
     }
 

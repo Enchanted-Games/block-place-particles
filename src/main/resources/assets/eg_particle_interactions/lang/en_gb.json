@@ -126,6 +126,9 @@
   "eg_particle_interactions.config.global_option.firefly_fixes": "Firefly fixes",
   "eg_particle_interactions.config.global_option.firefly_fixes.desc": "Fixes some annoying issues with firefly particles when enabled:\n - Fireflies won't die in any block other than air (yes, they die in flowers or grass in vanilla!)\n - Fireflies won't get stuck in place on the floor or underside of blocks (once you notice this, you cant unsee it)",
 
+  "eg_particle_interactions.config.global_option.preserve_vanilla_network_compatibility": "Preserve network compatibility with vanilla clients",
+  "eg_particle_interactions.config.global_option.preserve_vanilla_network_compatibility.desc": "When enabled allows clients without Particle Interactions installed to connect to your locally hosted worlds. This skips registering the `eg_particle_interactions:custom` particle to Minecraft's particle_type registry.\n\nEnable this if people get errors while trying to join your world.\n\n!! Requires a game restart to take effect !!",
+
   "eg_particle_interactions.config.global_option.show_button_in_options_screen": "Show config button in options screen",
   "eg_particle_interactions.config.global_option.show_button_in_options_screen.desc": "If enabled, a button to open this config screen is added in the options screen if mod menu is not installed",
 

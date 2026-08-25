@@ -68,6 +68,10 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 ConfigScreenHelper.genericBooleanOption(
                     ConfigTranslation.FIREFLY_FIXES,
                     GeneralOptions.FIREFLY_FIXES
+                ),
+                ConfigScreenHelper.genericBooleanOption(
+                    ConfigTranslation.PRESERVE_VANILLA_NETWORK_COMPATIBILITY,
+                    GeneralOptions.PRESERVE_VANILLA_NETWORK_COMPATIBILITY
                 )
 //                ConfigScreenHelper.integerSliderOption(
 //                    ConfigTranslation.RENDER_DISTANCE_INTERACTION,
