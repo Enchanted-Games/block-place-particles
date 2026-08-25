@@ -26,6 +26,10 @@
                 },
                 "action": {
                     "type": "age_based_scale",
+                    "remap_min": {
+                        "value": "initial"
+                    },
+                    "remap_max": 0,
                     "lifetime_percentage_range": [
                         0,
                         1

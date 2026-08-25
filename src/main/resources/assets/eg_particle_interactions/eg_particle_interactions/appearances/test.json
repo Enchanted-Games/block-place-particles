@@ -25,7 +25,10 @@
             },
             "action": {
                 "type": "age_based_light_emission",
-                "multiplier": 1,
+                "remap_min": {
+                    "value": "initial"
+                },
+                "remap_max": 0,
                 "lifetime_percentage_range": [
                     0.5,
                     1

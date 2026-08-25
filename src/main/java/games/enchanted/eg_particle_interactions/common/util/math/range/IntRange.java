@@ -1,6 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.util.math.range;
 
 import com.mojang.serialization.Codec;
+import net.minecraft.util.Mth;
 import net.minecraft.util.Util;
 
 import java.util.List;
@@ -38,5 +39,12 @@ public record IntRange(int min, int max) {
     public float remapValueToPercentageAlongRange(int value) {
         int testValue = Math.clamp(value, this.min(), this.max());
         return (float) (testValue - this.min()) / (this.max() - this.min());
+    }
+
+    /**
+     * Returns a value between min and max based on a percentage value
+     */
+    public int remapPercentageIntoRange(float percentage) {
+        return (int) Mth.lerp(percentage, this.min(), this.max());
     }
 }

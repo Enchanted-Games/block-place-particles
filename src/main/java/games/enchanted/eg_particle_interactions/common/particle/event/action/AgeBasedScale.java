@@ -2,23 +2,25 @@ package games.enchanted.eg_particle_interactions.common.particle.event.action;
 
 import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
+import games.enchanted.eg_particle_interactions.common.particle.variable.ParticleVariable;
+import games.enchanted.eg_particle_interactions.common.particle.variable.field.ParticleField;
+import games.enchanted.eg_particle_interactions.common.particle.variable.field.ParticleFields;
+import games.enchanted.eg_particle_interactions.common.particle.variable.field.modifier.numberFloat.FloatFieldModifiers;
 import games.enchanted.eg_particle_interactions.common.util.math.range.FloatRange;
 
-public class AgeBasedScale extends AgeBasedFieldSet {
-    public static MapCodec<AgeBasedScale> CODEC = AgeBasedFieldSet.createCodec(AgeBasedScale::new);
+public class AgeBasedScale extends AgeBasedFieldSet<Float> {
+    public static final MapCodec<AgeBasedScale> CODEC = AgeBasedFieldSet.createCodec(ParticleFields.SCALE, FloatFieldModifiers.CODEC, AgeBasedScale::new);
 
-    AgeBasedScale(float multiplier, boolean useInitialValue, FloatRange agePercentageRange) {
-        super(multiplier, useInitialValue, agePercentageRange);
+    AgeBasedScale(ParticleVariable<Float> scaleFrom, ParticleVariable<Float> scaleTo, FloatRange agePercentageRange, ParticleField<Float> field) {
+        super(scaleFrom, scaleTo, agePercentageRange, field);
     }
 
     @Override
-    protected float initialValue(ParticleInteractionsParticle particle) {
-        return particle.getInitialAppearanceScale();
-    }
+    protected Float remapValue(ParticleInteractionsParticle particle) {
+        float percentageAlongRange = this.agePercentageRange.remapValueToPercentageAlongRange(particle.getAgePercent());
+        FloatRange scaleRange = new FloatRange(this.scaleFrom.getInitial(particle), this.scaleTo.getInitial(particle));
 
-    @Override
-    protected void setValue(ParticleInteractionsParticle particle, float value) {
-        particle.setScale(value, true);
+        return scaleRange.remapPercentageIntoRange(percentageAlongRange);
     }
 
     @Override

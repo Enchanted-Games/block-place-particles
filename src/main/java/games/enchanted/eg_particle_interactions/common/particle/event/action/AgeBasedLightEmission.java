@@ -2,23 +2,26 @@ package games.enchanted.eg_particle_interactions.common.particle.event.action;
 
 import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
+import games.enchanted.eg_particle_interactions.common.particle.variable.ParticleVariable;
+import games.enchanted.eg_particle_interactions.common.particle.variable.field.ParticleField;
+import games.enchanted.eg_particle_interactions.common.particle.variable.field.ParticleFields;
+import games.enchanted.eg_particle_interactions.common.particle.variable.field.modifier.numberInt.IntFieldModifiers;
 import games.enchanted.eg_particle_interactions.common.util.math.range.FloatRange;
+import games.enchanted.eg_particle_interactions.common.util.math.range.IntRange;
 
-public class AgeBasedLightEmission extends AgeBasedFieldSet {
-    public static MapCodec<AgeBasedLightEmission> CODEC = AgeBasedFieldSet.createCodec(AgeBasedLightEmission::new);
+public class AgeBasedLightEmission extends AgeBasedFieldSet<Integer> {
+    public static final MapCodec<AgeBasedLightEmission> CODEC = AgeBasedFieldSet.createCodec(ParticleFields.LIGHT_EMISSION, IntFieldModifiers.CODEC, AgeBasedLightEmission::new);
 
-    AgeBasedLightEmission(float multiplier, boolean useInitialValue, FloatRange agePercentageRange) {
-        super(multiplier, useInitialValue, agePercentageRange);
+    AgeBasedLightEmission(ParticleVariable<Integer> scaleFrom, ParticleVariable<Integer> scaleTo, FloatRange agePercentageRange, ParticleField<Integer> field) {
+        super(scaleFrom, scaleTo, agePercentageRange, field);
     }
 
     @Override
-    protected float initialValue(ParticleInteractionsParticle particle) {
-        return particle.getInitialAppearanceLightEmission();
-    }
+    protected Integer remapValue(ParticleInteractionsParticle particle) {
+        float percentageAlongRange = this.agePercentageRange.remapValueToPercentageAlongRange(particle.getAgePercent());
+        IntRange scaleRange = new IntRange(this.scaleFrom.getInitial(particle), this.scaleTo.getInitial(particle));
 
-    @Override
-    protected void setValue(ParticleInteractionsParticle particle, float value) {
-        particle.setLightEmission((int) value);
+        return scaleRange.remapPercentageIntoRange(percentageAlongRange);
     }
 
     @Override

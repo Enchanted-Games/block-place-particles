@@ -23,6 +23,10 @@
             },
             "action": {
                 "type": "age_based_alpha",
+                "remap_min": {
+                    "value": "initial"
+                },
+                "remap_max": 0,
                 "lifetime_percentage_range": [0.5, 1]
             }
         }

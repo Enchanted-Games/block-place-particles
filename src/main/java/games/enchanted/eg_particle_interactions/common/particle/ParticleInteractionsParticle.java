@@ -808,6 +808,10 @@ public class ParticleInteractionsParticle extends Particle {
         return this.initialLightEmission;
     }
 
+    public int getLightEmission() {
+        return this.minLightEmission;
+    }
+
     public void emit(Emitter emitter, Vector3d positionOffset, VelocityProvider velocityProvider) {
         if(!GeneralOptions.PARTICLE_ALLOW_EMISSIONS.getValue()) return;
 

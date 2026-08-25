@@ -1,29 +1,34 @@
 package games.enchanted.eg_particle_interactions.common.particle.event.action;
 
-import com.mojang.datafixers.util.Function3;
+import com.mojang.datafixers.util.Function4;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
+import games.enchanted.eg_particle_interactions.common.particle.variable.ParticleVariable;
+import games.enchanted.eg_particle_interactions.common.particle.variable.field.ParticleField;
+import games.enchanted.eg_particle_interactions.common.particle.variable.field.modifier.FieldModifier;
 import games.enchanted.eg_particle_interactions.common.util.math.range.FloatRange;
 
-public abstract class AgeBasedFieldSet extends EventAction {
-    final float multiplier;
-    final boolean useInitialValue;
+public abstract class AgeBasedFieldSet<T> extends EventAction {
+    final ParticleVariable<T> scaleFrom;
+    final ParticleVariable<T> scaleTo;
     final FloatRange agePercentageRange;
+    final ParticleField<T> field;
 
-    AgeBasedFieldSet(float multiplier, boolean useInitialValue, FloatRange agePercentageRange) {
-        this.multiplier = multiplier;
-        this.useInitialValue = useInitialValue;
+    AgeBasedFieldSet(ParticleVariable<T> scaleFrom, ParticleVariable<T> scaleTo, FloatRange agePercentageRange, ParticleField<T> field) {
+        this.scaleFrom = scaleFrom;
+        this.scaleTo = scaleTo;
         this.agePercentageRange = agePercentageRange;
+        this.field = field;
     }
 
-    protected float getMultiplier() {
-        return this.multiplier;
+    protected ParticleVariable<T> getScaleFrom() {
+        return this.scaleFrom;
     }
 
-    protected boolean useInitialValue() {
-        return this.useInitialValue;
+    protected ParticleVariable<T> getScaleTo() {
+        return this.scaleTo;
     }
 
     protected FloatRange getAgePercentageRange() {
@@ -33,27 +38,22 @@ public abstract class AgeBasedFieldSet extends EventAction {
     @Override
     public void onFire(ParticleInteractionsParticle particle) {
         if(!this.agePercentageRange.inRange(particle.getAgePercent())) return;
-
-        float percentageAlongRange = 1 - this.agePercentageRange.remapValueToPercentageAlongRange(particle.getAgePercent());
-        if(this.useInitialValue) {
-            percentageAlongRange *= this.initialValue(particle);
-        }
-        this.setValue(particle, percentageAlongRange * this.multiplier);
+        this.field.set(particle, this.remapValue(particle));
     }
 
-    protected abstract float initialValue(ParticleInteractionsParticle particle);
+    protected abstract T remapValue(ParticleInteractionsParticle particle);
 
-    protected abstract void setValue(ParticleInteractionsParticle particle, float value);
-
-    public static <T extends AgeBasedFieldSet> MapCodec<T> createCodec(Function3<Float, Boolean, FloatRange, T> ctor) {
+    public static <T, O extends AgeBasedFieldSet<T>> MapCodec<O> createCodec(ParticleField<T> field, Codec<FieldModifier<T>> fieldModifierCodec, Function4<ParticleVariable<T>, ParticleVariable<T>, FloatRange, ParticleField<T>, O> ctor) {
         return RecordCodecBuilder.mapCodec(i -> i
             .group(
-                Codec.FLOAT.optionalFieldOf("multiplier", 1f).forGetter(AgeBasedFieldSet::getMultiplier),
-                Codec.BOOL.optionalFieldOf("use_initial_value", true).forGetter(AgeBasedFieldSet::useInitialValue),
+                ParticleVariable.createCodec(field, fieldModifierCodec).fieldOf("remap_min").forGetter(AgeBasedFieldSet::getScaleFrom),
+                ParticleVariable.createCodec(field, fieldModifierCodec).fieldOf("remap_max").forGetter(AgeBasedFieldSet::getScaleTo),
                 FloatRange.CODEC.fieldOf("lifetime_percentage_range").forGetter(AgeBasedFieldSet::getAgePercentageRange)
             ).apply(
                 i,
-                ctor
+                (remapMin, remapMax, lifetimePercentageRange) -> {
+                    return ctor.apply(remapMin, remapMax, lifetimePercentageRange, field);
+                }
             )
         );
     }
