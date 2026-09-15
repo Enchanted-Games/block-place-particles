@@ -41,6 +41,9 @@ public class ParticleLayer {
             config.getLayerDefinition(context).isTranslucent(),
             config.getAtlas(context).texturePath(),
             config.getLayerDefinition(context).pipeline()
+            //? if minecraft: >= 26.3 {
+            , config.getLayerDefinition(context).oitPipelineSet()
+            //? }
         );
     }
 

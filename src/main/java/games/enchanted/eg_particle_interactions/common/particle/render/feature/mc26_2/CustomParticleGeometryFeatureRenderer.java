@@ -99,7 +99,7 @@ public class CustomParticleGeometryFeatureRenderer implements FeatureRenderer<Cu
 
     private static RenderPipeline getOitPipeline(final OitStage stage, final SingleQuadParticle.Layer layer) {
         if (layer.oitPipelineSet() == null) {
-            throw new IllegalStateException("[Particle Interactions]: OIT pipeline set for particle layer " + layer);
+            throw new IllegalStateException("[Particle Interactions]: No OIT pipeline set for particle layer: " + layer);
         } else {
             return layer.oitPipelineSet().getPipeline(stage);
         }
