@@ -27,9 +27,12 @@ public class ModRenderPipelines {
         .withCull(false)
     .build();
 
-
-    public static final OitPipelineSet BACKFACE_OIT_PARTICLE = OitPipelineSet.builder("eg_particle_interactions_backface_particle", RenderPipeline.builder(RenderPipelinesAccessor.eg_particle_interactions$getOitParticleSnippet())
-        .withLocation(ParticleInteractionsMod.id("pipeline/oit_backface_particle"))
-        .withCull(false))
-    .build();
+    //? if minecraft: >= 26.3 {
+    public static final OitPipelineSet BACKFACE_OIT_PARTICLE = OitPipelineSet.builder(
+        "eg_particle_interactions_backface_particle",
+        RenderPipeline.builder(RenderPipelinesAccessor.eg_particle_interactions$getOitParticleSnippet())
+            .withLocation(ParticleInteractionsMod.id("pipeline/oit_backface_particle"))
+            .withCull(false)
+        ).build();
+    //? }
 }
