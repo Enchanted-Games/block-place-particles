@@ -17,7 +17,11 @@ public abstract class BlockItem {
         at = @At("RETURN"),
         method = "updateBlockStateFromTag"
     )
-    private void eg_particle_interactions$spawnParticlesOnBlockPlace(BlockPos pos, Level level, ItemStack itemStack, BlockState placedState, CallbackInfoReturnable<BlockState> cir) {
+    private
+    //? if minecraft: >= 26.3 {
+    static
+    //? }
+    void eg_particle_interactions$spawnParticlesOnBlockPlace(BlockPos pos, Level level, ItemStack itemStack, BlockState placedState, CallbackInfoReturnable<BlockState> cir) {
         BlockState updatedState = cir.getReturnValue();
         if(level instanceof ClientLevel clientLevel) {
             SpawnParticles.spawnBlockPlaceParticle(clientLevel, pos, updatedState);

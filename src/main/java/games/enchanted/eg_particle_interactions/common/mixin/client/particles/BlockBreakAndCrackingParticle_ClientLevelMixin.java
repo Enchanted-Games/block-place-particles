@@ -46,13 +46,20 @@ public class BlockBreakAndCrackingParticle_ClientLevelMixin {
     // block cracking particles
     @Inject(
         method =
-            //? if neoforge {
-            /*"addBreakingBlockEffect(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;Lnet/minecraft/world/phys/HitResult;)V"
-            *///?} else {
-            "addBreakingBlockEffect"
-            //?}
+            //? if minecraft: <= 26.2 {
+                /*//? if neoforge {
+                /^"addBreakingBlockEffect(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;Lnet/minecraft/world/phys/HitResult;)V"
+                ^///?} else {
+                "addBreakingBlockEffect"
+                //?}
+            *///? } else {
+                "addBreakingParticles"
+            //? }
         ,
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/ParticleEngine;add(Lnet/minecraft/client/particle/Particle;)V"),
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/particle/ParticleEngine;add(Lnet/minecraft/client/particle/Particle;)V"
+        ),
         locals = LocalCapture.CAPTURE_FAILSOFT,
         cancellable = true
     )
@@ -62,8 +69,14 @@ public class BlockBreakAndCrackingParticle_ClientLevelMixin {
         //? if neoforge {
         /*HitResult result,
         *///?}
+        //? if minecraft: <= 26.2 {
+        /*CallbackInfo ci,
+        BlockState blockState,
+        *///? } else {
+        BlockState blockState,
         CallbackInfo ci,
-        BlockState blockState, int x, int y, int z, float r, AABB shape, double xp, double yp, double zp,
+        //? }
+        int x, int y, int z, float r, AABB shape, double xp, double yp, double zp,
         @Local(ordinal = 0) double xPos,
         @Local(ordinal = 1) double yPos,
         @Local(ordinal = 2) double zPos

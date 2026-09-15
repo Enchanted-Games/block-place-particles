@@ -22,7 +22,15 @@ public abstract class RepeaterBlock extends DiodeBlock {
     }
 
     @Inject(
-        at = @At(shift = At.Shift.AFTER, value = "INVOKE", target = "Lnet/minecraft/world/level/Level;setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)Z"),
+        at = @At(
+            shift = At.Shift.AFTER,
+            value = "INVOKE",
+            //? if minecraft: <= 26.2 {
+            /*target = "Lnet/minecraft/world/level/Level;setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)Z"
+            *///? } else {
+            target = "Lnet/minecraft/world/level/Level;setBlockAndUpdate(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)Z"
+            //? }
+        ),
         method = "useWithoutItem"
     )
     protected void eg_particle_interactions$spawnDustParticlesOnInteraction(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
