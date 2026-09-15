@@ -5,14 +5,17 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.RedStoneWireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(RedStoneWireBlock.class)
+//? if minecraft: <= 26.2 {
+/*@Mixin(net.minecraft.world.level.block.RedStoneWireBlock.class)
+*///? } else {
+@Mixin(net.minecraft.world.level.block.RedstoneWireBlock.class)
+//? }
 abstract class RedstoneWireBlock extends Block {
     public RedstoneWireBlock(Properties properties) {
         super(properties);

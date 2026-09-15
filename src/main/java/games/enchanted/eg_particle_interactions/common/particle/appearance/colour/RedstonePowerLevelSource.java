@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ComparatorMode;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 
 public class RedstonePowerLevelSource implements ColourSource {
     public static final MapCodec<RedstonePowerLevelSource> CODEC = RecordCodecBuilder.mapCodec(instance ->
@@ -20,6 +21,13 @@ public class RedstonePowerLevelSource implements ColourSource {
             RedstonePowerLevelSource::new
         )
     );
+
+    private static final IntegerProperty REDSTONE_POWER =
+        //? if minecraft: >= 26.3 {
+        RedstoneWireBlock.POWER;
+        //? } else {
+        /*RedStoneWireBlock.POWER;
+        *///? }
 
     final int fallbackPower;
 
@@ -42,7 +50,7 @@ public class RedstonePowerLevelSource implements ColourSource {
             effectivePower = this.fallbackPower;
         }
 
-        BlockState redstoneState = Blocks.REDSTONE_WIRE.defaultBlockState().setValue(RedStoneWireBlock.POWER, effectivePower);
+        BlockState redstoneState = Blocks.REDSTONE_WIRE.defaultBlockState().setValue(REDSTONE_POWER, effectivePower);
         var source = Minecraft.getInstance().getBlockColors().getTintSource(redstoneState, 0);
         if(source == null) return new int[]{255, 255, 255, 255};
 
@@ -57,8 +65,8 @@ public class RedstonePowerLevelSource implements ColourSource {
         else if (state.hasProperty(ComparatorBlock.MODE)) {
             return state.getValue(ComparatorBlock.MODE) == ComparatorMode.SUBTRACT ? 15 : 0;
         }
-        else if (state.hasProperty(RedStoneWireBlock.POWER)) {
-            return Math.clamp(state.getValue(RedStoneWireBlock.POWER), 0, 15);
+        else if (state.hasProperty(REDSTONE_POWER)) {
+            return Math.clamp(state.getValue(REDSTONE_POWER), 0, 15);
         }
         else if (state.hasProperty(RepeaterBlock.POWERED)) {
             return state.getValue(RepeaterBlock.POWERED) ? 15 : 0;

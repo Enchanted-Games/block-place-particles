@@ -1,10 +1,15 @@
 package games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client;
 
-import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.client.renderer.RenderPipelines;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
+
+//? if minecraft: <= 26.2 {
+/*import com.mojang.blaze3d.pipeline.RenderPipeline;
+ *///? } else {
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
+//? }
 
 @Mixin(RenderPipelines.class)
 public interface RenderPipelinesAccessor {

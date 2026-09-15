@@ -1,4 +1,5 @@
-package games.enchanted.eg_particle_interactions.common.mixin.client.items;
+//? if minecraft: <= 26.1 {
+/*package games.enchanted.eg_particle_interactions.common.mixin.mc26_1.items;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -25,8 +26,8 @@ public class AxeItemMixin {
                 //? if fabric {
                 "Lnet/minecraft/world/item/AxeItem;evaluateNewBlockState(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/block/state/BlockState;)Ljava/util/Optional;"
                 //? } else {
-                /*"Lnet/minecraft/world/item/AxeItem;evaluateNewBlockState(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/item/context/UseOnContext;)Ljava/util/Optional;"
-                *///? }
+                /^"Lnet/minecraft/world/item/AxeItem;evaluateNewBlockState(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/item/context/UseOnContext;)Ljava/util/Optional;"
+                ^///? }
         ),
         method = "useOn"
     )
@@ -40,9 +41,9 @@ public class AxeItemMixin {
         Operation<Optional<BlockState>> original,
         UseOnContext context
         //? } else {
-        /*UseOnContext context,
+        /^UseOnContext context,
         Operation<Optional<BlockState>> original
-        *///? }
+        ^///? }
     ) {
         Optional<BlockState> newState = original.call(
             instance,
@@ -51,8 +52,8 @@ public class AxeItemMixin {
             player,
             oldState
             //? if neoforge {
-            /*, context
-            *///? }
+            /^, context
+            ^///? }
         );
         if(!(level instanceof ClientLevel clientLevel)) return newState;
         if(newState.isEmpty()) return newState;
@@ -61,3 +62,4 @@ public class AxeItemMixin {
         return newState;
     }
 }
+*///? }

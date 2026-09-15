@@ -1,22 +1,21 @@
 //? if minecraft: >= 26.2 {
 package games.enchanted.eg_particle_interactions.common.particle.render.feature.mc26_2;
 
-import com.mojang.blaze3d.PrimitiveTopology;
-import com.mojang.blaze3d.buffers.GpuBufferSlice;
-import com.mojang.blaze3d.pipeline.RenderTarget;
-import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.textures.FilterMode;
-import com.mojang.blaze3d.textures.GpuTextureView;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.renderpearl.api.buffers.GpuBufferSlice;
+import com.mojang.renderpearl.api.commands.RenderPass;
+import com.mojang.renderpearl.api.pipeline.PrimitiveTopology;
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
+import com.mojang.renderpearl.api.textures.FilterMode;
 import games.enchanted.eg_particle_interactions.common.particle.render.state.mc26_2.CustomParticleGeometryRenderState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.renderer.StagedVertexBuffer;
 import net.minecraft.client.renderer.feature.FeatureFrameContext;
 import net.minecraft.client.renderer.feature.FeatureRenderer;
 import net.minecraft.client.renderer.feature.FeatureRendererType;
 import net.minecraft.client.renderer.feature.submit.SubmitNode;
+import net.minecraft.client.renderer.oit.OitStage;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import org.jspecify.annotations.Nullable;
@@ -60,44 +59,49 @@ public class CustomParticleGeometryFeatureRenderer implements FeatureRenderer<Cu
     }
 
     @Override
-    public void executeGroup(final FeatureFrameContext context, final int groupIndex, final List<CustomParticleGeometryFeatureRenderer.Submit> submits, final boolean strictlyOrdered) {
+    public void executeGroup(
+        final FeatureFrameContext context,
+        final @Nullable OitStage stage,
+        final RenderPass renderPass,
+        final int groupIndex,
+        final List<CustomParticleGeometryFeatureRenderer.Submit> submits,
+        final boolean strictlyOrdered
+    ) {
         CustomParticleGeometryFeatureRenderer.PreparedGroup group = this.groups.get(groupIndex);
-        Minecraft minecraft = Minecraft.getInstance();
-        RenderTarget mainTarget = minecraft.gameRenderer.mainRenderTarget();
-        RenderTarget particleTarget = minecraft.levelRenderer.particlesTarget();
-        boolean useParticleTarget = particleTarget != null && group.translucent();
-        GpuTextureView colorTextureView = useParticleTarget ? particleTarget.getColorTextureView() : mainTarget.getColorTextureView();
-        GpuTextureView depthTextureView = useParticleTarget ? particleTarget.getDepthTextureView() : mainTarget.getDepthTextureView();
 
-        if(colorTextureView == null) {
-            throw new IllegalStateException("Colour texture was null");
-        }
-
-        try (RenderPass renderPass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(
-            () -> "Particle Interactions Custom Geometry Particles - " + (group.translucent() ? "Translucent" : "Solid"),
-            colorTextureView,
-            Optional.empty(),
-            depthTextureView,
-            OptionalDouble.empty()
-        )) {
-            RenderSystem.bindDefaultUniforms(renderPass);
-            renderPass.setUniform("DynamicTransforms", Objects.requireNonNull(this.dynamicTransforms));
-            renderPass.bindTexture("Sampler2", context.lightmap(), RenderSystem.getSamplerCache().getClampToEdge(FilterMode.LINEAR));
-            drawLayers(context.stagedVertexBuffer(), group.layers, renderPass, context.textureManager());
-        }
+        RenderSystem.bindDefaultUniforms(renderPass);
+        renderPass.setUniform("DynamicTransforms", Objects.requireNonNull(this.dynamicTransforms));
+        renderPass.setUniform("Sampler2", context.lightmap(), RenderSystem.getSamplerCache().getClampToEdge(FilterMode.LINEAR));
+        drawLayers(context.stagedVertexBuffer(), group.layers, renderPass, context.textureManager(), stage);
     }
 
-    private static void drawLayers(final StagedVertexBuffer stagedBuffer, final Map<SingleQuadParticle.Layer, StagedVertexBuffer.Draw> layers, final RenderPass renderPass, final TextureManager textureManager) {
+    private static void drawLayers(
+        final StagedVertexBuffer stagedBuffer,
+        final Map<SingleQuadParticle.Layer, StagedVertexBuffer.Draw> layers,
+        final RenderPass renderPass,
+        final TextureManager textureManager,
+        final @Nullable OitStage stage
+    ) {
         for (Map.Entry<SingleQuadParticle.Layer, StagedVertexBuffer.Draw> entry : layers.entrySet()) {
             StagedVertexBuffer.ExecuteInfo executeInfo = stagedBuffer.getExecuteInfo(entry.getValue());
             if(executeInfo == null) continue;
 
-            renderPass.setPipeline(entry.getKey().pipeline());
+            renderPass.setPipeline(
+                RenderSystem.getCompiledPipeline(stage != null ? getOitPipeline(stage, entry.getKey()) : (entry.getKey()).pipeline())
+            );
             renderPass.setVertexBuffer(0, executeInfo.vertexBuffer().slice());
             renderPass.setIndexBuffer(executeInfo.indexBuffer(), executeInfo.indexType());
             AbstractTexture texture = textureManager.getTexture(entry.getKey().textureAtlasLocation());
-            renderPass.bindTexture("Sampler0", texture.getTextureView(), texture.getSampler());
+            renderPass.setUniform("Sampler0", texture.getTextureView(), texture.getSampler());
             renderPass.drawIndexed(executeInfo.indexCount(), 1, executeInfo.firstIndex(), executeInfo.baseVertex(), 0);
+        }
+    }
+
+    private static RenderPipeline getOitPipeline(final OitStage stage, final SingleQuadParticle.Layer layer) {
+        if (layer.oitPipelineSet() == null) {
+            throw new IllegalStateException("[Particle Interactions]: OIT pipeline set for particle layer " + layer);
+        } else {
+            return layer.oitPipelineSet().getPipeline(stage);
         }
     }
 

@@ -22,8 +22,13 @@ public class ClientBoundPacketListenerMixin {
             Logging.error("ignored throwable: {}", throwable.getMessage());
             Logging.error("stacktrace:");
             throwable.printStackTrace();
-            Logging.error("packet info: {} {} {} {} {} {}", packet.getParticle(), packet.isOverrideLimiter(), packet.alwaysShow(), packet.getX(), packet.getY(), packet.getZ());
+            //? if minecraft: <= 26.2 {
+            /*Logging.error("packet info: {} {} {} {} {} {}", packet.getParticle(), packet.isOverrideLimiter(), packet.alwaysShow(), packet.getX(), packet.getY(), packet.getZ());
             Logging.error("particle type: {}", packet.getParticle().getType());
+            *///? } else {
+            Logging.error("packet info: {} {} {} {} {} {}", packet.particle(), packet.overrideLimiter(), packet.alwaysShow(), packet.x(), packet.y(), packet.z());
+            Logging.error("particle type: {}", packet.particle().getType());
+            //? }
         }
     }
 }

@@ -1,10 +1,18 @@
 package games.enchanted.eg_particle_interactions.common.particle.render;
 
+import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
+import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.RenderPipelinesAccessor;
+
+//? if minecraft: <= 26.2 {
+/*
 import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
-import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.RenderPipelinesAccessor;
+ *///? } else {
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
+import com.mojang.renderpearl.api.pipeline.BlendFunction;
+import com.mojang.renderpearl.api.pipeline.ColorTargetState;
+//? }
 
 public class ModRenderPipelines {
     public static final RenderPipeline BACKFACE_TRANSLUCENT_PARTICLE = RenderPipeline.builder(RenderPipelinesAccessor.eg_particle_interactions$getParticleSnippet())
