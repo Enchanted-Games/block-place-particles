@@ -35,6 +35,18 @@
             {
                 "type": "list",
                 "blocks": "flowering_azalea"
+            },
+            {
+                "type": "list",
+                "blocks": "red_poplar_leaf"
+            },
+            {
+                "type": "list",
+                "blocks": "orange_poplar_leaf"
+            },
+            {
+                "type": "list",
+                "blocks": "yellow_poplar_leaf"
             }
         ]
     }

@@ -1,0 +1,15 @@
+{
+    "emitters": {
+        "default": {
+            "type": "particle_interactions",
+            "particle": "leaf/falling_leaf",
+            "components": {
+                "appearance": "leaf/red_poplar_leaves"
+            },
+            "velocity_multiplier": 0.1
+        },
+        "block/ambient_leaves": {
+            "type": "empty"
+        }
+    }
+}
