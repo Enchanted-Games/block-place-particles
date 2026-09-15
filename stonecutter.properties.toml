@@ -54,20 +54,20 @@ deps.yacl = "3.9.4+26.1-neoforge"
 neo_icon_property = "logoFile"
 
 
-["26.2"]
-deps.minecraft = "26.2"
+["26.3"]
+deps.minecraft = "26.3"
 
-[fabric."26.2"]
-dep_str.minecraft = ">=26.2 <26.3"
+[fabric."26.3"]
+dep_str.minecraft = ">=26.3 <26.4"
 
-deps.fabric-api = "0.152.1+26.2"
-dep_str.fabric-api = ">=0.152.1+26.2"
+deps.fabric-api = "0.160.5+26.3"
+dep_str.fabric-api = ">=0.160.5+26.3"
 
-deps.modmenu = "20.0.0-beta.2"
-deps.yacl = "3.9.4+26.2-fabric"
+deps.modmenu = "21.0.0-beta.1"
+#deps.yacl = "3.9.4+26.2-fabric"
 
-[neoforge."26.2"]
-dep_str.minecraft = "[26.2,26.3)"
+[neoforge."26.3"]
+dep_str.minecraft = "[26.3,26.4)"
 
 deps.neoforge = "26.2.0.59"
 deps.yacl = "3.9.4+26.2-neoforge"
