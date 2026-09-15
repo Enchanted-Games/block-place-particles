@@ -10,14 +10,26 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ClientPacketListener.class)
 public class ClientBoundPacketListenerMixin {
     @Inject(
         at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;warn(Ljava/lang/String;Ljava/lang/Object;)V", remap = false),
-        method = "handleParticleEvent"
+        method =
+            //? if minecraft: <= 26.2 {
+            /*"handleParticleEvent"
+            *///? } else {
+            "tryAddParticle"
+            //? }
     )
-    private void eg_particle_interactions$addAdditionalLogMessagesOnParticleFail(ClientboundLevelParticlesPacket packet, CallbackInfo ci, @Local Throwable throwable) {
+    private void eg_particle_interactions$addAdditionalLogMessagesOnParticleFail(
+        //? if minecraft: <= 26.2 {
+        /*ClientboundLevelParticlesPacket packet, CallbackInfo ci, @Local Throwable throwable
+        *///? } else {
+        ClientboundLevelParticlesPacket packet, double x, double y, double z, double xa, double ya, double za, CallbackInfoReturnable<Boolean> cir, @Local Throwable throwable
+        //? }
+    ) {
         if(GeneralOptions.DEBUG_EXTRA_INFO_ON_PARTICLE_PACKET_ERROR.getValue() || PlatformHelper.isDevelopmentEnvironment()) {
             Logging.error("ignored throwable: {}", throwable.getMessage());
             Logging.error("stacktrace:");
