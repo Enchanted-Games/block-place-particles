@@ -57,7 +57,7 @@ dependencies {
             exclude("net.fabricmc.fabric-api")
         }
     } else {
-        implementation("dev.isxander:yet-another-config-lib:3.8.2+1.21.11-neoforge")
+        compileOnly("dev.isxander:yet-another-config-lib:3.9.1+26.1-neoforge")
     }
 }
 
