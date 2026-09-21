@@ -37,6 +37,7 @@ public class VersionPlugin26_2 implements IMixinConfigPlugin {
             "FeatureRendererDispatcherMixin",
             "SubmitNodeCollectionMixin",
             "SubmitNodeStorageMixin",
+            "blocks.LeavesBlockMixin",
             "entity.SulfurCubeMixin",
             "items.BlockTransformerMixin"
         );
