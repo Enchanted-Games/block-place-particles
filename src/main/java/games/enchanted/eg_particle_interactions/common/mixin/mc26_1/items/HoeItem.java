@@ -22,7 +22,7 @@ public abstract class HoeItem {
         Level level = useOnContext.getLevel();
         if(level instanceof ClientLevel clientLevel) {
             BlockPos tilledBlockPos = useOnContext.getClickedPos();
-            SpawnParticles.spawnHoeTillParticle(clientLevel, tilledBlockPos, useOnContext);
+            SpawnParticles.spawnHoeTillParticle(clientLevel, tilledBlockPos, clientLevel.getBlockState(tilledBlockPos), useOnContext);
         }
     }
 }

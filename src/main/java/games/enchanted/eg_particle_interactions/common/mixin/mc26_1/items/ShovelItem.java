@@ -22,7 +22,7 @@ public abstract class ShovelItem {
         Level level = useOnContext.getLevel();
         if(level instanceof ClientLevel clientLevel) {
             BlockPos flattenedBlockPos = useOnContext.getClickedPos();
-            SpawnParticles.spawnShovelFlattenParticle(clientLevel, flattenedBlockPos, useOnContext);
+            SpawnParticles.spawnShovelFlattenParticle(clientLevel, flattenedBlockPos, clientLevel.getBlockState(flattenedBlockPos), useOnContext);
         }
     }
 }

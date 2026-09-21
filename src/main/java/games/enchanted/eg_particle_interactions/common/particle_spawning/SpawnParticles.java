@@ -472,17 +472,16 @@ public class SpawnParticles {
         }
     }
 
-    public static void spawnHoeTillParticle(ClientLevel level, BlockPos blockPos, UseOnContext useOnContext) {
+    public static void spawnHoeTillParticle(ClientLevel level, BlockPos blockPos, BlockState blockState, UseOnContext useOnContext) {
         if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, blockPos)) return;
         if (!ItemInteractionOptions.HOE_TILL_ENABLED.getValue()) return;
         Vec3 clickedPosition = useOnContext.getClickLocation();
         Direction clickDirection = useOnContext.getClickedFace();
-        BlockState state = level.getBlockState(blockPos);
 
         ParticleOrigin origin = ParticleOrigin.BLOCK_TILLED;
 
-        OverridePreset override = BlockOverrideManager.getForBlock(state, origin);
-        ParticleContext context = ParticleContext.block(level, state, blockPos);
+        OverridePreset override = BlockOverrideManager.getForBlock(blockState, origin);
+        ParticleContext context = ParticleContext.block(level, blockState, blockPos);
 
         for (int i = 0; i < ItemInteractionOptions.HOE_TILL_AMOUNT.getValue(); i++) {
             double x = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepX());
@@ -501,19 +500,16 @@ public class SpawnParticles {
         }
     }
 
-    // TODO: reimplement on 26.3
-    public static void spawnShovelFlattenParticle(ClientLevel level, BlockPos blockPos, UseOnContext useOnContext) {
+    public static void spawnShovelFlattenParticle(ClientLevel level, BlockPos blockPos, BlockState blockState, UseOnContext useOnContext) {
         if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, blockPos)) return;
         if (!ItemInteractionOptions.SHOVEL_FLATTEN_ENABLED.getValue()) return;
         Vec3 clickedPosition = useOnContext.getClickLocation();
         Direction clickDirection = useOnContext.getClickedFace();
 
-        BlockState state = level.getBlockState(blockPos);
-
         ParticleOrigin origin = ParticleOrigin.BLOCK_FLATTENED;
 
-        OverridePreset override = BlockOverrideManager.getForBlock(state, origin);
-        ParticleContext context = ParticleContext.block(level, state, blockPos);
+        OverridePreset override = BlockOverrideManager.getForBlock(blockState, origin);
+        ParticleContext context = ParticleContext.block(level, blockState, blockPos);
 
         for (int i = 0; i < ItemInteractionOptions.SHOVEL_FLATTEN_AMOUNT.getValue(); i++) {
             double x = (level.getRandom().nextDouble() - 0.5) * 0.5 * (1 - clickDirection.getStepX());
