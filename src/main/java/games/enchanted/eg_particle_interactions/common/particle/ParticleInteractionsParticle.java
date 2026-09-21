@@ -439,9 +439,9 @@ public class ParticleInteractionsParticle extends Particle {
             yVel <= EPSILON ? -1 : yVel * 2,
             zVel * 2
         );
-        this.xd = Math.abs(this.downCollision.x) <= EPSILON && !xVelInCutoffRange ? -xVel * this.bounciness * 0.99999 : xVel;
-        this.yd = Math.abs(this.downCollision.y) <= EPSILON && !yVelInCutoffRange ? -yVel * this.bounciness * 0.99999 : yVel;
-        this.zd = Math.abs(this.downCollision.z) <= EPSILON && !zVelInCutoffRange ? -zVel * this.bounciness * 0.99999 : zVel;
+        this.xd = Math.abs(this.downCollision.x) <= EPSILON && !xVelInCutoffRange ? -xVel * this.bounciness * 0.85 : xVel;
+        this.yd = Math.abs(this.downCollision.y) <= EPSILON && !yVelInCutoffRange ? -yVel * this.bounciness * 0.85 : yVel;
+        this.zd = Math.abs(this.downCollision.z) <= EPSILON && !zVelInCutoffRange ? -zVel * this.bounciness * 0.85 : zVel;
 
         if(
             this.bounciness > 0 && (
