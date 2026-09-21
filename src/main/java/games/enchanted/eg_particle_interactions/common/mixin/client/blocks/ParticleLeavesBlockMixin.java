@@ -32,7 +32,6 @@ public class ParticleLeavesBlockMixin {
 *///? } else {
 @Mixin(FallingParticlesLeavesBlock.class)
 public class ParticleLeavesBlockMixin {
-    // TODO: make spruce leaves have particles again
     @WrapOperation(
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/FallingParticlesLeavesBlock;spawnFallingLeavesParticle(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;)V"),
         method = "makeFallingLeavesParticles"
