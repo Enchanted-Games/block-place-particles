@@ -1,4 +1,5 @@
-package games.enchanted.eg_particle_interactions.common.mixin.client.items;
+//? if minecraft: <= 26.1 {
+/*package games.enchanted.eg_particle_interactions.common.mixin.mc26_1.items;
 
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -25,3 +26,4 @@ public abstract class HoeItem {
         }
     }
 }
+*///? }

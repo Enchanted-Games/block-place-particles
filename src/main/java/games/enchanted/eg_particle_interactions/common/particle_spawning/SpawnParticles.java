@@ -501,6 +501,7 @@ public class SpawnParticles {
         }
     }
 
+    // TODO: reimplement on 26.3
     public static void spawnShovelFlattenParticle(ClientLevel level, BlockPos blockPos, UseOnContext useOnContext) {
         if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, blockPos)) return;
         if (!ItemInteractionOptions.SHOVEL_FLATTEN_ENABLED.getValue()) return;

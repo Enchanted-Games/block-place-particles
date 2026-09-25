@@ -38,7 +38,10 @@ public class VersionPlugin26_1 implements IMixinConfigPlugin {
             "SubmitNodeCollectionMixin",
             "SubmitNodeStorageMixin",
             "VertexFormatElementMixin",
-            "VertexFormatMixin"
+            "VertexFormatMixin",
+            "items.AxeItemMixin",
+            "items.HoeItem",
+            "items.ShovelItem"
         );
         *///? } else {
         return null;

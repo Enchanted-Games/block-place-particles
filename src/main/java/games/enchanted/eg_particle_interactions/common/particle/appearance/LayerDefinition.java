@@ -1,10 +1,15 @@
 package games.enchanted.eg_particle_interactions.common.particle.appearance;
 
-import com.mojang.blaze3d.pipeline.RenderPipeline;
 import games.enchanted.eg_particle_interactions.common.particle.render.PIRenderPipelines;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.StringRepresentable;
+
+//? if minecraft: <= 26.2 {
+/*import com.mojang.blaze3d.pipeline.RenderPipeline;
+ *///? } else {
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
+//? }
 
 public enum LayerDefinition implements StringRepresentable {
     CUTOUT(
