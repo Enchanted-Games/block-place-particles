@@ -121,7 +121,7 @@ public class CustomParticleGeometryFeatureRenderer implements FeatureRenderer<Cu
 
     private static RenderPipeline getOitPipeline(final OitStage stage, final PipelineGroup group, final ParticleLayer layer) {
         if (group.oitSet() == null) {
-            throw new IllegalStateException("[Particle Interactions]: OIT pipeline set for particle layer " + layer);
+            throw new IllegalStateException("[Particle Interactions]: No OIT pipeline set for particle layer: " + layer);
         } else {
             return group.oitSet().getPipeline(stage);
         }
