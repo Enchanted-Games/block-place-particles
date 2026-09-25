@@ -27,8 +27,8 @@ icon = "assets/eg_particle_interactions/icon.png"
 # fabric versions: https://fabricmc.net/develop/
 
 [fabric]
-deps.fabric-loader = "0.19.3"
-dep_str.fabric-loader = ">=0.19"
+deps.fabric-loader = "0.19.5"
+dep_str.fabric-loader = ">=0.19.5"
 
 [neoforge]
 neo_icon_property = "iconFile"
@@ -65,7 +65,7 @@ dep_str.minecraft = ">=26.3 <26.4"
 deps.fabric-api = "0.160.5+26.3"
 dep_str.fabric-api = ">=0.160.5+26.3"
 
-deps.modmenu = "20.0.0-beta.2"
+deps.modmenu = "21.0.0"
 deps.yacl = "3.9.7+26.3-fabric"
 deps.iris = "1.11.6+26.3-fabric"
 
