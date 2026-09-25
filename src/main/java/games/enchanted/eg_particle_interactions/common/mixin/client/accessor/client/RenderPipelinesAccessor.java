@@ -22,4 +22,11 @@ public interface RenderPipelinesAccessor {
     static RenderPipeline.Snippet eg_particle_interactions$getParticleSnippet() {
         throw new AssertionError("Mixin not applied");
     }
+
+    //? if minecraft: >= 26.3 {
+    @Accessor("OIT_PARTICLE_SNIPPET")
+    static RenderPipeline.Snippet eg_particle_interactions$getOitParticleSnippet() {
+        throw new AssertionError("Mixin not applied");
+    }
+    //? }
 }

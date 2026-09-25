@@ -66,12 +66,12 @@ deps.fabric-api = "0.160.5+26.3"
 dep_str.fabric-api = ">=0.160.5+26.3"
 
 deps.modmenu = "20.0.0-beta.2"
-deps.yacl = "3.9.4+26.2-fabric"
-deps.iris = "1.11.2+26.2-fabric"
+deps.yacl = "3.9.7+26.3-fabric"
+deps.iris = "1.11.6+26.3-fabric"
 
 [neoforge."26.3"]
 dep_str.minecraft = "[26.3,26.4)"
 
 deps.neoforge = "26.2.0.59"
-deps.yacl = "3.9.4+26.2-neoforge"
-deps.iris = "1.11.2+26.2-neoforge"
+deps.yacl = "3.9.7+26.3-neoforge"
+deps.iris = "1.11.6+26.3-neoforge"

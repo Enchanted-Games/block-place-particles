@@ -1,18 +1,24 @@
 package games.enchanted.eg_particle_interactions.common.particle.render.layer;
 
-import com.mojang.blaze3d.pipeline.RenderPipeline;
 import games.enchanted.eg_particle_interactions.common.compat.iris.IrisApiUser;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.LayerDefinition;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.texture.TextureConfig;
+import games.enchanted.eg_particle_interactions.common.particle.render.PipelineGroup;
 import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public record ParticleLayer(boolean translucent, Identifier atlasTexture, @Nullable Identifier maskAtlasTexture, RenderPipeline pipeline, RenderPipeline maskPipeline) {
+public record ParticleLayer(
+    boolean translucent,
+    Identifier atlasTexture,
+    @Nullable Identifier maskAtlasTexture,
+    PipelineGroup pipeline,
+    PipelineGroup maskPipeline
+) {
     private static final Map<Identity, ParticleLayer> EXISTING_LAYERS = new HashMap<>();
 
     public static ParticleLayer fromAppearance(ParticleContext context, ParticleAppearance appearance) {

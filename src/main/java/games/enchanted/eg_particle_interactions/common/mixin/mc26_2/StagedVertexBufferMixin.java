@@ -1,10 +1,10 @@
 //? if minecraft: >= 26.2 {
 package games.enchanted.eg_particle_interactions.common.mixin.mc26_2;
 
-import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.renderpearl.api.buffers.GpuBuffer;
 import games.enchanted.eg_particle_interactions.common.duck.mc26_2.StagedVertexBufferAdditions;
 import games.enchanted.eg_particle_interactions.common.mixin.mc26_2.accessor.StagedVertexBufferDrawAccessor;
 import games.enchanted.eg_particle_interactions.common.particle.render.vertex.PIBufferBuilder;

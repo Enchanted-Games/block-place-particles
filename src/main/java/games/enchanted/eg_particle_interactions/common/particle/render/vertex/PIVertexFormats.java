@@ -1,12 +1,13 @@
 package games.enchanted.eg_particle_interactions.common.particle.render.vertex;
 
-import com.mojang.blaze3d.vertex.VertexFormat;
 
 //? if minecraft: < 26.2 {
 /*import com.mojang.blaze3d.vertex.VertexFormatElement;
+import com.mojang.blaze3d.vertex.VertexFormat;
 *///? } else {
-import com.mojang.blaze3d.GpuFormat;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.renderpearl.api.GpuFormat;
+import com.mojang.renderpearl.api.vertex.VertexFormat;
 //? }
 
 public class PIVertexFormats {

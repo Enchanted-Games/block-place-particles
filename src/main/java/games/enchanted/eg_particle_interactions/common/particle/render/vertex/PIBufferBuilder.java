@@ -6,7 +6,9 @@ import org.jspecify.annotations.Nullable;
 import org.lwjgl.system.MemoryUtil;
 
 //? if minecraft: >= 26.2 {
-import com.mojang.blaze3d.PrimitiveTopology;
+import com.mojang.renderpearl.api.vertex.VertexFormat;
+import com.mojang.renderpearl.api.vertex.VertexFormatElement;
+import com.mojang.renderpearl.api.pipeline.PrimitiveTopology;
 //? }
 
 public class PIBufferBuilder extends BufferBuilder {

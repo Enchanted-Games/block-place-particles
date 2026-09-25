@@ -6,7 +6,7 @@ accessible class net/minecraft/client/resources/model/sprite/AtlasManager$AtlasE
 
 accessible class net/minecraft/server/packs/OverlayMetadataSection$OverlayEntry$IntermediateEntry
 
-accessible field com/mojang/blaze3d/vertex/BufferBuilder elements [Lcom/mojang/blaze3d/vertex/VertexFormatElement;
-mutable field com/mojang/blaze3d/vertex/BufferBuilder elements [Lcom/mojang/blaze3d/vertex/VertexFormatElement;
+accessible field com/mojang/blaze3d/vertex/BufferBuilder elements [Lcom/mojang/renderpearl/api/vertex/VertexFormatElement;
+mutable field com/mojang/blaze3d/vertex/BufferBuilder elements [Lcom/mojang/renderpearl/api/vertex/VertexFormatElement;
 accessible field com/mojang/blaze3d/vertex/BufferBuilder initialElementsToFill I
 mutable field com/mojang/blaze3d/vertex/BufferBuilder initialElementsToFill I
