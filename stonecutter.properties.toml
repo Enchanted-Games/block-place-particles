@@ -64,5 +64,11 @@ deps.modmenu = "21.0.0-beta.1"
 [neoforge."26.3"]
 dep_str.minecraft = "[26.3,26.4)"
 
+<<<<<<< ours
 deps.neoforge = "26.3.0.8-beta"
 #deps.yacl = "3.9.4+26.2-neoforge"
+=======
+deps.neoforge = "26.3.0.66-beta"
+deps.yacl = "3.9.7+26.3-neoforge"
+deps.iris = "1.11.7+26.3-neoforge"
+>>>>>>> theirs
