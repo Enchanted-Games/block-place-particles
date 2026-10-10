@@ -237,6 +237,14 @@
   "eg_particle_interactions.config.global_option.amount_to_spawn_cube_consume": "Amount of %s particles on block consume",
   "eg_particle_interactions.config.global_option.amount_to_spawn_cube_consume.desc": "The maximum amount of particles that can spawn per length of the entity when a sulfur cube consumes a block",
 
+  "eg_particle_interactions.config.entity.bee_nectar_puff": "%s Particles",
+  "eg_particle_interactions.config.entity.bee_nectar_puff.desc": "Configure if particles should be spawned when a bee collects nectar",
+  "eg_particle_interactions.config.global_option.nectar_puff_amount": "Amount of %s particles",
+  "eg_particle_interactions.config.global_option.nectar_puff_amount.desc": "The amount of particles to spawn when a bee collects nectar",
+  "eg_particle_interactions.config.global_option.nectar_replace_vanilla_particles": "Replace vanilla nectar drops",
+  "eg_particle_interactions.config.global_option.nectar_replace_vanilla_particles.desc": "Should vanilla nectar drop particles be replaced with Particle Interaction's custom nectar drop particles?",
+
+
   "eg_particle_interactions.config.items": "Item Interactions",
   "eg_particle_interactions.config.items.desc": "Configure how particles are spawned when using or interacting with items",
   "eg_particle_interactions.config.items.info": "Item Config Information",
