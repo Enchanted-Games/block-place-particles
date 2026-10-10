@@ -48,6 +48,7 @@ public class PIRenderPipelines {
 
     public static final RenderPipeline BACKFACE_CUTOUT_PARTICLE = RenderPipeline.builder(RenderPipelinesAccessor.eg_particle_interactions$getParticleSnippet())
         .withLocation(ParticleInteractionsMod.id("pipeline/cutout_backface_particle"))
+        .withColorTargetState(ColorTargetState.DEFAULT)
         .withCull(false)
     .build();
 
@@ -76,6 +77,7 @@ public class PIRenderPipelines {
             MASK_PARTICLE_SNIPPET
         )
         .withLocation(ParticleInteractionsMod.id("pipeline/cutout_mask_backface_particle"))
+        .withColorTargetState(ColorTargetState.DEFAULT)
         .withCull(false)
     .build();
 
@@ -102,5 +104,6 @@ public class PIRenderPipelines {
             MASK_PARTICLE_SNIPPET
         )
         .withLocation(ParticleInteractionsMod.id("pipeline/cutout_mask_particle"))
+        .withColorTargetState(ColorTargetState.DEFAULT)
     .build();
 }
