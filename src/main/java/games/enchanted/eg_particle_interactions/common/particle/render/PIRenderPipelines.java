@@ -1,16 +1,17 @@
 package games.enchanted.eg_particle_interactions.common.particle.render;
 
-import com.mojang.renderpearl.api.pipeline.*;
 import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.RenderPipelinesAccessor;
 import games.enchanted.eg_particle_interactions.common.particle.render.vertex.PIVertexFormats;
 import net.minecraft.resources.Identifier;
 
 //? if minecraft: < 26.2 {
-/*import com.mojang.blaze3d.vertex.VertexFormat;
+/*import com.mojang.blaze3d.pipeline.*;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 *///? } else {
 import net.minecraft.client.renderer.oit.OitPipelineSet;
+import com.mojang.renderpearl.api.pipeline.*;
 //? }
 
 public class PIRenderPipelines {
@@ -36,12 +37,14 @@ public class PIRenderPipelines {
         .withCull(false)
     .build();
 
+    //? if minecraft: >= 26.3 {
     public static final OitPipelineSet BACKFACE_OIT_PARTICLE = OitPipelineSet.builder("eg_particle_interactions_backface_particle", RenderPipeline.builder(
             RenderPipelinesAccessor.eg_particle_interactions$getOitParticleSnippet()
         )
         .withLocation(ParticleInteractionsMod.id("pipeline/oit_backface_particle"))
         .withCull(false))
     .build();
+    //? }
 
     public static final RenderPipeline BACKFACE_CUTOUT_PARTICLE = RenderPipeline.builder(RenderPipelinesAccessor.eg_particle_interactions$getParticleSnippet())
         .withLocation(ParticleInteractionsMod.id("pipeline/cutout_backface_particle"))
@@ -58,6 +61,7 @@ public class PIRenderPipelines {
         .withCull(false)
     .build();
 
+    //? if minecraft: >= 26.3 {
     public static final OitPipelineSet MASK_BACKFACE_OIT_PARTICLE = OitPipelineSet.builder("eg_particle_interactions_oit_mask_backface_particle", RenderPipeline.builder(
             RenderPipelinesAccessor.eg_particle_interactions$getOitParticleSnippet(),
             MASK_PARTICLE_SNIPPET
@@ -65,6 +69,7 @@ public class PIRenderPipelines {
         .withLocation(ParticleInteractionsMod.id("pipeline/oit_mask_backface_particle"))
         .withCull(false))
     .build();
+    //? }
 
     public static final RenderPipeline MASK_BACKFACE_CUTOUT_PARTICLE = RenderPipeline.builder(
             RenderPipelinesAccessor.eg_particle_interactions$getParticleSnippet(),
@@ -83,12 +88,14 @@ public class PIRenderPipelines {
         .withColorTargetState(new ColorTargetState(BlendFunction.TRANSLUCENT))
     .build();
 
+    //? if minecraft: >= 26.3 {
     public static final OitPipelineSet MASK_OIT_PARTICLE = OitPipelineSet.builder("eg_particle_interactions_oit_mask_particle", RenderPipeline.builder(
             RenderPipelinesAccessor.eg_particle_interactions$getOitParticleSnippet(),
             MASK_PARTICLE_SNIPPET
         )
         .withLocation(ParticleInteractionsMod.id("pipeline/oit_mask_particle")))
     .build();
+    //? }
 
     public static final RenderPipeline MASK_CUTOUT_PARTICLE = RenderPipeline.builder(
             RenderPipelinesAccessor.eg_particle_interactions$getParticleSnippet(),

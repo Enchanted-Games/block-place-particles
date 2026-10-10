@@ -72,8 +72,8 @@ public class BlockBreakAndCrackingParticle_ClientLevelMixin {
         Direction side,
         //? if minecraft: <= 26.2 {
         /*//? if neoforge {
-        HitResult result,
-        //?}
+        /^HitResult result,
+        ^///?}
         *///?}
         //? if minecraft: <= 26.2 {
         /*CallbackInfo ci,

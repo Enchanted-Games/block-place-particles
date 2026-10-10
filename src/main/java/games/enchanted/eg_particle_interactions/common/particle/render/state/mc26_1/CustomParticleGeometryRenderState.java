@@ -95,22 +95,23 @@ public class CustomParticleGeometryRenderState implements ParticleGroupRenderSta
             QuadStorage storage = entry.getValue();
             boolean isMaskLayer = entry.getKey().renderWithMask();
 
-            if(!isMaskLayer && !maskLayers) {
-                storage.forEachVertex((x, y, z, u, v, maskU, maskV, packedLight, argb) -> {
-                    vertexBuffer
-                        .addVertex(x, y, z)
-                        .setUv(u, v)
-                        .setColor(argb)
-                        .setLight(packedLight);
-                });
-            }
-            if(isMaskLayer && maskLayers) {
+            if(maskLayers) {
+                if(!isMaskLayer) continue;
                 storage.forEachVertex((x, y, z, u, v, maskU, maskV, packedLight, argb) -> {
                     VertexConsumer b = vertexBuffer
                         .addVertex(x, y, z)
                         .setColor(argb)
                         .setUv(u, v);
                     ((PIBufferBuilder) b).setMaskUv(maskU, maskV)
+                        .setLight(packedLight);
+                });
+            } else {
+                if(isMaskLayer) continue;
+                storage.forEachVertex((x, y, z, u, v, maskU, maskV, packedLight, argb) -> {
+                    vertexBuffer
+                        .addVertex(x, y, z)
+                        .setUv(u, v)
+                        .setColor(argb)
                         .setLight(packedLight);
                 });
             }
@@ -143,7 +144,7 @@ public class CustomParticleGeometryRenderState implements ParticleGroupRenderSta
         for (Map.Entry<ParticleLayer, PreparedLayer> entry : preparedBuffer.layers().entrySet()) {
             boolean renderWithMask = entry.getKey().renderWithMask();
 
-            renderPass.setPipeline(renderWithMask ? entry.getKey().maskPipeline() : entry.getKey().pipeline());
+            renderPass.setPipeline((renderWithMask ? entry.getKey().maskPipeline() : entry.getKey().pipeline()).pipeline());
             AbstractTexture atlas = textureManager.getTexture(entry.getKey().atlasTexture());
             renderPass.bindTexture("Sampler0", atlas.getTextureView(), atlas.getSampler());
             if(entry.getKey().maskAtlasTexture() != null && renderWithMask) {
