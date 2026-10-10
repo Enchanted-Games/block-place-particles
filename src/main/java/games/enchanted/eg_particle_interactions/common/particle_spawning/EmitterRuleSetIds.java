@@ -10,6 +10,7 @@ import java.util.function.Supplier;
 public class EmitterRuleSetIds {
     private static final String INTERACTION_DIR = "interaction/";
     private static final String AMBIENT_DIR = "ambient/";
+    private static final String ENTITY_DIR = "entity/";
 
     public static final Supplier<EmitterRuleSet> FIRE_PLACED = ref(ParticleInteractionsMod.id(INTERACTION_DIR + "fire_placed"));
     public static final Supplier<EmitterRuleSet> FLINT_AND_STEEL_USE = ref(ParticleInteractionsMod.id(INTERACTION_DIR + "flint_and_steel_use"));
@@ -44,6 +45,10 @@ public class EmitterRuleSetIds {
     public static final Supplier<EmitterRuleSet> UNDERWATER_BUBBLE_STREAM = ref(ParticleInteractionsMod.id(AMBIENT_DIR + "underwater_bubble_stream"));
 
     public static final Supplier<EmitterRuleSet> LAVA_SURFACE = ref(ParticleInteractionsMod.id(AMBIENT_DIR + "lava_surface"));
+
+
+    public static final Supplier<EmitterRuleSet> BEE_NECTAR_PUFF = ref(ParticleInteractionsMod.id(ENTITY_DIR + "bee/nectar_puff"));
+    public static final Supplier<EmitterRuleSet> BEE_FALLING_NECTAR = ref(ParticleInteractionsMod.id(ENTITY_DIR + "bee/falling_nectar"));
 
 
     private static Supplier<EmitterRuleSet> ref(Identifier id) {

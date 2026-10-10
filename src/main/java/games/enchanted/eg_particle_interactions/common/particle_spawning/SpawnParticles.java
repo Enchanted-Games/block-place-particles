@@ -27,12 +27,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
-import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.FurnaceBlock;
 import net.minecraft.world.level.block.GrindstoneBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -1053,4 +1052,26 @@ public class SpawnParticles {
         }
     }
 //? }
+
+    public static void spawnBeePollenPuff(ClientLevel level, Bee bee) {
+        int amount = 12;
+        ParticleContext context = ParticleContext.entity(level, bee);
+        EmitterRuleSet emitters = EmitterRuleSetIds.BEE_NECTAR_PUFF.get();
+
+        for (int i = 0; i < amount; i++) {
+            double randX = (level.getRandom().nextDouble() - 0.5);
+            double randY = (level.getRandom().nextDouble() - 0.5);
+            double randZ = (level.getRandom().nextDouble() - 0.5);
+
+            emitters.getEmitter(context).spawnParticle(
+                context,
+                bee.getX() + randX,
+                bee.getY() + randY,
+                bee.getZ() + randZ,
+                randX * 0.1,
+                randY * 0.3,
+                randZ * 0.1
+            );
+        }
+    }
 }

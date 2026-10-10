@@ -1,0 +1,9 @@
+{
+    "fallback_emitter": {
+        "type": "particle_interactions",
+        "particle": "drop/nectar_drop",
+        "components": {
+            "appearance": "drop/nectar_drop"
+        }
+    }
+}

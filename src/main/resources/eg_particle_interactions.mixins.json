@@ -33,6 +33,7 @@
         "blocks.SmokerBlock",
         "blocks.TntBlock",
         "entity.AbstractMinecartMixin",
+        "entity.BeeMixin",
         "entity.EntityMixin",
         "entity.FallingBlockEntity",
         "entity.FallingBlockEntityLand_ClientLevelMixin",
