@@ -3,15 +3,14 @@ id = "eg_particle_interactions"
 name = "Particle Interactions"
 description = """A client side mod that adds particles to various interactions in the game that dont normally have particles.
 
-New in v0.10.4
-- Re-implemented axe stripping, hoe tilling, and shovel flattening particles
-- Re-implemented spruce leaves ambient falling needle particles
-- Updated the mod icon to reflect the Wilderness Bound drop
+New in v0.10.5
+- Ported to 26.3 NeoForge
+- Fixed an issue where exclusions in override rule files did not stack between resourcepacks properly
 """
 group = "games.enchanted"
 version_major = "0"
 version_minor = "10"
-version_patch = "4"
+version_patch = "5"
 version_suffix = ""
 license = "CC BY-NC 4.0"
 website_url = "https://particle-interactions.enchanted.games/"

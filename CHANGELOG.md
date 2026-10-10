@@ -1,6 +1,6 @@
-# 0.10.4
+# 0.10.5
 
-- Re-implemented axe stripping, hoe tilling, and shovel flattening particles
-- Re-implemented spruce leaves ambient falling needle particles
-- Updated the mod icon to reflect the Wilderness Bound drop
-- Fixed particles jittering when landed on the ground
+- Ported to 26.3 NeoForge
+
+## Resourcepack Changes
+- Fixed an issue where exclusions in override rule files did not stack between resourcepacks properly
