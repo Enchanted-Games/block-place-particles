@@ -441,7 +441,7 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 ConfigTranslation.ITEMS_CONFIG_CATEGORY,
                 ConfigScreenHelper.booleanOption(ConfigTranslation.SPAWN_ON_HONEY_COLLECTED, "honey_collection", ItemInteractionOptions.HONEY_COLLECTION_ENABLED),
                 ConfigScreenHelper.integerSliderOption(ConfigTranslation.MAX_PARTICLES_ON_HONEY_COLLECTED, "honey_collection", ItemInteractionOptions.HONEY_COLLECTION_AMOUNT, 1, 50, 1),
-                ConfigScreenHelper.booleanOption(ConfigTranslation.REPLACE_VANILLA_PARTICLES, "honey_collection", ItemInteractionOptions.HONEY_COLLECTION_REPLACE_VANILLA)
+                ConfigScreenHelper.booleanOption(ConfigTranslation.REPLACE_VANILLA_HONEY_PARTICLES, "honey_collection", ItemInteractionOptions.HONEY_COLLECTION_REPLACE_VANILLA)
             ))
 
             .group(
@@ -521,6 +521,20 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
                 "sulfur_cube_consume",
                 ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY,
                 ConfigScreenHelper.integerSliderOption(ConfigTranslation.AMOUNT_TO_SPAWN_ON_CUBE_CONSUME, "sulfur_cube_consume", EntityOptions.SULFUR_CUBE_AMOUNT_ON_CONSUME, 0, 20, 1)
+            ))
+
+            .group(
+                ConfigScreenHelper.createSeparator()
+            )
+
+            // bee nectar puff
+            .group( ConfigScreenHelper.createMultipleOptionsConfigGroup(
+                "bee_nectar_puff",
+                "bee_nectar_puff",
+                ConfigTranslation.ENTITY_PARTICLES_CONFIG_CATEGORY,
+                ConfigScreenHelper.booleanOption(ConfigTranslation.IS_PARTICLE_ENABLED, "bee_nectar_puff", EntityOptions.BEE_NECTAR_PUFF_ENABLED),
+                ConfigScreenHelper.integerSliderOption(ConfigTranslation.NECTAR_PUFF_AMOUNT, "bee_nectar_puff", EntityOptions.BEE_NECTAR_PUFF_AMOUNT, 1, 50, 1),
+                ConfigScreenHelper.booleanOption(ConfigTranslation.NECTAR_REPLACE_VANILLA_PARTICLES, "bee_nectar_puff", EntityOptions.BEE_NECTAR_REPLACE_VANILLA_PARTICLES)
             ))
         .build());
 

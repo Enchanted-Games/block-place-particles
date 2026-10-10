@@ -38,6 +38,16 @@ public class EntityOptions {
         new IntOption(4, "sulfer_cube_amount_on_consume")
     );
 
+    public static final ConfigOption<Boolean> BEE_NECTAR_PUFF_ENABLED = registerOption(
+        new BoolOption(true, "bee_nectar_puff_enabled")
+    );
+    public static final ConfigOption<Integer> BEE_NECTAR_PUFF_AMOUNT = registerOption(
+        new IntOption(12, "bee_nectar_puff_amount")
+    );
+    public static final ConfigOption<Boolean> BEE_NECTAR_REPLACE_VANILLA_PARTICLES = registerOption(
+        new BoolOption(true, "bee_nectar_replace_vanilla_particles")
+    );
+
     private static <T> ConfigOption<T> registerOption(ConfigOption<T> option) {
         return ConfigOptions.registerOption(ConfigCategory.ENTITY, option);
     }

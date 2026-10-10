@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.client.entity;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import games.enchanted.eg_particle_interactions.common.config.categories.EntityOptions;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSet;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.EmitterRuleSetIds;
@@ -68,6 +69,11 @@ public abstract class BeeMixin extends Animal {
         Operation<Void> original
     ) {
         if(!(instance instanceof ClientLevel clientLevel)) {
+            original.call(instance, particle, x, y, z, xd, yd, zd);
+            return;
+        }
+
+        if(!EntityOptions.BEE_NECTAR_REPLACE_VANILLA_PARTICLES.getValue()) {
             original.call(instance, particle, x, y, z, xd, yd, zd);
             return;
         }

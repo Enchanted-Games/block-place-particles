@@ -1054,7 +1054,9 @@ public class SpawnParticles {
 //? }
 
     public static void spawnBeePollenPuff(ClientLevel level, Bee bee) {
-        int amount = 12;
+        if(!EntityOptions.BEE_NECTAR_PUFF_ENABLED.getValue()) return;
+
+        int amount = EntityOptions.BEE_NECTAR_PUFF_AMOUNT.getValue();
         ParticleContext context = ParticleContext.entity(level, bee);
         EmitterRuleSet emitters = EmitterRuleSetIds.BEE_NECTAR_PUFF.get();
 

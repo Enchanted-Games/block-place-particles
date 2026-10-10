@@ -46,6 +46,7 @@
   "eg_particle_interactions.config.particle_type.minecart_sparks": "Minecart Wheel Spark",
   "eg_particle_interactions.config.particle_type.item_frame_dust": "Item Frame Interaction",
   "eg_particle_interactions.config.particle_type.sulfur_cube_consume": "Sulphur Cube",
+  "eg_particle_interactions.config.particle_type.bee_nectar_puff": "Bee Nectar Puff",
 
   "eg_particle_interactions.config.particle_type.tinted_splash": "Tinted Splash",
   "eg_particle_interactions.config.particle_type.lava_splash": "Lava Splash",
@@ -236,6 +237,13 @@
   "eg_particle_interactions.config.entity.sulfur_cube_consume.desc": "Configure if particles should be spawned whenever a sulphur cube consumes a block",
   "eg_particle_interactions.config.global_option.amount_to_spawn_cube_consume": "Amount of %s particles on block consume",
   "eg_particle_interactions.config.global_option.amount_to_spawn_cube_consume.desc": "The maximum amount of particles that can spawn per length of the entity when a sulfur cube consumes a block",
+
+  "eg_particle_interactions.config.entity.bee_nectar_puff": "%s Particles",
+  "eg_particle_interactions.config.entity.bee_nectar_puff.desc": "Configure if particles should be spawned when a bee collects nectar",
+  "eg_particle_interactions.config.global_option.nectar_puff_amount": "Amount of %s particles",
+  "eg_particle_interactions.config.global_option.nectar_puff_amount.desc": "The amount of particles to spawn when a bee collects nectar",
+  "eg_particle_interactions.config.global_option.nectar_replace_vanilla_particles": "Replace vanilla nectar drops",
+  "eg_particle_interactions.config.global_option.nectar_replace_vanilla_particles.desc": "Should vanilla nectar drop particles be replaced with Particle Interaction's custom nectar drop particles?",
 
 
   "eg_particle_interactions.config.items": "Item Interactions",

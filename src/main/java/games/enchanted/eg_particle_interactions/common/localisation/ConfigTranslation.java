@@ -25,7 +25,7 @@ public class ConfigTranslation {
     public static final String SPAWN_PARTICLE_ON_ITEM_USE = "spawn_particle_on_item_use";
     public static final String SPAWN_ON_HONEY_COLLECTED = "spawn_particle_on_honey_collected";
     public static final String MAX_PARTICLES_ON_HONEY_COLLECTED = "max_particles_on_honey_collected";
-    public static final String REPLACE_VANILLA_PARTICLES = "replace_vanilla_honey_particles";
+    public static final String REPLACE_VANILLA_HONEY_PARTICLES = "replace_vanilla_honey_particles";
     public static final String SPAWN_FLUID_PARTICLE_ON_PLACE = "spawn_fluid_particle_on_place";
     public static final String SPAWN_PARTICLE_WHEN_MINECART_AT_MAX_SPEED = "spawn_particle_at_minecart_max_speed";
     public static final String MINECART_WHEEL_PARTICLE_AMOUNT = "minecart_wheel_particle_amount";
@@ -37,6 +37,9 @@ public class ConfigTranslation {
     public static final String ARE_VANILLA_FURNACE_PARTICLES_ENABLED = "are_vanilla_furnace_particles_enabled";
     public static final String AMOUNT_TO_SPAWN_ON_CUBE_CONSUME = "amount_to_spawn_cube_consume";
     public static final String ACCURATE_MACE_SMASH = "accurate_mace_smash";
+
+    public static final String NECTAR_PUFF_AMOUNT = "nectar_puff_amount";
+    public static final String NECTAR_REPLACE_VANILLA_PARTICLES = "nectar_replace_vanilla_particles";
 
     public static final String BRUSH_PARTICLE_BEHAVIOUR = "brush_particle_behaviour";
     public static final String LEAVES_PARTICLE_BEHAVIOUR = "leaves_particle_behaviour";
