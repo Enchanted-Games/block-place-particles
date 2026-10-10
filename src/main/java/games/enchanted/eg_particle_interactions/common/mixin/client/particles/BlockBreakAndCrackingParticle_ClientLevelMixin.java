@@ -53,7 +53,11 @@ public class BlockBreakAndCrackingParticle_ClientLevelMixin {
                 "addBreakingBlockEffect"
                 //?}
             *///? } else {
+                //? if neoforge {
+                /*"addBreakingParticles"
+                *///? } else {
                 "addBreakingParticles"
+                //? }
             //? }
         ,
         at = @At(
@@ -66,8 +70,10 @@ public class BlockBreakAndCrackingParticle_ClientLevelMixin {
     public void eg_particle_interactions$replaceCrackingParticlesConditionally(
         BlockPos blockPos,
         Direction side,
-        //? if neoforge {
-        /*HitResult result,
+        //? if minecraft: <= 26.2 {
+        /*//? if neoforge {
+        HitResult result,
+        //?}
         *///?}
         //? if minecraft: <= 26.2 {
         /*CallbackInfo ci,

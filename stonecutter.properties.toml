@@ -15,7 +15,7 @@ New in v0.10.2
 group = "games.enchanted"
 version_major = "0"
 version_minor = "10"
-version_patch = "2"
+version_patch = "4"
 version_suffix = ""
 license = "CC BY-NC 4.0"
 website_url = "https://particle-interactions.enchanted.games/"
@@ -72,6 +72,6 @@ deps.iris = "1.11.6+26.3-fabric"
 [neoforge."26.3"]
 dep_str.minecraft = "[26.3,26.4)"
 
-deps.neoforge = "26.2.0.59"
+deps.neoforge = "26.3.0.66-beta"
 deps.yacl = "3.9.7+26.3-neoforge"
-deps.iris = "1.11.6+26.3-neoforge"
+deps.iris = "1.11.7+26.3-neoforge"

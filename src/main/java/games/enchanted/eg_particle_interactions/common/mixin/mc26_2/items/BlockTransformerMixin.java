@@ -7,6 +7,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.BlockTransformer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -16,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -23,7 +25,12 @@ import org.spongepowered.asm.mixin.injection.At;
 public class BlockTransformerMixin {
     @WrapOperation(
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;playSound(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/core/BlockPos;Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FF)V"),
-        method = "transformBlock"
+        method =
+            //? if fabric {
+            "transformBlock"
+            //? } else {
+            /*"transformBlock(Lnet/minecraft/world/item/context/UseOnContext;Lnet/minecraft/core/Holder;)Lnet/minecraft/world/InteractionResult;"
+            *///? }
     )
     private void displayTransformationParticles(
         Level level,
@@ -35,6 +42,9 @@ public class BlockTransformerMixin {
         float pitch,
         Operation<Void> original,
         UseOnContext context,
+        //? if neoforge {
+        /*@Nullable Holder<BlockTransformer> transformer,
+        *///? }
         @Local(name = "oldBlockState") BlockState oldBlockState
     ) {
         original.call(level, except, pos, sound, source, volume, pitch);
