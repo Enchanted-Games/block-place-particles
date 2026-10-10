@@ -34,8 +34,9 @@ public class OverrideRule<T, P extends ObjectPredicate<T>> {
         for (Map.Entry<ParticleOrigin, List<R>> entry : input.entrySet()) {
             if(output.containsKey(entry.getKey())) {
                 output.get(entry.getKey()).addAll(entry.getValue());
+            } else {
+                output.put(entry.getKey(), new ArrayList<>(entry.getValue()));
             }
-            output.put(entry.getKey(), new ArrayList<>(entry.getValue()));
         }
     }
 
