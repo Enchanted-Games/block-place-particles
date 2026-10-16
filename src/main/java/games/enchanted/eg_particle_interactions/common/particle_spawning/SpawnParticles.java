@@ -31,6 +31,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.FurnaceBlock;
 import net.minecraft.world.level.block.GrindstoneBlock;
@@ -1075,5 +1076,44 @@ public class SpawnParticles {
                 randZ * 0.1
             );
         }
+    }
+
+    public static void spawnArrowTrail(ClientLevel level, AbstractArrow arrow, boolean inGround) {
+//        if(!EntityOptions.BEE_NECTAR_PUFF_ENABLED.getValue()) return;
+
+        int chance = 100;
+        int groundChance = 4;
+        ParticleContext context = ParticleContext.entity(level, arrow);
+
+        if(level.getRandom().nextFloat() * 100 <= chance && !inGround) {
+            EmitterRuleSet emitters = EmitterRuleSetIds.ARROW_TRAIL.get();
+
+            Vec3 velocity = arrow.getDeltaMovement();
+
+            emitters.getEmitter(context).spawnParticle(
+                context,
+                arrow.getX(),
+                arrow.getY(),
+                arrow.getZ(),
+                velocity.x() * -0.2,
+                velocity.y() * -0.2,
+                velocity.z() * -0.2
+            );
+        }
+
+        if(level.getRandom().nextFloat() * 100 <= groundChance && inGround) {
+            EmitterRuleSet emitters = EmitterRuleSetIds.ARROW_AMBIENT.get();
+
+            emitters.getEmitter(context).spawnParticle(
+                context,
+                arrow.getX() + ((level.getRandom().nextFloat() - 0.5) * 0.2),
+                arrow.getY() + ((level.getRandom().nextFloat() - 0.5) * 0.2) + 0.1,
+                arrow.getZ() + ((level.getRandom().nextFloat() - 0.5) * 0.2),
+                0,
+                0,
+                0
+            );
+        }
+
     }
 }

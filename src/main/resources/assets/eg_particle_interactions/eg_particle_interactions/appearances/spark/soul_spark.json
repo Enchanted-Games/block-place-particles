@@ -10,7 +10,7 @@
         "sprite_cycle_mode": "age_cycle"
     },
     "light_emission": 10,
-    "scale": 3,
+    "scale": 1,
     "events": [
         {
             "trigger": {

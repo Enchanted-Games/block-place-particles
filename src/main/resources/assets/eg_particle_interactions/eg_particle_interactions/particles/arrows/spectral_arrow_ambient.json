@@ -1,0 +1,36 @@
+{
+    "components": {
+        "gravity/initial": 0,
+        "lifetime": {
+            "range": [
+                15,
+                25
+            ]
+        },
+        "velocity/initial_randomness": [
+            0.0,
+            0.05,
+            0.0
+        ],
+        "physics/collision_size": 1,
+        "appearance": "arrows/spectral_arrow",
+        "events": [
+            {
+                "trigger": {
+                    "type": "tick"
+                },
+                "action": {
+                    "type": "age_based_alpha",
+                    "remap_min": {
+                        "value": "initial"
+                    },
+                    "remap_max": 0,
+                    "lifetime_percentage_range": [
+                        0.3,
+                        1
+                    ]
+                }
+            }
+        ]
+    }
+}

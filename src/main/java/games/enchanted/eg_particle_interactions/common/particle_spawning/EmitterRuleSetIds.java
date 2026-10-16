@@ -50,6 +50,9 @@ public class EmitterRuleSetIds {
     public static final Supplier<EmitterRuleSet> BEE_NECTAR_PUFF = ref(ParticleInteractionsMod.id(ENTITY_DIR + "bee/nectar_puff"));
     public static final Supplier<EmitterRuleSet> BEE_FALLING_NECTAR = ref(ParticleInteractionsMod.id(ENTITY_DIR + "bee/falling_nectar"));
 
+    public static final Supplier<EmitterRuleSet> ARROW_TRAIL = ref(ParticleInteractionsMod.id(ENTITY_DIR + "arrow/trail"));
+    public static final Supplier<EmitterRuleSet> ARROW_AMBIENT = ref(ParticleInteractionsMod.id(ENTITY_DIR + "arrow/ambient"));
+
 
     private static Supplier<EmitterRuleSet> ref(Identifier id) {
         return () -> EmitterRuleSetManager.get(id);

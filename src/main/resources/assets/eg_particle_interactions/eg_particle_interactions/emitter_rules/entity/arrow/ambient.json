@@ -1,0 +1,25 @@
+{
+    "rules": [
+        {
+            "conditions": [
+                {
+                    "type": "entity",
+                    "predicate": {
+                        "type": "list",
+                        "entities": "spectral_arrows"
+                    }
+                }
+            ],
+            "emitter": {
+                "type": "particle_interactions",
+                "particle": "arrows/spectral_arrow_ambient",
+                "components": {
+                    "appearance": "arrows/spectral_arrow"
+                }
+            }
+        }
+    ],
+    "fallback_emitter": {
+        "type": "empty"
+    }
+}

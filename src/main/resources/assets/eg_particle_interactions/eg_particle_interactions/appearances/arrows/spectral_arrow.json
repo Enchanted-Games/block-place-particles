@@ -1,0 +1,19 @@
+{
+    "texture_config": {
+        "sprites": [
+            "eg_particle_interactions:spectral_arrow/0",
+            "eg_particle_interactions:spectral_arrow/1",
+            "eg_particle_interactions:spectral_arrow/2",
+            "eg_particle_interactions:spectral_arrow/3"
+        ],
+        "sprite_cycle_mode": "age_cycle",
+        "layer": "translucent"
+    },
+    "light_emission": 11,
+    "scale": {
+        "range": [
+            0.9,
+            1.1
+        ]
+    }
+}
