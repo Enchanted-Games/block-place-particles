@@ -786,11 +786,11 @@ public class SpawnParticles {
         OverridePreset override = BlockOverrideManager.getForBlock(blockState, origin);
         ParticleContext context = ParticleContext.block(level, blockState, blockPos);
 
-        int particlesAmount =  (speed > 0.25 || isSprinting ? 3 : 1);
+        int particlesAmount = MathHelper.randomBetween(1, 2) * speed > 0.25 || isSprinting ? 1 : 2;
 
         for (int i = 0; i < particlesAmount; i++) {
             double particleX = entityX + ((level.getRandom().nextFloat() * 0.5) - 0.25);
-            double particleY = entityY + 0.35 + ((level.getRandom().nextFloat() * 0.5) - 0.25);
+            double particleY = entityY + ((level.getRandom().nextFloat() * 0.5) - 0.25) + 0.15;
             double particleZ = entityZ + ((level.getRandom().nextFloat() * 0.5) - 0.25);
 
             // skip spawning if the particle is out of the block bounds
@@ -803,9 +803,9 @@ public class SpawnParticles {
                 particleX,
                 particleY,
                 particleZ,
-                deltaMovement.x * 3,
-                Math.min(deltaMovement.y, 0.1) * 3 + 0.1,
-                deltaMovement.z * 3
+                deltaMovement.x * 9,
+                Math.min(deltaMovement.y, 0.1) * 3 + 0.8,
+                deltaMovement.z * 9
             );
         }
     }

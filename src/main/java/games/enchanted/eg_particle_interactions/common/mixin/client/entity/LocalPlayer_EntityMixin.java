@@ -57,18 +57,14 @@ public abstract class LocalPlayer_EntityMixin {
 
         if(
             eg_particle_interactions$ticksUntilNextBlockDisturbance > 0
-            ||
-            // check if entity is player
-            !((Object) entity instanceof Player player)
-            ||
-            // check if player's level is client side
-            !(player.level() instanceof ClientLevel clientLevel)
+            || !((Object) entity instanceof Player player)
+            || !(player.level() instanceof ClientLevel clientLevel)
         ) {
             --eg_particle_interactions$ticksUntilNextBlockDisturbance;
             return;
         }
 
-        eg_particle_interactions$ticksUntilNextBlockDisturbance = MathHelper.randomBetween(3, 10);
+        eg_particle_interactions$ticksUntilNextBlockDisturbance = MathHelper.randomBetween(2, 3);
         BlockPos verticalOffsetBlockPos = BlockPos.containing(insideBlockPos.getX(), this.getY() + 0.1, insideBlockPos.getZ());
         SpawnParticles.spawnBlockDisturbanceParticles(clientLevel, verticalOffsetBlockPos, level.getBlockState(verticalOffsetBlockPos), this.getX(), this.getY(), this.getZ(), this.getDeltaMovement(), player.isSprinting());
     }
