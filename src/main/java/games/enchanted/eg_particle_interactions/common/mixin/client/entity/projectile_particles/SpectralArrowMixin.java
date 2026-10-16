@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.mixin.client.entity.proj
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import games.enchanted.eg_particle_interactions.common.resource.tweaker.ParticleTweakerIds;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
@@ -21,6 +22,7 @@ public abstract class SpectralArrowMixin extends AbstractArrow {
         method = "tick"
     )
     private void eg_particle_interactions$disableVanillaSpectralParticles(Level instance, ParticleOptions particle, double x, double y, double z, double xd, double yd, double zd, Operation<Void> original) {
-
+        if(ParticleTweakerIds.SPECTRAL_ARROW_EFFECT.get().disableEffect()) return;
+        original.call(instance, particle, x, y, z, xd, yd, zd);
     }
 }

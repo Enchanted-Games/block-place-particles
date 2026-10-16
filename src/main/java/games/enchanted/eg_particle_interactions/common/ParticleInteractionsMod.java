@@ -5,12 +5,11 @@ import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
 import games.enchanted.eg_particle_interactions.common.override_system.override.BlockOverrideManager;
 import games.enchanted.eg_particle_interactions.common.override_system.override.FluidOverrideManager;
 import games.enchanted.eg_particle_interactions.common.override_system.override.ParticleOverrides;
-import games.enchanted.eg_particle_interactions.common.particle.types.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearanceManager;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponents;
 import games.enchanted.eg_particle_interactions.common.particle.definition.ParticleDefinitionManager;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.EmitterRuleSetManager;
-import games.enchanted.eg_particle_interactions.common.particle.vanilla.PIVanillaParticles;
+import games.enchanted.eg_particle_interactions.common.particle.types.ParticleTypesRegistry;
 import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
 import games.enchanted.eg_particle_interactions.common.predicates.biome.list.BiomeListManager;
 import games.enchanted.eg_particle_interactions.common.predicates.block.list.BlockListManager;
@@ -18,6 +17,7 @@ import games.enchanted.eg_particle_interactions.common.predicates.entity.list.En
 import games.enchanted.eg_particle_interactions.common.predicates.fluid.list.FluidListManager;
 import games.enchanted.eg_particle_interactions.common.resource.texture.palette.BlockPaletteManager;
 import games.enchanted.eg_particle_interactions.common.resource.texture.palette.FluidPaletteManager;
+import games.enchanted.eg_particle_interactions.common.resource.tweaker.ParticleTweakerManager;
 import games.enchanted.eg_particle_interactions.common.resource.version.PackVersion;
 import games.enchanted.eg_particle_interactions.common.util.Toaster;
 import net.minecraft.network.chat.Component;
@@ -36,6 +36,7 @@ public class ParticleInteractionsMod {
     public static Identifier EMITTER_RULES_RELOAD_LISTENER = ParticleInteractionsMod.id("emitter_rules");
     public static Identifier BLOCK_PALETTES_RELOAD_LISTENER = ParticleInteractionsMod.id("block_palettes");
     public static Identifier FLUID_PALETTES_RELOAD_LISTENER = ParticleInteractionsMod.id("fluid_palettes");
+    public static Identifier PARTICLE_TWEAKERS = ParticleInteractionsMod.id("particle_tweakers");
 
     public static void startOfModLoading() {
         Logging.info("Mod init started. Compiled for {}", Constants.TARGET_PLATFORM);
@@ -83,6 +84,7 @@ public class ParticleInteractionsMod {
         PlatformHelper.registerResourceReloadListener(ParticleDefinitionManager.INSTANCE, PARTICLE_DEFINITIONS_RELOAD_LISTENER);
         PlatformHelper.registerResourceReloadListener(BlockPaletteManager.INSTANCE, BLOCK_PALETTES_RELOAD_LISTENER);
         PlatformHelper.registerResourceReloadListener(FluidPaletteManager.INSTANCE, FLUID_PALETTES_RELOAD_LISTENER);
+        PlatformHelper.registerResourceReloadListener(ParticleTweakerManager.INSTANCE, PARTICLE_TWEAKERS);
     }
 
     public static boolean isFabricResourceLoaderPresent() {
