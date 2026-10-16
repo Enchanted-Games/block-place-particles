@@ -1068,7 +1068,7 @@ public class SpawnParticles {
             emitters.getEmitter(context).spawnParticle(
                 context,
                 bee.getX() + randX,
-                bee.getY() + randY,
+                bee.getY() + randY + 0.4,
                 bee.getZ() + randZ,
                 randX * 0.1,
                 randY * 0.3,
