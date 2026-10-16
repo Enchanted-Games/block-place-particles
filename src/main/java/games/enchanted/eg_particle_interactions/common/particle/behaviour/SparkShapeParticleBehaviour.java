@@ -111,9 +111,9 @@ public class SparkShapeParticleBehaviour extends ParticleInteractionsParticle {
         this.prevYaw = yaw;
 
         Vector3f shapePos = MathHelper.getPosBetween3DPoints(pos, prevPos).add(this.getShapeOffset());
-        Vector3f shapeScale = new Vector3f(1, Math.max(Math.abs(MathHelper.getDistanceBetweenVectors(pos, prevPos) * 40), 1), 1)
+        Vector3f shapeScale = new Vector3f(1, Math.max(Math.abs(MathHelper.getDistanceBetweenVectors(pos, prevPos) * 50), 1), 1)
             .mul(this.particleShapeScale)
-            .mul(this.getLerpedScale(partialTicks));
+            .mul(this.getLerpedScale(partialTicks) * 8);
         Vector3f shapeRotation = new Vector3f(-(pitch - 90), yaw, 0);
 
         this.particleShape.extractShape(
