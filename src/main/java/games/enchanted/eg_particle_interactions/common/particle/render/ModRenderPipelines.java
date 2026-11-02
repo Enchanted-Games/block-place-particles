@@ -25,6 +25,9 @@ public class ModRenderPipelines {
     public static final RenderPipeline BACKFACE_CUTOUT_PARTICLE = RenderPipeline.builder(RenderPipelinesAccessor.eg_particle_interactions$getParticleSnippet())
         .withLocation(ParticleInteractionsMod.id("pipeline/cutout_backface_particle"))
         .withCull(false)
+        //? if minecraft: >= 26.3 {
+        .withColorTargetState(ColorTargetState.DEFAULT)
+        //? }
     .build();
 
     //? if minecraft: >= 26.3 {
