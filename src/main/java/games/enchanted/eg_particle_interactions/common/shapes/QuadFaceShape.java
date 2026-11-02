@@ -2,6 +2,7 @@ package games.enchanted.eg_particle_interactions.common.shapes;
 
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
+import games.enchanted.eg_particle_interactions.optimization.GeometryMath;
 import org.joml.*;
 
 import java.lang.Math;
@@ -40,11 +41,12 @@ public class QuadFaceShape {
         float gCol = argb[2] / 255f;
         float bCol = argb[3] / 255f;
         float alpha = argb[0] / 255f;
+        Quaternionf shapeRotation = MathHelper.eulerAnglesToQuaternion(pitchRad, yawRad, rollRad);
 
         for (int i = 0; i < this.vertices.length; i += 4) {
             consumer.startQuad();
 
-            Vector3d vertex1 = MathHelper.rotate3DPoint(new Vector3d(this.vertices[i]).mul(scale), pitchRad, yawRad, rollRad).mul(size).add(pos.x, pos.y, pos.z);
+            Vector3d vertex1 = GeometryMath.rotateWithQuaternion(new Vector3d(this.vertices[i]).mul(scale), shapeRotation).mul(size).add(pos.x, pos.y, pos.z);
             consumer.addVertex(
                 new Quaternionf(),
                 (float) vertex1.x(),
@@ -62,7 +64,7 @@ public class QuadFaceShape {
                 alpha
             );
 
-            Vector3d vertex2 = MathHelper.rotate3DPoint(new Vector3d(this.vertices[i + 1]).mul(scale), pitchRad, yawRad, rollRad).mul(size).add(pos.x, pos.y, pos.z);
+            Vector3d vertex2 = GeometryMath.rotateWithQuaternion(new Vector3d(this.vertices[i + 1]).mul(scale), shapeRotation).mul(size).add(pos.x, pos.y, pos.z);
             consumer.addVertex(
                 new Quaternionf(),
                 (float) vertex2.x(),
@@ -80,7 +82,7 @@ public class QuadFaceShape {
                 alpha
             );
 
-            Vector3d vertex3 = MathHelper.rotate3DPoint(new Vector3d(this.vertices[i + 2]).mul(scale), pitchRad, yawRad, rollRad).mul(size).add(pos.x, pos.y, pos.z);
+            Vector3d vertex3 = GeometryMath.rotateWithQuaternion(new Vector3d(this.vertices[i + 2]).mul(scale), shapeRotation).mul(size).add(pos.x, pos.y, pos.z);
             consumer.addVertex(
                 new Quaternionf(),
                 (float) vertex3.x(),
@@ -98,7 +100,7 @@ public class QuadFaceShape {
                 alpha
             );
 
-            Vector3d vertex4 = MathHelper.rotate3DPoint(new Vector3d(this.vertices[i + 3]).mul(scale), pitchRad, yawRad, rollRad).mul(size).add(pos.x, pos.y, pos.z);
+            Vector3d vertex4 = GeometryMath.rotateWithQuaternion(new Vector3d(this.vertices[i + 3]).mul(scale), shapeRotation).mul(size).add(pos.x, pos.y, pos.z);
             consumer.addVertex(
                 new Quaternionf(),
                 (float) vertex4.x(),

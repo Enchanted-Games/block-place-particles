@@ -1,6 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.particle.render.state;
 
 import games.enchanted.eg_particle_interactions.common.Logging;
+import games.enchanted.eg_particle_interactions.optimization.BufferGrowth;
 import net.minecraft.util.ARGB;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
@@ -91,7 +92,7 @@ public class QuadStorage {
 
     private void expandCapacity() {
         int oldCapacity = this.capacity;
-        this.capacity += ADDITION_CAPACITY * VERTS_PER_QUAD;
+        this.capacity = BufferGrowth.nextCapacity(this.capacity);
         this.floats = Arrays.copyOf(this.floats, capacity * FLOATS_PER_QUAD);
         this.ints = Arrays.copyOf(this.ints, capacity * INTS_PER_QUAD);
         Logging.info("Expanding QuadStorage: old capacity [{} quads], new capacity: [{} quads]", oldCapacity / VERTS_PER_QUAD, this.capacity / VERTS_PER_QUAD);

@@ -398,18 +398,21 @@ public class ParticleInteractionsParticle extends Particle {
     protected void doWind() {
         if(!this.hasPhysics || this.onGround) return;
 
-        float windStrength = (float) Math.pow(this.getAgePercent(), 1.25f);
-        if(this.xFlowScale != 0) {
-            double power = this.xFlowScale * windStrength;
-            this.xd += Math.abs(power) > this.maxXFlow ? 0 : power;
-        }
-        if(this.yFlowScale != 0) {
-            double power = this.yFlowScale * windStrength;
-            this.yd += Math.abs(power) > this.maxYFlow ? 0 : power;
-        }
-        if(this.zFlowScale != 0) {
-            double power = this.zFlowScale * windStrength;
-            this.zd += Math.abs(power) > this.maxZFlow ? 0 : power;
+        float agePercent = this.getAgePercent();
+        if(this.xFlowScale != 0 || this.yFlowScale != 0 || this.zFlowScale != 0) {
+            float windStrength = (float) Math.pow(agePercent, 1.25f);
+            if(this.xFlowScale != 0) {
+                double power = this.xFlowScale * windStrength;
+                this.xd += Math.abs(power) > this.maxXFlow ? 0 : power;
+            }
+            if(this.yFlowScale != 0) {
+                double power = this.yFlowScale * windStrength;
+                this.yd += Math.abs(power) > this.maxYFlow ? 0 : power;
+            }
+            if(this.zFlowScale != 0) {
+                double power = this.zFlowScale * windStrength;
+                this.zd += Math.abs(power) > this.maxZFlow ? 0 : power;
+            }
         }
 
         if(!shouldSwirl) return;

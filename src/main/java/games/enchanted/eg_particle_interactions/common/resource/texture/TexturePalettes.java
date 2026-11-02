@@ -3,6 +3,7 @@ package games.enchanted.eg_particle_interactions.common.resource.texture;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.serialization.Codec;
 import games.enchanted.eg_particle_interactions.common.Logging;
+import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.NativeImageAccessor;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.SpriteContentsAccessor;
 import games.enchanted.eg_particle_interactions.common.predicates.block.BlockStatePredicate;
@@ -60,7 +61,9 @@ public class TexturePalettes {
 
         Palette palette = getOrGeneratePalette(sprite, blockState, BLOCKSTATE_TO_PALETTE_CACHE);
 
-        Logging.textureDebugInfo("Created texture palette for block state {}. sprite '{}' size {}x{}. palette: {}", blockState, sprite.contents().name(), sprite.contents().width(), sprite.contents().height(), palette.debugEntriesString());
+        if(GeneralOptions.DEBUG_TEXTURE_LOGGING.getValue()) {
+            Logging.textureDebugInfo("Created texture palette for block state {}. sprite '{}' size {}x{}. palette: {}", blockState, sprite.contents().name(), sprite.contents().width(), sprite.contents().height(), palette.debugEntriesString());
+        }
 
         return palette.getRandomColour(tintColour);
     }
@@ -90,7 +93,9 @@ public class TexturePalettes {
 
         Palette palette = getOrGeneratePalette(sprite, fluidState, FLUIDSTATE_TO_PALETTE_CACHE);
 
-        Logging.textureDebugInfo("Created texture palette for fluid state {}. sprite '{}' size {}x{}. palette: {}", fluidState, sprite.contents().name(), sprite.contents().width(), sprite.contents().height(), palette.debugEntriesString());
+        if(GeneralOptions.DEBUG_TEXTURE_LOGGING.getValue()) {
+            Logging.textureDebugInfo("Created texture palette for fluid state {}. sprite '{}' size {}x{}. palette: {}", fluidState, sprite.contents().name(), sprite.contents().width(), sprite.contents().height(), palette.debugEntriesString());
+        }
 
         return palette.getRandomColour(tintColour);
     }
