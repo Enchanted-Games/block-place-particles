@@ -54,7 +54,6 @@ public class SpawnParticles {
         int maxParticlesPerEdge = BlockInteractionOptions.BLOCK_MAX_ON_PLACE.getValue();
 
         if (maxParticlesPerEdge <= 0) return;
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.BLOCK_PLACE_OR_BREAK, blockPos)) return;
 
         ParticleContext context = ParticleContext.block(level, placedBlockState, blockPos);
 
@@ -132,7 +131,6 @@ public class SpawnParticles {
         int maxParticlesPerLength = BlockInteractionOptions.BLOCK_MAX_ON_BREAK.getValue();
 
         if (maxParticlesPerLength <= 0) return;
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.BLOCK_PLACE_OR_BREAK, blockPos)) return;
 
         ParticleContext context = ParticleContext.block(level, brokenBlockState, blockPos);
 
@@ -201,7 +199,6 @@ public class SpawnParticles {
     }
 
     public static void spawnFallingBlockRandomFallParticles(ClientLevel level, BlockState blockState, double x, double y, double z, Vec3 deltaMovement) {
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, x, y, z)) return;
         if (!BlockInteractionOptions.BLOCK_FALLING_EFFECT_ENABLED.getValue()) return;
         if (blockState.isAir()) return;
 
@@ -225,7 +222,6 @@ public class SpawnParticles {
     }
 
     public static void spawnFallingBlockLandParticles(ClientLevel level, BlockState blockState, double x, double y, double z, Vec3 deltaMovement) {
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, x, y, z)) return;
         if (!BlockInteractionOptions.BLOCK_FALLING_EFFECT_ENABLED.getValue()) return;
 
         ParticleOrigin origin = ParticleOrigin.FALLING_BLOCK_LANDED;
@@ -262,7 +258,6 @@ public class SpawnParticles {
     }
 
     public static void spawnSparksAtMinecartWheels(double minecartX, double minecartY, double minecartZ, double minecartHorizontalRot, double minecartVerticalRot, boolean isOnRails, boolean hasPassenger, boolean hasBlock, Vec3 deltaMovement, double maxSpeed, ClientLevel level) {
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, minecartX, minecartY, minecartZ)) return;
         if (!EntityOptions.MINECART_SPARKS_ENABLED.getValue()) return;
         if (!isOnRails) return;
         if (!(hasBlock || hasPassenger) && EntityOptions.MINECART_SPARKS_ONLY_WITH_PASSENGER.getValue()) return;
@@ -339,7 +334,6 @@ public class SpawnParticles {
     }
 
     public static void spawnFlintAndSteelSparkParticle(ClientLevel level, BlockPos particlePos, boolean litSomething) {
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, particlePos)) return;
         if (!ItemInteractionOptions.FLINT_AND_STEEL_SPARKS_ENABLED.getValue()) return;
 
         BlockState blockState = level.getBlockState(particlePos);
@@ -376,7 +370,6 @@ public class SpawnParticles {
     }
 
     public static void spawnAmbientCampfireSparks(ClientLevel level, BlockPos particlePos, BlockState campfireState) {
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, particlePos)) return;
         ParticleContext context = ParticleContext.block(level, campfireState, particlePos);
 
         if (BlockInteractionOptions.CAMPFIRE_SPARK_ENABLED.getValue()) {
@@ -412,7 +405,6 @@ public class SpawnParticles {
     }
 
     public static void spawnAmbientFireSparks(ClientLevel level, BlockState fireState, BlockPos particlePos, double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, particlePos)) return;
         double width = Math.abs(minX - maxX);
         double height = Math.abs(minY - maxY);
         double depth = Math.abs(minZ - maxZ);
@@ -451,7 +443,6 @@ public class SpawnParticles {
     }
 
     public static void spawnFireChargeSmokeParticle(ClientLevel level, BlockPos particlePos) {
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, particlePos)) return;
         if (!ItemInteractionOptions.FIRE_CHARGE_PARTICLES_ENABLED.getValue()) return;
         EmitterRuleSet emitterRuleSet = EmitterRuleSetIds.FIRE_CHARGE_USE.get();
         ParticleContext context = ParticleContext.block(level, level.getBlockState(particlePos), particlePos);
@@ -473,7 +464,6 @@ public class SpawnParticles {
     }
 
     public static void spawnHoeTillParticle(ClientLevel level, BlockPos blockPos, BlockState blockState, UseOnContext useOnContext) {
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, blockPos)) return;
         if (!ItemInteractionOptions.HOE_TILL_ENABLED.getValue()) return;
         Vec3 clickedPosition = useOnContext.getClickLocation();
         Direction clickDirection = useOnContext.getClickedFace();
@@ -501,7 +491,6 @@ public class SpawnParticles {
     }
 
     public static void spawnShovelFlattenParticle(ClientLevel level, BlockPos blockPos, BlockState blockState, UseOnContext useOnContext) {
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, blockPos)) return;
         if (!ItemInteractionOptions.SHOVEL_FLATTEN_ENABLED.getValue()) return;
         Vec3 clickedPosition = useOnContext.getClickLocation();
         Direction clickDirection = useOnContext.getClickedFace();
@@ -529,7 +518,6 @@ public class SpawnParticles {
     }
 
     public static void spawnAxeStripParticle(ClientLevel level, BlockPos blockPos, BlockState unstrippedBlockState, BlockState strippedBlockState, UseOnContext context) {
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, blockPos)) return;
         if (!ItemInteractionOptions.AXE_STRIP_ENABLED.getValue()) return;
         Vec3 clickedPosition = context.getClickLocation();
         Direction clickDirection = context.getClickedFace();
@@ -561,7 +549,6 @@ public class SpawnParticles {
     }
 
     public static void spawnFluidPlacedParticle(ClientLevel level, BlockPos particlePos, FluidState placedFluid) {
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.BLOCK_PLACE_OR_BREAK, particlePos)) return;
         if (BiomeHelpers.isWarmDimension(level.dimensionType()) && placedFluid.is(FluidTags.WATER)) return;
         if (placedFluid.is(Fluids.EMPTY)) return;
 
@@ -587,7 +574,6 @@ public class SpawnParticles {
     }
 
     public static void spawnAnvilUseSparkParticles(ClientLevel level, BlockPos blockPos) {
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, blockPos)) return;
         if (!BlockInteractionOptions.ANVIL_USE_SPARKS_ENABLED.getValue()) return;
         double x = blockPos.getX() + 0.5f;
         double y = blockPos.getY() + 1. + (level.getRandom().nextDouble() / 16f);
@@ -614,7 +600,6 @@ public class SpawnParticles {
     }
 
     public static void spawnGrindstoneUseSparkParticles(ClientLevel level, BlockPos blockPos) {
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, blockPos)) return;
         if (!BlockInteractionOptions.GRINDSTONE_USE_SPARKS_ENABLED.getValue()) return;
         BlockState grindstoneState = level.getBlockState(blockPos);
         if (!(grindstoneState.getBlock() instanceof GrindstoneBlock)) return;
@@ -693,7 +678,6 @@ public class SpawnParticles {
     }
 
     public static void spawnRedstoneInteractionParticles(ClientLevel level, BlockState blockState, double interactionX, double interactionY, double interactionZ, float spreadX, float spreadY, float spreadZ) {
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, interactionX, interactionY, interactionZ)) return;
         if (!BlockInteractionOptions.REDSTONE_INTERACTION_DUST_ENABLED.getValue()) return;
         BlockPos pos = BlockPos.containing(interactionX, interactionY, interactionZ);
 
@@ -719,7 +703,6 @@ public class SpawnParticles {
     }
 
     public static void spawnLavaBubblePopParticles(ClientLevel level, BlockPos fluidPos, FluidState fluidState) {
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, fluidPos)) return;
         if (!FluidInteractionOptions.LAVA_BUBBLE_POP_ENABLED.getValue()) return;
         if (level.getRandom().nextFloat() < (float) FluidInteractionOptions.LAVA_BUBBLE_POP_SPAWN_CHANCE.getValue() / 2500) {
             double d0 = (double) fluidPos.getX() + level.getRandom().nextDouble();
@@ -740,7 +723,6 @@ public class SpawnParticles {
 
     public static void spawnRandomUnderwaterBubbleStreams(ClientLevel level, BlockPos blockPos, BlockState blockState) {
         if (!FluidInteractionOptions.UNDERWATER_BUBBLE_STREAM_ENABLED.getValue()) return;
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, blockPos)) return;
 
         if (!ObjectOrTagLocation.doesListContainBlock(FluidInteractionOptions.UNDERWATER_BUBBLE_STREAM_BLOCKS.getValue(), blockState)) return;
 
@@ -776,7 +758,6 @@ public class SpawnParticles {
 
     public static void spawnBlockDisturbanceParticles(ClientLevel level, BlockPos blockPos, BlockState blockState, double entityX, double entityY, double entityZ, Vec3 deltaMovement, boolean isSprinting) {
         if (!BlockInteractionOptions.BLOCK_RUSTLE_ENABLED.getValue()) return;
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, blockPos)) return;
         double speed = deltaMovement.length();
         if (speed <= 0.1 && !isSprinting) return;
 
@@ -812,7 +793,6 @@ public class SpawnParticles {
 
     public static void spawnItemFrameInteractionParticles(ClientLevel level, double x, double y, double z, AABB boundingBox, Direction itemFrameDirection, ItemFrameParticleOrigin particleOrigin, ItemFrame frame) {
         if (!EntityOptions.ITEM_FRAME_INTERACTION_ENABLED.getValue()) return;
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, x, y, z)) return;
 
         ParticleContext context = ParticleContext.entity(level, frame);
 
@@ -846,7 +826,6 @@ public class SpawnParticles {
 
     public static void spawnSmokerSmokeParticles(ClientLevel level, BlockPos blockPos) {
         if (!BlockInteractionOptions.SMOKER_SMOKE_ENABLED.getValue()) return;
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, blockPos)) return;
 
         if (level.getRandom().nextFloat() > 0.3) {
             Vec3 centerPos =
@@ -861,14 +840,12 @@ public class SpawnParticles {
     }
 
     public static void spawnAdditionalFurnaceParticles(ClientLevel level, BlockPos blockPos, BlockState furnaceState) {
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, blockPos)) return;
         if (!BlockInteractionOptions.FURNACE_EMBERS_ENABLED.getValue()) return;
 
         furnaceFrontSparks(level, furnaceState.getValue(FurnaceBlock.FACING), furnaceState, blockPos, EmitterRuleSetIds.FURNACE_FRONT.get());
     }
 
     public static void spawnAdditionalBlastFurnaceParticles(ClientLevel level, BlockPos blockPos, BlockState furnaceState) {
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, blockPos)) return;
         if (!BlockInteractionOptions.BLAST_FURNACE_SPARKS_ENABLED.getValue()) return;
 
         furnaceFrontSparks(level, furnaceState.getValue(FurnaceBlock.FACING), furnaceState, blockPos, EmitterRuleSetIds.BLAST_FURNACE_FRONT.get());
@@ -893,7 +870,6 @@ public class SpawnParticles {
     }
 
     public static void spawnLightningImpactSparks(ClientLevel level, double x, double y, double z) {
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.AMBIENT, x, y, z)) return;
         if (!EntityOptions.LIGHTNING_STRIKE_ENABLED.getValue()) return;
         ParticleContext context = ParticleContext.plain(level, BlockPos.containing(x, y, z));
 
@@ -1008,9 +984,6 @@ public class SpawnParticles {
         if (consumedBlock.isAir() || !consumedBlock.shouldSpawnTerrainParticles()) return;
 
         BlockPos blockPos = sulfurCube.blockPosition();
-        if (SpawnParticlesUtil.isParticleOutsideRenderDistance(ParticleCategory.INTERACTION, blockPos)) return;
-
-
         ParticleContext context = ParticleContext.block(level, consumedBlock, blockPos);
 
         ParticleOrigin origin = ParticleOrigin.BLOCK_SULFUR_CUBE_CONSUMED;

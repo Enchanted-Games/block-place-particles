@@ -8,28 +8,11 @@ import games.enchanted.eg_particle_interactions.common.particle.emitter.rule.Emi
 import games.enchanted.eg_particle_interactions.common.particle.types.options.PIParticleOptions;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleSpawner;
 import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 
 public class SpawnParticlesUtil {
-    public static boolean isParticleOutsideRenderDistance(@NotNull ParticleCategory particleCategory, BlockPos particlePos) {
-        return isParticleOutsideRenderDistance(particleCategory, particlePos.getX(), particlePos.getY(), particlePos.getZ());
-    }
-
-    public static boolean isParticleOutsideRenderDistance(@NotNull ParticleCategory particleCategory, double x, double y, double z) {
-        LocalPlayer player = Minecraft.getInstance().player;
-        if(player == null) return false;
-
-        double distanceFromPlayer = MathHelper.getDistanceBetweenPoints(player.getX() / 16, player.getY() / 16, player.getZ() / 16, x / 16, y / 16, z / 16);
-        double maxDistance = Math.min(particleCategory.getMaxDistance(), Minecraft.getInstance().options.renderDistance().get());
-
-        return distanceFromPlayer >= maxDistance;
-    }
-
     @FunctionalInterface
     public interface ParticleAdder {
         void spawn(double x, double y, double z, double xSpeed, double ySpeed, double zSpeed);

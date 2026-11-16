@@ -30,17 +30,6 @@ public class GeneralOptions {
         new BoolOption(false, "preserve_vanilla_network_compatibility")
     );
 
-    // - performance
-    public static final ConfigOption<Integer> INTERACTION_RENDER_DISTANCE = registerOption(
-        new IntOption(6, "interaction_render_distance")
-    );
-    public static final ConfigOption<Integer> BLOCK_RENDER_DISTANCE = registerOption(
-        new IntOption(6, "block_render_distance")
-    );
-    public static final ConfigOption<Integer> AMBIENT_RENDER_DISTANCE = registerOption(
-        new IntOption(3, "ambient_render_distance")
-    );
-
     // - particle performance
     public static final ConfigOption<Boolean> PARTICLE_BOUNCE_PHYSICS = registerOption(
         new BoolOption(true, "particle_bounce_physics")
