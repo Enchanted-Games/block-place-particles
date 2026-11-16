@@ -1,0 +1,32 @@
+{
+    "components": {
+        "gravity/initial": {
+            "range": [
+                0.04,
+                0.06
+            ]
+        },
+        "gravity/decay": 0.99,
+        "lifetime": {
+            "range": [
+                150,
+                700
+            ]
+        },
+        "velocity/initial_randomness": 0,
+        "physics/collision_size": 0.5,
+        "appearance": "dust/block",
+        "events": [
+            {
+                "trigger": {
+                    "type": "on_ground",
+                    "oneshot": true
+                },
+                "action": {
+                    "type": "modify_lifetime",
+                    "divide": 2
+                }
+            }
+        ]
+    }
+}

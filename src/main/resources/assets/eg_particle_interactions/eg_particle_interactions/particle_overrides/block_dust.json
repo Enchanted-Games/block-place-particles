@@ -4,6 +4,11 @@
             "type": "particle_interactions",
             "particle": "dust/block",
             "velocity_multiplier": 0.1
+        },
+        "block/falling_block_unstable": {
+            "type": "particle_interactions",
+            "particle": "dust/block_unstable",
+            "velocity_multiplier": 0.1
         }
     }
 }
