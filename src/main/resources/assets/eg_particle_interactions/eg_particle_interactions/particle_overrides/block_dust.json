@@ -1,9 +1,52 @@
 {
     "emitters": {
         "default": {
-            "type": "particle_interactions",
-            "particle": "dust/block",
-            "velocity_multiplier": 0.1
+            "rules": [
+                {
+                    "conditions": [
+                        {
+                            "type": "logic/and",
+                            "conditions": [
+                                {
+                                    "type": "block",
+                                    "predicate": {
+                                        "type": "list",
+                                        "blocks": "block_dust_souls"
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "emitter": {
+                        "type": "random",
+                        "emitters": [
+                            {
+                                "weight": 29,
+                                "emitter": {
+                                    "type": "particle_interactions",
+                                    "particle": "dust/block",
+                                    "velocity_multiplier": 0.1
+                                }
+                            },
+                            {
+                                "weight": 1,
+                                "emitter": {
+                                    "type": "vanilla",
+                                    "particle": {
+                                        "type": "soul"
+                                    },
+                                    "velocity_multiplier": 0.1
+                                }
+                            }
+                        ]
+                    }
+                }
+            ],
+            "fallback_emitter": {
+                "type": "particle_interactions",
+                "particle": "dust/block",
+                "velocity_multiplier": 0.1
+            }
         },
         "block/falling_block_unstable": {
             "type": "particle_interactions",
