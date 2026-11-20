@@ -1,0 +1,9 @@
+{
+    "emitters": {
+        "default": {
+            "type": "particle_interactions",
+            "particle": "grass_blade/underwater_blade",
+            "velocity_multiplier": 0.1
+        }
+    }
+}
