@@ -17,6 +17,7 @@
             0.98,
             0.98
         ],
+        "physics/buoyancy": 0.05,
         "physics/friction": 0.8,
         "physics/collision_size": 1.5,
         "appearance": "grass_blade"
