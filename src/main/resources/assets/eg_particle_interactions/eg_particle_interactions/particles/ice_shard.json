@@ -1,0 +1,32 @@
+{
+    "components": {
+        "gravity/initial": {
+            "range": [
+                0.9,
+                1.0
+            ]
+        },
+        "lifetime": {
+            "range": [
+                60,
+                90
+            ]
+        },
+        "physics/friction": 0.05,
+        "physics/collision_size": 1.5,
+        "appearance": "ice_shard",
+        "events": [
+            {
+                "trigger": {
+                    "type": "on_ground",
+                    "oneshot": true
+                },
+                "action": {
+                    "type": "set_facing_camera_mode",
+                    "pitch": -90,
+                    "yaw": 0
+                }
+            }
+        ]
+    }
+}
