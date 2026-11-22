@@ -5,13 +5,11 @@ import games.enchanted.eg_particle_interactions.common.config.categories.General
 import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes;
 import games.enchanted.eg_particle_interactions.common.duck.ParticleDuck;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.ParticleAccessor;
-import games.enchanted.eg_particle_interactions.common.particle.appearance.billboard.CustomFacingCameraMode;
-import games.enchanted.eg_particle_interactions.common.particle.appearance.billboard.FacingCameraMode;
-import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumerProvider;
-import games.enchanted.eg_particle_interactions.common.particle.value.VelocityProvider;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.SpinConfig;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.SpriteCycleMode;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.billboard.CustomFacingCameraMode;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.billboard.FacingCameraMode;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.texture.TextureConfig;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.uv.UVProvider;
 import games.enchanted.eg_particle_interactions.common.particle.behaviour.ParticleBehaviourProvider;
@@ -20,26 +18,26 @@ import games.enchanted.eg_particle_interactions.common.particle.component.Partic
 import games.enchanted.eg_particle_interactions.common.particle.component.type.*;
 import games.enchanted.eg_particle_interactions.common.particle.emitter.Emitter;
 import games.enchanted.eg_particle_interactions.common.particle.event.EventStack;
-import games.enchanted.eg_particle_interactions.common.particle.value.RandomFloatProvider;
-import games.enchanted.eg_particle_interactions.common.particle.value.RandomIntProvider;
 import games.enchanted.eg_particle_interactions.common.particle.render.ModParticleRenderTypes;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
+import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumerProvider;
 import games.enchanted.eg_particle_interactions.common.particle.render.layer.ParticleLayer;
+import games.enchanted.eg_particle_interactions.common.particle.value.RandomFloatProvider;
+import games.enchanted.eg_particle_interactions.common.particle.value.RandomIntProvider;
+import games.enchanted.eg_particle_interactions.common.particle.value.VelocityProvider;
+import games.enchanted.eg_particle_interactions.common.resource.texture.TextureHelpers;
+import games.enchanted.eg_particle_interactions.common.resource.texture.UVCoordinates;
 import games.enchanted.eg_particle_interactions.common.util.FluidHelpers;
 import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.FloatMathModifier;
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.IntMathModifier;
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.Vector3dMathModifier;
 import games.enchanted.eg_particle_interactions.common.util.math.modifier.Vector3fMathModifier;
-import games.enchanted.eg_particle_interactions.common.resource.texture.TextureHelpers;
-import games.enchanted.eg_particle_interactions.common.resource.texture.UVCoordinates;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.gizmos.Gizmos;
-import net.minecraft.gizmos.TextGizmo;
 import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -282,7 +280,7 @@ public class ParticleInteractionsParticle extends Particle {
 //            Gizmos.billboardText("Age: " + this.age, new Vec3(lerpedX, lerpedY + 0.2, lerpedZ), TextGizmo.Style.whiteAndCentered());
 //            Gizmos.billboardText("Lifetime: " + this.lifetime, new Vec3(lerpedX, lerpedY, lerpedZ), TextGizmo.Style.whiteAndCentered());
 //            Gizmos.billboardText("onfluid: " + this.onFluid, new Vec3(lerpedX, lerpedY, lerpedZ), TextGizmo.Style.whiteAndCentered());
-            Gizmos.billboardText("alpha: " + this.alpha, lerpedPos.add(0, 0.3, 0), TextGizmo.Style.whiteAndCentered());
+//            Gizmos.billboardText("alpha: " + this.alpha, lerpedPos.add(0, 0.3, 0), TextGizmo.Style.whiteAndCentered());
 //            Gizmos.billboardText(this.onGround ? "g" : "", new Vec3(lerpedX, lerpedY, lerpedZ), TextGizmo.Style.whiteAndCentered());
         }
         if (DebugOptions.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES.getValue()) {
