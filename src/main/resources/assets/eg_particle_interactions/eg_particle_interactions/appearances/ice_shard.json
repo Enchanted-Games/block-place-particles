@@ -1,6 +1,7 @@
 {
     "texture_config": {
-        "type": "block_texture"
+        "type": "block_texture",
+        "layer": "translucent_backface"
     },
     "uv": {
         "type": "random_within_sprite"
@@ -42,6 +43,7 @@
         ]
     },
     "spin_config": {
+        "spin_while_on_ground": true,
         "initial_rotation": {
             "range": [
                 0,
@@ -50,9 +52,27 @@
         },
         "starting_speed": {
             "range": [
-                -3,
-                3
+                -1,
+                1
             ]
         }
-    }
+    },
+    "events": [
+        {
+            "trigger": {
+                "type": "tick"
+            },
+            "action": {
+                "type": "age_based_alpha",
+                "remap_min": {
+                    "value": "initial"
+                },
+                "remap_max": 0,
+                "lifetime_percentage_range": [
+                    0.65,
+                    1
+                ]
+            }
+        }
+    ]
 }
