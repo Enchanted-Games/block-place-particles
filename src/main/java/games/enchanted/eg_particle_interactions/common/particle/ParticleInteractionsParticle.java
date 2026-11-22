@@ -38,6 +38,8 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.gizmos.Gizmos;
+import net.minecraft.gizmos.TextGizmo;
 import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -75,6 +77,7 @@ public class ParticleInteractionsParticle extends Particle {
     protected float spinSpeed;
     protected float maxSpinSpeed;
     protected float spinAcceleration;
+    protected boolean spinOnGround;
 
     protected double swirlPeriod;
     protected float swirlStrength;
@@ -228,6 +231,7 @@ public class ParticleInteractionsParticle extends Particle {
         this.spinSpeed = spinConfig.startingSpeed().getValue(this.context);
         this.maxSpinSpeed = spinConfig.maxSpeed().getValue(this.context);
         this.spinAcceleration = spinConfig.acceleration().getValue(this.context);
+        this.spinOnGround = spinConfig.spinOnGround();
 
         this.layer = ParticleLayer.fromAppearance(this.context, appearance);
 
@@ -278,6 +282,7 @@ public class ParticleInteractionsParticle extends Particle {
 //            Gizmos.billboardText("Age: " + this.age, new Vec3(lerpedX, lerpedY + 0.2, lerpedZ), TextGizmo.Style.whiteAndCentered());
 //            Gizmos.billboardText("Lifetime: " + this.lifetime, new Vec3(lerpedX, lerpedY, lerpedZ), TextGizmo.Style.whiteAndCentered());
 //            Gizmos.billboardText("onfluid: " + this.onFluid, new Vec3(lerpedX, lerpedY, lerpedZ), TextGizmo.Style.whiteAndCentered());
+            Gizmos.billboardText("alpha: " + this.alpha, lerpedPos.add(0, 0.3, 0), TextGizmo.Style.whiteAndCentered());
 //            Gizmos.billboardText(this.onGround ? "g" : "", new Vec3(lerpedX, lerpedY, lerpedZ), TextGizmo.Style.whiteAndCentered());
         }
         if (DebugOptions.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES.getValue()) {
@@ -360,7 +365,7 @@ public class ParticleInteractionsParticle extends Particle {
         this.spinSpeed += reachedMaxSpeed ? 0 : (this.spinAcceleration / 2.0f);
 
         this.prevSpin = this.spin;
-        if (!this.onGround && !((ParticleAccessor) this).eg_particle_interactions$getStoppedByCollision()) {
+        if ((!this.onGround && !((ParticleAccessor) this).eg_particle_interactions$getStoppedByCollision()) || this.spinOnGround) {
             this.spin += this.spinSpeed / 6.5f;
         }
     }
