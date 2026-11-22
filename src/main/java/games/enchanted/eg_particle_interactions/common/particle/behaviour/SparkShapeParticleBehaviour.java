@@ -1,11 +1,10 @@
 package games.enchanted.eg_particle_interactions.common.particle.behaviour;
 
-import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
+import games.enchanted.eg_particle_interactions.common.config.categories.DebugOptions;
 import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.ParticleAccessor;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
-import games.enchanted.eg_particle_interactions.common.particle.appearance.billboard.FacingCameraMode;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumer;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleInteractionsParticle;
@@ -77,7 +76,7 @@ public class SparkShapeParticleBehaviour extends ParticleInteractionsParticle {
 
         this.extractShapeGeometry(consumer, pos, prevPos, partialTicks);
 
-        if (GeneralOptions.DEBUG_PARTICLE_TICK_BOUNDING_BOXES.getValue()) {
+        if (DebugOptions.DEBUG_PARTICLE_TICK_BOUNDING_BOXES.getValue()) {
             ParticleDebugShapes.particlePosition(this.x, this.y, this.z, ParticleDebugShapes.PARTICLE_TICK_POSITION);
 
             ParticleDebugShapes.box(
@@ -85,7 +84,7 @@ public class SparkShapeParticleBehaviour extends ParticleInteractionsParticle {
                 ((ParticleAccessor) this).eg_particle_interactions$getStoppedByCollision() ? ParticleDebugShapes.PARTICLE_BOUNDING_BOX_STOPPED : ParticleDebugShapes.PARTICLE_BOUNDING_BOX
             );
         }
-        if (GeneralOptions.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES.getValue()) {
+        if (DebugOptions.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES.getValue()) {
             ParticleDebugShapes.particlePosition(xPos, yPos, zPos, ParticleDebugShapes.PARTICLE_RENDER_POSITION);
             ParticleDebugShapes.particlePosition(prevXPos, prevYPos, prevZPos, ParticleDebugShapes.PARTICLE_PREV_RENDER_POSITION);
 

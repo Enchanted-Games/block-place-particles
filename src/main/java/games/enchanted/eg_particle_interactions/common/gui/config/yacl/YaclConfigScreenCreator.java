@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.config.screen.yacl;
+package games.enchanted.eg_particle_interactions.common.gui.config.yacl;
 
 import dev.isxander.yacl3.api.*;
 import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
@@ -118,26 +118,10 @@ public class YaclConfigScreenCreator implements ConfigScreenCreator {
             .group( ConfigScreenHelper.createGenericConfigGroup(
                 "debug",
                 ConfigTranslation.GENERAL_CATEGORY,
-                true,
+                false,
                 ConfigScreenHelper.genericBooleanOption(
-                    ConfigTranslation.DEBUG_SHOW_EMITTER_BOUNDS,
-                    GeneralOptions.DEBUG_EMITTER_BOUNDS
-                ),
-                ConfigScreenHelper.genericBooleanOption(
-                    ConfigTranslation.DEBUG_PARTICLE_TICK_BOUNDING_BOXES,
-                    GeneralOptions.DEBUG_PARTICLE_TICK_BOUNDING_BOXES
-                ),
-                ConfigScreenHelper.genericBooleanOption(
-                    ConfigTranslation.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES,
-                    GeneralOptions.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES
-                ),
-                ConfigScreenHelper.genericBooleanOption(
-                    ConfigTranslation.DEBUG_EXTRA_INFO_ON_PARTICLE_PACKET_ERROR,
-                    GeneralOptions.DEBUG_EXTRA_INFO_ON_PARTICLE_PACKET_ERROR
-                ),
-                ConfigScreenHelper.genericBooleanOption(
-                    ConfigTranslation.DEBUG_TEXTURE_LOGGING,
-                    GeneralOptions.DEBUG_TEXTURE_LOGGING
+                    ConfigTranslation.DEBUG_KEYBIND_ENABLED,
+                    DebugOptions.DEBUG_KEYBIND_ENABLED
                 )
             ))
         .build());

@@ -1,7 +1,7 @@
 package games.enchanted.eg_particle_interactions.common.config.compat;
 
-import games.enchanted.eg_particle_interactions.common.config.screen.fallback.FallbackConfigScreenCreator;
-import games.enchanted.eg_particle_interactions.common.config.screen.yacl.YaclConfigScreenCreator;
+import games.enchanted.eg_particle_interactions.common.gui.config.fallback.FallbackConfigScreenCreator;
+import games.enchanted.eg_particle_interactions.common.gui.config.yacl.YaclConfigScreenCreator;
 import games.enchanted.eg_particle_interactions.common.platform.PlatformHelper;
 import net.minecraft.client.gui.screens.Screen;
 import org.jetbrains.annotations.Nullable;

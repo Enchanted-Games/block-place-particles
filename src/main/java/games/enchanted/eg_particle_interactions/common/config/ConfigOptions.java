@@ -25,6 +25,7 @@ public class ConfigOptions {
     static {
         TEMPORARY_REGISTRATION_MAP = new HashMap<>();
         GeneralOptions.init();
+        DebugOptions.init();
         BlockInteractionOptions.init();
         ItemInteractionOptions.init();
         EntityOptions.init();

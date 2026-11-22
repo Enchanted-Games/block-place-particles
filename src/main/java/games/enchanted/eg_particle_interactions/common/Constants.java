@@ -16,6 +16,8 @@ public class Constants {
 
     public static final String FABRIC_RESOURCE_LOADER_ID = "fabric-resource-loader-v1";
     public static final String MOD_MENU_ID = "modmenu";
+    public static final String YACL_ID = "yet_another_config_lib_v3";
+    public static final String IRIS_ID = "iris";
 
     public static final PackVersion CURRENT_PACK_VERSION = readPackVersion();
 

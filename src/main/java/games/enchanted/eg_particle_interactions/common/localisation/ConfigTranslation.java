@@ -60,6 +60,7 @@ public class ConfigTranslation {
     public static final String PARTICLE_BOUNCE_PHYSICS_ENABLED = "particle_bounce_physics_enabled";
     public static final String PARTICLE_ALLOW_EMISSIONS_ENABLED = "particle_allow_emissions_enabled";
 
+    public static final String DEBUG_KEYBIND_ENABLED = "debug_keybind_enabled";
     public static final String DEBUG_SHOW_EMITTER_BOUNDS = "debug_show_emitter_bounds";
     public static final String DEBUG_PARTICLE_TICK_BOUNDING_BOXES = "debug_particle_tick_bounding_boxes";
     public static final String DEBUG_PARTICLE_RENDER_BOUNDING_BOXES = "debug_particle_render_bounding_boxes";

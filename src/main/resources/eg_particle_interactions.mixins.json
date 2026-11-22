@@ -34,6 +34,7 @@
         "blocks.SeagrassBlock_BlockMixin",
         "blocks.SmokerBlock",
         "blocks.TntBlock",
+        "debug.KeyboardHandlerMixin",
         "entity.AbstractMinecartMixin",
         "entity.BeeMixin",
         "entity.EntityMixin",

@@ -4,7 +4,6 @@ import games.enchanted.eg_particle_interactions.common.config.ConfigCategory;
 import games.enchanted.eg_particle_interactions.common.config.ConfigOptions;
 import games.enchanted.eg_particle_interactions.common.config.option.BoolOption;
 import games.enchanted.eg_particle_interactions.common.config.option.ConfigOption;
-import games.enchanted.eg_particle_interactions.common.config.option.IntOption;
 
 public class GeneralOptions {
     public static final ConfigOption<Boolean> PIXEL_CONSISTENT_TERRAIN_PARTICLES = registerOption(
@@ -39,23 +38,6 @@ public class GeneralOptions {
     );
     public static final ConfigOption<Boolean> PARTICLE_ALLOW_EMISSIONS = registerOption(
         new BoolOption(true, "particle_allow_emissions")
-    );
-
-    // - debug
-    public static final ConfigOption<Boolean> DEBUG_EMITTER_BOUNDS = registerOption(
-        new BoolOption(false, false)
-    );
-    public static final ConfigOption<Boolean> DEBUG_PARTICLE_TICK_BOUNDING_BOXES = registerOption(
-        new BoolOption(false, false)
-    );
-    public static final ConfigOption<Boolean> DEBUG_PARTICLE_RENDER_BOUNDING_BOXES = registerOption(
-        new BoolOption(false, false)
-    );
-    public static final ConfigOption<Boolean> DEBUG_EXTRA_INFO_ON_PARTICLE_PACKET_ERROR = registerOption(
-        new BoolOption(false, false)
-    );
-    public static final ConfigOption<Boolean> DEBUG_TEXTURE_LOGGING = registerOption(
-        new BoolOption(false, false)
     );
 
     private static <T> ConfigOption<T> registerOption(ConfigOption<T> option) {

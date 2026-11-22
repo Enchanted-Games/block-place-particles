@@ -1,4 +1,4 @@
-package games.enchanted.eg_particle_interactions.common.config.screen.fallback;
+package games.enchanted.eg_particle_interactions.common.gui.config.fallback;
 
 import games.enchanted.eg_particle_interactions.common.config.compat.ConfigScreenCreator;
 import games.enchanted.eg_particle_interactions.common.localisation.ConfigTranslation;

@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle;
 
+import games.enchanted.eg_particle_interactions.common.config.categories.DebugOptions;
 import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
 import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes;
 import games.enchanted.eg_particle_interactions.common.duck.ParticleDuck;
@@ -35,8 +36,6 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.SingleQuadParticle;
-import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
@@ -264,7 +263,7 @@ public class ParticleInteractionsParticle extends Particle {
         float z = (float) (lerpedPos.z() - cameraPosition.z());
         this.extractGeometry(consumer, quaternionf, x, y, z, partialTicks);
 
-        if (GeneralOptions.DEBUG_PARTICLE_TICK_BOUNDING_BOXES.getValue()) {
+        if (DebugOptions.DEBUG_PARTICLE_TICK_BOUNDING_BOXES.getValue()) {
             ParticleDebugShapes.particlePosition(this.x, this.y, this.z, ParticleDebugShapes.PARTICLE_TICK_POSITION);
 
             ParticleDebugShapes.box(
@@ -280,7 +279,7 @@ public class ParticleInteractionsParticle extends Particle {
 //            Gizmos.billboardText("onfluid: " + this.onFluid, new Vec3(lerpedX, lerpedY, lerpedZ), TextGizmo.Style.whiteAndCentered());
 //            Gizmos.billboardText(this.onGround ? "g" : "", new Vec3(lerpedX, lerpedY, lerpedZ), TextGizmo.Style.whiteAndCentered());
         }
-        if (GeneralOptions.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES.getValue()) {
+        if (DebugOptions.DEBUG_PARTICLE_RENDER_BOUNDING_BOXES.getValue()) {
             ParticleDebugShapes.particlePosition(x + cameraPosition.x(), y + cameraPosition.y(), z + cameraPosition.z(), ParticleDebugShapes.PARTICLE_RENDER_POSITION);
 
             ParticleDebugShapes.box(this.getCullingBox(partialTicks), ParticleDebugShapes.PARTICLE_CULLING_BOX);

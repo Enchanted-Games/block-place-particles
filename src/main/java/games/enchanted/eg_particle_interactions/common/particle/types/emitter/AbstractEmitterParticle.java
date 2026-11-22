@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.particle.types.emitter;
 
-import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
+import games.enchanted.eg_particle_interactions.common.config.categories.DebugOptions;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
 import games.enchanted.eg_particle_interactions.common.particle.component.ParticleComponentMap;
@@ -32,7 +32,7 @@ public abstract class AbstractEmitterParticle extends ParticleInteractionsPartic
             this.remove();
             return;
         }
-        if (GeneralOptions.DEBUG_EMITTER_BOUNDS.getValue()) {
+        if (DebugOptions.DEBUG_EMITTER_BOUNDS.getValue()) {
             level.addParticle(new DustParticleOptions(0xFFFF0000, 0.5f), x, y, z, 0, 0, 0);
             level.addParticle(new DustParticleOptions(0xFF00FF00, 0.5f), x + this.emitterWidth, y + this.emitterHeight, z + this.emitterDepth, 0, 0, 0);
         }

@@ -1,5 +1,6 @@
 package games.enchanted.eg_particle_interactions.common.platform;
 
+import games.enchanted.eg_particle_interactions.common.gui.debug.actions.ReloadCustomAssetsAction;
 import games.enchanted.eg_particle_interactions.common.particle.vanilla.PIVanillaParticles;
 import games.enchanted.eg_particle_interactions.common.Constants;
 //? if neoforge {
@@ -114,6 +115,7 @@ public class PlatformHelper {
      * Register a resource reload listener
      */
     public static void registerResourceReloadListener(PreparableReloadListener listener, Identifier id) {
+        ReloadCustomAssetsAction.LISTENERS.add(listener);
         //? if fabric {
         FabricResourceLoaderRegisterer.getInstance().registerResourceLoader(listener, id);
         //? } else {

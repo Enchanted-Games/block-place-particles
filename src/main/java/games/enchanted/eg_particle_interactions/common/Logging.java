@@ -1,6 +1,6 @@
 package games.enchanted.eg_particle_interactions.common;
 
-import games.enchanted.eg_particle_interactions.common.config.categories.GeneralOptions;
+import games.enchanted.eg_particle_interactions.common.config.categories.DebugOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +28,7 @@ public class Logging {
 
 
     public static void textureDebugInfo(String message, Object... args) {
-        if(GeneralOptions.DEBUG_TEXTURE_LOGGING.getValue()) {
+        if(DebugOptions.DEBUG_TEXTURE_LOGGING.getValue()) {
             LOG.info(textureDebugPrefix + message, args);
         }
     }
