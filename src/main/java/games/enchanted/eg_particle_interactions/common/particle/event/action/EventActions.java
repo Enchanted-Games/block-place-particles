@@ -26,5 +26,6 @@ public class EventActions {
         EVENT_ACTIONS.put(ParticleInteractionsMod.id("age_based_light_emission"), AgeBasedLightEmission.CODEC);
         EVENT_ACTIONS.put(ParticleInteractionsMod.id("age_based_alpha"), AgeBasedAlpha.CODEC);
         EVENT_ACTIONS.put(ParticleInteractionsMod.id("set_uv"), SetUVAction.CODEC);
+        EVENT_ACTIONS.put(ParticleInteractionsMod.id("set_facing_camera_mode"), SetFacingCameraModeAction.CODEC);
     }
 }

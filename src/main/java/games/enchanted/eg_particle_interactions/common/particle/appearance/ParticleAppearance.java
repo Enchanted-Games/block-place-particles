@@ -18,10 +18,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
-import org.jspecify.annotations.Nullable;
 
 import java.util.List;
-import java.util.Optional;
 
 public record ParticleAppearance(
     TextureConfig textureConfig,
@@ -82,7 +80,7 @@ public record ParticleAppearance(
                 SpinConfig.CODEC.optionalFieldOf("spin_config", SpinConfig.NO_SPIN).forGetter(ParticleAppearance::spinConfig),
                 RandomFloatProvider.CODEC.optionalFieldOf("scale", DEFAULT_SCALE).forGetter(ParticleAppearance::scale),
                 ExtraCodecs.VECTOR3F.optionalFieldOf("model_offset", MODEL_OFFSET_DEFAULT).forGetter(ParticleAppearance::modelOffset),
-                CustomFacingCameraMode.CODEC.optionalFieldOf("facing_camera_mode", DEFAULT_CAMERA_MODE).forGetter(ParticleAppearance::customFacingCameraMode),
+                CustomFacingCameraMode.MAP_CODEC.codec().optionalFieldOf("facing_camera_mode", DEFAULT_CAMERA_MODE).forGetter(ParticleAppearance::customFacingCameraMode),
                 EventStack.Event.codec().listOf().optionalFieldOf("events", List.of()).forGetter(ParticleAppearance::events)
             ).apply(
                 i,

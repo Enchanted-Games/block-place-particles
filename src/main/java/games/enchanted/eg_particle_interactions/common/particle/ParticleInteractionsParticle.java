@@ -5,6 +5,7 @@ import games.enchanted.eg_particle_interactions.common.config.categories.General
 import games.enchanted.eg_particle_interactions.common.debug.ParticleDebugShapes;
 import games.enchanted.eg_particle_interactions.common.duck.ParticleDuck;
 import games.enchanted.eg_particle_interactions.common.mixin.client.accessor.client.ParticleAccessor;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.billboard.CustomFacingCameraMode;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.billboard.FacingCameraMode;
 import games.enchanted.eg_particle_interactions.common.particle.render.geometry.QuadConsumerProvider;
 import games.enchanted.eg_particle_interactions.common.particle.value.VelocityProvider;
@@ -779,6 +780,10 @@ public class ParticleInteractionsParticle extends Particle {
 
     public void setModelOffset(Vector3f modelOffset) {
         this.modelOffset = modelOffset;
+    }
+
+    public void setFacingCameraMode(CustomFacingCameraMode facingCameraMode) {
+        this.facingCameraMode = facingCameraMode.mode();
     }
 
     public void modifyScale(FloatMathModifier modifier) {

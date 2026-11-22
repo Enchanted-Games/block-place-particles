@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JavaOps;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.util.math.MathHelper;
 import net.minecraft.client.Camera;
@@ -35,7 +36,7 @@ public class CustomFacingCameraMode {
         )
     );
 
-    public static final Codec<CustomFacingCameraMode> CODEC = RecordCodecBuilder.create(i -> i
+    public static final MapCodec<CustomFacingCameraMode> MAP_CODEC = RecordCodecBuilder.mapCodec(i -> i
         .group(
             COMPONENT_CODEC.optionalFieldOf("pitch", new RotationComponent(0f, CameraValue.NONE)).forGetter(d -> d.pitch),
             COMPONENT_CODEC.optionalFieldOf("yaw", new RotationComponent(0f, CameraValue.NONE)).forGetter(d -> d.yaw)
