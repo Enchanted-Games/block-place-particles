@@ -8,14 +8,14 @@
     },
     "mask_texture_config": {
         "sprites": [
-            "eg_particle_interactions:masks/shatter/0",
-            "eg_particle_interactions:masks/shatter/1",
-            "eg_particle_interactions:masks/shatter/2"
+            "eg_particle_interactions:masks/ice_shard/0",
+            "eg_particle_interactions:masks/ice_shard/1",
+            "eg_particle_interactions:masks/ice_shard/2"
         ]
     },
     "mask_uv": {
         "type": "random_within_sprite",
-        "scale": 5.3333333333
+        "scale": 4
     },
     "colour": {
         "type": "multiply",
