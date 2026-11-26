@@ -6,8 +6,10 @@
             "eg_particle_interactions:spectral_arrow/2",
             "eg_particle_interactions:spectral_arrow/3"
         ],
-        "sprite_cycle_mode": "age_cycle",
-        "layer": "translucent"
+        "sprite_cycle_mode": "age_cycle"
+    },
+    "render_config": {
+        "alpha_handling": "translucent"
     },
     "light_emission": 11,
     "scale": {

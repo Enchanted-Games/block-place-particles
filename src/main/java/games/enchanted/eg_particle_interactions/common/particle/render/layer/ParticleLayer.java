@@ -2,8 +2,8 @@ package games.enchanted.eg_particle_interactions.common.particle.render.layer;
 
 import games.enchanted.eg_particle_interactions.common.compat.iris.IrisApiUser;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.particle.appearance.LayerDefinition;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.ParticleAppearance;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.render.RenderConfig;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.texture.TextureConfig;
 import games.enchanted.eg_particle_interactions.common.particle.render.PipelineGroup;
 import net.minecraft.resources.Identifier;
@@ -22,26 +22,26 @@ public record ParticleLayer(
     private static final Map<Identity, ParticleLayer> EXISTING_LAYERS = new HashMap<>();
 
     public static ParticleLayer fromAppearance(ParticleContext context, ParticleAppearance appearance) {
-        TextureConfig config = appearance.textureConfig();
-        TextureConfig maskConfig = appearance.maskConfig();
+        TextureConfig texture = appearance.textureConfig();
+        TextureConfig maskTexture = appearance.maskConfig();
+        RenderConfig renderConfig = appearance.renderConfig();
 
         Identity identity = new Identity(
-            config.getAtlas(context).texturePath(),
-            maskConfig.getAtlas(context).texturePath(),
-            config.getLayerDefinition(context)
+            texture.getAtlas(context).texturePath(),
+            maskTexture.getAtlas(context).texturePath(),
+            renderConfig
         );
         if(EXISTING_LAYERS.containsKey(identity)) {
             return EXISTING_LAYERS.get(identity);
         }
 
         boolean hasMask = appearance.maskConfig().containsValidMaskSprites();
-        LayerDefinition layerDefinition = config.getLayerDefinition(context);
         ParticleLayer layer = new ParticleLayer(
-            layerDefinition.isTranslucent(),
-            config.getAtlas(context).texturePath(),
-            hasMask ? maskConfig.getAtlas(context).texturePath() : null,
-            layerDefinition.pipeline(),
-            layerDefinition.maskPipeline()
+            renderConfig.isTranslucent(),
+            texture.getAtlas(context).texturePath(),
+            hasMask ? maskTexture.getAtlas(context).texturePath() : null,
+            renderConfig.toPipeline(false),
+            renderConfig.toPipeline(true)
         );
         EXISTING_LAYERS.put(identity, layer);
         return layer;
@@ -51,6 +51,6 @@ public record ParticleLayer(
         return this.maskAtlasTexture != null && !IrisApiUser.INSTANCE.shaderpackActive();
     }
 
-    private record Identity(Identifier atlasTexture, @Nullable Identifier maskAtlasTexture, LayerDefinition layerDefinition) {
+    private record Identity(Identifier atlasTexture, @Nullable Identifier maskAtlasTexture, RenderConfig config) {
     }
 }

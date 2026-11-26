@@ -5,7 +5,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.particle.appearance.LayerDefinition;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.SpriteCycleMode;
 import games.enchanted.eg_particle_interactions.common.resource.texture.AtlasIdAndTexture;
 import games.enchanted.eg_particle_interactions.common.resource.texture.TextureHelpers;
@@ -14,7 +13,6 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.data.AtlasIds;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 
 import java.util.List;
@@ -22,15 +20,13 @@ import java.util.List;
 public class SpritesTextureConfig implements TextureConfig {
     public static final SpriteCycleMode DEFAULT_CYCLE_MODE = SpriteCycleMode.RANDOM_ON_SPAWN;
     public static final AtlasIdAndTexture DEFAULT_ATLAS = new AtlasIdAndTexture(AtlasIds.PARTICLES, TextureAtlas.LOCATION_PARTICLES);
-    public static final LayerDefinition DEFAULT_LAYER_DEFINITION = LayerDefinition.CUTOUT;
     public static final int MAX_LIST_LENGTH = 1024;
 
     public static final MapCodec<? extends TextureConfig> MAP_CODEC = RecordCodecBuilder.<SpritesTextureConfig>mapCodec(
         instance -> instance.group(
             Codec.list(Identifier.CODEC, 1, MAX_LIST_LENGTH).fieldOf("sprites").forGetter(o -> o.sprites),
             ModCodecs.ATLAS.optionalFieldOf("atlas", DEFAULT_ATLAS).forGetter(o -> o.atlas),
-            StringRepresentable.fromEnum(SpriteCycleMode::values).optionalFieldOf("sprite_cycle_mode", DEFAULT_CYCLE_MODE).forGetter(o -> o.spriteCycleMode),
-            StringRepresentable.fromEnum(LayerDefinition::values).optionalFieldOf("layer", DEFAULT_LAYER_DEFINITION).forGetter(o -> o.layer)
+            StringRepresentable.fromEnum(SpriteCycleMode::values).optionalFieldOf("sprite_cycle_mode", DEFAULT_CYCLE_MODE).forGetter(o -> o.spriteCycleMode)
         ).apply(
             instance,
             SpritesTextureConfig::new
@@ -40,13 +36,11 @@ public class SpritesTextureConfig implements TextureConfig {
     final List<Identifier> sprites;
     final AtlasIdAndTexture atlas;
     final SpriteCycleMode spriteCycleMode;
-    final LayerDefinition layer;
 
-    public SpritesTextureConfig(List<Identifier> sprites, AtlasIdAndTexture atlas, SpriteCycleMode spriteCycleMode, LayerDefinition layer) {
+    public SpritesTextureConfig(List<Identifier> sprites, AtlasIdAndTexture atlas, SpriteCycleMode spriteCycleMode) {
         this.sprites = sprites;
         this.atlas = atlas;
         this.spriteCycleMode = spriteCycleMode;
-        this.layer = layer;
     }
 
     private TextureAtlasSprite lookupSprite(Identifier id) {
@@ -73,11 +67,6 @@ public class SpritesTextureConfig implements TextureConfig {
     @Override
     public MapCodec<? extends TextureConfig> codec() {
         return null;
-    }
-
-    @Override
-    public LayerDefinition getLayerDefinition(ParticleContext context) {
-        return this.layer;
     }
 
     @Override

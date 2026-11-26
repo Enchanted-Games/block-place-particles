@@ -2,7 +2,6 @@ package games.enchanted.eg_particle_interactions.common.particle.appearance.text
 
 import com.mojang.serialization.MapCodec;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.particle.appearance.LayerDefinition;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.SpriteCycleMode;
 import games.enchanted.eg_particle_interactions.common.resource.texture.AtlasIdAndTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -21,8 +20,6 @@ public interface TextureConfig {
     TextureAtlasSprite getRandom(ParticleContext context, float randomValue);
 
     TextureAtlasSprite getFirst(ParticleContext context);
-
-    LayerDefinition getLayerDefinition(ParticleContext context);
 
     SpriteCycleMode getSpriteCycleMode(ParticleContext context);
 

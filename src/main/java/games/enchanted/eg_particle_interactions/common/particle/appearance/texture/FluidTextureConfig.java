@@ -5,7 +5,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.particle.appearance.LayerDefinition;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.SpriteCycleMode;
 import games.enchanted.eg_particle_interactions.common.resource.texture.AtlasIdAndTexture;
 import games.enchanted.eg_particle_interactions.common.resource.texture.TextureHelpers;
@@ -15,8 +14,6 @@ import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.RandomSource;
-import net.minecraft.util.StringRepresentable;
 
 import java.util.List;
 
@@ -27,7 +24,6 @@ public class FluidTextureConfig implements TextureConfig {
         instance -> instance.group(
             Codec.list(Identifier.CODEC, 1, SpritesTextureConfig.MAX_LIST_LENGTH).optionalFieldOf("fallback_sprites", DEFAULT_SPRITES).forGetter(o -> o.fallbackSprites),
             ModCodecs.ATLAS.optionalFieldOf("fallback_atlas", SpritesTextureConfig.DEFAULT_ATLAS).forGetter(o -> o.fallbackAtlas),
-            StringRepresentable.fromEnum(LayerDefinition::values).optionalFieldOf("layer", SpritesTextureConfig.DEFAULT_LAYER_DEFINITION).forGetter(o -> o.layer),
             TexturePalettes.FluidStateMaterialSource.CODEC.optionalFieldOf("texture_type", TexturePalettes.FluidStateMaterialSource.STILL).forGetter(o -> o.materialSource)
         ).apply(
             instance,
@@ -37,13 +33,11 @@ public class FluidTextureConfig implements TextureConfig {
 
     final List<Identifier> fallbackSprites;
     final AtlasIdAndTexture fallbackAtlas;
-    final LayerDefinition layer;
     final TexturePalettes.FluidStateMaterialSource materialSource;
 
-    public FluidTextureConfig(List<Identifier> fallbackSprites, AtlasIdAndTexture fallbackAtlas, LayerDefinition layer, TexturePalettes.FluidStateMaterialSource materialSource) {
+    public FluidTextureConfig(List<Identifier> fallbackSprites, AtlasIdAndTexture fallbackAtlas, TexturePalettes.FluidStateMaterialSource materialSource) {
         this.fallbackSprites = fallbackSprites;
         this.fallbackAtlas = fallbackAtlas;
-        this.layer = layer;
         this.materialSource = materialSource;
     }
 
@@ -78,12 +72,6 @@ public class FluidTextureConfig implements TextureConfig {
     @Override
     public MapCodec<? extends TextureConfig> codec() {
         return MAP_CODEC;
-    }
-
-    @Override
-    public LayerDefinition getLayerDefinition(ParticleContext context) {
-        if(context.fluidContext() == null) return this.layer;
-        return LayerDefinition.fromVanillaSprite(this.getContextMaterial(context.fluidContext()).sprite(), this.layer.showBackface());
     }
 
     @Override

@@ -5,8 +5,10 @@
             "eg_particle_interactions:generic_splash/1",
             "eg_particle_interactions:generic_splash/2",
             "eg_particle_interactions:generic_splash/3"
-        ],
-        "layer": "translucent"
+        ]
+    },
+    "render_config": {
+        "alpha_handling": "translucent"
     },
     "colour": {
         "type": "fluid_texture",

@@ -5,7 +5,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import games.enchanted.eg_particle_interactions.common.codecs.ModCodecs;
 import games.enchanted.eg_particle_interactions.common.particle.ParticleContext;
-import games.enchanted.eg_particle_interactions.common.particle.appearance.LayerDefinition;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.SpriteCycleMode;
 import games.enchanted.eg_particle_interactions.common.resource.texture.AtlasIdAndTexture;
 import games.enchanted.eg_particle_interactions.common.resource.texture.TextureHelpers;
@@ -14,8 +13,6 @@ import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.RandomSource;
-import net.minecraft.util.StringRepresentable;
 
 import java.util.List;
 
@@ -25,8 +22,7 @@ public class BlockTextureConfig implements TextureConfig {
     public static final MapCodec<? extends TextureConfig> MAP_CODEC = RecordCodecBuilder.<BlockTextureConfig>mapCodec(
         instance -> instance.group(
             Codec.list(Identifier.CODEC, 1, SpritesTextureConfig.MAX_LIST_LENGTH).optionalFieldOf("fallback_sprites", DEFAULT_SPRITES).forGetter(o -> o.fallbackSprites),
-            ModCodecs.ATLAS.optionalFieldOf("fallback_atlas", SpritesTextureConfig.DEFAULT_ATLAS).forGetter(o -> o.fallbackAtlas),
-            StringRepresentable.fromEnum(LayerDefinition::values).optionalFieldOf("layer", SpritesTextureConfig.DEFAULT_LAYER_DEFINITION).forGetter(o -> o.layer)
+            ModCodecs.ATLAS.optionalFieldOf("fallback_atlas", SpritesTextureConfig.DEFAULT_ATLAS).forGetter(o -> o.fallbackAtlas)
         ).apply(
             instance,
             BlockTextureConfig::new
@@ -35,12 +31,10 @@ public class BlockTextureConfig implements TextureConfig {
 
     final List<Identifier> fallbackSprites;
     final AtlasIdAndTexture fallbackAtlas;
-    final LayerDefinition layer;
 
-    public BlockTextureConfig(List<Identifier> fallbackSprites, AtlasIdAndTexture fallbackAtlas, LayerDefinition layer) {
+    public BlockTextureConfig(List<Identifier> fallbackSprites, AtlasIdAndTexture fallbackAtlas) {
         this.fallbackSprites = fallbackSprites;
         this.fallbackAtlas = fallbackAtlas;
-        this.layer = layer;
     }
 
     private Material.Baked getContextMaterial(ParticleContext.BlockContext context) {
@@ -74,12 +68,6 @@ public class BlockTextureConfig implements TextureConfig {
     @Override
     public MapCodec<? extends TextureConfig> codec() {
         return MAP_CODEC;
-    }
-
-    @Override
-    public LayerDefinition getLayerDefinition(ParticleContext context) {
-        if(context.blockContext() == null) return this.layer;
-        return LayerDefinition.fromVanillaSprite(this.getContextMaterial(context.blockContext()).sprite(), this.layer.showBackface());
     }
 
     @Override

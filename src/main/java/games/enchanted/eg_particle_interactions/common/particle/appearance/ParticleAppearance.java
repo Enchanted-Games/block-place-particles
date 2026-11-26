@@ -6,6 +6,7 @@ import games.enchanted.eg_particle_interactions.common.ParticleInteractionsMod;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.billboard.CustomFacingCameraMode;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.colour.ColourSource;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.colour.ColourSources;
+import games.enchanted.eg_particle_interactions.common.particle.appearance.render.RenderConfig;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.texture.TextureConfig;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.texture.TextureConfigs;
 import games.enchanted.eg_particle_interactions.common.particle.appearance.uv.SimpleUV;
@@ -23,6 +24,7 @@ import java.util.List;
 
 public record ParticleAppearance(
     TextureConfig textureConfig,
+    RenderConfig renderConfig,
     UVProvider uv,
     TextureConfig maskConfig,
     UVProvider maskUv,
@@ -42,6 +44,7 @@ public record ParticleAppearance(
 
     public static final ParticleAppearance.Reference MISSING_APPEARANCE = new InlineRef(new ParticleAppearance(
         TextureConfigs.MISSING_APPEARANCE,
+        RenderConfig.DEFAULT,
         DEFAULT_UV,
         TextureConfigs.NO_MASK,
         DEFAULT_UV,
@@ -56,6 +59,7 @@ public record ParticleAppearance(
 
     public static final ParticleAppearance.Reference MISSING_DEFINITION = new InlineRef(new ParticleAppearance(
         TextureConfigs.MISSING_DEFINITION,
+        RenderConfig.DEFAULT,
         DEFAULT_UV,
         TextureConfigs.NO_MASK,
         DEFAULT_UV,
@@ -72,6 +76,7 @@ public record ParticleAppearance(
         return RecordCodecBuilder.create(i -> i
             .group(
                 TextureConfigs.CODEC.optionalFieldOf("texture_config", TextureConfigs.MISSING_APPEARANCE).forGetter(ParticleAppearance::textureConfig),
+                RenderConfig.CODEC.optionalFieldOf("render_config", RenderConfig.DEFAULT).forGetter(ParticleAppearance::renderConfig),
                 UVProviders.CODEC.optionalFieldOf("uv", DEFAULT_UV).forGetter(ParticleAppearance::uv),
                 TextureConfigs.CODEC.optionalFieldOf("mask_texture_config", TextureConfigs.NO_MASK).forGetter(ParticleAppearance::textureConfig),
                 UVProviders.CODEC.optionalFieldOf("mask_uv", DEFAULT_UV).forGetter(ParticleAppearance::maskUv),

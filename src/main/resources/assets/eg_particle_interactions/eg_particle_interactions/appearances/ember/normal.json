@@ -6,8 +6,10 @@
             "eg_particle_interactions:floating_ember/2",
             "eg_particle_interactions:floating_ember/3",
             "eg_particle_interactions:floating_ember/4"
-        ],
-        "layer": "translucent"
+        ]
+    },
+    "render_config": {
+        "alpha_handling": "translucent"
     },
     "light_emission": 15,
     "scale": {

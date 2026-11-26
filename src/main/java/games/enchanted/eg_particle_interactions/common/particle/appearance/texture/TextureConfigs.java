@@ -14,20 +14,17 @@ public class TextureConfigs {
     public static final TextureConfig MISSING_APPEARANCE = new SpritesTextureConfig(
         List.of(ParticleInteractionsMod.id("missing_appearance")),
         SpritesTextureConfig.DEFAULT_ATLAS,
-        SpritesTextureConfig.DEFAULT_CYCLE_MODE,
-        SpritesTextureConfig.DEFAULT_LAYER_DEFINITION
+        SpritesTextureConfig.DEFAULT_CYCLE_MODE
     );
     public static final TextureConfig MISSING_DEFINITION = new SpritesTextureConfig(
         List.of(ParticleInteractionsMod.id("missing_definition")),
         SpritesTextureConfig.DEFAULT_ATLAS,
-        SpritesTextureConfig.DEFAULT_CYCLE_MODE,
-        SpritesTextureConfig.DEFAULT_LAYER_DEFINITION
+        SpritesTextureConfig.DEFAULT_CYCLE_MODE
     );
     public static final TextureConfig NO_MASK = new SpritesTextureConfig(
         List.of(MissingTextureAtlasSprite.getLocation()),
         SpritesTextureConfig.DEFAULT_ATLAS,
-        SpritesTextureConfig.DEFAULT_CYCLE_MODE,
-        SpritesTextureConfig.DEFAULT_LAYER_DEFINITION
+        SpritesTextureConfig.DEFAULT_CYCLE_MODE
     );
 
     public static final ExtraCodecs.LateBoundIdMapper<Identifier, MapCodec<? extends TextureConfig>> SOURCES = new ExtraCodecs.LateBoundIdMapper<>();
