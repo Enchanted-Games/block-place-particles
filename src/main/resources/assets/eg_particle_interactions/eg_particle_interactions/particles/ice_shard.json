@@ -13,7 +13,7 @@
             ]
         },
         "physics/friction": 0.05,
-        "physics/collision_size": 1.5,
+        "physics/collision_size": 1.2,
         "appearance": "ice_shard",
         "events": [
             {
