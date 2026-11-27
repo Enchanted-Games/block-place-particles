@@ -105,6 +105,7 @@ loom {
     runConfigs.all {
         runDir = "../../run"
         isIdeConfigGenerated = true
+        preferGradleTask = false
     }
 }
 

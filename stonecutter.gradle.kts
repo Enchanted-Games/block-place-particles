@@ -1,9 +1,9 @@
 plugins {
     id("dev.kikugie.stonecutter")
     id("co.uzzu.dotenv.gradle") version "4.0.0"
-    id("net.fabricmc.fabric-loom-remap") version "1.17-SNAPSHOT" apply false
-    id("net.fabricmc.fabric-loom") version "1.17-SNAPSHOT" apply false
-    id("net.neoforged.moddev") version "2.0.148" apply false
+    id("net.fabricmc.fabric-loom-remap") version "1.19-SNAPSHOT" apply false
+    id("net.fabricmc.fabric-loom") version "1.19-SNAPSHOT" apply false
+    id("net.neoforged.moddev") version "2.0.149" apply false
     id("me.modmuss50.mod-publish-plugin") version "2.2.+" apply false
 }
 
