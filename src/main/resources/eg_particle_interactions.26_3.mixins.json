@@ -4,8 +4,8 @@
     "mixinextras": {
         "minVersion": "0.5.0"
     },
-    "package": "games.enchanted.eg_particle_interactions.common.mixin.mc26_1",
-    "plugin": "games.enchanted.eg_particle_interactions.common.mixin.plugin.VersionPlugin26_1",
+    "package": "games.enchanted.eg_particle_interactions.common.mixin.mc26_3",
+    "plugin": "games.enchanted.eg_particle_interactions.common.mixin.plugin.VersionPlugin26_3",
     "compatibilityLevel": "JAVA_${java_ver}",
     "mixins": [
     ],

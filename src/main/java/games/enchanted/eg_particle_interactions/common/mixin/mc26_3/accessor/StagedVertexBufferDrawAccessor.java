@@ -1,5 +1,5 @@
 //? if minecraft: >= 26.2 {
-package games.enchanted.eg_particle_interactions.common.mixin.mc26_2.accessor;
+package games.enchanted.eg_particle_interactions.common.mixin.mc26_3.accessor;
 
 import com.mojang.renderpearl.api.pipeline.PrimitiveTopology;
 import com.mojang.renderpearl.api.vertex.VertexFormat;

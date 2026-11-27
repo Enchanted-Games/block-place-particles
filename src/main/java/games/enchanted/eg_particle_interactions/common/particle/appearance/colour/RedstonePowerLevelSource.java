@@ -22,12 +22,7 @@ public class RedstonePowerLevelSource implements ColourSource {
         )
     );
 
-    private static final IntegerProperty REDSTONE_POWER =
-        //? if minecraft: >= 26.3 {
-        RedstoneWireBlock.POWER;
-        //? } else {
-        /*RedStoneWireBlock.POWER;
-        *///? }
+    private static final IntegerProperty REDSTONE_POWER = RedstoneWireBlock.POWER;
 
     final int fallbackPower;
 

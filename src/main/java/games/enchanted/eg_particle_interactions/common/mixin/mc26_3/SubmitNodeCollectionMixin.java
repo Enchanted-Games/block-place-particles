@@ -1,5 +1,5 @@
 //? if minecraft: >= 26.2 {
-package games.enchanted.eg_particle_interactions.common.mixin.mc26_2;
+package games.enchanted.eg_particle_interactions.common.mixin.mc26_3;
 
 import games.enchanted.eg_particle_interactions.common.duck.CustomSubmits;
 import games.enchanted.eg_particle_interactions.common.particle.render.feature.mc26_2.CustomParticleGeometryFeatureRenderer;

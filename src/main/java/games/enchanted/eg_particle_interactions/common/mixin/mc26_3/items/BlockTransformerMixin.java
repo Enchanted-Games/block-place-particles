@@ -1,5 +1,5 @@
 //? if minecraft: >= 26.3 {
-package games.enchanted.eg_particle_interactions.common.mixin.mc26_2.items;
+package games.enchanted.eg_particle_interactions.common.mixin.mc26_3.items;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

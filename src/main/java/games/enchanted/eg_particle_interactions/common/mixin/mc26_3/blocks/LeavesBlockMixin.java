@@ -1,5 +1,5 @@
 //? if minecraft: >= 26.3 {
-package games.enchanted.eg_particle_interactions.common.mixin.mc26_2.blocks;
+package games.enchanted.eg_particle_interactions.common.mixin.mc26_3.blocks;
 
 import games.enchanted.eg_particle_interactions.common.particle_spawning.SpawnParticles;
 import net.minecraft.client.multiplayer.ClientLevel;

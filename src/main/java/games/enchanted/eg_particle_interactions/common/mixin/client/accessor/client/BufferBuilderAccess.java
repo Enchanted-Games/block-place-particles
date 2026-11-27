@@ -5,13 +5,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
-//? if minecraft: >= 26.3 {
 import com.mojang.renderpearl.api.vertex.VertexFormatElement;
-//? }
 
 @Mixin(BufferBuilder.class)
 public interface BufferBuilderAccess {
-    //? if minecraft: >= 26.2 {
     @Accessor("elements")
     VertexFormatElement[] eg_particle_interactions$getElements();
 
@@ -38,20 +35,4 @@ public interface BufferBuilderAccess {
     static void eg_particle_interactions$putPackedUv(final long pointer, final int packedUv) {
         throw new AssertionError("Mixin not applied");
     }
-    //? } else {
-    /*@Invoker("beginVertex")
-    long eg_particle_interactions$beginVertex();
-
-    @Accessor("vertexPointer")
-    long eg_particle_interactions$vertexPointer();
-
-    @Invoker("putRgba")
-    static void eg_particle_interactions$putRgba(final long pointer, final int argb) {
-        throw new AssertionError("Mixin not applied");
-    }
-    @Invoker("putPackedUv")
-    static void eg_particle_interactions$putPackedUv(final long pointer, final int packedUv) {
-        throw new AssertionError("Mixin not applied");
-    }
-    *///? }
 }
