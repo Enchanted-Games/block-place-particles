@@ -21,22 +21,8 @@
         "scale": 4
     },
     "colour": {
-        "type": "multiply",
-        "colours": [
-            {
-                "type": "block_tint",
-                "tint_index": 0
-            },
-            {
-                "type": "constant",
-                "value": [
-                    255,
-                    190,
-                    190,
-                    190
-                ]
-            }
-        ]
+        "type": "block_tint",
+        "tint_index": 0
     },
     "scale": {
         "values": [
